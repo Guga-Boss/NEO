@@ -1,0 +1,1291 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1645164244401308}
+  m_IsPrefabParent: 1
+--- !u!1 &1110231387813388
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4217044525016254}
+  - component: {fileID: 114910395736735278}
+  - component: {fileID: 114551318269013310}
+  m_Layer: 0
+  m_Name: '002  (BR) Monster Kill: 2 '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1110835119909348
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4201189239788554}
+  - component: {fileID: 114466369352318468}
+  - component: {fileID: 114734293758249474}
+  m_Layer: 0
+  m_Name: '010   Monster Kill: 10 '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1259081873904708
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4546345910548110}
+  - component: {fileID: 114515372395678316}
+  - component: {fileID: 114796809185548688}
+  m_Layer: 0
+  m_Name: '006   Monster Kill: 6  - Stone +10'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1345301790278174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4660832294793824}
+  - component: {fileID: 114144843273942764}
+  - component: {fileID: 114230966933351662}
+  m_Layer: 0
+  m_Name: '007  (GO) Monster Kill: 7 '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1356651035004154
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4022529569966688}
+  - component: {fileID: 114761670088842210}
+  - component: {fileID: 114444878197742060}
+  m_Layer: 0
+  m_Name: '003   Monster Kill: 3  - Wood +1'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1362736609462126
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4844307750030484}
+  - component: {fileID: 114342589840644190}
+  - component: {fileID: 114204269860102062}
+  m_Layer: 0
+  m_Name: '005   Monster Kill: 5  - Wood +2'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1621495091348772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4045431244528968}
+  - component: {fileID: 114675364789778442}
+  - component: {fileID: 114560033283509602}
+  m_Layer: 0
+  m_Name: '004  (SI) Monster Kill: 4 '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1641137637139276
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4201969237785452}
+  - component: {fileID: 114699235167446992}
+  - component: {fileID: 114997611637185022}
+  m_Layer: 0
+  m_Name: '001   Monster Kill: 1  - Stone +5'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1645164244401308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4804856527194468}
+  m_Layer: 0
+  m_Name: Goals
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1703681529570058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4360461524583552}
+  - component: {fileID: 114169437859067258}
+  - component: {fileID: 114570249292035900}
+  m_Layer: 0
+  m_Name: '009  (DI) Monster Kill: 9 '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1945546724011108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4054516869667738}
+  - component: {fileID: 114110428161282016}
+  - component: {fileID: 114301502843334802}
+  m_Layer: 0
+  m_Name: '008   Monster Kill: 8  - Wood +3'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4022529569966688
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1356651035004154}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24.000004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4045431244528968
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1621495091348772}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4054516869667738
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945546724011108}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24.000004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4201189239788554
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110835119909348}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24.000004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4201969237785452
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641137637139276}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24.000004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4217044525016254
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110231387813388}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4360461524583552
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1703681529570058}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4546345910548110
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259081873904708}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24.000004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4660832294793824
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345301790278174}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4804856527194468
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1645164244401308}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 660.0232, y: -79.69115, z: -0.026542438}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4201969237785452}
+  - {fileID: 4217044525016254}
+  - {fileID: 4022529569966688}
+  - {fileID: 4045431244528968}
+  - {fileID: 4844307750030484}
+  - {fileID: 4546345910548110}
+  - {fileID: 4660832294793824}
+  - {fileID: 4054516869667738}
+  - {fileID: 4360461524583552}
+  - {fileID: 4201189239788554}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4844307750030484
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1362736609462126}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -21, y: -24.000004, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4804856527194468}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114110428161282016
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945546724011108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 7
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 0
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: 6
+  BonusItemValue: 3
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114301502843334802}
+--- !u!114 &114144843273942764
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345301790278174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 6
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 3
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: -1
+  BonusItemValue: 2
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114230966933351662}
+--- !u!114 &114169437859067258
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1703681529570058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 8
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 4
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: -1
+  BonusItemValue: 2
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114570249292035900}
+--- !u!114 &114204269860102062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1362736609462126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 5
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []
+--- !u!114 &114230966933351662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1345301790278174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 7
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []
+--- !u!114 &114301502843334802
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1945546724011108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 8
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []
+--- !u!114 &114342589840644190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1362736609462126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 4
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 0
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: 6
+  BonusItemValue: 2
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114204269860102062}
+--- !u!114 &114444878197742060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1356651035004154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 3
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []
+--- !u!114 &114466369352318468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110835119909348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 9
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 0
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: -1
+  BonusItemValue: 2
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114734293758249474}
+--- !u!114 &114515372395678316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259081873904708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 5
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 0
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: 0
+  BonusItemValue: 10
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114796809185548688}
+--- !u!114 &114551318269013310
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110231387813388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 2
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []
+--- !u!114 &114560033283509602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1621495091348772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 4
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []
+--- !u!114 &114570249292035900
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1703681529570058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 9
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []
+--- !u!114 &114675364789778442
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1621495091348772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 3
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 2
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: -1
+  BonusItemValue: 2
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114560033283509602}
+--- !u!114 &114699235167446992
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641137637139276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 0
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 0
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: 0
+  BonusItemValue: 5
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114997611637185022}
+--- !u!114 &114734293758249474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110835119909348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 10
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []
+--- !u!114 &114761670088842210
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1356651035004154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 2
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 0
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: 6
+  BonusItemValue: 1
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114444878197742060}
+--- !u!114 &114796809185548688
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1259081873904708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 6
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []
+--- !u!114 &114910395736735278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110231387813388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17bce4eec5aaa0a4f820d040d2228c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GoalUpgradeInfoList: []
+  Panel: {fileID: 0}
+  ID: 1
+  Adventure: -1
+  Conquered: 0
+  BonusGiven: 0
+  TrophyType: 1
+  TimeisUP: 0
+  Available: 0
+  InitialLevel: 1
+  LevelsPurchased: 0
+  TotalAwarded: 0
+  BonusesAwarded: 0
+  ConquestCount: 0
+  BonusesGiven: 0
+  InitialBonusChance: 100
+  BonusChanceList: []
+  BonusChanceInflation: 0
+  MinBonusChance: 0
+  MaxBonusChance: 100
+  ConditionItem: -1
+  ConditionItemAmount: 0
+  BonusItem: -1
+  BonusItemValue: 2
+  BonusItem2: -1
+  BonusItem2Value: 0
+  TargetBluePrint: {fileID: 0}
+  TargetBluePrintID: -1
+  BluePrintBonusPlants: 0
+  BluePrintBonusUses: 0
+  TargetRecipe: {fileID: 0}
+  TargetRecipeBuildingID: -1
+  TargetRecipeID: -1
+  RecipeBonusAmount: 1
+  HoneycombBonusChance: 0
+  ShowAdvanced: 0
+  BonusItemValueList: []
+  ExtraBonusPerDifficulty: 0
+  ExclusiveToAdventure: -1
+  RefreshTime: 0
+  MaxRefreshBonus: 1
+  RefreshBonusAmount: 0
+  RefreshBonusAdd: 1
+  MinimumDifficulty: 0
+  DifficultyUnlocked: 0
+  TargetTime: 0
+  RecordType: 1
+  ConquestTime: 0
+  ConquestAmount: 0
+  LastObjectiveAmount: 0
+  BestScoreList: []
+  BestScoreTrialNumber: 
+  ConquestTrial: -1
+  TimeTryingUntilConquest: 0
+  CurrentWinnigStreak: 0
+  BestWinnigStreak: 0
+  Trig: {fileID: 114551318269013310}
+--- !u!114 &114997611637185022
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1641137637139276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63b99fed6a0b0ac4ebff5980f8ff2910, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConditionVarID: 60
+  ConditionOperator: 5
+  ConditionVal1: 1
+  EffectVarID: 0
+  EffectOperator: 0
+  EffectVarID1: 0
+  EffectVal1: 0
+  EffectOperator2: 0
+  EffectVarID2: 0
+  EffectVal2: 0
+  EffectOperator3: 0
+  EffectVarID3: 0
+  EffectVal3: 0
+  Unit: {fileID: 0}
+  VariableList: []

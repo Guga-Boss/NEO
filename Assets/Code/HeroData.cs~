@@ -1,0 +1,39 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public class HeroData : MonoBehaviour 
+{
+	public static HeroData I;
+    public List<string> ConqueredAreas, CollectedArtifacts;
+
+	// Use this for initialization
+	void Start () {
+	I = this;
+	}
+	
+	public void Save( string fname )
+    {  
+		ES2.Save(ConqueredAreas,     fname + "?tag=ConqueredAreas");
+		ES2.Save(CollectedArtifacts, fname + "?tag=CollectedArtifacts");
+	}
+
+	public void Load( string fname )
+	{ 
+		ConqueredAreas     = ES2.LoadList<string>( fname + "?tag=ConqueredAreas");
+		CollectedArtifacts = ES2.LoadList<string>( fname + "?tag=CollectedArtifacts");
+    }
+
+    public void AddConqueredArea( string fname )
+    {
+        for( int i = 0 ; i < ConqueredAreas.Count; i++ ) if( ConqueredAreas[ i ] == fname ) return;
+	    ConqueredAreas.Add( fname );
+    }
+
+	public void AddCollectedArtifact( string fname )
+	{
+		for( int i = 0 ; i < CollectedArtifacts.Count; i++ ) if( CollectedArtifacts[ i ] == fname ) return;
+		CollectedArtifacts.Add( fname );
+	}	
+}
+

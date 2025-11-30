@@ -1,0 +1,781 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1000013761910524}
+  m_IsPrefabParent: 1
+--- !u!1 &1000011506333658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4000013801407088}
+  m_Layer: 0
+  m_Name: Graphic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1000011766888470
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4000013160987096}
+  - component: {fileID: 33000010570613468}
+  - component: {fileID: 23000010496509294}
+  - component: {fileID: 114000011309695608}
+  - component: {fileID: 114000012576177982}
+  m_Layer: 0
+  m_Name: Sprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1000013761910524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4000010720524196}
+  - component: {fileID: 114000010145428622}
+  - component: {fileID: 114000012428159404}
+  - component: {fileID: 114000011246580338}
+  m_Layer: 0
+  m_Name: Fog
+  m_TagString: Monster
+  m_Icon: {fileID: -215833656, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000010720524196
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013761910524}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -40.96465, y: 8.887808, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4000013801407088}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4000013160987096
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011766888470}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -8.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4000013801407088}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4000013801407088
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011506333658}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4000013160987096}
+  m_Father: {fileID: 4000010720524196}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23000010496509294
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011766888470}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: fb35d940d10ac6e4687b0747721045c6, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33000010570613468
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011766888470}
+  m_Mesh: {fileID: 0}
+--- !u!114 &114000010145428622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013761910524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a26a8579ff5adb247917499b283a5c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Activated: 1
+  PrefabName: Fog
+  MeleeAttack: {fileID: 0}
+  RangedAttack: {fileID: 0}
+  MagicAttack: {fileID: 0}
+  BeeHiveAttack: {fileID: 0}
+  InfectionAttack: {fileID: 0}
+  Attacks: []
+  Body: {fileID: 114000011246580338}
+  Water: {fileID: 0}
+  Mine: {fileID: 0}
+  HealthBar: {fileID: 0}
+  Control: {fileID: 114000012428159404}
+  Building: {fileID: 0}
+  Spr: {fileID: 114000011309695608}
+  Graphic: {fileID: 1000011506333658}
+  LevelTxt: {fileID: 0}
+  RightText: {fileID: 0}
+  PriceTag: {fileID: 0}
+  Collider: {fileID: 0}
+  CircleCollider: {fileID: 0}
+  UnitType: 2
+  TileID: 783
+  CanBeRotated: 1
+  Dir: 0
+  Pos: {x: 0, y: 0}
+  BlockMovement: 1
+  CanBeWalkedIfSuspended: 0
+  BlockMissile: 0
+  BlockSight: 1
+  ValidMonster: 0
+  Slippery: 0
+  UseTransTile: 0
+  SaveData: 0
+  SharedObject: 0
+  Variation: 0
+  Md: {fileID: 0}
+  ModID: -1
+  TriggerList: []
+  SpawnedCollider: 0
+--- !u!114 &114000011246580338
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013761910524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6cebdd459289fd418a62cee4c922132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Unit: {fileID: 114000010145428622}
+  Shadow: {fileID: 0}
+  ItemMiniDome: {fileID: 0}
+  Sprite2: {fileID: 0}
+  Sprite3: {fileID: 0}
+  Sprite4: {fileID: 0}
+  Sprite5: {fileID: 0}
+  Sprite6: {fileID: 0}
+  Sprite7: {fileID: 0}
+  Sprite8: {fileID: 0}
+  InfectedSprite: {fileID: 0}
+  ImmunityDome: {fileID: 0}
+  Animator: {fileID: 114000012576177982}
+  AuxText: {fileID: 0}
+  EffectList: []
+  ArrowList: []
+  WoodList: []
+  ChildList: []
+  ShacklePullList: []
+  RopeConnectSon: {fileID: 0}
+  RopeConnectSonPos: {x: 0, y: 0}
+  RopeConnectFather: []
+  RopeConnectFatherPosList: []
+  HealthStatus: 0
+  FireSourcePos: {x: -1, y: -1}
+  NextAltarBonus:
+    AltarBonusType: -1
+    AltarBonusFactor: 1
+    AltarBonusItem: -1
+    ID: 0
+    Advanced: 0
+    TimesUsed: 0
+    HitCount: -1
+    UsageAvailableTimer: 0
+    SelfKillTimer: -1
+    Unlocked: 0
+    MinChance: 0
+    MaxChance: 50
+    MinLevel: 1
+  RigidBody: {fileID: 0}
+  Rope: {fileID: 0}
+  PoleObjList: []
+  PoleSpriteList: []
+  RopeOrigin: {fileID: 0}
+  RopeDestination: {fileID: 0}
+  RopeRotationHelper: {fileID: 0}
+  BigMonster: 0
+  ShowShieldInfo: 0
+  ShowLevelInfo: 1
+  FireIsOn: 0
+  OriginalFireIsOn: 0
+  IsTiny: 0
+  IsMarked: 0
+  OriginalIsMarked: 0
+  PoisonBite: 0
+  IsEternalToken: 0
+  HasSeenTheHero: 0
+  OriginalHasSeenTheHero: 0
+  IsBoss: 0
+  SpawnBlocker: 0
+  LeverMine: 0
+  ClockwiseChainPush: 0
+  ShieldedWasp: 0
+  RaftResource: 0
+  EnragedWasp: 0
+  CocoonWasp: 0
+  Crippled: 0
+  SpikedBoulder: 0
+  HookIsStuck: 0
+  CreatedVine: 0
+  GraphicsInitialized: 0
+  Level: 1
+  BaseLevel: 1
+  Stars: 0
+  TotHp: 100
+  Hp: 100
+  BaseTotHP: 0
+  HitsTaken: 0
+  OriginalHitsTaken: 0
+  TotalMeleeShield: 0
+  BaseMeleeShield: 0
+  BonusMeleeShield: 0
+  MeleeShieldPerLevel: 0
+  MeleeShieldPerStar: 0
+  TotalMissileShield: 0
+  BaseMissileShield: 0
+  BonusMissileShield: 0
+  MissileShieldPerLevel: 0
+  MissileShieldPerStar: 0
+  TotalMagicShield: 0
+  BaseMagicShield: 0
+  BonusMagicShield: 0
+  MagicShieldPerLevel: 0
+  MagicShieldPerStar: 0
+  Lives: 1
+  NumMushroom: 0
+  HpPerMushroom: 0
+  PressureAttackBonus: 0
+  InvulnerabilityFactor: 0
+  MeleeAttackLevel: 0
+  RangedAttackLevel: 0
+  DexterityLevel: 0
+  AgilityLevel: 0
+  OrbStrikerLevel: 3
+  CooperationLevel: 0
+  PsychicLevel: 0
+  DamageSurplusLevel: 0
+  MeleeShieldLevel: 0
+  MissileShieldLevel: 0
+  MagicShieldLevel: 0
+  DestroyBarricadeLevel: 1
+  AmbusherLevel: 0
+  HpPerLevel: 10
+  HpPerStar: 0
+  DamageTaken: 0
+  MemoryLevel: 0
+  ToolBoxLevel: 0
+  FireMasterLevel: 0
+  BerserkLevel: 0
+  BeeHiveThrowerLevel: 0
+  WallDestroyerLevel: 0
+  NumFreeAttacks: 0
+  LooterLevel: 0
+  ProspectorLevel: 0
+  FreshAttackLevel: 0
+  RiskyAttackLevel: 0
+  MortalJumpLevel: 0
+  OpenFieldAtttackLevel: 0
+  IntelligenceLevel: 0
+  IntelThreatLevel: 0
+  Intel2Level: 0
+  Intel3Level: 0
+  Intel4Level: 0
+  ThreatLevel: 0
+  BaseFreeExitHPLimit: 0
+  FirePowerLevel: 0
+  FireSpreadLevel: 0
+  FireWoodNeeded: 0
+  OutsideFireWoodAllowed: 0
+  FirepitsNeededForDiscount: 0
+  FreePlatformExit: 0
+  OutAreaBurningBarricadeDestroyBonus: 0
+  BarricadeForRune: 0
+  ScaryLevel: 0
+  HeroNeighborTouchAdder: 0
+  FireStarBonus: 0
+  CollectorLevel: 0
+  ResourcePersistance: 0
+  EconomyLevel: 0
+  RealtimeMeleeAttSpeed: 0
+  RealtimeRangedAttSpeed: 0
+  MiningLevel: 0
+  FishingLevel: 0
+  Fishing_1: 0
+  Fishing_2: 0
+  Fishing_3: 0
+  Fishing_4: 0
+  ResourceOperation: 0
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  BonusItemChestLevelList: 
+  FishType: -1
+  HerbColor: -1
+  HerbType: 0
+  OriginalHerbType: 0
+  OptionalMonster: 0
+  FishCaught: 0
+  IsFish: 1
+  ResourcePersistTotalSteps: 1
+  ResourcePersistStepCount: 0
+  isWorking: 1
+  IsDead: 0
+  MudPushable: 0
+  PerformPreMoveAttack: 0
+  PerformPostMoveAttack: 0
+  IsLoot: 0
+  OrbFogStopEnabled: 0
+  KillOnFlightEnd: 0
+  SpikeDamageApplied: 0
+  TurnsToDie: 0
+  OriginalTurnsToDie: 0
+  DeathCountFactor: 1
+  HitPointsRatio: 100
+  OriginalVariation: -1
+  FrontalAttacks: 0
+  FrontSideAttacks: 0
+  SideAttacks: 0
+  BackSideAttacks: 0
+  BackAttacks: 0
+  OriginalFrontalAttacks: 0
+  OriginalFrontSideAttacks: 0
+  OriginalSideAttacks: 0
+  OriginalBackSideAttacks: 0
+  OriginalBackAttacks: 0
+  MakePeaceful: 0
+  MakeImovable: 0
+  OriginalArrowHitCount: 0
+  ArrowHitCount: 0
+  OriginalRiskyAttacks: 0
+  RiskyAttacks: 0
+  OriginalThreatLevel: 0
+  BaseThreatDuration: 0
+  WoodAddedTurnCount: 0
+  ChiselSlideCount: 0
+  VineFireSpreadID: -1
+  HookID: {fileID: 0}
+  MortalJumpBonusAttack: 0
+  OutAreaMortalJumpBonusAttack: 0
+  OriginalMortalJumpBonusAttack: 0
+  OriginalOpenFieldAttacks: 0
+  OpenFieldAttacks: 0
+  FirstAttackTime: 0
+  ShieldedWaspChance: 0
+  MaxShieldedWasps: 0
+  BumpTimer: 0
+  VineBurnTime: 0.5
+  OverFireTimeCount: 0
+  ImmunityShieldTime: 0
+  HPLostInTheTurn: 0
+  EnemyAttackBonus: 0
+  BaseMiningChance: 0
+  ExtraMiningChance: 0
+  AnimationTimeCounter: 0
+  MiningBonusAmount: 0
+  MineType: 0
+  UPMineType: -1
+  ResTriggerType: -1
+  ProtectionLevel: 0
+  BaseMonsterLootTurns: 0
+  TouchCount: 0
+  OriginalTouchCount: 0
+  AnimationFrame: 0
+  AnimationSignal: 0
+  ChestLevel: 1
+  StackAmount: 0
+  AuxStackAmount: -98.9
+  AreaEnterDirection: 0
+  MineLeverDir: 0
+  UPMineDir: 0
+  AutoRotatingMineType: 0
+  MineGreenCrystalAmount: 0
+  MineRedCrystalAmount: 0
+  MineLeverActivePuller: {fileID: 0}
+  MineLeverActivePullerPos: {x: 0, y: 0}
+  AuxTransform: {fileID: 0}
+  MinePushSteps: 0
+  MiningPrize: 0
+  HerbBonusAmount: 1
+  AvailableFireHits: -1
+  ExclusiveToAdventure: 0
+  HeroAttackPositionHistory: []
+  OriginalHeroAttackPositionHistory: []
+  HeroAttackDirectionHistory: 
+  OriginalHeroAttackDirectionHistory: 
+  WoodAdded: 
+  OriginalWoodAdded: 
+  BabySprite: []
+  BabyBackSprite: []
+  BabySpriteFolder: {fileID: 0}
+  HasBaby: 
+  BabyDataList: []
+  Sp: []
+  BabyVariation: 
+  MineSideHitCount: 
+  CreatedVineList: 
+  AltarBonusList: []
+  HerbMatchChecked: 0
+  RandomizableHerb: 0
+  HerbKillTimer: -1
+  MiniDomeTimerCounter: -1
+  MiniDomeTotalTime: -1
+  ResourceWasteTimeCounter: -1
+  ResourceWasteTotalTime: -1
+  VsRoachAttDecreasePerBaby: 20
+  VsHeroRoachAttackIncreasePerBaby: 50
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  FrameDamageTaken: 0
+  InflictedDamageRate: 100
+  ShackleDistance: -1
+  OriginalHookType: -1
+  AddedLivesCount: 0
+  Animation1: {fileID: 0}
+  Animation2: {fileID: 0}
+  InfectedRadius: 1
+  IsInfected: 0
+--- !u!114 &114000011309695608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011766888470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fac570381f34f647b768dc5a5aa1364, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+    type: 2}
+  _color: {r: 1, g: 1, b: 1, a: 1}
+  _scale: {x: 2.5, y: 2.5, z: 1}
+  _spriteId: 803
+  boxCollider2D: {fileID: 0}
+  polygonCollider2D: []
+  edgeCollider2D: []
+  boxCollider: {fileID: 0}
+  meshCollider: {fileID: 0}
+  meshColliderPositions: []
+  meshColliderMesh: {fileID: 0}
+  renderLayer: 0
+--- !u!114 &114000012428159404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013761910524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36051ef2a16d3a14cb4844b62f198ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Unit: {fileID: 114000010145428622}
+  Mother: {fileID: 0}
+  Nest: {fileID: 0}
+  RestingRadiusSprite: {fileID: 0}
+  RoachGlueSprite: {fileID: 0}
+  ControlType: 17
+  OldPos: {x: 0, y: 0}
+  LastPos: {x: 0, y: 0}
+  InitialPos: {x: 0, y: 0}
+  JumpTarget: {x: 0, y: 0}
+  AnimationOrigin: {x: 0, y: 0}
+  MoveOrderID: -1
+  RamStraightMoveCount: 0
+  PlatformWalkingCounter: 0
+  FlightJumpPhase: 0
+  ForcedFrontalMovementFactor: 0
+  MovementLevel: 6
+  ArrowWalkingLevel: 0
+  ArrowInLevel: 0
+  ArrowOutLevel: 0
+  MonsterCorneringLevel: 0
+  ScoutLevel: 0
+  MonsterPushLevel: 1
+  PlatformWalkingLevel: 0
+  SprinterLevel: 0
+  SneakingLevel: 0
+  BarricadeFighterLevel: 0
+  EvasionLevel: 0
+  EvasionPoints: 0
+  PerfectionistLevel: 0
+  ScavengerLevel: 0
+  ArrowFighterLevel: 0
+  OverBarricadeScoutLevel: 0
+  ShowResourceChance: 0
+  FlightSpeedFactor: 0
+  FlightSpeedFactorTimer: 0
+  FlightTime: 0
+  FlightTargetTime: 0
+  AttackSpeedLerpTimer: 0
+  ShowResourceNeighborsChance: 0
+  SpeedTimeCounter: 0
+  RealtimeSpeedFactor: 0
+  MireLevel: 0
+  RestingLevel: 0
+  SlayerLevel: 0
+  FlyingTargetting: 0
+  SlayerAngle: 0
+  SlayerMaxHP: 0
+  DragonDisguiseLevel: 0
+  DragonBonusDropLevel: 0
+  DragonBarricadeProtection: 0
+  SpawnTimer: 0
+  TotSpawnTimer: 0
+  PlatformSteps: 0
+  FrogHeroBlockTimeCounter: 0
+  FlightSpeed: 0
+  OriginalZCord: -100
+  NeedLineOfSightToMove: 0
+  HasLineOfSight: 0
+  FirstMoveDone: 0
+  Initialized: 0
+  BeingMudPushed: 0
+  BoulderDirChanged: 0
+  RestLine: {fileID: 0}
+  TickBasedMovement: 0
+  ForcedFrontalMovementDir: -1
+  ShakeTimer: 0
+  NotAnimatedPosition: {x: 0, y: 0, z: 0}
+  FishingLine: {fileID: 0}
+  RealtimeSpeed: 5
+  SpeedListID: 0
+  StairStepDir: -1
+  WakeUpGroup: -1
+  SkipMovement: 0
+  BoltEffect: {fileID: 0}
+  TimeforNextEffect: 0
+  PushStrenght: 1
+  WaspClimbBarricadeNumber: 0
+  PathFinding: {fileID: 0}
+  LastAction: -1
+  LastMoveAction: -1
+  LastMoveType: -1
+  IsSuspended: 0
+  CanPushObjects: 1
+  CanPushOrthogonally: 1
+  RealtimeMoveTried: 0
+  CanPushDiagonally: 1
+  CanBePushed: 0
+  BlockedByArrow: 0
+  ArrowRushEnabled: 0
+  Sleeping: 0
+  OriginalSleeping: 0
+  Resting: 0
+  OriginalResting: 0
+  IsBeingPushedAgainstObstacle: 0
+  IsBeingPushedByHero: 0
+  LockMeleeTarget: 0
+  TileChanged: 0
+  FrontalRebound: 1
+  DeniedTerrain: -1
+  AllowedTerrain: -1
+  ForceMove: 0
+  OriginalPositionHistory: []
+  PositionHistory: []
+  HuggerStepList: []
+  FlightPhaseTimer: 0
+  FlightStepPhaseTimer: 0
+  ProjectileType: -1
+  SmoothMovementFactor: 0
+  TurnTime: 0
+  IsFlyingUnit: 1
+  FlyingTarget: {x: 0, y: 0}
+  FlyingOrigin: {x: -1, y: -1}
+  FlightDir: -1
+  LastFlownOverTile: {x: -1, y: -1}
+  FlyingAngle: -1
+  WaspOccupiedTiles: []
+  SpikeFreeStepTime: 0
+  FireMarkedWaspFactor: 0
+  FireMarkAvailable: 1
+  BaseRestDistance: 0
+  ScorpionProcessed: 0
+  BoulderPunchPower: 100
+  Current: 100
+  UnitMoved: 0
+  InitialDirection: -1
+  FixedRestingDirection: -1
+  RestingDirectionIsSameAsHero: 0
+  RaftMoveDir: -1
+  RaftGroupID: -1
+  Floor: 0
+  OldFloor: 0
+  ConsecutiveStillMove: 0
+  TickMoveList: 01000000020000000300000004000000
+  VineList: 
+  VineColorList: 
+  ForceVineLink: 
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  OrientationSorting: 1
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  WaitAfterObstacleCollision: 1
+  RandomDirTurnList: 
+  DynamicMovementCurrentStep: 0
+  DynamicOrientationCurrentStep: 0
+  DynamicMaxSteps: 0
+  DynamicStepCount: 0
+  RaftJointList:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  BaseWaspTotSpawnTimer: 30
+  WaspSpawnInflationPerTile: 0.1
+  ExtraWaspSpawnTimerPerTile: 2
+  ExtraWaspSpawnInflationPerSec: 1
+  MaxSpawnCount: 0
+  WaspDamage: 2
+  MotherWaspRadius: 5
+  SpawnCount: 0
+  ShieldedWaspCount: 0
+  CocoonWaspCount: 0
+  EnragedWaspCount: 0
+  ExtraEnragedSpawns: 0
+  WaspInflationSum: 0
+  TargettingRadiusFactor: 100
+  CurFA: 0
+  WaitTime: -1
+  SwimmingDepht: 0
+  IsBeingPushed: 0
+  ActionTimeCounter: -1
+  WaitTimeCounter: -1
+  WakeupTimeCounter: -1
+  WakeupTotalTime: -1
+  EggsDestroyed: 0
+  SpiderAttackBlockPhase: 0
+  FishActionWaiting: 0
+  MergingID: -1
+  HeroPushedMonsterBarricadeDestroyCount: 0
+  SideFlightSpeed: 0
+  SideFlightTime: 0
+  FishRedLimit: 70
+  FishGreenLimit: 30
+  FishCaughtTimeCount: 0
+  FishingPowerFactor: 100
+  MaxFishSpeed: 0
+  MinFishSpeed: 0
+  OverFishSecondsNeededPerUnit: -1
+  OverFishTimeCount: 0
+  FAOverFishTimeCount: 0
+  FAOverFishTimeCountPerFA: 0
+  HeroBlockFrogTotalTime: 1
+  PoleExtraLevel: 0
+  FishSwimType: -1
+  RespawnTimeCount: 0
+  BaseTotalRespawnTime: 10
+  BaseTotalRespawnAmount: 0
+  RespawnCount: 0
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FrogBlockedByHero: 0
+  FishingBonusAmount: 1
+  FlyingActionTarget: []
+  FishAction: []
+  FlyingActionVal: []
+  FlyingActionLoopCount: 
+  FlightActionTotalTime: []
+  FlyingRotationSpeed: 75
+  FlyingSpeed: 0
+  FlyingMaxSpeed: 2
+  SideFlightZigZagPhase: 0
+  FlyingAcceleration: 0
+  SideFlightZigZagDistance: 0
+  SideFlightZigZagTimeFactor: 1
+  TotalSideFlightTime: 0.5
+  TotalSideFlightSpeed: 0
+  FlightActionTime: 0
+  PhaseWonFreePhases: 0
+  FrontalFlyingTargetDist: -1
+  FlightPhaseLoopCount: 0
+  FlightResourcePicking: 1
+  FlightOrbStrike: 1
+  FlightBarricadeDestroy: 1
+  FlightWallClash: 1
+  CastProjectileList: []
+  WhiteGateGroup: {x: -1, y: -1}
+  RedRoachBabyList: 
+  HeroNeighborTimeCount: 0
+  SpiderChild: []
+  EndingFishSwimType: 0
+  FishCatchPosition: {x: 0, y: 0, z: 0}
+  WaspLongFlight: 0
+--- !u!114 &114000012576177982
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011766888470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e54113e5604435b8ae87c7754f2725, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  library: {fileID: 114000012429980416, guid: 0e444cbf9166d944bba2c892e7c99051, type: 2}
+  defaultClipId: 11
+  playAutomatically: 1

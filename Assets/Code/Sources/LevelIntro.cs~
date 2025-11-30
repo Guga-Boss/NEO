@@ -1,0 +1,32 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class LevelIntro : MonoBehaviour {
+	public static LevelIntro I;
+    public tk2dTextMesh IntroText, TitleText;
+
+	// Use this for initialization
+	void Start () {
+     I = this;	
+	}
+	
+	// Update is called once per frame
+	void Update () {	
+		if( Input.GetKeyDown( KeyCode.F2 )   ||
+		    Input.GetKeyDown( KeyCode.Return )) ExitLevelIntro();
+	}
+
+    public void ShowLevelIntro()
+    {
+    gameObject.SetActive( true );
+    UI.I.gameObject.SetActive( false );
+	TitleText.text = "Level " + Quest.I.CurrentLevel + 1;
+	IntroText.text = "The night was cold, as cold as bubba's heart...";
+    }
+
+    public void ExitLevelIntro()
+    {
+	gameObject.SetActive( false );
+    UI.I.gameObject.SetActive( true );
+    }
+}

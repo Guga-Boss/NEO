@@ -1,0 +1,977 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public enum ELayerType
+{
+	NONE = -1, TERRAIN, GAIA, GAIA2, MONSTER, MODIFIER
+}
+
+[System.Serializable]
+public partial class Map : MonoBehaviour 
+{
+	public static Map I;		
+	public tk2dTileMap Tilemap, TransTileMap;
+
+	public tk2dTextMesh txt;
+	public tk2dRuntime.TileMap.TileInfo[,] TileInfo, GaiaInfo;
+	public tk2dTextMesh[,] TileText;
+	public GameObject MonsterUnitsFolder, GaiaUnitsFolder, AreasFolder, GarbageFolder;
+	public Unit Hero;
+	public int Mtx, Mty, DebugPage;
+	public float GameTime, TurnTime, SmoothMovementFactor, MonstersTotHpSum, MonstersHpSum;
+	public Unit[,] Unit, Gaia, Gaia2;
+	public ETileType[,] TileType; 
+	public float[,] DistFromTarget;
+	float TileSize = 64;
+	public Vector3 LowerLeftCamLimit, UpperRightCamLimit;
+	public bool AdvanceTurn, HeroIsDead;
+	public Vector2 AiTarget;
+	public EDirection HeroEnterDir;
+	public Vector2 AreaOffset, HeroEnterPos;
+	public int CurrentArea = -1;
+	public Vector P1, P2;        // Active Area bound points
+	public List<Unit> MoveOrder;
+    public string LastFileSavedName;
+    public Area CurArea;
+    public float[] OptimalZoom; // optimal zoom for area height
+	public float[] OptimalYDif; // optimal Y val to add when inside area
+	public float TimeKeyPressing;
+    public int TurnsKeyPressing;
+	public int NumValidMonsters;
+	public bool UpdateTransTilemap;
+
+	void Start () {
+		I = this;
+	}
+
+	//______________________________________________________________________________________________________________________ Start map
+
+
+	public void StartGame () 
+	{
+		InitFolders();
+
+		DebugPage = 0;
+        HeroIsDead = false;
+		Unit           = new Unit          [Tilemap.width,Tilemap.height];
+		Gaia           = new Unit          [Tilemap.width,Tilemap.height];
+		Gaia2          = new Unit          [Tilemap.width,Tilemap.height];
+		TileText       = new tk2dTextMesh  [Tilemap.width,Tilemap.height];
+		DistFromTarget = new float         [Tilemap.width,Tilemap.height];   
+		TileType       = new ETileType     [Tilemap.width,Tilemap.height];
+		TileInfo       = new tk2dRuntime.TileMap.TileInfo [Tilemap.width,Tilemap.height];
+		GaiaInfo       = new tk2dRuntime.TileMap.TileInfo [Tilemap.width,Tilemap.height];
+		
+		for ( int y = 0; y < Tilemap.height; y++)
+		for ( int x = 0; x < Tilemap.width;  x++) 
+		     {
+			  Unit    [ x, y ]  = null;
+			  Gaia    [ x, y ]  = null;
+			  Gaia2   [ x, y ]  = null;
+			  TileType[ x, y ]  = (ETileType)Tilemap.GetTile( x, y, 0 ); 
+			  TileInfo[ x, y ]  = Tilemap.GetTileInfoForTileId (Tilemap.GetTile ( x, y, 0 ));
+			  GaiaInfo[ x, y ]  = Tilemap.GetTileInfoForTileId (Tilemap.GetTile ( x, y, 1 ));
+
+			  Vector3 pos = Tilemap.GetTilePosition ( x, y ); pos.y += 1; pos.z = -6;
+			  TileText[x,y] = CreateObjInstance( "Tile Text", "Tile Text " + x + " " + y, 
+			                           EDirection.NONE, pos ).GetComponent<tk2dTextMesh>();
+			  TileText[x,y].transform.parent = GarbageFolder.transform;
+
+//		 	  if( Tilemap.GetTile( x, y, (int) ELayerType.GAIA) >= 144 ) // temporary
+//			     {
+//				  Tilemap.SetTile( (int) x, (int) y, (int) ELayerType.GAIA, (int) ETileType.ARTIFACT );
+//				  Tilemap.Build();
+//			     }
+		}
+		
+		InitRandTable();
+		
+		Manager.I.MiniMap.Init();
+		CreateMapGameObjects();
+		InitHero( new Vector2( -1, -1 ), EDirection.N );
+
+		UpdateTransTilemap = true;
+		UpdateTransLayerTilemap();
+		Quest.I.InitArtifacts();
+		UpdateDoorID();
+        UpdateRoomDoorID();
+		Tilemap.Layers[ (int) ELayerType.MODIFIER].gameObject.SetActive( false );
+		Quest.I.UpdateArtifactData();
+		LastFileSavedName = "";
+		InitMapVariablesDefaults();
+
+		GameTime = 0;
+		Application.targetFrameRate = 5000;
+	}
+
+	public void InitMapVariablesDefaults()
+    {
+		TurnTime = 0;
+		AiTarget = new Vector2( Hero.Pos.x, Hero.Pos.y );  
+		AdvanceTurn = HeroIsDead = false;
+        TimeKeyPressing = TurnsKeyPressing = 0;
+    }
+
+	//______________________________________________________________________________________________________________________ Main game Update Function
+	
+	
+	public void UpdateIt () 
+	{
+		if( this == null    ) return;
+		if( Tilemap == null ) return;
+		AdvanceTurn = false;
+		UpdateHeroMovement();
+		
+		if( AdvanceTurn )
+		{
+			UpdateMonstersMovement ();
+		}
+
+		UpdateSmoothMovementAnimation();
+		UpdateNumbers();
+		DetectFightingMap();		
+		UpdateCamera();
+		UpdateDebug();
+        UpdateMonstersDirection();
+		Manager.I.MiniMap.UpdateIt();
+		UpdateTransLayerTilemap();
+		Manager.I.UpdateLevelExit();
+	}
+
+	//______________________________________________________________________________________________________________________ Init folders
+
+	public void InitFolders()
+	{
+	if( MonsterUnitsFolder != null ) Destroy( MonsterUnitsFolder );
+	if( GaiaUnitsFolder != null )    Destroy( GaiaUnitsFolder );
+
+	if( AreasFolder != null ) Destroy( AreasFolder );
+
+    for ( int l = 0; l < 5; l++ )
+	for ( int y = 0; y < Tilemap.height; y++ )
+	for ( int x = 0; x < Tilemap.width;  x++ )
+       {
+		  Tilemap.SetTile( x, y, l, (int) ETileType.NONE);
+          Tilemap.SetTile( x, y, l, Quest.I.LevelList[ Quest.I.CurrentLevel ].Tilemap.GetTile( x, y, l ));
+       }
+
+	Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaFolder.gameObject.SetActive( true );
+	Quest.I.LevelList[ Quest.I.CurrentLevel ].ArtifactFolder.gameObject.SetActive( true );
+	Tilemap.ForceBuild();
+    Tilemap.gameObject.SetActive( true );
+	Tilemap.transform.position = new Vector3( 0, 0, 0 );
+	AreasFolder = new GameObject("Areas");
+	AreasFolder.transform.parent = transform;	
+	MonsterUnitsFolder = new GameObject("Monster Units");
+	MonsterUnitsFolder.transform.parent = transform;
+    GaiaUnitsFolder = new GameObject("Gaia Units");
+	GaiaUnitsFolder.transform.parent = transform;
+
+	Quest.I.LevelList[ Quest.I.CurrentLevel ].Tilemap.gameObject.SetActive( false );
+	}
+
+	//______________________________________________________________________________________________________________________ Update DoorID
+
+	public void UpdateDoorID()
+	{
+		int id = 0;
+		for ( int y = 0; y < Tilemap.height; y++ )
+		for ( int x = 0; x < Tilemap.width;  x++ )
+		if  ( Gaia[ x, y ] != null )
+		   {
+			if( Gaia[ x, y ].TileID == ETileType.CLOSEDDOOR ||
+		        Gaia[ x, y ].TileID == ETileType.OPENDOOR )	
+			if( Gaia[ x, y ].DoorID <= 0 )	
+				SetDoorId( new Vector2( x, y ), ++id );
+		   }
+	}
+
+	//______________________________________________________________________________________________________________________ Update Level DoorID
+	
+	public void UpdateRoomDoorID()
+	{
+		for( int a = 0; a < Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList.Length; a++ )
+           { 
+			Rect r = Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ a ].AreaRect;		// optimize
+			AreaOffset = new Vector2( r.x, r.y - r.height + 1 );		
+			Vector p1 = new Vector( (int)(r.x), (int)(r.y));
+			Vector p2 = new Vector( (int)(r.x + r.width-1), (int)(r.y - r.height + 1));
+
+			for ( int y = p2.y; y <= p1.y; y++ )
+			for ( int x = p1.x; x <= p2.x; x++ )
+			    {
+				if( Gaia[ x, y ] )
+				if( Gaia[ x, y ].TileID == ETileType.ROOMDOOR )	
+				if( Gaia[ x, y ].DoorID <= 0 )	
+					SetRoomDoorId( new Vector2( x, y ), 1000 + a );
+                }
+           }
+	}
+
+	//______________________________________________________________________________________________________________________ Creates a prefab at tile position
+
+	public GameObject UpdateTileGameObjectCreation( int x, int y, ELayerType layer, ETileType forceTile = ETileType.NONE )
+	{
+	   tk2dTileMap tm = Quest.I.LevelList[ Quest.I.CurrentLevel ].Tilemap;
+	   ETileType tile = (ETileType) tm.GetTile( x, y, (int) layer ); 
+	   if( forceTile != ETileType.NONE ) tile = forceTile;
+			   
+      string prefabname = GetPrefabName( tile );
+	
+	  if( prefabname != " " )
+	     {
+          GameObject prefab = (GameObject) Resources.Load ( prefabname );
+	      GameObject obj = CreateUnit( prefab, new Vector2( x, y ) );
+          return obj;
+	     }  
+    return null; 
+	}
+
+	//______________________________________________________________________________________________________________________ Creates Map Game objects
+
+	public void CreateMapGameObjects()
+	{
+		Tilemap.Layers[(int) ELayerType.MONSTER ].gameObject.SetActive( true );
+		if ( CurrentArea != -1 ) MonsterUnitsFolder.gameObject.SetActive( false );
+		if ( CurrentArea != -1 ) GaiaUnitsFolder.gameObject.SetActive( false );
+		tk2dTileMap tm = Quest.I.LevelList[ Quest.I.CurrentLevel ].Tilemap;
+
+		for ( int y = 0; y < Tilemap.height; y++ )
+		for ( int x = 0; x < Tilemap.width;  x++ ) 
+			{
+			UpdateTileGameObjectCreation( x, y, ELayerType.GAIA );
+			UpdateTileGameObjectCreation( x, y, ELayerType.GAIA2 );
+		    }
+		CreateGameObjectsFromTk2dSpawns();
+		Tilemap.Layers[(int) ELayerType.MONSTER ].gameObject.SetActive( false );
+	}
+
+	//______________________________________________________________________________________________________________________ Can create unit here?
+
+	public bool CanCreateUnitHere( EUnitType type, Vector2 tg )
+	{
+        if( type == EUnitType.MONSTER )
+           {
+		    if( Unit[ (int)tg.x, (int)tg.y ] != null ) return false;
+           } else
+
+		if( type == EUnitType.GAIA )
+		{
+			if( Gaia[ (int)tg.x, (int)tg.y ] != null ) return false;
+		}
+		return true;
+	}
+
+	//_____________________________________________________________________________________________________________________ Creates a unit at the pos
+
+	public GameObject CreateUnit( GameObject prefab, Vector2 tg )
+	{
+        if( tg.x != -1 )
+		if(!CanCreateUnitHere( prefab.GetComponent<Unit>().UnitType, tg ) ) return null;	
+		GameObject instance = (GameObject) GameObject.Instantiate ( prefab );
+
+		Unit un = instance.GetComponent<Unit>();
+
+		instance.transform.parent = GaiaUnitsFolder.transform;
+		if( un.UnitType == EUnitType.MONSTER )
+            instance.transform.parent = MonsterUnitsFolder.transform;
+
+		if( tg.x != -1 ) 
+           {
+		    if( un.UnitType == EUnitType.MONSTER ) Unit [ (int) tg.x, (int) tg.y ] = un;
+		    if( un.UnitType == EUnitType.GAIA    ) Gaia [ (int) tg.x, (int) tg.y ] = un;
+		    if( un.UnitType == EUnitType.GAIA2   ) Gaia2[ (int) tg.x, (int) tg.y ] = un;
+           }
+
+		un.Pos = tg;
+		un.name = "" + un.TileID + " "  + tg.x + " " + tg.y;
+
+		if( un.Body != null )	un.Body.UpdateHealthBar();
+		un.transform.position = new Vector3( tg.x, tg.y, -2 );
+
+		if( un.UnitType == EUnitType.MONSTER )
+		{
+			un.UpdateLevelingData();
+		}
+		return instance;
+	}
+
+	public void CreateGameObjectsFromTk2dSpawns()
+	{		
+		tk2dTileMap tm = Quest.I.LevelList[ Quest.I.CurrentLevel ].Tilemap;
+		for( int i = 0; i < tm.GetTilePrefabsListCount(); i++ )                                                 // Find all objects spawnet by tk2dtilemap and clone them
+			{
+				Vector pos;
+				int tempLayer = 0;
+				GameObject prefabObject;			
+				tm.GetTilePrefabsListItem( i, out pos.x, out pos.y, out tempLayer, out prefabObject ); 
+				
+				if( prefabObject != null )
+    			if( prefabObject.tag == "Monster" )
+					{
+						CreateUnit( prefabObject, new Vector2( pos.x, pos.y ) );
+					}
+				}
+			}
+
+	//_____________________________________________________________________________________________________________________ Calculates Movement score for each tile	
+	
+	public void CalculateAIData()
+	{
+		AiTarget = new Vector2( (int) Hero.transform.position.x, (int) Hero.transform.position.y );
+		Vector2 p = new Vector2( 0, 0 );
+		for ( p.y = P2.y; p.y <= P1.y; p.y++ )
+		for ( p.x = P1.x; p.x <= P2.x; p.x++ ) 
+		{
+			float dist = Vector3.Distance( new Vector3( AiTarget.x, AiTarget.y, 0 ),  new Vector3( p.x, p.y, 0 ));
+			DistFromTarget[ (int)p.x, (int)p.y ] = Mathf.Max( Manager.I.U.Mod(AiTarget.x - p.x), Manager.I.U.Mod(AiTarget.y - p.y)); 
+			int xx = (int)Manager.I.U.Mod( AiTarget.x - p.x );
+			int yy = (int)Manager.I.U.Mod( AiTarget.y - p.y );
+			
+			DistFromTarget[ (int)p.x, (int)p.y ] = RandVal[2, xx, yy];
+         }
+	}
+
+	//_____________________________________________________________________________________________________________________ Update Monster Movement
+
+	public void UpdateMonstersMovement ()
+	{
+		if( CurrentArea == -1 ) return;
+
+		CalculateAIData();	
+		for( int i = 0; i < MoveOrder.Count; i++ )
+		if ( MoveOrder[i] != null )
+     		{
+			MoveOrder[i].Control.MovementSpeedCounter += (
+            MoveOrder[i].Control.MovementSpeed / Hero.Control.MovementSpeed );	
+		
+			for(;;)
+			   {
+				if( MoveOrder[i].Control.MovementSpeedCounter < 1 ) break;
+			    MoveOrder[i].Control.UpdateIt();
+				MoveOrder[i].UpdateAllAttacks();
+				MoveOrder[i].Control.MovementSpeedCounter -= 1;
+			   }
+			}
+	}
+
+	//_____________________________________________________________________________________________________________________ Update Hero Movement
+
+	public void UpdateHeroMovement ()
+	{	
+		Hero.Control.UpdateIt();
+		if( AdvanceTurn == false ) return;
+		TurnTime = 0;
+		SmoothMovementFactor = 0;
+		Quest.I.UpdateArtifacts();
+		UpdatePit();
+		Hero.UpdateOrbHit();
+		if( CurrentArea == -1 ) return;
+		Hero.UpdateAllAttacks();
+	}
+	
+	//_____________________________________________________________________________________________________________________ Update Pit
+
+	public void UpdatePit()
+	{
+		if( Hero.Control.OldPos.x == -1 ) return;
+		if(!Gaia[ (int) Hero.Control.OldPos.x, (int) Hero.Control.OldPos.y ] ) return;
+		if( Gaia[ (int) Hero.Control.OldPos.x, (int) Hero.Control.OldPos.y ].TileID != ETileType.TRAP ) return;
+		if( Hero.Pos == Hero.Control.OldPos ) return;
+		SetTile( (int)  Hero.Control.OldPos.x, (int) Hero.Control.OldPos.y, ELayerType.GAIA, ETileType.PIT ); 
+	}
+	
+	//_____________________________________________________________________________________________________________________ Updates Numbers
+
+    public void UpdateNumbers()
+	{
+		if( CurrentArea == -1 ) return;
+		int oldvalid = NumValidMonsters;
+		NumValidMonsters = 0;
+		MonstersTotHpSum = 0;
+		MonstersHpSum    = 0;
+
+		for ( int y = P2.y; y <= P1.y; y++ )
+		for ( int x = P1.x; x <= P2.x; x++ )
+		{
+			if( Unit[ x, y ] != null )
+			{
+				if( Unit[ x, y ].ValidMonster )
+                   { 
+                    NumValidMonsters++;
+					MonstersTotHpSum += Unit[ x, y ].Body.TotHp;
+					MonstersHpSum    += Unit[ x, y ].Body.Hp;
+                   }
+			}
+		}
+
+		if (!Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ CurrentArea ].Cleared && NumValidMonsters <= 0 )
+            {
+            // Clear the area if all monsters are dead
+			Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ CurrentArea ].Cleared = true;
+			HeroData.I.AddConqueredArea( Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ CurrentArea ].name );
+			ClearRoomDoor( CurrentArea );
+			UI.I.ShowAreaClearMessage();
+            }
+	}
+
+	//_____________________________________________________________________________________________________________________ Clears all Monsters in all areas
+	
+	public void ClearAllMonstersInAllAreas()
+	{
+		for( int a = 0; a < Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList.Length; a++ )    
+	         ClearAllMonstersInTheArea( a );  
+    }
+
+	//_____________________________________________________________________________________________________________________ Clears all Monsters in the area
+
+	public void ClearAllMonstersInTheArea( int area )
+    {
+		Rect r = Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ area ].AreaRect;		 
+		Vector p1 = new Vector( (int)(r.x), (int)(r.y));
+		Vector p2 = new Vector( (int)(r.x + r.width-1), (int)(r.y - r.height + 1));
+		
+		for ( int y = p2.y; y <= p1.y; y++ )
+		for ( int x = p1.x; x <= p2.x; x++ )
+		{
+			if( Unit[ x, y ] != null )
+			if( Unit[ x, y ].UnitType == EUnitType.MONSTER )
+				Unit[ x, y ].Kill();
+		}	
+    }
+
+	//_____________________________________________________________________________________________________________________ Clears all Room Door
+
+
+	public void ClearAllRoomDoors()
+	{
+	for( int a = 0; a < Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList.Length; a++ )
+		{
+         Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ a ].Cleared = false;
+         ClearRoomDoor( a );
+        }
+    }
+
+	//_____________________________________________________________________________________________________________________ Clears Room Door
+
+	public void ClearRoomDoor( int area )
+	{
+		for( int c = 0; c < HeroData.I.ConqueredAreas.Count; c++ )
+		{
+			if( HeroData.I.ConqueredAreas[ c ] == Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ area ].name )
+			{
+				Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ area ].Cleared = true;	
+				ClearAllMonstersInTheArea( area );
+
+				Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ area ].Spr.color = new Color( 0, 167, 0, 0.05f );
+				for ( int y = 0; y < Tilemap.height; y++ )
+				for ( int x = 0; x < Tilemap.width;  x++ )
+				if  ( Gaia[ x, y ] != null )
+				if  ( Gaia[ x, y ].TileID == ETileType.ROOMDOOR )
+				if  ( Gaia[ x, y ].DoorID == area + 1000 )
+					 {
+					  Gaia[ x, y ].Kill();
+					  UpdateTransTilemap = true;	
+					}
+			}
+		}
+	}
+
+
+//______________________________________________________________________________________________________________ Inits Map after loading
+//                                                                                                               Recreates all monsters and room door and kills if area is cleared
+
+    public void InitializeMapAfterLoading()
+        {
+		for ( int y = 0; y < Tilemap.height; y++ )
+		for ( int x = 0; x < Tilemap.width;  x++ )
+		{
+			ETileType tile = (ETileType) Quest.I.LevelList[ Quest.I.CurrentLevel ].
+                                    Tilemap.GetTile( x, y, (int) ELayerType.GAIA ); 
+			if( tile == ETileType.ROOMDOOR )
+			{
+				SetTile( x, y, ELayerType.GAIA, tile );
+			}
+		}
+		UpdateRoomDoorID();
+		CreateGameObjectsFromTk2dSpawns();
+		ClearAllRoomDoors();
+		UpdateTransLayerTilemap();
+        }
+
+	//____________________________________________________________________________________________________________ Set Tile
+
+	public void SetTile( int x, int y, ELayerType layer, ETileType tile )
+	{		
+		if( layer == ELayerType.GAIA ) 
+		{		
+		if( Gaia [ x, y ] ) Destroy ( Gaia [ x, y ].gameObject );
+		Gaia [ x, y ] = null;
+		}
+		else return;
+		UpdateTileGameObjectCreation( x, y, layer, tile );
+		UpdateTransTilemap = true;
+	}
+
+	//_________________________________________________________________________________________________ Update Debug
+
+	void UpdateDebug()
+	{
+		UpdateMouseTile ();
+		//if ( Manager.I.DebugMode == false ) return;
+
+//		Vector2 p = new Vector2( 0, 0 );
+//		for ( p.y = P2.y; p.y <= P1.y; p.y++ )
+//		for ( p.x = P1.x; p.x <= P2.x; p.x++ ) 
+//             {
+//			  if( HasLOS( Hero.Pos, p ) ) TileText[ (int)p.x, (int)p.y ].text = "LOS";
+//		      else TileText[ (int)p.x, (int)p.y ].text = "";
+//             }
+
+		switch ( DebugPage )
+		{
+		case 1: 
+		{
+			for ( int y = 0; y < Tilemap.height; y++ )
+			for ( int x = 0; x < Tilemap.width;  x++ )
+			  	  TileText[ x, y ].text = "D = " + DistFromTarget[ x, y ].ToString("0.000");
+		} break;
+		case 2: 
+		{
+			for ( int y = 0; y < Tilemap.height; y++ )
+			for ( int x = 0; x < Tilemap.width;  x++ )
+			{
+				if( Gaia[ x, y ] )
+				TileText[ x, y ].text = " " +  Gaia[ x, y ].DoorID;
+			}
+		}
+		break;
+		}
+
+		GameTime += Time.deltaTime;
+		TurnTime += Time.deltaTime;
+		float smoothAnimTime = .3f;
+		SmoothMovementFactor += TurnTime / smoothAnimTime;
+		Mathf.Clamp( SmoothMovementFactor, 0f, 1f );
+	}
+
+	//_________________________________________________________________________________________________ Finalize Map and destroy all objects
+
+	public void Finalize()
+	{
+		for ( int y = 0; y < Tilemap.height; y++)
+		for ( int x = 0; x < Tilemap.width;  x++)
+		{
+			if( Unit[ x, y ] != null && Unit[ x, y ].UnitType == EUnitType.MONSTER ) Unit[ x, y ].Kill();
+			Destroy( TileText[x,y].gameObject );
+		}
+		Unit                = null;
+		TileText            = null;
+		TileType            = null;
+		TileInfo            = null;
+	}
+			
+	//_____________________________________________________________________________________________________________________ Inits the Hero data
+
+	public void InitHero( Vector2 pos, EDirection dir = EDirection.N )
+	{
+		GameObject go = GameObject.Find( "Hero" );
+		Hero = go.GetComponent<Unit>();
+
+		if  ( pos.x == -1 )                                                     // Find level entrance
+		for ( int y = 0; y < Tilemap.height; y++ )
+		for ( int x = 0; x < Tilemap.width;  x++ )
+  		    {
+			  ETileType tl = (ETileType) Tilemap.GetTile( x, y, (int) ELayerType.MODIFIER ); 
+		      if( tl == ETileType.LEVEL_ENTRANCE ) 
+			     {
+				  pos = new Vector2( x, y );
+			      break;
+			     }
+		    }
+
+		if  ( pos.x == -1 ) Debug.LogError("Hero Start Pos not Set on level: " +
+		                                    Manager.I.ActiveQuest.CurrentLevel);
+
+		Hero.Control.ApplyMove( new Vector2( -1, -1 ), pos );
+		Hero.Control.OldPos = new Vector2( pos.x, pos.y);
+		HeroIsDead = false;
+		AiTarget = new Vector2( pos.x, pos.y );
+		Hero.Body.Hp = Hero.Body.TotHp;
+		Hero.RotateTo( dir );
+		Hero.Body.UpdateHealthBar();
+		Hero.Body.UpdateUnitHealthStatus();
+		Hero.Body.Lives = 1;
+		if( Hero.MeleeAttack  ) Hero.MeleeAttack. DamageSurplus = 0;
+		if( Hero.RangedAttack ) Hero.RangedAttack.DamageSurplus = 0;
+		if( Hero.MagicAttack  ) Hero.MagicAttack. DamageSurplus = 0;
+	}
+	
+	//_____________________________________________________________________________________________________________________ Detect Fighting map
+	
+	
+	public void DetectFightingMap()
+	{
+		int area = -1;
+		if ( CurrentArea == -1 )
+		for( int i = 0; i < Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList.Length; i++ )
+		{
+			Rect r = Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ i ].AreaRect;
+			if( Hero.Pos.x >= r.x  &&  Hero.Pos.x < r.x + r.width  )
+			if( Hero.Pos.y <=  r.y &&  Hero.Pos.y > r.y - r.height )
+			{
+				area = i;
+			}
+		}
+		
+		if( CurrentArea == -1 && area != -1 )
+		{
+			EnterArea( area );
+		}
+	}
+
+	//_____________________________________________________________________________________________________________________ Enter Area
+
+	public void EnterArea( int area )
+	{
+		CurrentArea = area;
+		CurArea = Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ CurrentArea ];
+		Rect r = Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ CurrentArea ].AreaRect;
+
+		AreaOffset = new Vector2( r.x, r.y - r.height + 1 );
+
+		P1 = new Vector( (int)(r.x), (int)(r.y));
+		P2 = new Vector( (int)(r.x + r.width-1), (int)(r.y - r.height + 1));	
+
+		MoveOrder = null;
+		MoveOrder = new List<Unit>();
+		
+		ClearAllMonstersInAllAreas();
+
+		CreateGameObjectsFromTk2dSpawns();
+
+		for ( int y = P2.y; y <= P1.y; y++ )
+		for ( int x = P1.x; x <= P2.x; x++ )
+		    {
+		      if( Unit[ x, y ] != null ) 
+		         {
+			      MoveOrder.Add( Unit[ x, y ] );
+			      Unit[ x, y ].Control.MoveOrderID = MoveOrder.Count - 1; 
+                  Unit[ x, y ].UpdateDirection();
+		         }
+		    }
+		ClearAllRoomDoors();
+
+		UpdateNumbers();
+		UI.I.MonstersHpBar.valueMax = (int) MonstersTotHpSum;
+
+		InitHero( Hero.Pos, Hero.Dir );
+		HeroEnterPos = Hero.Pos;
+		HeroEnterDir = Hero.Dir;
+
+		if ( Quest.I.LevelList[ Quest.I.CurrentLevel ].
+             AreaList[ CurrentArea ].Cleared ) ClearRoomDoor( CurrentArea );
+
+		Quest.I.UpdateArtifacts();       
+
+        UI.I.ShowAreaEnterMessage();
+
+        Manager.I.SaveGame( "Room Entrance.dat" );
+	}
+	
+	//_____________________________________________________________________________________________________________________ Check area Leave
+	
+	
+	public bool ExitArea( Vector2 from, Vector2 to )
+	{
+		if( PtOnAreaMap( to ) == true ) return false;
+		if( CurrentArea == -1 ) return false;
+
+		if ( Hero.CanMoveFromTo( from, to ) == false ) return true;
+		Hero.Control.ApplyMove( from, to );	
+
+		ClearAllMonstersInAllAreas();
+		CreateGameObjectsFromTk2dSpawns();
+
+        ClearAllRoomDoors();		 
+
+        Manager.I.DeleteAreaSaveFiles();
+     
+		RestoreOriginalAreaObjects( CurrentArea );
+
+		CurrentArea = -1;
+		CurArea = null;
+
+		InitHero( to, Hero.Dir );
+
+		Quest.I.UpdateArtifacts();
+
+		Manager.I.SaveGame( "Room Leave.dat" );
+
+		return true;
+	}
+
+	//_____________________________________________________________________________________________________________________ Creates Areas on map
+
+	public void CreateAreas()
+	{ 
+        int l = Quest.I.CurrentLevel;
+        if( l == -1 ) return;
+		Vector2 max = new Vector2( 20, 15 );
+		bool oldstate = Quest.I.LevelList[ l ].gameObject;
+        tk2dTileMap tm = Quest.I.LevelList[ l ].Tilemap;
+
+		Area[] al = Quest.I.LevelList[ l ].AreaFolder.transform.GetComponentsInChildren<Area>();
+
+		for ( int y = 0; y < Tilemap.height; y++ )
+		for ( int x = 0; x < Tilemap.width;  x++ )
+		    {
+			ETileType tile = (ETileType) tm.GetTile( x, y, (int) ELayerType.MODIFIER ); 
+			if( tile == ETileType.BOTTOMLEFT_AREALIMITER )
+			{
+				Vector2 p1 = new Vector2(  x, -1 );
+				Vector2 p2 = new Vector2( -1,  y );
+				
+				Vector2 aux = GetNextTileInLine( tm, new Vector2( x, y ), new Vector2( +1, 0 ), ETileType.BOTTOMRIGHT_AREALIMITER, (int) max.x );
+				
+				if( aux.x != -1 )
+				{
+					p2.x = aux.x;
+				} 
+				
+				aux = GetNextTileInLine( tm, new Vector2( p2.x, y ), new Vector2( 0, +1 ), ETileType.TOPRIGHT_AREALIMITER, (int) max.y );
+				
+				if( aux.y != -1 )
+				{
+					p1.y = aux.y;
+				}
+					
+				if( p1.x != -1 ) 
+                   {
+					Rect r = new Rect( p1.x, p1.y, p2.x - p1.x + 1, p1.y - p2.y + 1 ); 	
+
+					bool exists = false;                                                           // Already exists?                                                                   
+					for( int a = 0; a < al.Length; a++ ) if ( al[ a ].P1 == p1 ) exists = true;
+                        
+                    if( exists == false )
+                       {
+				    	GameObject obj = CreateObjInstance( "Area", "Area " + p1.x + " " + p1.y, EDirection.NONE, new Vector3( x, y, 0 ) );				
+					    Area ar = obj.GetComponent<Area>();
+					    ar.AreaRect = r;
+                        ar.P1 = p1;
+                        ar.P2 = p2;
+					    ar.gameObject.transform.parent = Quest.I.LevelList[ l ].AreaFolder.transform;
+					    ar.transform.position = new Vector3( r.x - 0.5f, r.y + 0.5f, -3 );
+					    ar.Spr.scale = new Vector3( 1, 1, 1 );
+					    ar.Spr.dimensions = new Vector3( 20 * r.width, 20 * r.height, 0 );
+						ar.GetRandomAreaName();
+                        }
+				   }
+		  	   }
+		   }
+	Quest.I.LevelList[ l ].gameObject.SetActive( oldstate );
+   	}
+
+	//_____________________________________________________________________________________________________________________ Returns the prefab name for a given tile
+
+	public string GetPrefabName( ETileType tile )
+	{
+		string pn = " ";
+		switch( tile )
+		{
+		case ETileType.ROACH:         pn = "Roach";         break; 
+		case ETileType.ROOMDOOR:      pn = "Room Door";     break; 
+		case ETileType.ORB:           pn = "Orb";           break; 
+		case ETileType.DOOR_OPENER:   pn = "Door Opener";   break; 
+		case ETileType.DOOR_SWITCHER: pn = "Door Switcher"; break; 			 
+		case ETileType.DOOR_CLOSER:   pn = "Door Closer";   break; 
+		case ETileType.DOOR_KNOB:     pn = "Door Knob";     break; 
+		case ETileType.OPENDOOR:      pn = "Open Door";     break; 
+		case ETileType.CLOSEDDOOR:    pn = "Closed Door";   break; 
+		case ETileType.FOREST:        pn = "Forest";        break; 
+		case ETileType.ROCK:          pn = "Rock";          break; 
+		case ETileType.WATER:         pn = "Water";         break; 
+		case ETileType.PIT:           pn = "Pit";           break; 
+		case ETileType.TRAP:          pn = "Trap";          break; 
+		case ETileType.ARROW_N:       pn = "Arrow N";       break; 
+		case ETileType.ARROW_NE:      pn = "Arrow NE";      break; 
+		case ETileType.ARROW_E:       pn = "Arrow E";       break; 
+		case ETileType.ARROW_SE:      pn = "Arrow SE";      break; 
+		case ETileType.ARROW_S:       pn = "Arrow S";       break; 
+		case ETileType.ARROW_SW:      pn = "Arrow SW";      break; 
+		case ETileType.ARROW_W:       pn = "Arrow W";       break;
+		case ETileType.ARROW_NW:      pn = "Arrow NW";      break; 
+		case ETileType.FENCE:         pn = "Fence";         break;
+		case ETileType.SAVEGAME:      pn = "Save Game";     break;
+		}
+		return pn;
+	}
+
+	//_____________________________________________________________________________________________________________________ Returns the layer for a given tile
+		
+	public ELayerType GetTileLayer( ETileType tile )
+	{
+		if( tile < 0 ) return ELayerType.NONE;
+
+		if( (int) tile >= 144 ) return ELayerType.GAIA; // look for bugs 
+
+		switch( (int) tile )
+		{
+		case (int) ETileType.GRASS: 
+		case (int) ETileType.MUD:
+			return ELayerType.TERRAIN; break; 
+
+		case (int) ETileType.WATER:
+		case (int) ETileType.FOREST:
+		case (int) ETileType.ROCK:
+		case (int) ETileType.ORB:	
+		case (int) ETileType.CLOSEDDOOR:
+		case (int) ETileType.OPENDOOR:
+		case (int) ETileType.ROOMDOOR:
+		case (int) ETileType.PIT:
+		case (int) ETileType.TRAP:
+		case (int) ETileType.ARTIFACT:
+		case (int) ETileType.METALPLATE: 
+		case (int) ETileType.METALBLOCK:
+			
+		case (int) ETileType.DOOR_OPENER:
+		case (int) ETileType.DOOR_SWITCHER:
+		case (int) ETileType.DOOR_CLOSER:
+
+		case (int) ETileType.ARROW_N:
+		case (int) ETileType.ARROW_NE:
+		case (int) ETileType.ARROW_E:
+		case (int) ETileType.ARROW_SE:		
+		case (int) ETileType.ARROW_S:		
+		case (int) ETileType.ARROW_SW:		
+		case (int) ETileType.ARROW_W:		
+		case (int) ETileType.ARROW_NW:
+		case (int) ETileType.FENCE:
+		case (int) ETileType.SAVEGAME:
+			
+		return ELayerType.GAIA; break; 
+
+		case (int) ETileType.DOOR_KNOB:
+		return ELayerType.GAIA2; break; 
+
+		case (int) ETileType.ROACH:
+		return ELayerType.MONSTER; break; 
+
+		case (int) ETileType.TOPLEFT_AREALIMITER:
+		case (int) ETileType.BOTTOMRIGHT_AREALIMITER:
+		case (int) ETileType.TOPRIGHT_AREALIMITER:
+		case (int) ETileType.BOTTOMLEFT_AREALIMITER:
+		case (int) ETileType.LEVEL_ENTRANCE:
+		case (int) ETileType.LEVEL_EXIT:
+			return ELayerType.MODIFIER; break; 
+		}
+		return ELayerType.TERRAIN;
+	}
+
+	public bool SetRoomDoorId( Vector2 pos, int id ) 
+	{
+		if( PtOnMap( pos ) == false ) return false;			
+		if( Gaia[ (int) pos.x, (int) pos.y ] == null ) return false;
+		if( Gaia[ (int) pos.x, (int) pos.y ].TileID != ETileType.ROOMDOOR ) return false;
+		if( Gaia[ (int) pos.x, (int) pos.y ].DoorID > 0 ) return false;
+		
+		Gaia[ (int) pos.x, (int) pos.y ].DoorID = id;		
+		SetRoomDoorId( new Vector2( pos.x - 1, pos.y     ), id );
+		SetRoomDoorId( new Vector2( pos.x + 1, pos.y     ), id );
+		SetRoomDoorId( new Vector2( pos.x,     pos.y - 1 ), id );
+		SetRoomDoorId( new Vector2( pos.x,     pos.y + 1 ), id );
+		
+		return true;
+	}
+
+	public bool SetDoorId( Vector2 pos, int id ) 
+	{		
+		if( PtOnMap( pos ) == false ) return false;		 
+
+		if( Gaia[ (int) pos.x, (int) pos.y ] == null ) return false;
+		if( Gaia[ (int) pos.x, (int) pos.y ].TileID != ETileType.CLOSEDDOOR ) 
+		if( Gaia[ (int) pos.x, (int) pos.y ].TileID != ETileType.OPENDOOR   )
+			return false;
+
+		if( Gaia[ (int) pos.x, (int) pos.y ].DoorID > 0 ) return false;
+		
+		Gaia[ (int) pos.x, (int) pos.y ].DoorID = id;
+		
+		SetDoorId( new Vector2( pos.x - 1, pos.y     ), id );
+		SetDoorId( new Vector2( pos.x + 1, pos.y     ), id );
+		SetDoorId( new Vector2( pos.x,     pos.y - 1 ), id );
+		SetDoorId( new Vector2( pos.x,     pos.y + 1 ), id );
+		
+		return true;
+	}
+
+	public void UpdateSmoothMovementAnimation()
+	{
+		Hero.Control.UpdateSmoothMovementAnimation();
+		for( int i = 0; i < MoveOrder.Count; i++ )
+		if ( MoveOrder[i] != null )
+		    {
+			MoveOrder[i].Control.UpdateSmoothMovementAnimation();	
+		    }
+	}
+
+    public void UpdateMonstersDirection()
+    {
+    if( CurrentArea != -1 ) return;
+	for ( int y = 0; y < Tilemap.height; y++ )
+	for ( int x = 0; x < Tilemap.width;  x++ )
+	if  ( Unit[ x, y ] != null )
+	if  ( Unit[ x, y ].UnitType == EUnitType.MONSTER )
+	      Unit[ x, y ].UpdateDirection();
+    }
+
+	public void RestoreOriginalAreaObjects( int area )
+    {
+		Rect r = Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ area ].AreaRect;		// optimize
+		Vector p1 = new Vector( (int)(r.x), (int)(r.y));
+		Vector p2 = new Vector( (int)(r.x + r.width-1), (int)(r.y - r.height + 1));
+		
+		for ( int y = p2.y; y <= p1.y; y++ )
+		for ( int x = p1.x; x <= p2.x; x++ )
+           {
+			if( Gaia[ x, y ] )
+			if( Gaia[ x, y ].TileID == ETileType.CLOSEDDOOR ||
+			    Gaia[ x, y ].TileID == ETileType.OPENDOOR   )
+               {
+				int id = Gaia[ x, y ].DoorID;
+				Gaia[ x, y ].Kill();
+			    UpdateTileGameObjectCreation( x, y, ELayerType.GAIA  );
+				Gaia[ x, y ].DoorID = id;
+				UpdateTransTilemap = true;
+               }
+           }
+        UpdateTransLayerTilemap();
+    }
+
+	public int GetPosArea( Vector pos )
+    {
+		for( int a = 0; a < Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList.Length; a++ )
+		{ 
+			Rect r = Quest.I.LevelList[ Quest.I.CurrentLevel ].AreaList[ a ].AreaRect;		// optimize
+			AreaOffset = new Vector2( r.x, r.y - r.height + 1 );		
+			Vector p1 = new Vector( (int)(r.x), (int)(r.y));
+			Vector p2 = new Vector( (int)(r.x + r.width-1), (int)(r.y - r.height + 1));
+
+            if( pos.x >= p1.x && pos.x <= p2.x )
+            if( pos.y >= p2.y && pos.y <= p1.y ) return a; 
+        }
+        return -1;
+    }
+
+	public void Save( string file, string tag )
+	{
+		ES2.Save( CurrentArea, file + "?tag=CurrentArea" + tag );
+	}
+	
+	public void Load( string file, string tag )
+	{
+		CurrentArea = ES2.Load<int>( file + "?tag=CurrentArea" + tag );
+	}
+}
+

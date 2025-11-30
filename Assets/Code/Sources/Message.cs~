@@ -1,0 +1,24 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class Message : MonoBehaviour {
+    public bool MoveRight;
+    public float DurationTime;
+	public tk2dTextMesh MessageTxt;
+	// Use this for initialization
+	void Start () {
+		DurationTime = 3.5f;	
+	}
+	
+	// Update is called once per frame
+	void Update () 
+    {
+     float spdx = -1;
+     float spdy = 1;
+     if( MoveRight ) spdx = 1; 
+		transform.position =  new Vector3( transform.position.x + spdx * Time.deltaTime, transform.position.y + spdy* Time.deltaTime, -2 );	
+    DurationTime -= Time.deltaTime;
+    if( DurationTime < 0 ) Destroy( gameObject );
+	MessageTxt.color =  new Color( MessageTxt.color.r, MessageTxt.color.g, MessageTxt.color.b, MessageTxt.color.a - ( Time.deltaTime / DurationTime ) ); 
+	}
+}

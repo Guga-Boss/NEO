@@ -1,0 +1,192 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public enum EDamageType
+{
+	NONE = -1, MELEE, MISSILE, MAGIC
+}
+
+public enum ETargettingType
+{
+	NONE = 0, FRONTFANCING, ROACHBASIC, MISSILE
+}
+
+public class Attack : MonoBehaviour {
+
+	public Body Body;
+	public Unit Unit;
+	public EDamageType DamageType;
+	public ETargettingType TargettingType;
+	public EUnitType EnemyTargetType;
+	public float AttackPower, Accuracy,   
+	BackAttBonus, BackSideAttBonus, SideAttBonus, FrontSideAttBonus, FrontalAttBonus, 
+	Range, Penetration, BonusDamagePerLevel, BonusDamagePerStar, DamageSurplus, DamageSurplusBonus;
+	public float AttackResult;
+	public Vector2[] AttackTg;
+
+	public void UpdateIt() 	
+	{	
+		AttackResult = 0;
+		AttackTg = GetAttackTargets();
+		float tothp = 0;
+		if( AttackTg != null )  
+  		for( int i = 0; i < AttackTg.Length; i++ ) 
+	    	{ 
+			tothp += AttackUnit ( true, Unit.Pos, AttackTg[i] );
+			if( tothp > 0 ) break;
+		    }
+		AttackResult = tothp;
+	}
+
+	public void Copy( Attack un )
+	{
+		AttackPower         = un.AttackPower;
+		Accuracy            = un.Accuracy;
+		Range               = un.Range;
+		Penetration         = un.Penetration;
+		BonusDamagePerLevel = un.BonusDamagePerLevel;
+		BonusDamagePerStar  = un.BonusDamagePerStar;
+		DamageSurplus       = un.DamageSurplus;
+	}
+
+	public void Save ( string file, string tag )
+	{
+		ES2.Save( AttackPower,    file + "?tag=AttackPower"   + tag );
+		ES2.Save( Accuracy,       file + "?tag=Accuracy"      + tag );
+		ES2.Save( Range,          file + "?tag=Range"         + tag );
+		ES2.Save( Penetration,    file + "?tag=Penetration"   + tag );
+		ES2.Save( DamageSurplus,  file + "?tag=DamageSurplus" + tag );
+	}
+
+	public void Load ( string file, string tag )
+	{
+		AttackPower   = ES2.Load<float> ( file + "?tag=AttackPower"   + tag );
+		Accuracy      = ES2.Load<float> ( file + "?tag=Accuracy"      + tag );
+		Range         = ES2.Load<float> ( file + "?tag=Range"         + tag );
+		Penetration   = ES2.Load<float> ( file + "?tag=Penetration"   + tag );
+		DamageSurplus = ES2.Load<float> ( file + "?tag=DamageSurplus" + tag );
+	}
+
+	public float GetAttackPower ( Vector2 from, Vector2 to )
+	{
+		float att = AttackPower;
+		att += Util.Percent( DamageSurplusBonus, DamageSurplus );
+    //		if( Map.I.Unit[to.x, to.y] != null ) endir = Map.I.Unit[to.y, to.y].Dir;		
+//		float bonus = 0;
+//		if( endir == mydir ) { bonus = BackAttBonus; } 
+//		
+//		if( endir == Map.I.RotateDir( mydir, 1 ) || endir == Map.I.RotateDir( mydir, -1 ))  
+//		  { bonus = BackSideAttBonus; } 
+//		else
+//		if( endir == Map.I.RotateDir( mydir, 2 ) || endir == Map.I.RotateDir( mydir, -2 ))
+//		  { bonus = SideAttBonus; } 
+//		else
+//		if( endir == Map.I.RotateDir( mydir, 3 ) || endir == Map.I.RotateDir( mydir, -3 ))
+//		  { bonus = FrontSideAttBonus; } 
+//		else
+//		if( endir == Map.I.RotateDir( mydir, 4 ) )
+//		  { bonus = FrontalAttBonus; } 
+//      att += Util.Percent( bonus, att );
+		return att;
+	}
+
+	public float AttackUnit ( bool apply, Vector2 from, Vector2 tg )
+	{
+		if ( tg.x  == -1 || tg.y == -1 ) return 0;	                                 // Target out of Map
+		if ( Map.I.PtOnMap( tg ) == false ) return 0;
+
+		Unit Enemy = Map.I.Unit[ (int)tg.x, (int)tg.y ]; 
+
+		if( Unit.UnitType == EUnitType.MONSTER )                                     // Monsters attacking target hero
+			Enemy = Map.I.Hero;
+
+		if( Enemy      == null ) return 0;                                           // No enemy in position
+		if( Enemy.Body == null ) return 0;                                           // Enemy has no body
+		if( Enemy.UnitType != EnemyTargetType ) return 0;                            // Target is not enemy
+
+		float sort = UnityEngine.Random.Range( 0.0f, 100.0f );                       // Acuracy check
+		if ( sort > Accuracy ) return 0;                                             //
+
+		float att = GetAttackPower   ( from, tg );                                   // Check attack power
+
+		att = Enemy.Body.ReceiveDamage( att, DamageType, ref DamageSurplus );
+
+		return att;
+	}    
+	
+	public Vector2[] GetAttackTargets()
+	{	   
+		Vector2[] tg = null;
+		switch( TargettingType )
+		{
+		case ETargettingType.FRONTFANCING: 
+		   {
+			tg = new Vector2[1];
+			tg[0] = Unit.Pos + Manager.I.U.DirCord[(int) Unit.Dir];
+		   } 
+		break;
+
+		case ETargettingType.ROACHBASIC: 
+		{
+			if( Unit.Pos.x >= Map.I.Hero.Pos.x -1 && Unit.Pos.x <= Map.I.Hero.Pos.x + 1 )
+			if( Unit.Pos.y >= Map.I.Hero.Pos.y -1 && Unit.Pos.y <= Map.I.Hero.Pos.y + 1 )
+			{ 
+				tg = new Vector2[1];
+				tg[0] = Map.I.Hero.Pos;
+				return tg;
+			} 
+			else return null;
+		} 
+		break;
+		case ETargettingType.MISSILE: 
+		{
+			tg = new Vector2[ (int) Range];
+			for( int i = 0; i < (int) Range; i++ ) tg[i] = new Vector2( -1, -1 );
+			for( int i = 0; i < (int) Range; i++ )
+			{
+				tg[i] = Unit.Pos + Manager.I.U.DirCord[(int) Unit.Dir] * ( i + 1 );
+				if( Map.I.PtOnAreaMap( tg[i] ) == false ) break;
+				if( Map.I.Gaia[ (int)tg[i].x, (int)tg[i].y ] != null ) 
+				if( Map.I.Gaia[ (int)tg[i].x, (int)tg[i].y ].BlockMissile ) break;  
+			}	
+		} 
+		break;
+//		case EUnitType.MAGE: 
+//		{
+//			tg = new Vector[8];
+//			tg[0] = pos + new Vector(  1,  2 );
+//			tg[1] = pos + new Vector(  2,  1 );
+//			tg[2] = pos + new Vector(  1, -2 );
+//			tg[3] = pos + new Vector(  2, -1 );
+//			tg[4] = pos + new Vector( -1, -2 );
+//			tg[5] = pos + new Vector( -2, -1 );
+//			tg[6] = pos + new Vector( -1,  2 );
+//			tg[7] = pos + new Vector( -2,  1 );
+//		} 
+//		break;
+//			
+//		case EUnitType.CATAPULT: 
+//		{
+//			tg = new Vector[9];
+//			tg[0] = pos + new Vector( (int) (Map.I.U.DirCord[(int) dir].x * Range), (int) (Map.I.U.DirCord[(int) dir].y * Range) );
+//			tg[1] = tg[0] + new Vector(  0,  1  );
+//			tg[2] = tg[0] + new Vector(  1,  1  );
+//			tg[3] = tg[0] + new Vector(  1,  0  );
+//			tg[4] = tg[0] + new Vector(  1, -1  );
+//			tg[5] = tg[0] + new Vector(  0, -1  );
+//			tg[6] = tg[0] + new Vector( -1, -1 );
+//			tg[7] = tg[0] + new Vector( -1,  0  );
+//			tg[8] = tg[0] + new Vector( -1,  1  );
+//		} 
+//		break;		
+		}
+	return tg;
+	}
+
+
+
+
+
+
+
+}

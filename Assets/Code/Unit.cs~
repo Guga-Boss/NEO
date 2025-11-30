@@ -1,0 +1,371 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public enum EUnitType
+{
+	NONE = 0, HERO, MONSTER, GAIA, GAIA2
+}
+
+public enum EDirection
+{
+	NONE = -1, N, NE, E, SE, S, SW, W, NW
+}
+
+public enum EStatus
+{
+	NONE = -1, ACTIVE, DEAD
+}
+
+public enum ETileType
+{
+	NONE = -1, GRASS = 0, ROCK = 1, FOREST = 2, WATER = 3, METALPLATE = 4, METALBLOCK = 5, MUD = 6, ORB = 7, CLOSEDDOOR = 9, OPENDOOR = 10, ROOMDOOR = 11, PIT = 12,
+	ARROW_N = 16, ARROW_NE = 17, ARROW_E = 18, ARROW_SE = 19, ARROW_S = 20, ARROW_SW = 21, ARROW_W = 22, ARROW_NW = 23,
+	TOPLEFT_AREALIMITER = 24, TOPRIGHT_AREALIMITER = 25,  BOTTOMLEFT_AREALIMITER = 32, BOTTOMRIGHT_AREALIMITER = 33, LEVEL_ENTRANCE = 34, LEVEL_EXIT = 35, SAVEGAME = 37,  ROACH = 41, FENCE = 42,
+	DOOR_OPENER = 48, DOOR_SWITCHER = 56, DOOR_CLOSER = 64, DOOR_KNOB = 72, TRAP = 52, ARTIFACT = 36
+}
+
+[System.Serializable]
+public class Unit : MonoBehaviour 
+{
+	public Attack MeleeAttack, RangedAttack, MagicAttack;
+	public Body Body;
+	public EnergyBar HealthBar;
+	public Controller Control;
+	public tk2dSprite Spr;
+    public GameObject Graphic;
+	public tk2dTextMesh LevelTxt;
+	public EUnitType UnitType;
+	public ETileType TileID;
+	public EDirection Dir;
+	public Vector2 Pos;
+	public bool BlockMovement, BlockMissile, BlockSight, ValidMonster;
+	public int DoorID;
+	public List<Perk> PerkList;
+
+	void Start () {
+		Dir = EDirection.N;	
+	}
+
+	public void Copy( Unit un )
+	{
+		Body.Stars         = un.Body.Stars;
+		Body.TotHp         = un.Body.TotHp;
+		Body.Hp            = un.Body.Hp;
+		Body.Lives         = un.Body.Lives;
+		Body.MagicShield   = un.Body.MagicShield;
+		Body.MissileShield = un.Body.MissileShield;
+		Body.MeleeShield   = un.Body.MeleeShield;
+		Body.Regeneration  = un.Body.Regeneration;
+		Body.Level         = un.Body.Level;
+
+		Body.HpPerLevel              = un.Body.HpPerLevel;
+		Body.HpPerStar               = un.Body.HpPerStar;
+		Control.MovementSpeed        = un.Control.MovementSpeed;
+		Control.MovementSpeedCounter = un.Control.MovementSpeedCounter;
+
+		if( MeleeAttack  ) MeleeAttack.Copy ( un.MeleeAttack  );
+		if( RangedAttack ) RangedAttack.Copy( un.RangedAttack );
+		if( MagicAttack  ) MagicAttack.Copy ( un.MagicAttack  );
+	}
+
+   public void Save( string file, string tag )
+    {
+		ES2.Save( name,                file + "?tag=Unit name"        + tag );
+		ES2.Save( UnitType,            file + "?tag=Unit Type"        + tag );
+		ES2.Save( TileID,              file + "?tag=Unit TileID"      + tag );
+		ES2.Save( transform.position,  file + "?tag=Unit position"    + tag);
+		ES2.Save( Pos,                 file + "?tag=Unit Pos"         + tag );
+		ES2.Save( Dir,                 file + "?tag=Unit Dir"         + tag );
+		ES2.Save( DoorID,              file + "?tag=Unit DoorID"      + tag );
+		ES2.Save( Body.TotHp,          file + "?tag=Unit TotHp"       + tag );
+		ES2.Save( Body.Hp,             file + "?tag=Unit Hp"          + tag );
+		ES2.Save( Body.Level,          file + "?tag=Unit Level"       + tag );
+		ES2.Save( Control.MoveOrderID, file + "?tag=Unit MoveOrderID" + tag );
+
+		bool hasMelee   = false; if( MeleeAttack  ) hasMelee  = true;
+		bool hasRanged  = false; if( RangedAttack ) hasRanged = true;
+		bool hasMagic   = false; if( MagicAttack  ) hasMagic  = true;
+
+		ES2.Save( hasMelee,            file + "?tag=Unit Has MeleeAttack"  + tag );
+		ES2.Save( hasRanged,           file + "?tag=Unit Has RangedAttack" + tag );
+		ES2.Save( hasMagic,            file + "?tag=Unit Has MagicAttack"  + tag );
+
+		if( hasMelee  ) MeleeAttack. Save( file, tag + "Melee Att"  );
+		if( hasRanged ) RangedAttack.Save( file, tag + "Ranged Att" );
+		if( hasMagic  ) MagicAttack. Save( file, tag + "Magic Att"  );
+    }
+
+	public void Load( string file, string tag )
+	{
+		name                 = ES2.Load<string>     ( file + "?tag=Unit name"        + tag );
+		UnitType             = ES2.Load<EUnitType>  ( file + "?tag=Unit Type"        + tag );
+		TileID               = ES2.Load<ETileType>  ( file + "?tag=Unit TileID"      + tag );
+		transform.position   = ES2.Load<Vector3>    ( file + "?tag=Unit position"    + tag );
+		Pos                  = ES2.Load<Vector2>    ( file + "?tag=Unit Pos"         + tag );
+		Dir                  = ES2.Load<EDirection> ( file + "?tag=Unit Dir"         + tag ); 
+		DoorID               = ES2.Load<int>        ( file + "?tag=Unit DoorID"      + tag );
+		Body.TotHp           = ES2.Load<float>      ( file + "?tag=Unit TotHp"       + tag );
+		Body.Hp              = ES2.Load<float>      ( file + "?tag=Unit Hp"          + tag );
+		Body.Level           = ES2.Load<float>      ( file + "?tag=Unit Level"       + tag );
+		Control.MoveOrderID  = ES2.Load<int>        ( file + "?tag=Unit MoveOrderID" + tag );
+
+		bool hasMelee        = ES2.Load<bool>       ( file + "?tag=Unit Has MeleeAttack"   + tag );
+		bool hasRanged       = ES2.Load<bool>       ( file + "?tag=Unit Has RangedAttack"  + tag );
+		bool hasMagic        = ES2.Load<bool>       ( file + "?tag=Unit Has MagicAttack"   + tag );
+
+		if( hasMelee  ) MeleeAttack. Load( file, tag + "Melee Att"  );
+		if( hasRanged ) RangedAttack.Load( file, tag + "Ranged Att" );
+		if( hasMagic  ) MagicAttack. Load( file, tag + "Magic Att"  );
+
+		RotateTo(Dir);
+        Body.UpdateHealthBar();
+	}
+
+	public void SaveGaia( string file, string tag )
+	{
+		ES2.Save( TileID, file + "?tag=Unit TileID" + tag );
+    }
+
+	public void LoadGaia( string file, string tag )
+	{
+		TileID = ES2.Load<ETileType>( file + "?tag=Unit TileID" + tag );
+	}
+
+	public bool CanMoveFromTo( Vector2 from, Vector2 to )
+	{
+	  Map m = Map.I;
+	  if( m.PtOnMap( to ) == false ) return false;
+
+	  if( from == to ) return true;
+	  if( m.TileType[ (int)to.x, (int)to.y ] == ETileType.WATER       ) return false;	 
+	  if( m.TileType[ (int)to.x, (int)to.y ] == ETileType.METALBLOCK  ) return false;
+	  if( m.Gaia[ (int)to.x, (int)to.y ] )
+	  if( m.Gaia[ (int)to.x, (int)to.y ].BlockMovement ) return false;		
+	  if( m.Unit[ (int)to.x, (int)to.y ] != null ) return false;
+	  if( m.CheckArrowBlockFromTo( from, to ) == true ) return false;	
+
+		if( UnitType == EUnitType.MONSTER )
+		{
+			if( m.PtOnAreaMap( to ) == false ) return false;
+			if( to == Map.I.Hero.Pos ) return false;
+			
+			if( Control.NeedLineOfSightToMove )                                  // Line of sight check - optimize
+			{
+				Control.HasLineOfSight = Map.I.HasLOS( Map.I.Hero.Pos, from );
+				if( Control.HasLineOfSight == false ) return false;
+			}
+		}  
+
+	 return true;
+	}
+
+public void UpdateDirection()
+	{
+		if( UnitType != EUnitType.MONSTER ) return;
+
+		Vector2 from = Pos;
+		Vector2 tg = Map.I.Hero.Pos;		
+		EDirection dr = EDirection.NONE;
+
+		if( tg.x <  from.x && tg.y == from.y ) dr = EDirection.W;  else
+		if( tg.x >  from.x && tg.y == from.y ) dr = EDirection.E;  else
+		if( tg.x >  from.x && tg.y <  from.y ) dr = EDirection.SE; else
+		if( tg.x <  from.x && tg.y >  from.y ) dr = EDirection.NW; else
+		if( tg.x == from.x && tg.y <  from.y ) dr = EDirection.S;  else
+		if( tg.x == from.x && tg.y >  from.y ) dr = EDirection.N;  else
+		if( tg.x >  from.x && tg.y >  from.y ) dr = EDirection.NE; else
+		if( tg.x <  from.x && tg.y <  from.y ) dr = EDirection.SW;
+		RotateTo( dr );
+	}
+
+	public void RotateTo( EDirection _dir )
+	{
+		if( _dir == EDirection.NONE ) return;
+		if( Spr == null ) return; 
+		Dir = _dir;
+        switch( _dir )
+          {
+			case EDirection.N:  Spr.transform.eulerAngles = new Vector3( 0.0f, 0.0f, 0.0f   ); break;
+		    case EDirection.NE: Spr.transform.eulerAngles = new Vector3( 0.0f, 0.0f, 315.0f ); break;
+	     	case EDirection.E:  Spr.transform.eulerAngles = new Vector3( 0.0f, 0.0f, 270.0f ); break;
+		    case EDirection.SE: Spr.transform.eulerAngles = new Vector3( 0.0f, 0.0f, 225.0f ); break;
+		    case EDirection.S:  Spr.transform.eulerAngles = new Vector3( 0.0f, 0.0f, 180.0f ); break;
+		    case EDirection.SW: Spr.transform.eulerAngles = new Vector3( 0.0f, 0.0f, 135.0f ); break;
+		    case EDirection.W:  Spr.transform.eulerAngles = new Vector3( 0.0f, 0.0f, 90.0f  ); break;
+		    case EDirection.NW: Spr.transform.eulerAngles = new Vector3( 0.0f, 0.0f, 45.0f  ); break;
+          }
+	}
+
+	EDirection RotateDir( int dir, int val )
+	{
+		for(;;)
+		{
+			if( val > 0 ) dir--;
+			if( val < 0 ) dir++;
+			if( dir < 0 ) dir = 7;
+			if( dir > 7 ) dir = 0;
+			if( val > 0  ) val--; 
+			if( val < 0  ) val++;
+			if( val == 0 ) return (EDirection) dir;
+		}
+	}
+
+	public void UpdateAllAttacks()
+	{
+	   if( MeleeAttack ) MeleeAttack.UpdateIt();
+	   if( MagicAttack ) MagicAttack.UpdateIt();
+
+	   if( MeleeAttack.AttackResult > 0 ) return;       // Already hit by melee so skip ranged
+	   if( RangedAttack ) RangedAttack.UpdateIt();
+	}
+	
+	public bool Rotate( int val )
+	{
+		Spr.transform.Rotate (0, 0, -(45.0f * (float) -(int) Dir ));
+		Dir = RotateDir( (int) Dir, val );
+		Spr.transform.Rotate (0, 0, -(45.0f * (float) (int) Dir ));
+		return true;
+	}
+
+	public void Kill()
+	{
+		if( Control ) Control.UpdateMoveOrderId();
+		if( UnitType == EUnitType.GAIA    ) Map.I.Gaia  [ (int)Pos.x, (int)Pos.y ] = null;
+		if( UnitType == EUnitType.GAIA2   ) Map.I.Gaia2 [ (int)Pos.x, (int)Pos.y ] = null;
+		if( UnitType == EUnitType.MONSTER ) Map.I.Unit  [ (int)Pos.x, (int)Pos.y ] = null;
+
+		Destroy ( this.gameObject );
+	}
+
+	public void UpdateOrbHit()
+	{
+		Vector2 tg = Pos + Manager.I.U.DirCord[(int) Dir];	
+		if( Map.I.PtOnAreaMap( tg ) )
+		{
+			if( Map.I.Gaia[ (int) tg.x, (int) tg.y ] != null )
+			if( Map.I.Gaia[ (int) tg.x, (int) tg.y ].TileID == ETileType.ORB )
+			   {
+				Map.I.Gaia[ (int) tg.x, (int) tg.y ].HitTheOrb();
+			   }			   
+		}
+	}
+
+	public void HitTheOrb()
+	{
+		if( TileID != ETileType.ORB ) return;
+		for( int i = 0; i < 8; i++ )
+		{
+			Vector2 tg = Pos + Manager.I.U.DirCord[ i ];	
+			if( Map.I.PtOnAreaMap( tg ) )
+			   {
+				if( Map.I.Gaia[ (int) tg.x, (int) tg.y ] != null )				
+				   {
+					if( Map.I.Gaia[ (int) tg.x, (int) tg.y ].TileID == ETileType.DOOR_OPENER   ) ActivateAllDoorKnobs( ETileType.DOOR_OPENER );
+					if( Map.I.Gaia[ (int) tg.x, (int) tg.y ].TileID == ETileType.DOOR_SWITCHER ) ActivateAllDoorKnobs( ETileType.DOOR_SWITCHER );
+					if( Map.I.Gaia[ (int) tg.x, (int) tg.y ].TileID == ETileType.DOOR_CLOSER   ) ActivateAllDoorKnobs( ETileType.DOOR_CLOSER );   
+				   }
+			   }
+		}
+	}
+
+	public void ActivateAllDoorKnobs( ETileType tl )
+	{
+	    for ( int y = Map.I.P2.y; y <= Map.I.P1.y; y++ )
+		for ( int x = Map.I.P1.x; x <= Map.I.P2.x; x++ )
+		if  ( Map.I.Gaia2[ x, y ] != null ) 
+		if  ( Map.I.Gaia2[ x, y ].TileID == ETileType.DOOR_KNOB ) 
+			  Map.I.Gaia2[ x, y ].ActivateDoorKnob( tl );	
+	}
+
+	public void ActivateDoorKnob( ETileType tl )
+	{
+		if( TileID != ETileType.DOOR_KNOB ) return;
+
+		List<int> processedDoorId = new List<int>();
+
+		for( int i = 0; i < 8; i++ )
+			{
+			Vector2 tg2 = Pos + Manager.I.U.DirCord[ i ];	
+			SetDoorState( tg2, tl, ref processedDoorId );
+			}
+	}
+
+	public void SetDoorState( Vector2 tg, ETileType activator, ref List<int> processedDoorId  )
+	{
+		if( Map.I.PtOnAreaMap( tg ) == false             ) return;
+		if( Map.I.Gaia[ (int) tg.x, (int) tg.y ] == null ) return;
+
+		int doorId = Map.I.Gaia[ (int) tg.x, (int) tg.y ].DoorID;
+
+		for( int i = 0; i < processedDoorId.Count; i++ )
+		if ( processedDoorId[ i ] == doorId ) return; 
+
+		ETileType tile = (ETileType) Map.I.Gaia[ (int) tg.x, (int) tg.y ].TileID;
+		if( tile != ETileType.CLOSEDDOOR )
+		if( tile != ETileType.OPENDOOR   ) return;
+
+		ETileType tgtl = ETileType.NONE;
+		if( activator == ETileType.DOOR_CLOSER   ) tgtl = ETileType.CLOSEDDOOR;		
+		if( activator == ETileType.DOOR_OPENER   ) tgtl = ETileType.OPENDOOR;
+		if( activator == ETileType.DOOR_SWITCHER )
+		   {
+			if( tile == ETileType.OPENDOOR   ) tgtl = ETileType.CLOSEDDOOR;
+			if( tile == ETileType.CLOSEDDOOR ) tgtl = ETileType.OPENDOOR; 	
+	       }
+
+		for ( int y = Map.I.P2.y; y <= Map.I.P1.y; y++ )
+		for ( int x = Map.I.P1.x; x <= Map.I.P2.x; x++ )
+		if  ( Map.I.Gaia[ (int) x, (int) y ]  )
+		if  ( Map.I.Gaia[ (int) x, (int) y ].TileID == ETileType.OPENDOOR   ||
+			  Map.I.Gaia[ (int) x, (int) y ].TileID == ETileType.CLOSEDDOOR )
+        if  ( doorId == Map.I.Gaia[ (int) x, (int) y ].DoorID )
+			{
+			  int oldDoorId = Map.I.Gaia[ (int) x, (int) y ].DoorID;
+	          Map.I.SetTile((int) x, (int) y, ELayerType.GAIA, tgtl );
+			  Map.I.Gaia[ (int) x, (int) y ].DoorID = oldDoorId;
+			  processedDoorId.Add( doorId );
+		    }
+	}
+
+	public void UpdateLevelingData()
+	{		
+		if( UnitType == EUnitType.HERO )
+		    Body.Level = 1 + ((int) ( Body.Stars + 0 ) / 5 );
+		
+		float hpperc = Body.HpPerLevel * ( Body.Level - 1 );
+		hpperc += Body.HpPerStar  * ( Body.Stars );
+		Body.TotHp += Util.Percent( hpperc, Body.TotHp );
+		
+		float maperc = MeleeAttack.BonusDamagePerLevel * ( Body.Level - 1 );
+		maperc += MeleeAttack.BonusDamagePerStar * ( Body.Stars );
+		MeleeAttack.AttackPower += Util.Percent( maperc, MeleeAttack.AttackPower );
+
+		if( UnitType == EUnitType.MONSTER )
+		   {
+			LevelTxt.text = "" + Body.Level;
+			Body.Hp = Body.TotHp;
+			return;
+		   }
+		
+		float raperc = RangedAttack.BonusDamagePerLevel * ( Body.Level - 1 );
+		raperc += RangedAttack.BonusDamagePerStar * ( Body.Stars );
+		RangedAttack.AttackPower += Util.Percent( raperc, RangedAttack.AttackPower );
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.IO;
+
+public class Area : MonoBehaviour {
+
+	public string UniqueId, AreaName;
+	public Rect AreaRect;
+	public Vector2 P1, P2;
+	public bool Cleared;
+	public tk2dSlicedSprite Spr;
+
+	// Use this for initialization
+	void Start () 
+    {
+		Cleared = false;	
+	}
+
+  public void GetRandomAreaName()
+    {
+		// read from filename
+		var sr = new StreamReader(Application.dataPath + "/Text/" + "Area Names.txt");
+		var fileContents = sr.ReadToEnd();
+		
+		Debug.Log(  Application.dataPath );		
+		sr.Close();
+		
+		// put data from filename into a variable
+		var mydata = fileContents.Split("\n"[0]);
+		
+		// pick a random number between 1 and 10
+		var myrandom = Random.Range( 1, mydata.Length );
+		AreaName = mydata[myrandom];
+    }
+}

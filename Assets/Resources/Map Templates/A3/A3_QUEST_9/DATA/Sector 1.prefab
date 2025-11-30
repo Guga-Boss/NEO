@@ -1,0 +1,3636 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1106702798238098}
+  m_IsPrefabParent: 1
+--- !u!1 &1001180333406856
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4108442149309086}
+  - component: {fileID: 114027432108406676}
+  m_Layer: 0
+  m_Name: Mod 4 - Cog x2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1064094714147004
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4995795254655946}
+  - component: {fileID: 114359320661545114}
+  m_Layer: 0
+  m_Name: Mod 2 - Boulders Slow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1083022182487996
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4741300883552030}
+  - component: {fileID: 114119006214486044}
+  m_Layer: 0
+  m_Name: Mod 5 - Boulders
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1106702798238098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4816499900089438}
+  - component: {fileID: 114647242200936714}
+  m_Layer: 0
+  m_Name: Sector 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1156073122185828
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4798347261354168}
+  - component: {fileID: 114202375038033624}
+  m_Layer: 0
+  m_Name: Mod 3 - Boulders Fast
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1324871903695652
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4565625473758506}
+  - component: {fileID: 114805665167775508}
+  m_Layer: 0
+  m_Name: Mod 8 - Spiked Boulder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1463330654839476
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4323576911454048}
+  - component: {fileID: 114892647075637690}
+  m_Layer: 0
+  m_Name: Mod 7 - Normal Boulder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1464857660550508
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4372908641762554}
+  - component: {fileID: 114931948313516286}
+  m_Layer: 0
+  m_Name: Mod 21 - arrow bonus 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1495682661326448
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4583318632103534}
+  - component: {fileID: 114557613025347752}
+  m_Layer: 0
+  m_Name: Mod 6 - Scarab x8
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1619956858106958
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4463407573726096}
+  m_Layer: 0
+  m_Name: Mod List
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1929656591261682
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4983512932278502}
+  - component: {fileID: 114059131222184714}
+  m_Layer: 0
+  m_Name: Mod 1 - scarabs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4108442149309086
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1001180333406856}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4463407573726096}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4323576911454048
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1463330654839476}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -131.53, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4463407573726096}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4372908641762554
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1464857660550508}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4463407573726096}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4463407573726096
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1619956858106958}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 269.7754, y: 11.3848, z: -0.62656146}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4983512932278502}
+  - {fileID: 4995795254655946}
+  - {fileID: 4798347261354168}
+  - {fileID: 4108442149309086}
+  - {fileID: 4741300883552030}
+  - {fileID: 4583318632103534}
+  - {fileID: 4323576911454048}
+  - {fileID: 4565625473758506}
+  - {fileID: 4372908641762554}
+  m_Father: {fileID: 4816499900089438}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4565625473758506
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1324871903695652}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -131.53, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4463407573726096}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4583318632103534
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1495682661326448}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -131.53, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4463407573726096}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4741300883552030
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1083022182487996}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -131.53, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4463407573726096}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4798347261354168
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156073122185828}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4463407573726096}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4816499900089438
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1106702798238098}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 727.89996, y: -50, z: 1.8000029}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4463407573726096}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4983512932278502
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1929656591261682}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4463407573726096}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4995795254655946
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1064094714147004}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4463407573726096}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114027432108406676
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1001180333406856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f8c8f01d10ed64282084dc35040c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RaftJointList
+      Entry: 7
+      Data: 0|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BabyList
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  ModNumber: 3
+  ModDescription: Cog x2
+  RestrictToUnitType: 
+  Gaia: 1
+  Gaia2: 1
+  Monster: 0
+  Raft: 0
+  OrientatorEffects: 
+  OrientatorTable1: []
+  OrientatorTable2: []
+  OrientatorTable3: []
+  OrientatorTable4: []
+  OrientatorTable5: []
+  OrientatorTable6: []
+  OrientatorItemTable1: 
+  ResourceTriggerTypeList: 
+  MineTypeList: 
+  PoleBonusEffList: 
+  PoleBonusCnList: 
+  MineBonusEffList: 
+  MineBonusCnList: 
+  OptionalMonster: 0
+  Direction: -1
+  FixedRestingDirection: -1
+  RandomDirection: 0
+  UnitBaseLevel: 0
+  UnitLives: 0
+  Variation: 0
+  MaxLives: 0
+  HitPointsRatio: 100
+  TotHp: -1
+  MeleeAttack: -1
+  MeleeAttackTotalTime: -1
+  MeleeAttackTotalTimeList: []
+  RangedAttackTotalTimeList: []
+  InflictedDamageRate: -1
+  BaseMeleeShield: -1
+  BaseMissileShield: -1
+  RangedAttack: -1
+  RangedAttackRange: -1
+  RangedAttackTotalTime: -1
+  Resting: 1
+  FireOn: 0
+  AvailableFireHits: -1
+  IsTiny: 0
+  IsWorking: 1
+  TouchCount: 0
+  WhiteGateGroup: {x: -1, y: -1}
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  VineBurnTime: 0.5
+  DefaultImmunityShieldState: 0
+  ResourceType: 9
+  ResourceOperation: 1
+  ResourceAmount: 2
+  ResourceSlot: 1
+  ResourcePersistTotalSteps: 1
+  ResourceWasteTime: -1
+  MiniDomeTotalTimeList: []
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  RealtimeSpeed: 13
+  RealtimeSpeedList: []
+  WaitTime: 0
+  BaseWaspTotSpawnTimer: 2
+  WaspSpawnInflationPerTile: 0.1
+  ExtraWaspSpawnTimerPerTile: 2
+  ExtraWaspSpawnInflationPerSec: 1
+  MaxSpawnCount: 20
+  WaspDamage: 2
+  MotherWaspRadius: 5
+  SpawnCount: 0
+  ShieldedWaspChance: 0
+  StartShieldedWasps: 0
+  MinShieldedWasps: 0
+  MaxShieldedWasps: 0
+  CocoonWaspChance: 0
+  StartCocoonWasps: 0
+  MinCocoonWasps: 0
+  MaxCocoonWasps: 0
+  EnragedWaspChance: 0
+  StartEnragedWasps: 0
+  MinEnragedWasps: 0
+  MaxEnragedWasps: 0
+  EnragedWaspSpawnPercentAdd: 1
+  EnragedWaspSpawnLimitAdd: 1
+  EnragedWaspExtraSpawns: 1
+  EnragedWaspExtraBreedingSpeed: 5
+  EnragedWaspUpdates: 2
+  WaspCatchUp: 1
+  FlyingSpeed: -1
+  FlyingSpeedFactor: 100
+  FlyingRotationSpeed: -1
+  StartFlyingPhase: -1
+  PlayAnimation: 
+  ProjectileType: 2
+  ProjectileSpeed: 10
+  ProjectileRotationSpeed: 150
+  MonsterDestroyHeroShieldChance: []
+  ProjectileDestroyHeroShieldChance: []
+  QQMinDamage: 2
+  QQMaxDamage: 10
+  QQMissHeroDamage: 0
+  QQDamageCurve: 1.5
+  FrontalRebound: 1
+  SpikedBoulder: 0
+  RestingDistance: 0
+  WakeUpGroup: -1
+  WakeUpTime: -1
+  RestingDirectionIsSameAsHero: 0
+  TickBasedMovement: 0
+  SteppingBasedMovement: 0
+  TickMoveList: 
+  InitialForcedFrontalMovementFactor: 0
+  ResetHuggerMoveAfterStepOut: 0
+  CustomMoveType: 
+  CustomMoveFactor: []
+  SpikeFreeStepTime: 0
+  IsBoss: 0
+  InfectedChance: 0
+  InfectedRadius: 1
+  BoulderPunchPower: -1
+  AddRandomMonsterStat: []
+  ModdedMonstersList: []
+  ModdedGaia2List: []
+  KeepTileHidden: {x: -1, y: -1}
+  BoolToogle1VarName: 
+  BoolToogle2VarName: 
+  RandomizeArrowDir: 0
+  DynamicObject: 0
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  WaitAfterObstacleCollision: 1
+  OrientationSorting: 1
+  RandomizeRotation: 0
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  RandomDirTurnList: 
+  DynamicMaxSteps: 0
+  InitialDirection: -1
+  BrokenRaft: 0
+  RaftGroupID: -1
+  ShowJointMatrix: 0
+  VsRoachHeroAttBonusPerBaby: 30
+  VsHeroRoachAttackBonusPerBaby: 30
+  RedRoachBabyList: 
+  ShowBabies: 0
+  NumRandomBabies: 0
+  RandomBabyPosList: 
+  RandomBabyFactorList: []
+  BabyTypeList: 
+  BabyTypeFactorList: []
+  ForceFirstBabyType: -1
+  SpiderBabyTypeList: 
+  BabyDisableTotTime: 0
+  BabyDisableChance: 0
+  PointAwaySpiderType: 0
+  PointToMeSpiderType: -1
+  NeighborModItemList: 
+  NeighborSpellTypeList: 
+  NeighborSpellItemList: 
+  UnblockedFrogRestorationFactor: 0
+  MaxFrogTurnDelay: 5
+  UnblockedFrogSpawnsBaby: 0
+  VineTypeList: 
+  AddAlgaeToSpike: 0
+  MineType: 0
+  UpMineType: -1
+  RandomMineType: 
+  RandomMineTypeFactor: []
+  BaseMiningChance: 50
+  SortMiningChanceFactor: 0
+  SortMiningChanceRandomList: []
+  SortMiningChanceRandomFactorList: []
+  DefaultMiningPrize: -1
+  MiningPrizeList: 
+  MiningBonusAmountList: []
+  MiningBonusFactor: []
+  MiningBonusChance: 100
+  SwapperMineChance: 0
+  HoleMineChance: 0
+  RopeConnectedMineChance: 0
+  HammerMineChance: 0
+  ChiselMineChance: 0
+  StickyMineChance: 0
+  DynamiteMineChance: 0
+  CogMineChance: 0
+  ArrowMineChance: 0
+  CannonMineChance: 0
+  MagnetMineChance: 0
+  WheelMineChance: 0
+  JumperMineChance: 0
+  GloveMineChance: 0
+  SpikedMineChance: 0
+  MineLeverCogChance: 0
+  MineLeverDirection: -1
+  MineLeverChainTargetModList: 
+  MineLeverChainTargetModFactor: []
+  HookPushStepList: 
+  HookPushStepListFactor: []
+  CustomChainConnectionAvailability: 
+  LimitChainConnectionModList: 
+  MaxChainConnections: 1
+  ClockwiseChainPushChance: 100
+  MineBonusCnType: -1
+  MineBonusEffType: -1
+  MineBonusVal1: 0
+  MineBonusVal2: 0
+  MineBonusVal3: 0
+  MineBonusVal4: 0
+  WaterObjectType: -1
+  FishCatchType: 1
+  FishSwimType: -1
+  DefaultFishMod: 0
+  BaseTotalRespawnTime: -1
+  BaseTotalRespawnAmount: -1
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FishingPowerFactor: 100
+  FishRedLimit: -1
+  FishGreenLimit: -1
+  FishingBonusAmount: -1
+  MinFishSpeed: 0.5
+  MaxFishSpeed: 1.2
+  OverFishSecondsNeededPerUnit: -1
+  FishAction: []
+  WaterFlowerBaseAttack: 1
+  WaterFlowerBonusPerUnit: 20
+  WaterFlowerRefreshTime: 5
+  WaterFlowerConsecutiveHitBonus: 25
+  PoleBonusEffType: -1
+  PoleBonusCnType: -1
+  PoleBonusVal1: 0
+  PoleBonusVal2: 0
+  PoleBonusFishType: -1
+  FishingPoleExtraTime: 0
+  PoleBonusHPRange: 0
+  HerbColor: -1
+  HerbType: -1
+  HerbBonusAmount: 1
+  RandomizableHerb: 0
+  FlyingAction: []
+  ArtifactType: 0
+  ArtifactLifetime: 2
+  ArtifactCost: 0
+  ArtifactMultiplier: 0
+  TargetHero: -2
+  InitialAltarBonusList: []
+  PointToMeAndAwayAltarBonus: []
+  AltarPoleBonus: []
+  PoleRotationSpeed: 90
+  PoleStartRotation: 0
+  PoleBumpWaitTime: 100
+  SpikeDamage: 10
+  PoleObjList: []
+--- !u!114 &114059131222184714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1929656591261682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f8c8f01d10ed64282084dc35040c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RaftJointList
+      Entry: 7
+      Data: 0|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BabyList
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  ModNumber: 0
+  ModDescription: scarabs
+  RestrictToUnitType: 
+  Gaia: 1
+  Gaia2: 1
+  Monster: 1
+  Raft: 1
+  OrientatorEffects: 
+  OrientatorTable1: []
+  OrientatorTable2: []
+  OrientatorTable3: []
+  OrientatorTable4: []
+  OrientatorTable5: []
+  OrientatorTable6: []
+  OrientatorItemTable1: 
+  ResourceTriggerTypeList: 
+  MineTypeList: 
+  PoleBonusEffList: 
+  PoleBonusCnList: 
+  MineBonusEffList: 
+  MineBonusCnList: 
+  OptionalMonster: 0
+  Direction: -1
+  FixedRestingDirection: -1
+  RandomDirection: 0
+  UnitBaseLevel: 0
+  UnitLives: 0
+  Variation: 0
+  MaxLives: 0
+  HitPointsRatio: 100
+  TotHp: -1
+  MeleeAttack: -1
+  MeleeAttackTotalTime: -1
+  MeleeAttackTotalTimeList: []
+  RangedAttackTotalTimeList: []
+  InflictedDamageRate: -1
+  BaseMeleeShield: -1
+  BaseMissileShield: -1
+  RangedAttack: -1
+  RangedAttackRange: -1
+  RangedAttackTotalTime: -1
+  Resting: 0
+  FireOn: 0
+  AvailableFireHits: -1
+  IsTiny: 0
+  IsWorking: 1
+  TouchCount: 0
+  WhiteGateGroup: {x: -1, y: -1}
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  VineBurnTime: 0.5
+  DefaultImmunityShieldState: 0
+  ResourceType: -1
+  ResourceOperation: 1
+  ResourceAmount: -1
+  ResourceSlot: 1
+  ResourcePersistTotalSteps: 1
+  ResourceWasteTime: -1
+  MiniDomeTotalTimeList: []
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  RealtimeSpeed: 10
+  RealtimeSpeedList: []
+  WaitTime: 0
+  BaseWaspTotSpawnTimer: 2
+  WaspSpawnInflationPerTile: 0.1
+  ExtraWaspSpawnTimerPerTile: 2
+  ExtraWaspSpawnInflationPerSec: 1
+  MaxSpawnCount: 20
+  WaspDamage: 2
+  MotherWaspRadius: 5
+  SpawnCount: 0
+  ShieldedWaspChance: 0
+  StartShieldedWasps: 0
+  MinShieldedWasps: 0
+  MaxShieldedWasps: 0
+  CocoonWaspChance: 0
+  StartCocoonWasps: 0
+  MinCocoonWasps: 0
+  MaxCocoonWasps: 0
+  EnragedWaspChance: 0
+  StartEnragedWasps: 0
+  MinEnragedWasps: 0
+  MaxEnragedWasps: 0
+  EnragedWaspSpawnPercentAdd: 1
+  EnragedWaspSpawnLimitAdd: 1
+  EnragedWaspExtraSpawns: 1
+  EnragedWaspExtraBreedingSpeed: 5
+  EnragedWaspUpdates: 2
+  WaspCatchUp: 1
+  FlyingSpeed: -1
+  FlyingSpeedFactor: 100
+  FlyingRotationSpeed: -1
+  StartFlyingPhase: -1
+  PlayAnimation: 
+  ProjectileType: 2
+  ProjectileSpeed: 10
+  ProjectileRotationSpeed: 150
+  MonsterDestroyHeroShieldChance: []
+  ProjectileDestroyHeroShieldChance: []
+  QQMinDamage: 2
+  QQMaxDamage: 10
+  QQMissHeroDamage: 0
+  QQDamageCurve: 1.5
+  FrontalRebound: 1
+  SpikedBoulder: 0
+  RestingDistance: 0
+  WakeUpGroup: 1
+  WakeUpTime: -1
+  RestingDirectionIsSameAsHero: 0
+  TickBasedMovement: 0
+  SteppingBasedMovement: 0
+  TickMoveList: 
+  InitialForcedFrontalMovementFactor: 0
+  ResetHuggerMoveAfterStepOut: 0
+  CustomMoveType: 
+  CustomMoveFactor: []
+  SpikeFreeStepTime: 0
+  IsBoss: 0
+  InfectedChance: 0
+  InfectedRadius: 1
+  BoulderPunchPower: -1
+  AddRandomMonsterStat: []
+  ModdedMonstersList: []
+  ModdedGaia2List: []
+  KeepTileHidden: {x: -1, y: -1}
+  BoolToogle1VarName: 
+  BoolToogle2VarName: 
+  RandomizeArrowDir: 0
+  DynamicObject: 0
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  WaitAfterObstacleCollision: 1
+  OrientationSorting: 1
+  RandomizeRotation: 0
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  RandomDirTurnList: 
+  DynamicMaxSteps: 0
+  InitialDirection: -1
+  BrokenRaft: 0
+  RaftGroupID: -1
+  ShowJointMatrix: 0
+  VsRoachHeroAttBonusPerBaby: 30
+  VsHeroRoachAttackBonusPerBaby: 30
+  RedRoachBabyList: 
+  ShowBabies: 0
+  NumRandomBabies: 0
+  RandomBabyPosList: 
+  RandomBabyFactorList: []
+  BabyTypeList: 
+  BabyTypeFactorList: []
+  ForceFirstBabyType: -1
+  SpiderBabyTypeList: 
+  BabyDisableTotTime: 0
+  BabyDisableChance: 0
+  PointAwaySpiderType: 0
+  PointToMeSpiderType: -1
+  NeighborModItemList: 
+  NeighborSpellTypeList: 
+  NeighborSpellItemList: 
+  UnblockedFrogRestorationFactor: 0
+  MaxFrogTurnDelay: 5
+  UnblockedFrogSpawnsBaby: 0
+  VineTypeList: 
+  AddAlgaeToSpike: 0
+  MineType: 0
+  UpMineType: -1
+  RandomMineType: 
+  RandomMineTypeFactor: []
+  BaseMiningChance: 50
+  SortMiningChanceFactor: 0
+  SortMiningChanceRandomList: []
+  SortMiningChanceRandomFactorList: []
+  DefaultMiningPrize: -1
+  MiningPrizeList: 
+  MiningBonusAmountList: []
+  MiningBonusFactor: []
+  MiningBonusChance: 100
+  SwapperMineChance: 0
+  HoleMineChance: 0
+  RopeConnectedMineChance: 0
+  HammerMineChance: 0
+  ChiselMineChance: 0
+  StickyMineChance: 0
+  DynamiteMineChance: 0
+  CogMineChance: 0
+  ArrowMineChance: 0
+  CannonMineChance: 0
+  MagnetMineChance: 0
+  WheelMineChance: 0
+  JumperMineChance: 0
+  GloveMineChance: 0
+  SpikedMineChance: 0
+  MineLeverCogChance: 0
+  MineLeverDirection: -1
+  MineLeverChainTargetModList: 
+  MineLeverChainTargetModFactor: []
+  HookPushStepList: 
+  HookPushStepListFactor: []
+  CustomChainConnectionAvailability: 
+  LimitChainConnectionModList: 
+  MaxChainConnections: 1
+  ClockwiseChainPushChance: 100
+  MineBonusCnType: -1
+  MineBonusEffType: -1
+  MineBonusVal1: 0
+  MineBonusVal2: 0
+  MineBonusVal3: 0
+  MineBonusVal4: 0
+  WaterObjectType: -1
+  FishCatchType: 1
+  FishSwimType: -1
+  DefaultFishMod: 0
+  BaseTotalRespawnTime: -1
+  BaseTotalRespawnAmount: -1
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FishingPowerFactor: 100
+  FishRedLimit: -1
+  FishGreenLimit: -1
+  FishingBonusAmount: -1
+  MinFishSpeed: 0.5
+  MaxFishSpeed: 1.2
+  OverFishSecondsNeededPerUnit: -1
+  FishAction: []
+  WaterFlowerBaseAttack: 1
+  WaterFlowerBonusPerUnit: 20
+  WaterFlowerRefreshTime: 5
+  WaterFlowerConsecutiveHitBonus: 25
+  PoleBonusEffType: -1
+  PoleBonusCnType: -1
+  PoleBonusVal1: 0
+  PoleBonusVal2: 0
+  PoleBonusFishType: -1
+  FishingPoleExtraTime: 0
+  PoleBonusHPRange: 0
+  HerbColor: -1
+  HerbType: -1
+  HerbBonusAmount: 1
+  RandomizableHerb: 0
+  FlyingAction: []
+  ArtifactType: 0
+  ArtifactLifetime: 2
+  ArtifactCost: 0
+  ArtifactMultiplier: 0
+  TargetHero: -2
+  InitialAltarBonusList: []
+  PointToMeAndAwayAltarBonus: []
+  AltarPoleBonus: []
+  PoleRotationSpeed: 90
+  PoleStartRotation: 0
+  PoleBumpWaitTime: 100
+  SpikeDamage: 10
+  PoleObjList: []
+--- !u!114 &114119006214486044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1083022182487996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f8c8f01d10ed64282084dc35040c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RaftJointList
+      Entry: 7
+      Data: 0|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BabyList
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  ModNumber: 4
+  ModDescription: Boulders
+  RestrictToUnitType: 
+  Gaia: 0
+  Gaia2: 0
+  Monster: 1
+  Raft: 0
+  OrientatorEffects: 
+  OrientatorTable1: []
+  OrientatorTable2: []
+  OrientatorTable3: []
+  OrientatorTable4: []
+  OrientatorTable5: []
+  OrientatorTable6: []
+  OrientatorItemTable1: 
+  ResourceTriggerTypeList: 
+  MineTypeList: 
+  PoleBonusEffList: 
+  PoleBonusCnList: 
+  MineBonusEffList: 
+  MineBonusCnList: 
+  OptionalMonster: 0
+  Direction: -1
+  FixedRestingDirection: -1
+  RandomDirection: 0
+  UnitBaseLevel: 0
+  UnitLives: 0
+  Variation: 0
+  MaxLives: 0
+  HitPointsRatio: 100
+  TotHp: -1
+  MeleeAttack: -1
+  MeleeAttackTotalTime: -1
+  MeleeAttackTotalTimeList: []
+  RangedAttackTotalTimeList: []
+  InflictedDamageRate: -1
+  BaseMeleeShield: -1
+  BaseMissileShield: -1
+  RangedAttack: -1
+  RangedAttackRange: -1
+  RangedAttackTotalTime: -1
+  Resting: 0
+  FireOn: 0
+  AvailableFireHits: -1
+  IsTiny: 0
+  IsWorking: 1
+  TouchCount: 0
+  WhiteGateGroup: {x: -1, y: -1}
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  VineBurnTime: 0.5
+  DefaultImmunityShieldState: 0
+  ResourceType: -1
+  ResourceOperation: 1
+  ResourceAmount: -1
+  ResourceSlot: 1
+  ResourcePersistTotalSteps: 1
+  ResourceWasteTime: -1
+  MiniDomeTotalTimeList: []
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  RealtimeSpeed: 0
+  RealtimeSpeedList: []
+  WaitTime: 0
+  BaseWaspTotSpawnTimer: 30
+  WaspSpawnInflationPerTile: 0.1
+  ExtraWaspSpawnTimerPerTile: 2
+  ExtraWaspSpawnInflationPerSec: 1
+  MaxSpawnCount: 20
+  WaspDamage: 2
+  MotherWaspRadius: 5
+  SpawnCount: 0
+  ShieldedWaspChance: 0
+  StartShieldedWasps: 0
+  MinShieldedWasps: 0
+  MaxShieldedWasps: 0
+  CocoonWaspChance: 0
+  StartCocoonWasps: 0
+  MinCocoonWasps: 0
+  MaxCocoonWasps: 0
+  EnragedWaspChance: 0
+  StartEnragedWasps: 0
+  MinEnragedWasps: 0
+  MaxEnragedWasps: 0
+  EnragedWaspSpawnPercentAdd: 1
+  EnragedWaspSpawnLimitAdd: 1
+  EnragedWaspExtraSpawns: 1
+  EnragedWaspExtraBreedingSpeed: 5
+  EnragedWaspUpdates: 2
+  WaspCatchUp: 1
+  FlyingSpeed: -1
+  FlyingSpeedFactor: 100
+  FlyingRotationSpeed: -1
+  StartFlyingPhase: -1
+  PlayAnimation: 
+  ProjectileType: 2
+  ProjectileSpeed: 10
+  ProjectileRotationSpeed: 150
+  MonsterDestroyHeroShieldChance: []
+  ProjectileDestroyHeroShieldChance: []
+  QQMinDamage: 2
+  QQMaxDamage: 10
+  QQMissHeroDamage: 0
+  QQDamageCurve: 1.5
+  FrontalRebound: 0
+  SpikedBoulder: 0
+  RestingDistance: -1
+  WakeUpGroup: -1
+  WakeUpTime: -1
+  RestingDirectionIsSameAsHero: 0
+  TickBasedMovement: 0
+  SteppingBasedMovement: 0
+  TickMoveList: 
+  InitialForcedFrontalMovementFactor: 0
+  ResetHuggerMoveAfterStepOut: 0
+  CustomMoveType: 
+  CustomMoveFactor: []
+  SpikeFreeStepTime: 0
+  IsBoss: 0
+  InfectedChance: 0
+  InfectedRadius: 1
+  BoulderPunchPower: -1
+  AddRandomMonsterStat: []
+  ModdedMonstersList: []
+  ModdedGaia2List: []
+  KeepTileHidden: {x: -1, y: -1}
+  BoolToogle1VarName: 
+  BoolToogle2VarName: 
+  RandomizeArrowDir: 0
+  DynamicObject: 0
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  WaitAfterObstacleCollision: 1
+  OrientationSorting: 1
+  RandomizeRotation: 0
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  RandomDirTurnList: 
+  DynamicMaxSteps: 0
+  InitialDirection: -1
+  BrokenRaft: 0
+  RaftGroupID: -1
+  ShowJointMatrix: 0
+  VsRoachHeroAttBonusPerBaby: 30
+  VsHeroRoachAttackBonusPerBaby: 30
+  RedRoachBabyList: 
+  ShowBabies: 0
+  NumRandomBabies: 0
+  RandomBabyPosList: 
+  RandomBabyFactorList: []
+  BabyTypeList: 
+  BabyTypeFactorList: []
+  ForceFirstBabyType: -1
+  SpiderBabyTypeList: 
+  BabyDisableTotTime: 0
+  BabyDisableChance: 0
+  PointAwaySpiderType: 0
+  PointToMeSpiderType: -1
+  NeighborModItemList: 
+  NeighborSpellTypeList: 
+  NeighborSpellItemList: 
+  UnblockedFrogRestorationFactor: 0
+  MaxFrogTurnDelay: 5
+  UnblockedFrogSpawnsBaby: 0
+  VineTypeList: 
+  AddAlgaeToSpike: 0
+  MineType: 0
+  UpMineType: -1
+  RandomMineType: 
+  RandomMineTypeFactor: []
+  BaseMiningChance: 50
+  SortMiningChanceFactor: 0
+  SortMiningChanceRandomList: []
+  SortMiningChanceRandomFactorList: []
+  DefaultMiningPrize: -1
+  MiningPrizeList: 
+  MiningBonusAmountList: []
+  MiningBonusFactor: []
+  MiningBonusChance: 100
+  SwapperMineChance: 0
+  HoleMineChance: 0
+  RopeConnectedMineChance: 0
+  HammerMineChance: 0
+  ChiselMineChance: 0
+  StickyMineChance: 0
+  DynamiteMineChance: 0
+  CogMineChance: 0
+  ArrowMineChance: 0
+  CannonMineChance: 0
+  MagnetMineChance: 0
+  WheelMineChance: 0
+  JumperMineChance: 0
+  GloveMineChance: 0
+  SpikedMineChance: 0
+  MineLeverCogChance: 0
+  MineLeverDirection: -1
+  MineLeverChainTargetModList: 
+  MineLeverChainTargetModFactor: []
+  HookPushStepList: 
+  HookPushStepListFactor: []
+  CustomChainConnectionAvailability: 
+  LimitChainConnectionModList: 
+  MaxChainConnections: 1
+  ClockwiseChainPushChance: 100
+  MineBonusCnType: -1
+  MineBonusEffType: -1
+  MineBonusVal1: 0
+  MineBonusVal2: 0
+  MineBonusVal3: 0
+  MineBonusVal4: 0
+  WaterObjectType: -1
+  FishCatchType: 1
+  FishSwimType: -1
+  DefaultFishMod: 0
+  BaseTotalRespawnTime: -1
+  BaseTotalRespawnAmount: -1
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FishingPowerFactor: 100
+  FishRedLimit: -1
+  FishGreenLimit: -1
+  FishingBonusAmount: -1
+  MinFishSpeed: 0.5
+  MaxFishSpeed: 1.2
+  OverFishSecondsNeededPerUnit: -1
+  FishAction: []
+  WaterFlowerBaseAttack: 1
+  WaterFlowerBonusPerUnit: 20
+  WaterFlowerRefreshTime: 5
+  WaterFlowerConsecutiveHitBonus: 25
+  PoleBonusEffType: -1
+  PoleBonusCnType: -1
+  PoleBonusVal1: 0
+  PoleBonusVal2: 0
+  PoleBonusFishType: -1
+  FishingPoleExtraTime: 0
+  PoleBonusHPRange: 0
+  HerbColor: -1
+  HerbType: -1
+  HerbBonusAmount: 1
+  RandomizableHerb: 0
+  FlyingAction: []
+  ArtifactType: 0
+  ArtifactLifetime: 2
+  ArtifactCost: 0
+  ArtifactMultiplier: 0
+  TargetHero: -2
+  InitialAltarBonusList: []
+  PointToMeAndAwayAltarBonus: []
+  AltarPoleBonus: []
+  PoleRotationSpeed: 90
+  PoleStartRotation: 0
+  PoleBumpWaitTime: 100
+  SpikeDamage: 10
+  PoleObjList: []
+--- !u!114 &114202375038033624
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1156073122185828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f8c8f01d10ed64282084dc35040c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RaftJointList
+      Entry: 7
+      Data: 0|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BabyList
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  ModNumber: 2
+  ModDescription: Boulders Fast
+  RestrictToUnitType: 
+  Gaia: 0
+  Gaia2: 0
+  Monster: 1
+  Raft: 1
+  OrientatorEffects: 
+  OrientatorTable1: []
+  OrientatorTable2: []
+  OrientatorTable3: []
+  OrientatorTable4: []
+  OrientatorTable5: []
+  OrientatorTable6: []
+  OrientatorItemTable1: 
+  ResourceTriggerTypeList: 
+  MineTypeList: 
+  PoleBonusEffList: 
+  PoleBonusCnList: 
+  MineBonusEffList: 
+  MineBonusCnList: 
+  OptionalMonster: 0
+  Direction: -1
+  FixedRestingDirection: -1
+  RandomDirection: 0
+  UnitBaseLevel: 0
+  UnitLives: 0
+  Variation: 0
+  MaxLives: 0
+  HitPointsRatio: 100
+  TotHp: -1
+  MeleeAttack: -1
+  MeleeAttackTotalTime: -1
+  MeleeAttackTotalTimeList: []
+  RangedAttackTotalTimeList: []
+  InflictedDamageRate: -1
+  BaseMeleeShield: -1
+  BaseMissileShield: -1
+  RangedAttack: -1
+  RangedAttackRange: -1
+  RangedAttackTotalTime: -1
+  Resting: 1
+  FireOn: 0
+  AvailableFireHits: -1
+  IsTiny: 0
+  IsWorking: 1
+  TouchCount: 0
+  WhiteGateGroup: {x: -1, y: -1}
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  VineBurnTime: 0.5
+  DefaultImmunityShieldState: 0
+  ResourceType: -1
+  ResourceOperation: 1
+  ResourceAmount: -1
+  ResourceSlot: 1
+  ResourcePersistTotalSteps: 1
+  ResourceWasteTime: -1
+  MiniDomeTotalTimeList: []
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  RealtimeSpeed: 13
+  RealtimeSpeedList: []
+  WaitTime: 0
+  BaseWaspTotSpawnTimer: 2
+  WaspSpawnInflationPerTile: 0.1
+  ExtraWaspSpawnTimerPerTile: 2
+  ExtraWaspSpawnInflationPerSec: 1
+  MaxSpawnCount: 20
+  WaspDamage: 2
+  MotherWaspRadius: 5
+  SpawnCount: 0
+  ShieldedWaspChance: 0
+  StartShieldedWasps: 0
+  MinShieldedWasps: 0
+  MaxShieldedWasps: 0
+  CocoonWaspChance: 0
+  StartCocoonWasps: 0
+  MinCocoonWasps: 0
+  MaxCocoonWasps: 0
+  EnragedWaspChance: 0
+  StartEnragedWasps: 0
+  MinEnragedWasps: 0
+  MaxEnragedWasps: 0
+  EnragedWaspSpawnPercentAdd: 1
+  EnragedWaspSpawnLimitAdd: 1
+  EnragedWaspExtraSpawns: 1
+  EnragedWaspExtraBreedingSpeed: 5
+  EnragedWaspUpdates: 2
+  WaspCatchUp: 1
+  FlyingSpeed: -1
+  FlyingSpeedFactor: 100
+  FlyingRotationSpeed: -1
+  StartFlyingPhase: -1
+  PlayAnimation: 
+  ProjectileType: 2
+  ProjectileSpeed: 10
+  ProjectileRotationSpeed: 150
+  MonsterDestroyHeroShieldChance: []
+  ProjectileDestroyHeroShieldChance: []
+  QQMinDamage: 2
+  QQMaxDamage: 10
+  QQMissHeroDamage: 0
+  QQDamageCurve: 1.5
+  FrontalRebound: 1
+  SpikedBoulder: 0
+  RestingDistance: 0
+  WakeUpGroup: -1
+  WakeUpTime: -1
+  RestingDirectionIsSameAsHero: 0
+  TickBasedMovement: 0
+  SteppingBasedMovement: 0
+  TickMoveList: 
+  InitialForcedFrontalMovementFactor: 0
+  ResetHuggerMoveAfterStepOut: 0
+  CustomMoveType: 
+  CustomMoveFactor: []
+  SpikeFreeStepTime: 0
+  IsBoss: 0
+  InfectedChance: 0
+  InfectedRadius: 1
+  BoulderPunchPower: -1
+  AddRandomMonsterStat: []
+  ModdedMonstersList: []
+  ModdedGaia2List: []
+  KeepTileHidden: {x: -1, y: -1}
+  BoolToogle1VarName: 
+  BoolToogle2VarName: 
+  RandomizeArrowDir: 0
+  DynamicObject: 0
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  WaitAfterObstacleCollision: 1
+  OrientationSorting: 1
+  RandomizeRotation: 0
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  RandomDirTurnList: 
+  DynamicMaxSteps: 0
+  InitialDirection: -1
+  BrokenRaft: 0
+  RaftGroupID: -1
+  ShowJointMatrix: 0
+  VsRoachHeroAttBonusPerBaby: 30
+  VsHeroRoachAttackBonusPerBaby: 30
+  RedRoachBabyList: 
+  ShowBabies: 0
+  NumRandomBabies: 0
+  RandomBabyPosList: 
+  RandomBabyFactorList: []
+  BabyTypeList: 
+  BabyTypeFactorList: []
+  ForceFirstBabyType: -1
+  SpiderBabyTypeList: 
+  BabyDisableTotTime: 0
+  BabyDisableChance: 0
+  PointAwaySpiderType: 0
+  PointToMeSpiderType: -1
+  NeighborModItemList: 
+  NeighborSpellTypeList: 
+  NeighborSpellItemList: 
+  UnblockedFrogRestorationFactor: 0
+  MaxFrogTurnDelay: 5
+  UnblockedFrogSpawnsBaby: 0
+  VineTypeList: 
+  AddAlgaeToSpike: 0
+  MineType: 0
+  UpMineType: -1
+  RandomMineType: 
+  RandomMineTypeFactor: []
+  BaseMiningChance: 50
+  SortMiningChanceFactor: 0
+  SortMiningChanceRandomList: []
+  SortMiningChanceRandomFactorList: []
+  DefaultMiningPrize: -1
+  MiningPrizeList: 
+  MiningBonusAmountList: []
+  MiningBonusFactor: []
+  MiningBonusChance: 100
+  SwapperMineChance: 0
+  HoleMineChance: 0
+  RopeConnectedMineChance: 0
+  HammerMineChance: 0
+  ChiselMineChance: 0
+  StickyMineChance: 0
+  DynamiteMineChance: 0
+  CogMineChance: 0
+  ArrowMineChance: 0
+  CannonMineChance: 0
+  MagnetMineChance: 0
+  WheelMineChance: 0
+  JumperMineChance: 0
+  GloveMineChance: 0
+  SpikedMineChance: 0
+  MineLeverCogChance: 0
+  MineLeverDirection: -1
+  MineLeverChainTargetModList: 
+  MineLeverChainTargetModFactor: []
+  HookPushStepList: 
+  HookPushStepListFactor: []
+  CustomChainConnectionAvailability: 
+  LimitChainConnectionModList: 
+  MaxChainConnections: 1
+  ClockwiseChainPushChance: 100
+  MineBonusCnType: -1
+  MineBonusEffType: -1
+  MineBonusVal1: 0
+  MineBonusVal2: 0
+  MineBonusVal3: 0
+  MineBonusVal4: 0
+  WaterObjectType: -1
+  FishCatchType: 1
+  FishSwimType: -1
+  DefaultFishMod: 0
+  BaseTotalRespawnTime: -1
+  BaseTotalRespawnAmount: -1
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FishingPowerFactor: 100
+  FishRedLimit: -1
+  FishGreenLimit: -1
+  FishingBonusAmount: -1
+  MinFishSpeed: 0.5
+  MaxFishSpeed: 1.2
+  OverFishSecondsNeededPerUnit: -1
+  FishAction: []
+  WaterFlowerBaseAttack: 1
+  WaterFlowerBonusPerUnit: 20
+  WaterFlowerRefreshTime: 5
+  WaterFlowerConsecutiveHitBonus: 25
+  PoleBonusEffType: -1
+  PoleBonusCnType: -1
+  PoleBonusVal1: 0
+  PoleBonusVal2: 0
+  PoleBonusFishType: -1
+  FishingPoleExtraTime: 0
+  PoleBonusHPRange: 0
+  HerbColor: -1
+  HerbType: -1
+  HerbBonusAmount: 1
+  RandomizableHerb: 0
+  FlyingAction: []
+  ArtifactType: 0
+  ArtifactLifetime: 2
+  ArtifactCost: 0
+  ArtifactMultiplier: 0
+  TargetHero: -2
+  InitialAltarBonusList: []
+  PointToMeAndAwayAltarBonus: []
+  AltarPoleBonus: []
+  PoleRotationSpeed: 90
+  PoleStartRotation: 0
+  PoleBumpWaitTime: 100
+  SpikeDamage: 10
+  PoleObjList: []
+--- !u!114 &114359320661545114
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1064094714147004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f8c8f01d10ed64282084dc35040c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RaftJointList
+      Entry: 7
+      Data: 0|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BabyList
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  ModNumber: 1
+  ModDescription: Boulders Slow
+  RestrictToUnitType: 
+  Gaia: 1
+  Gaia2: 1
+  Monster: 1
+  Raft: 1
+  OrientatorEffects: 
+  OrientatorTable1: []
+  OrientatorTable2: []
+  OrientatorTable3: []
+  OrientatorTable4: []
+  OrientatorTable5: []
+  OrientatorTable6: []
+  OrientatorItemTable1: 
+  ResourceTriggerTypeList: 
+  MineTypeList: 
+  PoleBonusEffList: 
+  PoleBonusCnList: 
+  MineBonusEffList: 
+  MineBonusCnList: 
+  OptionalMonster: 0
+  Direction: -1
+  FixedRestingDirection: -1
+  RandomDirection: 0
+  UnitBaseLevel: 0
+  UnitLives: 0
+  Variation: 0
+  MaxLives: 0
+  HitPointsRatio: 100
+  TotHp: -1
+  MeleeAttack: -1
+  MeleeAttackTotalTime: -1
+  MeleeAttackTotalTimeList: []
+  RangedAttackTotalTimeList: []
+  InflictedDamageRate: -1
+  BaseMeleeShield: -1
+  BaseMissileShield: -1
+  RangedAttack: -1
+  RangedAttackRange: -1
+  RangedAttackTotalTime: -1
+  Resting: 1
+  FireOn: 0
+  AvailableFireHits: -1
+  IsTiny: 0
+  IsWorking: 1
+  TouchCount: 0
+  WhiteGateGroup: {x: -1, y: -1}
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  VineBurnTime: 0.5
+  DefaultImmunityShieldState: 0
+  ResourceType: -1
+  ResourceOperation: 1
+  ResourceAmount: -1
+  ResourceSlot: 1
+  ResourcePersistTotalSteps: 1
+  ResourceWasteTime: -1
+  MiniDomeTotalTimeList: []
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  RealtimeSpeed: 6
+  RealtimeSpeedList: []
+  WaitTime: 0
+  BaseWaspTotSpawnTimer: 2
+  WaspSpawnInflationPerTile: 0.1
+  ExtraWaspSpawnTimerPerTile: 2
+  ExtraWaspSpawnInflationPerSec: 1
+  MaxSpawnCount: 20
+  WaspDamage: 2
+  MotherWaspRadius: 5
+  SpawnCount: 0
+  ShieldedWaspChance: 0
+  StartShieldedWasps: 0
+  MinShieldedWasps: 0
+  MaxShieldedWasps: 0
+  CocoonWaspChance: 0
+  StartCocoonWasps: 0
+  MinCocoonWasps: 0
+  MaxCocoonWasps: 0
+  EnragedWaspChance: 0
+  StartEnragedWasps: 0
+  MinEnragedWasps: 0
+  MaxEnragedWasps: 0
+  EnragedWaspSpawnPercentAdd: 1
+  EnragedWaspSpawnLimitAdd: 1
+  EnragedWaspExtraSpawns: 1
+  EnragedWaspExtraBreedingSpeed: 5
+  EnragedWaspUpdates: 2
+  WaspCatchUp: 1
+  FlyingSpeed: -1
+  FlyingSpeedFactor: 100
+  FlyingRotationSpeed: -1
+  StartFlyingPhase: -1
+  PlayAnimation: 
+  ProjectileType: 2
+  ProjectileSpeed: 10
+  ProjectileRotationSpeed: 150
+  MonsterDestroyHeroShieldChance: []
+  ProjectileDestroyHeroShieldChance: []
+  QQMinDamage: 2
+  QQMaxDamage: 10
+  QQMissHeroDamage: 0
+  QQDamageCurve: 1.5
+  FrontalRebound: 1
+  SpikedBoulder: 0
+  RestingDistance: 0
+  WakeUpGroup: -1
+  WakeUpTime: -1
+  RestingDirectionIsSameAsHero: 0
+  TickBasedMovement: 0
+  SteppingBasedMovement: 0
+  TickMoveList: 
+  InitialForcedFrontalMovementFactor: 0
+  ResetHuggerMoveAfterStepOut: 0
+  CustomMoveType: 
+  CustomMoveFactor: []
+  SpikeFreeStepTime: 0
+  IsBoss: 0
+  InfectedChance: 0
+  InfectedRadius: 1
+  BoulderPunchPower: -1
+  AddRandomMonsterStat: []
+  ModdedMonstersList: []
+  ModdedGaia2List: []
+  KeepTileHidden: {x: -1, y: -1}
+  BoolToogle1VarName: 
+  BoolToogle2VarName: 
+  RandomizeArrowDir: 0
+  DynamicObject: 0
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  WaitAfterObstacleCollision: 1
+  OrientationSorting: 1
+  RandomizeRotation: 0
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  RandomDirTurnList: 
+  DynamicMaxSteps: 0
+  InitialDirection: -1
+  BrokenRaft: 0
+  RaftGroupID: -1
+  ShowJointMatrix: 0
+  VsRoachHeroAttBonusPerBaby: 30
+  VsHeroRoachAttackBonusPerBaby: 30
+  RedRoachBabyList: 
+  ShowBabies: 0
+  NumRandomBabies: 0
+  RandomBabyPosList: 
+  RandomBabyFactorList: []
+  BabyTypeList: 
+  BabyTypeFactorList: []
+  ForceFirstBabyType: -1
+  SpiderBabyTypeList: 
+  BabyDisableTotTime: 0
+  BabyDisableChance: 0
+  PointAwaySpiderType: 0
+  PointToMeSpiderType: -1
+  NeighborModItemList: 
+  NeighborSpellTypeList: 
+  NeighborSpellItemList: 
+  UnblockedFrogRestorationFactor: 0
+  MaxFrogTurnDelay: 5
+  UnblockedFrogSpawnsBaby: 0
+  VineTypeList: 
+  AddAlgaeToSpike: 0
+  MineType: 0
+  UpMineType: -1
+  RandomMineType: 
+  RandomMineTypeFactor: []
+  BaseMiningChance: 50
+  SortMiningChanceFactor: 0
+  SortMiningChanceRandomList: []
+  SortMiningChanceRandomFactorList: []
+  DefaultMiningPrize: -1
+  MiningPrizeList: 
+  MiningBonusAmountList: []
+  MiningBonusFactor: []
+  MiningBonusChance: 100
+  SwapperMineChance: 0
+  HoleMineChance: 0
+  RopeConnectedMineChance: 0
+  HammerMineChance: 0
+  ChiselMineChance: 0
+  StickyMineChance: 0
+  DynamiteMineChance: 0
+  CogMineChance: 0
+  ArrowMineChance: 0
+  CannonMineChance: 0
+  MagnetMineChance: 0
+  WheelMineChance: 0
+  JumperMineChance: 0
+  GloveMineChance: 0
+  SpikedMineChance: 0
+  MineLeverCogChance: 0
+  MineLeverDirection: -1
+  MineLeverChainTargetModList: 
+  MineLeverChainTargetModFactor: []
+  HookPushStepList: 
+  HookPushStepListFactor: []
+  CustomChainConnectionAvailability: 
+  LimitChainConnectionModList: 
+  MaxChainConnections: 1
+  ClockwiseChainPushChance: 100
+  MineBonusCnType: -1
+  MineBonusEffType: -1
+  MineBonusVal1: 0
+  MineBonusVal2: 0
+  MineBonusVal3: 0
+  MineBonusVal4: 0
+  WaterObjectType: -1
+  FishCatchType: 1
+  FishSwimType: -1
+  DefaultFishMod: 0
+  BaseTotalRespawnTime: -1
+  BaseTotalRespawnAmount: -1
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FishingPowerFactor: 100
+  FishRedLimit: -1
+  FishGreenLimit: -1
+  FishingBonusAmount: -1
+  MinFishSpeed: 0.5
+  MaxFishSpeed: 1.2
+  OverFishSecondsNeededPerUnit: -1
+  FishAction: []
+  WaterFlowerBaseAttack: 1
+  WaterFlowerBonusPerUnit: 20
+  WaterFlowerRefreshTime: 5
+  WaterFlowerConsecutiveHitBonus: 25
+  PoleBonusEffType: -1
+  PoleBonusCnType: -1
+  PoleBonusVal1: 0
+  PoleBonusVal2: 0
+  PoleBonusFishType: -1
+  FishingPoleExtraTime: 0
+  PoleBonusHPRange: 0
+  HerbColor: -1
+  HerbType: -1
+  HerbBonusAmount: 1
+  RandomizableHerb: 0
+  FlyingAction: []
+  ArtifactType: 0
+  ArtifactLifetime: 2
+  ArtifactCost: 0
+  ArtifactMultiplier: 0
+  TargetHero: -2
+  InitialAltarBonusList: []
+  PointToMeAndAwayAltarBonus: []
+  AltarPoleBonus: []
+  PoleRotationSpeed: 90
+  PoleStartRotation: 0
+  PoleBumpWaitTime: 100
+  SpikeDamage: 10
+  PoleObjList: []
+--- !u!114 &114557613025347752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1495682661326448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f8c8f01d10ed64282084dc35040c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RaftJointList
+      Entry: 7
+      Data: 0|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BabyList
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  ModNumber: 5
+  ModDescription: Scarab x8
+  RestrictToUnitType: 
+  Gaia: 1
+  Gaia2: 1
+  Monster: 1
+  Raft: 1
+  OrientatorEffects: 000000000000000009000000
+  OrientatorTable1: []
+  OrientatorTable2: []
+  OrientatorTable3: []
+  OrientatorTable4: []
+  OrientatorTable5: []
+  OrientatorTable6: []
+  OrientatorItemTable1: 
+  ResourceTriggerTypeList: 
+  MineTypeList: 
+  PoleBonusEffList: 
+  PoleBonusCnList: 
+  MineBonusEffList: 
+  MineBonusCnList: 
+  OptionalMonster: 0
+  Direction: -1
+  FixedRestingDirection: -1
+  RandomDirection: 0
+  UnitBaseLevel: 0
+  UnitLives: 10
+  Variation: 0
+  MaxLives: 0
+  HitPointsRatio: 100
+  TotHp: -1
+  MeleeAttack: -1
+  MeleeAttackTotalTime: -1
+  MeleeAttackTotalTimeList: []
+  RangedAttackTotalTimeList: []
+  InflictedDamageRate: -1
+  BaseMeleeShield: -1
+  BaseMissileShield: -1
+  RangedAttack: -1
+  RangedAttackRange: -1
+  RangedAttackTotalTime: -1
+  Resting: 0
+  FireOn: 0
+  AvailableFireHits: -1
+  IsTiny: 0
+  IsWorking: 1
+  TouchCount: 0
+  WhiteGateGroup: {x: -1, y: -1}
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  VineBurnTime: 0.5
+  DefaultImmunityShieldState: 0
+  ResourceType: -1
+  ResourceOperation: 1
+  ResourceAmount: -1
+  ResourceSlot: 1
+  ResourcePersistTotalSteps: 1
+  ResourceWasteTime: -1
+  MiniDomeTotalTimeList: []
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  RealtimeSpeed: 0
+  RealtimeSpeedList: []
+  WaitTime: 0
+  BaseWaspTotSpawnTimer: 30
+  WaspSpawnInflationPerTile: 0.1
+  ExtraWaspSpawnTimerPerTile: 2
+  ExtraWaspSpawnInflationPerSec: 1
+  MaxSpawnCount: 20
+  WaspDamage: 2
+  MotherWaspRadius: 5
+  SpawnCount: 0
+  ShieldedWaspChance: 0
+  StartShieldedWasps: 0
+  MinShieldedWasps: 0
+  MaxShieldedWasps: 0
+  CocoonWaspChance: 0
+  StartCocoonWasps: 0
+  MinCocoonWasps: 0
+  MaxCocoonWasps: 0
+  EnragedWaspChance: 0
+  StartEnragedWasps: 0
+  MinEnragedWasps: 0
+  MaxEnragedWasps: 0
+  EnragedWaspSpawnPercentAdd: 1
+  EnragedWaspSpawnLimitAdd: 1
+  EnragedWaspExtraSpawns: 1
+  EnragedWaspExtraBreedingSpeed: 5
+  EnragedWaspUpdates: 2
+  WaspCatchUp: 1
+  FlyingSpeed: -1
+  FlyingSpeedFactor: 100
+  FlyingRotationSpeed: -1
+  StartFlyingPhase: -1
+  PlayAnimation: 
+  ProjectileType: 2
+  ProjectileSpeed: 10
+  ProjectileRotationSpeed: 150
+  MonsterDestroyHeroShieldChance: []
+  ProjectileDestroyHeroShieldChance: []
+  QQMinDamage: 2
+  QQMaxDamage: 10
+  QQMissHeroDamage: 0
+  QQDamageCurve: 1.5
+  FrontalRebound: 0
+  SpikedBoulder: 0
+  RestingDistance: -1
+  WakeUpGroup: -1
+  WakeUpTime: -1
+  RestingDirectionIsSameAsHero: 0
+  TickBasedMovement: 0
+  SteppingBasedMovement: 0
+  TickMoveList: 
+  InitialForcedFrontalMovementFactor: 0
+  ResetHuggerMoveAfterStepOut: 0
+  CustomMoveType: 
+  CustomMoveFactor: []
+  SpikeFreeStepTime: 0
+  IsBoss: 0
+  InfectedChance: 0
+  InfectedRadius: 1
+  BoulderPunchPower: -1
+  AddRandomMonsterStat: []
+  ModdedMonstersList: []
+  ModdedGaia2List: []
+  KeepTileHidden: {x: -1, y: -1}
+  BoolToogle1VarName: 
+  BoolToogle2VarName: 
+  RandomizeArrowDir: 0
+  DynamicObject: 0
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  WaitAfterObstacleCollision: 1
+  OrientationSorting: 1
+  RandomizeRotation: 0
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  RandomDirTurnList: 
+  DynamicMaxSteps: 0
+  InitialDirection: -1
+  BrokenRaft: 0
+  RaftGroupID: -1
+  ShowJointMatrix: 0
+  VsRoachHeroAttBonusPerBaby: 30
+  VsHeroRoachAttackBonusPerBaby: 30
+  RedRoachBabyList: 
+  ShowBabies: 0
+  NumRandomBabies: 0
+  RandomBabyPosList: 
+  RandomBabyFactorList: []
+  BabyTypeList: 
+  BabyTypeFactorList: []
+  ForceFirstBabyType: -1
+  SpiderBabyTypeList: 
+  BabyDisableTotTime: 0
+  BabyDisableChance: 0
+  PointAwaySpiderType: 0
+  PointToMeSpiderType: -1
+  NeighborModItemList: 
+  NeighborSpellTypeList: 
+  NeighborSpellItemList: 
+  UnblockedFrogRestorationFactor: 0
+  MaxFrogTurnDelay: 5
+  UnblockedFrogSpawnsBaby: 0
+  VineTypeList: 
+  AddAlgaeToSpike: 0
+  MineType: 0
+  UpMineType: -1
+  RandomMineType: 
+  RandomMineTypeFactor: []
+  BaseMiningChance: 50
+  SortMiningChanceFactor: 0
+  SortMiningChanceRandomList: []
+  SortMiningChanceRandomFactorList: []
+  DefaultMiningPrize: -1
+  MiningPrizeList: 
+  MiningBonusAmountList: []
+  MiningBonusFactor: []
+  MiningBonusChance: 100
+  SwapperMineChance: 0
+  HoleMineChance: 0
+  RopeConnectedMineChance: 0
+  HammerMineChance: 0
+  ChiselMineChance: 0
+  StickyMineChance: 0
+  DynamiteMineChance: 0
+  CogMineChance: 0
+  ArrowMineChance: 0
+  CannonMineChance: 0
+  MagnetMineChance: 0
+  WheelMineChance: 0
+  JumperMineChance: 0
+  GloveMineChance: 0
+  SpikedMineChance: 0
+  MineLeverCogChance: 0
+  MineLeverDirection: -1
+  MineLeverChainTargetModList: 
+  MineLeverChainTargetModFactor: []
+  HookPushStepList: 
+  HookPushStepListFactor: []
+  CustomChainConnectionAvailability: 
+  LimitChainConnectionModList: 
+  MaxChainConnections: 1
+  ClockwiseChainPushChance: 100
+  MineBonusCnType: -1
+  MineBonusEffType: -1
+  MineBonusVal1: 0
+  MineBonusVal2: 0
+  MineBonusVal3: 0
+  MineBonusVal4: 0
+  WaterObjectType: -1
+  FishCatchType: 1
+  FishSwimType: -1
+  DefaultFishMod: 0
+  BaseTotalRespawnTime: -1
+  BaseTotalRespawnAmount: -1
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FishingPowerFactor: 100
+  FishRedLimit: -1
+  FishGreenLimit: -1
+  FishingBonusAmount: -1
+  MinFishSpeed: 0.5
+  MaxFishSpeed: 1.2
+  OverFishSecondsNeededPerUnit: -1
+  FishAction: []
+  WaterFlowerBaseAttack: 1
+  WaterFlowerBonusPerUnit: 20
+  WaterFlowerRefreshTime: 5
+  WaterFlowerConsecutiveHitBonus: 25
+  PoleBonusEffType: -1
+  PoleBonusCnType: -1
+  PoleBonusVal1: 0
+  PoleBonusVal2: 0
+  PoleBonusFishType: -1
+  FishingPoleExtraTime: 0
+  PoleBonusHPRange: 0
+  HerbColor: -1
+  HerbType: -1
+  HerbBonusAmount: 1
+  RandomizableHerb: 0
+  FlyingAction: []
+  ArtifactType: 0
+  ArtifactLifetime: 2
+  ArtifactCost: 0
+  ArtifactMultiplier: 0
+  TargetHero: -2
+  InitialAltarBonusList: []
+  PointToMeAndAwayAltarBonus: []
+  AltarPoleBonus: []
+  PoleRotationSpeed: 90
+  PoleStartRotation: 0
+  PoleBumpWaitTime: 100
+  SpikeDamage: 10
+  PoleObjList: []
+--- !u!114 &114647242200936714
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1106702798238098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb37cb34ca3de8848a5595b7d8fa32e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MinSectorNumber: 1
+  MaxSectorNumber: 64
+  Height: 100
+  UseCount: 0
+  CreateRedArea: 0
+  IslandsRedAreaMode: 0
+  CreateGreenArea: 0
+  IslandsGreenAreaMode: 0
+  CreateBlueArea: 0
+  IslandsBlueAreaMode: 0
+  CreateYellowArea: 0
+  IslandsYellowAreaMode: 0
+  FlipX: 2
+  FlipY: 2
+  AutoPickupArtifacts: 0
+  Script: 
+  ModList:
+  - {fileID: 114059131222184714}
+  - {fileID: 114359320661545114}
+  - {fileID: 114202375038033624}
+  - {fileID: 114027432108406676}
+  - {fileID: 114119006214486044}
+  - {fileID: 114557613025347752}
+  - {fileID: 114892647075637690}
+  - {fileID: 114805665167775508}
+  - {fileID: 114931948313516286}
+  MapTemplates: []
+  PuzzleTemplates: []
+  SourcePos:
+  - {x: 0, y: 6}
+  ADList: []
+  ModAction: 01000000
+  ModValue:
+  - 4
+  ExtraLevelPerUniqueMonster: []
+--- !u!114 &114805665167775508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1324871903695652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f8c8f01d10ed64282084dc35040c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RaftJointList
+      Entry: 7
+      Data: 0|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BabyList
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  ModNumber: 7
+  ModDescription: Spiked Boulder
+  RestrictToUnitType: 
+  Gaia: 0
+  Gaia2: 0
+  Monster: 1
+  Raft: 0
+  OrientatorEffects: 
+  OrientatorTable1: []
+  OrientatorTable2: []
+  OrientatorTable3: []
+  OrientatorTable4: []
+  OrientatorTable5: []
+  OrientatorTable6: []
+  OrientatorItemTable1: 
+  ResourceTriggerTypeList: 
+  MineTypeList: 
+  PoleBonusEffList: 
+  PoleBonusCnList: 
+  MineBonusEffList: 
+  MineBonusCnList: 
+  OptionalMonster: 0
+  Direction: -1
+  FixedRestingDirection: -1
+  RandomDirection: 0
+  UnitBaseLevel: 0
+  UnitLives: 0
+  Variation: 0
+  MaxLives: 0
+  HitPointsRatio: 100
+  TotHp: -1
+  MeleeAttack: -1
+  MeleeAttackTotalTime: -1
+  MeleeAttackTotalTimeList: []
+  RangedAttackTotalTimeList: []
+  InflictedDamageRate: -1
+  BaseMeleeShield: -1
+  BaseMissileShield: -1
+  RangedAttack: -1
+  RangedAttackRange: -1
+  RangedAttackTotalTime: -1
+  Resting: 1
+  FireOn: 0
+  AvailableFireHits: -1
+  IsTiny: 0
+  IsWorking: 1
+  TouchCount: 0
+  WhiteGateGroup: {x: -1, y: -1}
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  VineBurnTime: 0.5
+  DefaultImmunityShieldState: 0
+  ResourceType: -1
+  ResourceOperation: 1
+  ResourceAmount: -1
+  ResourceSlot: 1
+  ResourcePersistTotalSteps: 1
+  ResourceWasteTime: -1
+  MiniDomeTotalTimeList: []
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  RealtimeSpeed: 0
+  RealtimeSpeedList: []
+  WaitTime: 0
+  BaseWaspTotSpawnTimer: 30
+  WaspSpawnInflationPerTile: 0.1
+  ExtraWaspSpawnTimerPerTile: 2
+  ExtraWaspSpawnInflationPerSec: 1
+  MaxSpawnCount: 20
+  WaspDamage: 2
+  MotherWaspRadius: 5
+  SpawnCount: 0
+  ShieldedWaspChance: 0
+  StartShieldedWasps: 0
+  MinShieldedWasps: 0
+  MaxShieldedWasps: 0
+  CocoonWaspChance: 0
+  StartCocoonWasps: 0
+  MinCocoonWasps: 0
+  MaxCocoonWasps: 0
+  EnragedWaspChance: 0
+  StartEnragedWasps: 0
+  MinEnragedWasps: 0
+  MaxEnragedWasps: 0
+  EnragedWaspSpawnPercentAdd: 1
+  EnragedWaspSpawnLimitAdd: 1
+  EnragedWaspExtraSpawns: 1
+  EnragedWaspExtraBreedingSpeed: 5
+  EnragedWaspUpdates: 2
+  WaspCatchUp: 1
+  FlyingSpeed: -1
+  FlyingSpeedFactor: 100
+  FlyingRotationSpeed: -1
+  StartFlyingPhase: -1
+  PlayAnimation: 
+  ProjectileType: 2
+  ProjectileSpeed: 10
+  ProjectileRotationSpeed: 150
+  MonsterDestroyHeroShieldChance: []
+  ProjectileDestroyHeroShieldChance: []
+  QQMinDamage: 2
+  QQMaxDamage: 10
+  QQMissHeroDamage: 0
+  QQDamageCurve: 1.5
+  FrontalRebound: 0
+  SpikedBoulder: 1
+  RestingDistance: 1
+  WakeUpGroup: -1
+  WakeUpTime: -1
+  RestingDirectionIsSameAsHero: 0
+  TickBasedMovement: 0
+  SteppingBasedMovement: 0
+  TickMoveList: 
+  InitialForcedFrontalMovementFactor: 0
+  ResetHuggerMoveAfterStepOut: 0
+  CustomMoveType: 
+  CustomMoveFactor: []
+  SpikeFreeStepTime: 0
+  IsBoss: 0
+  InfectedChance: 0
+  InfectedRadius: 1
+  BoulderPunchPower: -1
+  AddRandomMonsterStat: []
+  ModdedMonstersList: []
+  ModdedGaia2List: []
+  KeepTileHidden: {x: -1, y: -1}
+  BoolToogle1VarName: 
+  BoolToogle2VarName: 
+  RandomizeArrowDir: 0
+  DynamicObject: 0
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  WaitAfterObstacleCollision: 1
+  OrientationSorting: 1
+  RandomizeRotation: 0
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  RandomDirTurnList: 
+  DynamicMaxSteps: 0
+  InitialDirection: -1
+  BrokenRaft: 0
+  RaftGroupID: -1
+  ShowJointMatrix: 0
+  VsRoachHeroAttBonusPerBaby: 30
+  VsHeroRoachAttackBonusPerBaby: 30
+  RedRoachBabyList: 
+  ShowBabies: 0
+  NumRandomBabies: 0
+  RandomBabyPosList: 
+  RandomBabyFactorList: []
+  BabyTypeList: 
+  BabyTypeFactorList: []
+  ForceFirstBabyType: -1
+  SpiderBabyTypeList: 
+  BabyDisableTotTime: 0
+  BabyDisableChance: 0
+  PointAwaySpiderType: 0
+  PointToMeSpiderType: -1
+  NeighborModItemList: 
+  NeighborSpellTypeList: 
+  NeighborSpellItemList: 
+  UnblockedFrogRestorationFactor: 0
+  MaxFrogTurnDelay: 5
+  UnblockedFrogSpawnsBaby: 0
+  VineTypeList: 
+  AddAlgaeToSpike: 0
+  MineType: 0
+  UpMineType: -1
+  RandomMineType: 
+  RandomMineTypeFactor: []
+  BaseMiningChance: 50
+  SortMiningChanceFactor: 0
+  SortMiningChanceRandomList: []
+  SortMiningChanceRandomFactorList: []
+  DefaultMiningPrize: -1
+  MiningPrizeList: 
+  MiningBonusAmountList: []
+  MiningBonusFactor: []
+  MiningBonusChance: 100
+  SwapperMineChance: 0
+  HoleMineChance: 0
+  RopeConnectedMineChance: 0
+  HammerMineChance: 0
+  ChiselMineChance: 0
+  StickyMineChance: 0
+  DynamiteMineChance: 0
+  CogMineChance: 0
+  ArrowMineChance: 0
+  CannonMineChance: 0
+  MagnetMineChance: 0
+  WheelMineChance: 0
+  JumperMineChance: 0
+  GloveMineChance: 0
+  SpikedMineChance: 0
+  MineLeverCogChance: 0
+  MineLeverDirection: -1
+  MineLeverChainTargetModList: 
+  MineLeverChainTargetModFactor: []
+  HookPushStepList: 
+  HookPushStepListFactor: []
+  CustomChainConnectionAvailability: 
+  LimitChainConnectionModList: 
+  MaxChainConnections: 1
+  ClockwiseChainPushChance: 100
+  MineBonusCnType: -1
+  MineBonusEffType: -1
+  MineBonusVal1: 0
+  MineBonusVal2: 0
+  MineBonusVal3: 0
+  MineBonusVal4: 0
+  WaterObjectType: -1
+  FishCatchType: 1
+  FishSwimType: -1
+  DefaultFishMod: 0
+  BaseTotalRespawnTime: -1
+  BaseTotalRespawnAmount: -1
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FishingPowerFactor: 100
+  FishRedLimit: -1
+  FishGreenLimit: -1
+  FishingBonusAmount: -1
+  MinFishSpeed: 0.5
+  MaxFishSpeed: 1.2
+  OverFishSecondsNeededPerUnit: -1
+  FishAction: []
+  WaterFlowerBaseAttack: 1
+  WaterFlowerBonusPerUnit: 20
+  WaterFlowerRefreshTime: 5
+  WaterFlowerConsecutiveHitBonus: 25
+  PoleBonusEffType: -1
+  PoleBonusCnType: -1
+  PoleBonusVal1: 0
+  PoleBonusVal2: 0
+  PoleBonusFishType: -1
+  FishingPoleExtraTime: 0
+  PoleBonusHPRange: 0
+  HerbColor: -1
+  HerbType: -1
+  HerbBonusAmount: 1
+  RandomizableHerb: 0
+  FlyingAction: []
+  ArtifactType: 0
+  ArtifactLifetime: 2
+  ArtifactCost: 0
+  ArtifactMultiplier: 0
+  TargetHero: -2
+  InitialAltarBonusList: []
+  PointToMeAndAwayAltarBonus: []
+  AltarPoleBonus: []
+  PoleRotationSpeed: 90
+  PoleStartRotation: 0
+  PoleBumpWaitTime: 100
+  SpikeDamage: 10
+  PoleObjList: []
+--- !u!114 &114892647075637690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1463330654839476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f8c8f01d10ed64282084dc35040c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RaftJointList
+      Entry: 7
+      Data: 0|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BabyList
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  ModNumber: 6
+  ModDescription: Normal Boulder
+  RestrictToUnitType: 
+  Gaia: 0
+  Gaia2: 0
+  Monster: 1
+  Raft: 0
+  OrientatorEffects: 
+  OrientatorTable1: []
+  OrientatorTable2: []
+  OrientatorTable3: []
+  OrientatorTable4: []
+  OrientatorTable5: []
+  OrientatorTable6: []
+  OrientatorItemTable1: 
+  ResourceTriggerTypeList: 
+  MineTypeList: 
+  PoleBonusEffList: 
+  PoleBonusCnList: 
+  MineBonusEffList: 
+  MineBonusCnList: 
+  OptionalMonster: 0
+  Direction: -1
+  FixedRestingDirection: -1
+  RandomDirection: 0
+  UnitBaseLevel: 0
+  UnitLives: 0
+  Variation: 0
+  MaxLives: 0
+  HitPointsRatio: 100
+  TotHp: -1
+  MeleeAttack: -1
+  MeleeAttackTotalTime: -1
+  MeleeAttackTotalTimeList: []
+  RangedAttackTotalTimeList: []
+  InflictedDamageRate: -1
+  BaseMeleeShield: -1
+  BaseMissileShield: -1
+  RangedAttack: -1
+  RangedAttackRange: -1
+  RangedAttackTotalTime: -1
+  Resting: 1
+  FireOn: 0
+  AvailableFireHits: -1
+  IsTiny: 0
+  IsWorking: 1
+  TouchCount: 0
+  WhiteGateGroup: {x: -1, y: -1}
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  VineBurnTime: 0.5
+  DefaultImmunityShieldState: 0
+  ResourceType: -1
+  ResourceOperation: 1
+  ResourceAmount: -1
+  ResourceSlot: 1
+  ResourcePersistTotalSteps: 1
+  ResourceWasteTime: -1
+  MiniDomeTotalTimeList: []
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  RealtimeSpeed: 0
+  RealtimeSpeedList: []
+  WaitTime: 0
+  BaseWaspTotSpawnTimer: 30
+  WaspSpawnInflationPerTile: 0.1
+  ExtraWaspSpawnTimerPerTile: 2
+  ExtraWaspSpawnInflationPerSec: 1
+  MaxSpawnCount: 20
+  WaspDamage: 2
+  MotherWaspRadius: 5
+  SpawnCount: 0
+  ShieldedWaspChance: 0
+  StartShieldedWasps: 0
+  MinShieldedWasps: 0
+  MaxShieldedWasps: 0
+  CocoonWaspChance: 0
+  StartCocoonWasps: 0
+  MinCocoonWasps: 0
+  MaxCocoonWasps: 0
+  EnragedWaspChance: 0
+  StartEnragedWasps: 0
+  MinEnragedWasps: 0
+  MaxEnragedWasps: 0
+  EnragedWaspSpawnPercentAdd: 1
+  EnragedWaspSpawnLimitAdd: 1
+  EnragedWaspExtraSpawns: 1
+  EnragedWaspExtraBreedingSpeed: 5
+  EnragedWaspUpdates: 2
+  WaspCatchUp: 1
+  FlyingSpeed: -1
+  FlyingSpeedFactor: 100
+  FlyingRotationSpeed: -1
+  StartFlyingPhase: -1
+  PlayAnimation: 
+  ProjectileType: 2
+  ProjectileSpeed: 10
+  ProjectileRotationSpeed: 150
+  MonsterDestroyHeroShieldChance: []
+  ProjectileDestroyHeroShieldChance: []
+  QQMinDamage: 2
+  QQMaxDamage: 10
+  QQMissHeroDamage: 0
+  QQDamageCurve: 1.5
+  FrontalRebound: 0
+  SpikedBoulder: 0
+  RestingDistance: 1
+  WakeUpGroup: -1
+  WakeUpTime: -1
+  RestingDirectionIsSameAsHero: 0
+  TickBasedMovement: 0
+  SteppingBasedMovement: 0
+  TickMoveList: 
+  InitialForcedFrontalMovementFactor: 0
+  ResetHuggerMoveAfterStepOut: 0
+  CustomMoveType: 
+  CustomMoveFactor: []
+  SpikeFreeStepTime: 0
+  IsBoss: 0
+  InfectedChance: 0
+  InfectedRadius: 1
+  BoulderPunchPower: -1
+  AddRandomMonsterStat: []
+  ModdedMonstersList: []
+  ModdedGaia2List: []
+  KeepTileHidden: {x: -1, y: -1}
+  BoolToogle1VarName: 
+  BoolToogle2VarName: 
+  RandomizeArrowDir: 0
+  DynamicObject: 0
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  WaitAfterObstacleCollision: 1
+  OrientationSorting: 1
+  RandomizeRotation: 0
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  RandomDirTurnList: 
+  DynamicMaxSteps: 0
+  InitialDirection: -1
+  BrokenRaft: 0
+  RaftGroupID: -1
+  ShowJointMatrix: 0
+  VsRoachHeroAttBonusPerBaby: 30
+  VsHeroRoachAttackBonusPerBaby: 30
+  RedRoachBabyList: 
+  ShowBabies: 0
+  NumRandomBabies: 0
+  RandomBabyPosList: 
+  RandomBabyFactorList: []
+  BabyTypeList: 
+  BabyTypeFactorList: []
+  ForceFirstBabyType: -1
+  SpiderBabyTypeList: 
+  BabyDisableTotTime: 0
+  BabyDisableChance: 0
+  PointAwaySpiderType: 0
+  PointToMeSpiderType: -1
+  NeighborModItemList: 
+  NeighborSpellTypeList: 
+  NeighborSpellItemList: 
+  UnblockedFrogRestorationFactor: 0
+  MaxFrogTurnDelay: 5
+  UnblockedFrogSpawnsBaby: 0
+  VineTypeList: 
+  AddAlgaeToSpike: 0
+  MineType: 0
+  UpMineType: -1
+  RandomMineType: 
+  RandomMineTypeFactor: []
+  BaseMiningChance: 50
+  SortMiningChanceFactor: 0
+  SortMiningChanceRandomList: []
+  SortMiningChanceRandomFactorList: []
+  DefaultMiningPrize: -1
+  MiningPrizeList: 
+  MiningBonusAmountList: []
+  MiningBonusFactor: []
+  MiningBonusChance: 100
+  SwapperMineChance: 0
+  HoleMineChance: 0
+  RopeConnectedMineChance: 0
+  HammerMineChance: 0
+  ChiselMineChance: 0
+  StickyMineChance: 0
+  DynamiteMineChance: 0
+  CogMineChance: 0
+  ArrowMineChance: 0
+  CannonMineChance: 0
+  MagnetMineChance: 0
+  WheelMineChance: 0
+  JumperMineChance: 0
+  GloveMineChance: 0
+  SpikedMineChance: 0
+  MineLeverCogChance: 0
+  MineLeverDirection: -1
+  MineLeverChainTargetModList: 
+  MineLeverChainTargetModFactor: []
+  HookPushStepList: 
+  HookPushStepListFactor: []
+  CustomChainConnectionAvailability: 
+  LimitChainConnectionModList: 
+  MaxChainConnections: 1
+  ClockwiseChainPushChance: 100
+  MineBonusCnType: -1
+  MineBonusEffType: -1
+  MineBonusVal1: 0
+  MineBonusVal2: 0
+  MineBonusVal3: 0
+  MineBonusVal4: 0
+  WaterObjectType: -1
+  FishCatchType: 1
+  FishSwimType: -1
+  DefaultFishMod: 0
+  BaseTotalRespawnTime: -1
+  BaseTotalRespawnAmount: -1
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FishingPowerFactor: 100
+  FishRedLimit: -1
+  FishGreenLimit: -1
+  FishingBonusAmount: -1
+  MinFishSpeed: 0.5
+  MaxFishSpeed: 1.2
+  OverFishSecondsNeededPerUnit: -1
+  FishAction: []
+  WaterFlowerBaseAttack: 1
+  WaterFlowerBonusPerUnit: 20
+  WaterFlowerRefreshTime: 5
+  WaterFlowerConsecutiveHitBonus: 25
+  PoleBonusEffType: -1
+  PoleBonusCnType: -1
+  PoleBonusVal1: 0
+  PoleBonusVal2: 0
+  PoleBonusFishType: -1
+  FishingPoleExtraTime: 0
+  PoleBonusHPRange: 0
+  HerbColor: -1
+  HerbType: -1
+  HerbBonusAmount: 1
+  RandomizableHerb: 0
+  FlyingAction: []
+  ArtifactType: 0
+  ArtifactLifetime: 2
+  ArtifactCost: 0
+  ArtifactMultiplier: 0
+  TargetHero: -2
+  InitialAltarBonusList: []
+  PointToMeAndAwayAltarBonus: []
+  AltarPoleBonus: []
+  PoleRotationSpeed: 90
+  PoleStartRotation: 0
+  PoleBumpWaitTime: 100
+  SpikeDamage: 10
+  PoleObjList: []
+--- !u!114 &114931948313516286
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1464857660550508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90f8c8f01d10ed64282084dc35040c86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: RaftJointList
+      Entry: 7
+      Data: 0|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: BabyList
+      Entry: 7
+      Data: 1|System.Boolean[,], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 9
+    - Name: ranks
+      Entry: 1
+      Data: 3|3
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  ModNumber: 20
+  ModDescription: arrow bonus 1
+  RestrictToUnitType: 
+  Gaia: 1
+  Gaia2: 1
+  Monster: 1
+  Raft: 1
+  OrientatorEffects: 
+  OrientatorTable1: []
+  OrientatorTable2: []
+  OrientatorTable3: []
+  OrientatorTable4: []
+  OrientatorTable5: []
+  OrientatorTable6: []
+  OrientatorItemTable1: 
+  ResourceTriggerTypeList: 
+  MineTypeList: 
+  PoleBonusEffList: 
+  PoleBonusCnList: 
+  MineBonusEffList: 
+  MineBonusCnList: 
+  OptionalMonster: 0
+  Direction: -1
+  FixedRestingDirection: -1
+  RandomDirection: 0
+  UnitBaseLevel: 0
+  UnitLives: 10
+  Variation: 0
+  MaxLives: 0
+  HitPointsRatio: 100
+  TotHp: -1
+  MeleeAttack: -1
+  MeleeAttackTotalTime: -1
+  MeleeAttackTotalTimeList: []
+  RangedAttackTotalTimeList: []
+  InflictedDamageRate: -1
+  BaseMeleeShield: -1
+  BaseMissileShield: -1
+  RangedAttack: -1
+  RangedAttackRange: -1
+  RangedAttackTotalTime: -1
+  Resting: 0
+  FireOn: 0
+  AvailableFireHits: -1
+  IsTiny: 0
+  IsWorking: 1
+  TouchCount: 0
+  WhiteGateGroup: {x: -1, y: -1}
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  VineBurnTime: 0.5
+  DefaultImmunityShieldState: 0
+  ResourceType: 49
+  ResourceOperation: 1
+  ResourceAmount: 1
+  ResourceSlot: 1
+  ResourcePersistTotalSteps: 1
+  ResourceWasteTime: -1
+  MiniDomeTotalTimeList: []
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  RealtimeSpeed: 0
+  RealtimeSpeedList: []
+  WaitTime: 0
+  BaseWaspTotSpawnTimer: 70
+  WaspSpawnInflationPerTile: 0
+  ExtraWaspSpawnTimerPerTile: 0
+  ExtraWaspSpawnInflationPerSec: 0
+  MaxSpawnCount: 20
+  WaspDamage: 0
+  MotherWaspRadius: 4
+  SpawnCount: 0
+  ShieldedWaspChance: 0
+  StartShieldedWasps: 0
+  MinShieldedWasps: 0
+  MaxShieldedWasps: 0
+  CocoonWaspChance: 0
+  StartCocoonWasps: 0
+  MinCocoonWasps: 0
+  MaxCocoonWasps: 0
+  EnragedWaspChance: 0
+  StartEnragedWasps: 0
+  MinEnragedWasps: 0
+  MaxEnragedWasps: 0
+  EnragedWaspSpawnPercentAdd: 1
+  EnragedWaspSpawnLimitAdd: 1
+  EnragedWaspExtraSpawns: 1
+  EnragedWaspExtraBreedingSpeed: 5
+  EnragedWaspUpdates: 2
+  WaspCatchUp: 1
+  FlyingSpeed: -1
+  FlyingSpeedFactor: 100
+  FlyingRotationSpeed: -1
+  StartFlyingPhase: -1
+  PlayAnimation: 
+  ProjectileType: 2
+  ProjectileSpeed: 10
+  ProjectileRotationSpeed: 150
+  MonsterDestroyHeroShieldChance: []
+  ProjectileDestroyHeroShieldChance: []
+  QQMinDamage: 2
+  QQMaxDamage: 10
+  QQMissHeroDamage: 0
+  QQDamageCurve: 1.5
+  FrontalRebound: 1
+  SpikedBoulder: 0
+  RestingDistance: -1
+  WakeUpGroup: -1
+  WakeUpTime: -1
+  RestingDirectionIsSameAsHero: 0
+  TickBasedMovement: 0
+  SteppingBasedMovement: 0
+  TickMoveList: 
+  InitialForcedFrontalMovementFactor: 0
+  ResetHuggerMoveAfterStepOut: 0
+  CustomMoveType: 
+  CustomMoveFactor: []
+  SpikeFreeStepTime: 0
+  IsBoss: 0
+  InfectedChance: 0
+  InfectedRadius: 1
+  BoulderPunchPower: -1
+  AddRandomMonsterStat: []
+  ModdedMonstersList: []
+  ModdedGaia2List: []
+  KeepTileHidden: {x: -1, y: -1}
+  BoolToogle1VarName: 
+  BoolToogle2VarName: 
+  RandomizeArrowDir: 0
+  DynamicObject: 0
+  MovementSorting: 1
+  DynamicObjectMoveList: 
+  DynamicObjectJumpList: []
+  WaitAfterObstacleCollision: 1
+  OrientationSorting: 1
+  RandomizeRotation: 0
+  DynamicObjectOrientationList: 
+  DynamicObjectDirectionList: 
+  RandomMoveTurnList: 
+  RandomDirTurnList: 
+  DynamicMaxSteps: 0
+  InitialDirection: -1
+  BrokenRaft: 0
+  RaftGroupID: -1
+  ShowJointMatrix: 0
+  VsRoachHeroAttBonusPerBaby: 30
+  VsHeroRoachAttackBonusPerBaby: 30
+  RedRoachBabyList: 
+  ShowBabies: 0
+  NumRandomBabies: 0
+  RandomBabyPosList: 
+  RandomBabyFactorList: []
+  BabyTypeList: 
+  BabyTypeFactorList: []
+  ForceFirstBabyType: -1
+  SpiderBabyTypeList: 
+  BabyDisableTotTime: 0
+  BabyDisableChance: 0
+  PointAwaySpiderType: 0
+  PointToMeSpiderType: -1
+  NeighborModItemList: 
+  NeighborSpellTypeList: 
+  NeighborSpellItemList: 
+  UnblockedFrogRestorationFactor: 0
+  MaxFrogTurnDelay: 5
+  UnblockedFrogSpawnsBaby: 0
+  VineTypeList: 
+  AddAlgaeToSpike: 0
+  MineType: 0
+  UpMineType: -1
+  RandomMineType: 
+  RandomMineTypeFactor: []
+  BaseMiningChance: 50
+  SortMiningChanceFactor: 0
+  SortMiningChanceRandomList: []
+  SortMiningChanceRandomFactorList: []
+  DefaultMiningPrize: -1
+  MiningPrizeList: 
+  MiningBonusAmountList: []
+  MiningBonusFactor: []
+  MiningBonusChance: 100
+  SwapperMineChance: 0
+  HoleMineChance: 0
+  RopeConnectedMineChance: 0
+  HammerMineChance: 0
+  ChiselMineChance: 0
+  StickyMineChance: 0
+  DynamiteMineChance: 0
+  CogMineChance: 0
+  ArrowMineChance: 0
+  CannonMineChance: 0
+  MagnetMineChance: 0
+  WheelMineChance: 0
+  JumperMineChance: 0
+  GloveMineChance: 0
+  SpikedMineChance: 0
+  MineLeverCogChance: 0
+  MineLeverDirection: -1
+  MineLeverChainTargetModList: 
+  MineLeverChainTargetModFactor: []
+  HookPushStepList: 
+  HookPushStepListFactor: []
+  CustomChainConnectionAvailability: 
+  LimitChainConnectionModList: 
+  MaxChainConnections: 1
+  ClockwiseChainPushChance: 100
+  MineBonusCnType: -1
+  MineBonusEffType: -1
+  MineBonusVal1: 0
+  MineBonusVal2: 0
+  MineBonusVal3: 0
+  MineBonusVal4: 0
+  WaterObjectType: -1
+  FishCatchType: 1
+  FishSwimType: -1
+  DefaultFishMod: 0
+  BaseTotalRespawnTime: -1
+  BaseTotalRespawnAmount: -1
+  RandomizePositionOnRespawn: 0
+  RandomizePositionOnPoleStep: 0
+  FishingPowerFactor: 100
+  FishRedLimit: -1
+  FishGreenLimit: -1
+  FishingBonusAmount: -1
+  MinFishSpeed: 0.5
+  MaxFishSpeed: 1.2
+  OverFishSecondsNeededPerUnit: -1
+  FishAction: []
+  WaterFlowerBaseAttack: 1
+  WaterFlowerBonusPerUnit: 20
+  WaterFlowerRefreshTime: 5
+  WaterFlowerConsecutiveHitBonus: 25
+  PoleBonusEffType: -1
+  PoleBonusCnType: -1
+  PoleBonusVal1: 0
+  PoleBonusVal2: 0
+  PoleBonusFishType: -1
+  FishingPoleExtraTime: 0
+  PoleBonusHPRange: 0
+  HerbColor: -1
+  HerbType: -1
+  HerbBonusAmount: 1
+  RandomizableHerb: 0
+  FlyingAction: []
+  ArtifactType: 0
+  ArtifactLifetime: 2
+  ArtifactCost: 0
+  ArtifactMultiplier: 0
+  TargetHero: -2
+  InitialAltarBonusList: []
+  PointToMeAndAwayAltarBonus: []
+  AltarPoleBonus: []
+  PoleRotationSpeed: 90
+  PoleStartRotation: 0
+  PoleBumpWaitTime: 100
+  SpikeDamage: 10
+  PoleObjList: []

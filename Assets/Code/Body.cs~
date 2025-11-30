@@ -1,0 +1,104 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public enum EUnitHealthStatus
+{
+	NONE = -1, HEALTHY, DAMAGED, DYING
+}
+
+[System.Serializable]
+public class Body : MonoBehaviour {
+
+	public Unit Unit;
+	public EUnitHealthStatus HealthStatus;
+	public float Level = 1, Stars, TotHp, Hp, Regeneration, MeleeShield, MissileShield, MagicShield, Lives, 
+	HpPerLevel, HpPerStar;
+
+	// Update is called once per frame
+	void UpdateIt () {	
+	}
+
+	public void UpdateUnitHealthStatus()
+	{
+		//if( this.Bar == null ) return;
+		float perc = 100 * Hp / TotHp;
+		Color col = Color.green;
+		if( perc > 66.6666f ) { HealthStatus = EUnitHealthStatus.HEALTHY; col = Color.green;  } else
+		if( perc > 33.3333f ) { HealthStatus = EUnitHealthStatus.DAMAGED; col = Color.yellow; } else
+		{ HealthStatus = EUnitHealthStatus.DYING;   col = Color.red;    }
+		//Bar.Spr.color = col;
+	}
+
+	public void UpdateHealthBar()
+	{
+		if( Unit.HealthBar == null ) return;
+		Unit.HealthBar.valueMax     = (int) TotHp;
+		Unit.HealthBar.valueCurrent = (int) Hp;
+		Unit.HealthBar.valueMin = 0;
+	}
+
+	public void CreateDamageAnimation( Vector2 pos, float dmg )
+	{
+		GameObject prefab = (GameObject)Resources.Load ("CFX2_Blood");
+		GameObject instance = (GameObject)Instantiate(prefab);
+		instance.transform.position = new Vector3( pos.x, pos.y, -3 );
+		instance.transform.parent = Unit.Graphic.transform;
+        if( Unit.UnitType == EUnitType.HERO )
+			instance.transform.parent = Unit.transform;
+
+		GameObject obj = Manager.I.CreateObjInstance( "Message", "Message", EDirection.NONE, 
+		  instance.transform.position+ new Vector3( Random.Range( -1f, 1f), Random.Range( -1f, 1f) , 0 ));
+        instance.transform.parent = Map.I.GarbageFolder.transform;
+        Message msg = obj.GetComponent<Message>();
+        msg.MessageTxt.text = "hit: " + dmg.ToString( "0.0" );
+		msg.MessageTxt.color = new Color( 0f, 1f, 0f, 1f );
+		if( Unit.UnitType == EUnitType.HERO ) 
+           { 
+            msg.MoveRight = true;
+            msg.MessageTxt.color = new Color( 1f, 0f, 0f, 1f );
+           } 
+	}
+
+	public void CreateBloodSplat()
+	{
+		GameObject obj = Manager.I.CreateObjInstance( "Blood", "Blood", 
+		                          EDirection.NONE, transform.position );
+	}
+	
+	public float ReceiveDamage( float dmg, EDamageType type, ref float surplus )
+	{		
+		if( type == EDamageType.MELEE   ) dmg -= Util.Percent( MeleeShield,   dmg ); // Melee   Shield deduction  
+		if( type == EDamageType.MISSILE ) dmg -= Util.Percent( MissileShield, dmg ); // Missile Shield deduction 
+		if( type == EDamageType.MAGIC   ) dmg -= Util.Percent( MagicShield,   dmg ); // Magic   Shield deduction 
+
+	    Hp -= dmg;
+
+		CreateDamageAnimation( Unit.Pos, dmg );
+			
+		UpdateUnitHealthStatus();
+
+		surplus = 0;
+		if( Hp < 0 ) surplus = Hp * - 1; 
+
+		Hp = Mathf.Clamp( Hp, 0, TotHp );
+
+		if( Hp <= 0 )                                                                      // Unit Dies
+		{
+			Lives--;
+			if( Lives <= 0 )
+			{
+				if( Unit.UnitType == EUnitType.HERO    )
+					Map.I.HeroIsDead = true; 
+                else
+				if( Unit.UnitType == EUnitType.MONSTER ) 
+				   {
+					Unit.Kill();
+					CreateBloodSplat();	
+				   }
+			}
+		}
+
+		UpdateHealthBar();
+		return dmg;
+	}
+}

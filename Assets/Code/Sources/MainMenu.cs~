@@ -1,0 +1,80 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class MainMenu : MonoBehaviour 
+{
+	public static MainMenu I;
+	public tk2dTextMesh PlayButton, ProfileButton, QuestButton, SettingsButton, ExitButton;
+	public ProfileWindow ProfileWindow;
+    public QuestWindow QuestWindow;
+    public SettingsWindow SettingsWindow;
+
+	//_____________________________________________________________________________________________________________________ Start
+
+    public void Start()
+    {
+        I = this;
+
+		ProfileWindow.Start();                // to avoid object order init bug
+		QuestWindow.Start();
+		SettingsWindow.Start();
+
+		ProfileWindow.I.LoadProfileWindowData();
+        QuestWindow.I.LoadQuestWindowData( Manager.I.ProfileNumber );
+		SettingsWindow.I.LoadSettingsWindowData( Manager.I.ProfileNumber );
+		ProfileWindow.I.gameObject.SetActive( false );
+    	QuestWindow.I.gameObject.SetActive  ( false );
+		SettingsWindow.I.gameObject.SetActive  ( false );
+	}
+
+	//_____________________________________________________________________________________________________________________ Update
+
+	public void Update()
+	{
+     if( Manager.I.Status != EGameStatus.MAINMENU ) return;	
+
+     MainMenu.I.QuestButton.text = Language.Get("QUEST_BUTTON") + ":\n" + Manager.I.QuestName;
+	 if( Input.GetKeyDown( KeyCode.Return ) ) PlayGame();
+     PlayButton.text     = Language.Get("PLAY_BUTTON");
+	 SettingsButton.text = Language.Get("SETTINGS_BUTTON");
+ 	 ExitButton.text     = Language.Get("EXIT_BUTTON");
+	}
+
+	//_____________________________________________________________________________________________________________________ Play game
+
+    public void PlayGame()
+    {
+		if( QuestWindow.I.gameObject.activeSelf    ||  // Dont start game if no profile is chosen
+		    ProfileWindow.I.gameObject.activeSelf  ||
+		    SettingsWindow.I.gameObject.activeSelf ||
+		    Manager.I.ProfileNumber == -1          )
+            {
+			if(	Manager.I.ProfileNumber == -1 ) OpenProfileWindow();
+            return;
+            }
+
+        Manager.I.PlayGame();
+    }
+
+	//_____________________________________________________________________________________________________________________ Open Profile Window
+
+    public void OpenProfileWindow()
+    {
+		ProfileWindow.I.InitProfileScreen();
+    }
+
+	//_____________________________________________________________________________________________________________________ Open Quest Window
+
+
+	public void OpenQuestWindow()
+	{
+        QuestWindow.I.InitQuestScreen();
+	}
+
+	//_____________________________________________________________________________________________________________________ Open Settings Window
+
+	public void OpenSettingsWindow()
+	{
+		SettingsWindow.I.InitSettingsScreen(); 
+	}	
+}

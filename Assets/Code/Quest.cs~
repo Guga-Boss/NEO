@@ -1,0 +1,161 @@
+﻿using UnityEngine;
+using System.Collections;
+using Pathfinding;
+using System.Collections.Generic;
+using HeavyDutyInspector;
+
+public class Quest : MonoBehaviour 
+{
+	public static Quest I;		
+	public string QuestName;
+	public int CurrentLevel;
+	public Level[] LevelList;
+
+	public void start()
+	{
+		I = this;
+	}
+
+	public void CreateGameObjects()
+	{		
+		for( int l = 0; l < LevelList.Length; l++ )
+		{		 
+			bool old = LevelList[ l ].gameObject.activeSelf;                     // Initialize the AreaList array
+			LevelList[ l ].gameObject.SetActive( true );
+			LevelList[ l ].AreaList = Quest.I.LevelList[ l ].AreaFolder.transform.GetComponentsInChildren<Area>();
+			LevelList[ l ].gameObject.SetActive( old );
+
+			GameObject levelfolder = LevelList[ l ].gameObject;
+			levelfolder.transform.parent = gameObject.transform;
+			tk2dTileMap tm = LevelList[ l ].Tilemap; 
+
+			for( int i = 0; i < tm.GetTilePrefabsListCount(); i++ )                                                 // Find all artifacts prefabs and clone them
+				{
+					Vector pos;
+					int tempLayer = 0;
+					GameObject prefabObject;			
+					tm.GetTilePrefabsListItem( i, out pos.x, out pos.y, out tempLayer, out prefabObject ); 
+					
+					if( prefabObject != null )
+					if( prefabObject.tag == "Artifact" )
+						{
+						    GameObject instance = (GameObject)GameObject.Instantiate (prefabObject);
+						    instance.transform.position = new Vector3( pos.x, pos.y, -1 );
+						    instance.name = "Artifact " + pos.x + " " + pos.y;
+						    instance.gameObject.SetActive( true );
+						    instance.transform.parent = LevelList[ l ].ArtifactFolder.transform;
+
+						    Artifact ar = instance.GetComponent<Artifact>();
+					        ar.Pos = new Vector2( pos.x, pos.y );
+     				        ar.BelongingLevel = l;
+						    LevelList[ l ].ArtifactList.Add( ar );
+						}
+				}
+		}
+	}
+
+	public void Init () 
+	{
+		I = this;
+		CreateGameObjects();
+	}
+
+	//_____________________________________________________________________________________________________________________ Init Artifacts
+		
+	public void InitArtifacts()
+	{
+		tk2dSprite[] artifacts = Map.I.Tilemap.transform.GetAllComponentsInChildren<tk2dSprite>();   // Deactivate map play artifacts
+		for( int i = 0; i < artifacts.Length; i++ ) 
+		{
+	     if( artifacts[ i ].gameObject.transform.parent.gameObject.tag == "Artifact" )     
+			 artifacts[ i ].gameObject.transform.parent.gameObject.SetActive( false );               // be careful with bugs
+		}
+
+		for( int l = 0; l < LevelList.Length; l++ )
+		for( int a = 0; a < LevelList[ l ].ArtifactList.Count; a++ )
+		{
+			LevelList[ l ].ArtifactList[ a ].Collected = false;
+			LevelList[ l ].ArtifactList[ a ].gameObject.SetActive( false );
+
+			if( l < CurrentLevel ) 
+			{
+				LevelList[ l ].ArtifactList[ a ].Collected = true; 
+			}
+			else
+			if( l == CurrentLevel ) 
+			{
+				LevelList[ l ].ArtifactList[ a ].gameObject.SetActive( true );
+			}
+		}
+	}
+
+	//_____________________________________________________________________________________________________________________ Update Artifact stepping
+	
+	public void UpdateArtifacts()
+	{
+		ETileType tile = (ETileType)Map.I.Tilemap.GetTile( (int) Map.I.Hero.Pos.x, 
+		                           (int) Map.I.Hero.Pos.y, (int) ELayerType.GAIA ); 
+
+		if( tile != ETileType.ARTIFACT ) return;
+		
+		for( int a = 0; a < LevelList[ CurrentLevel ].ArtifactList.Count; a++ )
+		{
+			if( LevelList[ CurrentLevel ].ArtifactList[ a ].Pos == Map.I.Hero.Pos          )
+			if( LevelList[ CurrentLevel ].ArtifactList[ a ].BelongingLevel == CurrentLevel )
+			if( LevelList[ CurrentLevel ].ArtifactList[ a ].Collected == false             )
+			{
+				HeroData.I.AddCollectedArtifact( LevelList[ CurrentLevel ].ArtifactList[ a ].name );
+				LevelList[ CurrentLevel ].ArtifactList[ a ].Collected = true;                             // Collect artifact
+				LevelList[ CurrentLevel ].ArtifactList[ a ].gameObject.SetActive( false );                // Disable sprite
+				UpdateArtifactData();
+			}
+		}
+	}
+
+	//_____________________________________________________________________________________________________________________ Update Artifact Data
+	
+	
+	public void UpdateArtifactData()
+	{
+		GameObject prefab = (GameObject)Resources.Load( "Original Hero" );
+		Unit original = prefab.GetComponent<Unit>();
+		Map.I.Hero.Copy( original );
+
+//		for( int i = 0; i < Map.I.Hero.PerkList.Count; i++ )
+//		{
+//			Map.I.Hero.PerkList[ i ].Unit = Map.I.Hero;
+//		    Map.I.Hero.PerkList[ i ].UpdateIt();
+//		}
+
+		for( int l = 0; l < LevelList.Length; l++ )
+		for( int a = 0; a < LevelList[ l ].ArtifactList.Count; a++ )
+		{
+			if( LevelList[ l ].ArtifactList[ a ].Collected )
+				LevelList[ l ].ArtifactList[ a ].Apply();
+		}
+
+		Map.I.Hero.UpdateLevelingData();
+	}
+
+	//_____________________________________________________________________________________________________________________ InitArtifactsAfterLoading() - Called after Load
+
+	public void InitArtifactsAfterLoading()
+    {
+	InitArtifacts();        
+	ClearArtifactsThatHaveBeenCollected(); 
+    }
+
+	//_____________________________________________________________________________________________________________________ ClearArtifactsThatHaveBeenCollected
+	
+	public void ClearArtifactsThatHaveBeenCollected()
+	{
+		for( int a = 0; a < LevelList[ CurrentLevel ].ArtifactList.Count; a++ )
+		for( int c = 0; c < HeroData.I.CollectedArtifacts.Count; c++ )
+		if ( HeroData.I.CollectedArtifacts[ c ] == LevelList[ CurrentLevel ].ArtifactList[ a ].name )
+			{
+				LevelList[ CurrentLevel ].ArtifactList[ a ].gameObject.SetActive( false );
+				LevelList[ CurrentLevel ].ArtifactList[ a ].Collected = true; 
+			}
+		//UpdateArtifactData();
+	}
+}

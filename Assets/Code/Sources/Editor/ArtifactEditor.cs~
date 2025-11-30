@@ -1,0 +1,367 @@
+﻿using UnityEngine;
+using System.Collections;
+using UnityEditor;
+using System.Collections.Generic;
+
+[CustomEditor(typeof(Artifact))]
+public class ArtifactEditor : EditorWindow
+{
+	int SelLevel = -1;
+	GameObject SelArtifact = null;
+	Vector2 scrollPosition = Vector2.zero;
+
+	// Add menu item named "My Window" to the Window menu
+	[MenuItem("Window/Artifact Editor")]
+	public static void ShowWindow()
+	{
+		//Show existing window instance. If one doesn't exist, make one.
+		EditorWindow.GetWindow(typeof(ArtifactEditor));
+	}
+
+	void OnSelectionChange() 
+	{
+		if( Selection.activeGameObject )
+		if( Selection.activeGameObject.name == "Artifact Sprite" ) 
+		   {
+		  	SelArtifact = Selection.activeGameObject.transform.parent.gameObject;  		
+			Debug.Log("art " + SelArtifact);
+		   }
+
+	  Repaint();	
+	}
+	
+	public void DrawLevelSelector()
+	{
+		Color defaulcol = GUI.color;
+		EditorGUILayout.BeginVertical();
+		GUILayout.Space(40);
+		int old = SelLevel;
+        Quest.I.CurrentLevel = -1;
+		
+		for( int l = 0; l < Quest.I.LevelList.Length; l++ ) 
+		{
+			if( SelLevel != l &&
+			   GUILayout.Button("Level " + l, GUILayout.Width(100), GUILayout.Height(20) ) ) SelLevel = l;
+			else
+				if( SelLevel == l )
+			{
+				GUI.color = Color.yellow;
+				if( GUILayout.Button("Level " + l, GUILayout.Width(100), GUILayout.Height(20) ) ) SelLevel = l; 
+			}
+			GUI.color = defaulcol;
+			
+		}
+		
+		if( old != SelLevel )
+			for( int i = 0; i < Quest.I.LevelList.Length; i++ )	Quest.I.LevelList[ i ].gameObject.SetActive( false );
+		
+		EditorGUILayout.EndVertical();
+		GUILayout.Space(20);
+		if( SelLevel != -1 )
+		{
+			Selection.activeGameObject = Quest.I.LevelList[ SelLevel ].Tilemap.gameObject;
+			Quest.I.LevelList[ SelLevel ].gameObject.SetActive( true );
+			Quest.I.CurrentLevel = SelLevel;
+		}
+	}
+
+	public void OnGUI()
+	{
+		if( Application.isPlaying ) return;
+
+		if( UpdateUnitWindow() ) return;
+		DrawLevelSelector();
+		UpdatePerkWindow();
+
+//		GUIStyle myStyle = new GUIStyle();		
+//		myStyle.fontSize = 30;
+//		GUI.Label(new Rect(10,10, 100, 30), obj.name );
+//		GUILayout.Space(40);
+//
+
+//
+//		if( GUILayout.Button("Edit Perks", GUILayout.Height(30)))
+//		{
+//			if( SelArt != -1 )
+//			   {
+//				if( Selection.activeGameObject.name == "Enemy Artifact Perks")
+//				   {  
+//					Selection.activeGameObject = Selection.activeGameObject.transform.parent.gameObject;
+//					Debug.Log(Selection.activeGameObject);
+//
+//					Selection.activeGameObject = Selection.activeGameObject.transform.parent.gameObject;
+//					Debug.Log(Selection.activeGameObject);
+//				   }
+//				else
+//				   {  
+//				      Selection.activeGameObject = obj.transform.FindChild("Enemy Artifact " + SelArt + "/" + "Enemy Artifact Perks").gameObject;
+//					  Debug.Log(Selection.activeGameObject);
+//				   }
+//			   }
+//			else
+//			   {
+//			   if( Selection.activeGameObject.name == "Artifact Perks" ) Selection.activeGameObject = Selection.activeGameObject.transform.parent.gameObject;
+//			   else
+//			   Selection.activeGameObject = obj.transform.FindChild("Artifact Perks").gameObject;
+//			   }
+//			return;
+//		}
+//
+//		if( obj == null ) return;
+//		if( obj.name == "Artifact Perks" )       { UpdatePerkWindow( obj ); return; } else
+//		if( obj.name == "Enemy Artifact Perks" ) { UpdatePerkWindow( obj ); return; } else
+//		if( DrawArtifactEditor( obj, false ) ) return;
+//		DrawMapEnemyEditor( obj );
+	}
+
+	public bool UpdateUnitWindow()
+	{
+		if( Selection.activeGameObject == null ) return false;
+		Unit un = Selection.activeGameObject.GetComponent<Unit>();
+		if( un == null ) return false;
+		if( un.gameObject.tag != "Monster" ) return false;
+
+		GUILayout.Space(20);
+		un.Body.Level = (int) EditorGUILayout.IntSlider( "Level", (int) un.Body.Level, 1, 100 );
+		un.LevelTxt.text = "" + un.Body.Level;
+		PrefabUtility.DisconnectPrefabInstance(un.gameObject);
+		SceneView.RepaintAll();   
+		return true;
+	}
+	
+	public bool DrawArtifactEditor( GameObject obj, bool bEnemy )
+	{
+		if(obj == null ) return false;
+//		if( !bEnemy )
+//		{
+//		    for( int i = 0; i < 10; i++)
+//			if ( obj.name == "Artifact " + i ) break; else if( i == 9 ) return false;
+//			GUILayout.Space(20);
+//		}
+//		Artifact mt = obj.GetComponentInChildren<Artifact>();
+//		if( mt == null ) return false;
+//		scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true,  GUILayout.Width(300),  GUILayout.Height(800)); 
+//		GameObject sel = Selection.activeGameObject;
+//				
+////		Artifact targetComp = obj.GetComponent<Artifact>();
+////		if (targetComp != null)
+////		{
+////			var editor = Editor.CreateEditor(targetComp);
+////			editor.OnInspectorGUI();            
+////		}
+//		
+//		mt.Level = (int)EditorGUILayout.IntSlider( "Level", mt.Level, 1, 100 );
+//
+//		EUnitType old = mt.UnitType;
+//		mt.UnitType = ( EUnitType ) EditorGUILayout.EnumPopup(new GUIContent("Unit Type", ""), mt.UnitType ); 
+//
+//		if( old != mt.UnitType )
+//		   {
+//			mt.UpdateSprite();
+//			SceneView.RepaintAll();   
+//		   }
+//
+//		GUI.EndScrollView();
+		return true;
+	}
+
+	public void UpdatePerkWindow()
+	{
+		//if( obj == null ) return;
+		//GUILayout.Space(20);
+		//int cont = 0;
+		Color defaulcol = GUI.color;
+		//int nextfree = -1;
+		//EditorGUILayout.BeginHorizontal();
+
+//		for( int i = 1; i < 30; i++ ) 
+//		{
+//			if ( dad.transform.FindChild("Perk " + i ) ) 
+//			{
+//				cont++;	
+//				if( SelPerk != i )
+//					if( GUILayout.Button("Perk " + i, GUILayout.Width(66), GUILayout.Height(20) ) ) SelPerk = i;
+//				
+//				if( SelPerk == i ) {
+//					GUI.color = Color.yellow;
+//					if( GUILayout.Button("Perk " + i, GUILayout.Width(66), GUILayout.Height(20) ) ) SelPerk = i; }
+//				GUI.color = defaulcol;
+//			}
+//			else if( nextfree == -1 ) nextfree = i;
+//			if( cont == 4 || cont == 8 || cont == 12 || cont == 16 )
+//			{ EditorGUILayout.EndHorizontal(); EditorGUILayout.BeginHorizontal(); }
+//		}
+		//EditorGUILayout.EndHorizontal();
+		//GUILayout.Space(20);
+
+//		if( GUILayout.Button("Add") ) 
+//		{
+//			GameObject prefab = (GameObject)Resources.Load ("Perk");  		
+//			GameObject instance = (GameObject)GameObject.Instantiate (prefab);
+//			instance.transform.parent = dad.transform;
+//			instance.name = "Perk " + nextfree;
+//
+//			if( dad.name == "Unit Perks" ) 
+//			{
+//				Unit ui = dad.transform.parent.gameObject.GetComponent<Unit>();
+//				ui.UpdatePerkList( dad );
+//			}
+//			if( dad.name == "Enemy Artifact Perks" || dad.name == "Artifact Perks" )
+//			{
+//				Artifact ar = dad.transform.parent.gameObject.GetComponent<Artifact>();
+//				ar.UpdatePerkList( dad );
+//			}
+//		}
+
+		//GUILayout.TextField("Selected: Perk: " + SelPerk, 33);
+		//if( SelPerk == -1 ) return;
+
+		//if( GUILayout.Button("Sel None") ) { SelPerk = -1; return; }
+
+		//if( obj == null ) return;
+
+		//Transform tr = dad.transform.FindChild("Perk " + SelPerk );
+		//if( tr == null ) return;
+		//GameObject obj = tr.gameObject;
+
+//		if( GUILayout.Button("Delete") ) 
+//		{
+//			DestroyImmediate( obj );
+//			SelPerk = -1;
+//
+//			if( dad.name == "Unit Perks" ) 
+//			   {
+//			    Unit ui = dad.transform.parent.gameObject.GetComponent<Unit>();
+//			    ui.UpdatePerkList( dad );
+//			   }
+//			if( dad.name == "Enemy Artifact Perks" || dad.name == "Artifact Perks" )
+//			{
+//				Artifact ar = dad.transform.parent.gameObject.GetComponent<Artifact>();
+//				ar.UpdatePerkList( dad );
+//			}
+//			return;
+//		} 
+//				Perk targetComp = obj.GetComponent<Perk>();
+//				if (targetComp != null)
+//				{
+//					var editor = Editor.CreateEditor(targetComp);
+//					editor.OnInspectorGUI();            
+//				}
+
+		if( SelArtifact== null ) return;
+		GUILayout.Space(20);
+	    if( GUILayout.Button( SelArtifact.name, GUILayout.Width(100), GUILayout.Height(40) ) ) {}
+		Perk cm = SelArtifact.GetComponent<Perk>();
+		if ( cm == null ) return;
+
+
+		//cm.Type = ( EPerkType ) EditorGUILayout.EnumPopup(new GUIContent("Perk Type", ""), cm.Type );
+		PrefabUtility.DisconnectPrefabInstance(cm.gameObject);
+
+
+		GUILayout.Space(20);
+		cm.ConditionVarID = ( ETriggerVarID ) EditorGUILayout.EnumPopup(new GUIContent("Condition Variable", "Condition Variable"), cm.ConditionVarID );
+
+		if( cm.ConditionVarID != ETriggerVarID.NONE )
+		   {
+			cm.ConditionOperator = ( ETriggerCondOperator ) EditorGUILayout.EnumPopup(new GUIContent("Condition Operator", "Condition Operator"), cm.ConditionOperator );
+			cm.ConditionVal1 = EditorGUILayout.Slider( "Condition Value", cm.ConditionVal1, -1000, 1000 );			
+		   }
+		GUILayout.Space(20);
+
+		cm.EffectVarID = ( ETriggerVarID ) EditorGUILayout.EnumPopup(new GUIContent("Effect Variable", "Effect Variable"), cm.EffectVarID );
+		if( cm.EffectVarID != ETriggerVarID.NONE )
+		{
+			cm.EffectOperator = ( ETriggerEffOperator ) EditorGUILayout.EnumPopup(new GUIContent("Effect Operator", "Effect Operator"), cm.EffectOperator );
+
+			cm.EffectVarID1 = ( ETriggerVarID ) EditorGUILayout.EnumPopup(new GUIContent("Effect Var ID", "Effect Var ID"), cm.EffectVarID1 );
+			if( cm.EffectVarID1 == ETriggerVarID.NONE )
+				cm.EffectVal1 = EditorGUILayout.Slider( "Effect Value", cm.EffectVal1, -1000, 1000 );
+
+			cm.EffectOperator2 = ( ETriggerEffOperator ) EditorGUILayout.EnumPopup(new GUIContent("Effect Operator 2", "Effect Operator 2"), cm.EffectOperator2 );
+			if( cm.EffectOperator2 != ETriggerEffOperator.NONE )
+			   {
+			    cm.EffectVarID2 = ( ETriggerVarID ) EditorGUILayout.EnumPopup(new GUIContent("Effect Var ID 2", "Effect Var ID 2"), cm.EffectVarID2 );
+			    if( cm.EffectVarID2 == ETriggerVarID.NONE )
+				    cm.EffectVal2 = EditorGUILayout.Slider( "Effect Value 2", cm.EffectVal2, -1000, 1000 );
+
+				cm.EffectOperator3 = ( ETriggerEffOperator ) EditorGUILayout.EnumPopup(new GUIContent("Effect Operator 3", "Effect Operator 3"), cm.EffectOperator3 );
+				if( cm.EffectOperator3 != ETriggerEffOperator.NONE )
+				{
+					cm.EffectVarID3 = ( ETriggerVarID ) EditorGUILayout.EnumPopup(new GUIContent("Effect Var ID 3", "Effect Var ID 3"), cm.EffectVarID3 );
+					if( cm.EffectVarID2 == ETriggerVarID.NONE )
+						cm.EffectVal3 = EditorGUILayout.Slider( "Effect Value", cm.EffectVal3, -1000, 1000 );
+				}
+			}
+		}
+	}
+
+	public void DrawMapEnemyEditor( GameObject obj )
+	{		
+//		int SelEn = -1;
+//		for(int i = 0; i < 10; i++)
+//		if( obj.name == "Map Enemy " + i ) { SelEn = i; break; } else if( i == 9 ) return;
+//
+//		if( GUILayout.Button("Edit Map", GUILayout.Height(30)))
+//		{
+//			obj.GetComponent<MapEnemy>().TilemapObj.SetActive( true );
+//			Selection.activeGameObject = obj.GetComponent<MapEnemy>().TilemapObj;
+//		}
+//		
+//		//scrollPosition = GUILayout.BeginScrollView(scrollPosition, false, true,  GUILayout.Width(300),  GUILayout.Height(800)); 
+//		int cont = 0;
+//		int nextfree = -1;
+//		GUILayout.Space(10);
+//		
+//		Color defaulcol = GUI.color;
+//		GUI.color = defaulcol;
+//		GUILayout.Space(35);
+//		
+//		EditorGUILayout.BeginHorizontal();
+//		for( int i = 1; i < 30; i++ ) 
+//		{
+//			if ( obj.transform.FindChild("Enemy Artifact " + i ) ) 
+//			{
+//				cont++;	
+//				if( SelArt != i )
+//					if( GUILayout.Button("Artifact " + i, GUILayout.Width(100), GUILayout.Height(20) ) ) SelArt = i;
+//				
+//				if( SelArt == i ) {
+//					GUI.color = Color.yellow;
+//					if( GUILayout.Button("Artifact " + i, GUILayout.Width(100), GUILayout.Height(20) ) ) SelArt = i; }
+//				GUI.color = defaulcol;
+//			}
+//			else if( nextfree == -1 ) nextfree = i;
+//			if( cont == 4 || cont == 8 || cont == 12 || cont == 16 )
+//			{ EditorGUILayout.EndHorizontal(); EditorGUILayout.BeginHorizontal(); }
+//		}
+//		
+//		EditorGUILayout.EndHorizontal();  		
+//		GUILayout.Space(20);
+//		if( GUILayout.Button("Add") ) 
+//		{
+//			GameObject prefab = (GameObject)Resources.Load ("Enemy Artifact");  		
+//			GameObject instance = (GameObject)GameObject.Instantiate (prefab);
+//			instance.transform.parent = obj.transform;
+//			instance.name = "Enemy Artifact " + nextfree;
+//		}
+//		
+//		if( SelArt != -1)
+//		{
+//			GUILayout.TextField("Selected: Artifact: " + SelArt, 33);
+//			GameObject art = (GameObject)obj.transform.FindChild("Enemy Artifact " + SelArt ).gameObject;
+//			if( GUILayout.Button("Delete") ) 
+//			{
+//				DestroyImmediate( art );
+//				SelArt = -1;
+//			} 	
+//			GUILayout.Space(30);
+//			DrawArtifactEditor( art, true );
+//		}
+//		else
+//			GUILayout.TextField("Selected: Artifact: NONE", 25);
+//		//GUI.EndScrollView();
+	}
+
+
+}

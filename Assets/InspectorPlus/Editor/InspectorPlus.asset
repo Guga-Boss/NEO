@@ -1,0 +1,8998 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176de26f63e1773428c7efab48dac9f5, type: 3}
+  m_Name: InspectorPlus
+  m_EditorClassIdentifier: 
+  trackers:
+  - name: UI
+    vars:
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dTextMesh
+      name: HeroHpText
+      setName: 1
+      _dispName: Hero Hp Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 0
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dTextMesh
+      name: MonstersHpText
+      setName: 1
+      _dispName: Monsters Hp Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 1
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dTextMesh
+      name: LevelText
+      setName: 1
+      _dispName: Level Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 2
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dTextMesh
+      name: EnterAreaTxt
+      setName: 1
+      _dispName: Enter Area Txt
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 3
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dTextMesh
+      name: AreasText
+      setName: 1
+      _dispName: Areas Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 4
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dTextMesh
+      name: ArtifactsText
+      setName: 1
+      _dispName: Artifacts Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 5
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: ScoutLabel
+      setName: 1
+      _dispName: Scout Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 6
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: TurnInfoLabel
+      setName: 1
+      _dispName: Turn Info Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 7
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: MapLabel
+      setName: 1
+      _dispName: Map Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 8
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: BlueRuneCountLabel
+      setName: 1
+      _dispName: Blue Rune Count Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 9
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: RedRuneCountLabel
+      setName: 1
+      _dispName: Red Rune Count Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 10
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: GreenRuneCountLabel
+      setName: 1
+      _dispName: Green Rune Count Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 11
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: UseButtonLabel
+      setName: 1
+      _dispName: Use Button Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 12
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: LosttHPLabel
+      setName: 1
+      _dispName: Lostt H P Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 13
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: BigTextHelpLabel
+      setName: 1
+      _dispName: Big Text Help Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 14
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: BigMessageText
+      setName: 1
+      _dispName: Big Message Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 15
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: ArtifactInfoLabel
+      setName: 1
+      _dispName: Artifact Info Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 16
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: FlashBackLabel
+      setName: 1
+      _dispName: Flash Back Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 17
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dTextMesh
+      name: GameLevelText
+      setName: 1
+      _dispName: Game Level Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 18
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: EnergyBar
+      name: MonstersHpBar
+      setName: 1
+      _dispName: Monsters Hp Bar
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 19
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UI2DSprite
+      name: HorseIcon
+      setName: 1
+      _dispName: Horse Icon
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 20
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UI2DSprite
+      name: MessageBoxIcon
+      setName: 1
+      _dispName: Message Box Icon
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 21
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UI2DSprite
+      name: MessageBoxIcon2
+      setName: 1
+      _dispName: Message Box Icon2
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 22
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UI2DSprite
+      name: OverlaySprite
+      setName: 1
+      _dispName: Overlay Sprite
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 23
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: EnergyBar
+      name: UnitHealthBar
+      setName: 1
+      _dispName: Unit Health Bar
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 24
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UI2DSprite[]
+      name: Stars
+      setName: 1
+      _dispName: Stars
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 1
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 25
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dSprite
+      name: PerkInfoIcon
+      setName: 1
+      _dispName: Perk Info Icon
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 26
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dSprite
+      name: PerkInfoIconBack
+      setName: 1
+      _dispName: Perk Info Icon Back
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 27
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: PerkInfoTitleText
+      setName: 1
+      _dispName: Perk Info Title Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 28
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: PerkInfoDescriptionText
+      setName: 1
+      _dispName: Perk Info Description Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 29
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: DebugLabel
+      setName: 1
+      _dispName: Debug Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 30
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: MessageBoxTextLabel
+      setName: 1
+      _dispName: Message Box Text Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 31
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: MessageBoxTextLabel2
+      setName: 1
+      _dispName: Message Box Text Label2
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 32
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: MessageBoxLevelLabel
+      setName: 1
+      _dispName: Message Box Level Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 33
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: PerkInfoLevelLabel
+      setName: 1
+      _dispName: Perk Info Level Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 34
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: RepeatButton
+      setName: 1
+      _dispName: Repeat Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 35
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: ZoomButton
+      setName: 1
+      _dispName: Zoom Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 36
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: FreeCamButton
+      setName: 1
+      _dispName: Free Cam Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 37
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: ArtifactSeekButton
+      setName: 1
+      _dispName: Artifact Seek Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 38
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: AreaSeekButton
+      setName: 1
+      _dispName: Area Seek Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 39
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: GridButton
+      setName: 1
+      _dispName: Grid Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 40
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: CompareHeroButton
+      setName: 1
+      _dispName: Compare Hero Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 41
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: KadeWaitButton
+      setName: 1
+      _dispName: Kade Wait Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 42
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: RestartAreaButton
+      setName: 1
+      _dispName: Restart Area Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 43
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: BattleButton
+      setName: 1
+      _dispName: Battle Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 44
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: UseAbilityButton
+      setName: 1
+      _dispName: Use Ability Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 45
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIButton
+      name: PerkInfoButton
+      setName: 1
+      _dispName: Perk Info Button
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 46
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: PerkInfoTargetHeroText
+      setName: 1
+      _dispName: Perk Info Target Hero Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 47
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: ScrollText
+      setName: 1
+      _dispName: Scroll Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 48
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: FreeCamModeLabel
+      setName: 1
+      _dispName: Free Cam Mode Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 49
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UILabel
+      name: ErrorMessageLabel
+      setName: 1
+      _dispName: Error Message Label
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 50
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: List`1
+      name: PerkList
+      setName: 1
+      _dispName: Perk List
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 51
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GameObject
+      name: Menu
+      setName: 1
+      _dispName: Menu
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 52
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GameObject
+      name: HpPanel
+      setName: 1
+      _dispName: Hp Panel
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 53
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GameObject
+      name: PerksPanel
+      setName: 1
+      _dispName: Perks Panel
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 54
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GameObject
+      name: MessageBox
+      setName: 1
+      _dispName: Message Box
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 55
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GameObject
+      name: FarmUI
+      setName: 1
+      _dispName: Farm U I
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 56
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GameObject
+      name: PerkModel
+      setName: 1
+      _dispName: Perk Model
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 57
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GameObject
+      name: PerkInfoPanel
+      setName: 1
+      _dispName: Perk Info Panel
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 58
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GameObject
+      name: PerksFolder
+      setName: 1
+      _dispName: Perks Folder
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 59
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Int32
+      name: LevelFactor
+      setName: 1
+      _dispName: Level Factor
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 60
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GameObject
+      name: SkullImage
+      setName: 1
+      _dispName: Skull Image
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 61
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Int32
+      name: NumGamePerk
+      setName: 1
+      _dispName: Num Game Perk
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 62
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Int32
+      name: NumLevelPerk
+      setName: 1
+      _dispName: Num Level Perk
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 63
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Int32
+      name: NumAreaPerk
+      setName: 1
+      _dispName: Num Area Perk
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 64
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Perk
+      name: MushroomPerk
+      setName: 1
+      _dispName: Mushroom Perk
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 65
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Unit
+      name: CompareHero
+      setName: 1
+      _dispName: Compare Hero
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 66
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Perk
+      name: DestroyBarricadePerk
+      setName: 1
+      _dispName: Destroy Barricade Perk
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 67
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UISprite
+      name: ScrollBack
+      setName: 1
+      _dispName: Scroll Back
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 68
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Perk
+      name: MonsterPushPerk
+      setName: 1
+      _dispName: Monster Push Perk
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 69
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Perk
+      name: MonsterPressurePerk
+      setName: 1
+      _dispName: Monster Pressure Perk
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 70
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: RKeyPressTimeCount
+      setName: 1
+      _dispName: R Key Press Time Count
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 71
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Unit
+      name: SelUnit
+      setName: 1
+      _dispName: Sel Unit
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 72
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UIGrid
+      name: Grid
+      setName: 1
+      _dispName: Grid
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 73
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Vector2
+      name: LockedTile
+      setName: 1
+      _dispName: Locked Tile
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 74
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UI2DSprite[]
+      name: PortraitList
+      setName: 1
+      _dispName: Portrait List
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 1
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 75
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Int32
+      name: ActiveCompareHeroID
+      setName: 1
+      _dispName: Active Compare Hero I D
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 76
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Int32
+      name: ArtifactLevelDifference
+      setName: 1
+      _dispName: Artifact Level Difference
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 77
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: tk2dTextMesh
+      name: LoadingLevelText
+      setName: 1
+      _dispName: Loading Level Text
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 78
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: String
+      name: AttackDescription
+      setName: 1
+      _dispName: Attack Description
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 79
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: String
+      name: AttackType
+      setName: 1
+      _dispName: Attack Type
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 80
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: String
+      name: AmbushInfo
+      setName: 1
+      _dispName: Ambush Info
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 81
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: String
+      name: CorneringInfo
+      setName: 1
+      _dispName: Cornering Info
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 82
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: String
+      name: SurplusInfo
+      setName: 1
+      _dispName: Surplus Info
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 83
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: String
+      name: SprinterInfo
+      setName: 1
+      _dispName: Sprinter Info
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 84
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: ShieldReduction
+      setName: 1
+      _dispName: Shield Reduction
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 85
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: Shield
+      setName: 1
+      _dispName: Shield
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 86
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: AmbushBonus
+      setName: 1
+      _dispName: Ambush Bonus
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 87
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: SurplusBonus
+      setName: 1
+      _dispName: Surplus Bonus
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 88
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: ConeringBonus
+      setName: 1
+      _dispName: Conering Bonus
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 89
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: SprinterBonus
+      setName: 1
+      _dispName: Sprinter Bonus
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 90
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Int32
+      name: MessageTurn
+      setName: 1
+      _dispName: Message Turn
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 91
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Int32
+      name: OriginalLevel
+      setName: 1
+      _dispName: Original Level
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 92
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Int32
+      name: MouseArtifactMult
+      setName: 1
+      _dispName: Mouse Artifact Mult
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 93
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Boolean
+      name: ConsiderArtifactLevelDifference
+      setName: 1
+      _dispName: Consider Artifact Level Difference
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 1
+      toggleLevel: 0
+      index: 94
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Boolean
+      name: ShowMainArtifacts
+      setName: 1
+      _dispName: Show Main Artifacts
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 1
+      toggleLevel: 0
+      index: 95
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Boolean
+      name: ShowSecondaryArtifacts
+      setName: 1
+      _dispName: Show Secondary Artifacts
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 1
+      toggleLevel: 0
+      index: 96
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Boolean
+      name: MouseArtifact
+      setName: 1
+      _dispName: Mouse Artifact
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 1
+      toggleLevel: 0
+      index: 97
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: MyPathfinding
+      name: PathFind
+      setName: 1
+      _dispName: Path Find
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 98
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: String[]
+      name: OrdinalNumberList
+      setName: 1
+      _dispName: Ordinal Number List
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 1
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 99
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: GridHelper
+      name: GridHelper
+      setName: 1
+      _dispName: Grid Helper
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 100
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: EPerkType
+      name: CurrentPerkType
+      setName: 1
+      _dispName: Current Perk Type
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 101
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Boolean
+      name: MouseOverUI
+      setName: 1
+      _dispName: Mouse Over U I
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 1
+      toggleLevel: 0
+      index: 102
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: BigMessageTextTimeCounter
+      setName: 1
+      _dispName: Big Message Text Time Counter
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 103
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: UI2DSprite
+      name: InfoIcon
+      setName: 1
+      _dispName: Info Icon
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 104
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: TempSelectedPerkTimer
+      setName: 1
+      _dispName: Temp Selected Perk Timer
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 105
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: EPerkType
+      name: TempSelectedPerk
+      setName: 1
+      _dispName: Temp Selected Perk
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 106
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: EPerkType
+      name: SelectedPerk
+      setName: 1
+      _dispName: Selected Perk
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: UI
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 107
+      maxSize: 108
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    varsHad:
+    - HeroHpText
+    - MonstersHpText
+    - LevelText
+    - EnterAreaTxt
+    - AreasText
+    - ArtifactsText
+    - ScoutLabel
+    - TurnInfoLabel
+    - MapLabel
+    - BlueRuneCountLabel
+    - RedRuneCountLabel
+    - GreenRuneCountLabel
+    - UseButtonLabel
+    - LosttHPLabel
+    - BigTextHelpLabel
+    - BigMessageText
+    - ArtifactInfoLabel
+    - FlashBackLabel
+    - GameLevelText
+    - MonstersHpBar
+    - HorseIcon
+    - MessageBoxIcon
+    - MessageBoxIcon2
+    - OverlaySprite
+    - UnitHealthBar
+    - Stars
+    - PerkInfoIcon
+    - PerkInfoIconBack
+    - PerkInfoTitleText
+    - PerkInfoDescriptionText
+    - DebugLabel
+    - MessageBoxTextLabel
+    - MessageBoxTextLabel2
+    - MessageBoxLevelLabel
+    - PerkInfoLevelLabel
+    - RepeatButton
+    - ZoomButton
+    - FreeCamButton
+    - ArtifactSeekButton
+    - AreaSeekButton
+    - GridButton
+    - CompareHeroButton
+    - KadeWaitButton
+    - RestartAreaButton
+    - BattleButton
+    - UseAbilityButton
+    - PerkInfoButton
+    - PerkInfoTargetHeroText
+    - ScrollText
+    - FreeCamModeLabel
+    - ErrorMessageLabel
+    - PerkList
+    - Menu
+    - HpPanel
+    - PerksPanel
+    - MessageBox
+    - FarmUI
+    - PerkModel
+    - PerkInfoPanel
+    - PerksFolder
+    - LevelFactor
+    - SkullImage
+    - NumGamePerk
+    - NumLevelPerk
+    - NumAreaPerk
+    - MushroomPerk
+    - CompareHero
+    - DestroyBarricadePerk
+    - ScrollBack
+    - MonsterPushPerk
+    - MonsterPressurePerk
+    - RKeyPressTimeCount
+    - SelUnit
+    - Grid
+    - LockedTile
+    - PortraitList
+    - ActiveCompareHeroID
+    - ArtifactLevelDifference
+    - LoadingLevelText
+    - AttackDescription
+    - AttackType
+    - AmbushInfo
+    - CorneringInfo
+    - SurplusInfo
+    - SprinterInfo
+    - ShieldReduction
+    - Shield
+    - AmbushBonus
+    - SurplusBonus
+    - ConeringBonus
+    - SprinterBonus
+    - MessageTurn
+    - OriginalLevel
+    - MouseArtifactMult
+    - ConsiderArtifactLevelDifference
+    - ShowMainArtifacts
+    - ShowSecondaryArtifacts
+    - MouseArtifact
+    - PathFind
+    - OrdinalNumberList
+    - GridHelper
+    - CurrentPerkType
+    - MouseOverUI
+    - BigMessageTextTimeCounter
+    - InfoIcon
+    - TempSelectedPerkTimer
+    - TempSelectedPerk
+    - SelectedPerk
+    ignoredProperties: []
+    group: 
+    arrowUp: {fileID: 2800000, guid: 54c6fd2073f9a2849b01a02dfd33cbf3, type: 3}
+    arrowDown: {fileID: 2800000, guid: dc97ca9c78ffc114dab68ffa9e5223bd, type: 3}
+    filePath: C:/Users/Guga/Desktop/WQRPG/Assets/Code/UI.cs
+  - name: NavigationMapBonus
+    vars:
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 0
+      type: tk2dSprite
+      name: BonusIcon
+      setName: 1
+      _dispName: Bonus Icon
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: NavigationMapBonus
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 0
+      maxSize: 4
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 0
+      type: tk2dTextMesh
+      name: TextMesh
+      setName: 1
+      _dispName: Text Mesh
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: NavigationMapBonus
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 1
+      maxSize: 4
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 0
+      min: 0
+      max: 0
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: ItemType
+      name: BonusItem
+      setName: 1
+      _dispName: Bonus Item
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 0
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 00000000000000000000000000000000
+      buttonText:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 0
+      classType: NavigationMapBonus
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 2
+      maxSize: 4
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    - limitType: 2
+      min: 0
+      max: 90
+      progressBar: 0
+      iMin: 0
+      iMax: 0
+      active: 1
+      type: Single
+      name: BonusAmount
+      setName: 1
+      _dispName: Bonus Amount
+      vectorDrawType: 0
+      relative: 0
+      scale: 0
+      space: 31
+      labelEnabled: 00000000
+      label:
+      - 
+      - 
+      - 
+      - 
+      labelBold: 00000000
+      labelItalic: 00000000
+      labelAlign: 00000000000000000000000000000000
+      buttonEnabled: 01000000000000000000000000000000
+      buttonText:
+      - '      Update      '
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCallback:
+      - UpdateMeshCallBack
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      buttonCondense: 00000000
+      numSpace: 1
+      classType: NavigationMapBonus
+      isArray: 0
+      offset: {x: 0.5, y: 0.5, z: 0}
+      QuaternionHandle: 0
+      canWrite: 1
+      tooltip: Tooltip
+      hasTooltip: 0
+      fixedTip: 0
+      toggleStart: 0
+      toggleSize: 0
+      toggleLevel: 0
+      index: 3
+      maxSize: 4
+      largeTexture: 0
+      textureSize: 70
+      property: 0
+      textFieldDefault: 
+      textArea: 0
+    varsHad:
+    - BonusIcon
+    - TextMesh
+    - BonusItem
+    - BonusAmount
+    ignoredProperties: []
+    group: 
+    arrowUp: {fileID: 2800000, guid: 54c6fd2073f9a2849b01a02dfd33cbf3, type: 3}
+    arrowDown: {fileID: 2800000, guid: dc97ca9c78ffc114dab68ffa9e5223bd, type: 3}
+    filePath: C:/Users/Guga/Desktop/Wonderquest Cubes/Assets/Code/Unused/NavigationMapBonus.cs
+  editName: Unit
+  groups:
+  - 
+  groupOpen: 00
+  arrowUp: {fileID: 2800000, guid: 54c6fd2073f9a2849b01a02dfd33cbf3, type: 3}
+  arrowDown: {fileID: 2800000, guid: dc97ca9c78ffc114dab68ffa9e5223bd, type: 3}
+  NGUIImage: {fileID: 2800000, guid: ae6823990619b8a44b57f4d7b9a56ef6, type: 3}
+  playMakerImage: {fileID: 2800000, guid: ada1988a0a323cd41a0f742f081a3b1e, type: 3}

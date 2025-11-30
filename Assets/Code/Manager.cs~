@@ -1,0 +1,427 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using HeavyDutyInspector;
+
+public enum EGameStatus
+{
+	NONE = -1, PLAYING, MAINMENU
+}
+
+public class Manager : MonoBehaviour {
+
+	public static Manager I;
+	public Quest ActiveQuest;
+	public string PlayerName, QuestName;
+	public MiniMap MiniMap;
+	public EGameStatus Status;
+	public tk2dCamera Cam, UICam;
+    public GameObject MainMenu;
+	public bool DebugMode, ShowTileText;
+	public Util U;
+	public Quest Quest;
+    public float RestartKeyPressTimer;
+    public int ProfileNumber;
+	public string[] InputNames;
+
+//	[Comment("Add buttons and call functions by name using reflection", CommentType.Info)]
+//	[Button("Reset Position", "ResetPosition", true)]
+//	public bool hidden;
+
+
+//	[Comment("Or create buttons with an image by specifying its path.", CommentType.Info)]
+//	[ImageButton("Images/tree.psd", "ResetPosition", true)]
+//	public bool hidden2;
+
+
+
+	[ComplexHeader("Organize your Scripts", Style.Box, Alignment.Center, ColorEnum.Yellow, ColorEnum.Blue)]
+	[Comment("Use the new Complex Header attribute to display headers in your inspector to separate and organize your variables.", CommentType.Info)]
+	public string organize;
+	
+	[ComplexHeader("Organize your Scripts", Style.Line, Alignment.Center, ColorEnum.White, ColorEnum.White)]
+	[Comment("Headers come in two styles, Box and Line", CommentType.Info, 1)]
+	public string organizeAgain;
+	
+	
+	[Background(ColorEnum.Blue)]
+	[Comment("Or add a background to a Serialized Object variable and use it as a foldable Header", CommentType.Info)]
+	public SectionExample foldableHeader;
+
+
+
+
+	void Start ()
+	{
+	if ( I != null )
+		GameObject.Destroy (I);
+		else
+		I = this;
+		U = new Util();
+
+	RestartKeyPressTimer = 0;
+	Manager.I.QuestName = "Main Quest";
+	DontDestroyOnLoad (this);
+    InitInput();
+	GoToMainMenu();
+
+	Quest.Init();
+	LoadLevel();
+	}
+		 
+	//_____________________________________________________________________________________________________________________ Main game loop
+
+	public void Update() 
+	{
+     switch( Status )
+        {
+		case EGameStatus.PLAYING:  UpdatePlayGame(); break; 
+		case EGameStatus.MAINMENU: UpdateMainMenu(); break; 
+        }
+    }
+
+	//_____________________________________________________________________________________________________________________ Update Play Game
+
+	public void UpdatePlayGame() 
+    {    
+	    Map.I.UpdateIt();
+	    UpdadeSaveGame();
+        UpdatePlayGameInput();
+    }
+
+
+	//_____________________________________________________________________________________________________________________ Update Play Game Input
+	
+	public void UpdatePlayGameInput() 
+    {
+	if( Input.GetKeyDown( KeyCode.Escape )) GoToMainMenu();
+	if( Input.GetKeyDown( KeyCode.F2 )) LevelIntro.I.ShowLevelIntro();
+    }
+
+	//_____________________________________________________________________________________________________________________ Update Main Menu
+
+	public void UpdateMainMenu() 
+	{    
+	}
+
+	//_____________________________________________________________________________________________________________________ Play Game
+
+	public void PlayGame()
+	{
+		Status = EGameStatus.PLAYING;
+		MainMenu.gameObject.SetActive( false );
+        UI.I.gameObject.    SetActive( true );
+		Map.I.gameObject.   SetActive( true );
+		LevelIntro.I.ShowLevelIntro();
+	} 
+
+	//_____________________________________________________________________________________________________________________ Go to Main Menu
+	
+    public void GoToMainMenu()
+	{
+	    MainMenu.gameObject.SetActive( true ); 
+		UI.I.gameObject.    SetActive( false );
+		Map.I.gameObject.   SetActive( false );
+        Status = EGameStatus.MAINMENU;
+    } 
+
+    //_____________________________________________________________________________________________________________________ Load Level
+
+	public bool LoadLevel()
+	{
+		if( Quest.CurrentLevel >= Quest.LevelList.Length ) return false;
+		GameObject ob = Quest.LevelList[ Quest.CurrentLevel ].gameObject;
+		ob.SetActive( true );
+		Map.I.StartGame();
+		//if( Quest.CurrentLevel ) ob.SetActive( false );
+		return true;
+	}
+
+
+	//_____________________________________________________________________________________________________________________ On Destroy
+	
+	public void OnApplicationQuit() 
+	{    
+        if( ProfileNumber == -1 ) return;
+		Map.I.LastFileSavedName = "Game Exit Savegame.wq";
+		SaveGame( Map.I.LastFileSavedName );	
+	}
+
+	//_____________________________________________________________________________________________________________________ Update Restart
+	
+	public void UpdadeRestart()
+	{
+		if( Input.GetKey( KeyCode.R ) )             
+		if( Map.I.LastFileSavedName != "" )
+		{
+			LoadGame( Map.I.LastFileSavedName );
+			
+			RestartKeyPressTimer += Time.deltaTime;
+			if( Map.I.CurrentArea != -1 )
+				if( RestartKeyPressTimer > 2 )
+			    {
+				Map.I.LastFileSavedName = "Room Entrance.wq";
+				LoadGame( Map.I.LastFileSavedName );	
+			    }			
+			return;
+		}
+		
+		if( Input.GetKey( KeyCode.R ) == false ) RestartKeyPressTimer = 0;
+    }
+
+	//_____________________________________________________________________________________________________________________  Update Undo
+
+	public bool UpdateUndosaveGame() 
+    {		
+        return false;
+		if( Map.I.AdvanceTurn )
+		{
+			if( Map.I.TurnsKeyPressing <= 1 ) 
+               {
+				string file = GetProfileFolder() + "/" + QuestName + "/";
+				if( ES2.Exists( file + "Undo.wq" ) )
+				    File.Copy( file + "Undo.wq", file + "Last Undo.wq", true );
+				SaveGame( "Undo.wq" );	
+               }
+			return true;			
+		}
+
+    if( Input.GetKeyDown( KeyCode.B ) )
+        {
+		LoadGame( "Last Undo.wq" );		
+		return true;
+        }
+
+    return false;
+    }
+
+	//_____________________________________________________________________________________________________________________ Gets savegame folder
+
+	public string GetProfileFolder() 
+    {
+		return Application.dataPath + "/Profiles/Profile " + ProfileNumber + "/";
+    }
+
+	//_____________________________________________________________________________________________________________________ Update Savegame 
+	
+	public void UpdadeSaveGame()
+	{
+		if( Map.I.HeroIsDead )
+		{
+			LoadGame( Map.I.LastFileSavedName );
+            return;			
+		}
+
+        if( UpdateUndosaveGame() ) return;
+
+		if( Input.GetKeyDown( KeyCode.F5 ) )        // Save test.dat
+		{
+			SaveGame("Test.wq" ); return;
+		}
+		
+		if( Input.GetKeyDown( KeyCode.F6 ) )        // Load test.dat
+		{
+			LoadGame("Test.wq"); return;
+		}		 
+
+		UpdadeRestart();
+
+		if( Input.GetMouseButtonDown( 0 ) )                                                               // Save game stepping LOAD
+		if( Map.I.Mtx != -1 )
+		if( Map.I.Gaia[ Map.I.Mtx, Map.I.Mty ] != null ) 
+		if( Map.I.Gaia[ Map.I.Mtx, Map.I.Mty ].TileID == ETileType.SAVEGAME ) 
+		{
+            if( Map.I.CurrentArea != Map.I.GetPosArea( new Vector( Map.I.Mtx, Map.I.Mty )) ) return;
+			Map.I.LastFileSavedName = "Save Game " + Map.I.Mtx + " " + Map.I.Mty + ".wq";
+			LoadGame( Map.I.LastFileSavedName );
+            return;
+		}
+
+		if( Map.I.Gaia[ (int)  Map.I.Hero.Pos.x, (int) Map.I.Hero.Pos.y ] != null )                       // Save game stepping SAVE
+		if( Map.I.Gaia[ (int)  Map.I.Hero.Pos.x, (int) Map.I.Hero.Pos.y ].TileID == ETileType.SAVEGAME )  
+		if( Map.I.AdvanceTurn == true ) 
+           {
+			Map.I.LastFileSavedName = "Save Game " + Map.I.Hero.Pos.x + " " + Map.I.Hero.Pos.y + ".wq";
+			SaveGame( Map.I.LastFileSavedName );
+           }
+	}
+
+	//_____________________________________________________________________________________________________________________ Update Save game 
+	
+	
+	public void SaveGame( string file )
+	{		
+		Map.I.LastFileSavedName = file;
+
+		file = GetProfileFolder() + "/" + QuestName + "/" + file;
+
+		HeroData.I.Save( file );		                                                 // Save HeroData               
+		Map.I.Hero.Save( file, " Hero " );                                               // Save Hero
+
+		Map.I.Save( file, " Map Data" );                                                 // Save Map Data
+
+		if( Map.I.CurrentArea == -1 ) return;
+
+		ES2.Save( Map.I.MoveOrder.Count, file + "?tag=Num Units");                       // Save Monsters Array size
+
+		for( int i = 0; i < Map.I.MoveOrder.Count; i++ )                                 // Save all monsters by move order
+           {          
+			ES2.Save( Map.I.MoveOrder[ i ].TileID,   file + "?tag=Index Id" + i );  
+			Map.I.MoveOrder[ i ].Save( file, " Unit " + i ); 
+           }
+                                                  
+		for ( int y = Map.I.P2.y; y <= Map.I.P1.y; y++ )                                 // Save Gaia Objects
+		for ( int x = Map.I.P1.x; x <= Map.I.P2.x; x++ ) 
+        if  ( Map.I.Gaia[ x, y ] )
+             {
+			 	    Map.I.Gaia[ x, y ].SaveGaia( file, "Gaia " + x + " " + y );
+             }
+	}
+	
+	//_____________________________________________________________________________________________________________________ Update Load game 
+	
+	
+	public void LoadGame( string file )
+	{
+		file = GetProfileFolder() + "/" + QuestName + "/" + file;
+
+        if( ES2.Exists( file ) == false ) return;
+ 
+		Map.I.InitMapVariablesDefaults();
+
+		HeroData.I.Load( file );
+ 
+		Map.I.Hero.Load( file, " Hero " );		
+
+		Map.I.Load( file, " Map Data" );                                                 // Load Map Data
+
+		Quest.I.InitArtifactsAfterLoading(); 
+       
+        Map.I.InitializeMapAfterLoading();
+	
+        if( Map.I.CurrentArea == -1 ) return;                                            // return if exploring
+
+		LoadRoomData( file );
+    }
+
+	//_____________________________________________________________________________________________________________________ LoadRoomData
+
+
+    public void LoadRoomData( string file )
+       {
+		int numUnits = ES2.Load<int>(file + "?tag=Num Units");
+		
+		Map.I.MoveOrder = new List<Unit>();
+		Map.I.ClearAllMonstersInTheArea( Map.I.CurrentArea );
+		
+		for( int i = 0; i < numUnits; i++ )                                                     // Load Monsters by move order
+		{			
+			ETileType tile = ES2.Load<ETileType>(file + "?tag=Index Id" + i );
+			
+			GameObject prefab = (GameObject) Resources.Load ( Map.I.GetPrefabName( tile ) );
+			GameObject obj = Map.I.CreateUnit( prefab, new Vector2( -1, -1 ) );
+			Unit unt = obj.GetComponent<Unit>();
+			Map.I.MoveOrder.Add( unt );			
+			unt.Load( file, " Unit " + i );	
+			unt.Control.ApplyMove( new Vector2( -1, -1 ), unt.Pos );
+		}	
+
+		for ( int y = Map.I.P2.y; y <= Map.I.P1.y; y++ )                                        // Load Gaia Objects
+		for ( int x = Map.I.P1.x; x <= Map.I.P2.x; x++ ) 
+		if  ( Map.I.Gaia[ x, y ] )
+			{
+				Map.I.Gaia[ x, y ].LoadGaia( file, "Gaia " + x + " " + y );
+				if( Map.I.Gaia[ x, y ].TileID == ETileType.CLOSEDDOOR ||
+				    Map.I.Gaia[ x, y ].TileID == ETileType.OPENDOOR   )
+				    Map.I.SetTile( x, y, ELayerType.GAIA, Map.I.Gaia[ x, y ].TileID );
+			}
+    }
+
+	//_____________________________________________________________________________________________________________________ Update Level Exit
+	
+	public void UpdateLevelExit()
+	{
+		if( Map.I == null ) return;
+		if( Map.I.HeroIsDead ) return;
+		if( Map.I.PtOnMap( Map.I.Hero.Pos ) == false ) return;
+		ETileType tl = (ETileType) Map.I.Tilemap.GetTile( (int) Map.I.Hero.Pos.x, (int)
+                                          Map.I.Hero.Pos.y, (int) ELayerType.MODIFIER ); 
+		if( tl != ETileType.LEVEL_EXIT ) return;
+
+		Quest.LevelList[ Quest.CurrentLevel ].gameObject.SetActive( false );
+
+		ActiveQuest.CurrentLevel++;
+		bool res = LoadLevel();
+		if(!res )
+		   {
+			ActiveQuest.CurrentLevel = 0;
+			LoadLevel();
+		   }
+	}
+
+	public void DeleteAreaSaveFiles()
+        {
+		ES2.Delete( GetProfileFolder() + "/" + QuestName + "/" + "Test.dat" );
+		ES2.Delete( GetProfileFolder() + "/" + QuestName + "/" +"Room Entrance.wq" );
+		ES2.Delete( GetProfileFolder() + "/" + QuestName + "/" +"Undo.wq" );
+		ES2.Delete( GetProfileFolder() + "/" + QuestName + "/" +"Last Undo.wq" );
+
+		for ( int y = Map.I.P2.y; y <= Map.I.P1.y; y++ )                                        // Load Gaia Objects
+		for ( int x = Map.I.P1.x; x <= Map.I.P2.x; x++ ) 
+		if  ( Map.I.Gaia[ x, y ] )
+		if  ( Map.I.Gaia[ x, y ].TileID == ETileType.SAVEGAME )
+			  ES2.Delete( GetProfileFolder() + "/" + QuestName + "/" + "Save Game " + x + " " + y );
+        }
+
+	public	EDirection GetRandomDir()
+	{
+		int r = (int) Random.Range( 0, 8 );
+		EDirection dr = EDirection.NONE;
+		switch (r)
+		{
+		case 0: dr = EDirection.N;  break;
+		case 1: dr = EDirection.NE; break;
+		case 2: dr = EDirection.E;  break;
+		case 3: dr = EDirection.SE; break;
+		case 4: dr = EDirection.S;  break;
+		case 5: dr = EDirection.SW; break;
+		case 6: dr = EDirection.W;  break;
+		case 7: dr = EDirection.NW; break;
+		}
+		
+		return dr;
+	}
+
+	public GameObject CreateObjInstance( string str, string iname, EDirection dir, Vector3 pos )
+	{
+		GameObject prefab = (GameObject)Resources.Load (str);
+		GameObject instance = (GameObject)GameObject.Instantiate (prefab);
+		instance.transform.position = pos;
+		instance.name = iname;
+		if( dir != EDirection.NONE ) instance.transform.Rotate (0, 0, -(45.0f * (float) (int) dir));
+		return instance;
+	}
+	public void InitInput()
+    {
+		cInput.SetKey( InputNames[ 0  ], "Alpha8", "UpArrow"    );
+		cInput.SetKey( InputNames[ 1  ], "Alpha9", "Keypad3"    );
+		cInput.SetKey( InputNames[ 2  ], "O",      "RightArrow" );
+		cInput.SetKey( InputNames[ 3  ], "L",      "Keypad9"    );
+		cInput.SetKey( InputNames[ 4  ], "K",      "DownArrow"  );
+		cInput.SetKey( InputNames[ 5  ], "J",      "Keypad7"    );
+		cInput.SetKey( InputNames[ 6  ], "U",      "LeftArrow"  );
+		cInput.SetKey( InputNames[ 7  ], "Alpha7", "Keypad1"    );
+		cInput.SetKey( InputNames[ 8  ], "V",      "W"          );
+		cInput.SetKey( InputNames[ 9  ], "C",      "Q"          );
+		cInput.SetKey( InputNames[ 10 ], "X",      "Keypad5"    );
+		cInput.SetKey( InputNames[ 11 ], "Z",      "D"          );	
+    }
+
+	void ResetPosition()
+	{
+		Debug.Log("ResetPosition");
+	}
+
+
+}

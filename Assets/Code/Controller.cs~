@@ -1,0 +1,287 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public enum EControlType
+{
+	NONE = -1, HUMAN, ROACH, RAM, ROOK
+}
+
+[System.Serializable]
+public class Controller : MonoBehaviour 
+   {
+	public Unit Unit;
+	public EControlType ControlType;
+	public Vector2 OldPos;
+	public int MoveOrderID, RamStraightMoveCount;
+	public float MovementSpeed, MovementSpeedCounter;
+    public bool NeedLineOfSightToMove, HasLineOfSight;
+	public bool FirstMoveDone;
+
+	// Use this for initialization
+	void Start () {
+		OldPos = new Vector2( -1, -1 );
+		FirstMoveDone = false;
+	}
+	
+	public void UpdateIt () 
+	{
+        Vector2 oldPos = Unit.Pos;
+		switch( ControlType )
+		{
+		case EControlType.HUMAN: UpdateHumanMovement(); break;
+		case EControlType.ROACH: UpdateRoachMovement(); break;
+		case EControlType.RAM:   UpdateRamMovement  (); break;
+		case EControlType.ROOK:  UpdateRookMovement (); break;
+		}
+
+     if( Unit.Pos == oldPos )
+        {
+         if( Map.I.AdvanceTurn ) OldPos = Unit.Pos;
+        }
+	}
+
+	public void ApplyMove( Vector2 from, Vector2 to )
+	{
+		if( Unit == null ) return;
+		Map m = Map.I;
+		OldPos = from;
+		Unit.transform.position = new Vector3( to.x, to.y, -1 );
+
+		if( from.x != -1 ) {
+		    Unit.Graphic.transform.position = new Vector3( from.x, from.y, -1 ); // Smooth movement animation
+           }
+
+		if( Unit.UnitType == EUnitType.MONSTER )
+		   {
+		    if( from.x != -1 ) m.Unit[ (int)from.x, (int)from.y ] = null;
+		    m.Unit[ (int)to.x, (int)to.y ] = Unit;
+		   }
+
+		Unit.Pos = to;
+		Unit.name = "Unit " + to.x + " " + to.y;
+		if( Unit.UnitType == EUnitType.HERO )
+		{
+			if( from.x != -1 )
+			if( m.TileType[ (int)from.x, (int)from.y ] == ETileType.METALPLATE )
+			if( from != to )
+			{
+//				m.Tilemap.SetTile ( (int)from.x, (int)from.y, 0, (int) ETileType.METALBLOCK );
+//				m.TileType[(int) from.x, (int)from.y ] = ETileType.METALBLOCK;
+//				m.Tilemap.EndEditMode();
+			}
+			Map.I.Hero.Pos = to;
+			Unit.name = "Hero";
+		}
+	}
+
+	public bool UpdateHumanMovement()
+	{
+		if( this == null ) return false;
+		Vector3 pos = transform.position;
+		float uz = -1;		
+		Vector2 from = new Vector2( pos.x, pos.y );
+
+		bool kp = false;
+        int rot = 0;
+
+//		if ( Input.GetKey     ( KeyCode.Z ))
+//		{
+//			if ( Input.GetKey( KeyCode.UpArrow   ) && Input.GetKey( KeyCode.LeftArrow   ) ) { kp = true; pos = new Vector3 ( pos.x - 1, pos.y + 1, uz ); } else
+//			if ( Input.GetKey( KeyCode.UpArrow   ) && Input.GetKey( KeyCode.RightArrow  ) ) { kp = true; pos = new Vector3 ( pos.x + 1, pos.y + 1, uz ); } else
+//			if ( Input.GetKey( KeyCode.DownArrow ) && Input.GetKey( KeyCode.LeftArrow   ) ) { kp = true; pos = new Vector3 ( pos.x - 1, pos.y - 1, uz ); } else
+//			if ( Input.GetKey( KeyCode.DownArrow ) && Input.GetKey( KeyCode.RightArrow  ) ) { kp = true; pos = new Vector3 ( pos.x + 1, pos.y - 1, uz ); } else
+//				 return false;
+//		} else
+
+		if ( cInput.GetKey( "Move N"  ) )  { kp = true; pos = new Vector3 ( pos.x + 0, pos.y + 1, uz ); } else
+		if ( cInput.GetKey( "Move NE" ) )  { kp = true; pos = new Vector3 ( pos.x + 1, pos.y + 1, uz ); } else
+		if ( cInput.GetKey( "Move E"  ) )  { kp = true; pos = new Vector3 ( pos.x + 1, pos.y + 0, uz ); } else
+		if ( cInput.GetKey( "Move SE" ) )  { kp = true; pos = new Vector3 ( pos.x + 1, pos.y - 1, uz ); } else
+		if ( cInput.GetKey( "Move S"  ) )  { kp = true; pos = new Vector3 ( pos.x + 0, pos.y - 1, uz ); } else
+		if ( cInput.GetKey( "Move SW" ) )  { kp = true; pos = new Vector3 ( pos.x - 1, pos.y - 1, uz ); } else
+		if ( cInput.GetKey( "Move W"  ) )  { kp = true; pos = new Vector3 ( pos.x - 1, pos.y + 0, uz ); } else
+		if ( cInput.GetKey( "Move NW" ) )  { kp = true; pos = new Vector3 ( pos.x - 1, pos.y + 1, uz ); } else
+	
+		if ( cInput.GetKey( "Rotate CW"  ) )  { kp = true; rot = - 1; } else
+		if ( cInput.GetKey( "Rotate CCW" ) )  { kp = true; rot = + 1; } else
+		if ( cInput.GetKey( "Wait"       ) )  { kp = true; }
+        else
+			 {
+			  Map.I.TimeKeyPressing  = 0;
+			  Map.I.TurnsKeyPressing = 0;
+			  FirstMoveDone = false;
+              return false;
+             }
+
+		if( kp == false ) return false;
+
+		if( Map.I.TurnTime < SettingsWindow.I.MaxHeroSpeed ) return false;
+
+		Map.I.TimeKeyPressing += Time.deltaTime;
+
+        if( FirstMoveDone )
+		if( Map.I.TimeKeyPressing < SettingsWindow.I.KeyHoldDelay ) return false;
+		FirstMoveDone = true;
+ 
+		Vector2 to = new Vector2( pos.x, pos.y );
+		if ( Map.I.ExitArea( from, to  )) return false;
+
+		if( rot  != 0 ) Unit.Rotate( rot );
+
+		Map.I.AdvanceTurn = true;
+		Map.I.TurnsKeyPressing++;
+
+		if ( Unit.CanMoveFromTo( from, to ) == false ) return true;
+
+		ApplyMove( from, to );
+
+		return true;
+	}
+
+	public void UpdateRamMovement()
+   {
+		Vector2 pos = new Vector2( (int) Unit.Pos.x, (int) Unit.Pos.y );	
+		Vector2 tg =  pos + Manager.I.U.DirCord[ (int) Unit.Dir ];
+
+        EDirection dr = EDirection.NONE;
+
+		if( pos.x == Map.I.Hero.Pos.x || pos.y == Map.I.Hero.Pos.y )
+		    RamStraightMoveCount = 0;
+
+		if( RamStraightMoveCount == 0 )
+           {
+			float dx = Mathf.Abs( Map.I.Hero.Pos.x - pos.x );
+			float dy = Mathf.Abs( Map.I.Hero.Pos.y - pos.y );
+
+			Unit.UpdateDirection();
+			if( pos.x > Map.I.Hero.Pos.x && pos.y > Map.I.Hero.Pos.y )
+			if( dx > dy ) dr = EDirection.W; else
+			if( dx < dy ) dr = EDirection.S; else dr = EDirection.SW;
+
+			if( pos.x > Map.I.Hero.Pos.x && pos.y < Map.I.Hero.Pos.y )
+			if( dx > dy ) dr = EDirection.W; else
+			if( dx < dy ) dr = EDirection.N; else dr = EDirection.NW;
+
+			if( pos.x < Map.I.Hero.Pos.x && pos.y < Map.I.Hero.Pos.y )
+			if( dx > dy ) dr = EDirection.E; else 
+            if( dx < dy ) dr = EDirection.N; else dr = EDirection.NE;
+
+			if( pos.x < Map.I.Hero.Pos.x && pos.y > Map.I.Hero.Pos.y )
+			if( dx > dy ) dr = EDirection.E; else 
+			if( dx < dy ) dr = EDirection.S; else dr = EDirection.SE;
+
+           Unit.RotateTo( dr );
+           }
+
+		if( ++RamStraightMoveCount >= 5 ) RamStraightMoveCount = 0;
+
+		if ( Unit.CanMoveFromTo( pos, tg ) == true ) 
+		{
+			ApplyMove( pos, tg );
+		}
+		else RamStraightMoveCount = 0;
+   }
+
+	public void UpdateRookMovement()
+	{
+		Vector2 pos = new Vector2( (int) Unit.Pos.x, (int) Unit.Pos.y );	
+		
+		Vector2 bestpos = new Vector2( -1, -1 );
+		float bestscore = Map.I.DistFromTarget[ (int)pos.x, (int)pos.y ];
+		
+		int[,] dr = { { 6, 2, 0, 4 },             // Horizontal, vertical,  ar = 0
+			          { 0, 4, 6, 2 } };           // Vertical, Horizontal,  ar = 1
+		
+		int ar = 1;  
+		if( Map.I.Hero.Pos.y == pos.y ) ar = 0;
+		float dx = Mathf.Abs( Map.I.Hero.Pos.x - pos.x );
+		float dy = Mathf.Abs( Map.I.Hero.Pos.y - pos.y );
+		if( dx > dy ) ar = 0;
+		if( dx == 1 && dy == 1 ) return;                      // Monster adjacent to hero doesnt move
+		
+		for( int i = 0; i < 4; i++ )
+		{
+			Vector2 tg =  pos + Manager.I.U.DirCord[ dr[ ar, i ] ];
+			if ( Unit.CanMoveFromTo( pos, tg ) == true ) 
+			{
+				if( bestscore > Map.I.DistFromTarget[ (int)tg.x, (int)tg.y ] )
+				{
+					bestpos = tg;
+					bestscore = Map.I.DistFromTarget[ (int)tg.x, (int)tg.y ];
+				}
+			}
+		}
+		
+		Unit.UpdateDirection();
+		if( bestpos.x == -1 ) return;
+		ApplyMove( pos, bestpos );
+		Unit.UpdateDirection();
+	}
+
+	public void UpdateRoachMovement()
+	{
+		Vector2 pos = new Vector2( (int) Unit.Pos.x, (int) Unit.Pos.y );	
+
+		Vector2 bestpos = new Vector2( -1, -1 );
+		float bestscore = Map.I.DistFromTarget[ (int)pos.x, (int)pos.y ];
+
+		int[,] dr = { { 6, 2, 0, 4, 1, 5, 3, 7 },             // Horizontal, vertical, diagonal - ar = 0
+			          { 0, 4, 6, 2, 1, 5, 3, 7 } };           // Vertical, Horizontal, diagonal - ar = 1
+
+        int ar = 0;  
+        if( Map.I.Hero.Pos.y == pos.y ) ar = 1;
+		float dx = Mathf.Abs( Map.I.Hero.Pos.x - pos.x );
+		float dy = Mathf.Abs( Map.I.Hero.Pos.y - pos.y );
+        if( dx > dy ) ar = 1;
+		Unit.UpdateDirection();
+        if( dx == 1 && dy == 1 ) return;                      // Monster adjacent to hero doesnt move
+
+		for( int i = 0; i < 8; i++ )
+		{
+			Vector2 tg =  pos + Manager.I.U.DirCord[ dr[ ar, i ] ];
+			if ( Unit.CanMoveFromTo( pos, tg ) == true ) 
+			   {
+				if( bestscore > Map.I.DistFromTarget[ (int)tg.x, (int)tg.y ] )
+			 	   {
+				    bestpos = tg;
+					bestscore = Map.I.DistFromTarget[ (int)tg.x, (int)tg.y ];
+				   }
+			   }
+		}
+
+		Unit.UpdateDirection();
+		if( bestpos.x == -1 ) return;
+		ApplyMove( pos, bestpos );
+		Unit.UpdateDirection();
+	}
+
+	public void UpdateMoveOrderId()
+	{
+	if( Unit.UnitType == EUnitType.MONSTER )
+	if( MoveOrderID != -1 )
+	   {
+		for( int i = MoveOrderID; i < Map.I.MoveOrder.Count - 1; i++ )
+		{
+			Map.I.MoveOrder[i] = Map.I.MoveOrder[i + 1];
+			Map.I.MoveOrder[i].Control.MoveOrderID--;
+		}
+		if( Map.I.MoveOrder.Count > 0 )
+			if( Map.I.MoveOrder[Map.I.MoveOrder.Count - 1] )
+				Map.I.MoveOrder.RemoveAt( Map.I.MoveOrder.Count - 1 );
+	   }
+	}
+
+	public void UpdateSmoothMovementAnimation()
+	{
+		if( Unit == false ) return;
+        //if( Map.I.SmoothMovementFactor == -1 ) return;f
+        Vector3 op = new Vector3( OldPos.x, OldPos.y, -1);
+		if( op.x == -1 ) op = Unit.transform.position;
+		Vector3 from = new Vector3( op.x, op.y, -1 );
+		Vector3 to   = Unit.transform.position;
+		Unit.Graphic.transform.position = Vector3.Lerp( from , to, Map.I.SmoothMovementFactor );	
+        //float amt = .06f;
+		//Unit.Graphic.transform.position += new Vector3( Random.Range( -amt, +amt ), Random.Range( -amt, +amt ), 0 );	
+		//if( Map.I.SmoothMovementFactor >= 1 ) Map.I.SmoothMovementFactor = -1;                                   
+	}
+}

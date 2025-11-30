@@ -1,0 +1,21 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class AttackPanel : MonoBehaviour {
+
+	public tk2dTextMesh TitleTxt, DamageText, RangeText;
+
+	public void UpdateIt ( Attack at )
+    {
+		if( at == null ) { gameObject.SetActive( false ); return; }
+		gameObject.SetActive( true );
+
+		if( at.DamageType == EDamageType.MELEE   ) TitleTxt.text = "Melee Attack";
+		if( at.DamageType == EDamageType.MISSILE ) TitleTxt.text = "Missile Attack";
+		if( at.DamageType == EDamageType.MAGIC   ) TitleTxt.text = "Magic Attack";
+
+		DamageText.text =  "Damage:  " + at.AttackPower.ToString("0.0");
+		float bn = Util.Percent( at.DamageSurplusBonus, at.DamageSurplus );
+		if( bn > 0 ) DamageText.text += " + " + bn.ToString("0.0");
+	}
+}

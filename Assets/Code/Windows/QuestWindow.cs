@@ -1,0 +1,65 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class QuestWindow : MonoBehaviour 
+{
+	public static QuestWindow I;
+	public tk2dUIDropDownMenu QuestMenu;
+
+	//_____________________________________________________________________________________________________________________ Start
+
+	public void Start()
+	{
+		I = this;
+	}
+
+	//_____________________________________________________________________________________________________________________ Save Quest
+	
+	public void SaveQuestWindowData()
+	{
+		if( Manager.I.ProfileNumber == -1 ) return;
+        string file = Application.persistentDataPath + "/Profiles/Profile " + Manager.I.ProfileNumber + "/Quest Data.dat";
+		ES2.Save( QuestMenu.Index, file + "?tag=SelectedItem" );
+		ES2.Save( Manager.I.QuestName, file + "?tag=QuestName" );
+	}
+
+	//_____________________________________________________________________________________________________________________ Load Quest data
+
+  	public void LoadQuestWindowData( int profile )
+	{
+        string file = Application.persistentDataPath + "/Profiles/Profile " + profile + "/Quest Data.dat";
+		if( ES2.Exists( file ) )
+		{
+			QuestMenu.Index     = ES2.Load<int>( file + "?tag=SelectedItem");
+			Manager.I.QuestName = ES2.Load<string>( file + "?tag=QuestName");
+		}
+	}
+
+	//_____________________________________________________________________________________________________________________ Finalize quest Window
+		
+	public void FinalizeQuestScreen()
+	{
+		gameObject.SetActive( false );
+		Manager.I.QuestName = QuestMenu.SelectedItem;
+		MainMenu.I.QuestButton.text = "Quest: \n" + QuestMenu.SelectedItem;
+		SaveQuestWindowData();
+	}
+
+	//_____________________________________________________________________________________________________________________ Init Quest Screen
+
+	public void InitQuestScreen()
+	{
+		if( SettingsWindow.I.gameObject.activeSelf ) SettingsWindow.I.FinalizeSettingsScreen();
+
+		if( ProfileWindow.I.ProfileName.text == ""        ||
+		    ProfileWindow.I.ProfileName.text == "Empty"   ||
+		    Manager.I.ProfileNumber == -1 )
+		    {
+			ProfileWindow.I.gameObject.SetActive( true );
+			return;
+		    }
+
+		gameObject.SetActive( true );
+		LoadQuestWindowData( Manager.I.ProfileNumber );
+	}	
+}

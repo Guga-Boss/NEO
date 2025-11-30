@@ -1,0 +1,262 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Water Material
+  m_Shader: {fileID: 4800000, guid: bcea0d39ea8735047841c07e3c007fae, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CloudTex:
+        m_Texture: {fileID: 2800000, guid: e224a8935e88c744386bada94a5ba14c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailTex:
+        m_Texture: {fileID: 2800000, guid: 8cff836502518f646b0cb5caffb2d276, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FoamTex:
+        m_Texture: {fileID: 2800000, guid: ba6b0fb92fcb6ef42a6425772369b0a8, type: 3}
+        m_Scale: {x: 2.52, y: -3.66}
+        m_Offset: {x: 3.49, y: -0.45}
+    - _LavaFoamTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LavaMainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LavaReflectionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _LavaTex:
+        m_Texture: {fileID: 2800000, guid: 4b76f74f29767954ca1056075b819338, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 2f825e5590ff50642b1cc222a7e4a84a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ReflectionTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterTex:
+        m_Texture: {fileID: 2800000, guid: cfcec16c635fec04fa7302cdf91e8b9c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BaseTileSize: 64
+    - _BaseWaveSpeed: 0.1
+    - _BlueSmoothness: 0.455
+    - _BlueThreshold: 1
+    - _BumpScale: 1
+    - _CloudDistortion: 0.085
+    - _CloudIntensity: 0
+    - _CloudReflection: 0.29
+    - _CloudReflectionStrength: 1
+    - _CloudScale: 0.98
+    - _CloudSpeed: -0.01
+    - _CloudTiling: 0.01
+    - _ColorIntensity: 1.57
+    - _Columns: 5
+    - _Cutoff: 0.5
+    - _DepthFactor: 5
+    - _DepthFade: 1.28
+    - _DetailNormalMapScale: 1
+    - _Distortion: 0.0273
+    - _DistortionStrength: 0.01
+    - _DropletCount: 14
+    - _DropletFallSpeed: -6.08
+    - _DropletIntensity: 0.864
+    - _DropletLifetime: 2
+    - _DropletSize: 2.44
+    - _DropletSpeed: 1.32
+    - _DropletTimes_0: 85.46216
+    - _DropletTimes_1: 85.46216
+    - _DropletTimes_10: 85.46216
+    - _DropletTimes_11: 85.46216
+    - _DropletTimes_12: 85.46216
+    - _DropletTimes_13: 85.46216
+    - _DropletTimes_14: -1
+    - _DropletTimes_15: -1
+    - _DropletTimes_16: -1
+    - _DropletTimes_17: -1
+    - _DropletTimes_18: -1
+    - _DropletTimes_19: -1
+    - _DropletTimes_2: 85.46216
+    - _DropletTimes_3: 85.46216
+    - _DropletTimes_4: 85.46216
+    - _DropletTimes_5: 85.46216
+    - _DropletTimes_6: 85.46216
+    - _DropletTimes_7: 85.46216
+    - _DropletTimes_8: 85.46216
+    - _DropletTimes_9: 85.46216
+    - _DstBlend: 0
+    - _FPS: 12
+    - _FishInfluence: 0.2
+    - _FoamEdge: 0.0341
+    - _FoamIntensity: 0
+    - _FoamSpeed: 1.046
+    - _FoamStrength: 0.3
+    - _FoamThreshold: 0.628
+    - _FoamTiling: 32
+    - _FoamWidth: 0.0684
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _LavaCloudReflectionStrength: 1
+    - _LavaColorIntensity: 1.74
+    - _LavaFoamStrength: 0.3
+    - _LavaReflectionStrength: 0.5
+    - _LavaScale: 2
+    - _LavaSunReflectionStrength: 1
+    - _LavaWaveAngle: 45
+    - _LavaWaveFrequency: 12
+    - _LavaWaveIntensity: 0.255
+    - _LavaWaveSpeed: 1.5
+    - _LavaWaveStrength: 0.1
+    - _Metallic: 0
+    - _Mode: 0
+    - _MouseInfluence: 1
+    - _MouseWaveSize: 2
+    - _MouseWaveSpeed: 4
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _PixelSnap: 1
+    - _RaftInfluence: 0.5
+    - _RedThreshold: 0.64
+    - _ReflectionSharpness: 97
+    - _ReflectionStrength: 0.37
+    - _Rows: 8
+    - _SandWidth: 0.1
+    - _ScaleX: 1
+    - _ScaleY: 1
+    - _Shininess: 0.078125
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _Speed: 1
+    - _SrcBlend: 1
+    - _SubTileSize: 32
+    - _SunReflection: 0.72
+    - _SunReflectionDistortion: 0.3
+    - _SunReflectionIntensity: 1.2
+    - _SunReflectionSharpness: 5
+    - _SunReflectionSize: 0.15
+    - _SunReflectionStrength: 1
+    - _TextureSize: 16
+    - _TileSize: 16
+    - _Tiling: 32
+    - _TilingFactor: 10.5
+    - _UVSec: 0
+    - _WakeFalloff: 2
+    - _WakeSize: 2
+    - _WaterScale: 5
+    - _WaterTiling: 32
+    - _WaveAmount: 0.148
+    - _WaveAngle: 45
+    - _WaveDirections: 8
+    - _WaveDuration: 2
+    - _WaveFrequency: 12
+    - _WaveHeight: 0.0396
+    - _WaveIntensity: 0.23
+    - _WaveRandomness: 0.76
+    - _WaveSize: 0.8
+    - _WaveSmoothness: 0.56
+    - _WaveSpeed: 4
+    - _WaveStrength: 0.151
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DeepLavaColor: {r: 1, g: 0.9019608, b: 0, a: 1}
+    - _DeepWaterColor: {r: 0.08235294, g: 0.33333334, b: 0.6666667, a: 1}
+    - _DetailSpeed: {r: 0.1, g: 0.1, b: 0, a: 0}
+    - _DetailTiling: {r: 2, g: 2, b: 0, a: 0}
+    - _DropletPositions: {r: 0, g: 0, b: 0, a: 0}
+    - _DropletPositions_0: {r: 172.13884, g: 94.90667, b: 0.67423093, a: 1}
+    - _DropletPositions_1: {r: 174.29408, g: 97.70502, b: 0.67423093, a: 1}
+    - _DropletPositions_10: {r: 170.31749, g: 111.0406, b: 0.67423093, a: 1}
+    - _DropletPositions_11: {r: 162.10318, g: 113.77894, b: 0.67423093, a: 1}
+    - _DropletPositions_12: {r: 173.29364, g: 116.01275, b: 0.67423093, a: 1}
+    - _DropletPositions_13: {r: 160.44225, g: 114.07273, b: 0.67423093, a: 1}
+    - _DropletPositions_14: {r: 0, g: 0, b: 0, a: 0}
+    - _DropletPositions_15: {r: 0, g: 0, b: 0, a: 0}
+    - _DropletPositions_16: {r: 0, g: 0, b: 0, a: 0}
+    - _DropletPositions_17: {r: 0, g: 0, b: 0, a: 0}
+    - _DropletPositions_18: {r: 0, g: 0, b: 0, a: 0}
+    - _DropletPositions_19: {r: 0, g: 0, b: 0, a: 0}
+    - _DropletPositions_2: {r: 175.53676, g: 97.195274, b: 0.67423093, a: 1}
+    - _DropletPositions_3: {r: 172.06377, g: 102.029526, b: 0.67423093, a: 1}
+    - _DropletPositions_4: {r: 175.97763, g: 102.85279, b: 0.67423093, a: 1}
+    - _DropletPositions_5: {r: 165.99173, g: 107.004616, b: 0.67423093, a: 1}
+    - _DropletPositions_6: {r: 163.80782, g: 110.14597, b: 0.67423093, a: 1}
+    - _DropletPositions_7: {r: 161.68617, g: 109.00773, b: 0.67423093, a: 1}
+    - _DropletPositions_8: {r: 174.18703, g: 109.95415, b: 0.67423093, a: 1}
+    - _DropletPositions_9: {r: 159.49457, g: 112.078606, b: 0.67423093, a: 1}
+    - _DropletTimes: {r: 0, g: 0, b: 0, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FishPositions: {r: 0, g: 0, b: 0, a: 0}
+    - _FoamColor: {r: 0.5004325, g: 0.38235295, b: 1, a: 0.8}
+    - _LavaColor: {r: 1, g: 0, b: 0, a: 1}
+    - _LavaDropletPositions: {r: 0, g: 0, b: 0, a: 0}
+    - _LavaDropletTimes: {r: 0, g: 0, b: 0, a: 0}
+    - _MousePos: {r: 111.76985, g: 82.521164, b: 0, a: 0}
+    - _RaftPosition: {r: 0, g: 0, b: 0, a: 0}
+    - _ReflectionColor: {r: 1, g: 0.8392157, b: 0, a: 0.7529412}
+    - _SandColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _SunDirection: {r: -125.41, g: -101.7, b: 177.84, a: -98.5}
+    - _SunReflectionColor: {r: 1, g: 0.95, b: 0.9, a: 1}
+    - _WaterColor: {r: 0, g: 0.38431373, b: 0.6392157, a: 1}
+    - _WaterOffset: {r: -3, g: 0, b: 0, a: 0}
+    - _WaterStretch: {r: 1, g: 1, b: 0, a: 0}
+    - _WaterTiling: {r: 32, g: 32, b: 0, a: 0}

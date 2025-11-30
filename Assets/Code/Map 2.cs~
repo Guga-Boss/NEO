@@ -1,0 +1,524 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+
+public partial class Map : MonoBehaviour 
+{
+	public void UpdateTransTile( tk2dTileMap tm, Vector2 tg, ETileType tile, int first, bool castShadow )
+	{
+		bool[] np = {false, false, false, false, false, false, false, false }; // Neighbor present?
+
+		ELayerType layer = GetTileLayer( tile );
+		if(  Gaia[ (int)tg.x, (int)tg.y ] == null ) return;
+		ETileType tl = (ETileType) Gaia[ (int)tg.x, (int)tg.y ].TileID;
+
+		if( tile != tl ) return;
+
+		Vector2 t = new Vector2( 0, 0 );
+		for( int d = 0; d < 8; d++ )
+		{
+			t = tg + Manager.I.U.DirCord[d];
+			if ( PtOnMap(t) )
+			{
+				if( Gaia[ (int)t.x, (int)t.y ] ) 
+				{
+				ETileType tileId2 = (ETileType) Gaia[ (int)t.x, (int)t.y ].TileID;
+				if( (ETileType) tileId2 == tl ) np[d] = true;
+				}
+				
+			} else np[d] = true;
+		}
+		
+		int[] offset = {32, 32, 32, 32};	
+		
+		if(!np [ (int) EDirection.W ] && !np [ (int) EDirection.N ] )                                offset[0] = 0;  else 
+			if( np [ (int) EDirection.W ] &&  np [ (int) EDirection.NW ] &&  np [ (int) EDirection.N ] ) offset[0] = 32; else
+			if( np [ (int) EDirection.W ] && !np [ (int) EDirection.NW ] &&  np [ (int) EDirection.N ] ) offset[0] = 39; else 
+			if(!np [ (int) EDirection.N ] )   offset[0] = 2; else
+			if(!np [ (int) EDirection.W ] )   offset[0] = 24;  
+		
+		if(!np [ (int) EDirection.N ] && !np [ (int) EDirection.E ] )                                offset[1] = 5;  else
+			if( np [ (int) EDirection.N ] &&  np [ (int) EDirection.NE ] &&  np [ (int) EDirection.E ] ) offset[1] = 32; else
+			if( np [ (int) EDirection.N ] && !np [ (int) EDirection.NE ] &&  np [ (int) EDirection.E ] ) offset[1] = 41; else
+			if(!np [ (int) EDirection.N ] )   offset[1] = 2; else
+			if(!np [ (int) EDirection.E ] )   offset[1] = 35; 
+		
+		if(!np [ (int) EDirection.W ] && !np [ (int) EDirection.S ] )                                offset[2] = 75; else
+			if( np [ (int) EDirection.W ] &&  np [ (int) EDirection.SW ] &&  np [ (int) EDirection.S ] ) offset[2] = 32; else
+			if( np [ (int) EDirection.W ] && !np [ (int) EDirection.SW ] &&  np [ (int) EDirection.S ] ) offset[2] = 69; else
+			if(!np [ (int) EDirection.S ] )   offset[2] = 77; else 
+			if(!np [ (int) EDirection.W ] )   offset[2] = 24; 
+		
+		if(!np [ (int) EDirection.E ] && !np [ (int) EDirection.S ] )                                offset[3] = 80; else
+			if( np [ (int) EDirection.S ] &&  np [ (int) EDirection.SE ] &&  np [ (int) EDirection.E ] ) offset[3] = 32; else
+			if( np [ (int) EDirection.E ] && !np [ (int) EDirection.SE ] &&  np [ (int) EDirection.S ] ) offset[3] = 71; else
+			if(!np [ (int) EDirection.S ] )   offset[3] = 77; else 
+			if(!np [ (int) EDirection.E ] )   offset[3] = 35; 
+
+
+        if( castShadow )
+        {
+		if( offset[2] == 77                    ) tm.SetTile( (int)(   tg.x    * 2 ) + 0, (int)((tg.y -1)* 2) + 1, 1, 93 ); 
+		if( offset[3] == 77 || offset[3] == 80 ) tm.SetTile( (int)( ( tg.x  ) * 2 ) + 1, (int)((tg.y -1)* 2) + 1, 1, 93 ); 
+		if( offset[1] == 35                    ) tm.SetTile( (int)( ( tg.x + 1 ) * 2 ) + 0, (int)((tg.y)* 2) + 1, 1, 93 ); 
+		if( offset[3] == 35 || offset[3] == 80 ) tm.SetTile( (int)( ( tg.x + 1 ) * 2 ) + 0, (int)((tg.y)* 2) + 0, 1, 93 ); 
+		if( offset[3] == 80                    ) tm.SetTile( (int)( ( tg.x + 1 ) * 2 ) + 0, (int)((tg.y -1)* 2) + 1, 1, 93 ); 
+		if( offset[2] == 75                    ) tm.SetTile( (int)(   tg.x    * 2 ) + 0, (int)((tg.y -1)* 2) + 1, 1, 90 ); 
+		if( offset[2] == 75                    ) tm.SetTile( (int)(   tg.x    * 2 ) + 1, (int)((tg.y -1)* 2) + 1, 1, 91 ); 
+		if( offset[1] == 5                     ) tm.SetTile( (int)( ( tg.x + 1 ) * 2 ) + 0, (int)((tg.y)* 2) + 1, 1, 6 ); 
+		if( offset[1] == 5                     ) tm.SetTile( (int)( ( tg.x + 1 ) * 2 ) + 0, (int)((tg.y)* 2) + 0, 1, 21 ); 
+        }
+
+			tm.SetTile( (int)(tg.x * 2) + 0,    (int)(tg.y * 2) + 1, 0, first + offset[0] ); 
+			tm.SetTile( (int)(tg.x * 2) + 1,    (int)(tg.y * 2) + 1, 0, first + offset[1] ); 
+			tm.SetTile( (int)(tg.x * 2) + 0,    (int)(tg.y * 2) + 0, 0, first + offset[2] ); 
+			tm.SetTile( (int)(tg.x * 2) + 1,    (int)(tg.y * 2) + 0, 0, first + offset[3] );
+	}
+
+	public void UpdateTransLayerTilemap()
+	{ 
+		if( UpdateTransTilemap == false ) return;
+		tk2dTileMap tm = TransTileMap;
+		if( tm == null ) Debug.Log ("tm == null");
+
+		tm.transform.position   = new Vector3( Tilemap.transform.position.x-3.2f, Tilemap.transform.position.y-3.2f, Tilemap.transform.position.z - 1);
+		tm.transform.position   = new Vector3( -0.25f, -0.25f, -0.5f );
+
+		Vector2 tg = new Vector2( 0, 0 );
+		for ( tg.y = 0; tg.y < tm.height; tg.y++ )
+		for ( tg.x = 0; tg.x < tm.width;  tg.x++ ) 
+		{
+			tm.SetTile( (int) tg.x, (int) tg.y, 0, (int) ETileType.NONE ); 
+			tm.SetTile( (int) tg.x, (int) tg.y, 1, (int) ETileType.NONE ); 
+		}
+
+		for ( tg.y = 0; tg.y < Tilemap.height; tg.y++ )
+		for ( tg.x = 0; tg.x < Tilemap.width;  tg.x++ ) 
+			{
+				UpdateTransTile( tm, tg, ETileType.FOREST,      0,  true  );
+				UpdateTransTile( tm, tg, ETileType.WATER,      120, false );
+				UpdateTransTile( tm, tg, ETileType.MUD,        240, false );
+				UpdateTransTile( tm, tg, ETileType.CLOSEDDOOR, 360, true  );
+				UpdateTransTile( tm, tg, ETileType.OPENDOOR,   480, false );
+				UpdateTransTile( tm, tg, ETileType.ROOMDOOR,   600, true  );
+			    UpdateTransTile( tm, tg, ETileType.PIT,        720, false );
+			}
+		tm.Build();
+
+		for ( tg.y = 0; tg.y < Tilemap.height; tg.y++ )
+		for ( tg.x = 0; tg.x < Tilemap.width;  tg.x++ ) 		
+		{
+			if  ( (ETileType) Tilemap.GetTile ( (int)tg.x, (int)tg.y, 1 ) == ETileType.WATER )  // *** optimize, water drawn twice
+				              Tilemap.SetTile ( (int)tg.x, (int)tg.y, 1, (int) ETileType.NONE ); 
+
+			if  ( (ETileType) Tilemap.GetTile ( (int)tg.x, (int)tg.y, 1 ) == ETileType.FOREST )   
+			                  Tilemap.SetTile ( (int)tg.x, (int)tg.y, 1, (int) ETileType.NONE ); 
+
+			if  ( (ETileType) Tilemap.GetTile ( (int)tg.x, (int)tg.y, 0 ) == ETileType.MUD )   
+				              Tilemap.SetTile ( (int)tg.x, (int)tg.y, 0, (int) ETileType.NONE ); 
+
+			if  ( (ETileType) Tilemap.GetTile ( (int)tg.x, (int)tg.y, 1 ) == ETileType.CLOSEDDOOR )   
+				              Tilemap.SetTile ( (int)tg.x, (int)tg.y, 1, (int) ETileType.NONE ); 
+
+			if  ( (ETileType) Tilemap.GetTile ( (int)tg.x, (int)tg.y, 1 ) == ETileType.OPENDOOR )   
+			                  Tilemap.SetTile ( (int)tg.x, (int)tg.y, 1, (int) ETileType.NONE ); 
+
+			if  ( (ETileType) Tilemap.GetTile ( (int)tg.x, (int)tg.y, 1 ) == ETileType.ROOMDOOR )   
+				              Tilemap.SetTile ( (int)tg.x, (int)tg.y, 1, (int) ETileType.NONE );
+
+			if  ( (ETileType) Tilemap.GetTile ( (int)tg.x, (int)tg.y, 1 ) == ETileType.PIT )   
+			                  Tilemap.SetTile ( (int)tg.x, (int)tg.y, 1, (int) ETileType.NONE );
+
+		}
+	Tilemap.Build();
+	UpdateTransTilemap = false;
+	}
+
+	public GameObject CreateObjInstance( string str, string iname, EDirection dir, Vector3 pos )
+	{
+		GameObject prefab = (GameObject)Resources.Load (str);
+		GameObject instance = (GameObject)GameObject.Instantiate (prefab);
+		instance.transform.position = pos;
+		instance.name = iname;
+		if( dir != EDirection.NONE ) instance.transform.Rotate (0, 0, -(45.0f * (float) (int) dir));
+		return instance;
+	}
+	
+	public void ClearTilemap( tk2dTileMap tm )
+	{
+		for ( int y = 0; y < tm.height; y++ )
+		for ( int x = 0; x < tm.width;  x++ )
+		for ( int l = 0; l < tm.Layers.Length;  l++ )
+			{ 
+				tm.ClearTile( x, y, l );
+			}
+		tm.ForceBuild();
+	}
+
+	public EDirection GetArrowDir( Vector2 pos )
+	{
+		if( Gaia[ (int)pos.x, (int)pos.y ] == null ) return EDirection.NONE;
+		int tile = (int) Gaia[ (int)pos.x, (int)pos.y ].TileID;
+		int aux = tile - 16;		
+		if ( aux < (int) EDirection.N || aux > (int) EDirection.NW ) return EDirection.NONE;
+		return (EDirection) aux;
+	}
+
+	//__________________________________________________________________________________________________ Checks for Arrow Blockage
+	
+	public bool CheckArrowBlockFromTo( Vector2 from, Vector2 to )
+	{
+		if (!PtOnMap( from ) ) return false;
+		Vector2 dif = new Vector2( from.x - to.x, from.y - to.y );
+		EDirection over = GetArrowDir( from );
+		
+		if ( over != EDirection.NONE )                                                                // leaving arrow
+		{
+			if( dif.x == 0 && dif.y == -1 )
+				if( over == EDirection.S || over == EDirection.SE || over == EDirection.SW ) return true; // to N
+			
+			if( dif.x == 0 && dif.y ==  1 )
+				if( over == EDirection.N || over == EDirection.NE || over == EDirection.NW ) return true; // to S
+			
+			if( dif.x == 1 && dif.y ==  0 )
+				if( over == EDirection.E || over == EDirection.NE || over == EDirection.SE ) return true; // to W
+			
+			if( dif.x == -1 && dif.y == 0 )
+				if( over == EDirection.W || over == EDirection.NW || over == EDirection.SW ) return true; // to E
+			
+			
+			if( dif.x == 1 && dif.y == -1 )
+				if( over == EDirection.S || over == EDirection.SE || over == EDirection.E ) return true; // to NW
+			
+			if( dif.x == -1 && dif.y == +1 )
+				if( over == EDirection.N || over == EDirection.NW || over == EDirection.W ) return true; // to SE
+			
+			if( dif.x == -1 && dif.y == -1 )
+				if( over == EDirection.W || over == EDirection.SW || over == EDirection.S ) return true; // to NE
+			
+			if( dif.x ==  1 && dif.y == +1 )
+				if( over == EDirection.E || over == EDirection.NE || over == EDirection.N ) return true; // to SW
+		}
+		
+		if (!PtOnMap( to   ) ) return false;
+		EDirection dest = GetArrowDir( to );
+		if ( (int) dest >= (int) EDirection.N && (int) dest <= (int) EDirection.NW )                    // Entering arrow
+		{
+			if( dif.x == 0 && dif.y == -1 )
+				if( dest == EDirection.S || dest == EDirection.SE || dest == EDirection.SW ) return true; // to N
+			
+			if( dif.x == 0 && dif.y == +1 )
+				if( dest == EDirection.N || dest == EDirection.NE || dest == EDirection.NW ) return true; // to S
+			
+			if( dif.x == 1 && dif.y == 0 )
+				if( dest == EDirection.E || dest == EDirection.NE || dest == EDirection.SE ) return true; // to W
+			
+			if( dif.x == -1 && dif.y == 0 )
+				if( dest == EDirection.W || dest == EDirection.NW || dest == EDirection.SW ) return true; // to E
+			
+			
+			if( dif.x == 1 && dif.y == -1 )
+				if( dest == EDirection.S || dest == EDirection.SE || dest == EDirection.E ) return true; // to NW
+			
+			if( dif.x == -1 && dif.y == +1 )
+				if( dest == EDirection.N || dest == EDirection.NW || dest == EDirection.W ) return true; // to SE
+			
+			if( dif.x == -1 && dif.y == -1 )
+				if( dest == EDirection.W || dest == EDirection.SW || dest == EDirection.S ) return true; // to NE
+			
+			if( dif.x ==  1 && dif.y == +1 )
+				if( dest == EDirection.E || dest == EDirection.NE || dest == EDirection.N ) return true; // to SW
+		}
+		
+		return false;
+	}
+
+	public Vector2 GetNextTileInLine( tk2dTileMap tm, Vector2 orig, Vector2 dir, ETileType tgtile, int range )
+	{
+		for( int i = 0; i < range; i++ )
+		{
+			Vector2 tg = orig + new Vector2( dir.x * i, dir.y * i );
+			if( PtOnMap( tg ) )
+			{
+				int tile = tm.GetTile( (int)tg.x, (int)tg.y, (int) ELayerType.MODIFIER ); 
+				if( (int) tgtile == tile ) return tg;
+			}
+			else break;
+		}
+		return new Vector2( -1, -1 );
+	}
+
+	public bool PtOnMap( Vector2 pt ) 
+	{
+		if ( pt.x < 0 || pt.x >= Tilemap.width ||
+		     pt.y < 0 || pt.y >= Tilemap.height) return false;
+		return true;
+	}
+	
+	public bool PtOnAreaMap( Vector2 pt ) 
+	{
+		if( CurrentArea == -1 ) return false;
+		if ( pt.x < P1.x || pt.x > P2.x ||
+		     pt.y > P1.y || pt.y < P2.y ) return false;
+		return true;
+	}
+	
+	bool UpdateMouseTile()
+	{
+		Vector3 mp = Input.mousePosition;
+		Mtx = Mty = -1;
+		Tilemap.GetTileAtPosition(Manager.I.Cam.camera.ScreenToWorldPoint(mp), out Mtx, out Mty );
+		
+		if ( Mtx >= Tilemap.width  ) { Mtx = Mty = -1; }
+		if ( Mtx <  0              ) { Mtx = Mty = -1; }
+		if ( Mty >= Tilemap.height ) { Mtx = Mty = -1; }
+		if ( Mty <  0              ) { Mtx = Mty = -1; }
+		
+		return true;
+	}
+
+	public EDirection RotateDir( EDirection direction, int val)
+	{
+		int dir = (int) direction;
+		
+		for(;;)
+		{
+			if( val > 0 ) dir--;
+			if( val < 0 ) dir++;
+			if( dir < 0 ) dir = 7;
+			if( dir > 7 ) dir = 0;
+			if( val > 0  ) val--; 
+			if( val < 0  ) val++;
+			if( val == 0 ) return (EDirection) dir;
+		}
+	}
+	public void ClearTransTile( int x, int y )
+	{
+		TransTileMap.SetTile( (x * 2) + 0, (y * 2) + 1, 0, -1 ); 
+		TransTileMap.SetTile( (x * 2) + 1, (y * 2) + 1, 0, -1 ); 
+		TransTileMap.SetTile( (x * 2) + 0, (y * 2) + 0, 0, -1 ); 
+		TransTileMap.SetTile( (x * 2) + 1, (y * 2) + 0, 0, -1 );	
+	}
+
+	public bool FinalizeMap( tk2dTileMap tm )
+	{
+		bool res = CheckForErrors( tm );
+		if( !res ) return false;
+
+//		for( int i = 0; i < Quest.I.LevelList.Length; i++ )
+//		{
+//			Quest.I.LevelList[ i ].gameObject.SetActive( false );
+//		}
+		CreateAreas();
+		return true;
+	}
+	
+	public bool CheckForErrors( tk2dTileMap tm )
+	{
+		Vector2 pt = new Vector2();
+		string err = "";
+		for ( int l = 0; l < 5; l++ )
+			for ( pt.y = 0; pt.y < tm.height; pt.y++)
+				for ( pt.x = 0; pt.x < tm.width;  pt.x++) 
+			{
+				ETileType tile = (ETileType)tm.GetTile( (int)pt.x,(int) pt.y, l );
+				
+				ELayerType right = GetTileLayer( tile );
+				
+				if( right == ELayerType.NONE ) {}
+				else
+					if( (ELayerType) l != right )
+				{
+					err += "Tilemap Error: " + tile + " on layer " + l + " at: " + pt.x + " " + pt.y; 
+					tm.SetTile ( (int)pt.x, (int)pt.y, (int) right, (int) tile );
+					tm.SetTile ( (int)pt.x, (int)pt.y, l, -1 );
+					tm.ForceBuild();
+				}
+			}
+		
+		if( err != "" ) { Debug.Log("Tilemap Error" + err ); return false;}
+		return true;return false;
+	}
+
+	public List<Vector2> GetLineCords( Vector2 pt1, Vector2 pt2 )
+	{
+        List<Vector2> vl = new List<Vector2>();
+		
+		int x0 = (int) pt1.x;
+		int y0 = (int) pt1.y;
+		int x1 = (int) pt2.x;
+		int y1 = (int) pt2.y;
+		int dx, dy, dx2, dy2, x_inc, y_inc, error, index; 
+		
+		Vector2 elev = new Vector2(0, 0);
+		
+		dx = x1-x0;
+		dy = y1-y0;
+		
+		int l = 1;
+		
+		// test which direction the line is going in i.e. slope angle
+		if (dx>=0) { x_inc = l; } // end if line is moving right
+		else { x_inc = -l; dx = -dx; } // end else moving left
+		
+		if (dy>=0) { y_inc = l;}
+		else { y_inc = -l; dy = -dy; } // end else moving up
+		
+		// compute (dx,dy) * 2
+		dx2 = dx << 1;
+		dy2 = dy << 1;
+		// now based on which delta is greater we can draw the line
+		if (dx > dy) 
+		{
+			// initialize error term
+			error = dy2 - dx;
+			// draw the line
+			for (index=0; index <= dx / l; index++)
+			{
+				vl.Add( new Vector2( x0 + elev.x, y0 + elev.y) );
+
+				// test if error has overflowed
+				if (error >= 0)
+				{
+					error-=dx2;
+					// move to next line
+					y0 += y_inc;
+					
+				} // end if error overflowed
+				// adjust the error term
+				error+=dy2;
+				// move to the next pixel
+				x0 += x_inc;
+				
+			} // end for
+		} // end if |slope| <= 1
+		else 
+		{
+			// initialize error term
+			error = dx2 - dy;
+			// draw the line
+			for (index=0; index <= dy/l; index++)
+			{
+				vl.Add( new Vector2( x0 + elev.x, y0 + elev.y) );
+				
+				// test if error overflowed
+				if (error >= 0)
+				{
+					error-=dy2;
+					// move to next line
+					x0 += x_inc;
+				} // end if error overflowed
+				
+				// adjust the error term
+				error+=dx2;
+				// move to the next pixel
+				y0 += y_inc;
+			} // end for
+		} // end else |slope| > 1
+		// return success
+		
+		return vl;
+	}
+
+
+	public bool HasLOS( Vector2 pt1, Vector2 pt2 )
+	{
+		List<Vector2> LineCord = GetLineCords( pt1, pt2 );
+		
+		for( int i = 1; i < LineCord.Count -1; i++ ) 
+		{
+			Vector2 tg = LineCord[i];
+			if( Map.I.Gaia[ (int) tg.x, (int) tg.y ] )
+			if( Map.I.Gaia[ (int) tg.x, (int) tg.y ].BlockSight ) return false;
+
+			if( Map.I.Gaia2[ (int) tg.x, (int) tg.y ] )
+			if( Map.I.Gaia2[ (int) tg.x, (int) tg.y ].BlockSight ) return false;
+
+			if( Map.I.Unit[ (int) tg.x, (int) tg.y ] )
+			if( Map.I.Unit[ (int) tg.x, (int) tg.y ].BlockSight ) return false;
+		}
+		
+		return true;
+	}
+
+	//______________________________________________________________________________________________________________________ Update Camera
+	
+	void UpdateCamera () 
+	{		
+		if( Hero == null ) return;
+		if( Tilemap == null ) return;
+
+		float dampTime = 0.10f;
+		Vector3 target = new Vector3( Hero.transform.position.x, Hero.transform.position.y, -10 );	
+		float zoom = 0;	
+		if( CurrentArea != -1 )
+		{
+			float ax = OptimalYDif[(int)CurArea.AreaRect.height];
+			zoom = OptimalZoom[(int)CurArea.AreaRect.height];
+     		target.x = CurArea.AreaRect.x +( CurArea.AreaRect.width  / 2 ) - 0.5f;
+			target.y = CurArea.AreaRect.y -( CurArea.AreaRect.height / 2 ) - ax; 
+		} 
+        else
+			zoom = 1;
+
+		float x1 = ( 9.5f / Manager.I.Cam.ZoomFactor ) - .4f;
+		float y1 = ( 3.7f / Manager.I.Cam.ZoomFactor ) - .5f;
+		float x2 = Tilemap.width  - ( 9.5f / Manager.I.Cam.ZoomFactor ) - .6f;
+		float y2 = Tilemap.height - ( 5.0f / Manager.I.Cam.ZoomFactor ) - .5f;
+		
+		Vector3 velocity = Vector3.zero;
+		Vector3 delta = target - Manager.I.Cam.camera.ViewportToWorldPoint(new Vector3( 0.5f, 0.5f, -10 ));
+		Vector3 destination = Manager.I.Cam.camera.transform.position + delta;
+		bool freecam = false;
+        bool freezoom = false;
+
+        if(!freecam )
+           {
+		   float vel = 0;
+		   float dest = Manager.I.Cam.ZoomFactor + zoom;
+
+		   Vector3 tg = Vector3.SmoothDamp(Manager.I.Cam.camera.transform.position, destination, ref velocity, dampTime);
+         
+			tg.x = (float) Mathf.Clamp( tg.x, x1, x2 );
+			tg.y = (float) Mathf.Clamp( tg.y, y1, y2 );
+
+
+		   if(!freezoom ) Manager.I.Cam.ZoomFactor = Mathf.SmoothDamp( Manager.I.Cam.ZoomFactor, zoom, ref vel, dampTime);		
+		   Manager.I.Cam.camera.transform.position = new Vector3( tg.x, tg.y, -10 );
+           }
+	}
+
+void OnGUI()
+   {
+		txt.text = "Tile " + Mtx + " " + Mty + " m pos: " + Input.mousePosition.x + " " + Input.mousePosition.y + "\n";
+
+        Unit un = null;
+		if ( Mtx == -1 || Mty == -1 ) return;
+		if ( Unit[ Mtx, Mty ] ) un = Unit[ Mtx, Mty ]; else
+		if ( Gaia[ Mtx, Mty ] ) un = Gaia[ Mtx, Mty ]; else
+        return;
+
+     	txt.text += "Unit Type: " + un.UnitType + "\n";
+		txt.text += "Unit Type: " + un.TileID + "\n";
+		txt.text += "Direction " + un.Dir + "\n";
+        if( un.Body )
+        {
+		txt.text += "HP: " + un.Body.Hp.ToString("0.0") + " - " + un.Body.TotHp.ToString("0.0") + "\n";
+	    txt.text += "Lives: " + un.Body.Lives + "\n";
+        }
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

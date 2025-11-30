@@ -1,0 +1,156 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class SettingsWindow : MonoBehaviour {
+	public static SettingsWindow I;
+	public tk2dTextMesh[] PrimaryActionButtonText;
+	public tk2dTextMesh[] SecondaryActionButtonText;
+    public float MaxHeroSpeed, KeyHoldDelay;
+	public tk2dUITextInput KeyHoldTextInput, MaxHeroSpeedTextInput;
+	public tk2dUIScrollbar KeyHoldScrollbar, MaxHeroSpeedScrollbar;
+    public tk2dUIDropDownMenu LanguageMenu;
+
+	//_____________________________________________________________________________________________________________________ Start
+
+	public void Start () 
+    {
+    I = this;	
+	}
+
+	//_____________________________________________________________________________________________________________________ Update
+
+    public void Update()
+    {
+		for( int i = 0; i < cInput.length; i++ )
+            {
+             PrimaryActionButtonText  [ i ].text = cInput.GetText( i, 1 );
+			 SecondaryActionButtonText[ i ].text = cInput.GetText( i, 2 );
+		    }
+
+		KeyHoldDelay = 0 + KeyHoldScrollbar.Value * 0.5f;
+		KeyHoldTextInput.Text = "" + KeyHoldDelay.ToString("0.00");
+
+		MaxHeroSpeed = MaxHeroSpeedScrollbar.Value * 0.16f;
+		MaxHeroSpeedTextInput.Text = "" + MaxHeroSpeed.ToString("0.00");
+		Language.SwitchLanguage( LanguageMenu.selectedTextMesh.text );
+	}
+	
+	//_____________________________________________________________________________________________________________________ Finalize Settings Screen
+
+	public void FinalizeSettingsScreen()
+	{
+		gameObject.SetActive( false );
+		SaveSettingsWindowData( Manager.I.ProfileNumber );
+	}
+
+	//_____________________________________________________________________________________________________________________ Save Settings
+	
+	public void SaveSettingsWindowData( int prof )
+	{
+		string file = Application.dataPath + "/Profiles/Profile " + prof + "/Settings.dat";
+		
+		ES2.Save( MaxHeroSpeed, file       + "?tag=MaxHeroSpeed" ); 
+		ES2.Save( KeyHoldDelay, file       + "?tag=KeyHoldDelay" ); 		
+		ES2.Save( LanguageMenu.Index, file + "?tag=LanguageMenu.Index" ); 
+
+		for( int i = 0; i < Manager.I.InputNames.Length; i++ )
+		{
+			ES2.Save( cInput.GetText( i, 1 ), file + "?tag=Primary Input: "   + i );
+			ES2.Save( cInput.GetText( i, 2 ), file + "?tag=Secondary Input: " + i ); 
+		}
+	}
+
+	//_____________________________________________________________________________________________________________________ Load Settings
+
+	public void LoadSettingsWindowData( int profile )
+	{
+		string file = Application.dataPath + "/Profiles/Profile " + profile +"/Settings.dat";
+
+		if( ES2.Exists( file ) )
+		{
+			MaxHeroSpeed = ES2.Load<float>( file + "?tag=MaxHeroSpeed" );
+			KeyHoldDelay = ES2.Load<float>( file + "?tag=KeyHoldDelay" );
+			LanguageMenu.Index = ES2.Load<int>( file + "?tag=LanguageMenu.Index" ); 
+
+			for( int i = 0; i < Manager.I.InputNames.Length; i++ )
+			    {
+			     string prim = ES2.Load<string>( file + "?tag=Primary Input: "   + i );
+			     string sec  = ES2.Load<string>( file + "?tag=Secondary Input: " + i );
+			     cInput.ChangeKey( Manager.I.InputNames[ i ], prim, sec );	 
+                }
+		}
+	}
+	
+	//_____________________________________________________________________________________________________________________ Restore default Data
+
+	public void RestoreDefaultSettings()
+    {
+		cInput.ChangeKey( Manager.I.InputNames[ 0  ], "Alpha8", "UpArrow"    );
+		cInput.ChangeKey( Manager.I.InputNames[ 1  ], "Alpha9", "Keypad3"    );
+		cInput.ChangeKey( Manager.I.InputNames[ 2  ], "O",      "RightArrow" );
+		cInput.ChangeKey( Manager.I.InputNames[ 3  ], "L",      "Keypad9"    );
+		cInput.ChangeKey( Manager.I.InputNames[ 4  ], "K",      "DownArrow"  );
+		cInput.ChangeKey( Manager.I.InputNames[ 5  ], "J",      "Keypad7"    );
+		cInput.ChangeKey( Manager.I.InputNames[ 6  ], "U",      "LeftArrow"  );
+		cInput.ChangeKey( Manager.I.InputNames[ 7  ], "Alpha7", "Keypad1"    );
+		cInput.ChangeKey( Manager.I.InputNames[ 8  ], "V",      "W"          );
+		cInput.ChangeKey( Manager.I.InputNames[ 9  ], "C",      "Q"          );
+		cInput.ChangeKey( Manager.I.InputNames[ 10 ], "X",      "Keypad5"    );
+		cInput.ChangeKey( Manager.I.InputNames[ 11 ], "Z",      "D"          );
+
+        KeyHoldDelay = 0.28f;
+		MaxHeroSpeed = 0.08f;
+    }
+
+	//_____________________________________________________________________________________________________________________ Init Settings screen
+
+	public void InitSettingsScreen()
+	{
+		if( gameObject.activeSelf ) return;
+
+		if( QuestWindow.I.gameObject.activeSelf   ||  // Dont open settings if no profile is chosen
+		    ProfileWindow.I.gameObject.activeSelf ||
+		    Manager.I.ProfileNumber == -1         )
+		{
+			MainMenu.I.OpenProfileWindow();
+			return;
+		}
+
+		gameObject.SetActive( true );
+		LoadSettingsWindowData( Manager.I.ProfileNumber );
+	}	
+	
+	//_____________________________________________________________________________________________________________________ Set action
+
+	public void SetAction( int id, int btn )
+    {
+    cInput.ChangeKey( id, btn );
+    }
+
+	//_____________________________________________________________________________________________________________________ Button Callbacks
+
+	public void Move_N_B1_Click()     { SetAction( 0, 1 ); }
+	public void Move_N_B2_Click()     { SetAction( 0, 2 ); }
+	public void Move_NE_B1_Click()    { SetAction( 1, 1 ); }
+	public void Move_NE_B2_Click()    { SetAction( 1, 2 ); }
+	public void Move_E_B1_Click()     { SetAction( 2, 1 ); }
+	public void Move_E_B2_Click()     { SetAction( 2, 2 ); }
+	public void Move_SE_B1_Click()    { SetAction( 3, 1 ); }
+	public void Move_SE_B2_Click()    { SetAction( 3, 2 ); }
+	public void Move_S_B1_Click()     { SetAction( 4, 1 ); }
+	public void Move_S_B2_Click()     { SetAction( 4, 2 ); }
+	public void Move_SW_B1_Click()    { SetAction( 5, 1 ); }
+	public void Move_SW_B2_Click()    { SetAction( 5, 2 ); }
+	public void Move_W_B1_Click()     { SetAction( 6, 1 ); }
+	public void Move_W_B2_Click()     { SetAction( 6, 2 ); }
+	public void Move_NW_B1_Click()    { SetAction( 7, 1 ); }
+	public void Move_NW_B2_Click()    { SetAction( 7, 2 ); }
+	public void Rotate_CW_B1_Click()  { SetAction( 8, 1 ); }
+	public void Rotate_CW_B2_Click()  { SetAction( 8, 2 ); }
+	public void Rotate_CCW_B1_Click() { SetAction( 9, 1 ); }
+	public void Rotate_CCW_B2_Click() { SetAction( 9, 2 ); }
+	public void Wait_B1_Click()       { SetAction( 10, 1 ); }
+	public void Wait_B2_Click()       { SetAction( 10, 2 ); }
+	public void Special_B1_Click()    { SetAction( 11, 1 ); }
+	public void Special_B2_Click()    { SetAction( 11, 2 ); }
+}

@@ -1,0 +1,62 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class UI : MonoBehaviour {
+
+	public static UI I;
+	public tk2dTextMesh HeroHpText, MonstersHpText, LevelText, ShieldText, EnterAreaTxt;
+	public EnergyBar XPBar, MonstersHpBar, UnitHealthBar;
+	public AttackPanel MeleeAttackPanel, RangedAttackPanel, MagicAttackPanel;
+	
+	// Use this for initialization
+	void Start () {
+		I = this;	
+	}
+	
+	// Update is called once per frame
+	void Update () 
+	{
+		Unit un = Map.I.Hero;
+        if( un == false ) return;
+
+        if( Map.I.Mtx != -1 )
+        if( Map.I.PtOnMap( new Vector2( Map.I.Mtx, Map.I.Mty ) ) )
+		if( Map.I.Unit[ Map.I.Mtx, Map.I.Mty ] ) un = Map.I.Unit[ Map.I.Mtx, Map.I.Mty ];
+
+		if( un == null ) return;
+		HeroHpText.text     = "HP: " + un.Body.Hp.ToString("0.0") + " / " + un.Body.TotHp.ToString("0.0");
+		MonstersHpText.text = "HP: " + Map.I.MonstersHpSum.ToString("0.0") + " / " + Map.I.MonstersTotHpSum.ToString("0.0");
+
+		LevelText.text = "Level: " + un.Body.Level;
+		XPBar.valueCurrent = (int)  (un.Body.Stars - ( (un.Body.Level-1) * 5));	
+		MonstersHpBar.valueCurrent = (int) Map.I.MonstersHpSum;
+		UnitHealthBar.valueCurrent = (int) un.Body.Hp;
+		UnitHealthBar.valueMax     = (int) un.Body.TotHp;
+
+		MeleeAttackPanel. UpdateIt( un.MeleeAttack  );  
+		RangedAttackPanel.UpdateIt( un.RangedAttack );  
+		MagicAttackPanel. UpdateIt( un.MagicAttack  );  
+		
+		ShieldText.text = "Shield: " + un.Body.MeleeShield + "%  " + un.Body.MissileShield + "%  " + un.Body.MagicShield + "%";
+
+		if( EnterAreaTxt )
+            {
+			EnterAreaTxt.color = new Color( 1, 1, 1, EnterAreaTxt.color.a - Time.deltaTime * .5f );
+			if( EnterAreaTxt.color.a <= 0 ) EnterAreaTxt.gameObject.SetActive( false );
+		}		
+	}
+
+	public void ShowAreaEnterMessage()
+    {
+        EnterAreaTxt.gameObject.SetActive( true );
+		EnterAreaTxt.text = "Entering:\n" + '"'+ Map.I.CurArea.AreaName + '"';
+        EnterAreaTxt.color = new Color( 1, 1, 1, 1 );
+    }
+
+	public void ShowAreaClearMessage()
+	{
+		EnterAreaTxt.gameObject.SetActive( true );
+		EnterAreaTxt.text = Map.I.CurArea.AreaName + " Cleared!";
+		EnterAreaTxt.color = new Color( 1, 1, 1, 1 );
+	}	
+}

@@ -1,0 +1,431 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1887951373543194}
+  m_IsPrefabParent: 1
+--- !u!1 &1887951373543194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4577482087452628}
+  - component: {fileID: 114018681467633762}
+  - component: {fileID: 114739226459697588}
+  m_Layer: 0
+  m_Name: Quest Data Backup
+  m_TagString: Map Quest
+  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4577482087452628
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887951373543194}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 8, y: 16, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114018681467633762
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887951373543194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapData: {fileID: 114739226459697588}
+  MonsterSprite: {fileID: 0}
+  NestSprite: {fileID: 0}
+  BackgroundSprite: {fileID: 0}
+  QuestNameMesh: {fileID: 0}
+  QuestPanel: {fileID: 0}
+  QuestName: Maze Running
+  Signature: A2_QUEST_2
+  SubFolder: A2
+  NavigationMapIcon: 129
+--- !u!114 &114739226459697588
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1887951373543194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UniqueID: OL95I
+  IsUp: 0
+  Notes: 'add lots of easy cubes here
+
+
+    20 cubes
+
+
+    easy begining
+
+
+    mud push splash, arrow push, slide push
+
+'
+  QuestHelper: {fileID: 114018681467633762}
+  MapCord: {x: 72, y: 16}
+  BlockArea: {x: 2, y: 2}
+  ImagesFolder: {fileID: 1222010931500074, guid: 22444826d366396419e49883af45dfd0,
+    type: 2}
+  GoalsFolder: {fileID: 1354399382210230, guid: 1f94d08e264479b47a9ed1fe40478941,
+    type: 2}
+  GoalList:
+  - {fileID: 114094301231862612, guid: 1f94d08e264479b47a9ed1fe40478941, type: 2}
+  - {fileID: 114763248199457780, guid: 1f94d08e264479b47a9ed1fe40478941, type: 2}
+  - {fileID: 114867258404443380, guid: 1f94d08e264479b47a9ed1fe40478941, type: 2}
+  - {fileID: 114750455455813290, guid: 1f94d08e264479b47a9ed1fe40478941, type: 2}
+  - {fileID: 114792700186128366, guid: 1f94d08e264479b47a9ed1fe40478941, type: 2}
+  - {fileID: 114570848247595424, guid: 1f94d08e264479b47a9ed1fe40478941, type: 2}
+  - {fileID: 114165803952897622, guid: 1f94d08e264479b47a9ed1fe40478941, type: 2}
+  - {fileID: 114201024669895350, guid: 1f94d08e264479b47a9ed1fe40478941, type: 2}
+  - {fileID: 114204631795961182, guid: 1f94d08e264479b47a9ed1fe40478941, type: 2}
+  SDID: 0
+  SectorHintFolder: {fileID: 0}
+  QuestID: 17
+  EnableAlternateStartingCube: 1
+  LabType: 0
+  InitiallyAvailableCubes: -1
+  Available: 1
+  RequiredAdventureList: 
+  RequiredBronzeTrophies: 0
+  RequiredSilverTrophies: 0
+  RequiredGoldTrophies: 0
+  RequiredDiamondTrophies: 0
+  RequiredGeniusTrophies: 0
+  RequiredTrophyArea: 
+  RequiredItem: -1
+  RequiredItemAmount: 0
+  RequiredItemLifeTime: 60
+  RequiredMaxCapacityItem: -1
+  RequiredMaxCapacityAmount: 0
+  UpgradeListFolder: {fileID: 1320621187219782, guid: 37ddf54820860264086be91894c20d3c,
+    type: 2}
+  AdventureUpgradeInfoList:
+  - {fileID: 114337411996016958, guid: 37ddf54820860264086be91894c20d3c, type: 2}
+  TechListFolder: {fileID: 1852623971518686, guid: a73657c77f274724a9ef4fda4d9f3dbd,
+    type: 2}
+  StartingAdventureLevel: 1
+  StartingTrainningLevel: 0
+  RescueToGate: 1
+  StartingGotoCheckPointLevel: 0
+  GotoCheckPointResourceCost: 1
+  AutoOpenGateResourceCost: 1
+  RescueEnabled: 1
+  MaxCubes: 30
+  QuestSecrets: 0
+  MaximumUnits: 0
+  CubeDeathDamage: 10
+  QuestRelevance: 80
+  CubeClearHPBonus: 100
+  ShowPopup: 0
+  ShowDificultySlider: 0
+  ForceGrid: 1
+  MinimumDifficulty: 90
+  MaximumDifficulty: 110
+  StartingDifficultyLimit: 0
+  NewbieDifficultyFactor: -30
+  CasualDifficultyFactor: -20
+  NormalDifficultyFactor: -10
+  VeteranDifficultyFactor: 0
+  HellDifficultyFactor: 15
+  ShowGate: 0
+  GateSize: 6
+  InitialAreaGateCost: 0
+  ExtraAreaGate: 5
+  MaxAreaGateCost: 0
+  InitialLabGateCost: 10
+  GateCreationChance: 100
+  AllowFreeGateOpening: 0
+  MonsterDamageRate: 100
+  PointsPerTile: 0
+  TurnPenalty: 0
+  BaseMonsterLevel: 0
+  SteppingMode: 0
+  AutoScorpionSteppingMode: 1
+  MonsterLevelIncreaseFactor: 0
+  MonsterLevelFactorInflation: 0
+  DynamicMonsterLevelAddPerDeath: 0.05
+  MaximumDirtyAreas: 0
+  LockedZoom: 0
+  DefaultZoom: 0
+  CameraFrontFacingDist: 2
+  ScarabPunishment: 10
+  AreaExitPenalty: 100
+  DirtyAreaExitHPPenalty: 10
+  RestartPenalty: 0
+  GlobalResourcesList: 
+  OutAreaFlashBackDeathCost: -1
+  InAreaFlashBackDeathCost: -1
+  SuddenDeathMode: 0
+  HpHealPerDeadRoach: 0
+  HpHealPerDeadScarab: 0
+  BarricadeChanceHeight:
+  - 100
+  - 100
+  - 100
+  - 100
+  - 100
+  - 50
+  - 10
+  - 5
+  - 1
+  - 0.1
+  OutBarricadeChanceHeight:
+  - 100
+  - 100
+  - 100
+  - 100
+  - 100
+  - 100
+  - 100
+  - 100
+  - 100
+  - 100
+  InExtraBarricadeSize: []
+  OutExtraBarricadeSize: []
+  NailWorkingChance: 100
+  BurningBarricadeDamagePercent: 25
+  BarricadeDestroyInflation: 0
+  PerfectAreaKeyWeight: 0.5
+  MinimumRandomResourceTimer: 8
+  MaximumRandomResourceTimer: 20
+  OutRandomResourceCreationChance: 100
+  OutMinimumRandomResourceTimer: 3
+  OutMaximumRandomResourceTimer: 8
+  RandomResourceWitherFactor: 1
+  RandomResourceDarkWitherFactor: 2
+  BaseRandomResourceChance: 0
+  SpawnResourceRange: 1
+  RelocatorCreationChance: 0
+  InitialUpgradeChestChance: 50
+  CloverPickUpgradeChestChance: 30
+  CubeClearUpgradeChestChance: 30
+  ChestInflationCummulative: 0
+  ChestBonusItemList: 
+  CloversPerCube: 5
+  QuestXPPerClover: 0.04
+  TotalShellBonus: 6
+  TotalCogBonus: 3
+  TotalQuestXPBonus: 10
+  QuestXPPerChest: 0.1
+  BaseHoneycombBonusChance: 10
+  MinimumSongOfPeaceTimer: 12
+  MaximumSongOfPeaceTimer: 18
+  MinimumFreePassTimer: 4
+  MaximumFreePassTimer: 8
+  BaseBeehiveChance: 0
+  BaseBeehiveTurns: 1
+  NeighborPerfectCubeBonusPercent: 0
+  PerfectAreaPercentBonus: 0
+  PerfectAreaHPBonus: 2
+  MushroomBonus: 0
+  WoundedMonsterBonus: 0
+  AllBurntBonus: 0
+  MarkedAreaBonus: 0
+  BackAttackBonus: 0
+  BaseSleepingChance: 0
+  BaseRestingDistance: 0
+  RestingNeedLOSCheck: 0
+  BaseFrontalProtectionChance: 0
+  BaseFrontSideProtectionChance: 0
+  FrontalProtectionMonsterBonus: 0
+  FrontSideProtectionMonsterBonus: 0
+  MinFrontalProtectionSector: 0
+  MinFrontSideProtectionSector: 0
+  MinPoisonBiteSector: 0
+  PoisonBiteMonsterChance: 0
+  PoisonBiteRoachChance: 0
+  PoisonBiteMosquitoChance: 0
+  PoisonBiteMonsterBonus: 0
+  MinSpiderMergeAmount: 2
+  SlimeShotPassThroughBonus: 50
+  SlimeRotationSpeed: 90
+  ForcedFrontalMovementDistance: 100
+  MarkedAreaChance: 0
+  MinimumMarkedAreaSector: 3
+  MarkedMonsterChance: 0
+  MarkedScarabChance: 0
+  BaseWakeUpTurnAmount: 10
+  PoisonerFriendlyFireAttackRate: 50
+  MonsterShieldPerAttackAngle:
+  - 100
+  - 75
+  - 50
+  - 25
+  - 0
+  HeroShieldPerAttackAngle:
+  - 100
+  - 75
+  - 50
+  - 25
+  - 0
+  AutoHeal: 0
+  ClassicBarricadeDestruction: 1
+  RevealLabFog: 1
+  RevealCubeFog: 1
+  AutoBuyMode: 0
+  AutoBuyDirectPurchase: 1
+  QuickTravelEnabled: 1
+  LockCubeJumpEnabled: 0
+  AutoPickupNeighborArtifacts: 1
+  EnableQuickBuy: 1
+  ForceJumpToCheckPoint: 0
+  DefaultMineType: 2
+  InsideDirtyBleedingHP: 0
+  InsideCleanBleedingHP: 0
+  OutsideBleedingHP: 0
+  InsideLabBleedingHP: 0
+  BaseFireMasterLevel: 0
+  BaseFirePower: 20
+  FirePowerInflationPerBonfire: 10
+  FireAttackBonusFactor: 100
+  BaseFireWoodNeeded: 4
+  FirewoodNeededInflation: 0
+  BaseWoodRequiredForSale: 20
+  WoodForRunePrize: 2
+  BaseThreatDuration: 1
+  BaseFirePitsNeededForDiscont: 5
+  PreferedLabPosition: {x: 3, y: 4}
+  DirectLabJump: 1
+  SDList:
+  - {fileID: 114780066261777368, guid: 44476e06e79da3e408d73fc0e0e70de5, type: 2}
+  LabModAction: 01000000020000000200000003000000
+  LabModValue:
+  - 4
+  - 0
+  - 0
+  - 50
+  BasePlatformWalkingLevel: 1
+  BasePlatformSteps: 5
+  MonsterPlatformExitCost: 25
+  ReversedPlatformExitCost: 50
+  OrientationPlatformExitCost: 75
+  FreePlatformExitCost: 100
+  GlobalPlatformAttBonusPerPoint: 0.1
+  PlatformBleedingHP: 0
+  PlatformAttackSpeedBonus: 30
+  PerPlatformStepAttackSpeedBonus: 15
+  RestrictAreaExitToEntranceTile: 1
+  RevealAreaFromAfar: 1
+  BaseMovementLevel: 5
+  BaseScoutLevel: 20
+  BaseHeroMeleeAttackLevel: 0
+  BaseHeroRangedAttackRange: 2
+  BaseHeroRangedAttackLevel: 3
+  LimitedArrowPerCube: 0
+  LimitedMeleeAttacksPerCube: -1
+  BaseArrowInLevel: 3
+  BaseArrowOutLevel: 3
+  BaseHeroMeleeShieldLevel: 0
+  HeroMeleeShieldBonusPerLevel: 10
+  BaseHeroRangedShieldLevel: 0
+  HeroRangedShieldBonusPerLevel: 10
+  BaseMiningLevel: 0
+  BaseDestroyBarricadeLevel: 0
+  BarricadeDestroyHeroWaitTime: 0
+  BarricadeDestroyWaitTime: 0.5
+  RealtimeResourceCounterDecrease: 0
+  RTHeroRangedAttackSpeed: 20
+  RTHeroRangedAttackDamageFactorr: 100
+  RTHeroMeleeAttackSpeed: 20
+  RTHeroMeleeAttackDamageFactorr: 100
+  RTMonsterRangedAttackDamageFactor: 100
+  RTMonsterMeleeAttackDamageFactor: 100
+  RTBaseHeroMeleeAttackDamage: -1
+  RTBaseHeroRangedAttackDamage: -1
+  BaseThrowingAxeAttackDamage: 50
+  BaseBambooAttackDamage: 50
+  BaseSpearAttackDamage: 50
+  BaseHookAttackDamage: 50
+  BaseKickDamage: 10
+  RTDragonRangedAttackSpeed: 20
+  HurryUpTimeScaleFactor: 4
+  RTDragonMinAttSpeed: 100
+  RTDragonMaxAttSpeed: 600
+  FindNestRange: 3
+  BaseDragonSlayerAngle: 30
+  BaseDragonSlayerMaxHP: 90
+  BaseJumperFlightTime: 6
+  JumperHeroAttackDistanceDecrease: 35
+  MaxFrontalTargetManeuverDist: 3
+  MinFrontalTargetManeuverDist: -2
+  BaseMonsterTargetRadius: 0.5
+  BaseHeadShotRadius: 0.15
+  BaseEyeShotRadius: 0.03
+  ExtraMonsterTargetRadiusPerLevel: 0.1
+  DragonShotImpactForce: 0.2
+  RTMonsterMovementSpeed: 10
+  RTHeroStepPenaltyFactor: 0
+  VigorRTAttackSpeedBonus: 50
+  VigorTime: 4
+  DifficultyBonusFactor: 1
+  QueroQueroShotMissedDamage: 10
+  QueroQueroWaitTime: 2
+  NeighborWaspAttSpeedBonusPerTile: 10
+  NeighborWaspPerTileInflation: 20
+  AlignedWaspAttSpeedBonusPerTile: 5
+  AlignedWaspPerTileInflation: 20
+  FireMarkedWaspTurns: 3
+  WaspOverWaterSpeedBonus: 20
+  WaspOverWaterBonusTime: 2
+  BaseDragonFireDamage: 5
+  HeroTargetRadius: 0.4
+  OnOxygenFlyingUnitsSpeedFactor: 20
+  TickMoveTime: 1
+  MaxHeroRotationSpeed: 50
+  DefaultSnowSpeed: 200
+  SnowSpeedLimit: 10
+  SnowStepFactor: 50
+  BaseFishingLevel: 0
+  FishingBaseHookAttack: 10
+  FishingHookAttackPerLevel: 5
+  BaseFishingTime: 15
+  FishingBaseHookRadius: 0.25
+  FishingHookRadiusPerLevel: 1
+  FishingBaseHookSpeed: 1
+  FishingHookSpeedPerLevel: 2.5
+  OverFishBonusPerSecond: 2
+  OverFishBonusInflationPerSecond: 2
+  OverFishBaseBonusPerUnit: 50
+  OverFishInflationPerUnit: 50
+  OverFishCumulativeBonusFactor: 50
+  PerfectFishingBonus: 20
+  FishingBonusPerFlower: 1
+  FishCornTargetRadius: 0
+  MaxPoleDistanceForFishing: 1
+  HarpoonBaseSpeed: 6
+  HarpoonBonusAttack: 15
+  HarpoonMoveSensitivity: 7.5
+  ChooserMonsterGenerationFactor: 0
+  SpawnerPlagueMonsterGenerationFactor: 0
+  KillerPlagueMonsterGenerationFactor: 0
+  KickablePlagueMonsterGenerationFactor: 0
+  SwapPlagueMonsterGenerationFactor: 0
+  BlockerPlagueMonsterGenerationFactor: 0
+  GrabPlagueMonsterGenerationFactor: 0
+  BlockerPlagueMonsterBaseCost: 5

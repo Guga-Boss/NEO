@@ -1,0 +1,120 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public enum ETriggerEffOperator  { NONE = 0, EQUALS, PLUS, MINUS, MULTIPLY, DIVIDE }
+public enum ETriggerCondOperator { NONE = 0, EQUALS, MINOR, MAJOR, MINOREQUAL, MAJOREQUAL }
+
+public enum EPerkType            { NONE = 0, UNIT_PERK, ARTIFACT_PERK }
+
+
+public enum ETriggerVarID        { NONE = 0, UNIT_LEVEL, UNIT_STARS, UNIT_TOTALHP, UNIT_HP, UNIT_LIVES, 
+	                               UNIT_MELEEATTACK, UNIT_RANGEDATTACK, UNIT_RANGEDACCURACY, UNIT_RANGEDRANGE, UNIT_RANGEDPENETRATION, 
+	TOTAL_VALS }
+
+
+public class Perk : MonoBehaviour {
+
+	//public EPerkType Type = EPerkType.NONE;
+	public tk2dSprite IconSprite, IconBackSprite;
+	public ETriggerVarID ConditionVarID;
+	public ETriggerCondOperator ConditionOperator; 
+	public float ConditionVal1;
+	public ETriggerVarID EffectVarID;
+	public ETriggerEffOperator EffectOperator; 
+	public ETriggerVarID EffectVarID1;
+	public float EffectVal1;
+	public ETriggerEffOperator EffectOperator2; 
+	public ETriggerVarID EffectVarID2;
+	public float EffectVal2;
+	public ETriggerEffOperator EffectOperator3; 
+	public ETriggerVarID EffectVarID3;
+	public float EffectVal3;
+	public Unit Unit;
+
+	public float[] VariableList;
+
+	bool CheckConditionOperation()
+	{ 
+		float vval = VariableList [ (int) ConditionVarID ];
+		if( ConditionOperator == ETriggerCondOperator.NONE                                ) return true;
+		if( ConditionOperator == ETriggerCondOperator.EQUALS     && vval == ConditionVal1 ) return true;
+		if( ConditionOperator == ETriggerCondOperator.MAJOR      && vval >  ConditionVal1 ) return true;
+		if( ConditionOperator == ETriggerCondOperator.MINOR      && vval <  ConditionVal1 ) return true;
+		if( ConditionOperator == ETriggerCondOperator.MAJOREQUAL && vval >= ConditionVal1 ) return true;
+		if( ConditionOperator == ETriggerCondOperator.MINOREQUAL && vval <= ConditionVal1 ) return true;
+		return false;
+	}
+
+	bool DoEffectOperation()
+	{
+		float val1 = EffectVal1;
+		float val2 = EffectVal2;
+		float val3 = EffectVal3;
+
+		if ( EffectVarID1 != ETriggerVarID.NONE ) val1 = VariableList [ (int) EffectVarID1 ];
+		if ( EffectVarID2 != ETriggerVarID.NONE ) val2 = VariableList [ (int) EffectVarID2 ];
+		if ( EffectVarID3 != ETriggerVarID.NONE ) val3 = VariableList [ (int) EffectVarID3 ];
+		    
+		float res = 0;
+		if( EffectOperator2 == ETriggerEffOperator.NONE     ) res =        val1; else
+		if( EffectOperator2 == ETriggerEffOperator.PLUS     ) res = val1 + val2; else
+		if( EffectOperator2 == ETriggerEffOperator.MINUS    ) res = val1 - val2; else
+		if( EffectOperator2 == ETriggerEffOperator.MULTIPLY ) res = val1 * val2; else
+		if( EffectOperator2 == ETriggerEffOperator.DIVIDE   ) res = val1 / val2;
+
+		if( EffectOperator3 == ETriggerEffOperator.NONE     ) {}           else
+		if( EffectOperator3 == ETriggerEffOperator.PLUS     ) res += val3; else
+		if( EffectOperator3 == ETriggerEffOperator.MINUS    ) res -= val3; else
+		if( EffectOperator3 == ETriggerEffOperator.MULTIPLY ) res *= val3; else
+		if( EffectOperator3 == ETriggerEffOperator.DIVIDE   ) res /= val3;
+
+		//Debug.Log("EffectOperator: " + EffectOperator +       " EffectVarID: " + EffectVarID + "  val1 " + val1 + "  val1 " + val2 );      
+
+		if( EffectOperator == ETriggerEffOperator.EQUALS   ) { VariableList [ (int) EffectVarID ]  = res; return true; }
+		if( EffectOperator == ETriggerEffOperator.PLUS     ) { VariableList [ (int) EffectVarID ] += res; return true; }
+		if( EffectOperator == ETriggerEffOperator.MINUS    ) { VariableList [ (int) EffectVarID ] -= res; return true; }
+		if( EffectOperator == ETriggerEffOperator.MULTIPLY ) { VariableList [ (int) EffectVarID ] *= res; return true; }
+		if( EffectOperator == ETriggerEffOperator.DIVIDE   ) { VariableList [ (int) EffectVarID ] /= res; return true; }
+
+		return false;
+	}
+
+	public void UpdateIt()
+	{
+		CreateVarList( Unit );
+		if( CheckConditionOperation() ) DoEffectOperation(); 
+		UpdateVarListValues( ref Unit );
+	}
+	
+	public void CreateVarList( Unit un )
+	{
+		VariableList = new float[(int) ETriggerVarID.TOTAL_VALS];
+    	VariableList[ (int) ETriggerVarID.UNIT_TOTALHP] = un.Body.TotHp;
+		VariableList[ (int) ETriggerVarID.UNIT_HP]      = un.Body.Hp;
+		VariableList[ (int) ETriggerVarID.UNIT_STARS]   = un.Body.Stars;
+		VariableList[ (int) ETriggerVarID.UNIT_LIVES]   = un.Body.Lives;
+
+		VariableList[ (int) ETriggerVarID.UNIT_MELEEATTACK]       = un.MeleeAttack.AttackPower;
+
+		VariableList[ (int) ETriggerVarID.UNIT_RANGEDATTACK]      = un.RangedAttack.AttackPower;
+		VariableList[ (int) ETriggerVarID.UNIT_RANGEDACCURACY]    = un.RangedAttack.Accuracy;
+		VariableList[ (int) ETriggerVarID.UNIT_RANGEDRANGE]       = un.RangedAttack.Range;
+		VariableList[ (int) ETriggerVarID.UNIT_RANGEDPENETRATION] = un.RangedAttack.Penetration;
+	}
+
+	public void UpdateVarListValues( ref Unit un )
+	{
+		un.Body.TotHp = VariableList[(int)ETriggerVarID.UNIT_TOTALHP]; 
+		un.Body.Hp    = VariableList[(int)ETriggerVarID.UNIT_HP]; 
+		un.Body.TotHp = VariableList[(int)ETriggerVarID.UNIT_TOTALHP]; 
+		un.Body.Stars = VariableList[(int)ETriggerVarID.UNIT_STARS]; 
+		un.Body.Lives = VariableList[(int)ETriggerVarID.UNIT_LIVES]; 
+
+		un.MeleeAttack.AttackPower = VariableList[(int)ETriggerVarID.UNIT_MELEEATTACK];
+
+		un.RangedAttack.AttackPower = VariableList[ (int) ETriggerVarID.UNIT_RANGEDATTACK];
+		un.RangedAttack.Accuracy    = VariableList[ (int) ETriggerVarID.UNIT_RANGEDACCURACY];
+	    un.RangedAttack.Range       = VariableList[ (int) ETriggerVarID.UNIT_RANGEDRANGE];
+		un.RangedAttack.Penetration = VariableList[ (int) ETriggerVarID.UNIT_RANGEDPENETRATION];
+	}
+}

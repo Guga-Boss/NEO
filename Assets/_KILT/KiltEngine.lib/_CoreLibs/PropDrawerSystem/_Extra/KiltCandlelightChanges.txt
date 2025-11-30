@@ -1,0 +1,5 @@
+KiltEngine use Candlelight in version 3.3.5
+* Changed to work with m_name and _name Property instead of only work with m_Name and _Name (PropertyBackingFieldDrawer Initialize)
+* Removed candlelight namespace to use property easily
+* Added Folder WinRT to Give Compatibility with AppDomain when compiling to WinRT
+* Changed Method TryParseNumberStringAsEnum (In StringX) and GetAllTypes (In ObjectX) to give add support to WinRT

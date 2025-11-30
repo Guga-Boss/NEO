@@ -1,0 +1,917 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1000010034235338}
+  m_IsPrefabParent: 1
+--- !u!1 &1000010034235338
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4000013544384456}
+  - component: {fileID: 114000012429980416}
+  m_Layer: 0
+  m_Name: Sprite Animation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4000013544384456
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010034235338}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114000012429980416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010034235338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecaffc43a5d2b1d47858e3fb687e7271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - name: Yellow Fish Swimming
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 416
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 417
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 418
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 5
+    loopStart: 0
+    wrapMode: 3
+  - name: Red Fish Swimming
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 419
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 420
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 421
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 5
+    loopStart: 0
+    wrapMode: 3
+  - name: Blue Fish Swimming
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 422
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 423
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 424
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 5
+    loopStart: 0
+    wrapMode: 3
+  - name: Manta Ray 1 Swimming
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 448
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 449
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 450
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 5
+    loopStart: 0
+    wrapMode: 3
+  - name: Manta Ray 2 Swimming
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 454
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 455
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 456
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 5
+    loopStart: 0
+    wrapMode: 3
+  - name: Snake Swimming
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 451
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 452
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 453
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 5
+    loopStart: 0
+    wrapMode: 3
+  - name: Frog Swimming
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 457
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 458
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 459
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 5
+    loopStart: 0
+    wrapMode: 3
+  - name: Black Fish Swimming
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 425
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 426
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 427
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 5
+    loopStart: 0
+    wrapMode: 3
+  - name: Black Manta Ray Swimming
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 460
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 461
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 462
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 5
+    loopStart: 0
+    wrapMode: 3
+  - name: Seagul Fly
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 136
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 135
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 134
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 9
+    loopStart: 0
+    wrapMode: 3
+  - name: Dragon Fly
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 137
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 138
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 139
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 9
+    loopStart: 0
+    wrapMode: 3
+  - name: Fog Animation
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 803
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 802
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 801
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 800
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 773
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 772
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 771
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 770
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 769
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 768
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 742
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 741
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 740
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 739
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 738
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 737
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 710
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 709
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 708
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 707
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 706
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 705
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 704
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 678
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 677
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 676
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 675
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 674
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 673
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 672
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 646
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 645
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 644
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 643
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 642
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 641
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 640
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 614
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 613
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 612
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 611
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 610
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 609
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 608
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 13.333334
+    loopStart: 0
+    wrapMode: 0
+  - name: Eletric Orb
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 583
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 584
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 585
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 586
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 12
+    loopStart: 0
+    wrapMode: 0
+  - name: Plague Monster 1
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 117
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 118
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 119
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 118
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 7
+    loopStart: 0
+    wrapMode: 0
+  - name: Plague Monster 2
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 149
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 150
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 151
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 150
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 7
+    loopStart: 0
+    wrapMode: 0
+  - name: Plague Monster 3
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 181
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 182
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 183
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 182
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 7
+    loopStart: 0
+    wrapMode: 0
+  - name: Plague Monster 4
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 120
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 121
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 122
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 121
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 7
+    loopStart: 0
+    wrapMode: 0
+  - name: Plague Monster 5
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 152
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 153
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 154
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 153
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 7
+    loopStart: 0
+    wrapMode: 0
+  - name: Plague Monster 6
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 184
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 185
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 186
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 185
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 7
+    loopStart: 0
+    wrapMode: 0
+  - name: Plague Monster 7
+    frames:
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 123
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 124
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 125
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    - spriteCollection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
+        type: 2}
+      spriteId: 124
+      triggerEvent: 0
+      eventInfo: 
+      eventInt: 0
+      eventFloat: 0
+    fps: 7
+    loopStart: 0
+    wrapMode: 0
