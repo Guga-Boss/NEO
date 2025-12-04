@@ -526,6 +526,10 @@ public class GlobalAltar : SerializedMonoBehaviour
             if( SortPassiveReset() )
                 bn.Reset();
         }
+
+        float vl = 0.5f + Util.GetCurveVal( ButcherPowerLevel, 100, 0f, 2.5f, 1 );                                  // Bonus coin per Butcher power level
+        vl = Util.FloatSort( vl );
+        Item.AddItem( ItemType.Blue_Coin, vl );
     }
     public bool SortPassiveReset()
     {
@@ -548,6 +552,11 @@ public class GlobalAltar : SerializedMonoBehaviour
             if( SortPassiveReset() )
                 bn.Reset();
         }
+
+        float vl = 0.5f + Util.GetCurveVal( ButcherPowerLevel, 100, 0f, 2.5f, 1 );                                  // Bonus coin per Butcher power level
+        vl *= 3;                                                                                                 // Extra bonus for success
+        vl = Util.FloatSort( vl );
+        Item.AddItem( ItemType.Blue_Coin, vl );
     }
 
     internal void UpdateButcherSpawning()

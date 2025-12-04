@@ -274,7 +274,7 @@ public static class Security
         bool res = true;
         string[] files = {
         "Time.NEO", "Blueprint.NEO", "Building.NEO",                                        // list of files to be tested
-        "Farm.NEO", "Idle.NEO",      "Inventory.NEO",
+        "Farm.NEO", "Farm Idle.NEO", "Inventory.NEO", "Inventory Idle.NEO",
         "Navigation.NEO", "Secret.NEO", "Tutorial.NEO"                                      // all files need to exist. Prevent cheating by delete
         };
 

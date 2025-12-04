@@ -33,7 +33,7 @@ public class Idle : MonoBehaviour
         if( Manager.I.SaveOnEndGame == false ) return;
         if( G.Tutorial.CanSave() == false ) return;
 
-        string file = Manager.I.GetProfileFolder() + "Idle.NEO";
+        string file = Manager.I.GetProfileFolder() + FileName;
 
         using( MemoryStream ms = new MemoryStream() )
         using( BinaryWriter writer = new BinaryWriter( ms ) )                                // Open Memory Stream
@@ -53,7 +53,7 @@ public class Idle : MonoBehaviour
 
     public bool Load()
     {
-        string file = Manager.I.GetProfileFolder() + "Idle.NEO";
+        string file = Manager.I.GetProfileFolder() + FileName;
 
         if( !System.IO.File.Exists( file ) )
         {

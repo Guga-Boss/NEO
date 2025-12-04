@@ -449,10 +449,10 @@ public class GS : MonoBehaviour
 
         if( cost > 0 )
         {
+            Item.ForceMessage = true;
+            Item.IgnoreBuffer = true;
             Item.AddItem( ( ItemType ) type, -cost );                                     // Charges item
-            string msg2 = "-" + cost.ToString( "0.#" );
-            Message.CreateMessage( ETileType.NONE, ( ItemType ) type,                     // Charged item message
-            msg2, G.Hero.Pos + new Vector2( 6, 0 ), Color.red );
+            Item.IgnoreBuffer = false;
             string nm = " " + save.Pos.x + " " + save.Pos.y;
             Manager.I.Inventory.Save( nm );                                               // Save Inventory because an item was charged
         }

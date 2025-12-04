@@ -629,6 +629,7 @@ public partial class Map : MonoBehaviour
         SessionChestsOpenCount = 0;
         Map.I.ZoomMode = RM.RMD.DefaultZoom;
         Item.TempResource = false;
+        Item.IgnoreBuffer = false;
         AreaZoomLevel = 0;
         Create2DMap = false;
         Item.IgnoreMessage = false;
