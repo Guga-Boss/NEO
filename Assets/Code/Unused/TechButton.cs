@@ -444,6 +444,7 @@ public class TechButton : MonoBehaviour
                 ClickMouseHoverTechID = new Vector2( techX, techY );
             MouseHoverTechID = new Vector2( techX, techY );
             dd.SetMsg( msg, Color.yellow, .01f );
+            dd.DungeonNameLabel.text = Language.Get( "TECH_" + au.UpgradeType.ToString(), "Main" );                       // Show tech help text
         }
 
         float cost = -needed;
@@ -493,7 +494,7 @@ public class TechButton : MonoBehaviour
             MasterAudio.PlaySound3DAtVector3( "Cashier", G.Hero.Pos );
 
             if( techX != -1 )
-                dd.SetMsg( "Study Completed for " + price, Color.green );
+                dd.SetMsg( "Study Completed for " + price, Color.green );                                         // custom messages
             else
                 if( level <= 1 && Map.I.RM.RMD.StartingAdventureLevel == 0 )
                 dd.SetMsg( "Quest Unlocked for " + price, Color.green );
@@ -501,7 +502,16 @@ public class TechButton : MonoBehaviour
                 dd.SetMsg( "Quest Upgraded for " + price, Color.green );
 
             if( au.UpgradeType == EAdventureUpgradeType.INCREASE_AVAILABLE_CUBES  )                               // Auto select max cube in the dialog           
-                Map.I.RM.DungeonDialog.UpdateAlternateStartingCube( true );   
+                Map.I.RM.DungeonDialog.UpdateAlternateStartingCube( true );
+            
+            if( au.UpgradeType == EAdventureUpgradeType.TRADE )                                                   // give purchased item when buying
+            {
+                Item.AddItem( au.ItemAffected, au.UpgradeEffectAmount );
+            }
+            if( au.UpgradeType == EAdventureUpgradeType.UPGRADE_MAX_CAPACITY )                                    // Increase max item capacity
+            {
+                G.GIT( au.ItemAffected ).ExtraCapacity += au.UpgradeEffectAmount;
+            }
         }
         else
         {                                                                                                        // Only Updates Unlock Cost Color and Label

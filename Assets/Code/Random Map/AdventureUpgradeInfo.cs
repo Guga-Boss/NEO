@@ -11,9 +11,20 @@ public enum EAdventureUpgradeType
     HEALING_HP, INITIAL_HP, LEISURE, UPGRADE_PACKMULE_STACK, PACKMULE_ITEM_CAPACITY,
     INITIAL_ITEM_BONUS, ITEM_BONUS, GOTO_CHECKPOINT, GATE_PRICE, CLOVER_CHANCE,
     INITIAL_UPGRADE_CHEST_CHANCE, CLOVER_UPGRADE_CHEST_CHANCE, CUBE_CLEAR_UPGRADE_CHEST_CHANCE,
-    SPAWN_BUTCHER_CHANCE, CHEST_BASE_BONUS_CHANCE,
-    LOAD_COST_DISCOUNT
+    SPAWN_BUTCHER_CHANCE, CHEST_BASE_BONUS_CHANCE, LOAD_COST_DISCOUNT, TRADE,
+    UPGRADE_MAX_CAPACITY, INCREASE_CUBE_CLEAR_DEFAULT_BONUS
 }
+
+    //---------------------------------------------------------------- these have not yet been added to help text
+    //NONE = -1, , UPGRADE_SHOP, , UPGRADE_PACKMULE,
+    //REDUCE_REQUIRED_ITEM_AMOUNT, INCREASE_REQUIRED_ITEM_TIME, ,
+    //, , CHEST_BONUS_CHANCE, CHEST_BONUS_AMOUNT,
+    //, CHEST_ITEM_CHANCE_INFLATION, CHEST_LEVEL, DECREASE_ENERGY_COST,
+    //HEALING_HP, INITIAL_HP, LEISURE, UPGRADE_PACKMULE_STACK, PACKMULE_ITEM_CAPACITY,
+    //INITIAL_ITEM_BONUS, ITEM_BONUS, , GATE_PRICE, ,
+    //, , ,
+    //, , , ,
+    //
 
 public enum ELeisureType
 {
@@ -327,8 +338,16 @@ public class AdventureUpgradeInfo : MonoBehaviour
 
             case EAdventureUpgradeType.RECEIVE_GIFT:
             msg += "Receive Gift: " + Item.GetName( au.UpgradeItem1Type ) + " " + au.UpgradeItem1Cost.ToString( "+0;-#" );
-            break;                      
-            
+            break;               
+       
+            case EAdventureUpgradeType.TRADE:
+            msg += "Buy: " + " " + ( amt ).ToString( "+0;-#" ) + " " + Item.GetName( au.ItemAffected );
+            break;
+
+            case EAdventureUpgradeType.UPGRADE_MAX_CAPACITY:
+            msg += "Increase Max Cap: " + Item.GetName( au.ItemAffected ) + " " + ( amt ).ToString( "+0;-#" );
+            break; 
+
             case EAdventureUpgradeType.CHEST_BONUS_CHANCE:
             if( au.ItemAffected == ItemType.NONE )
             {
@@ -377,7 +396,13 @@ public class AdventureUpgradeInfo : MonoBehaviour
             case EAdventureUpgradeType.LOAD_COST_DISCOUNT:
             msg += "Load Cost Discount: " + amt.ToString( "+0;-#" ) + "%";
             post = "%";
+            break;
+            
+            case EAdventureUpgradeType.INCREASE_CUBE_CLEAR_DEFAULT_BONUS:
+            msg += "Default Cube clear Bonuses: " + amt.ToString( "+0;-#" ) + "%";
+            post = "%";
             break;  
+
             case EAdventureUpgradeType.CHEST_ITEM_CHANCE_INFLATION:
             msg += " Chest Extra Prize Chance Per Unit: " + amt.ToString( "+0;-#" ) + "%";
             post = "%\nEvery subsequential Chest Opened\nincreases finding chances for all items.";

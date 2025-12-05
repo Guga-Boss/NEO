@@ -160,6 +160,8 @@ public class DungeonDialog : MonoBehaviour
 
         UpdatePackMule();
 
+        DungeonNameLabel.text = Map.I.RM.ORMD.gameObject.name;
+
         UpdateStudies();
 
         for( int i = 0; i < PanelList.Length; i++ )                                                              // Disables all Panels First
@@ -181,8 +183,6 @@ public class DungeonDialog : MonoBehaviour
         }
         if( gameObject.activeSelf ) Cursor.visible = true;   
         ConqueredGoals = 0;
-        DungeonNameLabel.color = Color.white;
-        DungeonNameLabel.text = Map.I.RM.ORMD.gameObject.name;
         if( WindowType != EWindowType.Studies )
             TechEditorFocus.gameObject.SetActive( false );
         if( TechButton.TechEditorText != null && TechButton.TechEditorText != "" )
@@ -191,6 +191,7 @@ public class DungeonDialog : MonoBehaviour
             DungeonNameLabel.color = Color.red;
         }
         SelectedGoal = -1;
+        DungeonNameLabel.color = Color.white;
 
         //BambooFrame.gameObject.SetActive( true );
         //if( Map.I.RM.GameOver )

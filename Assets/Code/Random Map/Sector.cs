@@ -788,7 +788,9 @@ public class Sector : MonoBehaviour
     {
         float shell = Util.GetCurveVal( G.HS.Number, Map.I.RM.RMD.MaxCubes, 
         Map.I.RM.RMD.ShellStartBonus, Map.I.RM.RMD.ShellEndBonus, Map.I.RM.RMD.CubeClearBonusCurve );
+        float bn = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_CUBE_CLEAR_DEFAULT_BONUS );       // tech bonus
 
+        shell += Util.Percent( bn, shell ); 
         shell = Util.FloatSort( shell );
         if( shell > 0 )                                                                                           // Shell bonus
         {
@@ -798,6 +800,7 @@ public class Sector : MonoBehaviour
         float cog = Util.GetCurveVal( G.HS.Number, Map.I.RM.RMD.MaxCubes,
         Map.I.RM.RMD.CogStartBonus, Map.I.RM.RMD.CogEndBonus, Map.I.RM.RMD.CubeClearBonusCurve );
 
+        cog += Util.Percent( bn, cog );
         cog = Util.FloatSort( cog );
         if( cog > 0 )                                                                                             // Cog bonus
         {
@@ -807,6 +810,7 @@ public class Sector : MonoBehaviour
         float xp = Util.GetCurveVal( G.HS.Number, Map.I.RM.RMD.MaxCubes,
         Map.I.RM.RMD.XpStartBonus, Map.I.RM.RMD.XpEndBonus, Map.I.RM.RMD.CubeClearBonusCurve );
 
+        xp += Util.Percent( bn, xp );
         xp = Util.FloatSort( xp );
         if( xp > 0 )                                                                                              // xp bonus
         {
@@ -816,6 +820,7 @@ public class Sector : MonoBehaviour
         float hc = Util.GetCurveVal( G.HS.Number, Map.I.RM.RMD.MaxCubes,
         Map.I.RM.RMD.HoneycombStartBonus, Map.I.RM.RMD.HoneycombEndBonus, Map.I.RM.RMD.CubeClearBonusCurve );
 
+        hc += Util.Percent( bn, hc );
         hc = Util.FloatSort( hc );
         if( hc > 0 )                                                                                              // hc bonus
         {

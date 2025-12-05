@@ -114,6 +114,8 @@ public class Item : MonoBehaviour
     [Space( 20 )]
     [TabGroup( "Main" )]
     public float MaxStack;
+   [TabGroup( "Main" )]
+    public float ExtraCapacity;
     [Space( 20 )]
     [TabGroup( "Main" )]
     public float DefaultNumber;
@@ -329,7 +331,7 @@ public class Item : MonoBehaviour
     }
     private float GetMaxStack()
     {
-        float max = MaxStack;
+        float max = MaxStack + ExtraCapacity;
         if( Type == ItemType.Energy )
         {
             max += G.Farm.WaterTiles;                                                                     // Energy x farm water tile bonus
@@ -763,6 +765,8 @@ public class Item : MonoBehaviour
 
         TF.SaveT( "Count_" + UniqueID, Count );                                                               // Save Item Count
 
+        TF.SaveT( "ExtraCapacity_" + UniqueID, ExtraCapacity );                                               // Save Extra Capacity
+
         TF.SaveT( "LifeTimeCount_" + UniqueID, LifeTimeCount );                                               // Save Lifetime Count
 
         TF.SaveT( "ProductionCount_" + UniqueID, ProductionCount );                                           // Save Production Count
@@ -828,6 +832,8 @@ public class Item : MonoBehaviour
         if( InventoryType == Inventory.IType.Packmule ) return false;
 
         Count = TF.LoadT<float>( "Count_" + UniqueID );                                                      // Load Count
+
+        ExtraCapacity = TF.LoadT<float>( "ExtraCapacity_" + UniqueID );                                      // Load Extra Capacity
 
         LifeTimeCount = TF.LoadT<float>( "LifeTimeCount_" + UniqueID );                                      // Load Lifetime
 
