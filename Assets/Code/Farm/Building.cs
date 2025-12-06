@@ -27,9 +27,10 @@ public enum EBuildingCategory
 public enum EVarType
 {
     NONE = 0,
-    Total_Production_Time, Item_Count, Maximum_Item_Stack, Carry_Capacity, Road_Carry_Capacity,
+    Production_Total_Time, Item_Count, Maximum_Item_Stack, Carry_Capacity, Road_Carry_Capacity,
     Crafting_Bonus_Factor = 12, BluePrint_Success_Rate, BluePrint_Cost,
-    BluePrint_ReSort_Chance, BluePrint_Effect_Amount, Total_Life_Time, Total_Building_Production_Time, PackMule_Capacity
+    BluePrint_ReSort_Chance, BluePrint_Effect_Amount, Total_Life_Time, Total_Building_Production_Time, PackMule_Capacity,
+    Production_Limit
 }
 
 public class Building : MonoBehaviour

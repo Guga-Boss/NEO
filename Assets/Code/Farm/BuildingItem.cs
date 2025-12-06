@@ -17,7 +17,7 @@ public class BuildingItem : MonoBehaviour
     public float AdditivePlantingFactor = -1;
     public bool WorkIsDone = false;
     public Building Building = null;
-    public int MaxProductionStack = -1;                 // This limits the automatic production to a certain limit. Above limit adds only if collected ingame
+    public int ProductionLimit = -1;                 // This limits the automatic production to a certain limit. Above limit adds only if collected ingame
     public void Copy( BuildingItem it )
     {
         ItemCount = it.ItemCount;
@@ -32,7 +32,7 @@ public class BuildingItem : MonoBehaviour
         WorkIsDone = it.WorkIsDone;
         ShownAcessories = it.ShownAcessories;
         AdditivePlantingFactor = it.AdditivePlantingFactor;
-        MaxProductionStack = it.MaxProductionStack;
+        ProductionLimit = it.ProductionLimit;
     }
 
     // theres a bug that will hapen in the future. if i use an iron ore that is being used by the forge:
@@ -42,8 +42,8 @@ public class BuildingItem : MonoBehaviour
     {
         float mstack = Building.GetStat( EVarType.Maximum_Item_Stack, bl, itemID );
 
-        if( MaxProductionStack != -1 )                                                            // Max Production limited                                    
-            mstack = MaxProductionStack;       
+        if( ProductionLimit != -1 )                                                            // Max Production limited                                    
+            mstack = ProductionLimit;       
 
         float prod = Building.GetStat( EVarType.Total_Building_Production_Time, bl, itemID );
 

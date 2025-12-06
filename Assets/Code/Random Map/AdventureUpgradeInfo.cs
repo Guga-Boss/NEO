@@ -12,7 +12,8 @@ public enum EAdventureUpgradeType
     INITIAL_ITEM_BONUS, ITEM_BONUS, GOTO_CHECKPOINT, GATE_PRICE, CLOVER_CHANCE,
     INITIAL_UPGRADE_CHEST_CHANCE, CLOVER_UPGRADE_CHEST_CHANCE, CUBE_CLEAR_UPGRADE_CHEST_CHANCE,
     SPAWN_BUTCHER_CHANCE, CHEST_BASE_BONUS_CHANCE, LOAD_COST_DISCOUNT, TRADE,
-    UPGRADE_MAX_CAPACITY, INCREASE_CUBE_CLEAR_DEFAULT_BONUS
+    UPGRADE_MAX_CAPACITY, INCREASE_CUBE_CLEAR_DEFAULT_BONUS, ITEM_PRODUCTION_LIMIT,
+    ITEM_PRODUCTION_ACTIVATED, ITEM_PRODUCTION_TOTAL_TIME
 }
 
     //---------------------------------------------------------------- these have not yet been added to help text
@@ -21,10 +22,7 @@ public enum EAdventureUpgradeType
     //, , CHEST_BONUS_CHANCE, CHEST_BONUS_AMOUNT,
     //, CHEST_ITEM_CHANCE_INFLATION, CHEST_LEVEL, DECREASE_ENERGY_COST,
     //HEALING_HP, INITIAL_HP, LEISURE, UPGRADE_PACKMULE_STACK, PACKMULE_ITEM_CAPACITY,
-    //INITIAL_ITEM_BONUS, ITEM_BONUS, , GATE_PRICE, ,
-    //, , ,
-    //, , , ,
-    //
+    //INITIAL_ITEM_BONUS, ITEM_BONUS, , GATE_PRICE, 
 
 public enum ELeisureType
 {
@@ -312,6 +310,22 @@ public class AdventureUpgradeInfo : MonoBehaviour
             msg += "Required Item Lifetime: -" + Util.ToSTime( amt );
             post = " ";
             break;
+            
+            case EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT:
+            msg += Item.GetName( au.ItemAffected ) + " Production Limit: " + amt.ToString( "+0;-#" );
+            post = " ";
+            break;
+
+            case EAdventureUpgradeType.ITEM_PRODUCTION_ACTIVATED:
+            msg += Item.GetName( au.ItemAffected ) + " Production Activated: " + Util.IntToBool( ( int ) amt ).ToString();
+            post = " ";
+            break;
+
+            case EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME:
+            msg += Item.GetName( au.ItemAffected ) + " Production Time: " + Util.ToSTime( amt );
+            post = " ";
+            break;
+
             case EAdventureUpgradeType.UPGRADE_PACKMULE_STACK:
             msg += "Packmule Max Stack: +" + amt.ToString( "0.#" );
             break;

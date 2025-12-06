@@ -294,8 +294,9 @@ public class Inventory : MonoBehaviour {
             string lifet = Util.ToTime( totl - other.LifeTimeCount );
             string life = "\n\nLifeTime: " + lifet;
             if( itm.TotalLifeTime == 0 ) life = "";
-
-            float tm = itm.ProductionTime - itm.ProductionCount;
+            
+            float tott = Item.GetStat( EVarType.Production_Total_Time, other );
+            float tm = tott - itm.ProductionCount;
             string answer = Util.ToTime( tm );
             string next = "\n\nNext in: " + answer;
             if( Item.IsPlagueMonster( ( int ) itm.Type, false ) )
@@ -303,7 +304,10 @@ public class Inventory : MonoBehaviour {
                 next = "\n\nPosition Change in: " + answer;
                 if( tm <= 0 ) next = "\n\nPOSITION CHANGED!!";
             }
-            if( itm.ProductionTime == 0 ) next = "";
+            if( tott == 0 ) next = "";
+            float plim = Item.GetStat( EVarType.Production_Limit, other );
+            if( plim > 0 ) 
+                next += "\nMax Production Limit: " + plim;
 
             //float craftbonus = Item.GetStat( EVarType.Crafting_Bonus_Factor, itm );
             //float bn = 0; float perc = 0; bool suc = false;
@@ -340,7 +344,7 @@ public class Inventory : MonoBehaviour {
             }
 
             if( Manager.I.GameType == EGameType.CUBES )
-                extra += "\nLifetime Collected: " + Item.GetTotalGained( itm.Type );
+                extra += "\nLifetime Collected: " + Item.GetTotalGained( itm.Type ).ToString( "0." );
 
 
             if( itm.Type == ItemType.Secrets_Found )

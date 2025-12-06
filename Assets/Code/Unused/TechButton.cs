@@ -512,6 +512,18 @@ public class TechButton : MonoBehaviour
             {
                 G.GIT( au.ItemAffected ).ExtraCapacity += au.UpgradeEffectAmount;
             }
+            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT )                                   // Increase max item capacity
+            {
+                G.GIT( au.ItemAffected ).ExtraProductionLimit += ( int ) au.UpgradeEffectAmount;
+            }
+            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME )                              // item production time
+            {
+                G.GIT( au.ItemAffected ).ExtraProductionTotalTime += ( int ) au.UpgradeEffectAmount;
+            }
+            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_ACTIVATED )                               // item production activation
+            {
+                G.GIT( au.ItemAffected ).ProductionPurchased = ( int ) au.UpgradeEffectAmount;
+            }
         }
         else
         {                                                                                                        // Only Updates Unlock Cost Color and Label

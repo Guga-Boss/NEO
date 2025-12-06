@@ -293,8 +293,8 @@ public partial class Farm : MonoBehaviour
                     if( prd > 0 )
                     {
                         txt += "\nProduction Time: " + tm;
-                        if( bi.MaxProductionStack != -1 )
-                            txt += "\nMax: " + bi.MaxProductionStack;
+                        if( bi.ProductionLimit != -1 )
+                            txt += "\nMax: " + bi.ProductionLimit;
                     }
                     if( bi.AdditivePlantingFactor > 0 )                                                              // additive planting
                     txt += "\nPlant Multiple seeds to Increase Harvest";

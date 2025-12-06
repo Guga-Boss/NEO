@@ -130,11 +130,15 @@ public class Item : MonoBehaviour
     [TabGroup( "Carry" )]
     public float RoadCarryCapacity = 0;
     [TabGroup( "Production" )]
-    public float BaseProductionTime;
+    public bool BaseProductionActivated = false;          // item has originaly production activated?
     [TabGroup( "Production" )]
-    public float ProductionTime;
+    public int ProductionPurchased = -2;                  // production purchased overide:   -2 == default value,  0 == false,   1 == true
     [TabGroup( "Production" )]
-    public float ProductionCount;
+    public float BaseProductionTotalTime = 0;             // original prod time
+    [TabGroup( "Production" )]
+    public float ExtraProductionTotalTime = 0;            // Purchased prod time
+    [TabGroup( "Production" )]
+    public float ProductionCount;                         // time counter
     [TabGroup( "Production" )]
     public bool SaveLifeTime = false;
     [TabGroup( "Production" )]
@@ -145,6 +149,10 @@ public class Item : MonoBehaviour
     public float LifeTimeCount;
     [TabGroup( "Production" )]
     public bool CountLifetime = false;
+    [TabGroup( "Production" )]
+    public int BaseProductionLimit = 0;                     // base prod limit
+    [TabGroup( "Production" )]
+    public int ExtraProductionLimit = 0;                    // purchased limit
     [TabGroup( "Option" )]
     public bool SaveData = true;
     [TabGroup( "Option" )]
@@ -190,6 +198,8 @@ public class Item : MonoBehaviour
     public static bool IgnoreBuffer = false;
     public static string PostMessage;
     public int OldCount;
+
+
     #endregion
 
     #if UNITY_EDITOR
@@ -769,7 +779,13 @@ public class Item : MonoBehaviour
 
         TF.SaveT( "LifeTimeCount_" + UniqueID, LifeTimeCount );                                               // Save Lifetime Count
 
+        TF.SaveT( "ProductionPurchased_" + UniqueID, ProductionPurchased );                                   // Save Production Purchased 
+       
         TF.SaveT( "ProductionCount_" + UniqueID, ProductionCount );                                           // Save Production Count
+
+        TF.SaveT( "ExtraProductionTotalTime_" + UniqueID, ExtraProductionTotalTime );                         // Save Extra Production Total Time
+
+        TF.SaveT( "ExtraProductionLimit_" + UniqueID, ExtraProductionLimit );                                 // Save Extra Production Limit
 
         TF.SaveT( "TotalGained_" + UniqueID, TotalGained );                                                   // Save Total Gained
 
@@ -837,7 +853,13 @@ public class Item : MonoBehaviour
 
         LifeTimeCount = TF.LoadT<float>( "LifeTimeCount_" + UniqueID );                                      // Load Lifetime
 
-        ProductionCount = TF.LoadT<float>( "ProductionCount_" + UniqueID );                                  // Load ProductionCount                 
+        ProductionPurchased = TF.LoadT<int>( "ProductionPurchased_" + UniqueID );                            // Load Production Purchased
+
+        ProductionCount = TF.LoadT<float>( "ProductionCount_" + UniqueID );                                  // Load Production Count   
+
+        ExtraProductionTotalTime = TF.LoadT<float>( "ExtraProductionTotalTime_" + UniqueID );                // Load Extra Production Total Time   
+
+        ExtraProductionLimit = TF.LoadT<int>( "ExtraProductionLimit_" + UniqueID );                          // Load Extra Production Limit  
 
         TotalGained = TF.LoadT<float>( "TotalGained_" + UniqueID );                                          // Load Total Gained
 
@@ -917,21 +939,31 @@ public class Item : MonoBehaviour
 
     public void UpdateProduction( float addTime = 0 )
     {
-        if( ProductionTime <= 0 ) return;
+        if( ProductionPurchased == -2 )
+        if( BaseProductionActivated == false ) return;
+        if( ProductionPurchased == 0 ) return;
+
+        float tottime = GetStat( EVarType.Production_Total_Time, this );
+
+        if( tottime <= 0 ) return;
+
         ProductionCount += Time.unscaledDeltaTime + addTime;
 
-        float max = GetMaxStack();
-        if( GetMaxStack() < 0 ) max = 10000000;
+        float max = GetMaxStack();                                                          // get stack limit
+        if( max < 0 ) max = 100000000;
 
-        if( Type == ItemType.Energy )                                                      // Stop production of these ones since limit was reached
-        if( Count >= max )                                                         
+        float plim = GetStat( EVarType.Production_Limit, this );
+        if( plim > 0 )                                                                      // Max Production limited                                    
+            max = plim;  
+                                                   
+        if( Count >= max )                                                                  // Stop production ones since limit was reached
         {
-            Count = GetMaxStack();
+            Count = max;
             ProductionCount = 0;            
         }
 
         for( ; ; )
-        if ( ProductionCount >= ProductionTime )
+        if( ProductionCount >= tottime )
             {
                 if( Item.IsPlagueMonster( ( int ) Type, false ))
                 if( Map.I.Farm.UpdateBlockingMonsters( this ) )                             // Blocking Monster Creation
@@ -944,15 +976,15 @@ public class Item : MonoBehaviour
                 }
 
                 IgnoreMessage = true;
-                AddItem( Type, 1,Inventory.IType.Inventory, true );                        // Adds the item
+                AddItem( Type, 1,Inventory.IType.Inventory, true );                         // Adds the item
 
                 if( Count >= max )                                                          // limits max
                 {
-                    Count = GetMaxStack();
+                    Count = max;
                     ProductionCount = 0;
                     break;
                 }
-                ProductionCount -= ProductionTime;
+                ProductionCount -= tottime;                                                 // decrement timer
             }
             else break;
     }
@@ -1019,8 +1051,8 @@ public class Item : MonoBehaviour
             perc = "%";
             break;
 
-            case EVarType.Total_Production_Time:
-            ProductionTime += power;
+            case EVarType.Production_Total_Time:
+            ExtraProductionTotalTime += power;
             break;
 
         }
@@ -1033,9 +1065,11 @@ public class Item : MonoBehaviour
     {
         switch( var )
         {
-            case EVarType.Total_Production_Time:
-            it.ProductionTime = Blueprint.GetUseSum( var );
-            return it.BaseProductionTime + it.ProductionTime;
+            case EVarType.Production_Total_Time:
+            return it.BaseProductionTotalTime + it.ExtraProductionTotalTime;
+
+            case EVarType.Production_Limit:
+            return it.BaseProductionLimit + it.ExtraProductionLimit;
 
             case EVarType.Total_Life_Time:
             it.TotalLifeTime = Blueprint.GetUseSum( var );

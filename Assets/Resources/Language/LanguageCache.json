@@ -425,7 +425,7 @@
                 },
                 {
                     "key": "TECH_GOTO_CHECKPOINT",
-                    "value": "Purchase this technology, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nUse this to navigate faster. \nThis feature has a one-time activation cost but provides unlimited uses per cube."
+                    "value": "Purchase this technology, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nUse this to navigate faster. \nThis feature has a one-time activation cost but provides unlimited free uses per cube."
                 },
                 {
                     "key": "TECH_UPGRADE_MAX_CAPACITY",
@@ -464,8 +464,16 @@
                     "value": "Every time you clear a cube, you gain basic resources such as Shells, Cogs, Quest XP, and Honeycombs. \nThe amount depends on the cube’s difficulty. \nPurchase this technology to increase the overall yield."
                 },
                 {
-                    "key": "TECH_",
-                    "value": ""
+                    "key": "TECH_ITEM_PRODUCTION_LIMIT",
+                    "value": "Some items with automatic production have a production cap. \nPurchase this tech to increase that cap. \nBeyond this limit, items can only be obtained in the forest, not through auto production."
+                },
+                {
+                    "key": "TECH_ITEM_PRODUCTION_ACTIVATED",
+                    "value": "Purchase this tech to enable or disable automatic production for the specified resource."
+                },
+                {
+                    "key": "TECH_ITEM_PRODUCTION_TOTAL_TIME",
+                    "value": "Some resources are produced automatically. Buy this tech to speed up or slow down their production."
                 }
             ]
         },
