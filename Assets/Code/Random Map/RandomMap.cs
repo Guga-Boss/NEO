@@ -2455,7 +2455,7 @@ public class RandomMap : MonoBehaviour
         if( AutoGotoEnergyCost > 0 && Helper.I.ReleaseVersion )
         {
             string disc = "";
-            float perc = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.DECREASE_ENERGY_COST );
+            float perc = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.AUTOMOVE_ENERGY_COST );
             if( perc > 0 )
             {
                 AutoGotoEnergyCost -= Util.Percent( perc, AutoGotoEnergyCost );

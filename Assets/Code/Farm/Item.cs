@@ -939,9 +939,7 @@ public class Item : MonoBehaviour
 
     public void UpdateProduction( float addTime = 0 )
     {
-        if( ProductionPurchased == -2 )
-        if( BaseProductionActivated == false ) return;
-        if( ProductionPurchased == 0 ) return;
+        if( ProductionEnabled() == false ) return;
 
         float tottime = GetStat( EVarType.Production_Total_Time, this );
 
@@ -987,6 +985,13 @@ public class Item : MonoBehaviour
                 ProductionCount -= tottime;                                                 // decrement timer
             }
             else break;
+    }
+    public bool ProductionEnabled()
+    {
+        if( ProductionPurchased == -2 )
+            if( BaseProductionActivated == false ) return false;
+        if( ProductionPurchased == 0 ) return false;
+        return true;
     }
 
     public void UpdateLifeTime( float addTime = 0 )

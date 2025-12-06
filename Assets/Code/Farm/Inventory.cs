@@ -308,6 +308,7 @@ public class Inventory : MonoBehaviour {
             float plim = Item.GetStat( EVarType.Production_Limit, other );
             if( plim > 0 ) 
                 next += "\nMax Production Limit: " + plim;
+            if( other.ProductionEnabled() == false ) next = "";
 
             //float craftbonus = Item.GetStat( EVarType.Crafting_Bonus_Factor, itm );
             //float bn = 0; float perc = 0; bool suc = false;

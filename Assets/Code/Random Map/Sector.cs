@@ -788,7 +788,7 @@ public class Sector : MonoBehaviour
     {
         float shell = Util.GetCurveVal( G.HS.Number, Map.I.RM.RMD.MaxCubes, 
         Map.I.RM.RMD.ShellStartBonus, Map.I.RM.RMD.ShellEndBonus, Map.I.RM.RMD.CubeClearBonusCurve );
-        float bn = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_CUBE_CLEAR_DEFAULT_BONUS );       // tech bonus
+        float bn = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.CUBE_CLEAR_DEFAULT_BONUS );       // tech bonus
 
         shell += Util.Percent( bn, shell ); 
         shell = Util.FloatSort( shell );

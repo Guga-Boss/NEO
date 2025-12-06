@@ -7,22 +7,14 @@ public enum EAdventureUpgradeType
     NONE = -1, UNLOCK_ADVENTURE, UPGRADE_SHOP, UPGRADE_STUDIES, UPGRADE_PACKMULE,
     REDUCE_REQUIRED_ITEM_AMOUNT, INCREASE_REQUIRED_ITEM_TIME, INCREASE_AVAILABLE_CUBES,
     UPGRADE_AUTOOPENGATE_BUTTON, RECEIVE_GIFT, CHEST_BONUS_CHANCE, CHEST_BONUS_AMOUNT,
-    CHEST_PERSIST_CHANCE, CHEST_ITEM_CHANCE_INFLATION, CHEST_LEVEL, DECREASE_ENERGY_COST,
+    CHEST_PERSIST_CHANCE, CHEST_ITEM_CHANCE_INFLATION, ITEM_PRODUCTION_ACTIVATED, AUTOMOVE_ENERGY_COST,
     HEALING_HP, INITIAL_HP, LEISURE, UPGRADE_PACKMULE_STACK, PACKMULE_ITEM_CAPACITY,
     INITIAL_ITEM_BONUS, ITEM_BONUS, GOTO_CHECKPOINT, GATE_PRICE, CLOVER_CHANCE,
     INITIAL_UPGRADE_CHEST_CHANCE, CLOVER_UPGRADE_CHEST_CHANCE, CUBE_CLEAR_UPGRADE_CHEST_CHANCE,
     SPAWN_BUTCHER_CHANCE, CHEST_BASE_BONUS_CHANCE, LOAD_COST_DISCOUNT, TRADE,
-    UPGRADE_MAX_CAPACITY, INCREASE_CUBE_CLEAR_DEFAULT_BONUS, ITEM_PRODUCTION_LIMIT,
-    ITEM_PRODUCTION_ACTIVATED, ITEM_PRODUCTION_TOTAL_TIME
+    UPGRADE_MAX_CAPACITY, CUBE_CLEAR_DEFAULT_BONUS, ITEM_PRODUCTION_LIMIT,
+    ITEM_PRODUCTION_TOTAL_TIME
 }
-
-    //---------------------------------------------------------------- these have not yet been added to help text
-    //NONE = -1, , UPGRADE_SHOP, , UPGRADE_PACKMULE,
-    //REDUCE_REQUIRED_ITEM_AMOUNT, INCREASE_REQUIRED_ITEM_TIME, ,
-    //, , CHEST_BONUS_CHANCE, CHEST_BONUS_AMOUNT,
-    //, CHEST_ITEM_CHANCE_INFLATION, CHEST_LEVEL, DECREASE_ENERGY_COST,
-    //HEALING_HP, INITIAL_HP, LEISURE, UPGRADE_PACKMULE_STACK, PACKMULE_ITEM_CAPACITY,
-    //INITIAL_ITEM_BONUS, ITEM_BONUS, , GATE_PRICE, 
 
 public enum ELeisureType
 {
@@ -282,7 +274,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
             msg += rs + " Gate Price: " + amt.ToString( "+0;-#" );
             post = " ";
             break;
-            case EAdventureUpgradeType.DECREASE_ENERGY_COST:
+            case EAdventureUpgradeType.AUTOMOVE_ENERGY_COST:
             msg += "Energy Cost for Automove Reduced by: " + amt.ToString( "+0;-#" ) + "%";
             post = " ";
             break;
@@ -412,18 +404,14 @@ public class AdventureUpgradeInfo : MonoBehaviour
             post = "%";
             break;
             
-            case EAdventureUpgradeType.INCREASE_CUBE_CLEAR_DEFAULT_BONUS:
-            msg += "Default Cube clear Bonuses: " + amt.ToString( "+0;-#" ) + "%";
+            case EAdventureUpgradeType.CUBE_CLEAR_DEFAULT_BONUS:
+            msg += "Default Cube Clear Bonuses: " + amt.ToString( "+0;-#" ) + "%";
             post = "%";
             break;  
 
             case EAdventureUpgradeType.CHEST_ITEM_CHANCE_INFLATION:
             msg += " Chest Extra Prize Chance Per Unit: " + amt.ToString( "+0;-#" ) + "%";
             post = "%\nEvery subsequential Chest Opened\nincreases finding chances for all items.";
-            break;
-
-            case EAdventureUpgradeType.CHEST_LEVEL:
-            msg += " Chest Level: Lv " + amt.ToString( "0." );
             break;
 
             case EAdventureUpgradeType.INITIAL_HP:
@@ -452,7 +440,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
                 msg += au.UpgradeType + " ERROR: bad Item Affected!";
                 break;
             }
-            msg += "" + Item.GetName( au.ItemAffected ) + "Prize Bonus: " + amt.ToString( "+0;-#" ) + "%";
+            msg += "" + Item.GetName( au.ItemAffected ) + " Prize Bonus: " + amt.ToString( "+0;-#" ) + "%";
             post = "%";
             break;
 

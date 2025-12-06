@@ -425,15 +425,23 @@
                 },
                 {
                     "key": "TECH_GOTO_CHECKPOINT",
-                    "value": "Purchase this technology, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nUse this to navigate faster. \nThis feature has a one-time activation cost but provides unlimited free uses per cube."
+                    "value": "Purchase this technology, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nThis is called \"Find Puzzle\" feature. Use it to navigate faster. \n\nThis feature has a one-time activation cost but provides unlimited free uses per cube."
                 },
                 {
                     "key": "TECH_UPGRADE_MAX_CAPACITY",
-                    "value": "Some collectibles have a maximum amount that can be gathered. Purchase this technology to increase the maximum capacity for the specified item."
+                    "value": "Some Resources have a maximum amount that can be gathered. Purchase this technology to increase the maximum capacity for the specified item."
                 },
                 {
                     "key": "TECH_CHEST_BASE_BONUS_CHANCE",
-                    "value": "Purchase this tech to increase the chances of obtaining prizes when opening chests."
+                    "value": "Purchase this tech to increase the chances of obtaining prizes when opening chests. \nEffect applies to all prizes."
+                },
+                {
+                    "key": "TECH_CHEST_BONUS_CHANCE",
+                    "value": "Purchase this tech to increase the chances of obtaining prizes when opening chests. \nEffect applies to the indicated Resource."
+                },
+                {
+                    "key": "TECH_CHEST_BONUS_AMOUNT",
+                    "value": "Purchase this technology to increase the number of prizes gained when opening chests.\nThis effect applies to the specified resource."
                 },
                 {
                     "key": "TECH_INITIAL_UPGRADE_CHEST_CHANCE",
@@ -460,12 +468,12 @@
                     "value": "Whenever you open a chest, there’s a small chance for it to respawn. \nPurchase this technology to increase that chance."
                 },
                 {
-                    "key": "TECH_INCREASE_CUBE_CLEAR_DEFAULT_BONUS",
-                    "value": "Every time you clear a cube, you gain basic resources such as Shells, Cogs, Quest XP, and Honeycombs. \nThe amount depends on the cube’s difficulty. \nPurchase this technology to increase the overall yield."
+                    "key": "TECH_CUBE_CLEAR_DEFAULT_BONUS",
+                    "value": "Every time you clear a cube, you gain basic resources such as Shells, Cogs, Quest XP, and Honeycombs. \n\nThe amount depends on the cube’s difficulty.\n\nPurchase this technology to increase the overall yield."
                 },
                 {
                     "key": "TECH_ITEM_PRODUCTION_LIMIT",
-                    "value": "Some items with automatic production have a production cap. \nPurchase this tech to increase that cap. \nBeyond this limit, items can only be obtained in the forest, not through auto production."
+                    "value": "Some items with automatic production have a production cap. \nPurchase this tech to increase that cap.\n\nBeyond this limit, items can only be obtained in the forest, not through auto production."
                 },
                 {
                     "key": "TECH_ITEM_PRODUCTION_ACTIVATED",
@@ -474,6 +482,58 @@
                 {
                     "key": "TECH_ITEM_PRODUCTION_TOTAL_TIME",
                     "value": "Some resources are produced automatically. Buy this tech to speed up or slow down their production."
+                },
+                {
+                    "key": "TECH_ITEM_UPGRADE_SHOP",
+                    "value": "This tech enables the Training button, which allows you to upgrade and unlock quest goals."
+                },
+                {
+                    "key": "TECH_ITEM_UPGRADE_PACKMULE",
+                    "value": "Unlock Packmule."
+                },
+                {
+                    "key": "TECH_ITEM_LEISURE",
+                    "value": "Have some fun and rest."
+                },
+                {
+                    "key": "TECH_ITEM_REDUCE_REQUIRED_ITEM_AMOUNT",
+                    "value": "Text TBD"
+                },
+                {
+                    "key": "TECH_ITEM_INCREASE_REQUIRED_ITEM_TIME",
+                    "value": "Text TBD"
+                },
+                {
+                    "key": "TECH_ITEM_HEALING_HP",
+                    "value": "Increase Healing HP."
+                },
+                {
+                    "key": "TECH_ITEM_INITIAL_HP",
+                    "value": "Increase Initial HP."
+                },
+                {
+                    "key": "TECH_AUTOMOVE_ENERGY_COST",
+                    "value": "Purchase this tech to Reduce the cost for Find Puzzle feature. \n\n(Press \"\\\" key)."
+                },
+                {
+                    "key": "TECH_ITEM_BONUS",
+                    "value": "Purchase this tech to increase ALL bonuses gained for the specified resource."
+                },
+                {
+                    "key": "TECH_ITEM_INITIAL_ITEM_BONUS",
+                    "value": "Purchase this technology to begin each quest with a free quantity of this resource."
+                },
+                {
+                    "key": "TECH_ITEM_CHEST_ITEM_CHANCE_INFLATIONItem inflation, text TBD",
+                    "value": "Text TBD"
+                },
+                {
+                    "key": "TECH_ITEM_UPGRADE_PACKMULE_STACK",
+                    "value": "Text TBD"
+                },
+                {
+                    "key": "TECH_ITEM_PACKMULE_ITEM_CAPACITY",
+                    "value": "Text TBD"
                 }
             ]
         },
