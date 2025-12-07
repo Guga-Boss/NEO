@@ -2676,6 +2676,27 @@ public class MasterAudioInspector : Editor {
                                     }
                                 }
 
+                                // Define o recuo para este campo                                                    // guga add weight
+                                EditorGUI.indentLevel = 0;
+                                GUI.backgroundColor = Color.cyan; // Opcional: Destacar o campo para teste
+
+                                var newWeight = EditorGUILayout.IntField(
+                                    new GUIContent( "Shuffle Weight", "Controls how many times this song appears in the random playlist pool. Higher numbers mean more frequent play." ),
+                                    aSong.Weight,
+                                    GUILayout.Width( 300 ) // Mantém o layout que você especificou
+                                );
+
+                                GUI.backgroundColor = Color.white; // Restaura a cor
+
+                                if( newWeight != aSong.Weight )
+                                {
+                                    // 1. REGISTRA PARA O UNDO
+                                    //AudioUndoHelper.RecordObjectPropertyForUndo( ref _isDirty, aSong, "change Music Shuffle Weight" );
+
+                                    // 2. SALVA O VALOR na variável 'Weight' (garantindo que seja pelo menos 1)
+                                    aSong.Weight = Mathf.Max( 1, newWeight );
+                                }
+
                                 GUI.color = Color.white;
                                 var exp = EditorGUILayout.BeginToggleGroup(" Fire 'Song Started' Event", aSong.songStartedEventExpanded);
                                 if (exp != aSong.songStartedEventExpanded) {

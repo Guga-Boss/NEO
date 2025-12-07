@@ -19,6 +19,7 @@ namespace DarkTonic.MasterAudio {
         public bool isLoop = false;
         public float customStartTime = 0f;
         public int lastKnownTimePoint = 0;
+        public int Weight = 1;              // guga add weight
         public int songIndex = 0;
         public bool songStartedEventExpanded = false;
         public string songStartedCustomEvent = string.Empty;

@@ -56,6 +56,7 @@ public class DungeonDialog : MonoBehaviour
     public static bool UpdateStartingCube = true;
     public int SelectedGoal = -1, Bronze, Silver, Gold;
     public bool UpdateGoalList = false;
+    public int AutogateLev = -2, AvailableCubes = -2;
     #endregion
 
     public void OnEnable()
@@ -72,6 +73,8 @@ public class DungeonDialog : MonoBehaviour
             ErrorMessageTimer = 0;
             FarmButtonClicked = false;
             StartFarm = false;
+            AutogateLev = -2;
+            AvailableCubes = -2;
             WindowType = EWindowType.Normal;
             for( int i = 0; i < PanelList.Length; i++ )           
                 PanelList[ i ].gameObject.SetActive( false );
@@ -84,7 +87,6 @@ public class DungeonDialog : MonoBehaviour
             Map.I.Farm.BuildingUI.gameObject.SetActive( false );
             InventoryBack.SetActive( false );
             DarkPerkBack.SetActive( true );
-            Map.I.Farm.CurrentToolbar = EItemCategory.Resource;
             UI.I.SetTurnInfoText( "", 1, Color.white );
             if( UI.I.BigMessageText.text != "" )
             if( UI.I.BigMessageText.text.Substring( 0, 3 ) == "All" )
@@ -550,8 +552,9 @@ public class DungeonDialog : MonoBehaviour
     public bool AutoOpenGateCheck( bool updateobj = false )
     {
         bool res = false;
-        float avail = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.UPGRADE_AUTOOPENGATE_BUTTON );
-        if( avail > 0 ) res = true;
+        if( AutogateLev == -2 )               // use this var to avoid function below every frame
+            AutogateLev = ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.UPGRADE_AUTOOPENGATE_BUTTON );
+        if( AutogateLev > 0 ) res = true;
         if( updateobj )
             AutoGotoPuzzleButton.gameObject.SetActive( res );
         if( AutoGotoCheckMark.gameObject.activeSelf == false ) res = false;
@@ -569,30 +572,31 @@ public class DungeonDialog : MonoBehaviour
             StartingCubePopup.gameObject.SetActive( false );                                                   // Disable the popup UI; Hides the selection if not enabled
         StartingCubePopup.items = new List<string>();                                                          // Clear previous items; Reset the popup list
 
-        int avail = 0;                                                                                         // Available cubes update
+                                                                                                               // Available cubes update
         int tot = Map.I.RM.RMD.MaxCubes;                                                                       // Total number of cubes; Maximum cubes for this adventure
         if( Map.I.RM.RMD.InitiallyAvailableCubes <= -1 )
-            avail = tot;                                                                                       // If no limit, all cubes are available; Default to total
+             AvailableCubes = tot;                                                                             // If no limit, all cubes are available; Default to total
         else
         {
-            avail = Map.I.RM.RMD.InitiallyAvailableCubes + ( int )                                             // Calculate available cubes with upgrades; Include player upgrades
+            if( AvailableCubes == -2 )
+                AvailableCubes = Map.I.RM.RMD.InitiallyAvailableCubes + ( int )                                // Calculate available cubes with upgrades; Include player upgrades
             AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_AVAILABLE_CUBES );
         }
-        if( avail > tot ) avail = tot;                                                                         // Clamp to total; Ensure available does not exceed max
-        AvailableCubesLabel.text = "Total Cubes: " + tot + " Available: " + avail;                             // Update UI label; Show total and available cubes
+        if( AvailableCubes > tot ) AvailableCubes = tot;                                                       // Clamp to total; Ensure available does not exceed max
+        AvailableCubesLabel.text = "Total Cubes: " + tot + " Available: " + AvailableCubes;                    // Update UI label; Show total and available cubes
         int num = 1 + ( int ) Item.GetNum( ItemType.Starting_Cube,                                             // Get the number of starting cubes player owns; Current inventory count
         Inventory.IType.Inventory, Map.I.RM.CurrentAdventure );
-        if( avail < num ) num = avail;                                                                         // Clamp num to available; Prevent selecting more than allowed
+        if( AvailableCubes < num ) num = AvailableCubes;                                                       // Clamp num to available; Prevent selecting more than allowed
 
         if( selectMax )
         {
             int conquered = ( int ) Item.GetNum( ItemType.Starting_Cube,                                       // Re-fetch current owned cubes; Check against available
             Inventory.IType.Inventory, Map.I.RM.CurrentAdventure );
-            if( avail <= conquered )
+            if( AvailableCubes <= conquered )
             {
-                num = avail;                                                                                   // Set to max if conquered >= available; Force max selection
-                if( avail > conquered ) // new
-                    Item.SetAmt( ItemType.Starting_Cube, avail,
+                num = AvailableCubes;                                                                          // Set to max if conquered >= available; Force max selection
+                if( AvailableCubes > conquered ) // new
+                    Item.SetAmt( ItemType.Starting_Cube, AvailableCubes,
                     Inventory.IType.Inventory, true, Map.I.RM.CurrentAdventure );                              // Update inventory if needed; Sync to max
             }
         }
@@ -747,8 +751,9 @@ public class DungeonDialog : MonoBehaviour
     public void UpdatePackMule()
     {
         PackmuleGO.gameObject.SetActive( false );
+        return;
         if( WindowType == EWindowType.Normal )
-            if( AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.UPGRADE_PACKMULE ) >= 1 )
+            if( AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.UPGRADE_PACKMULE ) >= 1 )  // optmize function only once
             PackmuleGO.gameObject.SetActive( true );
     }
 

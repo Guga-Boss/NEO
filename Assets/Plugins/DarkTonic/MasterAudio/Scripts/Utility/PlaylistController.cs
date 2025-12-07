@@ -974,38 +974,52 @@ namespace DarkTonic.MasterAudio {
             }
         }
 
-        private void FillClips() {
+        private void FillClips()                                                                                                          // guga add weight
+        {
             _clipsRemaining.Clear();
 
-            // add clips from named playlist.
-            if (startPlaylistName == MasterAudio.NoPlaylistName) {
+            _currentPlaylist = null;
+
+            if( string.IsNullOrEmpty( startPlaylistName ) || startPlaylistName == MasterAudio.NoPlaylistName )
                 return;
-            }
 
-            _currentPlaylist = MasterAudio.GrabPlaylist(startPlaylistName);
+            _currentPlaylist = MasterAudio.GrabPlaylist( startPlaylistName );
 
-            if (_currentPlaylist == null) {
+            if( _currentPlaylist == null || _currentPlaylist.MusicSettings == null )
                 return;
-            }
 
-            for (var i = 0; i < _currentPlaylist.MusicSettings.Count; i++) {
-                var aSong = _currentPlaylist.MusicSettings[i];
+            for( var i = 0; i < _currentPlaylist.MusicSettings.Count; i++ )
+            {
+                var aSong = _currentPlaylist.MusicSettings[ i ];
+
+                if( aSong == null )
+                    continue;
+
                 aSong.songIndex = i;
 
-                if (aSong.audLocation != MasterAudio.AudioLocation.ResourceFile) {
-                    if (aSong.clip == null) {
-                        continue;
-                    }
-                } else {
-                    // resource file!
-                    if (string.IsNullOrEmpty(aSong.resourceFileName)) {
-                        continue;
-                    }
+                bool valid;
+
+                if( aSong.audLocation == MasterAudio.AudioLocation.ResourceFile )
+                {
+                    valid = !string.IsNullOrEmpty( aSong.resourceFileName );
+                }
+                else
+                {
+                    valid = aSong.clip != null;
                 }
 
-                _clipsRemaining.Add(i);
+                if( !valid )
+                    continue;
+
+                int w = Mathf.Max( 1, aSong.Weight );
+
+                for( int wIndex = 0; wIndex < w; wIndex++ )
+                {
+                    _clipsRemaining.Add( i );
+                }
             }
         }
+
 
         private void PlaySong(MusicSetting setting, AudioPlayType playType) {
             _newSongSetting = setting;
