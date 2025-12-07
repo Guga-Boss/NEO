@@ -3049,7 +3049,7 @@ public partial class Map : MonoBehaviour
         float firefliesSpeed = 200;
 
         if( music != null &&
-           ( music.name == "frogcave" || music.name == "Spooky Island" || music.name == "Night" || CubeData.I.ForceFireflies ) )
+           ( music.name == "frogcave" || music.name == "Spooky Island" || music.name == "Night" || music.name == "Realm of Fantasy" || CubeData.I.ForceFireflies ) )
         {
             float firefliesTarget = CubeData.I.FirefliesAmount;
             firefliesRate.constant = Mathf.MoveTowards( firefliesRate.constant, firefliesTarget, firefliesSpeed * Time.deltaTime );
