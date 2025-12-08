@@ -3,74 +3,168 @@ using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using System.Linq;
 
-namespace ZipBackup {
-    public class SevenZip : ZipProcess {
+namespace ZipBackup
+{
+    public class SevenZip : ZipProcess
+    {
+        public static bool usePassword = false;
+        public bool Fast = true;
+        public static string password;
 
-        new public static bool isSupported {
-            get {
-                if(string.IsNullOrEmpty(path))
-                    return false;
-#if UNITY_5_5_OR_NEWER
-                return SystemInfo.operatingSystemFamily == OperatingSystemFamily.Windows;
-#else
-                return SystemInfo.operatingSystem.ToLower().Contains("windows");
-#endif
-            }
-        }
-        new public static string path {
-            get {
-                var path = EditorApplication.applicationContentsPath + "/Tools/7z.exe";
-                if(File.Exists(path))
-                    return path;
-                return string.Empty;
+        new public static bool isSupported
+        {
+            get
+            {
+                return SystemInfo.operatingSystem.ToLower().Contains( "windows" ) && File.Exists( path );
             }
         }
 
-        public SevenZip(string output, params string[] sources) {
-            if(!isSupported)
-                throw new FileLoadException("Fastzip is only supported on windows");
-            if(string.IsNullOrEmpty(output))
-                throw new ArgumentException("Invalid output file path");
-            if(sources.Length < 1)
-                throw new ArgumentException("Need at least one source file");
+        new public static string path
+        {
+            get
+            {
+                var exe = EditorApplication.applicationContentsPath + "/Tools/7z.exe";
+                return File.Exists( exe ) ? exe : string.Empty;
+            }
+        }
+
+        public SevenZip( string output, params string[] sources )
+        {
+            if( !isSupported )
+                throw new FileLoadException( "7-Zip não disponível." );
+
+            if( string.IsNullOrEmpty( output ) )
+                throw new ArgumentException( "Saída inválida." );
+
+            if( sources == null || sources.Length == 0 )
+                throw new ArgumentException( "Nenhuma fonte de backup." );
 
             this.output = output;
             this.sources = sources;
         }
 
-        public override bool Start() {
-            startInfo = new ProcessStartInfo();
-            startInfo.FileName = path;
-            startInfo.CreateNoWindow = true;
-            startInfo.UseShellExecute = false;
-            startInfo.RedirectStandardOutput = true;
-            startInfo.RedirectStandardError = true;
-            startInfo.Arguments += string.Format("a -tzip -bd \"{0}\" ", output);
+        static string GeneratePasswordFromFileName( string path )
+        {
+            var name = Path.GetFileNameWithoutExtension( path );
 
-            for(int i = 0; i < sources.Length; i++)
-                if(Directory.Exists(sources[i]) || File.Exists(sources[i]))
-                    startInfo.Arguments += string.Format("\"{0}\" ", sources[i]);
+            // Procura pelo último "_" para separar "NEO_Secure_2025-07-12-09-55"
+            var idx = name.LastIndexOf( '_' );
+            if( idx < 0 )
+            {
+                UnityEngine.Debug.LogWarning( "Não foi possível gerar senha do nome do arquivo, usando padrão" );
+                return "backup";
+            }
 
-            if(File.Exists(output))
-                File.Delete(output);
-            if(!Directory.Exists(Path.GetDirectoryName(output)))
-                Directory.CreateDirectory(Path.GetDirectoryName(output));
+            // Pega a parte da data: "2025-07-12-09-55"
+            var datePart = name.Substring( idx + 1 );
 
-            process = new Process();
-            process.StartInfo = startInfo;
-            process.EnableRaisingEvents = true;
-            process.OutputDataReceived += OutputDataReceived;
-            process.ErrorDataReceived += ErrorDataReceived;
-            process.Exited += Exited;
+            // Verifica se tem o formato correto com hífens
+            if( datePart.Length > 2 && datePart.Contains( "-" ) )
+            {
+                // Remove primeiro e último caractere: 
+                // "2025-07-12-09-55" → "025-07-12-09-5"
+                var pass = datePart.Substring( 1, datePart.Length - 2 );
+                password = pass;
+                //UnityEngine.Debug.Log( "Senha gerada (com hífens): " + pass );
+                return pass;
+            }
 
-            var started = process.Start();
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-
-            return started;
+            return "backup";
         }
 
+        public override bool Start()
+        {
+            try
+            {
+                startInfo = new ProcessStartInfo();
+                startInfo.FileName = path;
+                startInfo.CreateNoWindow = true;
+                startInfo.UseShellExecute = false;
+                startInfo.RedirectStandardOutput = true;
+                startInfo.RedirectStandardError = true;
+
+                // Construir argumentos de forma limpa
+                string args = BuildArguments();
+                startInfo.Arguments = args;
+
+                UnityEngine.Debug.Log( "Safe Backup: " + " Args: " + startInfo.Arguments );
+                password = "null";
+
+                // Preparar diretório de saída
+                var outputDir = Path.GetDirectoryName( output );
+                if( !Directory.Exists( outputDir ) )
+                    Directory.CreateDirectory( outputDir );
+
+                // Deletar arquivo existente se houver
+                if( File.Exists( output ) )
+                    File.Delete( output );
+
+                process = new Process();
+                process.StartInfo = startInfo;
+                process.EnableRaisingEvents = true;
+                process.OutputDataReceived += OutputDataReceived;
+                process.ErrorDataReceived += ErrorDataReceived;
+                process.Exited += Exited;
+
+                var started = process.Start();
+                if( started )
+                {
+                    process.BeginOutputReadLine();
+                    process.BeginErrorReadLine();
+                }
+
+                return started;
+            }
+            catch( Exception ex )
+            {
+                UnityEngine.Debug.LogError( "Erro no SevenZip.Start: " + ex.Message );
+                return false;
+            }
+        }
+        private string BuildArguments()
+        {
+            System.Text.StringBuilder args = new System.Text.StringBuilder();
+
+            // Comando básico
+            args.Append( "a " );
+
+            // Nível de compressão - VOLTAR AO ORIGINAL
+            if( Fast )
+            {
+                // Original: "-tzip -mx=1" para rápido
+                args.Append( "-tzip -mx=1 " );
+            }
+            else
+            {
+                // Original: "-mx=1" para seguro (mas no original ambos eram mx=1!)
+                args.Append( "-mx=1 " ); // ← Como no seu código original
+            }
+
+            // Senha se necessário
+            if( usePassword )
+            {
+                string pass = !string.IsNullOrEmpty( password ) ? password : GeneratePasswordFromFileName( output );
+                args.AppendFormat( "-p\"{0}\" -mhe=on ", pass );
+            }
+
+            // Performance
+            args.Append( "-mmt=on " ); // Multi-threading
+            args.Append( "-bd " );     // Desabilitar indicador de progresso
+
+            // Arquivo de saída
+            args.AppendFormat( "\"{0}\" ", output );
+
+            // Fontes
+            foreach( var source in sources )
+            {
+                if( Directory.Exists( source ) || File.Exists( source ) )
+                {
+                    args.AppendFormat( "\"{0}\" ", source );
+                }
+            }
+
+            return args.ToString();
+        }
     }
 }
