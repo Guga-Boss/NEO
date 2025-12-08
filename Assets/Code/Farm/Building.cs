@@ -314,6 +314,7 @@ public class Building : MonoBehaviour
                 it = bl.Building.Itm[ id ];
 
                 if( it.BaseMaxItemStack > 0 )  // new
+                if( amt > 0 )
                 if( it.ItemCount >= it.BaseMaxItemStack ) return false;                               // max limit reached
                 it.ItemCount += amt;
                 return true;
