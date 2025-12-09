@@ -396,6 +396,14 @@
                     "value": "Butcher Instructions:\n\n\n1) Move close to the Butcher.\n\n2) Choose a desired prize by standing on its slot.\n\n3) Bump into the Butcher, matching the rotating arrow with the fixed one to gain prizes.\n\n4) Reward chances are shown as percentages.\n\n5) Time your hit to align the arrows and boost your reward chances."
                 },
                 {
+                    "key": "TIMED_TECH_MSG",
+                    "value": "This is a timed  Tech. Its effect lasts until the timer expires, then it becomes available for purchase again.\nThe timer only counts while you are playing."
+                },
+                {
+                    "key": "CHANCE_TECH_MSG",
+                    "value": "Notice the percentage indicator: This tech has a chance to succeed or fail when purchased"
+                },
+                {
                     "key": "TECH_TRADE",
                     "value": "Buy this item in exchance for the price indicated below."
                 },
@@ -409,7 +417,7 @@
                 },
                 {
                     "key": "TECH_INCREASE_AVAILABLE_CUBES",
-                    "value": "By default, the number of cubes you can play in a quest is limited. Purchase this technology to increase the available cubes up to the maximum."
+                    "value": "By default, the number of cubes you can play in a quest is limited. Purchase this technology to increase the available cubes up to the maximum.\n\nAvailable cubes are displayed below the three trophy icons."
                 },
                 {
                     "key": "TECH_CLOVER_CHANCE",
@@ -425,7 +433,7 @@
                 },
                 {
                     "key": "TECH_GOTO_CHECKPOINT",
-                    "value": "Purchase this technology, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nThis is called \"Find Puzzle\" feature. Use it to navigate faster. \n\nThis feature has a one-time activation cost but provides unlimited free uses per cube."
+                    "value": "Purchase this technology, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nThis is called \"Find Puzzle\" feature. Use it to navigate faster."
                 },
                 {
                     "key": "TECH_UPGRADE_MAX_CAPACITY",
@@ -510,10 +518,6 @@
                 {
                     "key": "TECH_ITEM_INITIAL_HP",
                     "value": "Increase Initial HP."
-                },
-                {
-                    "key": "TECH_AUTOMOVE_ENERGY_COST",
-                    "value": "Purchase this tech to Reduce the cost for Find Puzzle feature. \n\n(Press \"\\\" key)."
                 },
                 {
                     "key": "TECH_ITEM_BONUS",

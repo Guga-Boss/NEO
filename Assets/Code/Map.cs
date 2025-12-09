@@ -466,6 +466,7 @@ public partial class Map : MonoBehaviour
         UpdateTilemap = true;
         ConsecutivePlatformSteps = 0;
         ProcessedTransCount = 0;
+        HideVegetation = false;
         TurnFrameCount = 0;
         TransInitTime = 0;
         AutoOpenGateStep = 0;
@@ -781,6 +782,7 @@ public partial class Map : MonoBehaviour
 		if( this == null    ) return;
 		if( Tilemap == null ) return;
         PlatformUpdated = false;
+        TechButton.UpdateTimedTech();
         if( UpdateOverlayAnimation() ) return;
         if( UI.I.UpdateMessageBox() ) return;
         if( RM.UpdateIt() ) return;

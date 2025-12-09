@@ -106,9 +106,9 @@ public class RandomMapData : MonoBehaviour
     [TabGroup( "Gate" )]
     public int StartingGotoCheckPointLevel = 0;
     [TabGroup( "Gate" )]
-    public float GotoCheckPointResourceCost = 1f;
+    public float GotoCheckPointResourceCost = 0f;
     [TabGroup( "Gate" )]
-    public float AutoOpenGateResourceCost = 1f;
+    public float AutoOpenGateResourceCost = 0f;
     [TabGroup( "Main" )]
     public bool RescueEnabled = true;
     [TabGroup( "Main" )]

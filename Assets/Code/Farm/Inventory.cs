@@ -6,6 +6,8 @@ using System.IO;
 
 public class Inventory : MonoBehaviour {
 
+    public static bool UpdateGrid = true;
+
     public enum IType
     {
         NONE = 0, Inventory, Packmule
@@ -147,10 +149,12 @@ public class Inventory : MonoBehaviour {
 
         RecipePanel.IsUpgradeButtonHovered = false;                                                                       // it only works here due to script processing order
         if( Map.I.Farm.RecipePanel.UpgradeRecipeButton.state == UIButtonColor.State.Hover )
-            RecipePanel.IsUpgradeButtonHovered = true; 
+            RecipePanel.IsUpgradeButtonHovered = true;
 
         Grid.enabled = true;
-        Grid.Reposition();
+        if( UpdateGrid )
+            Grid.Reposition();                                                                                            // Updates Grid
+        Inventory.UpdateGrid = false;
     }
     public void UpdatePackMule()
     {

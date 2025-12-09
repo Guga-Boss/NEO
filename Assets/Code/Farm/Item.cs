@@ -294,6 +294,7 @@ public class Item : MonoBehaviour
     {
         if( type == ItemType.NONE ) return false;
         ResourceIndicator.UpdateGrid = true;
+        Inventory.UpdateGrid = true;
         if( adv != -1 )                                                                             // Exclusive to a certain adventure
         {
             if( G.GIT( type ).PerAdventureCount == null ||
@@ -358,8 +359,10 @@ public class Item : MonoBehaviour
         if( type == ItemType.NONE ) return false;
         if( amount == 0 ) return false;
         ResourceIndicator.UpdateGrid = true;
+        Inventory.UpdateGrid = true;
         float bonus = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_BONUS, type );       // Tech Bonus amount
-        amount += Util.Percent( bonus, amount );
+        if( amount > 0 )
+            amount += Util.Percent( bonus, amount );                                                // apply bonus
         float initialamount = amount;
 
         if( adv != -1 )                                                                             // Exclusive to a certain adventure
@@ -452,6 +455,8 @@ public class Item : MonoBehaviour
             float given = amount - rest;
             if( amount > 0 )
             {
+                if( type < ItemType.TechPurchase_0_0 )                                                   // Tech purchase uses Totalgained to store timed tech data
+                if( type > ItemType.TechPurchase_5_3 ) 
                 it.TotalGained += amount - rest;                                                         // Total Gained throgout the game
 
                 if( Manager.I.GameType == EGameType.FARM )  
@@ -462,8 +467,6 @@ public class Item : MonoBehaviour
 
             if( it.Count > it.MaximumCount )                                                             // Maximum count achieved
                 it.MaximumCount = it.Count;
-
-            Manager.I.Inventory.Grid.Reposition();
 
             Mine.UpdateVaultCounter( EMineBonusCnType.COLLECT_X_RESOURCE, null, type, amount );          // updates mine vault counter for this picked resource
 
@@ -554,7 +557,6 @@ public class Item : MonoBehaviour
         }
         return true;
     }
-
     private static bool IsAdditive( Item it )
     {
         if( it.Type == ItemType.Clover ) return true;                             // these one always add for game progress and evolution

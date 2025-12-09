@@ -1627,7 +1627,8 @@ public class RandomMap : MonoBehaviour
                 G.Hero.Control.ApplyMove( G.Hero.Pos, poslist[ HeroSector.LastAreaJumpID ] );                       // Directly jump to waypoint
             return;
         }
- 
+
+        if( Map.I.RM.RMD.GotoCheckPointResourceCost > 0 )
         if( Item.GetNum( ItemType.Energy ) < Map.I.RM.RMD.GotoCheckPointResourceCost )
         {
             Message.RedMessage( "Not Enough Energy!" );

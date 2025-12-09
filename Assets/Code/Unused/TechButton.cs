@@ -30,6 +30,9 @@ public class TechButton : MonoBehaviour
     public static int TotalStudies = 0;
     public static int StudiesCompleted = 0;
     public static int StudiesLevel = 0;
+    public static float LastPurchaseTimeCount = 0;
+    public static float LastPurchaseID = -1;
+    public static string TempMessage = "";
     public static Vector2 ClickMouseHoverTechID, MouseHoverTechID;
     public static ETechEditorVarType TechVar = ETechEditorVarType.Upgrade_type;
     public static string TechEditorText;
@@ -58,6 +61,7 @@ public class TechButton : MonoBehaviour
         StudiesCompleted = 0;
         TotalStudies = 0;
         MouseHoverTechID = new Vector2( -1, -1 );
+        LastPurchaseTimeCount += Time.deltaTime;
   
         for( int y = 0; y < SY; y++ )                                                            // Updates all buttons
         for( int x = 0; x < SX; x++ )
@@ -433,7 +437,8 @@ public class TechButton : MonoBehaviour
             if( au.TechScope == ETechScope.All_Quests )
                 msg += "\nThis is a Global Tech! Valid for all Quests from now on!";                                             // Global quest
             if( techX != -1 )
-            msg += "\nStudy XP Bonus: " + au.StudyXPBonus.ToString( "+0;-#" );
+            if( au.StudyXPBonus != 0 && au.TechTotalTime == 0 )
+                msg += "\nStudy XP Bonus: " + au.StudyXPBonus.ToString( "+0;-#" );                                               // Study bonus
 
             if( Helper.I.ReleaseVersion == false && techX != -1 )
             {
@@ -445,6 +450,13 @@ public class TechButton : MonoBehaviour
             MouseHoverTechID = new Vector2( techX, techY );
             dd.SetMsg( msg, Color.yellow, .01f );
             dd.DungeonNameLabel.text = Language.Get( "TECH_" + au.UpgradeType.ToString(), "Main" );                       // Show tech help text
+
+            if( au.TechTotalTime > 0 )
+                dd.DungeonNameLabel.text += "\n\n" +Language.Get( "TIMED_TECH_MSG", "Main" );                             // timed  tech text
+
+            if( au.PurchaseChance > 0 )
+                dd.DungeonNameLabel.text += "\n\n" + Language.Get( "CHANCE_TECH_MSG", "Main" );                           // timed  tech text
+            Map.I.RM.DungeonDialog.AutogateLev = -2;
         }
 
         float cost = -needed;
@@ -486,12 +498,33 @@ public class TechButton : MonoBehaviour
             if( PurchasingAvailable == false ) return;
             if( bt && bt.MaxLevelReached ) return;
 
-            AdventureUpgradeInfo.AddTechLevel( techX, techY, 1, au );                                                       // Add level and Charge resource
+            LastPurchaseID = au.TechID;
+            LastPurchaseTimeCount = 0;
             if( au.TotalCollected == false )
                 Item.AddItem( Inventory.IType.Inventory, au.UpgradeItem1Type, cost, true );
-            if( techX != -1 )                                                                                           // Its a study, so add study xp
+            if( au.PurchaseChance > 0 )                                                                                  // Purchase chance
+            {
+                bool sort = Util.Chance( au.PurchaseChance );
+                if( sort == false )
+                {
+                    TempMessage = "Fail!";
+                    MasterAudio.PlaySound3DAtVector3( "Error 2", G.Hero.Pos );                                           // play error sound FX
+                    return; 
+                }
+                TempMessage = "Success!";
+            }
+            if( techX != -1 )                                                                                            // Its a study, so add study xp
+            if( au.TechTotalTime <= 0 )
                 Item.AddItem( Inventory.IType.Inventory, ItemType.Study_XP, au.StudyXPBonus, true );
+            AdventureUpgradeInfo.AddTechLevel( techX, techY, 1, au );                                                    // Add level and Charge resource
             MasterAudio.PlaySound3DAtVector3( "Cashier", G.Hero.Pos );
+
+            if( au.TechTotalTime > 0 )
+            {
+                ItemType it = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );                            // Reset Timed tech time counter (uses item.totalgained for data storage)
+                int adv = ( int ) Map.I.RM.CurrentAdventure;
+                G.GIT( it ).PerAdventureTotalCount[ adv ] = au.TechTotalTime;
+            }
 
             if( techX != -1 )
                 dd.SetMsg( "Study Completed for " + price, Color.green );                                         // custom messages
@@ -589,23 +622,55 @@ public class TechButton : MonoBehaviour
                 }
             }
 
-            if( au.IsRecurring() )
-            {
-                ItemType it = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );                           // updates recurring label text "X2"
-                int num = ( int ) Item.GetNum( it );
-                bt.RecurringLabel.text = "" + num + " of " + au.UpgradeItem1RecuringCost.Count;
-            }
-            else
-            if( bt && bt.RecurringLabel )
-                bt.RecurringLabel.text = "";
+       bt.RecurringLabel.color = Color.yellow;
+       if( au.PurchaseChance > 0 )
+       {
+           bt.RecurringLabel.text = "Chance: " + au.PurchaseChance.ToString( "0..#" ) + "%";                             // Purchase Chance
+           if( LastPurchaseTimeCount < 2f )
+           if( au.TechID == LastPurchaseID )
+           {
+               if( TempMessage == "Fail!" )
+                   bt.RecurringLabel.color = Color.red;
+               else
+                   bt.RecurringLabel.color = Color.green;
+               bt.RecurringLabel.text = TempMessage;
+           }
+       }
+       else
+       if( au.TechTotalTime > 0 )
+       {
+           bt.RecurringLabel.color = Color.yellow;
+           int adv = ( int ) Map.I.RM.CurrentAdventure;
+           ItemType it = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );
+           if( G.GIT( it ).PerAdventureCount[ adv ] <= 0 )
+           {
+               bt.RecurringLabel.text = "Tot Time: " + Util.ToSTime( au.TechTotalTime );
+           }
+           else
+           {
+               float time = G.GIT( it ).PerAdventureTotalCount[ adv ];
+               bt.RecurringLabel.text = "Left: " + Util.ToSTime( time );
+               bt.RecurringLabel.color = Color.green;
+           }
+       }
+       else
+           if( au.IsRecurring() )
+           {
+               ItemType it = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );                            // updates recurring label text "X2"
+               int num = ( int ) Item.GetNum( it );
+               bt.RecurringLabel.text = "" + num + " of " + au.UpgradeItem1RecuringCost.Count;
+           }
+       else
+       if( bt && bt.RecurringLabel )
+           bt.RecurringLabel.text = "";
 
-            if( Helper.I.ReleaseVersion == false )
-            if( Input.GetKey( KeyCode.F1 ) )                                                                            // Only show tech number         
-            {
-                label.color = Color.green;
-                label.text = "\nTech: " + ( id + 1 ) + " of " + bt.UpgradeList.Length;
-                if( bt && bt.UpgradeList.Length > 1 ) label.color = new Color( .5f, .5f, 1, 1 );
-            }
+       if( Helper.I.ReleaseVersion == false )
+           if( Input.GetKey( KeyCode.F1 ) )                                                                            // Only show tech number         
+           {
+               label.color = Color.green;
+               label.text = "\nTech: " + ( id + 1 ) + " of " + bt.UpgradeList.Length;
+               if( bt && bt.UpgradeList.Length > 1 ) label.color = new Color( .5f, .5f, 1, 1 );
+           }
         }
     }
 
@@ -802,5 +867,36 @@ public class TechButton : MonoBehaviour
         if( Input.GetAxis( "Mouse ScrollWheel" ) < 0f )
         if( --type < min ) type = sz - 1;
         return type;
+    }
+    static float _tick = 0f;
+    static float Wait = 1f;
+    internal static void UpdateTimedTech()
+    {
+        if( Map.I.RM.DungeonDialog.gameObject.activeSelf ) return;
+        if( Manager.I.GameType != EGameType.CUBES ) return;
+
+        _tick += Time.unscaledDeltaTime;
+
+        if( _tick < Wait )
+            return;
+        if ( Button != null )
+        for( int y = 0; y < SY; y++ )                                                          
+        for( int x = 0; x < SX; x++ )
+        if ( Button[ x, y ] != null )
+        if ( Button[ x, y ].UpgradeList != null && Button[ x, y ].UpgradeList.Length > 0 )
+        if ( Button[ x, y ].UpgradeList[ 0 ].TechTotalTime > 0 )
+        {
+            ItemType itt = ItemType.TechPurchase_0_0 + x + ( y * TechButton.SX );
+            Item it = G.GIT( itt );  
+            int adv = ( int ) Map.I.RM.CurrentAdventure;
+            it.PerAdventureTotalCount[ adv ] -= Wait;                                               // Time Decrement
+            if( it.PerAdventureTotalCount[ adv ] < 0 )
+            {
+                it.PerAdventureTotalCount[ adv ] = 0;                                                                 // Time is up!
+                it.PerAdventureCount[ adv ] = 0;
+                Map.I.RM.DungeonDialog.AutogateLev = -2;
+            }
+        }
+        _tick -= Wait;
     }
 }

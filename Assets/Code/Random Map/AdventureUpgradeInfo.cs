@@ -52,10 +52,18 @@ public class AdventureUpgradeInfo : MonoBehaviour
     public int StudiesLevelToShow = 0;
     public bool OnlyShowIfNeighborsArrowsPermit = false;
 
-    [Header( "Leisure:" )]
-    public ELeisureType LeisureType = ELeisureType.NONE;
     [Header( "Scope:" )]
     public ETechScope TechScope = ETechScope.This_Quest;
+
+    [Header( "Timed Tech:" )]
+    public float TechTotalTime = 0;
+
+    [Header( "Chance:" )]
+    public float PurchaseChance = 0;
+
+    [Header( "Leisure:" )]
+    public ELeisureType LeisureType = ELeisureType.NONE;
+    
     [Header( "Info:" )]
     public int X;
     public int Y, TechID, QuestID;
@@ -491,10 +499,13 @@ public class AdventureUpgradeInfo : MonoBehaviour
     {
         string add = "";
         add = " (" + UpgradeItem1Type + " " + UpgradeItem1Cost + ")";
+        if( TechTotalTime > 0 ) 
+            add += "  time:  " + Util.ToSTime( TechTotalTime );
         if( IsRecurring() ) add = " (Recurring)";
+        if( PurchaseChance > 0 )
+            add += "  Chance:  " + PurchaseChance.ToString( "0.#" ) + "%";
         name = GetUpgradeText() + add;
     }
-
     internal bool IsRecurring()
     {
         if( Util.HasDada( UpgradeItem1RecuringCost ) )
