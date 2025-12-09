@@ -976,6 +976,7 @@ public class Item : MonoBehaviour
                 }
 
                 IgnoreMessage = true;
+                Item.IgnoreBuffer = true;
                 AddItem( Type, 1,Inventory.IType.Inventory, true );                         // Adds the item
 
                 if( Count >= max )                                                          // limits max

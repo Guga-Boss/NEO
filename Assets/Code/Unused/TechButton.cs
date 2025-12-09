@@ -456,7 +456,8 @@ public class TechButton : MonoBehaviour
 
             if( au.PurchaseChance > 0 )
                 dd.DungeonNameLabel.text += "\n\n" + Language.Get( "CHANCE_TECH_MSG", "Main" );                           // timed  tech text
-            Map.I.RM.DungeonDialog.AutogateLev = -2;
+            dd.AutogateLev = -2;
+            dd.AvailableCubes = -2;
         }
 
         float cost = -needed;
