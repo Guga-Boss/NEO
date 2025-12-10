@@ -1207,7 +1207,23 @@ public partial class Controller : MonoBehaviour
         if( Unit.UnitType == EUnitType.MONSTER )                                         // update trail rotator
             Map.I.UpdateTrailRotator( Unit );
 
-        Brain.UpdateBrainMove();                                                         // Update brain move                                             
+        Brain.UpdateBrainMove();                                                         // Update brain move   
+
+        Unit mudto = Map.I.GetMud( G.Hero.Pos );
+        Unit mudfr = Map.I.GetMud( G.Hero.Control.OldPos );
+        float vol = 1;
+        string stepsnd = "Foot Step";
+        if( Floor == 0 )
+        if( mudto )                                                                     // mud step
+        {
+            stepsnd = "Slime Step";
+            vol = 0.15f;
+            if( mudfr )
+                Util.PlayParticleFX( "Mud Splat", Unit.Control.OldPos );                // mud particle FX
+            if( mudto )
+                Util.PlayParticleFX( "Mud Splat", Unit.Pos );
+        }
+        MasterAudio.PlaySound3DAtVector3( stepsnd, Unit.Pos, vol );                     // hero step sound
     }
 
     public static int GetUnitFloor( Vector2 from, Vector2 to, Unit un )
@@ -2185,23 +2201,6 @@ public partial class Controller : MonoBehaviour
         Map.I.UpdateRoachBackSideStep( to );
 
         UpdateMeleeTargetLock( from, to, ac );
-
-        Unit mudto = Map.I.GetMud( G.Hero.Pos );
-        Unit mudfr = Map.I.GetMud( G.Hero.Control.OldPos );
-        float vol = 1;
-        string stepsnd = "Foot Step";
-
-        if( Floor == 0 )
-            if( mudto && rot == 0 )                                                  // mud step
-            {
-                stepsnd = "Slime Step";
-                vol = 0.15f;
-                if( mudfr )
-                    Util.PlayParticleFX( "Mud Splat", Unit.Control.OldPos );
-                if( mudto )
-                    Util.PlayParticleFX( "Mud Splat", Unit.Pos );
-            }
-        MasterAudio.PlaySound3DAtVector3( stepsnd, Unit.Pos, vol );              // hero step sound
 
         LastMoveType = GetMoveType( ac, from, to, true, false );
 
