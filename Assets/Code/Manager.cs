@@ -231,10 +231,10 @@ private static void UpdateData()
         UI.I.gameObject.SetActive( true );
         Map.I.gameObject.SetActive( true );
          
+        if( PlayTimeLoaded == false ) Load();
         Inventory.Load(); 
         //PackMule.Load(); 
 
-        if( PlayTimeLoaded == false ) Load();
         if( Helper.I.ReleaseVersion == false )
         {
             if( Helper.I.StartAtFarm ) 
@@ -343,6 +343,7 @@ private static void UpdateData()
             TF.SaveT( "TotalPlayTime", TotalPlayTime );                                    // Save total play time
             TF.SaveT( "CubesTotalTime", CubesTotalTime );                                  // Save cubes total time
             TF.SaveT( "CurrentAdventure", Map.I.RM.CurrentAdventure );                     // Save current adventure
+            TF.SaveT( "WaterTiles", Map.I.Farm.WaterTiles );                               // Save Farm Water Tiles
 
             GS.W.Flush();                                                                  // Flush the writer
 
@@ -373,6 +374,7 @@ private static void UpdateData()
             TotalPlayTime = TF.LoadT<float>( "TotalPlayTime" );                            // Load total play time
             CubesTotalTime = TF.LoadT<float>( "CubesTotalTime" );                          // Load cubes total time
             int adv = TF.LoadT<int>( "CurrentAdventure" );                                 // Load current adventure
+            Map.I.Farm.WaterTiles = TF.LoadT<int>( "WaterTiles" );                         // Load Farm Water Tiles
 
             if( Helper.I.ReleaseVersion )
             {

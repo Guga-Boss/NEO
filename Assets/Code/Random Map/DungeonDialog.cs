@@ -1739,14 +1739,15 @@ public class DungeonDialog : MonoBehaviour
     public void UpdatePlayerProfileBackup( bool force, bool exit )
     {
         if( !exit )
-        if( Map.I.RM.GameOver == false ) return;
+            if( Map.I.RM.GameOver == false ) return;
         if( force == false )
-        if( Input.GetKeyDown( KeyCode.B ) == false ) return;
+            if( Input.GetKeyDown( KeyCode.B ) == false ) return;
         if( Application.platform != RuntimePlatform.WindowsPlayer ) return;
+
         string source = Manager.I.GetProfileFolder();
         string dest = System.Environment.GetFolderPath( System.Environment.SpecialFolder.MyDocuments );
-        //string dest = Application.dataPath + "/Player Profile Backups/";  set dest to game root
         dest += "/My Games/NEO/Player Profile Backups/";
+
         if( !System.IO.Directory.Exists( dest ) )
         {
             System.IO.Directory.CreateDirectory( dest );
@@ -1754,30 +1755,29 @@ public class DungeonDialog : MonoBehaviour
 
         string exittxt = "";
         if( exit ) exittxt = "Game Exit - ";
+
         string subfolder = "";
-        for( int i = 1; i < 99999; i++ )
+
+        string date = System.DateTime.Now.ToString( "dd-MM-yyyy_HH-mm-ss" );
+        subfolder = dest + "Profile Backup - " + exittxt + date + "/Profile 0/Main Quest/";
+
+        if( !System.IO.Directory.Exists( subfolder ) )
         {
-            string date = System.DateTime.Now.ToString( "dd-MM-yyyy_hh-mm-ss" );
-            subfolder = dest + "Profile Backup - " + exittxt + date + "/Profile 0/";
-            if( !System.IO.Directory.Exists( subfolder ) )
-            {
-                System.IO.Directory.CreateDirectory( subfolder );
-                Debug.Log( subfolder );
-                break;
-            }
+            System.IO.Directory.CreateDirectory( subfolder );
+            Debug.Log( subfolder );
         }
 
         if( System.IO.Directory.Exists( subfolder ) )
         {
-            string[ ] files = System.IO.Directory.GetFiles( source );
-            // Copy the files and overwrite destination files if they already exist.
+            string[] files = System.IO.Directory.GetFiles( source );
+
             foreach( string s in files )
-            {                // Use static Path methods to extract only the file name from the path.
+            {
                 string fileName = System.IO.Path.GetFileName( s );
-                string fullpath = subfolder + fileName;
+                string fullpath = subfolder + "/" + fileName;    
                 System.IO.File.Copy( s, fullpath, true );
-                //G.Deb( fullpath + " Copied. " );
             }
+
             G.Deb( "Profile Backuped. " + subfolder );
         }
         else
@@ -1785,4 +1785,5 @@ public class DungeonDialog : MonoBehaviour
             G.Error( "Source path does not exist!" );
         }
     }
+
 }

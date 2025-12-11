@@ -738,7 +738,7 @@ public partial class Farm : MonoBehaviour
         Item.IgnoreMessage = false;
         Item.AddItem( ItemType.Feather, +1 );
         un.Kill();
-        it.ProductionCount += 600;                                                              // Next feather session time decrease
+        it.ProductionCount += 900;                                                              // Next feather session time decrease
         MasterAudio.PlaySound3DAtVector3( "Click 1", G.Hero.Pos );
     }
     public void UpdateFarmObjects()

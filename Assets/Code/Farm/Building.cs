@@ -1089,6 +1089,7 @@ public class Building : MonoBehaviour
 
        public static List<BuildingItem> GetBuildingItemList( ItemType type )
        {
+           UpdateBuildingList();
            List<BuildingItem> il = new List<BuildingItem>();
            for( int b = 0; b < Bl.Count; b++ )
            for( int it = 0; it < Bl[ b ].Building.Itm.Count; it++ )
