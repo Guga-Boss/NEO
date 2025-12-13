@@ -84,67 +84,88 @@ public class Statistics : MonoBehaviour {
         if( GS.IsLoading == false )
             Map.I.RM.DungeonDialog.UpdateIt();    
     }
-
     public static void Save( string nm = "" )
     {
-        string file = Manager.I.GetProfileFolder();
-        if( nm != "" ) file += "Cube Save/Statistics" + nm + ".NEO";                       // Provides filename
-        else file += "/Statistics.NEO";
-        Sector s = Map.I.RM.HeroSector;
-        Statistics st = Map.I.LevelStats;
+        string file = Manager.I.GetProfileFolder();                                       // Base profile folder
 
-        using( GS.W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) ) 
+        if( nm != "" )
+            file += "Cube Save/Statistics" + nm + ".NEO";                                 // Provides filename
+        else
+            file += "Statistics.NEO";                                                     // Default filename
+
+        string dir = Path.GetDirectoryName( file );                                       // Extract directory path
+        if( !Directory.Exists( dir ) )
+            Directory.CreateDirectory( dir );                                             // Ensure directory exists
+
+        Statistics st = Map.I.LevelStats;                                                 // Cached statistics reference
+
+        Debug.Log( "save Statistics: " + file + "  " + nm );                              // Debug save path
+
+        using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )            // Always recreate file
         {
-            int SaveVersion = 1;
-            GS.W.Write( SaveVersion );                                                     // Save Version
+            int SaveVersion = 1;                                                          // Save Version
+            GS.W.Write( SaveVersion );                                                    // Write save version
 
-            GS.W.Write( st.AreasCleared );
-            GS.W.Write( st.MonstersDeathCount );
-            GS.W.Write( st.RoachDeathCount );
-            GS.W.Write( st.ScarabDeathCount );
-            GS.W.Write( st.NormalSectorsDiscovered );
-            GS.W.Write( st.SectorsCleared );
-            GS.W.Write( st.DirtyBonfiresLit );
-            GS.W.Write( st.MonstersDiscovered );
-            GS.W.Write( st.BonfiresLit );
-            GS.W.Write( st.ResourceCollected );
-            GS.W.Write( st.ConqueredGoals );
-            GS.W.Write( st.AccumulatedPoints );
-            GS.W.Write( st.PlatformsDown );
-            GS.W.Write( st.PlatformGroups );
-            GS.W.Write( st.PlatformPoints );
-            GS.W.Write( st.BarricadeWood );
-            GS.W.Write( st.FishingBonusReached );
-            GS.W.Close();
+            GS.W.Write( st.AreasCleared );                                                // int   total cleared areas
+            GS.W.Write( st.MonstersDeathCount );                                          // float  monster deaths
+            GS.W.Write( st.RoachDeathCount );                                             // int   roach kills
+            GS.W.Write( st.ScarabDeathCount );                                            // int   scarab kills
+            GS.W.Write( st.NormalSectorsDiscovered );                                     // int   discovered normal sectors
+            GS.W.Write( st.SectorsCleared );                                              // int   cleared sectors
+            GS.W.Write( st.DirtyBonfiresLit );                                            // int   corrupted bonfires
+            GS.W.Write( st.MonstersDiscovered );                                          // int   monster discoveries
+            GS.W.Write( st.BonfiresLit );                                                 // int   lit bonfires
+            GS.W.Write( st.ResourceCollected );                                           // float  collected resources
+            GS.W.Write( st.ConqueredGoals );                                              // int   conquered goals
+            GS.W.Write( st.AccumulatedPoints );                                           // float  accumulated points
+            GS.W.Write( st.PlatformsDown );                                               // float  destroyed platforms
+            GS.W.Write( st.PlatformGroups );                                              // float  platform groups
+            GS.W.Write( st.PlatformPoints );                                              // float  platform points
+            GS.W.Write( st.BarricadeWood );                                               // float  barricade wood
+            GS.W.Write( st.FishingBonusReached );                                         // float  fishing bonus
         }
     }
     public static void Load( string nm = "" )
     {
-        string file = Manager.I.GetProfileFolder();
-        if( nm != "" ) file += "Cube Save/Statistics" + nm + ".NEO";                      // Provides filename
-        else file += "/Statistics.NEO";
-        Statistics st = Map.I.LevelStats;
-        using( GS.R = new BinaryReader( File.Open( file, FileMode.Open ) ) )
+        string file = Manager.I.GetProfileFolder();                                       // Base profile folder
+
+        if( nm != "" )
+            file += "Cube Save/Statistics" + nm + ".NEO";                                 // Provides filename
+        else
+            file += "Statistics.NEO";                                                     // Default filename
+
+        if( !File.Exists( file ) )
+            return;                                                                       // Abort if save does not exist
+
+        Statistics st = Map.I.LevelStats;                                                 // Cached statistics reference
+
+        Debug.Log( "load Statistics: " + file + "  " + nm );                              // Debug load path
+
+        using( GS.R = new BinaryReader( File.Open( file, FileMode.Open ) ) )              // Open existing save
         {
             int SaveVersion = GS.R.ReadInt32();                                           // Load Version
-            st.AreasCleared = GS.R.ReadInt32();
-            st.MonstersDeathCount = GS.R.ReadSingle();
-            st.RoachDeathCount = GS.R.ReadInt32();
-            st.ScarabDeathCount = GS.R.ReadInt32();
-            st.NormalSectorsDiscovered = GS.R.ReadInt32();
-            st.SectorsCleared = GS.R.ReadInt32();
-            st.DirtyBonfiresLit = GS.R.ReadInt32();
-            st.MonstersDiscovered = GS.R.ReadInt32();
-            st.BonfiresLit = GS.R.ReadInt32();
-            st.ResourceCollected = GS.R.ReadSingle();
-            st.ConqueredGoals = GS.R.ReadInt32();
-            st.AccumulatedPoints = GS.R.ReadSingle();
-            st.PlatformsDown = GS.R.ReadSingle();
-            st.PlatformGroups = GS.R.ReadSingle();
-            st.PlatformPoints = GS.R.ReadSingle();
-            st.BarricadeWood = GS.R.ReadSingle();
-            st.FishingBonusReached = GS.R.ReadSingle();
-            GS.R.Close();
+
+            if( SaveVersion >= 1 )                                                        // Version 1 compatibility
+            {
+                st.AreasCleared = GS.R.ReadInt32();                                       // int   total cleared areas
+                st.MonstersDeathCount = GS.R.ReadSingle();                                // float  monster deaths
+                st.RoachDeathCount = GS.R.ReadInt32();                                    // int   roach kills
+                st.ScarabDeathCount = GS.R.ReadInt32();                                   // int   scarab kills
+                st.NormalSectorsDiscovered = GS.R.ReadInt32();                            // int   discovered normal sectors
+                st.SectorsCleared = GS.R.ReadInt32();                                     // int   cleared sectors
+                st.DirtyBonfiresLit = GS.R.ReadInt32();                                   // int   corrupted bonfires
+                st.MonstersDiscovered = GS.R.ReadInt32();                                 // int   monster discoveries
+                st.BonfiresLit = GS.R.ReadInt32();                                        // int   lit bonfires
+                st.ResourceCollected = GS.R.ReadSingle();                                 // float  collected resources
+                st.ConqueredGoals = GS.R.ReadInt32();                                     // int   conquered goals
+                st.AccumulatedPoints = GS.R.ReadSingle();                                 // float  accumulated points
+                st.PlatformsDown = GS.R.ReadSingle();                                     // float  destroyed platforms
+                st.PlatformGroups = GS.R.ReadSingle();                                    // float  platform groups
+                st.PlatformPoints = GS.R.ReadSingle();                                    // float  platform points
+                st.BarricadeWood = GS.R.ReadSingle();                                     // float  barricade wood
+                st.FishingBonusReached = GS.R.ReadSingle();                               // float  fishing bonus
+            }
         }
     }
+
 }

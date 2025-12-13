@@ -394,6 +394,7 @@ public partial class Farm : MonoBehaviour
         if( UpdateToolUsage( tg ) ) return false;                                                                      // Tool Usage
         if( amt == 0 ) return false;
 
+        Map.I.CreateExplosionFX( tg, "Smoke Cloud", "" );                                                              // FX
         bool res = PlaceItem( tg, amt, true, false );                                                                  // Place item
         if( res ) return true;
         res = Building.PlaceItem( tg, amt );                                                                           // Place item in building
