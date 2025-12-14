@@ -316,7 +316,8 @@ public class TechButton : MonoBehaviour
         if( techX != -1 )
         {
             bt = TechButton.Button[ techX, techY ];
-           if(bt.RecurringLabel) bt.RecurringLabel.text = "";
+            if( bt.RecurringLabel ) 
+                bt.RecurringLabel.text = "";
             if( Util.HasDataArray( bt.UpgradeList ) )
             {
                 AdventureUpgradeInfo upg = bt.UpgradeList[ 0 ];
@@ -623,55 +624,55 @@ public class TechButton : MonoBehaviour
                 }
             }
 
-       bt.RecurringLabel.color = Color.yellow;
-       if( au.PurchaseChance > 0 )
-       {
-           bt.RecurringLabel.text = "Chance: " + au.PurchaseChance.ToString( "0..#" ) + "%";                             // Purchase Chance
-           if( LastPurchaseTimeCount < 2f )
-           if( au.TechID == LastPurchaseID )
-           {
-               if( TempMessage == "Fail!" )
-                   bt.RecurringLabel.color = Color.red;
-               else
-                   bt.RecurringLabel.color = Color.green;
-               bt.RecurringLabel.text = TempMessage;
-           }
-       }
-       else
-       if( au.TechTotalTime > 0 )
-       {
-           bt.RecurringLabel.color = Color.yellow;
-           int adv = ( int ) Map.I.RM.CurrentAdventure;
-           ItemType it = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );
-           if( G.GIT( it ).PerAdventureCount[ adv ] <= 0 )
-           {
-               bt.RecurringLabel.text = "Tot Time: " + Util.ToSTime( au.TechTotalTime );
-           }
-           else
-           {
-               float time = G.GIT( it ).PerAdventureTotalCount[ adv ];
-               bt.RecurringLabel.text = "Left: " + Util.ToSTime( time );
-               bt.RecurringLabel.color = Color.green;
-           }
-       }
-       else
-           if( au.IsRecurring() )
-           {
-               ItemType it = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );                            // updates recurring label text "X2"
-               int num = ( int ) Item.GetNum( it );
-               bt.RecurringLabel.text = "" + num + " of " + au.UpgradeItem1RecuringCost.Count;
-           }
-       else
-       if( bt && bt.RecurringLabel )
-           bt.RecurringLabel.text = "";
+            if( bt ) bt.RecurringLabel.color = Color.yellow;
+            if( au.PurchaseChance > 0 )
+            {
+                bt.RecurringLabel.text = "Chance: " + au.PurchaseChance.ToString( "0..#" ) + "%";                      // Purchase Chance
+                if( LastPurchaseTimeCount < 2f )
+                    if( au.TechID == LastPurchaseID )
+                    {
+                        if( TempMessage == "Fail!" )
+                            bt.RecurringLabel.color = Color.red;
+                        else
+                            bt.RecurringLabel.color = Color.green;
+                        bt.RecurringLabel.text = TempMessage;
+                    }
+            }
+            else
+            if( au.TechTotalTime > 0 )
+            {
+                bt.RecurringLabel.color = Color.yellow;
+                int adv = ( int ) Map.I.RM.CurrentAdventure;
+                ItemType it = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );
+                if( G.GIT( it ).PerAdventureCount[ adv ] <= 0 )
+                {
+                    bt.RecurringLabel.text = "Tot Time: " + Util.ToSTime( au.TechTotalTime );
+                }
+                else
+                {
+                    float time = G.GIT( it ).PerAdventureTotalCount[ adv ];
+                    bt.RecurringLabel.text = "Left: " + Util.ToSTime( time );
+                    bt.RecurringLabel.color = Color.green;
+                }
+            }
+            else
+            if( au.IsRecurring() )
+            {
+                ItemType it = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );                            // updates recurring label text "X2"
+                int num = ( int ) Item.GetNum( it );
+                bt.RecurringLabel.text = "" + num + " of " + au.UpgradeItem1RecuringCost.Count;
+            }
+            else
+            if( bt && bt.RecurringLabel )
+                bt.RecurringLabel.text = "";
 
-       if( Helper.I.ReleaseVersion == false )
-           if( Input.GetKey( KeyCode.F1 ) )                                                                            // Only show tech number         
-           {
-               label.color = Color.green;
-               label.text = "\nTech: " + ( id + 1 ) + " of " + bt.UpgradeList.Length;
-               if( bt && bt.UpgradeList.Length > 1 ) label.color = new Color( .5f, .5f, 1, 1 );
-           }
+            if( Helper.I.ReleaseVersion == false )
+            if( Input.GetKey( KeyCode.F1 ) )                                                                            // Only show tech number         
+            {
+                label.color = Color.green;
+                label.text = "\nTech: " + ( id + 1 ) + " of " + bt.UpgradeList.Length;
+                if( bt && bt.UpgradeList.Length > 1 ) label.color = new Color( .5f, .5f, 1, 1 );
+            }
         }
     }
 

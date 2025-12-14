@@ -434,6 +434,7 @@ public partial class Controller : MonoBehaviour
         GS.W.Write( MaxFishSpeed );
         GS.W.Write( MinFishSpeed );
         GS.W.Write( FlyingSpeed );
+        GS.SVector2( JumpTarget );
         GS.W.Write( ( int ) InitialDirection );
         GS.W.Write( FlightJumpPhase );
         GS.W.Write( FlightPhaseTimer );
@@ -544,7 +545,6 @@ public partial class Controller : MonoBehaviour
         GS.W.Write( RealtimeSpeed );
         GS.W.Write( IsInfected );
         GS.W.Write( InfectedRadius );
-        GS.SVector2( JumpTarget );
         GS.W.Write( IsFlyingUnit );
         GS.W.Write( SpawnTimer );
         GS.W.Write( SpawnCount );
@@ -720,6 +720,7 @@ public partial class Controller : MonoBehaviour
         MaxFishSpeed = GS.R.ReadSingle();
         MinFishSpeed = GS.R.ReadSingle();
         FlyingSpeed = GS.R.ReadSingle();
+        JumpTarget = GS.LVector2();
         InitialDirection = ( EDirection ) GS.R.ReadInt32();
         FlightJumpPhase = GS.R.ReadInt32();
         FlightPhaseTimer = GS.R.ReadSingle();
@@ -1010,6 +1011,7 @@ public partial class Controller : MonoBehaviour
 
             if( SpeedTimeCounter >= tottime )
             {
+                SpeedTimeCounter = tottime; // new: to avoid boulders moving too fas bug due to increased SpeedTimeCounter time
                 Map.I.MonstersMoved = true;
                 return true;
             }
@@ -3338,14 +3340,42 @@ public partial class Controller : MonoBehaviour
 
     public void UpdatePositionHistory()
     {
-        if( Map.I.CurrentArea != -1 )
-            if( Map.I.CurArea.AreaTurnCount == 0 )
-            {
-                PositionHistory = new List<Vector2>();
-            }
+        if( Map.I.CurrentArea != -1 &&
+            Map.I.CurArea.AreaTurnCount == 0 )
+        {
+            PositionHistory = new List<Vector2>();
+            return;
+        }
 
+        if( PositionHistory.Count == 0 )
+        {
+            PositionHistory.Add( Unit.Pos );
+            return;
+        }
+
+        Vector2 last = PositionHistory[ PositionHistory.Count - 1 ];
+
+        // Caso 1: posição mudou → sempre adiciona
+        if( last != Unit.Pos )
+        {
+            PositionHistory.Add( Unit.Pos );
+            return;
+        }
+
+        // Caso 2: posição é igual → permitir no máximo 2 consecutivas
+        if( PositionHistory.Count >= 2 )
+        {
+            Vector2 prev = PositionHistory[ PositionHistory.Count - 2 ];
+
+            // Se os dois últimos já são iguais, não adiciona mais
+            if( prev == last )
+                return;
+        }
+
+        // Chega aqui só se ainda não atingiu o limite de 2 iguais
         PositionHistory.Add( Unit.Pos );
     }
+
     public bool UpdateSleep( bool forcewake = false )
     {
         if( Unit.UnitType != EUnitType.MONSTER ) return false;

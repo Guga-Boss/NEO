@@ -751,8 +751,7 @@ public class Sector : MonoBehaviour
 
             for( int i = 0; i < 8; i++ )                                                              // Destroys the Bamboo
                 G.Hero.Body.Sp[ i ].BambooSize = 0;
-            Item.SetAmt( ItemType.Res_Stitches, 0 );                                                  // to allow gate openning
-            Item.SetAmt( ItemType.Res_BirdCorn, 0 );
+
             G.Hero.RemoveChains( true );                                                              // Remove Hero Chains
 
             Secret.FlushSecrets( hs );                                                                // Save secrets
@@ -856,6 +855,8 @@ public class Sector : MonoBehaviour
                     Message.CreateMessage( ETileType.NONE, ItemType.Res_HP, msg, 
                     Map.I.Hero.Pos, new Color( 0, 1, 0, 1 ), true, true, 7, 3 );
                     KillOptionalMonsters();
+                                Item.SetAmt( ItemType.Res_Stitches, 0 );                                                  // to allow gate openning
+            Item.SetAmt( ItemType.Res_BirdCorn, 0 );
                 }
 
                 hs.Cleared = true;

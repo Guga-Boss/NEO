@@ -960,7 +960,8 @@ public partial class Controller : MonoBehaviour
                 Unit fire = Map.I.GetUnit( ETileType.FIRE, Unit.Pos );
                 if( fire && fire.Body.FireIsOn )
                 {
-                    Unit.Body.ReceiveDamage( 1000, EDamageType.FIRE, G.Hero, G.Hero.RangedAttack );                                  // fire hits qq     
+                    Unit.Body.ReceiveDamage( 1000, EDamageType.FIRE, G.Hero, G.Hero.RangedAttack );                                 // fire hits qq     
+                    Map.I.CreateExplosionFX( Unit.Pos, "Fire Explosion", "Fire Ignite" );                                           // Explosion FX
                 }
             }
         }

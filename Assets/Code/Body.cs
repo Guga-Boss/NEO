@@ -861,7 +861,8 @@ public class Body : MonoBehaviour
             {
                 CheckArrowHit( type );
 
-                MasterAudio.PlaySound3DAtVector3( "Monster Hit", transform.position );
+                if( type != EDamageType.FIRE )
+                    MasterAudio.PlaySound3DAtVector3( "Monster Hit", transform.position );
 
                 if( attack != null && attack.DamageType == EDamageType.BEEHIVE )
                     MasterAudio.PlaySound3DAtVector3( "Bee Attack", transform.position );
@@ -1959,7 +1960,7 @@ public class Body : MonoBehaviour
 
         if( fromfire == false || firetimeok )
         {
-            MasterAudio.PlaySound3DAtVector3( "Fire Ignite", Map.I.Hero.Pos );
+            MasterAudio.PlaySound3DAtVector3( "Fire Ignite", un.transform.position );
             if( Unit.TileID == ETileType.SCARAB || 
                 Unit.TileID == ETileType.SCORPION )
             {
