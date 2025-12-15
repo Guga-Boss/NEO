@@ -232,7 +232,7 @@ private static void UpdateData()
         Map.I.gameObject.SetActive( true );
          
         if( PlayTimeLoaded == false ) Load();
-        Inventory.Load(); 
+        Inventory.Load();
         //PackMule.Load(); 
 
         if( Helper.I.ReleaseVersion == false )

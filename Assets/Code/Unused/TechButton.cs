@@ -547,9 +547,17 @@ public class TechButton : MonoBehaviour
             {
                 G.GIT( au.ItemAffected ).ExtraCapacity += au.UpgradeEffectAmount;
             }
-            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT )                                   // Increase max item capacity
+            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT )                                   // Increase max Production Limit
             {
                 G.GIT( au.ItemAffected ).ExtraProductionLimit += ( int ) au.UpgradeEffectAmount;
+            }
+            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_CAP )                                     // Increase max item capacity
+            {
+                G.GIT( au.ItemAffected ).ExtraProductionCap += ( int ) au.UpgradeEffectAmount;
+            }
+            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_BOOST_CHANCE )                            // Increase item production boost chance
+            {
+                G.GIT( au.ItemAffected ).ExtraProductionBoostChance += ( int ) au.UpgradeEffectAmount;
             }
             if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME )                              // item production time
             {

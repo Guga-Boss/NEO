@@ -1591,7 +1591,7 @@ public class RandomMap : MonoBehaviour
             } 
         }
 
-        float check = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.GOTO_CHECKPOINT );                        // Tech
+        float check = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.AUTO_MOVE );                        // Tech
         if( Helper.I.ReleaseVersion )
         if( check < 1 )
             {
@@ -2159,7 +2159,7 @@ public class RandomMap : MonoBehaviour
             if( Map.I.FishingMode != EFishingPhase.NO_FISHING ) return false;
             if( GS.CustomSaveExists ) return false;
 
-            float avail = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.UPGRADE_AUTOOPENGATE_BUTTON );   // Quick restart 
+            float avail = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.AUTO_MOVE );   // Quick restart 
             if( Helper.I.ReleaseVersion == false ) avail = 1;
             if( avail > 0 )
             QuickRestart = true;

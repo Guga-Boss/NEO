@@ -6,14 +6,14 @@ public enum EAdventureUpgradeType
 {
     NONE = -1, UNLOCK_ADVENTURE, UPGRADE_SHOP, UPGRADE_STUDIES, UPGRADE_PACKMULE,
     REDUCE_REQUIRED_ITEM_AMOUNT, INCREASE_REQUIRED_ITEM_TIME, INCREASE_AVAILABLE_CUBES,
-    UPGRADE_AUTOOPENGATE_BUTTON, RECEIVE_GIFT, CHEST_BONUS_CHANCE, CHEST_BONUS_AMOUNT,
+    VOID1, RECEIVE_GIFT, CHEST_BONUS_CHANCE, CHEST_BONUS_AMOUNT,
     CHEST_PERSIST_CHANCE, CHEST_ITEM_CHANCE_INFLATION, ITEM_PRODUCTION_ACTIVATED, AUTOMOVE_ENERGY_COST,
     HEALING_HP, INITIAL_HP, LEISURE, UPGRADE_PACKMULE_STACK, PACKMULE_ITEM_CAPACITY,
-    INITIAL_ITEM_BONUS, ITEM_BONUS, GOTO_CHECKPOINT, GATE_PRICE, CLOVER_CHANCE,
+    INITIAL_ITEM_BONUS, ITEM_BONUS, AUTO_MOVE, GATE_PRICE, CLOVER_CHANCE,
     INITIAL_UPGRADE_CHEST_CHANCE, CLOVER_UPGRADE_CHEST_CHANCE, CUBE_CLEAR_UPGRADE_CHEST_CHANCE,
     SPAWN_BUTCHER_CHANCE, CHEST_BASE_BONUS_CHANCE, LOAD_COST_DISCOUNT, TRADE,
     UPGRADE_MAX_CAPACITY, CUBE_CLEAR_DEFAULT_BONUS, ITEM_PRODUCTION_LIMIT,
-    ITEM_PRODUCTION_TOTAL_TIME
+    ITEM_PRODUCTION_TOTAL_TIME, ITEM_PRODUCTION_CAP, ITEM_PRODUCTION_BOOST_CHANCE
 }
 
 public enum ELeisureType
@@ -130,7 +130,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
         int level = GetTechLevel();
         if( type == EAdventureUpgradeType.UPGRADE_PACKMULE_STACK ) val = 1;
         if( type == EAdventureUpgradeType.UPGRADE_SHOP ) val = Map.I.RM.RMD.StartingTrainningLevel;
-        if( type == EAdventureUpgradeType.GOTO_CHECKPOINT ) val = Map.I.RM.RMD.StartingGotoCheckPointLevel;
+        if( type == EAdventureUpgradeType.AUTO_MOVE ) val = Map.I.RM.RMD.StartingGotoCheckPointLevel;
         if( type == EAdventureUpgradeType.INITIAL_UPGRADE_CHEST_CHANCE ) val = Map.I.RM.RMD.InitialUpgradeChestChance;
         if( type == EAdventureUpgradeType.CLOVER_UPGRADE_CHEST_CHANCE ) val = Map.I.RM.RMD.CloverPickUpgradeChestChance;
         if( type == EAdventureUpgradeType.CUBE_CLEAR_UPGRADE_CHEST_CHANCE ) val = Map.I.RM.RMD.CubeClearUpgradeChestChance;
@@ -263,12 +263,9 @@ public class AdventureUpgradeInfo : MonoBehaviour
             msg += "Training Unlocked.";
             post = "lock";
             break;
-            case EAdventureUpgradeType.UPGRADE_AUTOOPENGATE_BUTTON:
+            case EAdventureUpgradeType.AUTO_MOVE:
+            msg += "Find Puzzle Button Unlocked. ( '\\' Key)";
             msg += "Auto Open Gate Button Unlocked.";
-            post = "lock";
-            break;
-            case EAdventureUpgradeType.GOTO_CHECKPOINT:
-            msg += "Find Puzzle Button Unlocked. (\\Key)";
             post = "lock";
             break;
             case EAdventureUpgradeType.GATE_PRICE:
@@ -309,20 +306,25 @@ public class AdventureUpgradeInfo : MonoBehaviour
             case EAdventureUpgradeType.INCREASE_REQUIRED_ITEM_TIME:
             msg += "Required Item Lifetime: -" + Util.ToSTime( amt );
             post = " ";
-            break;
-            
+            break;            
             case EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT:
-            msg += Item.GetName( au.ItemAffected ) + " Production Limit: " + amt.ToString( "+0;-#" );
+            msg += Item.GetName( au.ItemAffected ) + "Production Limit: " + amt.ToString( "+0;-#" );
             post = " ";
             break;
-
+            case EAdventureUpgradeType.ITEM_PRODUCTION_CAP:
+            msg += Item.GetName( au.ItemAffected ) + "Production Cap: " + amt.ToString( "+0;-#" );
+            post = " ";
+            break;
+            case EAdventureUpgradeType.ITEM_PRODUCTION_BOOST_CHANCE:
+            msg += Item.GetName( au.ItemAffected ) + "Production Boost Chance: " + amt.ToString( "+0;-#" ) + "%";
+            post = " ";
+            break;
             case EAdventureUpgradeType.ITEM_PRODUCTION_ACTIVATED:
-            msg += Item.GetName( au.ItemAffected ) + " Production Activated: " + Util.IntToBool( ( int ) amt ).ToString();
+            msg += Item.GetName( au.ItemAffected ) + "Production Activated: " + Util.IntToBool( ( int ) amt ).ToString();
             post = " ";
             break;
-
             case EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME:
-            msg += Item.GetName( au.ItemAffected ) + " Production Time: " + Util.ToSTime( amt );
+            msg += Item.GetName( au.ItemAffected ) + "Production Time: " + Util.ToSTime( amt );
             post = " ";
             break;
 

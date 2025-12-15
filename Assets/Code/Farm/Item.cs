@@ -150,9 +150,18 @@ public class Item : MonoBehaviour
     [TabGroup( "Production" )]
     public bool CountLifetime = false;
     [TabGroup( "Production" )]
-    public int BaseProductionLimit = 0;                     // base prod limit
+    public int BaseProductionLimit = 0;                     // base prod hard limit, Prod doesnt go beyond this
     [TabGroup( "Production" )]
-    public int ExtraProductionLimit = 0;                    // purchased limit
+    public int ExtraProductionLimit = 0;                    // purchased hard limit
+    [TabGroup( "Production" )]
+    public int BaseProductionCap = 0;                       // base prod cap: goods produced every login
+    [TabGroup( "Production" )]
+    public int ExtraProductionCap = 0;                      // purchased cap
+    [TabGroup( "Production" )]
+    public float BaseProductionBoostChance = 0;             // base chance for production x2
+    [TabGroup( "Production" )]
+    public float ExtraProductionBoostChance = 0;            // purchased chance for production x2
+
     [TabGroup( "Option" )]
     public bool SaveData = true;
     [TabGroup( "Option" )]
@@ -789,6 +798,10 @@ public class Item : MonoBehaviour
 
         TF.SaveT( "ExtraProductionLimit_" + UniqueID, ExtraProductionLimit );                                 // Save Extra Production Limit
 
+        TF.SaveT( "ExtraProductionCap_" + UniqueID, ExtraProductionCap );                                     // Save Extra Production Cap
+
+        TF.SaveT( "ExtraProductionBoostChance_" + UniqueID, ExtraProductionBoostChance );                     // Save Extra Production Boost Chance
+
         TF.SaveT( "TotalGained_" + UniqueID, TotalGained );                                                   // Save Total Gained
 
         TF.SaveT( "MaximumCount_" + UniqueID, MaximumCount );                                                 // Save Maximum count
@@ -861,7 +874,11 @@ public class Item : MonoBehaviour
 
         ExtraProductionTotalTime = TF.LoadT<float>( "ExtraProductionTotalTime_" + UniqueID );                // Load Extra Production Total Time   
 
-        ExtraProductionLimit = TF.LoadT<int>( "ExtraProductionLimit_" + UniqueID );                          // Load Extra Production Limit  
+        ExtraProductionLimit = TF.LoadT<int>( "ExtraProductionLimit_" + UniqueID );                          // Load Extra Production Limit 
+
+        ExtraProductionCap = TF.LoadT<int>( "ExtraProductionCap_" + UniqueID );                              // Load Extra Production Cap 
+
+        ExtraProductionBoostChance = TF.LoadT<int>( "ExtraProductionBoostChance_" + UniqueID );              // Load Extra Production Boost Chance 
 
         TotalGained = TF.LoadT<float>( "TotalGained_" + UniqueID );                                          // Load Total Gained
 
@@ -943,7 +960,7 @@ public class Item : MonoBehaviour
     {
         if( ProductionEnabled() == false ) return;
 
-        float tottime = GetStat( EVarType.Production_Total_Time, this );
+        float tottime = GetStat( EVarType.Production_Total_Time, this );                    // total time
 
         if( tottime <= 0 ) return;
 
@@ -959,35 +976,55 @@ public class Item : MonoBehaviour
         if( Count >= max )                                                                  // Stop production ones since limit was reached
         {
             Count = max;
-            ProductionCount = 0;            
+            ProductionCount = 0;
+            return;
         }
 
-        for( ; ; )
-        if( ProductionCount >= tottime )
+        int cap = int.MaxValue;
+        float capval = GetStat( EVarType.Production_Cap, this );
+        if( capval > 0 )                                                                   // Max Production cap                                    
+            cap = ( int ) capval;
+
+        while( ProductionCount >= tottime )
+        {
+            if( Item.IsPlagueMonster( ( int ) Type, false ) )
+            if( Map.I.Farm.UpdateBlockingMonsters( this ) )                                // Blocking Monster Creation
+                return;
+
+            if( Type == ItemType.Feather )                                                 // Feather Creation
             {
-                if( Item.IsPlagueMonster( ( int ) Type, false ))
-                if( Map.I.Farm.UpdateBlockingMonsters( this ) )                             // Blocking Monster Creation
-                    return;
-
-                if( Type == ItemType.Feather )                                              // Feather Creation
-                {
-                    Map.I.Farm.UpdateFeatherCreation();
-                    return;
-                }
-
-                IgnoreMessage = true;
-                Item.IgnoreBuffer = true;
-                AddItem( Type, 1,Inventory.IType.Inventory, true );                         // Adds the item
-
-                if( Count >= max )                                                          // limits max
-                {
-                    Count = max;
-                    ProductionCount = 0;
-                    break;
-                }
-                ProductionCount -= tottime;                                                 // decrement timer
+                Map.I.Farm.UpdateFeatherCreation();
+                return;
             }
-            else break;
+            if( capval > 0 )
+            {
+                if( cap <= 0 )
+                {
+                    ProductionCount = 0;
+                    return;                                                                // Production Cap: Interrupt
+                }                                                                         
+                cap--;
+            }
+
+            IgnoreMessage = true;
+            Item.IgnoreBuffer = true;
+
+            float boost = GetStat( EVarType.Production_Boost_Chance, this );               // chance for production x2
+
+            float amount = 1;
+            if( Util.Chance( boost ) )                                                    
+                amount *= 2;                                                               // apply boost
+
+            AddItem( Type, amount, Inventory.IType.Inventory, true );                      // Adds the item
+
+            if( Count >= max )                                                             // limits max
+            {
+                Count = max;
+                ProductionCount = 0;
+                break;
+            }
+            ProductionCount -= tottime;                                                    // decrement timer
+        }
     }
     public bool ProductionEnabled()
     {
@@ -1078,6 +1115,12 @@ public class Item : MonoBehaviour
 
             case EVarType.Production_Limit:
             return it.BaseProductionLimit + it.ExtraProductionLimit;
+
+            case EVarType.Production_Cap:
+            return it.BaseProductionCap + it.ExtraProductionCap;
+
+            case EVarType.Production_Boost_Chance:
+            return it.BaseProductionBoostChance + it.ExtraProductionBoostChance;
 
             case EVarType.Total_Life_Time:
             it.TotalLifeTime = Blueprint.GetUseSum( var );

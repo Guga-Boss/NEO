@@ -30,7 +30,7 @@ public enum EVarType
     Production_Total_Time, Item_Count, Maximum_Item_Stack, Carry_Capacity, Road_Carry_Capacity,
     Crafting_Bonus_Factor = 12, BluePrint_Success_Rate, BluePrint_Cost,
     BluePrint_ReSort_Chance, BluePrint_Effect_Amount, Total_Life_Time, Total_Building_Production_Time, PackMule_Capacity,
-    Production_Limit
+    Production_Limit, Production_Cap, Production_Boost_Chance
 }
 
 public class Building : MonoBehaviour

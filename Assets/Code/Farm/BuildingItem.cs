@@ -18,6 +18,8 @@ public class BuildingItem : MonoBehaviour
     public bool WorkIsDone = false;
     public Building Building = null;
     public int ProductionLimit = -1;                 // This limits the automatic production to a certain limit. Above limit adds only if collected ingame
+    public int ProductionCap = -1;                   // This limits the automatic production to a certain amount produced by login
+
     public void Copy( BuildingItem it )
     {
         ItemCount = it.ItemCount;
@@ -33,6 +35,7 @@ public class BuildingItem : MonoBehaviour
         ShownAcessories = it.ShownAcessories;
         AdditivePlantingFactor = it.AdditivePlantingFactor;
         ProductionLimit = it.ProductionLimit;
+        ProductionCap = it.ProductionCap;
     }
 
     // theres a bug that will hapen in the future. if i use an iron ore that is being used by the forge:
@@ -42,14 +45,14 @@ public class BuildingItem : MonoBehaviour
     {
         float mstack = Building.GetStat( EVarType.Maximum_Item_Stack, bl, itemID );
 
-        if( ProductionLimit != -1 )                                                            // Max Production limited                                    
+        if( ProductionLimit > 0 )                                                                    // Max Production limited                                    
             mstack = ProductionLimit;       
 
         float prod = Building.GetStat( EVarType.Total_Building_Production_Time, bl, itemID );
 
         if( prod <= 0 ) return;
-        if( ItemCount < mstack && mstack > 0 )    //new last part
-            ProductionTimeCount += ( float ) ( Time.unscaledDeltaTime + addTime );
+        if( mstack <= 0 || ItemCount < mstack )
+            ProductionTimeCount += ( float ) ( Time.unscaledDeltaTime + addTime );                   // Max capacity
         else
         {
             ProductionTimeCount = 0;
@@ -58,30 +61,42 @@ public class BuildingItem : MonoBehaviour
 
         if( ItemCount < 0 ) ItemCount = 0;
 
+        int cap = -1;
+        if( ProductionCap > 0 )                                                              // Max Production Cap                                    
+            cap = ProductionCap;   
+
         string msg = "";
         float amt = 0;
         float discard = 0;
         float original = ItemCount;
-        for( ; ; )
-            if( ProductionTimeCount >= prod )
+        while( ProductionTimeCount >= prod )
+        {
+            if( ProductionCap > 0 )
             {
-                ItemCount++;
-                amt++;
-
-                if( ItemCount >= mstack )
+                if( cap <= 0 )
                 {
-                    discard = ItemCount - mstack;
-                    ItemCount = mstack;
                     ProductionTimeCount = 0;
-                    break;
+                    return;                                                                  // Production Cap: Interrupt
                 }
-                ProductionTimeCount -= prod;
+                cap--;
             }
-            else break;
+
+            ItemCount++;                                                                     // Increment count
+            amt++;
+
+            if( mstack > 0 && ItemCount >= mstack )                                          // Max cap reached
+            {
+                discard += ItemCount - mstack;
+                ItemCount = mstack;
+                ProductionTimeCount = 0;
+                break;
+            }
+            ProductionTimeCount -= prod;                                                     // Decrement timer
+        }
 
         if( addTime > 0 )
         {
-            msg = G.GIT( ItemType ).GetName() + " Production: " + original + " + " + amt;
+            msg = G.GIT( ItemType ).GetName() + " Production: " + original + " + " + amt;   // message
             if( discard > 0 ) msg += "Discarded: " + discard;
             Message.GreenMessage( msg );
         }

@@ -553,7 +553,7 @@ public class DungeonDialog : MonoBehaviour
     {
         bool res = false;
         if( AutogateLev == -2 )               // use this var to avoid function below every frame
-            AutogateLev = ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.UPGRADE_AUTOOPENGATE_BUTTON );
+            AutogateLev = ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.AUTO_MOVE );
         if( AutogateLev > 0 ) res = true;
         if( updateobj )
             AutoGotoPuzzleButton.gameObject.SetActive( res );

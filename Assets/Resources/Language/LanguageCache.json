@@ -481,7 +481,11 @@
                 },
                 {
                     "key": "TECH_ITEM_PRODUCTION_LIMIT",
-                    "value": "Some items with automatic production have a production cap. \nPurchase this tech to increase that cap.\n\nBeyond this limit, items can only be obtained in the forest, not through auto production."
+                    "value": "Automatic production can only store items up to this limit.\nWhen storage reaches this amount, production completely stops.\n\nTo produce more, you must either:\n\n1) Consume or remove items, or\n\n2) Increase the Production Limit.\n\nThis hard limit defines how many items can exist at the same time through automatic production."
+                },
+                {
+                    "key": "ITEM_PRODUCTION_CAP",
+                    "value": "Automatic production has a cap on how many items it can generate while offline.\nOnce this cap is reached, automatic production is suspended.\n\nAfter reaching the Production Cap:\n\n1) No more items will be produced automatically, even if there is available storage space.\n\n2) Items can only be obtained through exploration, such as in the forest.\n\nUpgrade this technology to raise the Production Cap and allow more offline automatic production."
                 },
                 {
                     "key": "TECH_ITEM_PRODUCTION_ACTIVATED",
@@ -2076,23 +2080,23 @@
                 },
                 {
                     "key": "A2_QUEST_8_CUBE_2",
-                    "value": "TIPS on fighting this monster:\n\n1) High attack, be careful!\n\n2) Pay attention to the crow caw sound. It shows he is ready to attack.\n\n3) When he starts fast flying toward you, just step aside a few moments before he comes too close.\n\nThere's no need to hurry! This is called the \"El Torero\" maneuver.\nRunning away like crazy is tantamount to a death sentence!\nCalm is the best strategy against this monster.\n\nPractice it now!"
+                    "value": "TIPS on fighting this monster:\n\n1) High attack, be careful!\n\n2) Pay attention to the crow caw sound.\nIt shows he is ready to attack.\n\n3) When he starts flying fast toward you,\njust step aside a few moments before he comes too close.\n\nThere’s no need to hurry!\nThis is called the \"El Torero\" maneuver.\n\nRunning away like crazy is tantamount to a death sentence!\nCalm is the best strategy against this monster.\n\nPractice it now!"
                 },
                 {
                     "key": "A2_QUEST_8_CUBE_3",
-                    "value": "My Diary:\n\nOne of these days, I was observing a giant bat while it was eating.\n\nThey allow you to come a little closer while they are feeding.\n\nThey are horrendous! A mixture of a human face with a devilish look!\n\nI think I’m going to call them “Devils.”"
-                },
-                {
-                    "key": "A2_QUEST_8_CUBE_4",
                     "value": "Pay attention to the crow’s caw.\nIt signals that the Devil is ready to attack."
                 },
                 {
+                    "key": "A2_QUEST_8_CUBE_4",
+                    "value": "My Diary:\n\nOne of these days, I was observing a giant bat while it was eating.\n\nThey allow you to come a little closer while they are feeding.\n\nThey are horrendous! A mixture of a human face with a devilish look!\n\nNo other name could fit them better: “Devils.”"
+                },
+                {
                     "key": "A2_QUEST_8_CUBE_5_MOD_1",
-                    "value": "Oxygen lets you catch your breath\n(and Plan you Strategy)\nwhile running in the wilderness!\n\n\n1) -Pick up Oxygen Tokens.\n\n2) -Press Space Key for a little extra air.\n\n3) -Moving in any direction will cancel it."
+                    "value": "Oxygen lets you catch your breath\n(and Plan you Strategy)\nwhile running in the wilderness!\n\n1) -Pick up Oxygen Tokens.\n\n2) -Press Space Key for a little extra air.\n\n3) -Moving in any direction will cancel it."
                 },
                 {
                     "key": "A2_QUEST_8_CUBE_7",
-                    "value": "TIP: Practice the El Torero Maneuver against the Devil Monster (explained in the 2nd Cube) or you won’t get far in this quest."
+                    "value": "TIP: Practice the El Torero Maneuver against the Devil Monster (explained in the 2nd Cube) or you won't get far in this quest."
                 },
                 {
                     "key": "A2_QUEST_8_CUBE_10_MOD_1",
@@ -2128,7 +2132,7 @@
                 },
                 {
                     "key": "A2_QUEST_8_CUBE_22_MOD_1",
-                    "value": "My Diary:\nIt seems these monsters are evolving.\nThey’re trying to fight and kill me...\nas if I were a virus in their world...\nas if their world were a body...\n...and I were the infection."
+                    "value": "My Diary:\nIt seems these monsters are evolving.\nThey're trying to fight and kill me...\nas if I were a virus in their world...\nas if their world were a body...\n...and I were the infection."
                 },
                 {
                     "key": "A2_QUEST_8_CUBE_26_MOD_1",
