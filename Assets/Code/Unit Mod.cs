@@ -369,7 +369,7 @@ public partial class Unit : MonoBehaviour
                     {
                         if( id == -1 ) id = 0;                                                            // force connection to any object even if its not vine
 
-                        if( TileID == ETileType.VINES ) // new: added due to a bug crashing using forcevinelink to other types
+                        if( TileID == ETileType.VINES )                                                   // new: added due to a bug crashing using forcevinelink to other types
                             Control.ForceVineLink[ ( int ) dr ] = id;
                     }
                 }
