@@ -175,9 +175,9 @@ public class TKUtil : MonoBehaviour
                     tm.SetTile( x, y, ( int ) ELayerType.DECOR2, 2569 );
                 }
                 else 
-                if( tile != ( int ) ETileType.WATER )                                         // Farm size calculation
                 {
-                    G.Farm.FarmSize++;
+                    if( tile != ( int ) ETileType.WATER )                                     // Farm size calculation
+                        G.Farm.FarmSize++;
                     tm.SetTile( x, y, ( int ) ELayerType.DECOR2, -1 );                        // clear decor tile after chopped
                 }
                 tm.SetTile( x, y, ( int ) ELayerType.GAIA2, -1 );                             // Reset GAIA2

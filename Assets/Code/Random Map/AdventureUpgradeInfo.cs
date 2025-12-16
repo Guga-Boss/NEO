@@ -264,8 +264,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
             post = "lock";
             break;
             case EAdventureUpgradeType.AUTO_MOVE:
-            msg += "Find Puzzle Button Unlocked. ( '\\' Key)";
-            msg += "Auto Open Gate Button Unlocked.";
+            msg += "Auto Move Unlocked. '\\' Key";
             post = "lock";
             break;
             case EAdventureUpgradeType.GATE_PRICE:
@@ -308,23 +307,23 @@ public class AdventureUpgradeInfo : MonoBehaviour
             post = " ";
             break;            
             case EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT:
-            msg += Item.GetName( au.ItemAffected ) + "Production Limit: " + amt.ToString( "+0;-#" );
+            msg += Item.GetName( au.ItemAffected ) + " Production Limit: " + amt.ToString( "+0;-#" );
             post = " ";
             break;
             case EAdventureUpgradeType.ITEM_PRODUCTION_CAP:
-            msg += Item.GetName( au.ItemAffected ) + "Production Cap: " + amt.ToString( "+0;-#" );
+            msg += Item.GetName( au.ItemAffected ) + " Production Cap: " + amt.ToString( "+0;-#" );
             post = " ";
             break;
             case EAdventureUpgradeType.ITEM_PRODUCTION_BOOST_CHANCE:
-            msg += Item.GetName( au.ItemAffected ) + "Production Boost Chance: " + amt.ToString( "+0;-#" ) + "%";
+            msg += Item.GetName( au.ItemAffected ) + " Production Boost Chance: " + amt.ToString( "+0;-#" ) + "%";
             post = " ";
             break;
             case EAdventureUpgradeType.ITEM_PRODUCTION_ACTIVATED:
-            msg += Item.GetName( au.ItemAffected ) + "Production Activated: " + Util.IntToBool( ( int ) amt ).ToString();
+            msg += Item.GetName( au.ItemAffected ) + " Production Activated: " + Util.IntToBool( ( int ) amt ).ToString();
             post = " ";
             break;
             case EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME:
-            msg += Item.GetName( au.ItemAffected ) + "Production Time: " + Util.ToSTime( amt );
+            msg += Item.GetName( au.ItemAffected ) + " Production Time: " + Util.ToSTime( amt );
             post = " ";
             break;
 

@@ -259,7 +259,7 @@ public partial class Map : MonoBehaviour
 
      public void LightVine( Unit vine )
      {
-         vine.Body.EffectList[ 0 ].gameObject.SetActive( true );                                     // Ignites the  vine
+         Util.SetActiveRecursively( vine.Body.EffectList[ 0 ].gameObject, true );                    // Ignites the  vine
          vine.Body.FireIsOn = true;
          vine.MeleeAttack.SpeedTimeCounter = -1;
          MasterAudio.PlaySound3DAtVector3( "Fire Ignite", vine.Pos );

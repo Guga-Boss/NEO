@@ -391,7 +391,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012616125616}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 131.34123, y: 75.02321, z: 0}
+  m_LocalPosition: {x: 133.49126, y: 67.471214, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013226818246}
@@ -511,7 +511,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1016631141229464}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4533285219633004}
@@ -912,8 +912,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000013632478524}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000010240093722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -930,8 +933,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000011876106676}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000010683416506
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -995,8 +1001,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000010968620314}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000010968620314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1088,7 +1097,6 @@ MonoBehaviour:
   ControlType: -1
   OldPos: {x: 0, y: 0}
   LastPos: {x: 0, y: 0}
-  InitialPos: {x: 0, y: 0}
   JumpTarget: {x: 0, y: 0}
   AnimationOrigin: {x: 0, y: 0}
   MoveOrderID: -1
@@ -1143,6 +1151,7 @@ MonoBehaviour:
   Initialized: 0
   BeingMudPushed: 0
   BoulderDirChanged: 0
+  BrokenRaft: 0
   RestLine: {fileID: 0}
   TickBasedMovement: 0
   ForcedFrontalMovementDir: -1
@@ -1201,7 +1210,7 @@ MonoBehaviour:
   FireMarkedWaspFactor: 0
   FireMarkAvailable: 1
   BaseRestDistance: 0
-  ScorpionProcessed: 0
+  UnitProcessed: 0
   BoulderPunchPower: 100
   Current: 100
   UnitMoved: 0
@@ -1299,6 +1308,7 @@ MonoBehaviour:
   PhaseWonFreePhases: 0
   FrontalFlyingTargetDist: -1
   FlightPhaseLoopCount: 0
+  FlightLoopCount: 0
   FlightResourcePicking: 1
   FlightOrbStrike: 1
   FlightBarricadeDestroy: 1
@@ -1327,8 +1337,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000011311203096}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000011436273068
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1345,8 +1358,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000013018702912}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000011720712252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1370,12 +1386,15 @@ MonoBehaviour:
   Sprite8: {fileID: 0}
   InfectedSprite: {fileID: 0}
   ImmunityDome: {fileID: 0}
+  PoleSprite: {fileID: 0}
   Animator: {fileID: 0}
   AuxText: {fileID: 0}
+  Particle: {fileID: 0}
   EffectList:
   - {fileID: 1016631141229464}
   ArrowList: []
   WoodList: []
+  TextList: []
   ChildList: []
   ShacklePullList: []
   RopeConnectSon: {fileID: 0}
@@ -1384,23 +1403,8 @@ MonoBehaviour:
   RopeConnectFatherPosList: []
   HealthStatus: 0
   FireSourcePos: {x: -1, y: -1}
-  NextAltarBonus:
-    AltarBonusType: -1
-    AltarBonusFactor: 1
-    AltarBonusItem: -1
-    ID: 0
-    Advanced: 0
-    TimesUsed: 0
-    HitCount: -1
-    UsageAvailableTimer: 0
-    SelfKillTimer: -1
-    Unlocked: 0
-    MinChance: 0
-    MaxChance: 50
-    MinLevel: 1
   RigidBody: {fileID: 0}
   Rope: {fileID: 0}
-  PoleObjList: []
   PoleSpriteList:
   - {fileID: 114000013632478524}
   - {fileID: 114000013018702912}
@@ -1410,6 +1414,7 @@ MonoBehaviour:
   - {fileID: 114000012129336176}
   - {fileID: 114000011048521794}
   - {fileID: 114000011876106676}
+  PoleBackSpriteList: []
   RopeOrigin: {fileID: 0}
   RopeDestination: {fileID: 0}
   RopeRotationHelper: {fileID: 0}
@@ -1435,6 +1440,8 @@ MonoBehaviour:
   CocoonWasp: 0
   Crippled: 0
   SpikedBoulder: 0
+  TrailCoil: 0
+  TrailRotator: 0
   HookIsStuck: 0
   CreatedVine: 0
   GraphicsInitialized: 0
@@ -1495,18 +1502,12 @@ MonoBehaviour:
   RiskyAttackLevel: 0
   MortalJumpLevel: 0
   OpenFieldAtttackLevel: 0
-  IntelligenceLevel: 0
-  IntelThreatLevel: 0
-  Intel2Level: 0
-  Intel3Level: 0
-  Intel4Level: 0
   ThreatLevel: 0
   BaseFreeExitHPLimit: 0
   FirePowerLevel: 0
   FireSpreadLevel: 0
   FireWoodNeeded: 0
   OutsideFireWoodAllowed: 0
-  FirepitsNeededForDiscount: 0
   FreePlatformExit: 0
   OutAreaBurningBarricadeDestroyBonus: 0
   BarricadeForRune: 0
@@ -1520,10 +1521,16 @@ MonoBehaviour:
   RealtimeRangedAttSpeed: 0
   MiningLevel: 0
   FishingLevel: 0
+  QQMissHeroDamage: 0
+  QQMinDamage: 5
+  QQMaxDamage: 10
   Fishing_1: 0
   Fishing_2: 0
   Fishing_3: 0
   Fishing_4: 0
+  TweenTime: 0
+  RotationSpeed: 0
+  KillTimer: -1
   ResourceOperation: 0
   BonusItemList: 
   BonusItemAmountList: []
@@ -1573,6 +1580,7 @@ MonoBehaviour:
   WoodAddedTurnCount: 0
   ChiselSlideCount: 0
   VineFireSpreadID: -1
+  ResourceSlot: 1
   HookID: {fileID: 0}
   MortalJumpBonusAttack: 0
   OutAreaMortalJumpBonusAttack: 0
@@ -1586,6 +1594,7 @@ MonoBehaviour:
   VineBurnTime: 0.5
   OverFireTimeCount: 0
   ImmunityShieldTime: 0
+  PoleBonusAvailableAngle: -1
   HPLostInTheTurn: 0
   EnemyAttackBonus: 0
   BaseMiningChance: 0
@@ -1604,7 +1613,6 @@ MonoBehaviour:
   ChestLevel: 1
   StackAmount: 0
   AuxStackAmount: -98.9
-  AreaEnterDirection: 0
   MineLeverDir: 0
   UPMineDir: 0
   AutoRotatingMineType: 0
@@ -1619,11 +1627,8 @@ MonoBehaviour:
   AvailableFireHits: -1
   ExclusiveToAdventure: 0
   HeroAttackPositionHistory: []
-  OriginalHeroAttackPositionHistory: []
   HeroAttackDirectionHistory: 
-  OriginalHeroAttackDirectionHistory: 
   WoodAdded: 
-  OriginalWoodAdded: 
   BabySprite:
   - {fileID: 114000013632478524}
   - {fileID: 114000013018702912}
@@ -1649,7 +1654,6 @@ MonoBehaviour:
   BabyVariation: 
   MineSideHitCount: 
   CreatedVineList: 
-  AltarBonusList: []
   HerbMatchChecked: 0
   RandomizableHerb: 0
   HerbKillTimer: -1
@@ -1715,6 +1719,7 @@ MonoBehaviour:
   Body: {fileID: 114000011720712252}
   Water: {fileID: 0}
   Mine: {fileID: 0}
+  Altar: {fileID: 0}
   HealthBar: {fileID: 0}
   Control: {fileID: 114000011330906086}
   Building: {fileID: 0}
@@ -1730,6 +1735,7 @@ MonoBehaviour:
   CanBeRotated: 1
   Dir: 0
   Pos: {x: 0, y: 0}
+  IniPos: {x: 0, y: 0}
   BlockMovement: 0
   CanBeWalkedIfSuspended: 0
   BlockMissile: 0
@@ -1832,8 +1838,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000012129336176}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000013357827114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1850,8 +1859,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000011048521794}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000013632478524
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1892,8 +1904,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000012504819508}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!198 &198592187389288826
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -8305,7 +8320,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -8346,7 +8361,7 @@ ParticleSystem:
         m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 3
       scalar: 1
       minScalar: 1
       maxCurve:
@@ -14316,7 +14331,7 @@ ParticleSystemRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -14367,7 +14382,7 @@ ParticleSystemRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89

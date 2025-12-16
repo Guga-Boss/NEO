@@ -432,12 +432,16 @@
                     "value": "Just click to receive a Gift!"
                 },
                 {
-                    "key": "TECH_GOTO_CHECKPOINT",
-                    "value": "Purchase this technology, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nThis is called \"Find Puzzle\" feature. Use it to navigate faster."
+                    "key": "TECH_AUTO_MOVE",
+                    "value": "Purchase this tech, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nThis is called \"Find Puzzle\" feature. Use it to navigate faster. \nIt also Enables the 'Auto Gate' button: \nWhen active, it automatically opens the gate and moves the hero to the next checkpoint, right in front of the puzzle entrance."
                 },
                 {
                     "key": "TECH_UPGRADE_MAX_CAPACITY",
                     "value": "Some Resources have a maximum amount that can be gathered. Purchase this technology to increase the maximum capacity for the specified item."
+                },
+                {
+                    "key": "ITEM_BOOST_PRODUCTION_CHANCE",
+                    "value": "Buy this tech for a chance to gain +1 extra item when production finishes."
                 },
                 {
                     "key": "TECH_CHEST_BASE_BONUS_CHANCE",
@@ -466,10 +470,6 @@
                 {
                     "key": "TECH_UPGRADE_STUDIES",
                     "value": "Purchase this technology to unlock additional technologies for purchase."
-                },
-                {
-                    "key": "TECH_UPGRADE_AUTOOPENGATE_BUTTON",
-                    "value": "This technology enables an 'Auto Gate' button. \nWhen active, it automatically opens the gate and moves the hero to the next checkpoint, right in front of the puzzle entrance."
                 },
                 {
                     "key": "TECH_CHEST_PERSIST_CHANCE",
@@ -4321,7 +4321,7 @@
                 },
                 {
                     "key": "A2_QUEST_9",
-                    "value": "HINT: Hover the mouse over the Goals in the left panel for more information about them."
+                    "value": "IMPORTANT: This provides a tech that enables automatic offline production for Shells.\nYou can find a similar tech for Cogs in the Mining I quest.\n\nNote that automatic production may have an initial per-login CAP that can be upgraded as you go."
                 },
                 {
                     "key": "A2_QUEST_12",

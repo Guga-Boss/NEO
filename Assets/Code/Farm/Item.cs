@@ -878,7 +878,7 @@ public class Item : MonoBehaviour
 
         ExtraProductionCap = TF.LoadT<int>( "ExtraProductionCap_" + UniqueID );                              // Load Extra Production Cap 
 
-        ExtraProductionBoostChance = TF.LoadT<int>( "ExtraProductionBoostChance_" + UniqueID );              // Load Extra Production Boost Chance 
+        ExtraProductionBoostChance = TF.LoadT<float>( "ExtraProductionBoostChance_" + UniqueID );            // Load Extra Production Boost Chance 
 
         TotalGained = TF.LoadT<float>( "TotalGained_" + UniqueID );                                          // Load Total Gained
 

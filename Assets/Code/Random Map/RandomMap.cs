@@ -1595,7 +1595,7 @@ public class RandomMap : MonoBehaviour
         if( Helper.I.ReleaseVersion )
         if( check < 1 )
             {
-                Message.RedMessage( "Unlock Find Puzzle Tech First in Studies Panel!\nOnly work in some cubes." );
+                Message.RedMessage( "Unlock 'Auto Move' Tech First in Studies Panel!\nOnly work in some cubes." );
                 return;
             }
 

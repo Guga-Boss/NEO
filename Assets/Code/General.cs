@@ -357,7 +357,6 @@ public class Util
             if( val == 0 ) return ( EDirection ) dir;
         }
     }
-
     public static void SetActiveRecursively( GameObject go, bool active )
     {
         go.SetActive( active );
