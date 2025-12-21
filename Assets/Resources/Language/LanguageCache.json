@@ -433,7 +433,7 @@
                 },
                 {
                     "key": "TECH_AUTO_MOVE",
-                    "value": "Purchase this tech, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nThis is called \"Find Puzzle\" feature. Use it to navigate faster. \nIt also Enables the 'Auto Gate' button: \nWhen active, it automatically opens the gate and moves the hero to the next checkpoint, right in front of the puzzle entrance."
+                    "value": "Purchase this tech, and whenever you press the '\\' key, Kade will quickly run to the next cube checkpoint. \nThis is called \"Auto Move\" feature. Use it to navigate faster. \nIt also Enables the 'Auto Gate' button: \nWhen active, it automatically opens the gate and moves the hero to the next checkpoint, right in front of the puzzle entrance."
                 },
                 {
                     "key": "TECH_UPGRADE_MAX_CAPACITY",
@@ -530,6 +530,10 @@
                 {
                     "key": "TECH_ITEM_INITIAL_ITEM_BONUS",
                     "value": "Purchase this technology to begin each quest with a free quantity of this resource."
+                },
+                {
+                    "key": "TECH_CLOVER_ITEM_PRIZE_CHANCE",
+                    "value": "Purchase this tech and every time you collect a clover, you will have a percentage chance to receive the indicated item as a gift."
                 },
                 {
                     "key": "TECH_ITEM_CHEST_ITEM_CHANCE_INFLATIONItem inflation, text TBD",
@@ -3036,7 +3040,7 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_11_MOD_1",
-                    "value": "Important: As soon as you start a new session, after opening the initial gate, you can Quickly find Puzzle entrance by pressing \"\\\" Key.\n\n\nTry this now!\n\n\nBeware that it may cost some energy!\n\n(Charged once per Cube)"
+                    "value": "AS SOON AS YOU PURCHASE THE AUTO MOVE TECH, every time you start a new session and \nopen the initial gate, you can quickly locate the next Puzzle entrance by pressing the \"\\\" key.\n\nTry this now!\n\nThis feature automatically moves your character to the next available puzzle, entrance, or battle, saving time and keeping the action going.\n\n(Auto Move Tech required)"
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_14_MOD_1",
@@ -3628,11 +3632,11 @@
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_1_MOD_1",
-                    "value": "This is the Directional Mine: Much harder than the others to be Ored.\n\n\nTIP: Bump Against the mines to the right from every direction to check Pickaxing Costs."
+                    "value": "This is the Directional Mine. \nIt is much harder to extract ore from than the others.\n\nTIP: Bump into the mine from different directions to check the pickaxing cost."
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_2_MOD_1",
-                    "value": "TIP: You can Choose Wheel mine connection By rotating the hero towards \nDesired Direction and Then Bumping Against the Wheel Mine.\n\nOnce you Choose, Connection Becomes Permanent.\n\nTry it Now!"
+                    "value": "TIP: You can choose the Wheel Mine connection by rotating the hero toward the desired direction and then bumping into the Wheel Mine.\nOnce chosen, the connection becomes permanent.\nTry it now!"
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_5_MOD_1",
@@ -3700,7 +3704,7 @@
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_16_MOD_6",
-                    "value": "Notice the number indicating the number of remaining uses for each wedge.\n\n\nIf it reaches zero, it'll get grayed out and become useless.\n\n\nImportant: Wedge counter only decreases when it pushes a Row of Rocks WITHOUT any Wedge rocks in it.\n\n\nA Wedge pushing another Wedge, even if it is Contained in a line of different kinds of Rocks, is Always free."
+                    "value": "Notice the number indicating the number of remaining uses for each Wedge.\r\n\r\nIf it reaches zero, it'll get grayed out and become useless.\r\n\r\nImportant: Wedge counter only decreases when it pushes a Row of Rocks WITHOUT any Wedge Rocks in it.\r\n\r\nA Wedge pushing another Wedge, even if it is Contained in a line of different kinds of Rocks, is Always free."
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_16_MOD_7",
@@ -3728,11 +3732,11 @@
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_17_MOD_4",
-                    "value": "Two Different neighbor wedges: Notice the \"Push Away\" meaning you can push them to an empty tile.\n\n\nNotice that the last Push is Free, since you're pushing them AWAY from each other!\n\n\nYou'll still keep one step remaining in this case."
+                    "value": "Two Different Neighbor Wedges: Notice the \"Push Away\", meaning you can push them to an empty tile.\r\n\r\nNotice that the last Push is Free, since you're pushing them AWAY from each other!\r\n\r\nYou'll still keep one Step remaining in this case."
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_17_MOD_5",
-                    "value": "Even a Grayed out Wedge containing zero steps can still be pushed AWAY for free from its pair."
+                    "value": "Even a Grayed-out Wedge containing zero steps can still be pushed AWAY for free from its pair."
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_17_MOD_6",
@@ -3740,19 +3744,19 @@
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_20_MOD_1",
-                    "value": "This is the Dynamite Tool.\n\nSimple Rule: When you Bump Against it, If there's a Mine Behind, It'll Slide to it...\n\nOtherwise, It will Explode!!!"
+                    "value": "This is the Dynamite Tool.\nSimple Rule: When you Bump Against it, if there's a Mine Behind, it'll Slide to it...\nOtherwise, it will Explode!!!"
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_20_MOD_2",
-                    "value": "Second Rule: Two Or more Adjacent Dynamites Expand Explosion by one tile each side.\n\nNotice the two extra Explosions over the two Muddy Tiles."
+                    "value": "Second Rule: Two or more Adjacent Dynamites Expand the Explosion by one tile on each side.\r\nNotice the two extra Explosions over the two Muddy Tiles."
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_20_MOD_3",
-                    "value": "For Last: If there are other tools like Dynamites over mines, Bumped Dynamite will slide to the the first free spot Available.\n\n(The last mine to the left in the next case)."
+                    "value": "For Last: If there are other tools like Dynamites over Mines, a Bumped Dynamite will slide to the first free spot Available.\r\n(The last Mine to the left in the next case)."
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_21_MOD_1",
-                    "value": "Notice that some Rocks may be Placed inside a Hole.\n\nStep around the Hole and Swing your Character.\n\n\nNote that a Rope Sign Appears around it.\n\nWhenever You destroy a Rock inside a Hole, the Rock that is rope connected Slides down to it."
+                    "value": "Notice that some Rocks may be Placed inside a Hole.\nStep around the Hole and Swing your Character.\n\nNote that a Rope Sign Appears around it.\nWhenever You destroy a Rock inside a Hole, the Rock that is rope connected Slides down to it."
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_21_MOD_2",
@@ -3760,11 +3764,11 @@
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_22_MOD_1",
-                    "value": "Important: While there are two or more Lever Mines Connected,\n\nyou can choose the Active \"Puller\" by Bumping against the Lever mine.\n\n\nLearn this trick to pass this cube.\n\n\nActive \"Puller\" is indicated by the glow effect shown when Kade is near a lever."
+                    "value": "Important: When two or more Lever Mines are connected, you can choose which one is the active Puller by bumping into a Lever Mine.\n\nLearn this trick to pass this cube.\n\nThe active Puller is indicated by a glow effect when Kade is near the lever."
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_22_MOD_2",
-                    "value": "Step by step: \n\n\n1) Pull the lever until connection.\n\n2) Have 2 or more Lever mines connected.\n\n3) Bump against the Lever Mine. \n\n4) Notice the Active puller switched to the other mine.\n(Indicated by glow effect).\n\n5) Choose the left mine and pull the same lever again. \n\n\n(Notice that the other mine, the active Puller, pulled the chain towards it's Direction)"
+                    "value": "Step by step:\r\n\r\n1) Pull the Lever until connection.\r\n2) Have 2 or more Lever Mines connected.\r\n3) Bump against the Lever Mine.\r\n4) Notice the Active Puller switched to the other Mine.\r\n(Indicated by glow effect).\r\n5) Choose the left Mine and pull the same Lever again.\r\n\r\n(Notice that the other Mine, the Active Puller, pulled the chain towards its Direction)"
                 },
                 {
                     "key": "A2_QUEST_15_CUBE_23_MOD_1",
@@ -4329,7 +4333,7 @@
                 },
                 {
                     "key": "A2_QUEST_15",
-                    "value": "Important Hint: While Playing, Press \"\\\" Key to Quickly navigate to the next puzzle entrance point.\n\n\nTry this now! \n(Unlock Tech First)\n\nBeware that it may cost your Energy!\n\n(which can be reduced by buying another Tech)"
+                    "value": "This quest grants a Planting Token as a goal reward.\nThe Planting Token gives you extra space for planting on the farm.\nUse the Hoe in the Tools Building to add or remove planting spots."
                 },
                 {
                     "key": "A2_QUEST_2",

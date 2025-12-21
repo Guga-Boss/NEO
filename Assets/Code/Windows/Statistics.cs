@@ -99,7 +99,6 @@ public class Statistics : MonoBehaviour {
 
         Statistics st = Map.I.LevelStats;                                                 // Cached statistics reference
 
-        Debug.Log( "save Statistics: " + file + "  " + nm );                              // Debug save path
 
         using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )            // Always recreate file
         {
@@ -123,6 +122,7 @@ public class Statistics : MonoBehaviour {
             GS.W.Write( st.PlatformPoints );                                              // float  platform points
             GS.W.Write( st.BarricadeWood );                                               // float  barricade wood
             GS.W.Write( st.FishingBonusReached );                                         // float  fishing bonus
+            Debug.Log( "save Statistics: " + file + "  " + nm );                          // Debug save path
         }
     }
     public static void Load( string nm = "" )
@@ -135,11 +135,13 @@ public class Statistics : MonoBehaviour {
             file += "Statistics.NEO";                                                     // Default filename
 
         if( !File.Exists( file ) )
+        {
+            Debug.LogError( "[STAT LOAD FAIL] File not found: " + file + "  " + nm );
             return;                                                                       // Abort if save does not exist
+        }
 
         Statistics st = Map.I.LevelStats;                                                 // Cached statistics reference
 
-        Debug.Log( "load Statistics: " + file + "  " + nm );                              // Debug load path
 
         using( GS.R = new BinaryReader( File.Open( file, FileMode.Open ) ) )              // Open existing save
         {
@@ -164,6 +166,7 @@ public class Statistics : MonoBehaviour {
                 st.PlatformPoints = GS.R.ReadSingle();                                    // float  platform points
                 st.BarricadeWood = GS.R.ReadSingle();                                     // float  barricade wood
                 st.FishingBonusReached = GS.R.ReadSingle();                               // float  fishing bonus
+                Debug.Log( "load Statistics: " + file + "  " + nm );                              // Debug load path
             }
         }
     }

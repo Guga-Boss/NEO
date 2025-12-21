@@ -6,7 +6,7 @@ public enum EAdventureUpgradeType
 {
     NONE = -1, UNLOCK_ADVENTURE, UPGRADE_SHOP, UPGRADE_STUDIES, UPGRADE_PACKMULE,
     REDUCE_REQUIRED_ITEM_AMOUNT, INCREASE_REQUIRED_ITEM_TIME, INCREASE_AVAILABLE_CUBES,
-    VOID1, RECEIVE_GIFT, CHEST_BONUS_CHANCE, CHEST_BONUS_AMOUNT,
+    CLOVER_ITEM_PRIZE_CHANCE, RECEIVE_GIFT, CHEST_BONUS_CHANCE, CHEST_BONUS_AMOUNT,
     CHEST_PERSIST_CHANCE, CHEST_ITEM_CHANCE_INFLATION, ITEM_PRODUCTION_ACTIVATED, AUTOMOVE_ENERGY_COST,
     HEALING_HP, INITIAL_HP, LEISURE, UPGRADE_PACKMULE_STACK, PACKMULE_ITEM_CAPACITY,
     INITIAL_ITEM_BONUS, ITEM_BONUS, AUTO_MOVE, GATE_PRICE, CLOVER_CHANCE,
@@ -399,6 +399,15 @@ public class AdventureUpgradeInfo : MonoBehaviour
             case EAdventureUpgradeType.CLOVER_UPGRADE_CHEST_CHANCE:
             msg += "Clover Pick Chest Upgrade Chance: " + amt.ToString( "+0;-#" ) + "%";
             post = "%";
+            break;
+            case EAdventureUpgradeType.CLOVER_ITEM_PRIZE_CHANCE:
+            if( au.ItemAffected == ItemType.NONE )
+            {
+                msg += au.UpgradeType + " ERROR: bad Item Affected!";
+                break;
+            }
+            msg += "Clover Pick Bonus: " + amt.ToString( "+0;-#" ) + "% chance to get " + Item.GetName( au.ItemAffected );
+            post = "%";  
             break;
             case EAdventureUpgradeType.CUBE_CLEAR_UPGRADE_CHEST_CHANCE:
             msg += "Cube Clear Chest Upgrade Chance: " + amt.ToString( "+0;-#" ) + "%";

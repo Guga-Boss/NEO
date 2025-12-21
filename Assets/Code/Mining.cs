@@ -1370,7 +1370,7 @@ public partial class Controller : MonoBehaviour
     {
         Unit wl = Map.GMine( EMineType.WEDGE_LEFT, tg );
         Unit wr = Map.GMine( EMineType.WEDGE_RIGHT, tg );
-        if( Map.IsWall( tg ) )
+        if( Map.IsWall( tg, true, false ) )
         {
             for( int i = 0; i < 8; i++ )
             {
@@ -1396,7 +1396,7 @@ public partial class Controller : MonoBehaviour
         Vector2 fr = tg + Manager.I.U.DirCord[ ( int ) mov ];
         List<Unit> ul = new List<Unit>();
 
-        if( Map.IsWall( fr ) )                                                          // invert wedge type by bumping against wall
+        if( Map.IsWall( fr, true, false ) )                                              // invert wedge type by bumping against wall
         {
             InvertWedge( wd );
             return true;

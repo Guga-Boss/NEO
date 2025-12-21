@@ -65,7 +65,6 @@ public class GS : MonoBehaviour
 
         if( save )
         if( SaveStepList.Contains( save.Pos ) == false )                    // Cannot save more than once
-        //if( Map.I.RM.HeroSector.Cleared == false )
         if( G.Hero.Control.PathFinding.Path == null   || 
             G.Hero.Control.PathFinding.Path.Count <= 0 )
         {
@@ -73,7 +72,6 @@ public class GS : MonoBehaviour
             save.Body.EffectList[ 1 ].gameObject.SetActive( true );
             save.Body.EffectList[ 2 ].gameObject.SetActive( true );  
             UI.I.EnableOverlay( new Color( 0, 0, 1, .75f ), 1.5f );                         // Activates Overlay effect
-            string nm = " " + ( int ) G.Hero.Pos.x + " " + ( int ) G.Hero.Pos.y;
             GS.I.SaveCube( save );
             LastSavedCube = save;
             CustomSaveExists = false;
@@ -90,17 +88,19 @@ public class GS : MonoBehaviour
             LastSavedCube = save;
             MasterAudio.PlaySound3DAtVector3( "Percussion", save.Pos );
             GS.I.LoadCube( LastSavedCube );
+            CustomSaveExists = false;
         }
     }
     public void LoadCube( Unit save = null )
     {
-        //if( Map.I.RM.HeroSector.Cleared ) return;
-        if( Map.I.FishingMode != EFishingPhase.NO_FISHING ) return;
+        if( Map.I.FishingMode != EFishingPhase.NO_FISHING ) return;                        // no load while fishing
 
         InitLoading();                                                                     // Init loading
 
         string nm = " My";
         if( save ) nm = " " + save.Pos.x + " " + save.Pos.y;
+
+        Debug.Log( "Load: nm" + nm + " save " + save.Pos + " LastSavedCube " + LastSavedCube + " SaveStepList " + SaveStepList.Count );
 
         Manager.I.Inventory.Load( nm );                                                    // Load Inventory
 
@@ -267,6 +267,8 @@ public class GS : MonoBehaviour
         IsSaving = true;
         string nm = " My";
         if( save ) nm = " " + save.Pos.x + " " + save.Pos.y;
+
+        Debug.Log( "Save: nm" + nm + " save " + save.Pos + " LastSavedCube " + LastSavedCube + " SaveStepList " + SaveStepList.Count );
 
         Manager.I.Inventory.Save( nm );                                                    // Save Inventory
 

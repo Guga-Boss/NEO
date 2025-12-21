@@ -314,12 +314,19 @@ public class Sector : MonoBehaviour
     public static void Save( string nm = "" )
     {
         Sector s = Map.I.RM.HeroSector;
+
+        Debug.Log(
+    "[SECTOR SAVE] nm=" + nm +
+    " HeroSector=(" + s.X + "," + s.Y + ")"
+);
         string file = Manager.I.GetProfileFolder();
+        Debug.Log( "[SECTOR SAVE CALL] nm=" + nm );
+        Debug.Log( "[SECTOR FILE PATH] " + file );
+
         if( nm != "" ) file += "Cube Save/Sector" + nm + ".NEO";                           // Provides filename
         else file += "/Sector.NEO";
-        Statistics st = Map.I.LevelStats;
 
-        using( GS.W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )
+        using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )
         {
             int SaveVersion = 1;
             GS.W.Write( SaveVersion );                                                     // Save Version
@@ -336,16 +343,34 @@ public class Sector : MonoBehaviour
             GS.W.Write( s.ActiveHeroShield.Count );
             for( int i = 0; i < s.ActiveHeroShield.Count; i++ )
                 GS.W.Write( s.ActiveHeroShield[ i ] );
+            Debug.Log( "[SAVE OK] Sector saved at: " + file );
             GS.W.Close();
         }
+
+        if(!File.Exists( file ) )
+            Debug.LogError( "[SAVE FAILED] File not found after save: " + file );
     }
     public static void Load( string nm = "" )
     {
         Sector s = Map.I.RM.HeroSector;
+
+        Debug.Log(
+    "[SECTOR LOAD] nm=" + nm +
+    " HeroSector=(" + s.X + "," + s.Y + ")"
+);
+        Debug.Log( "[SECTOR LOAD CALL] nm=" + nm );
+
         string file = Manager.I.GetProfileFolder();
         if( nm != "" ) file += "Cube Save/Sector" + nm + ".NEO";                          // Provides filename
         else file += "/Sector.NEO";
-        Statistics st = Map.I.LevelStats;
+       // Statistics st = Map.I.LevelStats;
+
+        if( !File.Exists( file ) )
+        {
+            Debug.LogError( "[LOAD FAILED] File not found: " + file );
+            return;
+        }
+
         using( GS.R = new BinaryReader( File.Open( file, FileMode.Open ) ) )
         {
             int SaveVersion = GS.R.ReadInt32();                                           // Load Version
@@ -363,7 +388,8 @@ public class Sector : MonoBehaviour
             sz = GS.R.ReadInt32();
             s.ActiveHeroShield = new List<bool>();
             for( int i = 0; i < sz; i++ )
-                s.ActiveHeroShield.Add( GS.R.ReadBoolean() );
+                s.ActiveHeroShield.Add( GS.R.ReadBoolean() );      
+            Debug.Log( "[LOAD OK] Loading sector from: " + file );
             GS.R.Close();
         }
         UI.I.UpdBeastText = true;
@@ -1028,7 +1054,23 @@ public class Sector : MonoBehaviour
             s.CloverPosList.Remove( G.Hero.Pos );
             float upchc = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.CLOVER_UPGRADE_CHEST_CHANCE );     // upgrade chest
             Chests.UpgradeChests( upchc, "Clover" );
-            G.HS.CloverPickCount++;
+
+            for( int i = 0; i < Manager.I.Inventory.ItemList.Count; i++ )
+            if ( Manager.I.Inventory.ItemList[ i ] )
+            {
+                upchc = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.CLOVER_ITEM_PRIZE_CHANCE, 
+                ( ItemType ) Manager.I.Inventory.ItemList[ i ].Type );                                          // on clover pick, gain extra item chance
+
+                if( upchc > 0 )
+                if( Util.Chance( upchc ) )
+                {
+                    Item.ForceMessage = true;
+                    Item.IgnoreBuffer = true;
+                    Item.AddItem( Manager.I.Inventory.ItemList[ i ].Type, 1 );                                  // Give extra item
+                }
+             }
+
+            G.HS.CloverPickCount++;                                                                             // increment clover pick counter
         }  
     }
     public void AddFlying( Unit un )

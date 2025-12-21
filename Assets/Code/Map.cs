@@ -1249,12 +1249,6 @@ public partial class Map : MonoBehaviour
             un.Control.OldPos = tg;
             un.Control.LastPos = tg;
             un.Control.AnimationOrigin = tg;
-            int area = GetPosArea( un.Pos );
-            if( area != -1 )
-			{
-                un.Body.Level = Quest.I.CurLevel.AreaList[ area ].DefaulMonsterLevel;
-                un.Body.Stars = Quest.I.CurLevel.AreaList[ area ].DefaulMonsterStar;
-			}
 			un.UpdateLevelingData();
             un.Body.ChildList = new List<Unit>();
             un.Control.Nest = null;

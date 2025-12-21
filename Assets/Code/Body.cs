@@ -766,10 +766,6 @@ public class Body : MonoBehaviour
         if( lev >= 1 && Attack.BerserkAttack )
             damage = Util.Percent( HeroData.I.BersekerAttackPower[ lev ], damage );
 
-        if( Unit.UnitType == EUnitType.HERO )                                                             // Invalidates Perfect Area
-            if( damage > 0 && Map.I.CurrentArea != -1 )
-                Map.I.CurArea.Perfect = false;
-
         if( Manager.I.GameType == EGameType.CUBES )                                                       // Dungeon Damage Reduction
         {
             if( Unit.UnitType == EUnitType.HERO )
@@ -842,18 +838,11 @@ public class Body : MonoBehaviour
 
         Hp = Mathf.Clamp( Hp, 0, TotHp );                                                                 // Clamp hp boundaries
 
-        UpdatePunchEffect( attacker, type );
-
-        if( type != EDamageType.FIRE )                                                                    // Invalidates Allburt
-        {
-            int ar = Map.I.GetPosArea( Unit.Pos );
-            if( ar != -1 )
-                Quest.I.CurLevel.AreaList[ ar ].AllBurntAvailable = false;
-        }
+        UpdatePunchEffect( attacker, type );                                                              // Updates Punch effect
 
         if( Unit.UnitType == EUnitType.HERO )
         {
-            MasterAudio.PlaySound3DAtVector3( "Hero Damage", transform.position );
+            MasterAudio.PlaySound3DAtVector3( "Hero Damage", transform.position );                        // Hero Damage sound FX
             if( Unit.Control.PathFinding.Path.Count > 0 ) Unit.Control.PathFinding.Path.Clear();
         }
         else

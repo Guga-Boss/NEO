@@ -2702,12 +2702,6 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         Vector2 from = Pos;
         Vector2 tg = Map.I.Hero.Pos;
 
-        int ar = Map.I.GetPosArea( Pos );
-        if( ar!= -1 && Quest.I.CurLevel.AreaList[ ar ].LockAiTarget.x != -1 )
-        {
-            tg = Quest.I.CurLevel.AreaList[ ar ].LockAiTarget;
-        }
-
         if( TileID == ETileType.SCARAB )
         {
             float mask = Item.GetNum( ItemType.Res_Mask );                                                      // Masked monster face mask move dir

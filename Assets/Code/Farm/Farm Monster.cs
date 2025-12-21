@@ -58,10 +58,18 @@ public partial class Farm : MonoBehaviour
 
         float mcount = 0;
         float tot = 0;
+
         for( int i = 0; i < Map.I.RM.RMList.Count; i++ )
+        if ( Map.I.RM.RMList[ i ].Available )
         {
-            float percn = Item.GetNum( Inventory.IType.Inventory,                                                // Completition Percentage
-            ItemType.Adventure_Completion, i );
+            //float percn = Item.GetNum( Inventory.IType.Inventory,                                             // Completion Percentage old: By goal
+            //ItemType.Adventure_Completion, i );
+
+            float clear = Item.GetNum( Inventory.IType.Inventory,                                                // Completion Percentage new: by cube
+            ItemType.Starting_Cube, i );
+
+            float percn = Util.GetPercent( clear, Map.I.RM.RMList[ i ].MaxCubes );                               // calculate percentage
+
             if( percn > 100 ) percn = 100;                                                                       // no genius trophy
 
             if( percn > 0 )
