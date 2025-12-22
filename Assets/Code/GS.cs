@@ -90,7 +90,93 @@ public class GS : MonoBehaviour
             GS.I.LoadCube( LastSavedCube );
             CustomSaveExists = false;
         }
-    }
+    }       
+    public void SaveCube( Unit save = null )
+    {
+        if( Map.I.CubeDeath ) return;                                                      // No Save if dying
+        IsSaving = true;
+        string nm = " My";
+        if( save ) nm = " " + ( int ) save.Pos.x + " " + ( int ) save.Pos.y;
+
+        Debug.Log( "Save: nm" + nm + " save " + save.Pos + " LastSavedCube " + 
+        LastSavedCube + " SaveStepList " + SaveStepList.Count );
+
+        Sector.Save( nm );                                                                 // Save Sector
+
+        Manager.I.Inventory.Save( nm );                                                    // Save Inventory
+
+        Statistics.Save( nm );                                                             // Save Statistics
+        
+        string file = Manager.I.GetProfileFolder() + "Cube Save/Cube" + nm + ".NEO";       // Provides filename
+        Sector s = Map.I.RM.HeroSector;     
+
+        using( W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )
+        {
+            int SaveVersion = 1;
+            GS.W.Write( SaveVersion );                                                     // Save Version
+
+            GS.W.Write( G.Farm.UniqueID );                                                 // save Player Unique ID 
+
+            Map.I.Save();                                                                  // Save Map
+
+            ga2l = new List<Unit>();
+
+            for( int y = ( int ) s.Area.yMin - 1; y < s.Area.yMax + 1; y++ )
+            for( int x = ( int ) s.Area.xMin - 1; x < s.Area.xMax + 1; x++ )
+                {
+                    int tile = -1;
+                    Unit ga = Map.I.GetUnit( new Vector2( x, y ), ELayerType.GAIA );      // Save Gaia
+                    if( ga ) tile = ( int ) ga.TileID;
+                    GS.W.Write( tile );
+
+                    Unit ga2 = Map.I.GetUnit( new Vector2( x, y ), ELayerType.GAIA2 );    // Save Gaia 2
+                    if( ga2 ) ga2l.Add( ga2 );
+                }
+
+            G.Hero.SaveHeader();                                                     // Save hero header
+            G.Hero.Save();                                                           // Save hero main
+
+            GS.W.Write( s.MoveOrder.Count );
+
+            for( int i = 0; i < s.MoveOrder.Count; i++ )                             // Save Monsters header
+                s.MoveOrder[ i ].SaveHeader();
+
+            for( int i = 0; i < s.MoveOrder.Count; i++ )                             // Save Monsters main
+                s.MoveOrder[ i ].Save();
+
+            GS.W.Write( G.HS.Fly.Count );                                  
+            for( int i = 0; i < G.HS.Fly.Count; i++ )                                // Save Flying Units header
+                G.HS.Fly[ i ].SaveHeader();
+
+            for( int i = 0; i < G.HS.Fly.Count; i++ )                                // Save Flying Units main
+                G.HS.Fly[ i ].Save();
+
+            GS.W.Write( ga2l.Count );
+            for( int i = 0; i < ga2l.Count; i++ )                                    // Save Gaia header
+                ga2l[ i ].SaveHeader();
+
+            for( int i = 0; i < ga2l.Count; i++ )                                    // Save Gaia main
+                ga2l[ i ].Save();
+
+            Artifact.Save( nm );                                                     // Save Artifact
+
+            Secret.SaveTemp( nm );                                                   // Save temp Secret steps
+
+            W.Close();                                                               // Closes the stream
+
+            if( save != null )
+            {
+                LastSavedCube = save;                                                // Set as last saved cube
+                if( GS.SaveStepUnitList.Contains( save ) == false )                  // Adds save to step list
+                {
+                    GS.SaveStepUnitList.Add( save );
+                    GS.SaveStepList.Add( save.Pos );
+                }
+            }
+            MasterAudio.PlaySound3DAtVector3( "Percussion", G.Hero.Pos );            // Sound FX
+        }
+        IsSaving = false;
+    }    
     public void LoadCube( Unit save = null )
     {
         if( Map.I.FishingMode != EFishingPhase.NO_FISHING ) return;                        // no load while fishing
@@ -98,15 +184,22 @@ public class GS : MonoBehaviour
         InitLoading();                                                                     // Init loading
 
         string nm = " My";
-        if( save ) nm = " " + save.Pos.x + " " + save.Pos.y;
+        if( save ) nm = " " + ( int ) save.Pos.x + " " + ( int ) save.Pos.y;
 
-        Debug.Log( "Load: nm" + nm + " save " + save.Pos + " LastSavedCube " + LastSavedCube + " SaveStepList " + SaveStepList.Count );
+        Debug.Log( "Load: nm" + nm + " save " + save.Pos + " LastSavedCube " + 
+            LastSavedCube + " SaveStepList " + SaveStepList.Count );
+
+        bool res = Sector.Load( nm );                                                      // Load Sector
+
+        if( res == false )
+        {
+            Debug.Log( "sector load error" );
+            return;
+        }
 
         Manager.I.Inventory.Load( nm );                                                    // Load Inventory
 
         Statistics.Load( nm );                                                             // Load Statistics
-
-        Sector.Load( nm );                                                                 // Load Sector
 
         string file = Manager.I.GetProfileFolder() + "Cube Save/Cube" + nm + ".NEO";       // Provides filename
         Sector s = Map.I.RM.HeroSector;   
@@ -202,6 +295,18 @@ public class GS : MonoBehaviour
             //Map.I.UpdateTransLayerTilemap( true );
         }
     }
+    public static void CheckGSState()
+    {
+        if( GS.R != null && GS.R.BaseStream != null && GS.R.BaseStream.CanRead )
+            Debug.Log( "GS.R está ativo e aberto para leitura" );
+        else
+            Debug.Log( "GS.R não está ativo" );
+
+        if( GS.W != null && GS.W.BaseStream != null && GS.W.BaseStream.CanWrite )
+            Debug.Log( "GS.W está ativo e aberto para escrita" );
+        else
+            Debug.Log( "GS.W não está ativo" );
+    }
 
     private static void LoadSalvableGaia( int y, int x, int tile )
     {
@@ -261,91 +366,7 @@ public class GS : MonoBehaviour
         return false;                                                                      // forest sand snow and water should not be saved
     }
 
-    public void SaveCube( Unit save = null )
-    {
-        if( Map.I.CubeDeath ) return;                                                      // No Save if dying
-        IsSaving = true;
-        string nm = " My";
-        if( save ) nm = " " + save.Pos.x + " " + save.Pos.y;
 
-        Debug.Log( "Save: nm" + nm + " save " + save.Pos + " LastSavedCube " + LastSavedCube + " SaveStepList " + SaveStepList.Count );
-
-        Manager.I.Inventory.Save( nm );                                                    // Save Inventory
-
-        Statistics.Save( nm );                                                             // Save Statistics
-
-        Sector.Save( nm );                                                                 // Save Sector
-        
-        string file = Manager.I.GetProfileFolder() + "Cube Save/Cube" + nm + ".NEO";       // Provides filename
-        Sector s = Map.I.RM.HeroSector;     
-
-        using( W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )
-        {
-            int SaveVersion = 1;
-            GS.W.Write( SaveVersion );                                                     // Save Version
-
-            GS.W.Write( G.Farm.UniqueID );                                                 // save Player Unique ID 
-
-            Map.I.Save();                                                                  // Save Map
-
-            ga2l = new List<Unit>();
-
-            for( int y = ( int ) s.Area.yMin - 1; y < s.Area.yMax + 1; y++ )
-            for( int x = ( int ) s.Area.xMin - 1; x < s.Area.xMax + 1; x++ )
-                {
-                    int tile = -1;
-                    Unit ga = Map.I.GetUnit( new Vector2( x, y ), ELayerType.GAIA );      // Save Gaia
-                    if( ga ) tile = ( int ) ga.TileID;
-                    GS.W.Write( tile );
-
-                    Unit ga2 = Map.I.GetUnit( new Vector2( x, y ), ELayerType.GAIA2 );    // Save Gaia 2
-                    if( ga2 ) ga2l.Add( ga2 );
-                }
-
-            G.Hero.SaveHeader();                                                     // Save hero header
-            G.Hero.Save();                                                           // Save hero main
-
-            GS.W.Write( s.MoveOrder.Count );
-
-            for( int i = 0; i < s.MoveOrder.Count; i++ )                             // Save Monsters header
-                s.MoveOrder[ i ].SaveHeader();
-
-            for( int i = 0; i < s.MoveOrder.Count; i++ )                             // Save Monsters main
-                s.MoveOrder[ i ].Save();
-
-            GS.W.Write( G.HS.Fly.Count );                                  
-            for( int i = 0; i < G.HS.Fly.Count; i++ )                                // Save Flying Units header
-                G.HS.Fly[ i ].SaveHeader();
-
-            for( int i = 0; i < G.HS.Fly.Count; i++ )                                // Save Flying Units main
-                G.HS.Fly[ i ].Save();
-
-            GS.W.Write( ga2l.Count );
-            for( int i = 0; i < ga2l.Count; i++ )                                    // Save Gaia header
-                ga2l[ i ].SaveHeader();
-
-            for( int i = 0; i < ga2l.Count; i++ )                                    // Save Gaia main
-                ga2l[ i ].Save();
-
-            Artifact.Save( nm );                                                     // Save Artifact
-
-            Secret.SaveTemp( nm );                                                   // Save temp Secret steps
-
-            W.Close();                                                               // Closes the stream
-
-            if( save != null )
-            {
-                LastSavedCube = save;                                                // Set as last saved cube
-                if( GS.SaveStepUnitList.Contains( save ) == false )                  // Adds save to step list
-                {
-                    GS.SaveStepUnitList.Add( save );
-                    GS.SaveStepList.Add( save.Pos );
-                }
-            }
-            MasterAudio.PlaySound3DAtVector3( "Percussion", G.Hero.Pos );            // Sound FX
-        }
-        IsSaving = false;
-    }    
     public void UpdateReferencesAfterLoad()
     {
         G.Hero.Spr.gameObject.SetActive( true );
@@ -455,7 +476,7 @@ public class GS : MonoBehaviour
             Item.IgnoreBuffer = true;
             Item.AddItem( ( ItemType ) type, -cost );                                     // Charges item
             Item.IgnoreBuffer = false;
-            string nm = " " + save.Pos.x + " " + save.Pos.y;
+            string nm = " " + ( int ) save.Pos.x + " " + ( int ) save.Pos.y;
             Manager.I.Inventory.Save( nm );                                               // Save Inventory because an item was charged
         }
         

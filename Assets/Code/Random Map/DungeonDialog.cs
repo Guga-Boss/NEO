@@ -1739,9 +1739,9 @@ public class DungeonDialog : MonoBehaviour
     public void UpdatePlayerProfileBackup( bool force, bool exit )
     {
         if( !exit )
-            if( Map.I.RM.GameOver == false ) return;
+        //if( Map.I.RM.GameOver == false ) return;
         if( force == false )
-            if( Input.GetKeyDown( KeyCode.B ) == false ) return;
+        if( Input.GetKeyDown( KeyCode.B ) == false ) return;
         if( Application.platform != RuntimePlatform.WindowsPlayer ) return;
 
         string source = Manager.I.GetProfileFolder();
@@ -1755,6 +1755,10 @@ public class DungeonDialog : MonoBehaviour
 
         string exittxt = "";
         if( exit ) exittxt = "Game Exit - ";
+        if( Input.GetKeyDown( KeyCode.B ) )
+            exittxt = "Forced Backup - ";
+        if( Map.I.RM.GameOver == false )
+            exittxt = "Forced Backup - Playing - ";
 
         string subfolder = "";
 
@@ -1784,6 +1788,35 @@ public class DungeonDialog : MonoBehaviour
         {
             G.Error( "Source path does not exist!" );
         }
-    }
 
+        if( Input.GetKeyDown( KeyCode.B ) )
+        if( Map.I.RM.GameOver == false )                                                 // Mid game backup
+        {
+            string cubeSource = source + "/Cube Save"; // pasta CubeSave no perfil
+            string cubeDest = subfolder + "/Cube Save"; // pasta CubeSave no backup
+
+            if( !System.IO.Directory.Exists( cubeDest ) )
+            {
+                System.IO.Directory.CreateDirectory( cubeDest );
+            }
+
+            if( System.IO.Directory.Exists( cubeSource ) )
+            {
+                string[] cubeFiles = System.IO.Directory.GetFiles( cubeSource );
+
+                foreach( string s in cubeFiles )
+                {
+                    string fileName = System.IO.Path.GetFileName( s );
+                    string fullpath = cubeDest + "/" + fileName;
+                    System.IO.File.Copy( s, fullpath, true );
+                }
+
+                G.Deb( "Cube Save Backuped. " + cubeDest );
+            }
+            else
+            {
+                //G.Error( "CubeSave source folder does not exist!" );
+            }
+        }
+    }
 }

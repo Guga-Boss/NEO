@@ -99,29 +99,28 @@ public class Statistics : MonoBehaviour {
 
         Statistics st = Map.I.LevelStats;                                                 // Cached statistics reference
 
-
-        using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )            // Always recreate file
+        using( var w = new BinaryWriter( File.Open( file, FileMode.Create ) ) )           // Always recreate file
         {
             int SaveVersion = 1;                                                          // Save Version
-            GS.W.Write( SaveVersion );                                                    // Write save version
+            w.Write( SaveVersion );                                                    // Write save version
 
-            GS.W.Write( st.AreasCleared );                                                // int   total cleared areas
-            GS.W.Write( st.MonstersDeathCount );                                          // float  monster deaths
-            GS.W.Write( st.RoachDeathCount );                                             // int   roach kills
-            GS.W.Write( st.ScarabDeathCount );                                            // int   scarab kills
-            GS.W.Write( st.NormalSectorsDiscovered );                                     // int   discovered normal sectors
-            GS.W.Write( st.SectorsCleared );                                              // int   cleared sectors
-            GS.W.Write( st.DirtyBonfiresLit );                                            // int   corrupted bonfires
-            GS.W.Write( st.MonstersDiscovered );                                          // int   monster discoveries
-            GS.W.Write( st.BonfiresLit );                                                 // int   lit bonfires
-            GS.W.Write( st.ResourceCollected );                                           // float  collected resources
-            GS.W.Write( st.ConqueredGoals );                                              // int   conquered goals
-            GS.W.Write( st.AccumulatedPoints );                                           // float  accumulated points
-            GS.W.Write( st.PlatformsDown );                                               // float  destroyed platforms
-            GS.W.Write( st.PlatformGroups );                                              // float  platform groups
-            GS.W.Write( st.PlatformPoints );                                              // float  platform points
-            GS.W.Write( st.BarricadeWood );                                               // float  barricade wood
-            GS.W.Write( st.FishingBonusReached );                                         // float  fishing bonus
+            w.Write( st.AreasCleared );                                                // int   total cleared areas
+            w.Write( st.MonstersDeathCount );                                          // float  monster deaths
+            w.Write( st.RoachDeathCount );                                             // int   roach kills
+            w.Write( st.ScarabDeathCount );                                            // int   scarab kills
+            w.Write( st.NormalSectorsDiscovered );                                     // int   discovered normal sectors
+            w.Write( st.SectorsCleared );                                              // int   cleared sectors
+            w.Write( st.DirtyBonfiresLit );                                            // int   corrupted bonfires
+            w.Write( st.MonstersDiscovered );                                          // int   monster discoveries
+            w.Write( st.BonfiresLit );                                                 // int   lit bonfires
+            w.Write( st.ResourceCollected );                                           // float  collected resources
+            w.Write( st.ConqueredGoals );                                              // int   conquered goals
+            w.Write( st.AccumulatedPoints );                                           // float  accumulated points
+            w.Write( st.PlatformsDown );                                               // float  destroyed platforms
+            w.Write( st.PlatformGroups );                                              // float  platform groups
+            w.Write( st.PlatformPoints );                                              // float  platform points
+            w.Write( st.BarricadeWood );                                               // float  barricade wood
+            w.Write( st.FishingBonusReached );                                         // float  fishing bonus
             Debug.Log( "save Statistics: " + file + "  " + nm );                          // Debug save path
         }
     }
@@ -143,29 +142,29 @@ public class Statistics : MonoBehaviour {
         Statistics st = Map.I.LevelStats;                                                 // Cached statistics reference
 
 
-        using( GS.R = new BinaryReader( File.Open( file, FileMode.Open ) ) )              // Open existing save
+        using( var r = new BinaryReader( File.Open( file, FileMode.Open ) ) )             // Open existing save
         {
-            int SaveVersion = GS.R.ReadInt32();                                           // Load Version
+            int SaveVersion = r.ReadInt32();                                           // Load Version
 
             if( SaveVersion >= 1 )                                                        // Version 1 compatibility
             {
-                st.AreasCleared = GS.R.ReadInt32();                                       // int   total cleared areas
-                st.MonstersDeathCount = GS.R.ReadSingle();                                // float  monster deaths
-                st.RoachDeathCount = GS.R.ReadInt32();                                    // int   roach kills
-                st.ScarabDeathCount = GS.R.ReadInt32();                                   // int   scarab kills
-                st.NormalSectorsDiscovered = GS.R.ReadInt32();                            // int   discovered normal sectors
-                st.SectorsCleared = GS.R.ReadInt32();                                     // int   cleared sectors
-                st.DirtyBonfiresLit = GS.R.ReadInt32();                                   // int   corrupted bonfires
-                st.MonstersDiscovered = GS.R.ReadInt32();                                 // int   monster discoveries
-                st.BonfiresLit = GS.R.ReadInt32();                                        // int   lit bonfires
-                st.ResourceCollected = GS.R.ReadSingle();                                 // float  collected resources
-                st.ConqueredGoals = GS.R.ReadInt32();                                     // int   conquered goals
-                st.AccumulatedPoints = GS.R.ReadSingle();                                 // float  accumulated points
-                st.PlatformsDown = GS.R.ReadSingle();                                     // float  destroyed platforms
-                st.PlatformGroups = GS.R.ReadSingle();                                    // float  platform groups
-                st.PlatformPoints = GS.R.ReadSingle();                                    // float  platform points
-                st.BarricadeWood = GS.R.ReadSingle();                                     // float  barricade wood
-                st.FishingBonusReached = GS.R.ReadSingle();                               // float  fishing bonus
+                st.AreasCleared = r.ReadInt32();                                       // int   total cleared areas
+                st.MonstersDeathCount = r.ReadSingle();                                // float  monster deaths
+                st.RoachDeathCount = r.ReadInt32();                                    // int   roach kills
+                st.ScarabDeathCount = r.ReadInt32();                                   // int   scarab kills
+                st.NormalSectorsDiscovered = r.ReadInt32();                            // int   discovered normal sectors
+                st.SectorsCleared = r.ReadInt32();                                     // int   cleared sectors
+                st.DirtyBonfiresLit = r.ReadInt32();                                   // int   corrupted bonfires
+                st.MonstersDiscovered = r.ReadInt32();                                 // int   monster discoveries
+                st.BonfiresLit = r.ReadInt32();                                        // int   lit bonfires
+                st.ResourceCollected = r.ReadSingle();                                 // float  collected resources
+                st.ConqueredGoals = r.ReadInt32();                                     // int   conquered goals
+                st.AccumulatedPoints = r.ReadSingle();                                 // float  accumulated points
+                st.PlatformsDown = r.ReadSingle();                                     // float  destroyed platforms
+                st.PlatformGroups = r.ReadSingle();                                    // float  platform groups
+                st.PlatformPoints = r.ReadSingle();                                    // float  platform points
+                st.BarricadeWood = r.ReadSingle();                                     // float  barricade wood
+                st.FishingBonusReached = r.ReadSingle();                               // float  fishing bonus
                 Debug.Log( "load Statistics: " + file + "  " + nm );                              // Debug load path
             }
         }

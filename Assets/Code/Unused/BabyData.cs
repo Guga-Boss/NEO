@@ -54,7 +54,7 @@ public class BabyData : MonoBehaviour
         bd.BabyTimeCounter = 0;
         bd.Collider.enabled = true;
         bd.OldPos = Vector3.zero;
-        bd.transform.localPosition = new Vector3( bd.OriginalPos.x, bd.OriginalPos.y, 1.5f );
+        bd.transform.localPosition = new Vector3( bd.OriginalPos.x, bd.OriginalPos.y, 1.65f ); // was 1.5 was over raft
         bd.gameObject.SetActive( true );
         bd.transform.localScale = new Vector3( 1, 1, 1 );
         bd.Sprite.transform.eulerAngles = new Vector3( 0, 0, Random.Range( 0f, 360f ) );

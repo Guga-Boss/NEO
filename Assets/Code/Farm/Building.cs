@@ -393,6 +393,9 @@ public class Building : MonoBehaviour
         byte[] fileData = File.ReadAllBytes( file );                                                      // Read full file
         byte[] content = Security.CheckLoad( fileData );                                                  // Validate HMAC and get clean content
 
+
+        GS.CheckGSState(); // temp
+
         using( GS.R = new BinaryReader( new MemoryStream( content ) ) )                                   // Use MemoryStream for TF
         {
             int SaveVersion = Security.LoadHeader();                                                      // Load Header
@@ -469,6 +472,8 @@ public class Building : MonoBehaviour
     {
         if( Manager.I.SaveOnEndGame == false ) return;
         string file = Manager.I.GetProfileFolder() + "Building.NEO";                        // Provides File name
+
+        GS.CheckGSState(); // temp
 
         using( MemoryStream ms = new MemoryStream() )
         using( BinaryWriter writer = new BinaryWriter( ms ) )                               // Open Memory Stream

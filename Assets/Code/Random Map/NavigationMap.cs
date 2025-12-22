@@ -397,6 +397,8 @@ public class NavigationMap : MonoBehaviour
         PrefabFolder.SetActive( false );
         UI.I.UpdateInfoPanel( true );
         UI.I.PerksListFolder.SetActive( true );
+        UI.I.GameLevelText.text = "";
+        UI.I.ForceUpdateUI = true;
         Save(); 
         UpdateUI();
     }

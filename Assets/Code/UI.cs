@@ -68,6 +68,10 @@ public class UI : MonoBehaviour
         BigMessageTextTimeCounter = 0;
         BigMessageTextTurnCounter = 0;
         MouseArtifact = false;
+        AreasText.text = "";
+        ArtifactsText.text = "";
+        GameLevelText.text = "";
+        ForceUpdateUI = true;
         UpdateAllTranslations();
     }
     public void InitGame()

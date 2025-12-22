@@ -315,42 +315,39 @@ public class Sector : MonoBehaviour
     {
         Sector s = Map.I.RM.HeroSector;
 
-        Debug.Log(
-    "[SECTOR SAVE] nm=" + nm +
-    " HeroSector=(" + s.X + "," + s.Y + ")"
-);
+        Debug.Log( "[SECTOR SAVE] nm=" + nm + " HeroSector=(" + s.X + "," + s.Y + ")");
+
         string file = Manager.I.GetProfileFolder();
-        Debug.Log( "[SECTOR SAVE CALL] nm=" + nm );
-        Debug.Log( "[SECTOR FILE PATH] " + file );
+        Debug.Log( "[SECTOR SAVE CALL] nm=" + nm + "  " + file );
 
         if( nm != "" ) file += "Cube Save/Sector" + nm + ".NEO";                           // Provides filename
         else file += "/Sector.NEO";
 
-        using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )
+        using( var w = new BinaryWriter( File.Open( file, FileMode.Create ) ) )
         {
             int SaveVersion = 1;
-            GS.W.Write( SaveVersion );                                                     // Save Version
-            GS.W.Write( s.Cleared );
-            GS.W.Write( s.Perfect );
-            GS.W.Write( s.AliveFlyingMonsters );
-            GS.W.Write( s.AliveNormalMonsters );
-            GS.W.Write( s.TimeSpentOnCube );
-            GS.W.Write( s.CurrentTickNumber );
-            GS.W.Write( s.TickTimeCounter );
-            GS.W.Write( s.CatchModList.Count );
+            w.Write( SaveVersion );                                                     // Save Version
+            w.Write( s.Cleared );
+            w.Write( s.Perfect );
+            w.Write( s.AliveFlyingMonsters );
+            w.Write( s.AliveNormalMonsters );
+            w.Write( s.TimeSpentOnCube );
+            w.Write( s.CurrentTickNumber );
+            w.Write( s.TickTimeCounter );
+            w.Write( s.CatchModList.Count );
             for( int i = 0; i < s.CatchModList.Count; i++ )
-                GS.W.Write( s.CatchModList[ i ] );
-            GS.W.Write( s.ActiveHeroShield.Count );
+                w.Write( s.CatchModList[ i ] );
+            w.Write( s.ActiveHeroShield.Count );
             for( int i = 0; i < s.ActiveHeroShield.Count; i++ )
-                GS.W.Write( s.ActiveHeroShield[ i ] );
+                w.Write( s.ActiveHeroShield[ i ] );
             Debug.Log( "[SAVE OK] Sector saved at: " + file );
-            GS.W.Close();
+            w.Close();
         }
 
         if(!File.Exists( file ) )
             Debug.LogError( "[SAVE FAILED] File not found after save: " + file );
     }
-    public static void Load( string nm = "" )
+    public static bool Load( string nm = "" )
     {
         Sector s = Map.I.RM.HeroSector;
 
@@ -368,31 +365,32 @@ public class Sector : MonoBehaviour
         if( !File.Exists( file ) )
         {
             Debug.LogError( "[LOAD FAILED] File not found: " + file );
-            return;
+            return false;
         }
 
-        using( GS.R = new BinaryReader( File.Open( file, FileMode.Open ) ) )
+        using( var r = new BinaryReader( File.Open( file, FileMode.Open ) ) )
         {
-            int SaveVersion = GS.R.ReadInt32();                                           // Load Version
-            s.Cleared = GS.R.ReadBoolean();
-            s.Perfect = GS.R.ReadBoolean(); 
-            s.AliveFlyingMonsters = GS.R.ReadInt32();
-            s.AliveNormalMonsters = GS.R.ReadInt32();
-            s.TimeSpentOnCube = GS.R.ReadSingle();
-            s.CurrentTickNumber = GS.R.ReadInt32();
-            s.TickTimeCounter = GS.R.ReadSingle();
+            int SaveVersion = r.ReadInt32();                                           // Load Version
+            s.Cleared = r.ReadBoolean();
+            s.Perfect = r.ReadBoolean(); 
+            s.AliveFlyingMonsters = r.ReadInt32();
+            s.AliveNormalMonsters = r.ReadInt32();
+            s.TimeSpentOnCube = r.ReadSingle();
+            s.CurrentTickNumber = r.ReadInt32();
+            s.TickTimeCounter = r.ReadSingle();
             s.CatchModList = new List<int>();
-            int sz = GS.R.ReadInt32();
+            int sz = r.ReadInt32();
             for( int i = 0; i < sz; i++ )                                                    
-                s.CatchModList.Add( GS.R.ReadInt32() );
-            sz = GS.R.ReadInt32();
+                s.CatchModList.Add( r.ReadInt32() );
+            sz = r.ReadInt32();
             s.ActiveHeroShield = new List<bool>();
             for( int i = 0; i < sz; i++ )
-                s.ActiveHeroShield.Add( GS.R.ReadBoolean() );      
+                s.ActiveHeroShield.Add( r.ReadBoolean() );      
             Debug.Log( "[LOAD OK] Loading sector from: " + file );
-            GS.R.Close();
+            r.Close();
         }
         UI.I.UpdBeastText = true;
+        return true;
     }
 
     public static void InitAll()
