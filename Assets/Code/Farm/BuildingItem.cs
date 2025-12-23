@@ -187,6 +187,8 @@ public class BuildingItem : MonoBehaviour
             ShownAcessories = Mathf.Ceil( ShownAcessories );
             ShownAcessories = Mathf.Clamp( ShownAcessories, 0, max );
         }
+        else
+            bl.Unit.Spr.transform.localScale = new Vector3( 1, 1, 0 );
 
         for( int i = 0; i < bl.AcessoryList.Count; i++ )                                                         // Acessories (fruits) Sprite Handling
         {

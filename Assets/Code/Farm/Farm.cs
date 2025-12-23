@@ -646,12 +646,13 @@ public partial class Farm : MonoBehaviour
             for( int y = ( int ) tg.y - rad; y <= tg.y + rad; y++ )                            
             for( int x = ( int ) tg.x - rad; x <= tg.x + rad; x++ )
             if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )                                          // Plants min Distance check
+            if ( G.Hero.GetFront() != new Vector2( x, y ) )
             {
                 Unit un = Map.I.GetUnit( ETileType.BUILDING, new Vector2( x, y ) );
                 if( un && un.Building != null )
                 if( un.Building.Category == EBuildingCategory.Plant )
                 {
-                    Message.RedMessage( "Plants need 2-tile spacing." );
+                    Message.RedMessage( "Plants need\n2-tile spacing\nfrom each other." );
                     return false;
                 }
             }
@@ -662,17 +663,30 @@ public partial class Farm : MonoBehaviour
                 BuildingItem bi = ga2.Building.Itm[ 0 ];
                 if( bi.ProductionTimeCount > 60 ) 
                 { 
-                    Message.RedMessage( "Multiple Planting Only Available in the First Minute" );              // Additive Planting times up
+                    Message.RedMessage( "Multiple Planting Only Available in the First Minute" );                   // Additive Planting times up
                     return false; 
                 }
-                if( bi.AdditivePlantingFactor > 0 )                                                            // Additive planting: Use more seeds to increase item count (fruits)
-                {
-                    bool res = Building.PlaceItem( ga2.Pos, ( int )
-                    bi.AdditivePlantingFactor, bi.ItemType, true );                                            // Place item in building
-                    if( res ) G.Farm.SetSelectedItem( G.Farm.SelectedItem, G.Farm.CarryingAmount - 1 );        // Remove Seed from hand
-                    Controller.CreateMagicEffect( tg );                                                        // Magic FX  s
-                    return false;
-                }
+
+                if( bi.ItemType == ItemType.Blackberry_Fruit )                                                      // Additive planting: Use more seeds to increase item count (fruits)
+                if( bi.AdditivePlantingFactor <= 1 )
+                    {
+                        float time = 14400;
+                        int amt = 4;
+                        if( bi.AdditivePlantingFactor == 1 )
+                        {
+                            amt = 5;
+                            time = 14400 * 2;
+                        }
+                        bool res = Building.PlaceItem( ga2.Pos, amt, bi.ItemType, true );                          // Place item in building
+                        if( res )
+                        {
+                            G.Farm.SetSelectedItem( G.Farm.SelectedItem, G.Farm.CarryingAmount - 1 );              // Remove Seed from hand
+                            Building.Bld.Building.CustomProductionTime = time;
+                            Controller.CreateMagicEffect( tg );                                                    // Magic FX  
+                        }
+                        bi.AdditivePlantingFactor++;
+                    }
+                    return false;                
             }
 
             if( ga2 != null ) return false;

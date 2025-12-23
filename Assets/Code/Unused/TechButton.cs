@@ -541,7 +541,15 @@ public class TechButton : MonoBehaviour
             
             if( au.UpgradeType == EAdventureUpgradeType.TRADE )                                                   // give purchased item when buying
             {
-                Item.AddItem( au.ItemAffected, au.UpgradeEffectAmount );
+                Item.AddItem( au.ItemAffected, au.UpgradeEffectAmount );                                          
+                if( au.TechTotalTime < 1 )                    
+                {
+                    ItemType itt = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );                 // set a total time < 1 and trade will be infinite, timer can also be provided
+                    Item it = G.GIT( itt );
+                    int adv = ( int ) Map.I.RM.CurrentAdventure;
+                    it.PerAdventureTotalCount[ adv ] = 0;
+                    it.PerAdventureCount[ adv ] = 0;
+                }
             }
             if( au.UpgradeType == EAdventureUpgradeType.UPGRADE_MAX_CAPACITY )                                    // Increase max item capacity
             {
@@ -655,6 +663,8 @@ public class TechButton : MonoBehaviour
                 if( G.GIT( it ).PerAdventureCount[ adv ] <= 0 )
                 {
                     bt.RecurringLabel.text = "Tot Time: " + Util.ToSTime( au.TechTotalTime );
+                    if( au.TechTotalTime < 1 ) 
+                        bt.RecurringLabel.text = "";
                 }
                 else
                 {

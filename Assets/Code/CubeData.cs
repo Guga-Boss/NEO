@@ -227,7 +227,7 @@ public class CubeData : MonoBehaviour
             Debug.LogError( "Shader Already Exists! (Check OverWrite)" ); 
             return; 
         }
-        using( GS.W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )             // Open Stream
+        using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )                   // Open Stream
         {
             int SaveVersion = 1;
             GS.W.Write( SaveVersion );                                                           // Save Version
@@ -276,7 +276,7 @@ public class CubeData : MonoBehaviour
                 Debug.LogError( "Shader Already Exists! (Check OverWrite)" );
                 return;
             }
-        using( GS.W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )             // Open Stream
+        using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )                   // Open Stream
         {
             int SaveVersion = 1;
             GS.W.Write( SaveVersion );                                                           // Save Version
@@ -333,7 +333,7 @@ public class CubeData : MonoBehaviour
             return;
         }
 
-        using( GS.W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )             // Open Stream
+        using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )                   // Open Stream
         {
             int SaveVersion = 1;
             GS.W.Write( SaveVersion );                                                           // Save Version

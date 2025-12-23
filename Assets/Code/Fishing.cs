@@ -1842,6 +1842,8 @@ public partial class Map : MonoBehaviour
         un.Body.Animator = un.Spr.GetComponent<tk2dSpriteAnimator>();
         un.Body.Sprite2.gameObject.SetActive( false );
         un.Body.Sprite3.gameObject.SetActive( false );
+        un.RightText.text = "";
+        un.LevelTxt.text = "";
         if( un.Water.GlowingFish )
             un.Body.Sprite3.gameObject.SetActive( true );
         un.Spr.transform.localScale = new Vector3( 1, 1, 1 );

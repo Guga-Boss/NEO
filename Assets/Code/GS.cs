@@ -110,7 +110,7 @@ public class GS : MonoBehaviour
         string file = Manager.I.GetProfileFolder() + "Cube Save/Cube" + nm + ".NEO";       // Provides filename
         Sector s = Map.I.RM.HeroSector;     
 
-        using( W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )
+        using( W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )
         {
             int SaveVersion = 1;
             GS.W.Write( SaveVersion );                                                     // Save Version

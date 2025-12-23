@@ -87,7 +87,7 @@ public class tk2dTileMapEditorBrush
         for( int i = 0; i < multiSelectTiles.Length; i++ )
             nm += " " + multiSelectTiles[ i ];
         string file = "C:/Users/alien/Desktop/NEO/Assets/Resources/Brush/" + nm + " .Brush";        // Provides filename
-        using( W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )
+        using( W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )
         {
             W.Write( multiSelectTiles.Length );
             for( int i = 0; i < multiSelectTiles.Length; i++ )

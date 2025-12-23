@@ -158,6 +158,8 @@ public class Item : MonoBehaviour
     [TabGroup( "Production" )]
     public int ExtraProductionCap = 0;                      // purchased cap
     [TabGroup( "Production" )]
+    public int SessionProductionCount = 0;                 // items produced since game started
+    [TabGroup( "Production" )]
     public float BaseProductionBoostChance = 0;             // base chance for production x2
     [TabGroup( "Production" )]
     public float ExtraProductionBoostChance = 0;            // purchased chance for production x2
@@ -1017,6 +1019,12 @@ public class Item : MonoBehaviour
 
             AddItem( Type, amount, Inventory.IType.Inventory, true );                      // Adds the item
 
+            if( capval > 0 ) 
+            if( ++SessionProductionCount >= capval )                                       // Game session production count check
+            {
+                ProductionCount = 0;
+                return;
+            }
             if( Count >= max )                                                             // limits max
             {
                 Count = max;

@@ -75,7 +75,7 @@ public class Secret : MonoBehaviour
         string file = Manager.I.GetProfileFolder();
         if( nm != "" ) file += "Cube Save/Secret Temp" + nm + ".NEO";                       // Provides filename
 
-        using( GS.W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )
+        using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )
         {
             int SaveVersion = 1;
             GS.W.Write( SaveVersion );                                                      // Save Version 

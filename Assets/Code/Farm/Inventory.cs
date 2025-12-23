@@ -316,6 +316,8 @@ public class Inventory : MonoBehaviour {
             if( pcap > 0 )
                 next += "\nMax Production Cap: " + pcap;
             if( other.ProductionEnabled() == false ) next = "";
+            if( pcap > 0 && other.SessionProductionCount >= pcap )
+                next += "\nSession Cap Reached!";
 
             //float craftbonus = Item.GetStat( EVarType.Crafting_Bonus_Factor, itm );
             //float bn = 0; float perc = 0; bool suc = false;

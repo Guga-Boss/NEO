@@ -484,7 +484,7 @@
                     "value": "Automatic production can only store items up to this limit.\nWhen storage reaches this amount, production completely stops.\n\nTo produce more, you must either:\n\n1) Consume or remove items, or\n\n2) Increase the Production Limit.\n\nThis hard limit defines how many items can exist at the same time through automatic production."
                 },
                 {
-                    "key": "ITEM_PRODUCTION_CAP",
+                    "key": "TECH_ITEM_PRODUCTION_CAP",
                     "value": "Automatic production has a cap on how many items it can generate while offline.\nOnce this cap is reached, automatic production is suspended.\n\nAfter reaching the Production Cap:\n\n1) No more items will be produced automatically, even if there is available storage space.\n\n2) Items can only be obtained through exploration, such as in the forest.\n\nUpgrade this technology to raise the Production Cap and allow more offline automatic production."
                 },
                 {
@@ -982,7 +982,7 @@
                 },
                 {
                     "key": "STRAWBERRY_FRUIT_DESCRIPTION",
-                    "value": "Strawberry Fruit is delicious!"
+                    "value": "Strawberry Fruit is delicious! It can be traded back into seeds at a cost at Maze Running Quest."
                 },
                 {
                     "key": "FRUIT_4_DESCRIPTION",
@@ -1042,11 +1042,11 @@
                 },
                 {
                     "key": "BLACKBERRY_SEED_DESCRIPTION",
-                    "value": "Can be planted in the Farm."
+                    "value": "A rare plant with additive growth.\nPlant 1 to 3 seeds in the first minute on the same spot to increase yield.\nMore seeds mean more fruit, but much longer growth time.\nHarvest: 3 / 7 / 12\nTime: 2h / 4h / 8h"
                 },
                 {
                     "key": "STRAWBERRY_SEED_DESCRIPTION",
-                    "value": "Can be planted in the Farm."
+                    "value": "Strawberries grow quickly and produce a large amount of fruit."
                 },
                 {
                     "key": "SEED_4_DESCRIPTION",
@@ -2200,15 +2200,15 @@
                 },
                 {
                     "key": "A2_QUEST_17_CUBE_1_MOD_1",
-                    "value": "The Jump tile can provide quite a lot of Agility to your Fishing..."
+                    "value": "Using the Jump tile can grant a substantial Agility bonus to your Fishing activities."
                 },
                 {
                     "key": "A2_QUEST_17_CUBE_3_MOD_1",
-                    "value": "Notice How Jump Tiles Conserves Hook Momentum While Fast Travelling."
+                    "value": "Observe how Jump Tiles preserve hook momentum while fast travelling."
                 },
                 {
                     "key": "A2_QUEST_17_CUBE_4_MOD_1",
-                    "value": "Pickup Pole Tokens to Reuse Fishing Poles that have already been used.\n\n\nYou can Reactivate it by stepping over a previously used pole tile."
+                    "value": "Pick up Pole Tokens to reuse Fishing Poles that have already been used.\n\nYou can reactivate them by stepping over a previously used pole tile."
                 },
                 {
                     "key": "A2_QUEST_17_CUBE_5_MOD_1",

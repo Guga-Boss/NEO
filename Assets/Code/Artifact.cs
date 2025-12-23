@@ -97,7 +97,7 @@ public class Artifact : MonoBehaviour {
         else file += "/Artifact.NEO";
         Statistics st = Map.I.LevelStats;
 
-        using( GS.W = new BinaryWriter( File.Open( file, FileMode.OpenOrCreate ) ) )
+        using( GS.W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )
         {
             int SaveVersion = 1;
             GS.W.Write( SaveVersion );                                                      // Save Version 

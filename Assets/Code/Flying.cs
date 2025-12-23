@@ -2496,6 +2496,7 @@ public partial class Controller : MonoBehaviour
         if( toRaft && toRaft.Control.BrokenRaft ||
             fromRaft && fromRaft.Control.BrokenRaft )                                                 // broken raft doesnt move
         {
+            if( lavato ) // new
             raft.Control.SetRaftDirection( true, raft.Control.RaftGroupID, EDirection.NONE );         // resets move for all rafts
             return false;
         }
