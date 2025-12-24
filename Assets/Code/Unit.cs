@@ -372,33 +372,23 @@ public partial class Unit : MonoBehaviour
             Body.QQMaxDamage               = un.Body.QQMaxDamage;
 
             Body.OutAreaBurningBarricadeDestroyBonus = un.Body.OutAreaBurningBarricadeDestroyBonus;
-            Body.HeroAttackPositionHistory = new List<Vector2>();
-            Body.HeroAttackPositionHistory.AddRange( un.Body.HeroAttackPositionHistory );
-
-            Body.HeroAttackDirectionHistory = new List<EDirection>();
-            Body.HeroAttackDirectionHistory.AddRange( un.Body.HeroAttackDirectionHistory );
+            Body.HeroAttackPositionHistory = new List<Vector2>( un.Body.HeroAttackPositionHistory );
+            Body.HeroAttackDirectionHistory = new List<EDirection>( un.Body.HeroAttackDirectionHistory );
 
             if( TileID == ETileType.ITEM )
             {
-                Body.BonusItemList = new List<ItemType>();
-                Body.BonusItemList.AddRange( un.Body.BonusItemList );
-                Body.BonusItemAmountList = new List<float>();
-                Body.BonusItemAmountList.AddRange( un.Body.BonusItemAmountList );
-                Body.BonusItemChanceList = new List<float>();
-                Body.BonusItemChanceList.AddRange( un.Body.BonusItemChanceList );
-                Body.BonusItemChestLevelList = new List<int>();
-                Body.BonusItemChestLevelList.AddRange( un.Body.BonusItemChestLevelList );
+                Body.BonusItemList = new List<ItemType>( un.Body.BonusItemList );
+                Body.BonusItemAmountList = new List<float>( un.Body.BonusItemAmountList );
+                Body.BonusItemChanceList = new List<float>( un.Body.BonusItemChanceList );
+                Body.BonusItemChestLevelList = new List<int>( un.Body.BonusItemChestLevelList );
             }
-            Body.ChildList = new List<Unit>();
-            Body.ChildList.AddRange( un.Body.ChildList );
-            Body.MineSideHitCount = new List<int>();
-            Body.MineSideHitCount.AddRange( un.Body.MineSideHitCount );
-            Body.HasBaby = new List<bool>();
-            Body.HasBaby.AddRange( un.Body.HasBaby );
-            Body.BabyVariation = new List<int>();
-            Body.BabyVariation.AddRange( un.Body.BabyVariation );
-            Body.CreatedVineList = new List<int>();
-            Body.CreatedVineList.AddRange( un.Body.CreatedVineList );
+
+            Body.ChildList = new List<Unit>( un.Body.ChildList );
+            Body.MineSideHitCount = new List<int>( un.Body.MineSideHitCount );
+            Body.HasBaby = new List<bool>( un.Body.HasBaby );
+            Body.BabyVariation = new List<int>( un.Body.BabyVariation );
+            Body.CreatedVineList = new List<int>( un.Body.CreatedVineList );
+
 
             if( restart )
             {
@@ -629,42 +619,20 @@ public partial class Unit : MonoBehaviour
 
             Control.PositionHistory.Clear();
             Control.WaspOccupiedTiles = new List<Vector2>();
-
-            Control.TickMoveList = new List<int>();
-            Control.TickMoveList.AddRange( un.Control.TickMoveList );
-
-            Control.DynamicObjectMoveList = new List<EActionType>();
-            Control.DynamicObjectMoveList.AddRange( un.Control.DynamicObjectMoveList );
-
-            Control.DynamicObjectOrientationList = new List<EOrientation>();
-            Control.DynamicObjectOrientationList.AddRange( un.Control.DynamicObjectOrientationList );
-
-            Control.DynamicObjectJumpList = new List<Vector2>();
-            Control.DynamicObjectJumpList.AddRange( un.Control.DynamicObjectJumpList );
-
-            Control.DynamicObjectDirectionList = new List<EDirection>();
-            Control.DynamicObjectDirectionList.AddRange( un.Control.DynamicObjectDirectionList );
-
-            Control.RandomMoveTurnList = new List<int>();
-            Control.RandomMoveTurnList.AddRange( un.Control.RandomMoveTurnList );
-
-            Control.ForceVineLink = new List<int>();
-            Control.ForceVineLink.AddRange( un.Control.ForceVineLink );
-
-            Control.RedRoachBabyList = new List<EDirection>();
-            Control.RedRoachBabyList.AddRange( un.Control.RedRoachBabyList );   
-            Control.RandomDirTurnList = new List<int>();
-            Control.RandomDirTurnList.AddRange( un.Control.RandomDirTurnList );
-            Control.FlyingActionTarget = new List<Vector2>();
-            Control.FlyingActionTarget.AddRange( un.Control.FlyingActionTarget );
-            Control.FlyingActionVal = new List<float>();
-            Control.FlyingActionVal.AddRange( un.Control.FlyingActionVal );
-            Control.FlyingActionLoopCount = new List<int>();
-            Control.FlyingActionLoopCount.AddRange( un.Control.FlyingActionLoopCount );
-            Control.FishAction = new List<FishActionStruct>();
-            Control.FishAction.AddRange( un.Control.FishAction );
-            Control.FlightActionTotalTime = new List<float>();
-            Control.FlightActionTotalTime.AddRange( un.Control.FlightActionTotalTime );            
+            Control.TickMoveList = new List<int>( un.Control.TickMoveList );
+            Control.DynamicObjectMoveList = new List<EActionType>( un.Control.DynamicObjectMoveList );
+            Control.DynamicObjectOrientationList = new List<EOrientation>( un.Control.DynamicObjectOrientationList );
+            Control.DynamicObjectJumpList = new List<Vector2>( un.Control.DynamicObjectJumpList );
+            Control.DynamicObjectDirectionList = new List<EDirection>( un.Control.DynamicObjectDirectionList );
+            Control.RandomMoveTurnList = new List<int>( un.Control.RandomMoveTurnList );
+            Control.ForceVineLink = new List<int>( un.Control.ForceVineLink );
+            Control.RedRoachBabyList = new List<EDirection>( un.Control.RedRoachBabyList );
+            Control.RandomDirTurnList = new List<int>( un.Control.RandomDirTurnList );
+            Control.FlyingActionTarget = new List<Vector2>( un.Control.FlyingActionTarget );
+            Control.FlyingActionVal = new List<float>( un.Control.FlyingActionVal );
+            Control.FlyingActionLoopCount = new List<int>( un.Control.FlyingActionLoopCount );
+            Control.FishAction = new List<FishActionStruct>( un.Control.FishAction );
+            Control.FlightActionTotalTime = new List<float>( un.Control.FlightActionTotalTime );
         }
 
         if( Building )

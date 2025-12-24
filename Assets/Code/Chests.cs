@@ -10,7 +10,8 @@ public class Chests : MonoBehaviour
     public class SortData 
     {
         [HorizontalGroup( "Data", Width = 0.5f )]
-        [LabelWidth( 50 )] 
+        [LabelWidth( 50 )]
+        [GUIColor( 0, 1, 0 )]
         public ItemType Prize = ItemType.NONE;              // Item type
         [HorizontalGroup( "Data", Width = 0.5f )]
         public float SortFactor = 100;

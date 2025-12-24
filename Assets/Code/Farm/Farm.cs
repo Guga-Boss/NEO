@@ -1187,8 +1187,18 @@ public partial class Farm : MonoBehaviour
             BluePrintList[ i ].ID = i;
             if( BluePrintList[ i ].UniqueID == "" )
                 BluePrintList[ i ].UniqueID = SortUniqueID( 5 );
+            
+            //BluePrintList[ i ].BPSort = new List<Blueprint.BPSortData>();
+            //Blueprint.BPSortData sd = new Blueprint.BPSortData();
+            ////sd.MaxTiles = BluePrintList[ i ].MaxTiles;
+            ////sd.MaxStack = BluePrintList[ i ].MaxStack;
+            //sd.Size = BluePrintList[ i ].Size;
+            //sd.SortBoothBlueprintsChance = BluePrintList[ i ].SortBoothBlueprintsChance;
+            //sd.ItemList = new List<ItemType>( BluePrintList[ i ].ItemList );
+            //sd.BPCustomIconType1 = BluePrintList[ i ].BPCustomIconType1;
+            //sd.BPCustomIconType2 = BluePrintList[ i ].BPCustomIconType2;
+            //BluePrintList[ i ].BPSort.Add( sd );
         }
-
         
         #region Daily Rewards
         //go = GameObject.Find( "Daily Rewards" );

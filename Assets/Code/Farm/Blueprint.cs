@@ -68,6 +68,8 @@ public class Blueprint : MonoBehaviour
     public bool RandomSuccessCalculation = true;
     [TabGroup( "Chance" )]
     public bool PercentSuccessCalculation = true;
+    [TabGroup( "Chance" )]
+    public float SortBoothBlueprintsChance = 0;
     [TabGroup( "Main" )]
     public List<int> UsesList;                                    // Useslist only saves the random bonus sorted. this way base values can be changed after releasing
     [TabGroup( "Main" )]
@@ -107,26 +109,40 @@ public class Blueprint : MonoBehaviour
     [TabGroup( "Effect" )]
     public float AffectedBuildingItemsRequiredInflation = 0;
     [TabGroup( "Matrix" )]
-    [Tooltip( "Matrix Max spread" )]
-    public Vector2 Size = new Vector2( 3, 3 );
-    [TabGroup( "Matrix" )]
-    [InfoBox( "This Defines Max Stack Height. Set 0 to Unlimited. " )]
-    public int MaxStack = 0;
-    [InfoBox( "This Defines Max tiles. Set 0 to Unlimited. " )]
-    [TabGroup( "Matrix" )]
-    public int MaxTiles = 0;
-    [TabGroup( "Matrix" )]
-    public float SortBoothBlueprintsChance = 0;
-    [TabGroup( "Matrix" )]
     public ItemType[,] ItemMatrix;
     [TabGroup( "Matrix" )]
     public int[,] ItemAmount;
     [TabGroup( "Matrix" )]
-    public List<ItemType> ItemList;
-    [TabGroup( "Matrix" )]
     public EBPIconType BPCustomIconType1 = EBPIconType.NONE;
     [TabGroup( "Matrix" )]
     public EBPIconType BPCustomIconType2 =  EBPIconType.NONE;
+    [TabGroup( "Matrix" )]
+    public int SortID = -1;
+
+        [System.Serializable]
+    public class BPSortData
+    {
+        [GUIColor( 0, 1, 0 )]
+        public string Description = "Base Data";
+        //[HorizontalGroup( "Data", Width = 0.5f )]
+        //[LabelWidth( 50 )]
+        public float SortFactor = 100;
+        [Tooltip( "This Limits Matrix Size." )]
+        public Vector2 Size = new Vector2( 3, 3 );
+        //[HorizontalGroup( "Data", Width = 0.5f )]
+        [Tooltip( "This Defines Max Stack Height. Set 0 to Unlimited." )]
+        public int MaxStack = 0;
+        [Tooltip( "This Defines Max tiles. Set 0 to Unlimited." )]
+        public int MaxTiles = 0;
+        public List<ItemType> ItemList;
+        [FoldoutGroup( "Advanced" )]
+        public EBPIconType BPCustomIconType1 = EBPIconType.NONE;
+        [FoldoutGroup( "Advanced" )]
+        public EBPIconType BPCustomIconType2 = EBPIconType.NONE;
+    }
+
+    [TabGroup( "Matrix" )]
+    public List<BPSortData> BPSort;
 
     public static Vector2 LastPlacedPos;
     public static Blueprint SelectedBluePrint;
@@ -143,7 +159,6 @@ public class Blueprint : MonoBehaviour
         GeneratedBuilding = bp.GeneratedBuilding;
         GeneratedItem = bp.GeneratedItem;
         GeneratedItemAmount = bp.GeneratedItemAmount;
-        Size = bp.Size;
         InitialCost = bp.InitialCost;
         Cost = bp.Cost;
         CostItem = bp.CostItem;
@@ -151,8 +166,6 @@ public class Blueprint : MonoBehaviour
         AutoApplyCostItem = bp.AutoApplyCostItem;
         SuccessRate = bp.SuccessRate;
         BaseSuccessRate = bp.BaseSuccessRate;
-        MaxStack = bp.MaxStack;
-        MaxTiles = bp.MaxTiles;
         AffectedBluePrint = bp.AffectedBluePrint;
         AffectedVariable = bp.AffectedVariable;
         AffectedVariableBaseAmount = bp.AffectedVariableBaseAmount;
@@ -182,8 +195,9 @@ public class Blueprint : MonoBehaviour
         ItemMatrix = ( ItemType[ , ] ) bp.ItemMatrix.Clone();
         ItemAmount = new int[ 5, 5 ]; 
         ItemAmount = ( int[ , ] ) bp.ItemAmount.Clone();
-        ItemList = new List<ItemType>( bp.ItemList );
         UsesList = new List<int>( bp.UsesList );
+        SortID = bp.SortID;
+        BPSort = new List<BPSortData>( bp.BPSort );
     }
     public static void UpdateIt()
     {
@@ -377,8 +391,9 @@ public class Blueprint : MonoBehaviour
                 TF.SaveT( "BP_" + bpID + "_SuccessRate", bp.SuccessRate );                   // Save Success rate
                 TF.SaveT( "BP_" + bpID + "_SortChanceAfterUse", bp.SortChanceAfterUse );     // Save Sort Chance after use
                 TF.SaveT( "BP_" + bpID + "_AffectedVariableAmount", bp.AffectedVariableAmount ); // Save Affected variable amount
+                TF.SaveT( "BP_" + bpID + "_SortID", bp.SortID );                              // Save SortID
 
-                TF.SaveT( "BP_" + bpID + "_UsesListSize", bp.UsesList.Count );               // Save uses array size
+                TF.SaveT( "BP_" + bpID + "_UsesListSize", bp.UsesList.Count );                // Save uses array size
                 for( int u = 0; u < bp.UsesList.Count; u++ )                                  // Save uses list manually ; Unity 5.6 safe
                     TF.SaveT( "BP_" + bpID + "_Use_" + u, bp.UsesList[ u ] );
 
@@ -480,6 +495,7 @@ public class Blueprint : MonoBehaviour
                 bp.SuccessRate = TF.LoadT<float>( "BP_" + bpID + "_SuccessRate" );                         // Load Success rate (float)
                 bp.SortChanceAfterUse = TF.LoadT<float>( "BP_" + bpID + "_SortChanceAfterUse" );           // Load Sort Chance after use (float)
                 bp.AffectedVariableAmount = TF.LoadT<float>( "BP_" + bpID + "_AffectedVariableAmount" );   // Load Affected variable amount (float)
+                bp.SortID = TF.LoadT<int>( "BP_" + bpID + "_SortID" );                                     // Load SortID
 
                 int usesSize = TF.LoadT<int>( "BP_" + bpID + "_UsesListSize" );                            // Load uses array size
                 bp.UsesList = new List<int>();
@@ -555,13 +571,18 @@ public class Blueprint : MonoBehaviour
             }
         }
     }
-
-
-
+    
     public void Sort( bool onlyMatrix = false )
     {
         if( onlyMatrix == false )
         if( FreePlants <= 0 ) return;
+
+        BPSortData bpd = SortBPData();                                                                  // Sorts BP Data
+
+        int MaxTiles = bpd.MaxTiles;
+        int MaxStack = bpd.MaxStack;
+        Vector2 Size = bpd.Size;
+        List<ItemType> ItemList = new List<ItemType>( bpd.ItemList );
 
         ItemMatrix = new ItemType[ 5, 5 ];
         ItemAmount = new int[ 5, 5 ]; 
@@ -647,6 +668,18 @@ public class Blueprint : MonoBehaviour
         }
 
         if( onlyMatrix == false ) SortEverything( false );                                                     // Sort Price
+    }
+
+    private BPSortData SortBPData()
+    {
+        List<float> factl = new List<float>();                                                                 // Sort Blueprint data from lists
+        for( int i = 0; i < BPSort.Count; i++ )
+        {
+            factl.Add( BPSort[ i ].SortFactor );
+        }
+        int id = Util.Sort( factl );
+        SortID = id;
+        return BPSort[ id ];
     }
 
 
