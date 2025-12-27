@@ -1075,7 +1075,7 @@ public class Sector : MonoBehaviour
     {
         if( Fly.Contains( un ) == false )
             Fly.Add( un );
-        else Debug.LogError( "exists " + un );
+        else Debug.Log( "Flying Object already exists: " + un );
     }
 
     internal void AddGameplayPrize( Item it, float amount )

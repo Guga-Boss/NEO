@@ -854,6 +854,11 @@ public partial class Unit : MonoBehaviour
                 ToggleBool( ref act, "Always Active" ) ;
                 if( act ) Variation = 3;
             }
+            if( TileID == ETileType.TOWER )                                                               // toogle bool to disable tower projectile Fire trail FX (can be messy sometimes, impossible to play)
+            {
+                ToggleBool( ref Body.TowerProjectileTrailFX, "Projectile Trail FX" );
+            }
+
             break;
             case EV.UnitBaseLevel:
             Body.BaseLevel = val;

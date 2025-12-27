@@ -42,7 +42,7 @@ public partial class Controller : MonoBehaviour
     [TabGroup( "Main" )]
     public Vector2 LastPos;     // LastPos changes even if the move has failed
     [TabGroup( "Main" )]
-    public Vector2 JumpTarget, AnimationOrigin;
+    public Vector2 JumpTarget, AnimationOrigin, MotherPos = new Vector2( -1, -1 );
     [TabGroup( "Level" )]
     public int MoveOrderID, RamStraightMoveCount, PlatformWalkingCounter,
     FlightJumpPhase, ForcedFrontalMovementFactor;
@@ -539,6 +539,13 @@ public partial class Controller : MonoBehaviour
         if( Unit.TileID == ETileType.RAFT )
             GS.W.Write( ( int ) RaftMoveDir );
 
+        if( Unit.TileID == ETileType.PROJECTILE )
+        {
+            MotherPos = new Vector2( -1, -1 );
+            if( Mother ) MotherPos = Mother.Pos;
+            GS.SVector2( MotherPos );
+        }
+
         #region vars
         /*  GS.W.Write( IsBeingPushedByHero );
         GS.W.Write( RealtimeSpeedFactor );
@@ -823,6 +830,11 @@ public partial class Controller : MonoBehaviour
         }
         if( Unit.TileID == ETileType.RAFT )
             RaftMoveDir = ( EDirection ) GS.R.ReadInt32();
+
+        if( Unit.TileID == ETileType.PROJECTILE )
+           {
+               MotherPos = GS.LVector2();
+           }
     }
 
     //______________________________________________________________________________________________________________________ Update Controls

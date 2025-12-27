@@ -179,7 +179,7 @@ public class Building : MonoBehaviour
         }
     }
 
-    public static bool Place( bool apply, Vector2 tg, BuildingType type, ItemType tool = ItemType.NONE, bool move = false )
+    public static bool Place( bool apply, Vector2 tg, BuildingType type, ItemType tool = ItemType.NONE, bool move = false, bool loading = false )
     {
         if( type == BuildingType.NONE ) return false;
         Unit ga2 = Map.I.GetUnit( tg, ELayerType.GAIA2 );
@@ -192,6 +192,7 @@ public class Building : MonoBehaviour
         Building tgbl = Map.I.Farm.BuildingList[ id ];
         Bl = null;
         
+        if( loading == false )
         if( ga != null )
         {
             if( tgbl.Category != EBuildingCategory.Plant )
@@ -409,7 +410,8 @@ public class Building : MonoBehaviour
                 Vector2 pos = TF.LoadT<Vector2>( "BuildingPos" + b );                                     // Load Building pos ; temporary load
                 BuildingType type = TF.LoadT<BuildingType>( "BuildingType" + b );                         // Load Building type ; temporary load
 
-                Place( true, pos, type );                                                                 // Building objects are created only now
+                bool ok = Place( true, pos, type, ItemType.NONE, false, true );                           // Building objects are created only now
+                if( ok == false ) Debug.LogError( "Building obj not created: " + type );
                 Building bl = Map.I.Gaia2[ ( int ) pos.x, ( int ) pos.y ].Building;
                 bl.Type = type;
                 bl.Copy( Map.I.Farm.BuildingList[ ( int ) type ] );

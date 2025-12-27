@@ -376,19 +376,28 @@ public class GS : MonoBehaviour
         UpdateFatherSonConnection( G.Hero );                                                                    // hero father and son connection
 
         for( int i = 0; i < G.HS.Fly.Count; i++ )
-        if( G.HS.Fly[ i ].TileID == ETileType.MINE )           
         {
-            Unit fl = G.HS.Fly[ i ];
-            UpdateFatherSonConnection( fl );                                                                   // Father and son connections
+            if( G.HS.Fly[ i ].TileID == ETileType.MINE )
+            {
+                Unit fl = G.HS.Fly[ i ];
+                UpdateFatherSonConnection( fl );                                                                   // Father and son connections
 
-            fl.Body.MineLeverActivePuller = Map.GFU( ETileType.MINE, fl.Body.MineLeverActivePullerPos );       // Connect to active puller
-            if( fl.Body.MineLeverActivePuller && fl.Body.MineHasLever() )
-                fl.Body.MineLeverActivePuller.Body.EffectList[ 2 ].gameObject.SetActive( true );
-            if( fl.Body.RopeConnectSon )
-                fl.UpdateChainSizes( fl.Body.RopeConnectSon.Pos );                                             // Update chain
-            fl.Body.RopeConnectSonPos = new Vector2( -1, -1 );
-            fl.Body.MineLeverActivePullerPos = new Vector2( -1, -1 );
-            fl.Mine.UpdateText = true;
+                fl.Body.MineLeverActivePuller = Map.GFU( ETileType.MINE, fl.Body.MineLeverActivePullerPos );       // Connect to active puller
+                if( fl.Body.MineLeverActivePuller && fl.Body.MineHasLever() )
+                    fl.Body.MineLeverActivePuller.Body.EffectList[ 2 ].gameObject.SetActive( true );
+                if( fl.Body.RopeConnectSon )
+                    fl.UpdateChainSizes( fl.Body.RopeConnectSon.Pos );                                             // Update chain
+                fl.Body.RopeConnectSonPos = new Vector2( -1, -1 );
+                fl.Body.MineLeverActivePullerPos = new Vector2( -1, -1 );
+                fl.Mine.UpdateText = true;
+            }
+
+            if( G.HS.Fly[ i ].TileID == ETileType.PROJECTILE )
+            {
+                if( G.HS.Fly[ i ].Control.MotherPos != new Vector2( -1, -1 ) )                                // restore projectile mother
+                    G.HS.Fly[ i ].Control.Mother = Map.I.GetUnit( 
+                    G.HS.Fly[ i ].Control.MotherPos, ELayerType.MONSTER );
+            }
         }
 
         RestLine.Create();                                                                                    // Create Resting Lines 

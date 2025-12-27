@@ -1619,7 +1619,7 @@ public class Attack : MonoBehaviour
             Unit.Control.UpdateTowerRotation( true );
             b.Control.ProjectileType = EProjectileType.MISSILE;
             b.Control.ControlType = EControlType.PROJECTILE;
-            b.Body.EffectList[ 1 ].gameObject.SetActive( true );
+            b.Body.EffectList[ 1 ].gameObject.SetActive( Unit.Body.TowerProjectileTrailFX );
             b.Body.EffectList[ 1 ].transform.localPosition = new Vector3( 0, -0.35f, -2.8f );
             b.Spr.spriteId = 210;
             //b.Spr.spriteId = 193;

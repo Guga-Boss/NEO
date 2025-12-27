@@ -68,7 +68,7 @@ public class Body : MonoBehaviour
     [TabGroup( "Bool" )]
     public bool BigMonster, ShowShieldInfo, ShowLevelInfo, FireIsOn, OriginalFireIsOn, IsTiny, IsMarked, OriginalIsMarked,
     PoisonBite, IsEternalToken, HasSeenTheHero, OriginalHasSeenTheHero, IsBoss, SpawnBlocker, LeverMine,  
-    ClockwiseChainPush, ShieldedWasp, RaftResource = false, EnragedWasp = false, CocoonWasp = false, Crippled = false, SpikedBoulder = false, TrailCoil = false, TrailRotator = false,
+    ClockwiseChainPush, ShieldedWasp, RaftResource = false, EnragedWasp = false, CocoonWasp = false, Crippled = false, SpikedBoulder = false, TrailCoil = false, TrailRotator = false, TowerProjectileTrailFX = true,
     HookIsStuck = false, CreatedVine = false, GraphicsInitialized = false;
     [TabGroup( "Main" )]
     public float Level = 1, BaseLevel = 1, Stars, TotHp, Hp, BaseTotHP;

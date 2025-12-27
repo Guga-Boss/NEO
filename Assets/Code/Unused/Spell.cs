@@ -692,27 +692,32 @@ public class Spell : MonoBehaviour
             Spell sp = G.Hero.Body.Sp[ i ];
             int id2 = ( int ) Util.RotateDir( ( int ) G.Hero.Dir, i );
             Vector2 pt = G.Hero.Pos + Manager.I.U.DirCord[ id2 ];
-            if( tg == pt )
-            if( IsHook(  sp.Type ) )
+
+            // Protecao para versao Release: evita destruir gancho que ja esta segurando alguem (against precison float)
+            // Comparacao por inteiros arredondados para evitar bugs de precisao no Release
+            if( Mathf.RoundToInt( tg.x ) == Mathf.RoundToInt( pt.x ) && Mathf.RoundToInt( tg.y ) == Mathf.RoundToInt( pt.y ) )
+            if( IsHook( sp.Type ) )
             {
-                bool hooked = AnyMonsterHookStuck();                                          // Already hooked?
-                float damage = Spell.GetSpellDamage( sp.Attack );           // Calculates damage
+                if( sp.HookedUnit != null && sp.HookedUnit.Body.HookIsStuck ) return;
+
+                bool hooked = AnyMonsterHookStuck();                                         // Already hooked?
+                float damage = Spell.GetSpellDamage( sp.Attack );                            // Calculates damage
                 Unit mn = Map.I.GetUnit( tg, ELayerType.MONSTER );                           // Land Units
                 bool destroy = false;
                 if( mn && mn.ValidMonster )
                 if( mn.Body.HookIsStuck == false )
                 {
-                    destroy = true;  
-                }                
+                    destroy = true;
+                }
 
                 List<Unit> fl = Map.I.GetFUnit( tg );                                        // Flying units
-                if ( fl != null )
+                if( fl != null )
                 for( int f = 0; f < fl.Count; f++ )
-                if ( fl[ f ].ValidMonster )
-                if ( fl[ f ].Body.HookIsStuck == false )
+                if( fl[ f ].ValidMonster )
+                if( fl[ f ].Body.HookIsStuck == false )
                 {
                     destroy = true;
-                }            
+                }
 
                 if( destroy )                                                                // Destroy hook
                 {
@@ -731,41 +736,41 @@ public class Spell : MonoBehaviour
         processed = new List<int>();
         EDirection dr = Util.GetTargetUnitDir( from, to );
         for( int i = 0; i < 8; i++ )
-        if( IsHook( G.Hero.Body.Sp[ i ].Type ) )
-        {
-            int id1 = ( int ) Util.RotateDir( ( int ) G.Hero.Dir, i );
-            Vector2 newp = G.Hero.Pos + Manager.I.U.DirCord[ id1 ];                                   // Calculates target postion
-            Unit mn = Map.I.GetUnit( newp, ELayerType.MONSTER );   
-            if( mn != null && mn.ValidMonster )
-            if( mn.Body.HookIsStuck )
+            if( IsHook( G.Hero.Body.Sp[ i ].Type ) )
             {
-                if( id1 == ( int ) dr )
+                int id1 = ( int ) Util.RotateDir( ( int ) G.Hero.Dir, i );
+                Vector2 newp = G.Hero.Pos + Manager.I.U.DirCord[ id1 ];                                   // Calculates target postion
+                Unit mn = Map.I.GetUnit( newp, ELayerType.MONSTER );
+                if( mn != null && mn.ValidMonster )
+                if( mn.Body.HookIsStuck )
                 {
-                    Vector2 jump = to + Manager.I.U.DirCord[ id1 ];
-                    if( Sector.GetPosSectorType( jump ) == Sector.ESectorType.NORMAL )
-                    if( G.Hero.CanMoveFromTo( true, G.Hero.Pos, jump, G.Hero ) == true )
+                    if( id1 == ( int ) dr )
                     {
-                        int j = ( int ) Util.GetInvDir( ( EDirection ) i );                          // Performs jump
-                        G.Hero.Body.Sp[ j ].Copy( G.Hero.Body.Sp[ i ] );                             // Relocate spell position after jump
-                        G.Hero.Body.Sp[ i ].Reset();
-                        processed.Add( j );
+                        Vector2 jump = to + Manager.I.U.DirCord[ id1 ];
+                        if( Sector.GetPosSectorType( jump ) == Sector.ESectorType.NORMAL )
+                        if( G.Hero.CanMoveFromTo( true, G.Hero.Pos, jump, G.Hero ) == true )
+                        {
+                            int j = ( int ) Util.GetInvDir( ( EDirection ) i );                          // Performs jump
+                            G.Hero.Body.Sp[ j ].Copy( G.Hero.Body.Sp[ i ] );                             // Relocate spell position after jump
+                            G.Hero.Body.Sp[ i ].Reset();
+                            processed.Add( j );
+                        }
                     }
-                }
-                else
-                if( Util.IsNeighbor( to, mn.Pos ) == false )
-                {
-                    int newId = -1;
-                    newp = GetHookDragTarget( dr, i, id1, ref newId, ref mn, to );                   // Blocks the hero if Hooked monster is pushed against water or pit   
-                    Unit ga = Map.I.GetUnit( newp, ELayerType.GAIA );
-                    if( ga )
-                    if( ga.TileID == ETileType.WATER || ga.TileID == ETileType.PIT )
+                    else
+                    if( Util.IsNeighbor( to, mn.Pos ) == false )
                     {
-                        Map.I.AdvanceTurn = false;
-                        return true;
+                        int newId = -1;
+                        newp = GetHookDragTarget( dr, i, id1, ref newId, ref mn, to );                   // Blocks the hero if Hooked monster is pushed against water or pit   
+                        Unit ga = Map.I.GetUnit( newp, ELayerType.GAIA );
+                        if( ga )
+                        if( ga.TileID == ETileType.WATER || ga.TileID == ETileType.PIT )
+                        {
+                            Map.I.AdvanceTurn = false;
+                            return true;
+                        }
                     }
                 }
             }
-        }
         return false;
     }
 
@@ -779,30 +784,30 @@ public class Spell : MonoBehaviour
             Spell sp = G.Hero.Body.Sp[ i ];
             int id1 = ( int ) Util.RotateDir( ( int ) G.Hero.Dir, i );
             int newId = -1;
-            Vector2 newp = G.Hero.Control.OldPos + Manager.I.U.DirCord[ id1 ];                        // Calculates target postion
-            Unit mn = Map.I.GetUnit( newp, ELayerType.MONSTER );                           
+            Vector2 oldPos = G.Hero.Control.OldPos + Manager.I.U.DirCord[ id1 ];                  // Calculates target postion
+            Unit mn = Map.I.GetUnit( oldPos, ELayerType.MONSTER );
             if( mn != null && mn.ValidMonster )
             if( mn.Body.HookIsStuck )
             if( Util.IsNeighbor( G.Hero.Pos, mn.Pos ) == true )
+            {
+                for( int j = 0; j < 8; j++ )
                 {
-                    for( int j = 0; j < 8; j++ )
-                    {
-                        int id2 = ( int ) Util.RotateDir( ( int ) G.Hero.Dir, j );
-                        Vector2 pt = G.Hero.Pos + Manager.I.U.DirCord[ id2 ];
-                        Unit mn2 = Map.I.GetUnit( pt, ELayerType.MONSTER );
-                        if( processed.Contains( i ) == false )
-                            if( mn2 && mn && mn2 == mn )                                             // Relocates hook after monster side step
-                            {
-                                processed.Add( j );
-                                G.Hero.Body.Sp[ j ].Copy( G.Hero.Body.Sp[ i ] );
-                                G.Hero.Body.Sp[ i ].Reset();
-                                mn.Control.SpeedTimeCounter = 0;
-                            }
-                    }
+                    int id2 = ( int ) Util.RotateDir( ( int ) G.Hero.Dir, j );
+                    Vector2 pt = G.Hero.Pos + Manager.I.U.DirCord[ id2 ];
+                    Unit mn2 = Map.I.GetUnit( pt, ELayerType.MONSTER );
+                    if( processed.Contains( i ) == false )
+                        if( mn2 && mn && mn2 == mn )                                             // Relocates hook after monster side step
+                        {
+                            processed.Add( j );
+                            G.Hero.Body.Sp[ j ].Copy( G.Hero.Body.Sp[ i ] );
+                            G.Hero.Body.Sp[ i ].Reset();
+                            mn.Control.SpeedTimeCounter = 0;
+                        }
                 }
-                else
-                {
-                newp = GetHookDragTarget( dr, i, id1, ref newId, ref mn, G.Hero.Pos );                                          // Gets the position where the hooked monster should move to   
+            }
+            else
+            {
+                Vector2 newp = GetHookDragTarget( dr, i, id1, ref newId, ref mn, G.Hero.Pos );                                  // Gets the position where the hooked monster should move to   
 
                 bool res = mn.CanMoveFromTo( true, mn.Pos, newp, G.Hero );                                                      // Moves monster
                 if( res )
@@ -818,24 +823,20 @@ public class Spell : MonoBehaviour
                     mn.Body.CreateBloodSpilling( mn.Pos );
                 }
                 else                                                                                                            // Monster blocked
-                {    
+                {
                     Unit mn2 = Map.I.GetUnit( newp, ELayerType.MONSTER );
                     processed.Add( newId );
-                    if( mn.Body.HookIsStuck )
-                    {
-                        StickHook( sp, mn );                                                                   // Source monsters is attacked since it cannot move
-                        if( newId != -1 )
-                        {
-                            G.Hero.Body.Sp[ newId ].Copy( sp );                                                // Relocates diagonal special move hook
-                            sp.Reset();
-                        }
-                    }
 
-                    if( mn2  )
+                    if( mn2 )
                     {
+                        // Lógica de transferencia: Solta o antigo e prende o novo
+                        mn.Body.ReceiveDamage( Spell.GetSpellDamage( sp.Attack ), EDamageType.BLEEDING, G.Hero, sp.Attack );
+                        mn.Body.HookIsStuck = false;
+                        mn.Body.HookID = null;
+
                         Item.AddItem( ItemType.Res_Hook_CW, 1 );                                               // Adds a free hook for translating hooked monsters
                         StickHook( sp, mn2 );                                                                  // Destination Monster is attacked
-                        processed.Add( newId );
+
                         if( newId != -1 )
                         {
                             G.Hero.Body.Sp[ newId ].Copy( sp );                                                // Relocates diagonal special move hook
@@ -844,7 +845,14 @@ public class Spell : MonoBehaviour
                     }
                     else
                     {
-                        ChargeItem( sp.Attack, ItemType.Res_Hook_CW );                                         // Empty destination, charge hook
+                        if( mn.Body.HookIsStuck ) StickHook( sp, mn );                                         // Source monsters is attacked since it cannot move
+                        else ChargeItem( sp.Attack, ItemType.Res_Hook_CW );                                    // Empty destination, charge hook
+
+                        if( newId != -1 )
+                        {
+                            G.Hero.Body.Sp[ newId ].Copy( sp );                                                // Relocates diagonal special move hook
+                            sp.Reset();
+                        }
                     }
                 }
             }
@@ -853,6 +861,7 @@ public class Spell : MonoBehaviour
 
     private static Vector2 GetHookDragTarget( EDirection dr, int i, int id1, ref int newId, ref Unit mn, Vector2 tg )
     {
+        newId = -1;
         Vector2 newp = mn.Pos + Manager.I.U.DirCord[ ( int ) dr ];
 
         if( Util.IsNeighbor( newp, tg ) )
@@ -887,7 +896,7 @@ public class Spell : MonoBehaviour
         mn.WakeMeUp();
         mn.Body.HookIsStuck = true;
         mn.Body.HookID = sp;
-        sp.HookedUnit = mn;
+        sp.HookedUnit = mn; // Sincroniza a referencia para evitar destruicao por colisao
         if( attack )
             mn.Body.ReceiveDamage( damage, EDamageType.BLEEDING, G.Hero, sp.Attack );
         MasterAudio.PlaySound3DAtTransform( "Monster Falling", mn.transform );

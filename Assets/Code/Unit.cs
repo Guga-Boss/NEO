@@ -342,6 +342,7 @@ public partial class Unit : MonoBehaviour
             Body.RaftResource              = un.Body.RaftResource;
             Body.ResourceWasteTimeCounter  = un.Body.ResourceWasteTimeCounter;
             Body.ResourceWasteTotalTime    = un.Body.ResourceWasteTotalTime;
+            Body.TowerProjectileTrailFX    = un.Body.TowerProjectileTrailFX;
             Body.ResourceSlot              = un.Body.ResourceSlot;
             Body.MudPushable               = un.Body.MudPushable;
             Body.BumpTimer                 = un.Body.BumpTimer;
