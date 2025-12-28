@@ -523,38 +523,37 @@ public class GlobalAltar : SerializedMonoBehaviour
         if( au.Altar.RandomAltar == false ) return;
         if( bn.AltarBonusType != EAltarBonusType.Prize )
         {
-            if( SortPassiveReset() )
+            if( SortPassivePersist() == false )
                 bn.Reset();
         }
 
-        float vl = 0.5f + Util.GetCurveVal( ButcherPowerLevel, 100, 0f, 2.5f, 1 );                                  // Bonus coin per Butcher power level
+        float vl = 0.5f + Util.GetCurveVal( ButcherPowerLevel, 100, 0f, 2.5f, 1 );                                // Bonus coin per Butcher power level
         vl = Util.FloatSort( vl );
         Item.AddItem( ItemType.Blue_Coin, vl );
     }
-    public bool SortPassiveReset()
+    public bool SortPassivePersist()
     {
-        return true;
-        float chc = Util.GetCurveVal( ButcherSlotsLevel, 100, 0, 50, 1, 0 );                                      // Passive reset sort -------- curve Rethink later
+        float chc = Util.GetCurveVal( ButcherPowerLevel, 100, 40, 80, .65f, 0 );                                   // Passive reset sort 
         return Util.Chance( chc );
     }
     public void UpdateBumpSuccessful( Unit au, AltarBonusStruct bn )
     {
         if( au.Altar.RandomAltar == false ) return;
-        if( bn.AltarBonusType == EAltarBonusType.Prize )                                                         // Reset bonus after success. consider a chance for remaining in the future
+        if( bn.AltarBonusType == EAltarBonusType.Prize )                                                          // Reset bonus after success. consider a chance for remaining in the future
         {
             bn.Reset();
         }
 
-        if( bn.AltarBonusType == EAltarBonusType.Spawn_Random_Altar )                                            // Spawn butcher power
+        if( bn.AltarBonusType == EAltarBonusType.Spawn_Random_Altar )                                             // Spawn butcher power
         {
             for( int i = 0; i < bn.AltarBonusFactor; i++ )
                 CreateRandomButcher( false );
-            if( SortPassiveReset() )
+            if( SortPassivePersist() )
                 bn.Reset();
         }
 
-        float vl = 0.5f + Util.GetCurveVal( ButcherPowerLevel, 100, 0f, 2.5f, 1 );                                  // Bonus coin per Butcher power level
-        vl *= 3;                                                                                                 // Extra bonus for success
+        float vl = 0.5f + Util.GetCurveVal( ButcherPowerLevel, 100, 0f, 2.5f, 1 );                                // Bonus coin per Butcher power level
+        vl *= 3;                                                                                                  // Extra bonus for success
         vl = Util.FloatSort( vl );
         Item.AddItem( ItemType.Blue_Coin, vl );
     }

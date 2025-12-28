@@ -143,7 +143,7 @@ public class NavigationMap : MonoBehaviour
 
         float percn = Item.GetNum( Inventory.IType.Inventory,                                             // Completion Percentage
               ItemType.Adventure_Completion, rm.QuestID );
-        string perc = " (" + percn.ToString( "0.#" ) + "%)";
+        string perc = " (" + percn.ToString( "0." ) + "%)";
         if( percn <= 0 ) perc = "";
         qp.QuestName.color = Color.white;
 

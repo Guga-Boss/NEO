@@ -1437,7 +1437,6 @@ public class Util
        return startValue + ( endValue - startValue ) * curvedT;
    }
 
-
    public static List<Vector2> CloneToVector2List( List<VI> source )
    {
        if( source == null ) return null;

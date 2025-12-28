@@ -4031,6 +4031,7 @@ public partial class Map : MonoBehaviour
         b.RangedAttack.TargettingType = ETargettingType.BOOMERANG;
         BoomerangList.Add( b );
         b.Variation = 0;
+        b.Spr.color = Color.white;
         MasterAudio.PlaySound3DAtTransform( "Axe Throw", G.Hero.transform );
     }
 

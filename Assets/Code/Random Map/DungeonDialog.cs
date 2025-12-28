@@ -484,18 +484,25 @@ public class DungeonDialog : MonoBehaviour
 
         int totg = TotalGoals - TotalOptionalGoals;
 
+        //if( totg > 0 )
+        //    AdventureCompletion = 100 * LifeTimeConqueredGoals / totg;                                         // old calculation, based on goals completed
+
         if( totg > 0 )
-            AdventureCompletion = 100 * LifeTimeConqueredGoals / totg;
+            AdventureCompletion = 100 * Item.GetNum( ItemType.Starting_Cube ) / Map.I.RM.RMD.MaxCubes;
+
         if( Map.I.RM.GameOver )
         {
             //float percn = Item.GetNum( Inventory.IType.Inventory,                                             // Completion Percentage
             //      ItemType.Adventure_Completion, Map.I.RM.CurrentAdventure );
 
-            //if( AdventureCompletion != percn )                                                              // Updates Adventure Completition Item Value
+            //if( AdventureCompletion != percn )                                                                // Updates Adventure Completition Item Value
             Item.SetAmt( ItemType.Adventure_Completion, AdventureCompletion,
                          Inventory.IType.Inventory, true, Map.I.RM.CurrentAdventure );        
-            GoalInfoLabel.text = "Available: " + Map.I.RM.RMD.GoalList.Length 
-            + " of " + totg + "     Quest: "+ AdventureCompletion + "% Complete." ;
+            //GoalInfoLabel.text = "Available: " + Map.I.RM.RMD.GoalList.Length
+            //+ " of " + totg + "     Quest: " + AdventureCompletion.ToString( "0." ) + "% Complete.";
+
+            GoalInfoLabel.text = "Quest: " + AdventureCompletion.ToString( "0." ) + "% Complete.";
+
             NewDungeonLabel.text = "New Incursion\n";
             DificultySlider.enabled = true;
         }
@@ -1156,7 +1163,7 @@ public class DungeonDialog : MonoBehaviour
         float comp = Util.GetPercent( totperc, totcomp );
 
         if( hover )
-            GameCompletitionLabel.text = "Quest " + AdventureCompletion + "% Complete.";                                         // Quest complete information
+            GameCompletitionLabel.text = "Quest " + AdventureCompletion.ToString( "0." ) + "% Complete.";                        // Quest complete information
         else
         {
             GameCompletitionLabel.text = "Game " + comp.ToString( "0.#" ) +                                                      // Game Complete information               
@@ -1169,7 +1176,7 @@ public class DungeonDialog : MonoBehaviour
                 if ( Map.I.RM.RMList[ i ].Available )
                      conq += ( int ) Item.GetNum( ItemType.Starting_Cube,
                      Inventory.IType.Inventory, i );
-                float perc = Util.GetPercent(conq, Map.I.TotalCubeCount);
+                float perc = Util.GetPercent( conq, Map.I.TotalCubeCount );
                 GameCompletitionLabel.text = "Cubes Cleared: " + conq + " of " + 
                 Map.I.TotalCubeCount + "  " + perc.ToString( "0.0" ) + "%";                                                      // display info
             }
@@ -1218,14 +1225,14 @@ public class DungeonDialog : MonoBehaviour
 
         if(!hover )                                                                                      // quest secrets
         {
-            int amt = ( int ) Item.GetNum( ItemType.Secrets_Found );                                     // secret is using einstein icon now
-            TrophiesAmountLabel[ 5 ].text = amt + "/" + Map.I.RM.RMD.QuestSecrets;
+            int amt = ( int ) G.GIT( ItemType.Secrets_Found ).Count;                                   
+            TrophiesAmountLabel[ 5 ].text = amt + "/" + Map.I.TotalSecrets;
             TrophiesSprite[ 5 ].gameObject.SetActive( true );
         }
         else                                                                                             // Lifetime secrets
         {
-            int amt = ( int ) G.GIT( ItemType.Secrets_Found ).Count;                                   
-            TrophiesAmountLabel[ 5 ].text = amt + "/" + Map.I.TotalSecrets;
+            int amt = ( int ) Item.GetNum( ItemType.Secrets_Found );                                     // secret is using einstein icon now
+            TrophiesAmountLabel[ 5 ].text = amt + "/" + Map.I.RM.RMD.QuestSecrets;
             TrophiesSprite[ 5 ].gameObject.SetActive( true );
         }
     }

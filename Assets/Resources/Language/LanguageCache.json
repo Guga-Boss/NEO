@@ -778,11 +778,11 @@
                 },
                 {
                     "key": "SHOVEL_DESCRIPTION",
-                    "value": "Used for Digging Rivers."
+                    "value": "Used to dig rivers or revert water back into land. (use B key)"
                 },
                 {
                     "key": "HOE_DESCRIPTION",
-                    "value": "Used for Soil Planting Preparation."
+                    "value": "Used for Soil Planting Preparation or removal. (use B Key)"
                 },
                 {
                     "key": "FERTILIZER_DESCRIPTION",
@@ -1660,7 +1660,11 @@
                 },
                 {
                     "key": "A2_QUEST_24_CUBE_4_MOD_1",
-                    "value": "Pick up the Hook on the Ground to attack the Scarabs.\n\n\nThe ONLY way to perform a successful Attack is as Follows:\n\n\n1) Move to a Scarab Neighbor tile.\n\n2) ROTATE the Hook until you Stick it Inside him.\n\n\nBeware the hook is very Fragile!\n\nWrongly Moving it over a monster will destroy it.\n\nRotating towards the wrong way will destroy it as well."
+                    "value": "Pick up the Hook from the ground to attack Scarabs.\n\nA successful attack can ONLY be performed as follows:\n\nMove to a tile adjacent to a Scarab.\n\nROTATE the Hook until it sticks into the Scarab.\n\nBeware: the Hook is extremely fragile.\n\n1) Moving it incorrectly over a monster will destroy it.\n2) Rotating it in the wrong direction will also destroy it."
+                },
+                {
+                    "key": "A2_QUEST_24_CUBE_5_MOD_1",
+                    "value": "The number indicates how many attacks can be performed."
                 },
                 {
                     "key": "A2_QUEST_24_CUBE_10_MOD_1",
@@ -1677,6 +1681,10 @@
                 {
                     "key": "A2_QUEST_24_CUBE_10_MOD_4",
                     "value": "Notice that you cannot Rotate While Roaming with a Hooked Monster."
+                },
+                {
+                    "key": "A2_QUEST_24_CUBE_15_MOD_1",
+                    "value": "Notice: when the Rocket passes over fire, it ignites.\nA burning Rocket is able to attack monsters."
                 },
                 {
                     "key": "A2_QUEST_25_CUBE_6_MOD_1",
