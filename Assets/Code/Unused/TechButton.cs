@@ -432,7 +432,7 @@ public class TechButton : MonoBehaviour
                 msg += "\nReach a number of " + needed.ToString( "0.#" ) + " Lifetime " + itname +                               // Total collected msg
                 " Collected to unlock for free.\n Lifetime " + itname + " Collected: " + stock.ToString( "0.#" );
             else
-                msg += "\n Cost:" + price + "\n" + itname + " in Stock: " + stock.ToString( "0.#" );                             // normal price
+                msg += "\n Cost:" + price + "\n" + itname + " in Stock: " + stock.ToString( "0." );                              // normal price
 
             msg += "\nTech Scope: " + Util.GetName( au.TechScope.ToString() );
             if( au.TechScope == ETechScope.All_Quests )

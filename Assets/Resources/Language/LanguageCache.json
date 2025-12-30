@@ -662,7 +662,7 @@
                 },
                 {
                     "key": "BUTCHER_POWER_LEVEL_DESCRIPTION",
-                    "value": "Quest Resource: Collect this item to increase the chance of more slots containing Passive Bonuses around spawned Butchers.\nAlso increase Bluecoins Gained after bump."
+                    "value": "Quest Resource:\nIncreases the chance of extra Passive Bonus slots around spawned Butchers.\nImproves Passive persistence after a failed bump.\nGrants additional Bluecoins after a bump."
                 },
                 {
                     "key": "STUDY_XP_DESCRIPTION",
@@ -3004,7 +3004,7 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_1_MOD_2",
-                    "value": "Notice that They will remain in place indefinitely until you make a move."
+                    "value": "Notice that they will remain in place indefinitely until you make a move."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_2_MOD_1",
@@ -3020,15 +3020,15 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_4_MOD_2",
-                    "value": "Choose your weapon!\n\nWatch out for Hero's Facing Direction before Facing the Scorpion."
+                    "value": "Choose your weapon!\n\nWatch out for the Hero's facing direction before facing the Scorpion."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_5_MOD_1",
-                    "value": "If there's too much information in the Cube:\n\n\nPRESS RControl Key to Adjust the Zoom Level.\n\n\nHOLD RControl Key for a second to Activate STUDY MODE!\n\n\n(Zoom Out + Hide Vegetation Layer)."
+                    "value": "PRESS the RControl key to adjust the zoom level.\n\nHOLD the RControl key for 1 second to activate STUDY MODE.\n\nZooms out and hides the vegetation layer."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_6_MOD_1",
-                    "value": "Sometimes you can get Stuck By taking monsters behind Arrows!\n\n\nIf you want (or need) to restart the session again:\n\n\n1) Press Enter to open the Dialog.\n\n2) Press R Key.\n\n\nTry it now!"
+                    "value": "Sometimes you can get stuck by placing monsters behind arrows!\nIf you want (or need) to restart the session again:\n\n\n1) Press Enter to open the Dialog.\n\n2) Press R Key.\n\n\nTry it now!"
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_7_MOD_1",
@@ -3040,7 +3040,7 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_7_MOD_3",
-                    "value": "IMPORTANT: Pickuped Bonuses like ammo can only be used in the same Cube they were found at."
+                    "value": "Picked-up bonuses like ammo can only be used in the same cube where they were found."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_9_MOD_1",
@@ -3064,11 +3064,11 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_21_MOD_1",
-                    "value": "This is a Firewand: When Picked Up, Casts a Fireball Towards Hero Moving Direction.\n\n\r\nFireballs Follow Hero Movent and can be used for Attacking Monsters."
+                    "value": "This is a Firewand: when picked up, it casts a fireball towards the Hero's movement direction.\nFireballs follow the Hero's movement and can be used to attack monsters."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_23_MOD_1",
-                    "value": "Fireballs can Fly over Water tiles but Are Destroyed if they Stop over one. \n\n\nStudy the two cases above...."
+                    "value": "Fireballs can fly over water tiles but are destroyed if they stop on one.\nStudy the two cases above...."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_29_MOD_1",
@@ -3092,11 +3092,11 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_33_MOD_1",
-                    "value": "When you call back a Boomerang, it is automatically Rethrown towards Hero Facing Direction.\n\n\nNote That a Boomerang cannot be Rethrown Backwards. (Only Laterally)\n\n\nWarning: No Diagonal Rethrowing Allowed!"
+                    "value": "When you call back a Boomerang, it is automatically Rethrown towards Hero Facing Direction.\n\n\nNotice that a boomerang cannot be rethrown backwards, only laterally.\nWarning: No Diagonal Rethrowing Allowed!"
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_33_MOD_2",
-                    "value": "Notice that the next Boomerang has 4 Units.\n\n\nIt means it can kill 4 monsters in a single throw before it is destroyed!"
+                    "value": "Notice that the next Boomerang has 4 Units.\n\n\nThis means it can kill 4 monsters in a single throw before being destroyed."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_35_MOD_1",
@@ -3104,11 +3104,11 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_35_MOD_2",
-                    "value": "Once you hit a Compound Monster, new Babies are spawned in the Corresponding Tiles."
+                    "value": "Once you hit a compound monster, new babies are spawned in the corresponding tiles."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_35_MOD_3",
-                    "value": "Notice that you need free space for spawning, Otherwise no attack is made!"
+                    "value": "Notice that you need free space for spawning, Otherwise, no attack is made!"
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_36_MOD_1",
@@ -3116,11 +3116,11 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_36_MOD_2",
-                    "value": "Important: Scorpions can spawn babies up to 2 tiles away,\n\n\nIf the neighbor tile is not empty, Spawning can jump one tile away.\n\n\nIn this case, the baby will be spawned jumping the forest tile. (over mud)."
+                    "value": "Important: Important: Scorpions can spawn babies up to two tiles away,\nIf the neighbor tile is not empty, Spawning can jump one tile away.\n\n\nIn this case, the baby will be spawned by jumping over the forest tile. (over mud)."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_36_MOD_3",
-                    "value": "Two babies now! and two jumping Spawnings as well..."
+                    "value": "Two babies now, and two jump spawns as well..."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_36_MOD_4",
@@ -3144,11 +3144,11 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_41_MOD_2",
-                    "value": "These Baby Scorpions Always remain to the EAST and WEST position relative to YOU."
+                    "value": "These Baby Scorpions Always remain in the EAST and WEST position relative to YOU."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_41_MOD_3",
-                    "value": "These Baby Spiders Always remain to the EAST and WEST position relative to THEIR MOTHER."
+                    "value": "These Baby Spiders Always remain in the EAST and WEST position relative to THEIR MOTHER."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_41_MOD_4",
@@ -3164,7 +3164,7 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_41_MOD_7",
-                    "value": "Compound Scorpion: Resource remain in the same relative position."
+                    "value": "Compound Scorpions: resources remain in the same relative position."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_41_MOD_8",
@@ -3180,11 +3180,11 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_45_MOD_1",
-                    "value": "Pick up the Bone in the ground Straight ahead.\n\n\nIt'll throw a Bone towards the Scorpion, Crippling him!\n\n\nImportant: Proceed WITHOUT Stepping any Mud tile."
+                    "value": "Pick up the Bone in the ground Straight ahead.\n\n\nIt will throw a bone towards the Scorpion, crippling him!\n\n\nImportant: Proceed WITHOUT Stepping any Mud tile."
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_45_MOD_2",
-                    "value": "Important: A Crippled Monster ONLY MOVES if the hero is in the SAME LINE with him!\n\n\nNotice that even Though the Scorpion is Awake, he Does not Move if you don't get Aligned to him.\n\n\n(Keep avoiding mud tiles)"
+                    "value": "Important: A Crippled Monster ONLY MOVES if the hero is in the SAME LINE as him!\n\n\nNotice that even Though the Scorpion is Awake, he Does not Move if you don't get Aligned with him.\n\n\n(Keep avoiding mud tiles)"
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_45_MOD_3",
@@ -3192,7 +3192,7 @@
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_45_MOD_4",
-                    "value": "You can pass through the Alcove to the north Since Monster's sight is blocked!\n\n\n(Notice that the water tile does not block his sight)"
+                    "value": "You can pass through the Alcove to the north Since the Monster's sight is blocked!\n\n\n(Notice that the water tile does not block his sight)"
                 },
                 {
                     "key": "A1_QUEST_4_CUBE_45_MOD_5",
@@ -3200,7 +3200,7 @@
                 },
                 {
                     "key": "A4_QUEST_11_CUBE_7",
-                    "value": "My Diary: \nScorpions also seems to roam in flock!\n\nSince I can only attack one at a time, I´ll probably \nneed to kill them from distance until I have only one remaining.\n\n\nAlso, I figured that I can use my sword to block these creature´s Movement. That´s quite handy..."
+                    "value": "My Diary: \nScorpions also seem to roam in flocks!\n\nSince I can only attack one at a time, I´ll probably \nneed to kill them from distance until I have only one remaining.\n\n\nAlso, I figured that I can use my sword to block these creature´s Movement. That´s quite handy..."
                 },
                 {
                     "key": "A2_QUEST_1_CUBE_1_MOD_1",

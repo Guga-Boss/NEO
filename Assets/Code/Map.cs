@@ -3885,7 +3885,7 @@ public partial class Map : MonoBehaviour
     public void UpdateHeroText()
     {
         if( G.HS ==  null) return;
-        //if( UpdateHeroText ) return;                                                                         // optimize:  make a UpdateHeroText bool
+        //if( UpdateHeroText ) return;                                                                        // optimize:  make a UpdateHeroText bool
         G.Hero.LevelTxt.gameObject.SetActive( false );
         float platbn = G.Hero.GetPlatformSpeedAttackBonus();
         if( Manager.I.GameType != EGameType.CUBES ) return;
@@ -3893,7 +3893,7 @@ public partial class Map : MonoBehaviour
         G.Hero.LevelTxt.text = "";
         int totsteps = 1 + ( int ) G.Hero.Control.PlatformSteps;
         if( G.Hero.Control.PlatformWalkingCounter > 0 )
-            G.Hero.LevelTxt.text = "+" + ( totsteps - G.Hero.Control.PlatformWalkingCounter + 1 );             // platform steps
+            G.Hero.LevelTxt.text = "+" + ( totsteps - G.Hero.Control.PlatformWalkingCounter + 1 );            // platform steps
         if( G.HS.MaxTicTacMoves > 0 )
         if( Sector.AwakenNormalMonsters > 0 )                                    
         {
@@ -3906,6 +3906,10 @@ public partial class Map : MonoBehaviour
         {
             G.Hero.LevelTxt.text += " " + HeroAttackSpeedBonus.ToString( "0." ) + "%";                        // hero attack speed
         }
+
+        Unit snow = Map.I.GetUnit( ETileType.SNOW, G.Hero.Pos );                                                                            
+        if( snow && Item.GetNum( ItemType.Res_SnowStep ) >= 1 )                                               // Updates snow Step text mesh
+            G.Hero.LevelTxt.text = "+" + +( Item.GetNum( ItemType.Res_SnowStep ) );
 
         if( G.Hero.LevelTxt.text != "" )                                                                      // activate object
             G.Hero.LevelTxt.gameObject.SetActive( true );

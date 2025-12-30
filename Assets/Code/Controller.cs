@@ -3915,7 +3915,7 @@ public partial class Controller : MonoBehaviour
         }
 
         if( single )
-            if( spd.Control.SpiderAttackBlockPhase == 1 ) return true;                                       // Green Single (non Mother) Slime - Ready to Attack Spider cannot be stepped on Stepping Mode
+        if( spd.Control.SpiderAttackBlockPhase == 1 ) return true;                                 // Green Single (non Mother) Slime - Ready to Attack Spider cannot be stepped on Stepping Mode
 
         for( int i = 0; i < ul.Count; i++ )
         {

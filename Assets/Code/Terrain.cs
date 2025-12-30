@@ -1071,6 +1071,7 @@ public partial class Controller : MonoBehaviour
             Unit.transform.position = new Vector3( ( int ) Unit.Pos.x,
                                                    ( int ) Unit.Pos.y, Unit.transform.position.z );
             Unit.Graphic.transform.localPosition = new Vector2( 0, 0 );
+            G.Hero.transform.rotation = new Quaternion( 0, 0, 0, 0 );
             TurnTime = 5;
             Map.I.AdvanceTurn = true;
             ForceMove = EActionType.WAIT;
@@ -1195,13 +1196,6 @@ public partial class Controller : MonoBehaviour
         SnowEnterFrameCount++;
         if( Unit.Body.RigidBody.velocity.magnitude > Map.I.RM.RMD.SnowSpeedLimit )
             Unit.Body.RigidBody.velocity = Unit.Body.RigidBody.velocity.normalized * Map.I.RM.RMD.SnowSpeedLimit;        // Snow Speed Limit
-
-        Unit.LevelTxt.gameObject.SetActive( false );                                                                     // Updates Step text mesh
-        if( snow && Item.GetNum( ItemType.Res_SnowStep ) >= 1 )
-        {
-            Unit.LevelTxt.gameObject.SetActive( true );
-            Unit.LevelTxt.text = "+" + +( Item.GetNum( ItemType.Res_SnowStep ) );
-        }
 
         SnowSliding = true;
         Map.I.ConsecutivePlatformSteps = 0;
@@ -1534,7 +1528,7 @@ public partial class Controller : MonoBehaviour
                 G.Hero.Control.UpdateResourceCollecting( G.Hero.Pos, false );
             }
             bool die = false;
-            ETileType tile = ETileType.NONE;
+            ETileType tile = ETileType.NONE;            
             Unit ga = Map.I.GetUnit( Unit.Pos, ELayerType.GAIA );                                                 // Death for water falling
             if( ga && Controller.GetRaft( Unit.Pos ) == null )
             if( ga.TileID == ETileType.PIT || ga.TileID == ETileType.WATER )
@@ -1556,6 +1550,7 @@ public partial class Controller : MonoBehaviour
         if( tosnow == null )
             Unit.Body.RigidBody.velocity = Vector2.zero;
 
+        G.Hero.transform.rotation = new Quaternion( 0, 0, 0, 0 );
         Map.I.HeroSwordCollider.enabled = false;
         G.Hero.CircleCollider.enabled = false;
         SandSliding = false;
