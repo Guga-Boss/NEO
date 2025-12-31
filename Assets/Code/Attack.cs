@@ -407,6 +407,16 @@ public class Attack : MonoBehaviour
                     SpeedTimeCounter = 0;
                     return 0;
                 }
+                else
+                {
+                    if( Unit.TileID == ETileType.SCORPION )                                    // Spider squash prevents Scorpion att
+                    {
+                        Message.StaticMsg( "Grease\nBlock!", G.Hero.Pos, Color.green, 1, 55 );
+                        Vector3 pun = Util.GetTargetUnitVector( Unit.Pos, G.Hero.Pos );
+                        iTween.PunchPosition( Unit.Graphic.gameObject, -pun * 1f, 1f );
+                        return 0;
+                    }
+                }
             }
 
             if( Unit.TileID == ETileType.SPIDER )
@@ -460,6 +470,8 @@ public class Attack : MonoBehaviour
         if( Unit.Control.Floor != Enemy.Control.Floor ) 
             return 0;
 
+        if( DamageType != EDamageType.MELEE ||
+            Unit.UnitType != EUnitType.HERO )   
         if( Unit.Control.Floor == 0 )                                                         // no high att from ground
         if( Enemy.Control.Floor == 2 ) return 0; 
 

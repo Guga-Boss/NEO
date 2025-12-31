@@ -87,6 +87,8 @@ public class BluePrintPanel : MonoBehaviour
                     BackSprites[ x, y ].width = Map.I.Farm.BluePrintItemBackSpriteActive.width;
                     BackSprites[ x, y ].height = Map.I.Farm.BluePrintItemBackSpriteActive.height;
                     Buttons[ x, y ].hover = Color.black;
+                    Blueprint.BPSortData sd = bp.BPSort[ bp.SortID ];
+
                     if( label )
                     {
                         label.text = "x" + bp.ItemAmount[ x, y ];
@@ -102,8 +104,8 @@ public class BluePrintPanel : MonoBehaviour
                         else                                                                                                  // é Custom1 ou Custom2
                         {                           
                             bool isBuilding =
-                            ( isCustom1 && Blueprint.IsBuilding( bp.ItemMatrix[ x, y ], bp.BPCustomIconType1 ) ) ||           // checa se é building apenas no tipo correspondente
-                            ( isCustom2 && Blueprint.IsBuilding( bp.ItemMatrix[ x, y ], bp.BPCustomIconType2 ) );
+                            ( isCustom1 && Blueprint.IsBuilding( bp.ItemMatrix[ x, y ], sd.BPCustomIconType1 ) ) ||           // checa se é building apenas no tipo correspondente
+                            ( isCustom2 && Blueprint.IsBuilding( bp.ItemMatrix[ x, y ], sd.BPCustomIconType2 ) );
 
                             if( !isBuilding || bp.ItemAmount[ x, y ] <= 1 )
                                 label.text = "";                                                                              // Custom não-building: sempre esconde, ou building com quantidade <=1
@@ -116,14 +118,14 @@ public class BluePrintPanel : MonoBehaviour
                     }
 
                     if( bp.ItemMatrix[ x, y ] == ItemType.Tl_Blueprint_Icon_1 )                                                // Custom type 1, like forest or buildings
-                    if( bp.BPCustomIconType1 != EBPIconType.NONE )
-                        Sprites[ x, y ].sprite2D = Map.I.Farm.BluePrintCustomSprite[ ( int ) bp.BPCustomIconType1 ].sprite2D;
+                    if( sd.BPCustomIconType1 != EBPIconType.NONE )
+                        Sprites[ x, y ].sprite2D = Map.I.Farm.BluePrintCustomSprite[ ( int ) sd.BPCustomIconType1 ].sprite2D;
                     else
                         SetSpriteEmpty( x, y, label );                                                                         // Sprite empty
 
                     if( bp.ItemMatrix[ x, y ] == ItemType.Tl_Blueprint_Icon_2 )                                                // Custom type 2, like forest or buildings
-                    if( bp.BPCustomIconType2 != EBPIconType.NONE )
-                        Sprites[ x, y ].sprite2D = Map.I.Farm.BluePrintCustomSprite[ ( int ) bp.BPCustomIconType2 ].sprite2D;
+                    if( sd.BPCustomIconType2 != EBPIconType.NONE )
+                        Sprites[ x, y ].sprite2D = Map.I.Farm.BluePrintCustomSprite[ ( int ) sd.BPCustomIconType2 ].sprite2D;
                     else
                         SetSpriteEmpty( x, y, label );                                                                         // Sprite empty
                 }

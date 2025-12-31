@@ -15,7 +15,7 @@ public partial class Unit : MonoBehaviour
             {
                 ToggleBool( ref val, "Resting" );
                 Control.Resting = val;
-                Control.OriginalResting = val;
+                Control.OriginalResting = val;                
             }
             break;
             case EV.FrontalRebound:
@@ -521,7 +521,11 @@ public partial class Unit : MonoBehaviour
 
                 if( TileID == ETileType.SCORPION ||
                     TileID == ETileType.SPIDER )
-                    Body.BabyVariation = new List<int>( new int[ ] { -1, -1, -1, -1, -1, -1, -1, -1 } );
+                {
+                    Body.BabyVariation = new List<int>( new int[ 24 ] );
+                    for( int i = 0; i < 24; i++ )
+                        Body.BabyVariation[ i ] = -1;
+                }
             }
 
             if( Mod.MD.Ori( EOrientatorEffect.AddBabyToDir ) >= 0 )
@@ -592,10 +596,8 @@ public partial class Unit : MonoBehaviour
                             if( Md.NeighborSpellTypeList != null && md.NeighborSpellTypeList.Count > 0 )
                             {
                                 int lo = Mod.GetLoneOri3( IniPos + Manager.I.U.DirCord[ i ] );                                       // lone mod around unit to choose item type baby type
-                                if( lo == -1 ) Debug.LogError( "Bad Lone Ori3" );
-                                
-                                Body.BabyVariation.AddRange( new List<int>( new int[] { -1, -1, -1, -1, -1, -1, -1, -1 } ) );
-                                Body.BabyVariation.AddRange( new List<int>( new int[] { -1, -1, -1, -1, -1, -1, -1, -1 } ) );
+                                if( lo == -1 ) Debug.LogError( "Bad Lone Ori3" );                               
+
                                 Body.Sp[ i ].Type = Md.NeighborSpellTypeList[ ( lo * 3 ) ];
                                 Body.Sp[ i + 8 ].Type = Md.NeighborSpellTypeList[ ( lo * 3 ) + 1 ];
                                 Body.Sp[ i + 16 ].Type = Md.NeighborSpellTypeList[ ( lo * 3 ) + 2 ];

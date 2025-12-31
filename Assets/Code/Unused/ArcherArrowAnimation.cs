@@ -164,9 +164,11 @@ public class ArcherArrowAnimation : MonoBehaviour {
         if( Sprite )
             Sprite.color = SprCol;
         RandomFactor = new Vector3( Random.Range( -rad, +rad ), Random.Range( -rad, +rad ), 0 );
+
         if( _unit != null )
         {
-            if( _unit.Control.IsFlyingUnit== false ||                                                  // this has been added to allowe multiple shots of spear in a single turn, if 2 lives monster died first shot stayed stopped
+            if( Type == EBoltType.Spear )
+            if( _unit.Control.IsFlyingUnit == false ||                                                  // this has been added to allowe multiple shots of spear in a single turn, if 2 lives monster died first shot stayed stopped
                 _unit.Body.IsDead )
             {
                 TileTarget = _unit.Pos;

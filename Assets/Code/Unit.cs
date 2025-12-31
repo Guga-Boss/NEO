@@ -1100,8 +1100,9 @@ public partial class Unit : MonoBehaviour
                     else
                     {
                         if( mn.BlockMovement )                                   // hero climb  mine
-                        if( Map.IsClimbable( from ) ||                              
-                            Map.IsClimbable( to ) ) { }
+                        if( mn == null &&    // new line
+                          ( Map.IsClimbable( from ) ||                              
+                            Map.IsClimbable( to ) ) ) { }
                         else
                         {
                             return false;                                                                          // Monster block   

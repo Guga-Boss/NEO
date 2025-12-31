@@ -974,7 +974,11 @@ public class RandomMap : MonoBehaviour
                     Map.I.Unit[ x, y ].TileID == ETileType.VINES )
                     {
                         if( Map.I.Unit[ x, y ].ValidMonster )
+                        {
                             Statistics.AddStats( Statistics.EStatsType.MONSTERSDISCOVERED, 1 );
+                            Map.I.Unit[ x, y ].Control.Floor = Controller.GetUnitFloor( 
+                            Map.I.Unit[ x, y ].Pos, Map.I.Unit[ x, y ].Pos, Map.I.Unit[ x, y ] );                   // sets unit current floor
+                        }
 
                         if( Map.I.Unit[ x, y ].TileID == ETileType.ROACH )                                          // Fills Up list for monsters leveling up
                         {

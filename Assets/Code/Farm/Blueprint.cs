@@ -113,10 +113,6 @@ public class Blueprint : MonoBehaviour
     [TabGroup( "Matrix" )]
     public int[,] ItemAmount;
     [TabGroup( "Matrix" )]
-    public EBPIconType BPCustomIconType1 = EBPIconType.NONE;
-    [TabGroup( "Matrix" )]
-    public EBPIconType BPCustomIconType2 =  EBPIconType.NONE;
-    [TabGroup( "Matrix" )]
     public int SortID = -1;
 
         [System.Serializable]
@@ -187,8 +183,6 @@ public class Blueprint : MonoBehaviour
         MinSuccessFluctuation = bp.MinSuccessFluctuation;
         PercentSuccessCalculation = bp.PercentSuccessCalculation;
         RandomSuccessCalculation = bp.RandomSuccessCalculation;
-        BPCustomIconType1 = bp.BPCustomIconType1;
-        BPCustomIconType2 = bp.BPCustomIconType2;
         MaxUses = bp.MaxUses;
         SortChanceAfterUse = bp.SortChanceAfterUse;
         ItemMatrix = new ItemType[ 5, 5 ];
@@ -634,8 +628,8 @@ public class Blueprint : MonoBehaviour
                         ItemMatrix[ ( int ) tgl[ id ].x, ( int ) tgl[ id ].y ] = ItemList[ i ];
                         ItemAmount[ ( int ) tgl[ id ].x, ( int ) tgl[ id ].y ]++;
 
-                        if( IsBuilding( ItemList[ i ], BPCustomIconType1 ) ||  // new                           // Building Item Amount Required   
-                            IsBuilding( ItemList[ i ], BPCustomIconType2 ) )
+                        if( IsBuilding( ItemList[ i ], BPSort[ SortID ].BPCustomIconType1 ) ||  // new                           // Building Item Amount Required   
+                            IsBuilding( ItemList[ i ], BPSort[ SortID ].BPCustomIconType2 ) )
                             {
                                 ItemAmount[ ( int ) tgl[ id ].x, ( int ) tgl[ id ].y ] = 
                                 AffectedBuildingItemsRequired;
@@ -780,6 +774,7 @@ public class Blueprint : MonoBehaviour
        EBPIconType[ , ] _custom = new EBPIconType[ 5, 5 ];                                                                     // init vars
        int[,] _amount = new int[ 5, 5 ];
        Blueprint bp = SelectedBluePrint;
+       BPSortData sd = bp.BPSort[ bp.SortID ];
        List<Vector2> bll = new List<Vector2>();
        Blueprint.UpgradePower = 0;
 
@@ -844,8 +839,10 @@ public class Blueprint : MonoBehaviour
                     
                    else if( _custom[ x, y ] != EBPIconType.NONE )
                    {
-                       if( ( _item[ x, y ] == ItemType.Tl_Blueprint_Icon_1 && _custom[ x, y ] == bp.BPCustomIconType1 ) ||               // custom type 1
-                           ( _item[ x, y ] == ItemType.Tl_Blueprint_Icon_2 && _custom[ x, y ] == bp.BPCustomIconType2 ) )                // custom type 2
+                       if( ( _item[ x, y ] == ItemType.Tl_Blueprint_Icon_1 && 
+                             _custom[ x, y ] == sd.BPCustomIconType1 ) ||                                                          // custom type 1
+                           ( _item[ x, y ] == ItemType.Tl_Blueprint_Icon_2 && 
+                             _custom[ x, y ] == sd.BPCustomIconType2 ) )                                                           // custom type 2
                        {
                            if( _amount[ x, y ] >= bp.ItemAmount[ x, y ] ) match = true;
                        }
@@ -918,32 +915,33 @@ public class Blueprint : MonoBehaviour
 
     private static void AssignCustomTile( ref ItemType item, ref EBPIconType custom, Blueprint bp, Unit unit, ETileType tile )
     {
+        BPSortData sd = bp.BPSort[ bp.SortID ];
         switch( tile )
         {
             case ETileType.FOREST:
             custom = EBPIconType.Forest;
-            if( bp.BPCustomIconType1 == EBPIconType.Forest ) item = ItemType.Tl_Blueprint_Icon_1;
-            else if( bp.BPCustomIconType2 == EBPIconType.Forest ) item = ItemType.Tl_Blueprint_Icon_2;
+            if( sd.BPCustomIconType1 == EBPIconType.Forest ) item = ItemType.Tl_Blueprint_Icon_1;
+            else if( sd.BPCustomIconType2 == EBPIconType.Forest ) item = ItemType.Tl_Blueprint_Icon_2;
             break;
 
             case ETileType.WATER:
             custom = EBPIconType.Water;
-            if( bp.BPCustomIconType1 == EBPIconType.Water ) item = ItemType.Tl_Blueprint_Icon_1;
-            else if( bp.BPCustomIconType2 == EBPIconType.Water ) item = ItemType.Tl_Blueprint_Icon_2;
+            if( sd.BPCustomIconType1 == EBPIconType.Water ) item = ItemType.Tl_Blueprint_Icon_1;
+            else if( sd.BPCustomIconType2 == EBPIconType.Water ) item = ItemType.Tl_Blueprint_Icon_2;
             break;
 
             case ETileType.BUILDING:
             if( unit.Building.Type == BuildingType.Stone_Storage )
             {
                 custom = EBPIconType.Bld_Stone_Storage;
-                if( bp.BPCustomIconType1 == EBPIconType.Bld_Stone_Storage ) item = ItemType.Tl_Blueprint_Icon_1;
-                else if( bp.BPCustomIconType2 == EBPIconType.Bld_Stone_Storage ) item = ItemType.Tl_Blueprint_Icon_2;
+                if( sd.BPCustomIconType1 == EBPIconType.Bld_Stone_Storage ) item = ItemType.Tl_Blueprint_Icon_1;
+                else if( sd.BPCustomIconType2 == EBPIconType.Bld_Stone_Storage ) item = ItemType.Tl_Blueprint_Icon_2;
             }
             if( unit.Building.Type == BuildingType.Wood_Pile )
             {
                 custom = EBPIconType.Bld_Wood_Storage;
-                if( bp.BPCustomIconType1 == EBPIconType.Bld_Wood_Storage ) item = ItemType.Tl_Blueprint_Icon_1;
-                else if( bp.BPCustomIconType2 == EBPIconType.Bld_Wood_Storage ) item = ItemType.Tl_Blueprint_Icon_2;
+                if( sd.BPCustomIconType1 == EBPIconType.Bld_Wood_Storage ) item = ItemType.Tl_Blueprint_Icon_1;
+                else if( sd.BPCustomIconType2 == EBPIconType.Bld_Wood_Storage ) item = ItemType.Tl_Blueprint_Icon_2;
             }
             break;
 
@@ -1226,13 +1224,13 @@ public class Blueprint : MonoBehaviour
         List<ItemType> il = new List<ItemType>();                                                                             // Make a list of all items to charge
         List<float> amtl = new List<float>();
         il.Add( AffectedItem );
-        amtl.Add( AffectedBuildingItemsRequired );        
-
+        amtl.Add( AffectedBuildingItemsRequired );
+        BPSortData sd = BPSort[ SortID ];
         for( int y = 0; y < 5; y++ )
         for( int x = 0; x < 5; x++ )
         if ( ItemMatrix[ x, y ] != ItemType.NONE )
-        if ( IsBuilding( ItemMatrix[ x, y ], BPCustomIconType1 ) == false &&    // new
-             IsBuilding( ItemMatrix[ x, y ], BPCustomIconType2 ) == false )
+        if ( IsBuilding( ItemMatrix[ x, y ], sd.BPCustomIconType1 ) == false &&    // new
+             IsBuilding( ItemMatrix[ x, y ], sd.BPCustomIconType2 ) == false )
         {
             if( il.Contains( ItemMatrix[ x, y ] ) == false )                                                                // add new
             {
