@@ -70,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013776875060}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 100.28254, y: 81.20216, z: 0}
+  m_LocalPosition: {x: 94.99133, y: 173.8328, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000013675541340}
@@ -98,7 +98,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013847001302}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.45}
+  m_LocalPosition: {x: 0, y: 0, z: -0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000013675541340}
@@ -241,6 +241,7 @@ MonoBehaviour:
   LastPos: {x: 0, y: 0}
   JumpTarget: {x: 0, y: 0}
   AnimationOrigin: {x: 0, y: 0}
+  MotherPos: {x: -1, y: -1}
   MoveOrderID: -1
   RamStraightMoveCount: 0
   PlatformWalkingCounter: 0
@@ -580,6 +581,7 @@ MonoBehaviour:
   SpikedBoulder: 0
   TrailCoil: 0
   TrailRotator: 0
+  TowerProjectileTrailFX: 1
   HookIsStuck: 0
   CreatedVine: 0
   GraphicsInitialized: 0

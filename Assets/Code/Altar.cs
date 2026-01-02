@@ -725,10 +725,14 @@ public class Altar : MonoBehaviour
 
         EDirection dr = Util.GetTargetUnitDir( G.Hero.Pos, tg );
         UpdateAntenna( tg, altar, ( int ) dr );                                                                   // Updates Antenna Bump
-
+        
         dr = Util.GetInvDir( dr );
         AltarBonusStruct bumpBn = altar.Altar.AltarBonusList[ ( int ) dr ];
         if( bumpBn.AltarBonusType == EAltarBonusType.NONE ) return;
+
+        if( altar.Altar.RandomAltar )
+        if( bumpBn.AltarBonusType != EAltarBonusType.Prize )                                                      // Return if passive bonus is already activated in Random Butchers
+        if( bumpBn.Activated ) return;
 
         UpdateBonusData( EAltarBonusType.Lock, altar );                                                           // Bonus Lock calculation
 

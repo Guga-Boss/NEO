@@ -452,8 +452,21 @@ public class TechButton : MonoBehaviour
             dd.SetMsg( msg, Color.yellow, .01f );
             dd.DungeonNameLabel.text = Language.Get( "TECH_" + au.UpgradeType.ToString(), "Main" );                       // Show tech help text
 
-            if( au.TechTotalTime > 0 )
+            if( au.TechTotalTime > 1 ) 
                 dd.DungeonNameLabel.text += "\n\n" +Language.Get( "TIMED_TECH_MSG", "Main" );                             // timed  tech text
+
+            if( au.UpNeed > 0 )
+                dd.DungeonNameLabel.text += "\n\n" + Language.Get( "UP_NEED_MSG", "Main" ) + " " +
+                au.UpNeed + " Time" + Util.Plural( au.UpNeed ) + ".";                                                     // Up need tech text
+            if( au.DownNeed > 0 )
+                dd.DungeonNameLabel.text += "\n\n" + Language.Get( "DN_NEED_MSG", "Main" ) + " " +
+                au.DownNeed + " Time" + Util.Plural( au.DownNeed ) + ".";                                                 // Down need tech text
+            if( au.LeftNeed > 0 )
+                dd.DungeonNameLabel.text += "\n\n" + Language.Get( "LT_NEED_MSG", "Main" ) + " " +
+                au.LeftNeed + " Time" + Util.Plural( au.LeftNeed ) + ".";                                                 // Left need tech text
+            if( au.RightNeed > 0 )
+                dd.DungeonNameLabel.text += "\n\n" + Language.Get( "RT_NEED_MSG", "Main" ) + " " + 
+                au.RightNeed + " Time" + Util.Plural( au.RightNeed ) + ".";                                               // Right need tech text
 
             if( au.PurchaseChance > 0 )
                 dd.DungeonNameLabel.text += "\n\n" + Language.Get( "CHANCE_TECH_MSG", "Main" );                           // timed  tech text

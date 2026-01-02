@@ -400,6 +400,22 @@
                     "value": "This is a timed  Tech. Its effect lasts until the timer expires, then it becomes available for purchase again.\nThe timer only counts while you are playing."
                 },
                 {
+                    "key": "UP_NEED_MSG",
+                    "value": "This tech requires the tech above to be purchased"
+                },
+                {
+                    "key": "DN_NEED_MSG",
+                    "value": "This tech requires the tech below to be purchased"
+                },
+                {
+                    "key": "LT_NEED_MSG",
+                    "value": "This tech requires the tech to the left to be purchased"
+                },
+                {
+                    "key": "RT_NEED_MSG",
+                    "value": "This tech requires the tech to the right to be purchased"
+                },
+                {
                     "key": "CHANCE_TECH_MSG",
                     "value": "Notice the percentage indicator: This tech has a chance to succeed or fail when purchased."
                 },

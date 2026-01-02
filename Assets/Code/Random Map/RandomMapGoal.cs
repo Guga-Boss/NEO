@@ -83,8 +83,55 @@ public class RandomMapGoal : MonoBehaviour
     [Space( 10 )]
     [TabGroup( "Bonus" )]
     public Blueprint TargetBluePrint = null;
+
+
+
+
+     [TabGroup( "Bonus" )]
+    //[HorizontalGroup( "Split", 0.5f )]
+    [Button( "Get ID", ButtonSizes.Small ), GUIColor( 1f, 0.52f, 0.1f )]
+    void OnValidate()
+    {
+        if( Application.isPlaying ) return;
+        TargetBluePrintID = "";
+        TargetRecipeID = "";
+        TargetRecipeBuildingID = "";
+        Map.I = GameObject.Find( "----------------Map" ).GetComponent<Map>();
+        if( TargetBluePrint != null )
+        {
+            for( int i = 0; i < Map.I.Farm.BluePrintList.Count; i++ )                           // auto attrib Unique ID to blueprint
+            {
+                Blueprint bp = Map.I.Farm.BluePrintList[ i ];
+
+                if( bp == TargetBluePrint )
+                {
+                    TargetBluePrintID = bp.UniqueID;
+                }
+            }
+        }
+
+        if( TargetRecipe != null )
+        {
+            for( int b = 0; b < Map.I.Farm.BuildingList.Count; b++ )                            // auto attrib Unique ID to recipe
+            {
+                var bld = Map.I.Farm.BuildingList[ b ];
+                if( bld == null ) continue;
+                for( int r = 0; r < bld.RecipeList.Count; r++ )
+                {
+                    var rec = bld.RecipeList[ r ];
+                    if( rec == null ) continue;
+                    if( rec == TargetRecipe )
+                    {
+                        TargetRecipeID = rec.UniqueID;
+                        TargetRecipeBuildingID = bld.UniqueID;
+                    }
+                }
+            }
+        }
+    }
+
     [TabGroup( "Bonus" )]
-    //[HideInInspector]
+    [ReadOnly]
     public string TargetBluePrintID = "";     
     [TabGroup( "Bonus" )]
     public float BluePrintBonusPlants = 1;
@@ -95,9 +142,11 @@ public class RandomMapGoal : MonoBehaviour
     public Recipe TargetRecipe = null;
     //[HideInInspector]
     [TabGroup( "Bonus" )]
+    [ReadOnly]
     public string TargetRecipeBuildingID = "";
     //[HideInInspector]
     [TabGroup( "Bonus" )]
+    [ReadOnly]
     public string TargetRecipeID = "";
     [TabGroup( "Bonus" )]
     public int RecipeBonusAmount = 1;

@@ -180,6 +180,124 @@ public class GS : MonoBehaviour
     public void LoadCube( Unit save = null )
     {
         if( Map.I.FishingMode != EFishingPhase.NO_FISHING ) return;                        // no load while fishing
+        Sector s = Map.I.RM.HeroSector;
+
+        #region SectorBug
+        if( save!= null )
+        {
+            Unit save2 = Map.I.GetUnit( ETileType.SAVEGAME, save.Pos );
+
+            if( save2 == null )
+            {
+                Message.RedMessage( "Sector bug!" );
+                Debug.Log( "================ LOAD CUBE DEBUG START ================" );
+
+                // remember save reference
+                Debug.Log( "[SAVE ARG] save == null ? " + ( save == null ) );
+                Debug.Log( "[SAVE ARG] save name: " + save.name );
+                Debug.Log( "[SAVE ARG] save Pos: " + save.Pos );
+                Debug.Log( "[SAVE ARG] save WorldPos: " + save.transform.position );
+
+             
+
+                // remember last saved cube
+                if( LastSavedCube != null )
+                {
+                    Debug.Log( "[GS] LastSavedCube name: " + LastSavedCube.name );
+                    Debug.Log( "[GS] LastSavedCube Pos: " + LastSavedCube.Pos );
+                    Debug.Log( "[GS] LastSavedCube WorldPos: " + LastSavedCube.transform.position );
+                }
+                else
+                {
+                    Debug.Log( "[GS] LastSavedCube == null" );
+                }
+
+                // remember save step list
+                Debug.Log( "[GS] SaveStepList Count: " + SaveStepList.Count );
+                for( int i = 0; i < SaveStepList.Count; i++ )
+                {
+                    Debug.Log(
+                        "[GS] SaveStepList[" + i + "] Pos: " +
+                        SaveStepList[ i ]
+                    );
+                }
+
+                Debug.Log( "=========== SAVE EXPECTED POSITION CHECK ===========" );
+
+                Debug.Log( "[EXPECTED] save.Pos = " + save.Pos );
+
+                bool foundExact = false;
+                for( int y = ( int ) s.Area.yMin - 1; y < s.Area.yMax + 1; y++ )
+                for( int x = ( int ) s.Area.xMin - 1; x < s.Area.xMax + 1; x++ )
+                    {
+                        Vector2 p = new Vector2( x, y );
+
+                        Unit u = Map.I.GetUnit( ETileType.SAVEGAME, p );
+                        if( u != null )
+                        {
+                            if( p == save.Pos )
+                            {
+                                foundExact = true;
+
+                                Debug.Log(
+                                    "[MATCH FOUND] SAVEGAME matches save.Pos " +
+                                    " name=" + u.name +
+                                    " Pos=" + u.Pos
+                                );
+                            }
+                        }
+                    }
+
+                if( !foundExact )
+                {
+                    Debug.LogError(
+                        "[NO MATCH] No SAVEGAME exists at expected Pos=" + save.Pos
+                    );
+                    Debug.Log( "=========== DISK SECTOR FILE SCAN ===========" );
+
+                    string basePath = Manager.I.GetProfileFolder() + "Cube Save/";
+                    Debug.Log( "[DISK] Cube Save Path: " + basePath );
+
+                    if( Directory.Exists( basePath ) )
+                    {
+                        string[] files = Directory.GetFiles( basePath, "*.NEO" );
+
+                        Debug.Log( "[DISK] Total .NEO files found: " + files.Length );
+
+                        for( int i = 0; i < files.Length; i++ )
+                        {
+                            Debug.Log( "[DISK] File[" + i + "]: " + Path.GetFileName( files[ i ] ) );
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError( "[DISK] Cube Save folder DOES NOT EXIST" );
+                    }
+
+                    string expectedFile =
+                        basePath +
+                        "Sector " +
+                        ( int ) save.Pos.x + " " +
+                        ( int ) save.Pos.y + ".NEO";
+
+                    Debug.Log(
+                        "[DISK] Expected file for this save: " + expectedFile +
+                        " Exists=" + File.Exists( expectedFile )
+                    );
+
+                    Debug.Log( "=========== DISK SECTOR FILE SCAN END ===========" );
+
+                }
+
+                Debug.Log( "=========== SAVE EXPECTED POSITION CHECK END ===========" );
+
+
+                Debug.Log( "================ LOAD CUBE DEBUG END ==================" );
+
+                return;
+            }
+        }
+        #endregion
 
         InitLoading();                                                                     // Init loading
 
@@ -201,8 +319,7 @@ public class GS : MonoBehaviour
 
         Statistics.Load( nm );                                                             // Load Statistics
 
-        string file = Manager.I.GetProfileFolder() + "Cube Save/Cube" + nm + ".NEO";       // Provides filename
-        Sector s = Map.I.RM.HeroSector;   
+        string file = Manager.I.GetProfileFolder() + "Cube Save/Cube" + nm + ".NEO";       // Provides filename 
 
         using( R = new BinaryReader( File.Open( file, FileMode.Open ) ) )
         {

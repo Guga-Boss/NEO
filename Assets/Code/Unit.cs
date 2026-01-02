@@ -5257,8 +5257,12 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
            case ETileType.SPIKES:
            Spr.color = Color.white;           
            int old = Spr.spriteId;      
-           if( Variation == 1 && MeleeAttack.SpeedTimeCounter >= Control.SpikeFreeStepTime )               
+           float zp = -0.3f;
+           if( Variation == 1 && MeleeAttack.SpeedTimeCounter >= Control.SpikeFreeStepTime )  
+           {
                Spr.spriteId = 335;
+               zp = -0.45f;
+           }
            else
                Spr.spriteId = 334;
            if( Variation == 3 ) 
@@ -5276,6 +5280,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                     if( arrow ) arrow.RotateTo( ( EDirection ) Util.GetRandomDir() );
                 }
            }
+           Spr.transform.localPosition = new Vector3( 0, 0, zp );
 
            if( Control.IsDynamicObject() )
            {

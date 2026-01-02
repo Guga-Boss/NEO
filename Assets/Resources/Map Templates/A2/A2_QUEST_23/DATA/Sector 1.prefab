@@ -3280,7 +3280,8 @@ MonoBehaviour:
   InfectedRadius: 1
   BoulderPunchPower: -1
   AddRandomMonsterStat: []
-  ModdedMonstersList: []
+  ModdedMonstersList:
+  - {fileID: 0}
   ModdedGaia2List: []
   KeepTileHidden: {x: -1, y: -1}
   BoolToogle1VarName: 
@@ -9343,7 +9344,21 @@ MonoBehaviour:
   BoulderPunchPower: -1
   AddRandomMonsterStat: []
   ModdedMonstersList: []
-  ModdedGaia2List: []
+  ModdedGaia2List:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   KeepTileHidden: {x: -1, y: -1}
   BoolToogle1VarName: 
   BoolToogle2VarName: 
@@ -11438,7 +11453,7 @@ MonoBehaviour:
   MinSectorNumber: 1
   MaxSectorNumber: 64
   Height: 100
-  UseCount: 0
+  UseCount: 1
   CreateRedArea: 0
   IslandsRedAreaMode: 1
   CreateGreenArea: 0
