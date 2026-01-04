@@ -757,6 +757,7 @@ public class Blueprint : MonoBehaviour
 
         for( int tid = 0; tid < G.Farm.Tl.Count; tid++ )                                                    // Loops through all Tiles on the map and checks for patterns        
         {
+            if( CheckBluePrintPatters == false ) break;
             int x = G.Farm.Tl[ tid ].x;
             int y = G.Farm.Tl[ tid ].y;
             {
@@ -1042,6 +1043,7 @@ public class Blueprint : MonoBehaviour
         //bp.Save();
 
         GetNextBluePrint();                                                                                                       // Get Next BP
+        CheckBluePrintPatters = false;
     }
     public static void ApplyUpgrade( Blueprint bp )
     {

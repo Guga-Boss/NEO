@@ -738,7 +738,7 @@ public class Helper : MonoBehaviour
             Color.green, false, false, time, 0, -1, 70 );
         }
         
-        if( G.HS == null || G.HS.Type != Sector.ESectorType.NORMAL ) return;
+        //if( G.HS == null || G.HS.Type != Sector.ESectorType.NORMAL ) return;
         if( Manager.I.GugaVersion == false ) return;                                                         // Below this line, Just for me, baby!
         Vector2 tg = new Vector2( Map.I.Mtx, Map.I.Mty );
 
@@ -803,6 +803,7 @@ public class Helper : MonoBehaviour
                 return;
             }
 
+            if( G.HS && G.HS.Type == Sector.ESectorType.NORMAL )
             if( Input.GetMouseButton( 2 ) )
             {
                 for( int i = 0; i < G.HS.MoveOrder.Count; i++ )                                                   // Delete: Kill all debug
