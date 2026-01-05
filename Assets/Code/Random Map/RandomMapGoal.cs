@@ -29,6 +29,8 @@ public class RandomMapGoal : MonoBehaviour
     [TabGroup( "Main" )]
     public int ID = -1;
     [TabGroup( "Main" )]
+    public string UniqueID = "";    // for saving
+    [TabGroup( "Main" )]
     public int Adventure = -1;
     [TabGroup( "Main" )]
     public bool Conquered = false;
@@ -84,19 +86,31 @@ public class RandomMapGoal : MonoBehaviour
     [TabGroup( "Bonus" )]
     public Blueprint TargetBluePrint = null;
 
-
-
-
-     [TabGroup( "Bonus" )]
-    //[HorizontalGroup( "Split", 0.5f )]
-    [Button( "Get ID", ButtonSizes.Small ), GUIColor( 1f, 0.52f, 0.1f )]
+#if UNITY_EDITOR
     void OnValidate()
     {
         if( Application.isPlaying ) return;
+
+        if( transform.parent == null )
+            return; // segurança
+
+        if( string.IsNullOrEmpty( UniqueID ) || IsDuplicatedInSameParent() )
+        {
+            UniqueID = Farm.SortUniqueID( 4 );
+            EditorUtility.SetDirty( this );
+        }
+
         TargetBluePrintID = "";
         TargetRecipeID = "";
         TargetRecipeBuildingID = "";
-        Map.I = GameObject.Find( "----------------Map" ).GetComponent<Map>();
+        if( Map.I == null )
+        {
+            GameObject mapGO = GameObject.Find( "----------------Map" );
+            if( mapGO == null ) return;                                                             // <- ignora fase de boot
+            Map map = mapGO.GetComponent<Map>();
+            if( map == null ) return;
+            Map.I = map;
+        }
         if( TargetBluePrint != null )
         {
             for( int i = 0; i < Map.I.Farm.BluePrintList.Count; i++ )                           // auto attrib Unique ID to blueprint
@@ -129,6 +143,22 @@ public class RandomMapGoal : MonoBehaviour
             }
         }
     }
+
+     bool IsDuplicatedInSameParent()
+     {
+         Transform parent = transform.parent;
+         for( int i = 0; i < parent.childCount; i++ )
+         {
+             var sibling = parent.GetChild( i ).GetComponent<RandomMapGoal>();
+             if( sibling == null || sibling == this )
+                 continue;
+
+             if( sibling.UniqueID == UniqueID )
+                 return true;
+         }
+         return false;
+     }
+#endif
 
     [TabGroup( "Bonus" )]
     [ReadOnly]
@@ -550,7 +580,7 @@ public class RandomMapGoal : MonoBehaviour
         else file += "/Goal.NEO";
 
         RandomMapData rm = Map.I.RM.RMList[ Map.I.RM.CurrentAdventure ];
-        string key = rm.QuestHelper.Signature + " " + name.Substring( 0, 4 ) + " ";
+        string key = rm.QuestHelper.Signature + " " + UniqueID + " ";
 
         G.Txt = "";
         G.CL = 0;
@@ -602,7 +632,7 @@ public class RandomMapGoal : MonoBehaviour
         if( ES2.Exists( file ) )
         {
             RandomMapData rm = Map.I.RM.RMList[ Map.I.RM.CurrentAdventure ];
-            string key = rm.QuestHelper.Signature + " " + name.Substring( 0, 4 ) + " ";
+            string key = rm.QuestHelper.Signature + " " + UniqueID + " ";
             string txt = "";
             if( ES2.Exists( file + "?tag=Goal Info " + key ) )
                 txt = ES2.Load<string>( file + "?tag=Goal Info " + key );
@@ -958,7 +988,7 @@ public class RandomMapGoal : MonoBehaviour
 
     public string UpdateGoalDescription()
     {
-        string key = name.Substring( 0, 4 );
+        string key = "" + ID + ")-"; // put Uniqueid  here if you want it
         string tp = "";
         if( TrophyType == ETrophyType.BRONZE ) tp = "(BR)";
         if( TrophyType == ETrophyType.SILVER ) tp = "(SI)";

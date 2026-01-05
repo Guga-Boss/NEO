@@ -1030,7 +1030,7 @@ public partial class Farm : MonoBehaviour
             {
                 rmg[ g ].ID = g;
                 rmg[ g ].GoalUpgradeInfoList = rmg[ g ].gameObject.GetComponentsInChildren<GoalUpgradeInfo>();            // Updates Goal upgrade info list   
-                rmg[ g ].name = rmg[ g ].UpdateGoalDescription();                                                         // Updates goal game obj name                
+                rmg[ g ].name = rmg[ g ].UpdateGoalDescription();                                                         // Updates goal game obj name      
 
                 if( rm.RMList[ rmid ].Available )
                 {
@@ -1152,8 +1152,8 @@ public partial class Farm : MonoBehaviour
             for( int jj = 0; jj < rmg.Length; jj++ )
             if ( j != jj )
                     {
-                        if( rmg[ j  ].name.Substring( 0, 4 ) == 
-                            rmg[ jj ].name.Substring( 0, 4 ) ) count++;
+                        if( rmg[ j  ].UniqueID ==
+                            rmg[ jj ].UniqueID ) count++;
 
                         if( count > 1 )
                         {

@@ -146,11 +146,28 @@ private static void UpdateData()
 
         Manager.I.Reward.TickTime();
 
-        Inventory.UpdateInventoryProduction();                                             // Update Inventory production
-        //PackMule.UpdateInventoryProduction();
-
         CheckException();                                                                  // Check for Exceptions and Quit if so
     }
+    IEnumerator InventoryProductionLoop()                                                  // Updates Inventory production - Corroutine
+    {
+        float accumulatedTime = 0f;                                                        // accumulates real elapsed time
+
+        while( true )
+        {
+            yield return null;                                                             // wait for next frame
+
+            // accumulate real time passed (ignores Time.timeScale)
+            accumulatedTime += Time.unscaledDeltaTime;
+
+            // if 1 second or more has passed, update production
+            if( accumulatedTime >= 1f )
+            {
+                Inventory.UpdateInventoryProduction( accumulatedTime );                    // pass total accumulated time
+                accumulatedTime = 0f;                                                      // reset accumulator
+            }
+        }
+    }
+
 
     //_____________________________________________________________________________________________________________________ Update Play Game
 
@@ -217,6 +234,7 @@ private static void UpdateData()
         Inventory.UpdateInventoryProduction( Manager.I.Idle.OffSeconds );
         PackMule.UpdateInventoryProduction( Manager.I.Idle.OffSeconds );
         Manager.I.Idle.OffSeconds = 0;
+        StartCoroutine( InventoryProductionLoop() );
         IdleInitialized = true;
     }
 

@@ -1162,6 +1162,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqueID: 
+  IsUp: 0
   Notes: 
   QuestHelper: {fileID: 114000011573014238}
   MapCord: {x: -1, y: -1}
@@ -1202,6 +1204,7 @@ MonoBehaviour:
   QuestSecrets: 0
   MaximumUnits: 0
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 100
   CubeClearHPBonus: 0
   ShowPopup: 0
@@ -1232,6 +1235,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -1287,30 +1292,23 @@ MonoBehaviour:
   InitialUpgradeChestChance: 50
   CloverPickUpgradeChestChance: 30
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 4
   QuestXPPerClover: 0.04
-  TotalShellBonus: 20
-  TotalCogBonus: 10
-  TotalQuestXPBonus: 10
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
   QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 0
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -1371,7 +1369,6 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList: []
@@ -1445,7 +1442,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20
@@ -1525,9 +1521,11 @@ MonoBehaviour:
   GoalUpgradeInfoList: []
   Panel: {fileID: 0}
   ID: -1
+  UniqueID: 1b98
   Adventure: -1
   Conquered: 0
   BonusGiven: 0
+  MessageShown: 0
   TrophyType: 1
   TimeisUP: 0
   Available: 0
@@ -1549,14 +1547,13 @@ MonoBehaviour:
   BonusItem2: -1
   BonusItem2Value: 0
   TargetBluePrint: {fileID: 0}
-  TargetBluePrintID: -1
+  TargetBluePrintID: 
   BluePrintBonusPlants: 0
   BluePrintBonusUses: 0
   TargetRecipe: {fileID: 0}
-  TargetRecipeBuildingID: -1
-  TargetRecipeID: -1
+  TargetRecipeBuildingID: 
+  TargetRecipeID: 
   RecipeBonusAmount: 1
-  HoneycombBonusChance: 0
   ShowAdvanced: 0
   BonusItemValueList: []
   ExtraBonusPerDifficulty: 0
@@ -1593,9 +1590,11 @@ MonoBehaviour:
   UpgradeType: 2
   UpgradeItem1Type: 0
   UpgradeItem1Cost: 5
+  UpgradeItem1RecuringCost: 
   TotalCollected: 0
   ItemAffected: -1
   UpgradeEffectAmount: 1
+  UpgradeRecuringEffect: []
   StudyXPBonus: 1
   UpNeed: 0
   DownNeed: 0
@@ -1604,8 +1603,10 @@ MonoBehaviour:
   TechNeed: 0
   StudiesLevelToShow: 0
   OnlyShowIfNeighborsArrowsPermit: 0
-  LeisureType: -1
   TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
   X: 0
   Y: 0
   TechID: 0
@@ -1636,10 +1637,6 @@ MonoBehaviour:
   FlipX: 2
   FlipY: 2
   AutoPickupArtifacts: 0
-  MudMovementMaxSpeed: 15
-  MudRotationMaxSpeed: 15
-  MudDiagonalMovement: 1
-  MudBarricadePush: 0
   Script: 
   ModList: []
   MapTemplates: []
@@ -1922,9 +1919,11 @@ MonoBehaviour:
   UpgradeType: 2
   UpgradeItem1Type: 0
   UpgradeItem1Cost: 5
+  UpgradeItem1RecuringCost: 
   TotalCollected: 0
   ItemAffected: -1
   UpgradeEffectAmount: 1
+  UpgradeRecuringEffect: []
   StudyXPBonus: 1
   UpNeed: 0
   DownNeed: 0
@@ -1933,8 +1932,10 @@ MonoBehaviour:
   TechNeed: 0
   StudiesLevelToShow: 0
   OnlyShowIfNeighborsArrowsPermit: 0
-  LeisureType: -1
   TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
   X: 0
   Y: 0
   TechID: 0
@@ -1953,9 +1954,11 @@ MonoBehaviour:
   UpgradeType: 0
   UpgradeItem1Type: 6
   UpgradeItem1Cost: 12
+  UpgradeItem1RecuringCost: 
   TotalCollected: 0
   ItemAffected: -1
   UpgradeEffectAmount: 1
+  UpgradeRecuringEffect: []
   StudyXPBonus: 1
   UpNeed: 0
   DownNeed: 0
@@ -1964,8 +1967,10 @@ MonoBehaviour:
   TechNeed: 0
   StudiesLevelToShow: 0
   OnlyShowIfNeighborsArrowsPermit: 0
-  LeisureType: -1
   TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
   X: 0
   Y: 0
   TechID: 0
@@ -2018,9 +2023,11 @@ MonoBehaviour:
   UpgradeType: 1
   UpgradeItem1Type: 6
   UpgradeItem1Cost: 2
+  UpgradeItem1RecuringCost: 
   TotalCollected: 0
   ItemAffected: -1
   UpgradeEffectAmount: 1
+  UpgradeRecuringEffect: []
   StudyXPBonus: 1
   UpNeed: 0
   DownNeed: 0
@@ -2029,8 +2036,10 @@ MonoBehaviour:
   TechNeed: 0
   StudiesLevelToShow: 0
   OnlyShowIfNeighborsArrowsPermit: 0
-  LeisureType: -1
   TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
   X: 0
   Y: 0
   TechID: 0
@@ -2070,9 +2079,11 @@ MonoBehaviour:
   UpgradeType: 2
   UpgradeItem1Type: 0
   UpgradeItem1Cost: 15
+  UpgradeItem1RecuringCost: 
   TotalCollected: 0
   ItemAffected: -1
   UpgradeEffectAmount: 1
+  UpgradeRecuringEffect: []
   StudyXPBonus: 1
   UpNeed: 0
   DownNeed: 0
@@ -2081,8 +2092,10 @@ MonoBehaviour:
   TechNeed: 0
   StudiesLevelToShow: 0
   OnlyShowIfNeighborsArrowsPermit: 0
-  LeisureType: -1
   TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
   X: 0
   Y: 0
   TechID: 0
