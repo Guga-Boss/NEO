@@ -120,7 +120,7 @@ public class Item : MonoBehaviour
     [TabGroup( "Main" )]
     public float DefaultNumber;
     [TabGroup( "Warez" )]
-    public float PreWarehouseMaxStack = 0;    // Free space available before building the warehouse. 
+    public float PreWarehouseMaxStack = 0;                // Free space available before building the warehouse. 
     [TabGroup( "Carry" )]
     public float BaseCarryCapacity = 1;
     [TabGroup( "Carry" )]
@@ -154,11 +154,11 @@ public class Item : MonoBehaviour
     [TabGroup( "Production" )]
     public int ExtraProductionLimit = 0;                    // purchased hard limit
     [TabGroup( "Production" )]
-    public int BaseProductionCap = 0;                       // base prod cap: goods produced every login
+    public int BaseProductionCap = 0;                       // base prod cap: goods produced limit
     [TabGroup( "Production" )]
     public int ExtraProductionCap = 0;                      // purchased cap
     [TabGroup( "Production" )]
-    public int SessionProductionCount = 0;                 // items produced since game started
+    public float IdleProductionCount = 0;                   // items produced by auto production, this is consumed before Count to ensure players a free production slot
     [TabGroup( "Production" )]
     public float BaseProductionBoostChance = 0;             // base chance for production x2
     [TabGroup( "Production" )]
@@ -418,6 +418,7 @@ public class Item : MonoBehaviour
             if( amount < 0 )
             {
                 if( it.Type == ItemType.Goals_Completed ) return true;                               // Do not charge these resources (always additive)
+                if( it.Type == ItemType.Starting_Cube ) return true;
             }
 
             if( it.SavePerAdventureCount )
@@ -450,7 +451,14 @@ public class Item : MonoBehaviour
                             else amount = 0; 
                         }
                     }
-                    it.Count += amount;                                                           // Item addition
+
+                    if( amount < 0 )                                                                    // Removes item from idle production Buffer first
+                    {
+                        it.IdleProductionCount += amount;
+                        if( it.IdleProductionCount < 0 ) 
+                            it.IdleProductionCount = 0;
+                    }
+                    it.Count += amount;                                                                 // Item addition
                 }
             }
 
@@ -495,6 +503,7 @@ public class Item : MonoBehaviour
             return res;
         }
 
+        #region Packmule
         if( itype == Inventory.IType.Packmule )
         {
             if( Map.I.RM.CurrentAdventure < 0 ) return false;
@@ -558,6 +567,7 @@ public class Item : MonoBehaviour
             }
 
             it.Count += amount;
+
             it.Type = type;
             if( it.Count <= 0 ) it.Type = ItemType.NONE;      
             it.LifeTimeCount = 0;
@@ -566,6 +576,7 @@ public class Item : MonoBehaviour
             it.Count = Mathf.Clamp( it.Count, 0, max );
             ResourceAdded = true;
         }
+        #endregion Packmulde
         return true;
     }
     private static bool IsAdditive( Item it )
@@ -802,6 +813,8 @@ public class Item : MonoBehaviour
 
         TF.SaveT( "ExtraProductionCap_" + UniqueID, ExtraProductionCap );                                     // Save Extra Production Cap
 
+        TF.SaveT( "IdleProductionCount_" + UniqueID, IdleProductionCount );                                   // Save Idle Production Count
+
         TF.SaveT( "ExtraProductionBoostChance_" + UniqueID, ExtraProductionBoostChance );                     // Save Extra Production Boost Chance
 
         TF.SaveT( "TotalGained_" + UniqueID, TotalGained );                                                   // Save Total Gained
@@ -879,6 +892,8 @@ public class Item : MonoBehaviour
         ExtraProductionLimit = TF.LoadT<int>( "ExtraProductionLimit_" + UniqueID );                          // Load Extra Production Limit 
 
         ExtraProductionCap = TF.LoadT<int>( "ExtraProductionCap_" + UniqueID );                              // Load Extra Production Cap 
+
+        IdleProductionCount = TF.LoadT<float>( "IdleProductionCount_" + UniqueID );                          // Load Idle Production Count
 
         ExtraProductionBoostChance = TF.LoadT<float>( "ExtraProductionBoostChance_" + UniqueID );            // Load Extra Production Boost Chance 
 
@@ -987,6 +1002,13 @@ public class Item : MonoBehaviour
         if( capval > 0 )                                                                   // Max Production cap                                    
             cap = ( int ) capval;
 
+        if( cap > 0 )
+        if( IdleProductionCount >= cap )
+        {
+            ProductionCount = 0;
+            return;                                                                        // Idle Production cap reached
+        }
+        
         while( ProductionCount >= tottime )
         {
             if( Item.IsPlagueMonster( ( int ) Type, false ) )
@@ -998,14 +1020,12 @@ public class Item : MonoBehaviour
                 Map.I.Farm.UpdateFeatherCreation();
                 return;
             }
-            if( capval > 0 )
+
+            if( cap > 0 )
+            if( IdleProductionCount >= cap )
             {
-                if( cap <= 0 )
-                {
-                    ProductionCount = 0;
-                    return;                                                                // Production Cap: Interrupt
-                }                                                                         
-                cap--;
+                ProductionCount = 0;
+                return;                                                                    // cannot increase Idle Production Count anymore
             }
 
             IgnoreMessage = true;
@@ -1017,14 +1037,21 @@ public class Item : MonoBehaviour
             if( Util.Chance( boost ) )                                                    
                 amount *= 2;                                                               // apply boost
 
-            AddItem( Type, amount, Inventory.IType.Inventory, true );                      // Adds the item
+            float spaceLeft = max - Count - IdleProductionCount;                           // remaining space before reaching max
 
-            if( capval > 0 ) 
-            if( ++SessionProductionCount >= capval )                                       // Game session production count check
+            if( spaceLeft <= 0 )                                                           // check if already at the limit
             {
                 ProductionCount = 0;
-                return;
+                return;                                                                    // cannot increase IdleProductionCount anymore
             }
+           
+            if( amount > spaceLeft )                                                       // If the requested amount exceeds the remaining space, adjust it
+                amount = ( int ) spaceLeft;                                                // cap amount to fit within the limit
+            
+            IdleProductionCount += amount;                                                 // add to idle production 
+
+            Count += amount;                                                               // Adds to Count: Warnig, both work in tandem
+
             if( Count >= max )                                                             // limits max
             {
                 Count = max;
@@ -1188,6 +1215,7 @@ public class Item : MonoBehaviour
             if( p == ( int ) ItemType.HoneyComb ) return true;
             if( p == ( int ) ItemType.Feather ) return true;
             if( p == ( int ) ItemType.Chicken ) return true;
+            if( p == ( int ) ItemType.Egg ) return true;
         }
         return false;
     }

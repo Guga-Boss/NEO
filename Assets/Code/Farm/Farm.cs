@@ -293,8 +293,11 @@ public partial class Farm : MonoBehaviour
                     if( prd > 0 )
                     {
                         txt += "\nProduction Time: " + tm;
-                        if( bi.ProductionLimit != -1 )
+                        if( bi.ProductionLimit > 0 )
                             txt += "\nProduction Limit: " + bi.ProductionLimit;
+
+                        if( bi.ProductionCap > 0 )
+                            txt += "\nProduction Cap: " + bi.IdleProductionCount + "/" + bi.ProductionCap;
                     }
                     if( bi.AdditivePlantingFactor > 0 )                                                              // additive planting
                     txt += "\nPlant Multiple seeds to Increase Harvest";
@@ -694,7 +697,7 @@ public partial class Farm : MonoBehaviour
 
         BuildingType btype = it.ToolCreationBuilding;
 
-        if( tool == ItemType.NONE || btype == BuildingType.NONE ) return false;                                           // No deal, return
+        if( tool == ItemType.NONE || btype == BuildingType.NONE ) return false;                                    // No deal, return
 
         if( ga2 && ga2.TileID == ETileType.BUILDING )
         {
@@ -706,7 +709,7 @@ public partial class Farm : MonoBehaviour
                 int itmid = Building.GetBuildingItemID( ( ItemType ) tool, ga2.Building );
                 if( itmid == -1 ) { Debug.LogError( "Bad itmid" ); return false; } 
 
-                ga2.Building.Itm[ itmid ].ToolHitCount++;
+                ga2.Building.Itm[ itmid ].ToolHitCount++;                                                     // increment hit count
                 ga2.Building.Itm[ itmid ].ProductionTimeCount +=                       
                 G.GIT( itmid ).ToolUsageWorkTime;
 
@@ -722,6 +725,16 @@ public partial class Farm : MonoBehaviour
 
             if( res )
             {
+                List<BuildingItem> il = Building.GetBuildingItemList( tool );
+                for( int i = 0; i < il.Count; i++ )
+                {
+                    if( il[ i ].ProductionCap > 0 )                                                            // Max Production Cap : Free the Production slot  
+                    {
+                        if( --il[ i ].IdleProductionCount < 0 )
+                            il[ i ].IdleProductionCount = 0;
+                    }
+                }    
+
                 Building.Bld.Building.ToolType = tool;
                 Building.Bld.Building.CustomProductionTime = customProductionTime;
                 if( it.IsSeed )

@@ -12,6 +12,7 @@ public class BuildingItem : MonoBehaviour
     public float BaseTotalProductionTime = 3600;
     public float TotalProductionTime = 0;
     public float ProductionTimeCount = 0;
+    public float IdleProductionCount = 0;
     public float TotalWitherTime = 0;
     public int ToolHitCount = 0;
     public float AdditivePlantingFactor = -1;
@@ -36,6 +37,7 @@ public class BuildingItem : MonoBehaviour
         AdditivePlantingFactor = it.AdditivePlantingFactor;
         ProductionLimit = it.ProductionLimit;
         ProductionCap = it.ProductionCap;
+        IdleProductionCount = it.IdleProductionCount;
     }
 
     // theres a bug that will hapen in the future. if i use an iron ore that is being used by the forge:
@@ -63,7 +65,13 @@ public class BuildingItem : MonoBehaviour
 
         int cap = -1;
         if( ProductionCap > 0 )                                                              // Max Production Cap                                    
-            cap = ProductionCap;   
+            cap = ProductionCap;
+
+        if( IdleProductionCount >= cap )
+        {
+            ProductionTimeCount = 0;
+            return;                                                                          // Idle Production cap reached
+        }
 
         string msg = "";
         float amt = 0;
@@ -71,18 +79,17 @@ public class BuildingItem : MonoBehaviour
         float original = ItemCount;
         while( ProductionTimeCount >= prod )
         {
-            if( ProductionCap > 0 )
+            if( IdleProductionCount >= cap )
             {
-                if( cap <= 0 )
-                {
-                    ProductionTimeCount = 0;
-                    return;                                                                  // Production Cap: Interrupt
-                }
-                cap--;
+                ProductionTimeCount = 0;
+                return;                                                                      // cannot increase Idle Production Count anymore
             }
 
-            ItemCount++;                                                                     // Increment count
-            amt++;
+            IdleProductionCount += 1;                                                        // add to idle production 
+
+            ItemCount += 1;                                                                  // Adds to Count: Warnig, both work in tandem
+
+            amt++;                                                                           // amt produced in the function call
 
             if( mstack > 0 && ItemCount >= mstack )                                          // Max cap reached
             {

@@ -132,7 +132,7 @@ public partial class Farm : MonoBehaviour
                 if( dist < minHeroDist )                                                         // check min hero distance
                     ok = false;
 
-            if( ok && CanCreatePlagueMonster( new Vector2( -1, -1 ), tg, true, true ) )          // Creates a list of possible new targets
+            if( ok && CanCreatePlagueMonster( new Vector2( -1, -1 ), tg, true, true, false ) )   // Creates a list of possible new targets
                 poslist.Add( tg );
         }
         return poslist;
@@ -172,7 +172,7 @@ public partial class Farm : MonoBehaviour
         }
         return res;
     }
-    public bool CanCreatePlagueMonster( Vector2 from, Vector2 to, bool heropos = true, bool init = false )
+    public bool CanCreatePlagueMonster( Vector2 from, Vector2 to, bool heropos = true, bool init = false, bool overItem = true )
     {
         if( Map.PtOnMap( Map.I.Tilemap, to ) == false ) return false;
         if( to == Map.I.LevelEntrancePosition ) return false;
@@ -190,8 +190,8 @@ public partial class Farm : MonoBehaviour
         if( to == G.Hero.Pos ) return false;
         Unit ga = Map.I.GetUnit( to, ELayerType.GAIA );
         if( ga && ga.TileID == ETileType.WATER && Controller.GetRaft( to ) ) { } else
-        if( ga && ga.BlockMovement ) return false; 
-        if( Map.I.GetUnit( to, ELayerType.MONSTER ) ) return false;
+        if( ga && ga.BlockMovement ) return false;
+
         if( from.x != -1 )
         if( Map.I.CheckArrowBlockFromTo( from, to, G.Hero) == true ) return false;
         if( Map.I.GetUnit( ETileType.FIRE, to ) == false )
@@ -200,6 +200,20 @@ public partial class Farm : MonoBehaviour
         if( Map.I.GetUnit( ETileType.SCROLL, to ) != null ) return false;
         if( Map.CheckLeverCrossingBlock( from, to ) ) return false;
         if( Map.DoesLeverBlockMe( to, null ) ) return false;       
+        Unit mn = Map.I.GetUnit( to, ELayerType.MONSTER );
+        {
+            if( mn )
+            {
+                if( overItem == false ) return false;
+                if( mn.Variation == ( int ) ItemType.Feather ||                                            // Allows creation ove feather and hcomb
+                    mn.Variation == ( int ) ItemType.HoneyComb )
+                {
+                    Map.I.CreateExplosionFX( mn.Pos, "Fire Explosion", "" );                               // FX
+                    mn.Kill();
+                }
+                else return false;
+            }
+        }
         return true;
     }
     public void InitMonstersAfterLoading()
@@ -266,9 +280,9 @@ public partial class Farm : MonoBehaviour
         Vector2 tg = to + Util.GetTargetUnitVector( from, to );
         if( Manager.I.GameType == EGameType.CUBES ) 
         if( Sector.GetPosSectorType( tg ) == Sector.ESectorType.GATES ) return false;
-        if( CanCreatePlagueMonster( to, tg ) == false ) return false;
         int neigh = GetNeighborCount( un );
         if( neigh <= 0 ) return false;
+        if( CanCreatePlagueMonster( to, tg ) == false ) return false;
         Item it = G.GIT( un.Variation );
         Unit mn = CreateMonster( tg, it );                                                                           // Move the monster
         mn.Body.Sprite2.color = un.Body.Sprite2.color;

@@ -236,14 +236,9 @@ public class Building : MonoBehaviour
                 
                 for( int i = 0; i < res.Building.Itm.Count; i++ )                                                   
                 {
-
                     BuildingItem bi = res.Building.Itm[ i ];
                     int itid = ( int ) bi.ItemType;                                                                 // Place items in the building if its the first time built
-
-
                     G.GIT( itid ).WarehouseBuiltCount++;
-
-
 
                     if( G.GIT( itid ).BuildingMaxStackList == null ||
                         G.GIT( itid ).BuildingMaxStackList.Count == 0 )
@@ -430,6 +425,7 @@ public class Building : MonoBehaviour
                 List<float> showAccessories = TF.LoadT<List<float>>( "ShowAccessoriesList" + b );         // Load shown accessories list  
                 List<float> additivePlanting = TF.LoadT<List<float>>( "AdditivePlantingList" + b );       // Load additive planting factors list
                 List<float> productionTime = TF.LoadT<List<float>>( "ProductionTimeList" + b );           // Load production time counts list
+                List<float> idleproductioncount = TF.LoadT<List<float>>( "IdleProductionList" + b );      // Load Idle production counts list
                 List<int> toolHits = TF.LoadT<List<int>>( "ToolHitList" + b );                            // Load tool hit counts list
                 List<bool> workDone = TF.LoadT<List<bool>>( "WorkDoneList" + b );                         // Load work done status list
 
@@ -439,6 +435,7 @@ public class Building : MonoBehaviour
                     bl.Itm[ it ].ShownAcessories = showAccessories[ it ];                                 // Apply loaded shown accessories to building item
                     bl.Itm[ it ].AdditivePlantingFactor = additivePlanting[ it ];                         // Apply loaded additive planting factor to building item
                     bl.Itm[ it ].ProductionTimeCount = productionTime[ it ];                              // Apply loaded production time count to building item
+                    bl.Itm[ it ].IdleProductionCount = idleproductioncount[ it ];                         // Apply loaded Idle production time count to building item
                     bl.Itm[ it ].ToolHitCount = toolHits[ it ];                                           // Apply loaded tool hit count to building item
                     bl.Itm[ it ].WorkIsDone = workDone[ it ];                                             // Apply loaded work done status to building item
                 }
@@ -514,6 +511,7 @@ public class Building : MonoBehaviour
                 List<float> showAccessories = new List<float>();
                 List<float> additivePlanting = new List<float>();
                 List<float> productionTime = new List<float>();
+                List<float> idleproductioncount = new List<float>();
                 List<int> toolHits = new List<int>();
                 List<bool> workDone = new List<bool>();
 
@@ -524,6 +522,7 @@ public class Building : MonoBehaviour
                     showAccessories.Add( item.ShownAcessories );
                     additivePlanting.Add( item.AdditivePlantingFactor );
                     productionTime.Add( item.ProductionTimeCount );
+                    idleproductioncount.Add( item.IdleProductionCount );
                     toolHits.Add( item.ToolHitCount );
                     workDone.Add( item.WorkIsDone );
                 }
@@ -532,6 +531,7 @@ public class Building : MonoBehaviour
                 TF.SaveT( "ShowAccessoriesList" + b, showAccessories );                     // Save Shown accessories list
                 TF.SaveT( "AdditivePlantingList" + b, additivePlanting );                   // Save Additive planting factors list
                 TF.SaveT( "ProductionTimeList" + b, productionTime );                       // Save Production time counts list
+                TF.SaveT( "IdleProductionList" + b, idleproductioncount );                  // Save idle Production list
                 TF.SaveT( "ToolHitList" + b, toolHits );                                    // Save Tool hit counts list
                 TF.SaveT( "WorkDoneList" + b, workDone );                                   // Save Work done status list
                 TF.SaveT( "RecipeListCount" + b, bl[ b ].RecipeList.Count );                // Save Recipe array size
