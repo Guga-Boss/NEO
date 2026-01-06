@@ -64,14 +64,15 @@ public class BuildingItem : MonoBehaviour
         if( ItemCount < 0 ) ItemCount = 0;
 
         int cap = -1;
-        if( ProductionCap > 0 )                                                              // Max Production Cap                                    
-            cap = ProductionCap;
-
-        if( IdleProductionCount >= cap )
+        if( ProductionCap > 0 )                                                              // Max Production Cap 
         {
-            ProductionTimeCount = 0;
-            return;                                                                          // Idle Production cap reached
-        }
+            cap = ProductionCap;
+            if( IdleProductionCount >= cap )
+            {
+                ProductionTimeCount = 0;
+                return;                                                                      // Idle Production cap reached
+            }
+        }                       
 
         string msg = "";
         float amt = 0;
@@ -79,6 +80,7 @@ public class BuildingItem : MonoBehaviour
         float original = ItemCount;
         while( ProductionTimeCount >= prod )
         {
+            if( ProductionCap > 0 )    
             if( IdleProductionCount >= cap )
             {
                 ProductionTimeCount = 0;

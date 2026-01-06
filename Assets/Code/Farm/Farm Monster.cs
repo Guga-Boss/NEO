@@ -791,10 +791,11 @@ public partial class Farm : MonoBehaviour
             if( un.Pos != G.Hero.GetFront() )
             {
                 un.Body.StackAmount--;
-                un.UpdateText();
+                Map.I.CreateExplosionFX( un.Pos, "Smoke Cloud", "" );                       // FX
                 if( un.Body.StackAmount <= 0 )                                              // counter decrease
                     Map.Kill( un, true );
             }
+            un.UpdateText();
         }
     }
 

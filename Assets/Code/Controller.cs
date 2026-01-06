@@ -239,8 +239,6 @@ public partial class Controller : MonoBehaviour
     [TabGroup( "Move" )]
     public float WakeupTimeCounter = -1, WakeupTotalTime = -1;
     [TabGroup( "Move" )]
-    public bool EggsDestroyed = false;
-    [TabGroup( "Move" )]
     public int SpiderAttackBlockPhase = 0;
     [TabGroup( "bool" )]
     public bool FishActionWaiting = false;
@@ -456,12 +454,10 @@ public partial class Controller : MonoBehaviour
         GS.W.Write( TotalSideFlightSpeed );
         GS.W.Write( SideFlightTime );
         GS.W.Write( ActionTimeCounter );
-
         GS.W.Write( FlightStepPhaseTimer );
         GS.W.Write( FlightActionTime );
         GS.W.Write( SideFlightZigZagPhase );
         GS.W.Write( PhaseWonFreePhases );
-        GS.W.Write( EggsDestroyed );
 
         if( Unit.UnitType == EUnitType.HERO )
         {
@@ -756,7 +752,6 @@ public partial class Controller : MonoBehaviour
         FlightActionTime = GS.R.ReadSingle();
         SideFlightZigZagPhase = GS.R.ReadSingle();
         PhaseWonFreePhases = GS.R.ReadSingle();
-        EggsDestroyed = GS.R.ReadBoolean();
 
         if( Unit.UnitType == EUnitType.HERO )
         {
@@ -1164,8 +1159,6 @@ public partial class Controller : MonoBehaviour
             if( ForcedFrontalMovementFactor > 0 && arrow )                                                                         // el torero over arrow
                 ForcedFrontalMovementDir = arrow.Dir;
         }
-
-        EggsDestroyed = false;
 
         if( IsDynamicObject() )
             Map.I.CreateExplosionFX( Unit.Pos, "Smoke Cloud", "" );                                                                  // Smoke Cloud FX
@@ -3877,89 +3870,116 @@ public partial class Controller : MonoBehaviour
 
     public bool CheckSpiderBlock( Vector2 from, Vector2 to )
     {
-        if( Unit.UnitType != EUnitType.HERO ) return false;  // new, check for bugs
+        if( Unit.UnitType != EUnitType.HERO ) return false;                                  // new, check for bugs
         Unit spd = Map.I.GetUnit( ETileType.SPIDER, to );
         if( spd == null ) return false;
+
         EDirection md = Util.GetTargetUnitDir( from, to );
         List<Vector2> ul = new List<Vector2>();
         List<Vector2> ulor = new List<Vector2>();
         List<ESpiderBabyType> btype = new List<ESpiderBabyType>();
         List<int> st = new List<int>();
         blockiID = new List<int>();
+
         bool res = false;
         bool single = true;
 
+        bool[] cocoonBrokenByDir = new bool[ 8 ];                                           // remember one cocoon per direction only
+
         for( int i = 0; i < 8; i++ )
         {
-            if( spd.Body.Sp[ i + 16 ].Type != ESpiderBabyType.NONE )                                 // third Spider layer
+            if( spd.Body.Sp[ i + 16 ].Type != ESpiderBabyType.NONE )                         // third Spider layer
             {
                 ul.Add( spd.Pos + spd.GetRelativePosition( ( EDirection ) i, 3 ) );
                 ulor.Add( spd.Pos + spd.GetRelativePosition( ( EDirection ) i, 1 ) );
-                st.Add( i + 16 ); single = false;
+                st.Add( i + 16 );
+                single = false;
                 btype.Add( spd.Body.Sp[ i + 16 ].Type );
             }
-            if( spd.Body.Sp[ i + 8 ].Type != ESpiderBabyType.NONE )                                 // second Spider layer
+
+            if( spd.Body.Sp[ i + 8 ].Type != ESpiderBabyType.NONE )                          // second Spider layer
             {
                 ul.Add( spd.Pos + spd.GetRelativePosition( ( EDirection ) i, 2 ) );
                 ulor.Add( spd.Pos + spd.GetRelativePosition( ( EDirection ) i, 1 ) );
-                st.Add( i + 8 ); single = false;
+                st.Add( i + 8 );
+                single = false;
                 btype.Add( spd.Body.Sp[ i + 8 ].Type );
             }
-            if( spd.Body.Sp[ i ].Type != ESpiderBabyType.NONE )                                     // first Spider layer
+
+            if( spd.Body.Sp[ i ].Type != ESpiderBabyType.NONE )                              // first Spider layer
             {
                 ul.Add( spd.Pos + spd.GetRelativePosition( ( EDirection ) i, 1 ) );
                 ulor.Add( spd.Pos + spd.GetRelativePosition( ( EDirection ) i, 1 ) );
-                st.Add( i ); single = false;
+                st.Add( i );
+                single = false;
                 btype.Add( spd.Body.Sp[ i ].Type );
             }
         }
 
         if( single )
-        if( spd.Control.SpiderAttackBlockPhase == 1 ) return true;                                 // Green Single (non Mother) Slime - Ready to Attack Spider cannot be stepped on Stepping Mode
+            if( spd.Control.SpiderAttackBlockPhase == 1 ) return true;                           // Green Single (non Mother) Slime - Ready to Attack Spider cannot be stepped on Stepping Mode
 
         for( int i = 0; i < ul.Count; i++ )
         {
             CheckHeroSwordBlock = false;
+
             Unit water = Map.I.GetUnit( ETileType.WATER, ul[ i ] );
             if( water == null ) water = Map.I.GetUnit( ETileType.PIT, ul[ i ] );
 
-            if( ul[ i ] != G.Hero.Pos || Spell.IsSpawnAble( spd.Body.Sp[ i ].Type ) == false )
-                if( btype[ i ] != ESpiderBabyType.EMPTY_TILE )
-                    if( spd.CanMoveFromTo( false, spd.Pos, ul[ i ], spd ) == false )
-                        if( water == null )
-                        {
-                            blockiID.Add( st[ i ] );
-                        }
-            if( water != null ) res = true;
-            CheckHeroSwordBlock = true;
-            Unit mn = Map.I.GetUnit( ul[ i ], ELayerType.MONSTER );
+            if( ul[ i ] != G.Hero.Pos || Spell.IsSpawnAble( btype[ i ] ) == false )
+            if( btype[ i ] != ESpiderBabyType.EMPTY_TILE )
+            if( spd.CanMoveFromTo( false, spd.Pos, ul[ i ], spd ) == false )
+            if( water == null )
+            {
+                blockiID.Add( st[ i ] );
+            }
 
+            if( water != null ) res = true;
+
+            CheckHeroSwordBlock = true;
+
+            Unit mn = Map.I.GetUnit( ul[ i ], ELayerType.MONSTER );
             if( mn )
             {
                 if( mn.TileID == ETileType.BARRICADE ) blockiID.Add( st[ i ] );
             }
 
-            if( btype[ i ] == ESpiderBabyType.COCOON || btype[ i ] == ESpiderBabyType.BOTH )                           // new: now instead of spawning, cocoon block movement until destroyed (check scarab for same rule)
+            if( btype[ i ] == ESpiderBabyType.COCOON || btype[ i ] == ESpiderBabyType.BOTH ) // new: now instead of spawning, cocoon block movement until destroyed (check scarab for same rule)
             {
-                List<ETileType> ex = new List<ETileType>();
-                ex.Add( ETileType.WATER ); ex.Add( ETileType.PIT );
-                bool ok = Util.CheckBlock( spd.Pos, ulor[ i ], G.Hero, true, false, true, false, false, true, ex );
-                if( ok )
+                int dir = st[ i ] % 8;                                                       // remember extract direction from spider index
+
+                if( cocoonBrokenByDir[ dir ] == false )                                      // remember allow only one cocoon per direction
                 {
-                    if( spd.Control.EggsDestroyed ) return true;
-                    spd.Control.EggsDestroyed = true;
-                    PlayBumpSound = false;
-                    spd.Body.Sp[ st[ i ] ].Reset();
-                    spd.Control.SpeedTimeCounter = 0;                                                                  // destroying cocoon resets movement counter
-                    spd.MeleeAttack.SpeedTimeCounter = 0;
-                    MasterAudio.PlaySound3DAtVector3( "Spider Merge", spd.Pos );
+                    List<ETileType> ex = new List<ETileType>();
+                    ex.Add( ETileType.WATER );
+                    ex.Add( ETileType.PIT );
+
+                    bool ok = Util.CheckBlock(                                              // Checks for Blocked tile
+                        spd.Pos,
+                        ulor[ i ],
+                        G.Hero,
+                        true, false, true, false, false, true,
+                        ex
+                    );
+
+                    if( ok )
+                    {
+                        cocoonBrokenByDir[ dir ] = true;                                    // remember mark this direction as processed
+                        PlayBumpSound = false;
+                        spd.Body.Sp[ st[ i ] ].Reset();
+                        spd.Control.SpeedTimeCounter = 0;                                   // destroying cocoon resets movement counter
+                        spd.MeleeAttack.SpeedTimeCounter = 0;
+                        MasterAudio.PlaySound3DAtVector3( "Spider Merge", spd.Pos );
+                        res = true;
+                    }
                 }
-                res = true;
             }
         }
-        if( blockiID != null && blockiID.Count >= 1 ) return true;                                                      // Block hero
+
+        if( blockiID != null && blockiID.Count >= 1 ) return true;                          // Block hero
         return res;
     }
+
 
     public static void UpdateSpiderMerge( bool step )
     {

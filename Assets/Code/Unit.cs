@@ -607,7 +607,6 @@ public partial class Unit : MonoBehaviour
             Control.ConsecutiveStillMove          = un.Control.ConsecutiveStillMove;
             Control.ProjectileType                = un.Control.ProjectileType;
             Control.SpeedListID                   = un.Control.SpeedListID;
-            Control.EggsDestroyed                 = un.Control.EggsDestroyed;
             Control.SpiderAttackBlockPhase        = un.Control.SpiderAttackBlockPhase;
             Control.HeroPushedMonsterBarricadeDestroyCount = un.Control.HeroPushedMonsterBarricadeDestroyCount;
             Control.StairStepDir                  = un.Control.StairStepDir;
@@ -3699,11 +3698,17 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                     LevelTxt.text = "";
                 if( Variation == ( int ) ItemType.Res_Mushroom )                                       // Mushroom
                     LevelTxt.text = "";
-                if( Item.IsPlagueMonster(  Variation ) )                                               // Plague monster
+                if( Item.IsPlagueMonster( Variation, false ) )                                         // Plague monster
                     LevelTxt.text = "";
                 if( Manager.I.GameType == EGameType.CUBES ) 
                 if( Body.IsChest() )                                                                   // Chest
                     LevelTxt.text = "";
+                if( Variation == ( int ) ItemType.Egg )                                                // Egg
+                if( Pos !=  G.Hero.GetFront() )
+                {
+                    LevelTxt.color = Color.red;
+                    LevelTxt.text += "\nRotting!";
+                }
 
                 float amt = Item.GetNum( ( ItemType ) Variation );
                 if( Map.I.GetUnit( ETileType.CLOSEDDOOR, Pos ) != null )

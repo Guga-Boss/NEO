@@ -1215,7 +1215,6 @@ public class Item : MonoBehaviour
             if( p == ( int ) ItemType.HoneyComb ) return true;
             if( p == ( int ) ItemType.Feather ) return true;
             if( p == ( int ) ItemType.Chicken ) return true;
-            if( p == ( int ) ItemType.Egg ) return true;
         }
         return false;
     }

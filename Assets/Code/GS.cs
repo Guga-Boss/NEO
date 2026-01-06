@@ -16,7 +16,40 @@ public class GS : MonoBehaviour
     public static List<Unit> ga2l = new List<Unit>();
     public static bool IsLoading, IsSaving;
     public static bool CubeLoaded;
-    public static Unit LastSavedCube, LastLoadedCube; 
+
+    public static Unit LastLoadedCube;
+    private static Unit _lastSavedCube;
+
+    public static Unit LastSavedCube
+    {
+        get
+        {
+            return _lastSavedCube; // remember current value
+        }
+        set
+        {
+            Debug.Log(
+                "[LastSavedCube WRITE]\n" +
+                "FROM = " + ( _lastSavedCube != null ? _lastSavedCube.Pos.ToString() : "null" ) + "\n" +
+                "TO   = " + ( value != null ? value.Pos.ToString() : "null" ) + "\n" +
+                "UNIT = " + ( value != null ? value.name : "null" ) + "\n" +
+                "STACK:\n" + Environment.StackTrace
+            ); // remember trace every write
+
+            // remember save step list
+            Debug.Log( "[GS] setter: SaveStepList Count: " + SaveStepList.Count );
+            for( int i = 0; i < SaveStepList.Count; i++ )
+            {
+                Debug.Log(
+                    "[GS] SaveStepList[" + i + "] Pos: " +
+                    SaveStepList[ i ]
+                );
+            }
+
+            _lastSavedCube = value; // remember assign
+        }
+    }
+
     public static List<Unit> SaveStepUnitList = new List<Unit>();
     public static List<Vector2> SaveStepList = new List<Vector2>();
     public static bool RestartAvailable;
@@ -181,24 +214,32 @@ public class GS : MonoBehaviour
     {
         if( Map.I.FishingMode != EFishingPhase.NO_FISHING ) return;                        // no load while fishing
         Sector s = Map.I.RM.HeroSector;
-
+        string nm = " My";
+        if( save ) nm = " " + ( int ) save.Pos.x + " " + ( int ) save.Pos.y;
         #region SectorBug
-        if( save!= null )
+        
+        string fl = Manager.I.GetProfileFolder();
+        if( nm != "" ) fl += "Cube Save/Sector" + nm + ".NEO";                          // Provides filename
+        bool sectorfileexist = File.Exists( fl );
+
+        if( sectorfileexist == false )
         {
             Unit save2 = Map.I.GetUnit( ETileType.SAVEGAME, save.Pos );
+            Message.RedMessage( "Sector bug!" );
 
-            if( save2 == null )
-            {
-                Message.RedMessage( "Sector bug!" );
+            if( save2 == null ) Debug.Log( "[SAVE2] save2 == null" );
+             
                 Debug.Log( "================ LOAD CUBE DEBUG START ================" );
+                if( save == save2 ) Debug.Log( "save == save2: " + ( save == save2 ) );
 
                 // remember save reference
                 Debug.Log( "[SAVE ARG] save == null ? " + ( save == null ) );
-                Debug.Log( "[SAVE ARG] save name: " + save.name );
-                Debug.Log( "[SAVE ARG] save Pos: " + save.Pos );
-                Debug.Log( "[SAVE ARG] save WorldPos: " + save.transform.position );
-
-             
+                if( save )
+                {
+                    Debug.Log( "[SAVE ARG] save name: " + save.name );
+                    Debug.Log( "[SAVE ARG] save Pos: " + save.Pos );
+                    Debug.Log( "[SAVE ARG] save WorldPos: " + save.transform.position );
+                }          
 
                 // remember last saved cube
                 if( LastSavedCube != null )
@@ -223,7 +264,7 @@ public class GS : MonoBehaviour
                 }
 
                 Debug.Log( "=========== SAVE EXPECTED POSITION CHECK ===========" );
-
+                if( save )
                 Debug.Log( "[EXPECTED] save.Pos = " + save.Pos );
 
                 bool foundExact = false;
@@ -284,25 +325,16 @@ public class GS : MonoBehaviour
                         "[DISK] Expected file for this save: " + expectedFile +
                         " Exists=" + File.Exists( expectedFile )
                     );
-
                     Debug.Log( "=========== DISK SECTOR FILE SCAN END ===========" );
-
                 }
-
                 Debug.Log( "=========== SAVE EXPECTED POSITION CHECK END ===========" );
-
-
                 Debug.Log( "================ LOAD CUBE DEBUG END ==================" );
 
-                return;
-            }
+                if( sectorfileexist == false ) return;
         }
         #endregion
 
         InitLoading();                                                                     // Init loading
-
-        string nm = " My";
-        if( save ) nm = " " + ( int ) save.Pos.x + " " + ( int ) save.Pos.y;
 
         Debug.Log( "Load: nm" + nm + " save " + save.Pos + " LastSavedCube " + 
             LastSavedCube + " SaveStepList " + SaveStepList.Count );
@@ -555,7 +587,8 @@ public class GS : MonoBehaviour
              {
                  save.Body.EffectList[ 0 ].gameObject.SetActive( false );            // Deactivate effects
                  save.Body.EffectList[ 1 ].gameObject.SetActive( false );           
-                 save.Body.EffectList[ 2 ].gameObject.SetActive( false );         
+                 save.Body.EffectList[ 2 ].gameObject.SetActive( false );
+                 Debug.Log( "sector bug: Disabling FX " + save.Pos );
              }
         }
         GS.SaveStepUnitList = new List<Unit>();                                      // Empty lists

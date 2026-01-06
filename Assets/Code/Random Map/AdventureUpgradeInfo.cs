@@ -483,6 +483,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
                 else 
                     msg += "\nStatus: UNLOCKED!";
             }
+            else
             if( post == "level" )
             {
                 if( val < 1 )

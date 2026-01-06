@@ -1288,22 +1288,12 @@ public class Blueprint : MonoBehaviour
     public bool BuyPlants( bool justCheck )
     {
         if( BuyBPCostItem == ItemType.NONE ) return false;
-        if( CostItem == BuyBPCostItem )                                                                                // sums amount if both costs are the same
-        {
-            if( Building.GetItemAmount( BuyBPCostItem ) < ( BuyBPCost + Cost ) )
-                return false;       
-        }
-        else
-        {
-            if( Building.GetItemAmount( BuyBPCostItem ) < BuyBPCost ) return false;
-            if( Building.GetItemAmount( CostItem ) < ( Cost ) ) return false;
-        }
-
-        if( justCheck ) return true;
+        if( Building.GetItemAmount( BuyBPCostItem ) < BuyBPCost ) return false;                                        // enough resurces?
+        if( justCheck ) return true;                                                                                   // Just check
         Building.AddItem( true, BuyBPCostItem, -BuyBPCost );                                                           // Charges Resource
-        FreePlants++;
+        FreePlants++;                                                                                                  // increment plants #
         MasterAudio.PlaySound3DAtVector3( "Cashier", transform.position );                                             // FX
-        Message.GreenMessage( "Blueprint Bought!" );
+        Message.GreenMessage( "Blueprint Bought!" );                                                                   // msg
         return true;
     }
 }

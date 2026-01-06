@@ -401,6 +401,7 @@ public partial class Farm : MonoBehaviour
         bool res = PlaceItem( tg, amt, true, false );                                                                  // Place item
         if( res ) return true;
         res = Building.PlaceItem( tg, amt );                                                                           // Place item in building
+
         return res;
      }       
 

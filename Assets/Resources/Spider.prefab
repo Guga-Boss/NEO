@@ -124,7 +124,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 128296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -39.71564, y: 16.615915, z: 0}
+  m_LocalPosition: {x: -39.650894, y: 12.82494, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 413672}
@@ -252,9 +252,9 @@ MonoBehaviour:
   ControlType: 1
   OldPos: {x: 0, y: 0}
   LastPos: {x: 0, y: 0}
-  InitialPos: {x: 0, y: 0}
   JumpTarget: {x: 0, y: 0}
   AnimationOrigin: {x: 0, y: 0}
+  MotherPos: {x: -1, y: -1}
   MoveOrderID: -1
   RamStraightMoveCount: 0
   PlatformWalkingCounter: 0
@@ -307,6 +307,7 @@ MonoBehaviour:
   Initialized: 0
   BeingMudPushed: 0
   BoulderDirChanged: 0
+  BrokenRaft: 0
   RestLine: {fileID: 0}
   TickBasedMovement: 0
   ForcedFrontalMovementDir: -1
@@ -365,7 +366,7 @@ MonoBehaviour:
   FireMarkedWaspFactor: 0
   FireMarkAvailable: 1
   BaseRestDistance: 0
-  ScorpionProcessed: 0
+  UnitProcessed: 0
   BoulderPunchPower: 100
   Current: 100
   UnitMoved: 0
@@ -417,7 +418,6 @@ MonoBehaviour:
   WaitTimeCounter: -1
   WakeupTimeCounter: -1
   WakeupTotalTime: -1
-  EggsDestroyed: 0
   SpiderAttackBlockPhase: 0
   FishActionWaiting: 0
   MergingID: -1
@@ -463,6 +463,7 @@ MonoBehaviour:
   PhaseWonFreePhases: 0
   FrontalFlyingTargetDist: -1
   FlightPhaseLoopCount: 0
+  FlightLoopCount: 0
   FlightResourcePicking: 1
   FlightOrbStrike: 1
   FlightBarricadeDestroy: 1
@@ -604,6 +605,7 @@ MonoBehaviour:
   Body: {fileID: 11464746}
   Water: {fileID: 0}
   Mine: {fileID: 0}
+  Altar: {fileID: 0}
   HealthBar: {fileID: 0}
   Control: {fileID: 11430690}
   Building: {fileID: 0}
@@ -619,6 +621,7 @@ MonoBehaviour:
   CanBeRotated: 1
   Dir: 0
   Pos: {x: 0, y: 0}
+  IniPos: {x: 0, y: 0}
   BlockMovement: 1
   CanBeWalkedIfSuspended: 0
   BlockMissile: 0
@@ -656,11 +659,14 @@ MonoBehaviour:
   Sprite8: {fileID: 0}
   InfectedSprite: {fileID: 0}
   ImmunityDome: {fileID: 0}
+  PoleSprite: {fileID: 0}
   Animator: {fileID: 0}
   AuxText: {fileID: 0}
+  Particle: {fileID: 0}
   EffectList: []
   ArrowList: []
   WoodList: []
+  TextList: []
   ChildList: []
   ShacklePullList: []
   RopeConnectSon: {fileID: 0}
@@ -669,24 +675,10 @@ MonoBehaviour:
   RopeConnectFatherPosList: []
   HealthStatus: 0
   FireSourcePos: {x: -1, y: -1}
-  NextAltarBonus:
-    AltarBonusType: -1
-    AltarBonusFactor: 1
-    AltarBonusItem: -1
-    ID: 0
-    Advanced: 0
-    TimesUsed: 0
-    HitCount: -1
-    UsageAvailableTimer: 0
-    SelfKillTimer: -1
-    Unlocked: 0
-    MinChance: 0
-    MaxChance: 50
-    MinLevel: 1
   RigidBody: {fileID: 0}
   Rope: {fileID: 0}
-  PoleObjList: []
   PoleSpriteList: []
+  PoleBackSpriteList: []
   RopeOrigin: {fileID: 0}
   RopeDestination: {fileID: 0}
   RopeRotationHelper: {fileID: 0}
@@ -712,6 +704,9 @@ MonoBehaviour:
   CocoonWasp: 0
   Crippled: 0
   SpikedBoulder: 0
+  TrailCoil: 0
+  TrailRotator: 0
+  TowerProjectileTrailFX: 1
   HookIsStuck: 0
   CreatedVine: 0
   GraphicsInitialized: 0
@@ -772,18 +767,12 @@ MonoBehaviour:
   RiskyAttackLevel: 0
   MortalJumpLevel: 0
   OpenFieldAtttackLevel: 0
-  IntelligenceLevel: 0
-  IntelThreatLevel: 0
-  Intel2Level: 0
-  Intel3Level: 0
-  Intel4Level: 0
   ThreatLevel: 0
   BaseFreeExitHPLimit: 0
   FirePowerLevel: 0
   FireSpreadLevel: 0
   FireWoodNeeded: 0
   OutsideFireWoodAllowed: 0
-  FirepitsNeededForDiscount: 0
   FreePlatformExit: 0
   OutAreaBurningBarricadeDestroyBonus: 0
   BarricadeForRune: 0
@@ -797,10 +786,16 @@ MonoBehaviour:
   RealtimeRangedAttSpeed: 0
   MiningLevel: 0
   FishingLevel: 0
+  QQMissHeroDamage: 0
+  QQMinDamage: 5
+  QQMaxDamage: 10
   Fishing_1: 0
   Fishing_2: 0
   Fishing_3: 0
   Fishing_4: 0
+  TweenTime: 0
+  RotationSpeed: 0
+  KillTimer: -1
   ResourceOperation: 0
   BonusItemList: 
   BonusItemAmountList: []
@@ -850,6 +845,7 @@ MonoBehaviour:
   WoodAddedTurnCount: 0
   ChiselSlideCount: 0
   VineFireSpreadID: -1
+  ResourceSlot: 1
   HookID: {fileID: 0}
   MortalJumpBonusAttack: 0
   OutAreaMortalJumpBonusAttack: 0
@@ -863,6 +859,7 @@ MonoBehaviour:
   VineBurnTime: 0.5
   OverFireTimeCount: 0
   ImmunityShieldTime: 0
+  PoleBonusAvailableAngle: -1
   HPLostInTheTurn: 0
   EnemyAttackBonus: 0
   BaseMiningChance: 0
@@ -881,7 +878,6 @@ MonoBehaviour:
   ChestLevel: 1
   StackAmount: 0
   AuxStackAmount: -98.9
-  AreaEnterDirection: 0
   MineLeverDir: 0
   UPMineDir: 0
   AutoRotatingMineType: 0
@@ -896,11 +892,8 @@ MonoBehaviour:
   AvailableFireHits: -1
   ExclusiveToAdventure: 0
   HeroAttackPositionHistory: []
-  OriginalHeroAttackPositionHistory: []
   HeroAttackDirectionHistory: 
-  OriginalHeroAttackDirectionHistory: 
   WoodAdded: 
-  OriginalWoodAdded: 
   BabySprite:
   - {fileID: 0}
   - {fileID: 0}
@@ -942,7 +935,6 @@ MonoBehaviour:
   BabyVariation: 
   MineSideHitCount: 
   CreatedVineList: 
-  AltarBonusList: []
   HerbMatchChecked: 0
   RandomizableHerb: 0
   HerbKillTimer: -1
@@ -1788,7 +1780,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1191121884643270}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.9}
+  m_LocalPosition: {x: 0, y: 0, z: -8.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4789112149850062}
@@ -3114,8 +3106,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000011535699354}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000010701979888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3204,8 +3199,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000013781552414}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000012050073220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3246,8 +3244,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000012050073220}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000012873576286
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3264,8 +3265,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000013085140918}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000012883261544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3350,8 +3354,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000010701979888}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000013403938458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3368,8 +3375,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000010935220932}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000013770849426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3434,8 +3444,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000013770849426}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000014209024530
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3452,8 +3465,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114000010092601154}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114000014241672840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3590,8 +3606,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114918556721310132}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114175105622787354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3680,8 +3699,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114790308104140608}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114210669729001460
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3722,8 +3744,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114068451471879620}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114257607261633066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3740,8 +3765,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114318248941887486}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114277146057416108
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3830,8 +3858,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114849812314405608}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114351124697119614
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3848,8 +3879,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114113255047542070}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114355349565666176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3866,8 +3900,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114175435653020340}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114369460474642636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3884,8 +3921,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114287649691397504}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114383134466875606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3902,8 +3942,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114886823526392372}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114479050316956168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3920,8 +3963,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114004462829002714}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114490226989590708
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3938,8 +3984,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114749704517455892}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114542437594375482
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3956,8 +4005,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114175105622787354}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114570098698112462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3974,8 +4026,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114203623024529030}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114584005407723292
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3992,8 +4047,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114595430926540616}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114595430926540616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4034,8 +4092,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114210669729001460}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114692613507611942
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4052,8 +4113,11 @@ MonoBehaviour:
   SpellSprite: {fileID: 114277146057416108}
   sptr: {fileID: 0}
   BoltType: -1
+  ItemType: -1
   BambooSize: 0
   HookedUnit: {fileID: 0}
+  Kill: 0
+  Delta: {x: 0, y: 0}
 --- !u!114 &114749704517455892
 MonoBehaviour:
   m_ObjectHideFlags: 1
