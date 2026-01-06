@@ -326,20 +326,21 @@ public class Building : MonoBehaviour
                 {
                     int bldid = -1;
                     for( int i = 0; i < bl.Building.Itm.Count; i++ )                                
-                    if ( bl.Building.Itm[ i ].ItemType == Map.I.Farm.SelectedItem )
+                    if ( bl.Building.Itm[ i ].ItemType == Map.I.Farm.SelectedItem )                    // find item bld id
                         bldid = i;
 
                     if( bldid == -1 ) return false;
-                    max = Building.GetStat( EVarType.Maximum_Item_Stack,
+                    max = Building.GetStat( EVarType.Maximum_Item_Stack,                               // get bld max
                     bl.Building, bldid );
 
                     if( amt == 1 )  
                        {
-                           if( bl.Building.Itm[ bldid ].ItemCount + amt > max )
+                           if( max > 0 )
+                           if( bl.Building.Itm[ bldid ].ItemCount + amt > max )                        // max reached: quit
                                return false;
-                           bl.Building.Itm[ bldid ].ItemCount += amt;
+                           bl.Building.Itm[ bldid ].ItemCount += amt;                                  // increment bld
                            Map.I.Farm.SetSelectedItem( bl.Building.Itm[ bldid ].ItemType, 
-                           Map.I.Farm.CarryingAmount - amt );
+                           Map.I.Farm.CarryingAmount - amt );                                          // decrement carried item
                            return true;                               
                        }
                     return false;

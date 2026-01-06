@@ -271,7 +271,7 @@ public partial class Farm : MonoBehaviour
             if( bl.Itm[ bl.SelItemID ].ItemType != ItemType.NONE )
                 it = G.GIT( bl.Itm[ bl.SelItemID ].ItemType );
             BuildingItem bi = bl.Itm[ bl.SelItemID ];
-            if( bi.BaseMaxItemStack == -1 ) max = "";
+            if( bi.BaseMaxItemStack <= 0 ) max = "";
 
             if( bl.Category == EBuildingCategory.Producer ||
                 bl.Category == EBuildingCategory.Plant )
@@ -401,7 +401,6 @@ public partial class Farm : MonoBehaviour
         bool res = PlaceItem( tg, amt, true, false );                                                                  // Place item
         if( res ) return true;
         res = Building.PlaceItem( tg, amt );                                                                           // Place item in building
-
         return res;
      }       
 
