@@ -45,6 +45,18 @@ public static class tk2dTileMapEditorUtility
 [CustomEditor( typeof( tk2dTileMap ) )]
 public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 {
+
+    // ESTAS LINHAS TÊM DE FICAR AQUI, FORA DE QUALQUER FUNÇÃO
+    [System.Runtime.InteropServices.DllImport( "user32.dll" )]
+    static extern bool SetCursorPos( int x, int y );
+
+    [System.Runtime.InteropServices.DllImport( "user32.dll" )]
+    static extern bool GetCursorPos( out POINT lpPoint );
+
+    [System.Runtime.InteropServices.StructLayout( System.Runtime.InteropServices.LayoutKind.Sequential )]
+    public struct POINT { public int X; public int Y; }
+
+
     tk2dTileMap tileMap { get { return ( tk2dTileMap ) target; } }
     tk2dTileMapEditorData editorData;
     tk2dTileMapSceneGUI sceneGUI;
@@ -1229,9 +1241,9 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
                 if( Event.current.type == EventType.KeyDown )
                 {
                     //Debug.Log( paletteScrollPos );              // check position here
-                    if( Event.current.keyCode == KeyCode.Alpha1 ) paletteScrollPos = new Vector2( 0, 0 );     // use shortcuts aqui
-                    if( Event.current.keyCode == KeyCode.Alpha2 ) paletteScrollPos = new Vector2( 1917, 1683 );   //  big trees
-                    if( Event.current.keyCode == KeyCode.Alpha3 ) paletteScrollPos = new Vector2( 0, 9999 );  // 
+                    //if( Event.current.keyCode == KeyCode.Alpha1 ) paletteScrollPos = new Vector2( 0, 0 );     // use shortcuts aqui
+                    //if( Event.current.keyCode == KeyCode.Alpha2 ) paletteScrollPos = new Vector2( 1917, 1683 );   //  big trees
+                    //if( Event.current.keyCode == KeyCode.Alpha3 ) paletteScrollPos = new Vector2( 0, 9999 );  // 
                     Repaint();
                 }
             }
@@ -1263,18 +1275,70 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
         }
     }
 
-    private void UpdateAutoSelection( int tl )
+    private void UpdateAutoSelection( int clickedTileId )
     {
-        string[] files = System.IO.Directory.GetFiles( "C:/Users/alien/Desktop/NEO/Assets/Resources/Brush/", "*.Brush" );                        // Get file list
+        string folder = "C:/Users/alien/Desktop/NEO/Assets/Resources/Brush/";
+        if( !System.IO.Directory.Exists( folder ) )
+            return;
+
+        string[] files = System.IO.Directory.GetFiles( folder, "*.txt" );
+
         for( int i = 0; i < files.Length; i++ )
         {
-            if( files[ i ].Contains( " " + tl + " " ) )
+            string file = files[ i ];
+            string name = System.IO.Path.GetFileNameWithoutExtension( file ); // remove .txt
+            string[] parts = name.Split( ' ' );
+
+            // Verifica se é um arquivo válido
+            if( parts.Length != 4 || parts[ 0 ] != "Brush" )
+                continue;
+
+            // Pega o ID principal do tile
+            int id;
+            if( !int.TryParse( parts[ 1 ], out id ) )
+                continue;
+
+            // Pega coordenadas dentro da paleta (tileX, tileY)
+            string coordPart = parts[ 2 ]; // "(tileX,tileY)"
+            coordPart = coordPart.Replace( "(", "" ).Replace( ")", "" );
+            string[] coords = coordPart.Split( ',' );
+            if( coords.Length != 2 )
+                continue;
+
+            int tileX, tileY;
+            if( !int.TryParse( coords[ 0 ], out tileX ) || !int.TryParse( coords[ 1 ], out tileY ) )
+                continue;
+
+            // Pega width e height
+            string sizePart = parts[ 3 ]; // "widthxheight"
+            string[] size = sizePart.Split( 'x' );
+            if( size.Length != 2 )
+                continue;
+
+            int width, height;
+            if( !int.TryParse( size[ 0 ], out width ) || !int.TryParse( size[ 1 ], out height ) )
+                continue;
+
+            // Calcula o range de IDs que esse brush cobre
+            int startIdX = tileX;
+            int endIdX = tileX + width - 1;
+            int startIdY = tileY;
+            int endIdY = tileY + height - 1;
+
+            int clickedX = clickedTileId % 128; // coordenada X do tile clicado na paleta
+            int clickedY = clickedTileId / 128; // coordenada Y do tile clicado na paleta
+
+            // Verifica se o tile clicado está dentro dessa brush
+            if( clickedX >= startIdX && clickedX <= endIdX &&
+                clickedY >= startIdY && clickedY <= endIdY )
             {
-                editorData.activeBrush.Load( files[ i ] );
+                // Encontrou o arquivo correto, carrega
+                editorData.activeBrush.Load( file );
                 return;
             }
         }
     }
+
     /// <summary>
     /// Initialize tilemap data to sensible values.
     /// Mainly, tileSize and tileOffset
@@ -1293,10 +1357,11 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
         // Don't guess, load editor data every frame		
         string editorDataPath = AssetDatabase.GUIDToAssetPath( tileMap.editorDataGUID );
         editorData = AssetDatabase.LoadAssetAtPath( editorDataPath, typeof( tk2dTileMapEditorData ) ) as tk2dTileMapEditorData;
-    }
-        
+    }    
     public override void OnInspectorGUI()
-    {
+    {    
+        UpdateBrushInput( this, editorData );
+       
         if( tk2dEditorUtility.IsPrefab( target ) )
         {
             tk2dGuiUtility.InfoBox( "Editor disabled on prefabs.", tk2dGuiUtility.WarningLevel.Error );
@@ -1460,8 +1525,96 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
         }
     }
 
+    public static List<string> LastLoad = new List<string>() { "", "", "", "", "", "", "", "", "", "" };
+    public static void UpdateBrushInput( tk2dTileMapEditor ed, tk2dTileMapEditorData edd )
+    {
+        Event e = Event.current;
+        if( e.type == EventType.KeyDown && e.alt )
+        {
+            int numPressed = -1;
+            if( e.keyCode >= KeyCode.Alpha0 && e.keyCode <= KeyCode.Alpha9 )
+            {
+                numPressed = ( int ) ( e.keyCode - KeyCode.Alpha0 );
+                edd.activeBrush.Save( numPressed );             // Use this to save a brush, Draw a square and press alt + S.  Everytime you click a tile inside the square, the square will be selected. You need to click the map to work and delete old brush first
+                e.Use();
+            }
+        }
+
+        if( e.type == EventType.KeyDown )
+        {
+            int page = -1;
+
+            // Verifica se a tecla é de 0 a 9
+            if( e.keyCode >= KeyCode.Alpha0 && e.keyCode <= KeyCode.Alpha9 )
+            {
+                page = ( int ) ( e.keyCode - KeyCode.Alpha0 );
+
+                // Pasta onde os brushes são salvos
+                string folder = "C:/Users/alien/Desktop/NEO/Assets/Resources/Brush/";
+                if( !System.IO.Directory.Exists( folder ) )
+                {
+                    Debug.LogWarning( "Pasta de brushes não encontrada: " + folder );
+                    return;
+                }
+
+                // Padrão de busca
+                string searchPattern = "Brush - Group - " + page + "*.txt";
+                string[] files = System.IO.Directory.GetFiles( folder, searchPattern );
+
+                if( files.Length == 0 )
+                {
+                    Debug.Log( "Nenhum brush salvo encontrado para a página " + page );
+                    return;
+                }
+
+                // Ordena os arquivos para manter consistência
+                System.Array.Sort( files );
+
+                // Descobre o último carregado
+                string lastLoaded = LastLoad[ page ];
+                int nextIndex = 0; // padrão: o primeiro
+
+                if( !string.IsNullOrEmpty( lastLoaded ) )
+                {
+                    int lastIndex = System.Array.IndexOf( files, lastLoaded );
+                    if( lastIndex >= 0 )
+                    {
+                        nextIndex = ( lastIndex + 1 ) % files.Length; // próximo, com loop
+                    }
+                }
+
+                string nextFile = files[ nextIndex ];
+
+                // Carrega o brush
+                edd.activeBrush.Load( nextFile );
+
+                // Atualiza o último carregado
+                LastLoad[ page ] = nextFile;
+
+                // 3. O "Sacode" do Mouse, para resolver o bug e desenhar o cursor na hora sem precisar mover o mouse com a mao (hack)
+                POINT p;
+                if( GetCursorPos( out p ) )
+                {
+                    // Pula 150 pixels para garantir que sai do tile atual
+                    int num = 1; if( Util.Chance( 50 ) ) num = -1;
+                    SetCursorPos( p.X, p.Y + num );
+                }
+                SceneView.RepaintAll();
+                Debug.Log( "Loaded brush: " + nextFile );
+                e.Use();
+            }
+        }
+    }
+
     void OnSceneGUI()                                                         // guga add: funcao alterada pelo Deepseek para corrigir bug de nao poder editar tilemap
     {
+        // 1. Processa o teclado ANTES de qualquer outra coisa
+        UpdateBrushInput( this, editorData );
+
+        // Force keyboard focus to SceneView
+        //SceneView sceneView = SceneView.currentDrawingSceneView;
+        //if( sceneView == null ) return;
+
         if( !Ready )
         {
             GetEditorData();

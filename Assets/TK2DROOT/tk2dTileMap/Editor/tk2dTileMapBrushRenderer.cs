@@ -298,7 +298,8 @@ namespace tk2dEditor
 			}
 		}
 
-		public void DrawBrushInScene(Matrix4x4 matrix, tk2dTileMapEditorBrush brush, int tilesPerRow) {
+        public void DrawBrushInScene( Matrix4x4 matrix, tk2dTileMapEditorBrush brush, int tilesPerRow )
+        {
 			var dictData = GetDictDataForBrush(brush, tilesPerRow);
 			Mesh mesh = dictData.mesh;
 

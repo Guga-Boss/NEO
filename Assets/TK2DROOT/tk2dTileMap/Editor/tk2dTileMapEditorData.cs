@@ -80,59 +80,107 @@ public class tk2dTileMapEditorBrush
 
     // guga add tk
 
-    public void Save()
+    public void Save( int group )
     {
-        BinaryWriter W;
-        string nm = "Brush";
-        for( int i = 0; i < multiSelectTiles.Length; i++ )
-            nm += " " + multiSelectTiles[ i ];
-        string file = "C:/Users/alien/Desktop/NEO/Assets/Resources/Brush/" + nm + " .Brush";        // Provides filename
-        using( W = new BinaryWriter( File.Open( file, FileMode.Create ) ) )
+        if( multiSelectTiles == null || multiSelectTiles.Length == 0 )
+            return;
+
+        string folder = "C:/Users/alien/Desktop/NEO/Assets/Resources/Brush/";
+        System.IO.Directory.CreateDirectory( folder );
+
+        // Calcula min/max para X e Y corretamente
+        int minX = int.MaxValue;
+        int minY = int.MaxValue;
+        int maxX = int.MinValue;
+        int maxY = int.MinValue;
+
+        for( int i = 0; i < tiles.Length; i++ )
         {
-            W.Write( multiSelectTiles.Length );
-            for( int i = 0; i < multiSelectTiles.Length; i++ )
+            if( tiles[ i ].x < minX ) minX = tiles[ i ].x;
+            if( tiles[ i ].y < minY ) minY = tiles[ i ].y;
+            if( tiles[ i ].x > maxX ) maxX = tiles[ i ].x;
+            if( tiles[ i ].y > maxY ) maxY = tiles[ i ].y;
+        }
+
+        int width = maxX - minX + 1;
+        int height = maxY - minY + 1;
+
+        // Pega o ID principal do tile (top-left ou outro de referência)
+        int id = multiSelectTiles[ 0 ];
+
+        // Calcula coordenadas dentro da paleta 128x128
+        int tileX = id % 128; // coluna na paleta
+        int tileY = id / 128; // linha na paleta
+
+        // Monta o nome do arquivo manualmente
+        string fileName = "Brush - Group - " + group + " " + id + " (" + tileX + "," + tileY + ") " + width + "x" + height + ".txt";
+        string filePath = folder + fileName;
+
+        System.IO.File.WriteAllText( filePath, "" ); // cria arquivo vazio
+        Debug.Log( "Saved brush: " + fileName );
+    }
+
+    public void Load( string filePath )
+    {
+        if( !System.IO.File.Exists( filePath ) )
+        {
+            Debug.LogError( "Arquivo não encontrado: " + filePath );
+            return;
+        }
+
+        string name = System.IO.Path.GetFileNameWithoutExtension( filePath );
+        string[] parts = name.Split( ' ' );
+
+        if( parts.Length < 3 )
+        {
+            Debug.LogError( "Formato de nome de brush inválido: " + name );
+            return;
+        }
+
+        try
+        {
+            // Pega os últimos elementos do array
+            string coordsRaw = parts[ parts.Length - 2 ].Replace( "(", "" ).Replace( ")", "" );
+            string[] coordsSplit = coordsRaw.Split( ',' );
+            int startX = int.Parse( coordsSplit[ 0 ] );
+            int startY = int.Parse( coordsSplit[ 1 ] );
+
+            string[] sizeSplit = parts[ parts.Length - 1 ].ToLower().Split( 'x' );
+            int width = int.Parse( sizeSplit[ 0 ] );
+            int height = int.Parse( sizeSplit[ 1 ] );
+
+            // Reconstruir brush
+            multiSelectTiles = new int[ width * height ];
+            tiles = new tk2dSparseTile[ width * height ];
+
+            for( int y = 0; y < height; y++ )
             {
-                W.Write( multiSelectTiles[ i ] );
+                for( int x = 0; x < width; x++ )
+                {
+                    int index = y * width + x;
+                    int currentX = startX + x;
+                    int currentY = startY + y;
+                    int spriteId = ( currentY * 128 ) + currentX;
+
+                    multiSelectTiles[ index ] = spriteId;
+
+                    tiles[ index ] = new tk2dSparseTile
+                    {
+                        x = x,
+                        y = -y,
+                        spriteId = spriteId,
+                        layer = 0
+                    };
+                }
             }
-            W.Write( tiles.Length );
-            for( int i = 0; i < tiles.Length; i++ )
-            {
-                W.Write( tiles[ i ].x );
-                W.Write( tiles[ i ].y );
-                W.Write( tiles[ i ].spriteId );
-                W.Write( tiles[ i ].layer );
-            }
-            Debug.Log( "Saved" );
-            W.Close();
+        }
+        catch( System.Exception e )
+        {
+            Debug.LogError( "Erro ao processar o nome da brush: " + e.Message );
         }
     }
 
-    public void Load( string file )
-    {
-        BinaryReader R;
-        using( R = new BinaryReader( File.Open( file, FileMode.Open ) ) )
-        {
-            int sz = R.ReadInt32();
-            multiSelectTiles = new int[ sz ];
-            for( int i = 0; i < multiSelectTiles.Length; i++ )
-            {
-                multiSelectTiles[ i ] = R.ReadInt32();
-            }
-            sz = R.ReadInt32();
-            tiles = new tk2dSparseTile[ sz ];
-            for( int i = 0; i < sz; i++ )
-            {
-                tk2dSparseTile st = new tk2dSparseTile();
-                st.x = R.ReadInt32();
-                st.y = R.ReadInt32();
-                st.spriteId = R.ReadInt32();
-                st.layer = R.ReadInt32();
-                tiles[ i ] = new tk2dSparseTile( st );
-            }
-            //Debug.Log( "Loaded" );
-            R.Close();
-        }
-    }
+
 
     //
     // NOTE: Make sure the hash calculation is up to date

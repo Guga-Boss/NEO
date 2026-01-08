@@ -313,8 +313,7 @@ public class tk2dTileMapSceneGUI
 			vertexCursorX = (int)Mathf.Round(fx);
 			vertexCursorY = (int)Mathf.Round(fy);
 				
-			HandleUtility.Repaint();
-				
+			HandleUtility.Repaint();			
 		}
 		
 		return isInside;
@@ -334,7 +333,184 @@ public class tk2dTileMapSceneGUI
 
         UpdateAutoTiling();               // guga add tk
 	}
-    
+    private void UpdateAutoDecor()
+    {
+        if( Event.current.type == EventType.KeyDown )
+        {
+            if( Event.current.keyCode == KeyCode.C )
+            {
+                DrawForestFlow( cursorX, cursorY, 3976,  1, 0 );
+                DrawForestFlow( cursorX, cursorY, 3976, -1, 0 );               
+            }
+            if( Event.current.keyCode == KeyCode.V )
+            {
+                DrawForestFlow( cursorX, cursorY, 3470, 0,  1 );
+                DrawForestFlow( cursorX, cursorY, 3470, 0, -1 );                              
+            }
+            if( Event.current.keyCode == KeyCode.D )
+            {
+                if( Event.current.shift == false )
+                MakeAutoDecor();
+                else
+                {
+                    for( int y = 0; y < tileMap.height; y++ )
+                    for( int x = 0; x < tileMap.width; x++ )
+                    {
+                        tileMap.SetTile( x, y, ( int ) ELayerType.DECOR, -1 );
+                        tileMap.SetTile( x, y, ( int ) ELayerType.DECOR2, -1 );
+                    }
+                tileMap.ForceBuild();
+                }
+            }
+        }
+    } 
+
+    void DrawForestFlow( int x, int y, int tile, int dx, int dy, bool upd = true )
+    {
+        if( tileMap.GetTile( x, y, ( int ) ELayerType.GAIA ) != ( int ) ETileType.FOREST ) return;
+
+        int max = 0;
+        while( true )
+        {
+            int nx = x + dx * ( max + 1 );
+            int ny = y + dy * ( max + 1 );
+
+            // 1. Checa limites do mapa
+            if( nx <= 0 || ny <= 0 || nx >= tileMap.width - 1 || ny >= tileMap.height - 1 ) break;
+
+            // 2. Checa se acabou a floresta
+            if( tileMap.GetTile( nx, ny, ( int ) ELayerType.GAIA ) != ( int ) ETileType.FOREST ) break;
+
+            // 3. --- NOVO: Checa se já existe uma vinha no caminho ---
+            // Se encontrar outra decoração, pare O ANTES dela para deixar o buffer
+            if( tileMap.GetTile( nx, ny, ( int ) ELayerType.DECOR2 ) != -1 ) break;
+
+            max++;
+        }
+
+        if( max < 2 ) return;
+
+        // O loop 'i < max' garante que vamos parar 1 tile antes do obstáculo (seja floresta ou outra vinha)
+        // Deixando o espaço exato para a transição.
+        for( int i = 1; i < max; i++ )
+        {
+            int cx = x + dx * i;
+            int cy = y + dy * i;
+
+            if( tileMap.GetTile( cx, cy, ( int ) ELayerType.DECOR ) != -1 ) continue;
+            if( tileMap.GetTile( cx, cy, ( int ) ELayerType.DECOR2 ) != -1 ) continue;
+
+            tileMap.SetTile( cx, cy, ( int ) ELayerType.DECOR2, tile );
+        }
+            UpdateAutoTiling();
+
+        if( upd )
+        {
+            tileMap.ForceBuild();
+        }
+    }
+
+    // Uma versão da sua função sem o ForceBuild interno para não pesar o processamento
+    private void MakeAutoDecor()
+    {
+        // Primeiro: conexões horizontais
+        for( int y = 0; y < tileMap.height; y++ )
+        {
+            for( int x = 0; x < tileMap.width; x++ )
+            {
+                if( CanPlaceDecoration( x, y ) )
+                {
+                    DrawForestFlow( x, y, 3976, 1, 0, false );
+                    DrawForestFlow( x, y, 3976, -1, 0, false );
+                }
+            }
+        }
+
+        // Segundo: conexões verticais
+        for( int y = 0; y < tileMap.height; y++ )
+        {
+            for( int x = 0; x < tileMap.width; x++ )
+            {
+                if( CanPlaceDecoration( x, y ) )
+                {
+                    DrawForestFlow( x, y, 3470, 0, 1, false );
+                    DrawForestFlow( x, y, 3470, 0, -1, false );
+                }
+            }
+        }
+
+        // Terceiro: preencher pontas e tiles isolados
+        HorizontalCap();
+        VerticalCap();
+        PlaceIsolatedDecor();
+        tileMap.ForceBuild();
+    }
+
+    private bool CanPlaceDecoration( int x, int y )
+    {
+        // Verifica se o tile está livre para decoração
+        return tileMap.GetTile( x, y, ( int ) ELayerType.DECOR ) == -1 &&
+               tileMap.GetTile( x, y, ( int ) ELayerType.DECOR2 ) == -1 &&
+               tileMap.GetTile( x, y, ( int ) ELayerType.GAIA ) == ( int ) ETileType.FOREST;
+    }
+
+    void HorizontalCap()
+    {
+        for( int y = 1; y < tileMap.height - 1; y++ )
+        for( int x = 1; x < tileMap.width - 1; x++ )
+            {
+                if( !CanPlaceDecoration( x, y ) ) continue; // must be free forest
+                if( tileMap.GetTile( x - 1, y, ( int ) ELayerType.GAIA ) == ( int ) ETileType.FOREST ) continue; // already connected left
+                if( !CanPlaceDecoration( x + 1, y ) ) continue; // needs at least 2 tiles
+                tileMap.SetTile( x, y, ( int ) ELayerType.DECOR2, 3975 ); // left cap
+                if( CanPlaceDecoration( x + 2, y ) )
+                    tileMap.SetTile( x + 1, y, ( int ) ELayerType.DECOR2, 3976 ); // middle
+                else
+                    tileMap.SetTile( x + 1, y, ( int ) ELayerType.DECOR2, 3977 ); // right cap
+            }
+        UpdateAutoTiling();
+    }
+    void VerticalCap()
+    {
+        for( int x = 0; x < tileMap.width; x++ )
+        {
+            for( int y = 0; y < tileMap.height - 1; y++ )
+            {
+                bool atualEhFloresta = tileMap.GetTile( x, y, ( int ) ELayerType.GAIA ) == ( int ) ETileType.FOREST;
+                bool baixoEhFloresta = tileMap.GetTile( x, y + 1, ( int ) ELayerType.GAIA ) == ( int ) ETileType.FOREST;
+
+                if( atualEhFloresta && baixoEhFloresta )
+                {
+                    bool atualLivre = tileMap.GetTile( x, y, ( int ) ELayerType.DECOR2 ) == -1;
+                    bool baixoLivre = tileMap.GetTile( x, y + 1, ( int ) ELayerType.DECOR2 ) == -1;
+
+                    if( atualLivre && baixoLivre )
+                    {
+                        tileMap.SetTile( x, y, ( int ) ELayerType.DECOR2, 3598 );
+                        tileMap.SetTile( x, y + 1, ( int ) ELayerType.DECOR2, 3342 );
+                        y++;
+                    }
+                }
+            }
+        }
+    }
+    void PlaceIsolatedDecor()
+    {
+        for( int y = 0; y < tileMap.height; y++ )
+        for( int x = 0; x < tileMap.width; x++ )
+        {
+            if( tileMap.GetTile( x, y, ( int ) ELayerType.GAIA ) == ( int ) ETileType.FOREST &&
+                tileMap.GetTile( x, y, ( int ) ELayerType.DECOR2 ) == -1 )
+            {
+
+                tileMap.SetTile( x, y, ( int ) ELayerType.DECOR2, 3726 );
+            }
+        }
+        UpdateAutoTiling();
+        tileMap.ForceBuild();
+    }
+
+
     private void UpdateAutoTiling()                                             // guga add tk autotiling for decor
     {
         for( int y = 0; y < tileMap.height; y++ )
@@ -511,6 +687,8 @@ public class tk2dTileMapSceneGUI
 	{
 		// Always draw the outline
 		DrawOutline();
+
+        UpdateAutoDecor();                                     // Guga add tk
 		
 		if (Application.isPlaying || !tileMap.AllowEdit)
 			return;
@@ -546,21 +724,23 @@ public class tk2dTileMapSceneGUI
 		}
 
 		// Working brush / tile or paint cursor (behind scratchpad)
-		switch (editorData.editMode)
-		{
-		case tk2dTileMapEditorData.EditMode.Paint:
-			if (!scratchpadGUI.workingHere) {
-				if (Event.current.type == EventType.Repaint) {
-					Matrix4x4 matrix = tileMap.transform.localToWorldMatrix;
-					// Brush mesh is offset so origin is at bottom left. Do the reverse here...
-					// Also add layer depth
-					float layerDepth = GetLayerDepth(editorData.layer);
-					matrix *= Matrix4x4.TRS (tileMapData.tileOrigin + new Vector3(0, 0, layerDepth), Quaternion.identity, Vector3.one);
-					BrushRenderer.DrawBrushInScene(matrix, WorkingBrush, 1000000);
-				}
-				DrawTileCursor();
-			}
-			break;
+        switch( editorData.editMode )
+        {
+            case tk2dTileMapEditorData.EditMode.Paint:
+            if( !scratchpadGUI.workingHere )
+            {
+                if( Event.current.type == EventType.Repaint )
+                {
+                    Matrix4x4 matrix = tileMap.transform.localToWorldMatrix;
+                    // Brush mesh is offset so origin is at bottom left. Do the reverse here...
+                    // Also add layer depth
+                    float layerDepth = GetLayerDepth( editorData.layer );
+                    matrix *= Matrix4x4.TRS( tileMapData.tileOrigin + new Vector3( 0, 0, layerDepth ), Quaternion.identity, Vector3.one );
+                    BrushRenderer.DrawBrushInScene( matrix, WorkingBrush, 1000000 );
+                }
+                DrawTileCursor();
+            }
+            break;
 		case tk2dTileMapEditorData.EditMode.Color:
 			DrawPaintCursor();
 			break;
@@ -717,15 +897,14 @@ public class tk2dTileMapSceneGUI
 					}
 				}				
 				break;
-
-            case EventType.keyUp:                                  // guga add tk
+            case EventType.keyDown:                                  // guga add tk
                 {
-                    if( Event.current.alt )
-                    if( Event.current.keyCode == KeyCode.S )
-                    {
-                        editorData.activeBrush.Save();             // Use this to save a brush, Draw a square and press alt + S.  Everytime you click a tile inside the square, the square will be selected. You need to click the map to work and delete old brush first
-                        Debug.Log( "Brush Saved" );
-                    }
+                   // tk2dTileMapEditor.UpdateBrushInput(  editorData );                    
+                }
+                break;
+            case EventType.keyUp:                                  
+                {
+
                   
                     //if( Event.current.alt )
                     if( Event.current.keyCode == KeyCode.P )
