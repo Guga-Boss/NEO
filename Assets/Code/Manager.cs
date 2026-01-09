@@ -54,6 +54,7 @@ public class Manager : MonoBehaviour
     public int ConnectionRetries = -1;
     public bool IdleInitialized = false;
     public bool SaveOnEndGame = true;
+    public static bool ForceInitEditor = false;
     #endregion
     void Start()
     {
@@ -107,6 +108,9 @@ public class Manager : MonoBehaviour
                 sv.Repaint();
             }
         };
+       ForceInitEditor = true;
+       // Isso força o Inspector a acordar e rodar o OnInspectorGUI imediatamente
+       UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
     }
 
 [MenuItem( "Tools/Select Hero _F9" )]

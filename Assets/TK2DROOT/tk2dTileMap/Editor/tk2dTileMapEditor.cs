@@ -43,10 +43,9 @@ public static class tk2dTileMapEditorUtility
 }
 
 [CustomEditor( typeof( tk2dTileMap ) )]
-public class tk2dTileMapEditor : Editor, ITileMapEditorHost
-{
+public class tk2dTileMapEditor : Editor, ITileMapEditorHost{
 
-    // ESTAS LINHAS TÊM DE FICAR AQUI, FORA DE QUALQUER FUNÇÃO
+    // ESTAS LINHAS TÊM DE FICAR AQUI, FORA DE QUALQUER FUNÇÃO para mover o mouse
     [System.Runtime.InteropServices.DllImport( "user32.dll" )]
     static extern bool SetCursorPos( int x, int y );
 
@@ -117,10 +116,44 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 
     void OnEnable()
     {
+        // Inscreve a nossa função de checagem no loop global do Editor
+        EditorApplication.update += CheckForExternalToggle;
+
         if( Application.isPlaying || !tileMap.AllowEdit )
             return;
 
         LoadTileMapData();
+    }
+    // Esta função roda a cada frame do editor, mas NÃO durante o desenho da tela
+    void CheckForExternalToggle()
+    {
+        // Se a variável não estiver ativa ou o tilemap sumiu, não faz nada
+        if( !Manager.ForceInitEditor || target == null ) return;
+
+        // 1. Consome a flag
+        Manager.ForceInitEditor = false;
+
+        // 2. Executa a lógica (Agora é seguro, pois não estamos num bloco GUILayout)
+        if( tileMap.name == "Areas Template Tilemap" )
+        if( tileMap.AllowEdit )
+        {
+            tileMap.EndEditMode();
+
+            bool res = Map.FinalizeMap( tileMap );                 // Guga add tk
+
+            MapSaver.Get().Save();
+        }
+        else
+        {
+            tileMap.BeginEditMode();
+            InitEditor(); // Ou LoadTileMapData(), dependendo da estabilidade
+        }
+
+        // 3. Avisa ao Unity que o objeto mudou e precisa redesenhar a tela no PRÓXIMO frame
+        EditorUtility.SetDirty( target );
+
+        // O RepaintAllViews aqui garante que o Inspector atualize visualmente logo em seguida
+        UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
     }
 
     void OnDestroy()
@@ -139,6 +172,16 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
 
     void OnDisable()
     {
+        // É muito importante remover a inscrição quando sair para não dar erro de memória
+        EditorApplication.update -= CheckForExternalToggle;
+
+        // ... (código original de cleanup do tk2d, se houver) ...
+        if( tileMap.AllowEdit )
+        {
+            // Opcional: Salvar ao deselecionar
+            // tileMap.EndEditMode(); 
+        }
+
         brushRenderer = null;
         guiBrushBuilder = null;
 
@@ -1359,7 +1402,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
         editorData = AssetDatabase.LoadAssetAtPath( editorDataPath, typeof( tk2dTileMapEditorData ) ) as tk2dTileMapEditorData;
     }    
     public override void OnInspectorGUI()
-    {    
+    {     
         UpdateBrushInput( this, editorData );
        
         if( tk2dEditorUtility.IsPrefab( target ) )
@@ -1405,7 +1448,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
             {
                 if( Quest.CurrentLevel < -1 ) { Debug.LogError( "Quest.CurrentLevel < -1" ); return; }    // guga add tk
                 MapSaver ms = MapSaver.Get();
-                if( ms ) ms.Load();                                                                    // guga add tk to avoid losing externally saved map
+                if( ms ) ms.Load();                                                                       // guga add tk to avoid losing externally saved map
 
 #if (UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
 				Undo.RegisterSceneUndo("Tilemap Enter Edit Mode");
@@ -1460,9 +1503,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
             {
                 bool res = Map.FinalizeMap( tileMap );                 // Guga add tk
 
-                MapSaver ms = GameObject.Find( "Areas Template Tilemap" ).GetComponent<MapSaver>();
-
-                ms.Save();
+                MapSaver.Get().Save();
 
                 if( !res ) return;
             }
@@ -1601,6 +1642,8 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost
                 }
                 SceneView.RepaintAll();
                 Debug.Log( "Loaded brush: " + nextFile );
+                for( int i = 0; i < LastLoad.Count; i++ )
+                if( page != i ) LastLoad[ i ] = "";
                 e.Use();
             }
         }
