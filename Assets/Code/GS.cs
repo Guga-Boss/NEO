@@ -116,6 +116,40 @@ public class GS : MonoBehaviour
         Unit save = Map.I.GetUnit( ETileType.SAVEGAME, new Vector2( Map.I.Mtx, Map.I.Mty ) );
 
         if( save )
+        {
+            // Log do save atual
+            Debug.Log( "Save atual: " + save.name +
+                      " | Posição: " + save.transform.position );
+
+            // Log da Step List
+            Debug.Log( "Conteúdo da SaveStepUnitList:" );
+
+            if( SaveStepUnitList != null && SaveStepUnitList.Count > 0 )
+            {
+                for( int i = 0; i < SaveStepUnitList.Count; i++ )
+                {
+                    var step = SaveStepUnitList[ i ];
+                    Debug.Log( "Step [" + i + "] -> Nome: " + step.name +
+                              " | Posição: " + step.transform.position );
+                }
+            }
+            else
+            {
+                Debug.Log( "SaveStepUnitList está vazia ou nula." );
+            }
+
+            if( SaveStepUnitList.Contains( save ) )
+            {
+                Debug.Log( "O save atual JÁ existe na SaveStepUnitList." );
+            }
+            else
+            {
+                Debug.Log( "O save atual NÃO existe na SaveStepUnitList." );
+            }
+        }
+        else Debug.Log( "Save == null" );
+
+        if( save )
         if( SaveStepUnitList.Contains( save ) == true )                                    // Switches current activated save spot
         {
             LastSavedCube = save;

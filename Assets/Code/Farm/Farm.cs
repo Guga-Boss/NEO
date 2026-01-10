@@ -594,6 +594,7 @@ public partial class Farm : MonoBehaviour
             un.Kill();
             Map.I.CreateExplosionFX( tg );                                                                     // Explosion FX
             MasterAudio.PlaySound3DAtVector3( "Monster Falling", un.Pos );
+            FreeIdleProductionSlot( ItemType.Club );                                                           // Free the Idle production slot
             return true;
         }
 
@@ -725,15 +726,7 @@ public partial class Farm : MonoBehaviour
 
             if( res )
             {
-                List<BuildingItem> il = Building.GetBuildingItemList( tool );
-                for( int i = 0; i < il.Count; i++ )
-                {
-                    if( il[ i ].ProductionCap > 0 )                                                            // Max Production Cap : Free the Production slot  
-                    {
-                        if( --il[ i ].IdleProductionCount < 0 )
-                            il[ i ].IdleProductionCount = 0;
-                    }
-                }    
+                FreeIdleProductionSlot( tool );                                                                // Free the Idle production slot
 
                 Building.Bld.Building.ToolType = tool;
                 Building.Bld.Building.CustomProductionTime = customProductionTime;
@@ -741,6 +734,19 @@ public partial class Farm : MonoBehaviour
                     G.Farm.SetSelectedItem( G.Farm.SelectedItem, G.Farm.CarryingAmount - 1 );                 // Remove Seed from hand
             }
             return true;
+        }
+    }
+
+    private static void FreeIdleProductionSlot( ItemType tool )
+    {
+        List<BuildingItem> il = Building.GetBuildingItemList( tool );
+        for( int i = 0; i < il.Count; i++ )
+        {
+            if( il[ i ].ProductionCap > 0 )                                                            // Max Production Cap : Free the Production slot  
+            {
+                if( --il[ i ].IdleProductionCount < 0 )
+                    il[ i ].IdleProductionCount = 0;
+            }
         }
     }
     private bool CheckTokenLimits(ItemType tool, ItemType token, int size )                                   // Check to see if the number of tokens is enough for the work area to be installed
