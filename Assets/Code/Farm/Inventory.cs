@@ -302,7 +302,7 @@ public class Inventory : MonoBehaviour {
             float tott = Item.GetStat( EVarType.Production_Total_Time, other );
             float tm = tott - itm.ProductionCount;
             string answer = Util.ToTime( tm );
-            string next = "\n\nNext in: " + answer;
+            string next = "\n\nNext in: " + answer + "(" + Util.ToSTime( tott ) + ")";
             if( Item.IsPlagueMonster( ( int ) itm.Type, false ) )
             {
                 next = "\n\nPosition Change in: " + answer;

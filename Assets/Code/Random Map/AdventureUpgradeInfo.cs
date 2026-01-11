@@ -13,7 +13,7 @@ public enum EAdventureUpgradeType
     INITIAL_UPGRADE_CHEST_CHANCE, CLOVER_UPGRADE_CHEST_CHANCE, CUBE_CLEAR_UPGRADE_CHEST_CHANCE,
     SPAWN_BUTCHER_CHANCE, CHEST_BASE_BONUS_CHANCE, LOAD_COST_DISCOUNT, TRADE,
     UPGRADE_MAX_CAPACITY, CUBE_CLEAR_DEFAULT_BONUS, ITEM_PRODUCTION_LIMIT,
-    ITEM_PRODUCTION_TOTAL_TIME, ITEM_PRODUCTION_CAP, ITEM_PRODUCTION_BOOST_CHANCE
+    ITEM_PRODUCTION_TOTAL_TIME, ITEM_PRODUCTION_CAP, ITEM_PRODUCTION_BOOST_CHANCE, 
 }
 
 public enum ELeisureType
@@ -172,7 +172,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
                         tb.UpgradeList[ i ].ItemAffected == ItemType.ALL || 
                         tb.UpgradeList[ i ].ItemAffected == itt )
                     {
-                        val += tb.UpgradeList[ i ].GetEffectAmount( x, y, level );
+                        val += tb.UpgradeList[ i ].GetEffectAmount( level );
                         UpdateInfo( tb.UpgradeList[ i ], type );
                     }
                 }
@@ -188,17 +188,17 @@ public class AdventureUpgradeInfo : MonoBehaviour
                 ad.ItemAffected == ItemType.ALL ||
                 ad.ItemAffected == itt )
             {
-                val += ad.UpgradeEffectAmount;
+                val += ad.GetEffectAmount( level );
                 UpdateInfo( ad, type );
             }
         }
 
-        if( type == EAdventureUpgradeType.CHEST_PERSIST_CHANCE )                                             // define  limits for these
-            if( val > 40 ) val = 40;
+        if( type == EAdventureUpgradeType.CHEST_PERSIST_CHANCE )                                       // define  limits for these
+        if( val > 40 ) val = 40;
 
         return val;
     }
-    private float GetEffectAmount( int techX, int techY, int level )
+    private float GetEffectAmount( int level )
     {
         if( IsRecurring() )
         {
@@ -237,6 +237,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
     {
         string post = " ";                                                                                     // if you want the Current value to be displayed, use post = " " or post = "" if not
         string msg = "";
+        bool usetime = false;
 
         if( title ) msg = "Upgrade Effect: ";
         if( Application.platform == RuntimePlatform.WindowsEditor )
@@ -304,7 +305,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
             break;
             case EAdventureUpgradeType.INCREASE_REQUIRED_ITEM_TIME:
             msg += "Required Item Lifetime: -" + Util.ToSTime( amt );
-            post = " ";
+            post = " "; usetime = true;
             break;            
             case EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT:
             msg += Item.GetName( au.ItemAffected ) + " Production Limit: " + amt.ToString( "+0;-#" );
@@ -324,7 +325,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
             break;
             case EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME:
             msg += Item.GetName( au.ItemAffected ) + " Production Time: " + Util.ToSTime( amt );
-            post = " ";
+            post = " ";  usetime = true;
             break;
 
             case EAdventureUpgradeType.UPGRADE_PACKMULE_STACK:
@@ -476,6 +477,9 @@ public class AdventureUpgradeInfo : MonoBehaviour
         if( extra && post != "" )                                                                                   // extra information
         {
             float val = AdventureUpgradeInfo.GetStat( au.UpgradeType, au.ItemAffected );
+            string valtxt = "" + val;
+            if( usetime ) valtxt = Util.ToSTime( val );
+
             if( post == "lock" )
             {
                 if( val <= 0 )
@@ -489,10 +493,10 @@ public class AdventureUpgradeInfo : MonoBehaviour
                 if( val < 1 )
                     msg += "\nLocked";
                 else
-                    msg += "\nCurrent Level: " + val;
+                    msg += "\nCurrent Level: " + valtxt;
             }
             else
-                msg += "\nCurrent Amount: " + val + post;
+                msg += "\nTotal Purchased: " + valtxt + post;
         }
         return msg;
     }
@@ -512,7 +516,15 @@ public class AdventureUpgradeInfo : MonoBehaviour
         add = " (" + UpgradeItem1Type + " " + UpgradeItem1Cost + ")";
         if( TechTotalTime > 0 ) 
             add += "  time:  " + Util.ToSTime( TechTotalTime );
-        if( IsRecurring() ) add = " (Recurring)";
+        if( IsRecurring() )
+        {
+            float total = 0f;
+            for( int i = 0; i < UpgradeRecuringEffect.Count; i++ )
+            {
+                total += UpgradeRecuringEffect[ i ];
+            }
+            add = " (Recurring) " + UpgradeRecuringEffect.Count + "x  tot: " + total;
+        }
         if( PurchaseChance > 0 )
             add += "  Chance:  " + PurchaseChance.ToString( "0.#" ) + "%";
         name = GetUpgradeText() + add;

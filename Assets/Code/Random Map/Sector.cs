@@ -727,10 +727,11 @@ public class Sector : MonoBehaviour
                 }
                 else
                 if( pass == 4 && ( Map.I.Unit[ x, y ].TileID == ETileType.BARRICADE ||
-                                   Map.I.Unit[ x, y ].TileID == ETileType.ALTAR ||
-                                   Map.I.Unit[ x, y ].TileID == ETileType.TOWER ||
-                                   Map.I.Unit[ x, y ].TileID == ETileType.ORB ||
-                                   Map.I.Unit[ x, y ].TileID == ETileType.FAN ) )
+                                   Map.I.Unit[ x, y ].TileID == ETileType.ALTAR     ||
+                                   Map.I.Unit[ x, y ].TileID == ETileType.TOWER     ||
+                                   Map.I.Unit[ x, y ].TileID == ETileType.ORB       ||
+                                   Map.I.Unit[ x, y ].TileID == ETileType.FAN       ||
+                                   Map.I.Unit[ x, y ].TileID == ETileType.PLAGUE_MONSTER ) )
                 {
                     MoveOrder.Add( Map.I.Unit[ x, y ] );
                 }

@@ -1076,6 +1076,15 @@ public class DungeonDialog : MonoBehaviour
             OnFarmButtonClickedCallBack();      
         }
 
+        if( Input.GetKeyDown( KeyCode.S ) )
+        if( Map.I.RM.GameOver )
+        {
+            if( WindowType != EWindowType.Studies )
+                OnStudyModeButtonPress();
+            else
+                OnProvisionsModeButtonPress();
+        }
+
         UI.I.RestartAreaButton.gameObject.SetActive( true );
         if( Map.I.RM.GameOver )
             UI.I.RestartAreaButton.gameObject.SetActive( false );

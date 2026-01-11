@@ -107,6 +107,7 @@ public class AltarBonusStruct
         AltarBonusItem = ItemType.NONE;
         ShieldTimer = 0;
         HangTimer = 0;
+        TimesUsed = 0;
         Scope = EAltarBonusScope.NONE;
     }
     public void Save()
@@ -720,7 +721,7 @@ public class Altar : MonoBehaviour
                 return;
             }
             if( Item.GetNum( ItemType.Res_Butcher_Coin ) <= 1 )                                                   // auto kill random altar if out of coins in a few seconds
-                Map.TimeKill( altar, 5 ); 
+                Map.TimeKill( altar, 3 ); 
         }
 
         EDirection dr = Util.GetTargetUnitDir( G.Hero.Pos, tg );
@@ -732,7 +733,7 @@ public class Altar : MonoBehaviour
 
         if( altar.Altar.RandomAltar )
         if( bumpBn.AltarBonusType != EAltarBonusType.Prize )                                                      // Return if passive bonus is already activated in Random Butchers
-        if( bumpBn.Activated ) return;
+        if( bumpBn.TimesUsed > 0 ) return;
 
         UpdateBonusData( EAltarBonusType.Lock, altar );                                                           // Bonus Lock calculation
 

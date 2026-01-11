@@ -663,7 +663,6 @@ public class Blueprint : MonoBehaviour
 
         if( onlyMatrix == false ) SortEverything( false );                                                     // Sort Price
     }
-
     private BPSortData SortBPData()
     {
         List<float> factl = new List<float>();                                                                 // Sort Blueprint data from lists
@@ -675,14 +674,11 @@ public class Blueprint : MonoBehaviour
         SortID = id;
         return BPSort[ id ];
     }
-
-
     public void SortEverything( bool istemp )
     {
         SortPrice( Cost, istemp, false );
         SortSuccess( SuccessRate, istemp, false );
-    }
-    
+    }    
     public float SortPrice( float orCost, bool istemp, bool report )
     {
         if( !report && Cost <= 0 )
@@ -719,7 +715,6 @@ public class Blueprint : MonoBehaviour
 
         return _cost;
     }
-
     public float SortSuccess( float orSucc, bool istemp, bool report )
     {
         float ss = orSucc;                                                                                      // Success
@@ -747,7 +742,6 @@ public class Blueprint : MonoBehaviour
 
         return _succ;
     }
-
 
     public static void CheckPatterns()
     {
@@ -1175,11 +1169,12 @@ public class Blueprint : MonoBehaviour
         return AffectedVariableBaseAmountList[ usesID ];
     }
 
-    public static float GetUseSum( EVarType var )
+    public static float GetUseSum( EVarType var, ItemType itt )
     {
         float sum  = 0;
         for( int b = 0; b < G.Farm.BluePrintList.Count; b++ )
         if ( G.Farm.BluePrintList[ b ].AffectedVariable == var )
+        if ( itt == ItemType.NONE || itt == G.Farm.BluePrintList[ b ].AffectedItem )
         for( int u = 0; u < G.Farm.BluePrintList[ b ].UsesList.Count; u++ )
         {
             sum += G.Farm.BluePrintList[ b ].UsesList[ u ];

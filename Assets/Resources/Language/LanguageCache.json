@@ -1412,7 +1412,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_1_MOD_1",
-                    "value": "This is The Slayer Plague Monster!\n\n\nThey Generally Appear in the Farm..."
+                    "value": "This is The Slayer Plague Monster!\r\n\r\nThey Generally Appear on the Farm..."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_1_MOD_2",
@@ -1424,11 +1424,11 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_1_MOD_4",
-                    "value": "Bump Against Flocking Plague Monsters, and you will Push him.\n\n\n(Flocking Definition: Containing One or more Similar monsters in an Adjacent Tile)\n\nTIP: Flocking Monsters Have a Stony Background."
+                    "value": "Bump Against Flocking Plague Monsters, and you will Push him.\r\n\r\n(Flocking Definition: Containing One or more Similar Monsters in an Adjacent Tile)\r\n\r\nTIP: Flocking Monsters Have a Stony Background."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_1_MOD_5",
-                    "value": "Bump against a Slayer Plague Monster, and he will destroy any other Plague Monster behind.\n\n\nImportant: Rotate towards the Plague Monster located in the Back to Choose the desired Target.\n\n(East Direction in this case)"
+                    "value": "Bump Against a Slayer Plague Monster, and he will Destroy any other Plague Monster behind.\r\n\r\nImportant: Rotate towards the Plague Monster located in the Back to Choose the Desired Target.\r\n\r\n(East Direction in this case)"
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_1_MOD_6",
@@ -1452,7 +1452,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_3_MOD_3",
-                    "value": "Bump Against a Swapping Plague Monster and He will have it's Position Exchanged with the Monster Behind him.\n\n\nSwapping Target is Defined by Hero Direction.\n"
+                    "value": "Bump Against a Swapping Plague Monster and He will have its Position Exchanged with the Monster Behind him.\r\n\r\nSwapping Target is Defined by Hero Direction."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_4_MOD_1",
@@ -1464,7 +1464,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_5_MOD_2",
-                    "value": "Bump Against a Kickable Monster and it will Slide Towards Hero Direction until an obstacle is found.\n\n\nTransforms itself in Two new Monster of Random Type after Stopping.\n\n(2 free tiles Required)"
+                    "value": "Bump Against a Kickable Monster and it will Slide Towards Hero Direction until an Obstacle is found.\r\n\r\nTransforms itself into Two new Monsters of Random Type after Stopping.\r\n(2 Free Tiles Required)"
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_5_MOD_3",
@@ -1492,7 +1492,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_7_MOD_2",
-                    "value": "Bump Against A Grabber to Activate the Grabbing Ability.\n\n\nMoving Away from Grabbers Deactivate this Ability."
+                    "value": "Bump Against a Grabber to Activate the Grabbing Ability.\r\n\r\nMoving Away from Grabbers Deactivates this Ability."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_7_MOD_3",
@@ -1508,7 +1508,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_8_MOD_2",
-                    "value": "To Choose the next Spawned Monster type:\n\n\n1) Have a Cloner Around You.\n\n2) Rotate Towards Another neighbor Monster of the type you want to Clone.\n\n3) Bump Against the Cloner.\n\n4) Success: Check the \"Next\" Message indicating your next monster type.\n\n\nAs long as you keep walking around Cloners, the Cloning Ability will be maintained active."
+                    "value": "To Choose the Next Spawned Monster Type:\r\n\r\n1) Stand next to a Cloner.\r\n2) Rotate Towards a Neighbor Monster of the Type you want to Clone.\r\n3) Bump Against the Cloner.\r\n4) Success: Check the \"Next\" Message showing the chosen Monster Type.\r\n\r\nThe Cloning Ability remains Active while you stay around Cloners."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_8_MOD_3",
@@ -1524,7 +1524,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_9_MOD_3",
-                    "value": "The Two Monsters to the left cannot be killed since you cant step the water tile to directly face the back monster."
+                    "value": "The Two Monsters to the left cannot be killed since you can't step on the water tile to directly face the back Monster."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_9_MOD_4",
@@ -1552,7 +1552,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_10_MOD_1",
-                    "value": "Glowing Ability:\n\n\nKickable Monsters needs Two Free tiles to be Kicked to.\n\n\nKick all them towards the alcoves and study the cases..."
+                    "value": "Glowing Ability:\n\n\nKickable Monsters need Two Free tiles to be Kicked to.\n\n\nKick all them towards the alcoves and study the cases..."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_10_MOD_2",
@@ -1592,7 +1592,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_11_MOD_4",
-                    "value": "Fontface any Blocker To Check Killing Price..."
+                    "value": "Frontface any Blocker To Check Killing Price..."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_11_MOD_5",
@@ -1600,7 +1600,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_11_MOD_6",
-                    "value": "(Advanced Information for Experts)\n\nThe Final Cost to Kill a Blocker it is defined By:\n\n\nX = Base (Solo) Value.\n\nY = Amount of Flocking Monsters Around the Blocker.\n\nZ = Amount of Flocking Monsters Around the Hero.\n\n\n\nTotal Cost = X - Y - Z\n\n\n1) No Flocking Monster is Accounted twice, Only Once.\n\n2) If the Blocker itself is Flocking or not, it doesn't matter. It is always ignored.\n\n3) Minimum Cost is Always 1."
+                    "value": "(Advanced Information for Experts)\r\n\r\nThe Final Cost to Kill a Blocker is defined By:\r\n\r\nX = Base (Solo) Value.\r\nY = Amount of Flocking Monsters Around the Blocker.\r\nZ = Amount of Flocking Monsters Around the Hero.\r\n\r\nTotal Cost = X - Y - Z\r\n\r\n1) No Flocking Monster is Accounted twice, Only Once.\r\n2) If the Blocker itself is Flocking or not, it doesn't matter. It is always ignored.\r\n3) Minimum Cost is Always 1."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_11_MOD_7",
@@ -1624,7 +1624,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_13_MOD_3",
-                    "value": "Use this automatic Movement to Temporally gain a free Diagonal Movement.\n\n\n(Diagonal Steps are Allowed in this case)."
+                    "value": "Use this automatic Movement to Temporarily gain a Free Diagonal Movement.\r\n\r\n(Diagonal Steps are Allowed in this case)."
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_13_MOD_4",
@@ -1664,7 +1664,7 @@
                 },
                 {
                     "key": "A2_QUEST_19_CUBE_15_MOD_1",
-                    "value": "NEO has a Powerful Random Cube Generator!\n\n\nVirtually any kind of Cube can be Randomly made using a nice set o AI tools!\n\n\nFrom this Cube On Everything is Randomly Generated!\n\nIt means: Unlimited Gameplay!"
+                    "value": "NEO has a Powerful Random Cube Generator.\n\nVirtually any kind of Cube can be Randomly made using a nice set of AI tools!\n\nFrom this Cube On, Everything is Randomly Generated!\n\nIt means: Unlimited Gameplay!"
                 },
                 {
                     "key": "A2_QUEST_1_CUBE_1",
@@ -1739,15 +1739,15 @@
                     "value": "While Blue line shows the Fan's floating vector, The red line represents tiles the hero effectively moves through. It can trigger traps, activate levers, \nbe blocked by arrows, push objects, and interact with elements just like normal movement."
                 },
                 {
-                    "key": "A2_QUEST_25_CUBE_22_MOD_1",
-                    "value": "Fans can be activated or deactivated by orbs and keys in NEO. \n\nOnce a fan has been activated by an orb, it will remain on forever until deactivated again."
+                    "key": "A2_QUEST_25_CUBE_23_MOD_1",
+                    "value": "Fans can be activated or deactivated using orbs and keys in NEO.\nOnce a fan is activated by an orb, it remains active indefinitely until it is deactivated again.\nImportant: Any active fan affects the hero's floating direction, regardless of whether it is directly facing him."
                 },
                 {
-                    "key": "A2_QUEST_25_CUBE_22_MOD_2",
+                    "key": "A2_QUEST_25_CUBE_23_MOD_2",
                     "value": "Interacting with a permanently active fan by stepping in front of it will break its permanent state."
                 },
                 {
-                    "key": "A2_QUEST_25_CUBE_22_MOD_3",
+                    "key": "A2_QUEST_25_CUBE_23_MOD_3",
                     "value": "Hit an orb to trigger a key next to a fan. \nGreen keys turn fans on, red ones turn them off, and neutral keys just toggle them."
                 },
                 {

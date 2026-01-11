@@ -27,7 +27,7 @@ public enum EBuildingCategory
 public enum EVarType
 {
     NONE = 0,
-    Production_Total_Time, Item_Count, Maximum_Item_Stack, Carry_Capacity, Road_Carry_Capacity,
+    Production_Total_Time, Item_Count, Maximum_Item_Stack, Carry_Capacity, void3,
     Crafting_Bonus_Factor = 12, BluePrint_Success_Rate, BluePrint_Cost,
     BluePrint_ReSort_Chance, BluePrint_Effect_Amount, Total_Life_Time, Total_Building_Production_Time, PackMule_Capacity,
     Production_Limit, Production_Cap, Production_Boost_Chance
@@ -361,8 +361,8 @@ public class Building : MonoBehaviour
  
                 float cap = ( int ) Item.GetStat( EVarType.Carry_Capacity, itm );  
                 Unit road = Map.I.GetUnit( ETileType.ROAD, G.Hero.Pos );
-                if( road ) cap += ( int ) Item.GetStat( EVarType.Road_Carry_Capacity, itm );
-
+                if( road ) cap += ( int ) Item.GetStat( EVarType.void3, itm );
+                if( cap > 0 )
                 if( amt < 0 && Map.I.Farm.CarryingAmount >= cap )
                 {
                     Message.RedMessage( "Maximum Carry Capacity Reached: " + cap );
@@ -983,13 +983,7 @@ public class Building : MonoBehaviour
 
                     G.GIT( it.ItemType ).CarryCapacity += power;
 
-                    break;
-
-                    case EVarType.Road_Carry_Capacity:
-
-                    G.GIT( it.ItemType ).RoadCarryCapacity += power;
-
-                    break;
+                    break;                 
                 }
 
                 string nm = Util.GetName( bp.AffectedVariable.ToString() );

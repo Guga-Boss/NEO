@@ -281,11 +281,11 @@ public partial class Farm : MonoBehaviour
                 {
                     if( prd > 0 && bl.Category == EBuildingCategory.Plant )
                     {
-                        float wit = bi.TotalWitherTime - ( bi.ProductionTimeCount - prd );
-                        if( bi.TotalWitherTime > 0 )
-                            txt += "\nWither Time: " + Util.ToSTime( wit );
-                        else
-                            txt += "\nWither Time: Eternal";
+                        //float wit = bi.TotalWitherTime - ( bi.ProductionTimeCount - prd );
+                        //if( bi.TotalWitherTime > 0 )
+                        //    txt += "\nWither Time: " + Util.ToSTime( wit );
+                        //else
+                        //    txt += "\nWither Time: Eternal";
                     }
                 }
                 else
@@ -332,7 +332,8 @@ public partial class Farm : MonoBehaviour
             {
                 float cap = ( int ) Item.GetStat( EVarType.Carry_Capacity, it );
                 float rcap = ( int ) Item.GetStat( EVarType.Carry_Capacity, it );
-                txt += "\nCarry Cap: " + cap; // +"  (" + ( cap + rcap ) + ")";
+                if( cap > 0 )
+                    txt += "\nCarry Cap: " + cap; // +"  (" + ( cap + rcap ) + ")";
             }
 
             BuildingDescription.text = txt + "\n" + next;
@@ -453,11 +454,9 @@ public partial class Farm : MonoBehaviour
             if( it != ItemType.NONE )
             {
                 cap = ( int ) Item.GetStat( EVarType.Carry_Capacity, G.GIT( SelectedItem ) );                                                  // capacity check
-                      
-                Unit road = Map.I.GetUnit( ETileType.ROAD, G.Hero.Pos );
-                if( road ) cap += ( int ) Item.GetStat( EVarType.Road_Carry_Capacity,  G.GIT( SelectedItem ) );                                   
             }
 
+            if( cap > 0 )
             if( amt == -1 && CarryingAmount >= cap && heroplaced )
             {
                 Message.RedMessage( "Maximum Carry Capacity Reached: " + cap );                                       // maxximum capacity reached
@@ -805,9 +804,7 @@ public partial class Farm : MonoBehaviour
         if( fu && !tu )
         {
             float cap = ( int ) Item.GetStat( EVarType.Carry_Capacity, G.GIT( SelectedItem ) );
-            //Unit ga = Map.I.GetUnit( ETileType.ROAD, G.Hero.Pos );
-            //if( ga ) cap = G.GIT( SelectedItem ).RoadCarryCapacity;
-
+            if( cap > 0 )
             if( CarryingAmount > cap )
             {
                 Message.RedMessage( "Drop Some items First!" );

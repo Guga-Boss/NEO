@@ -125,10 +125,6 @@ public class Item : MonoBehaviour
     public float BaseCarryCapacity = 1;
     [TabGroup( "Carry" )]
     public float CarryCapacity = 0;
-    [TabGroup( "Carry" )]
-    public float BaseRoadCarryCapacity = 1;
-    [TabGroup( "Carry" )]
-    public float RoadCarryCapacity = 0;
     [TabGroup( "Production" )]
     public bool BaseProductionActivated = false;          // item has originaly production activated?
     [TabGroup( "Production" )]
@@ -1037,7 +1033,7 @@ public class Item : MonoBehaviour
             if( Util.Chance( boost ) )                                                    
                 amount *= 2;                                                               // apply boost
 
-            float spaceLeft = max - Count - IdleProductionCount;                           // remaining space before reaching max
+            float spaceLeft = max - Count;                                                 // remaining space before reaching max
 
             if( spaceLeft <= 0 )                                                           // check if already at the limit
             {
@@ -1058,6 +1054,7 @@ public class Item : MonoBehaviour
                 ProductionCount = 0;
                 break;
             }
+
             ProductionCount -= tottime;                                                    // decrement timer
         }
     }
@@ -1158,28 +1155,24 @@ public class Item : MonoBehaviour
             return it.BaseProductionBoostChance + it.ExtraProductionBoostChance;
 
             case EVarType.Total_Life_Time:
-            it.TotalLifeTime = Blueprint.GetUseSum( var );
+            it.TotalLifeTime = Blueprint.GetUseSum( var, it.Type );
             return Map.I.RM.RMD.RequiredItemLifeTime + it.BaseTotalLifeTime + it.TotalLifeTime +
             ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_REQUIRED_ITEM_TIME );
 
             case EVarType.Carry_Capacity:
 
-            it.CarryCapacity = Blueprint.GetUseSum( var );
+            it.CarryCapacity = Blueprint.GetUseSum( var, it.Type );
             return it.BaseCarryCapacity + it.CarryCapacity;
 
-            case EVarType.Road_Carry_Capacity:
-            it.RoadCarryCapacity = Blueprint.GetUseSum( var );
-            return it.BaseRoadCarryCapacity + it.RoadCarryCapacity;
-
             case EVarType.PackMule_Capacity:
-            float cap = Blueprint.GetUseSum( var );
+            float cap = Blueprint.GetUseSum( var, it.Type );
 
             float basecap = 0;
             if( Map.I.RM.CurrentAdventure != -1 )
-                if( it.BasePackmuleCapacityPerAdventure != null )
-                    if( it.BasePackmuleCapacityPerAdventure.Count > 0 )
-                        if( ( int ) Map.I.RM.CurrentAdventure < it.BasePackmuleCapacityPerAdventure.Count )
-                            basecap = it.BasePackmuleCapacityPerAdventure[ ( int ) Map.I.RM.CurrentAdventure ];
+            if( it.BasePackmuleCapacityPerAdventure != null )
+            if( it.BasePackmuleCapacityPerAdventure.Count > 0 )
+            if( ( int ) Map.I.RM.CurrentAdventure < it.BasePackmuleCapacityPerAdventure.Count )
+                basecap = it.BasePackmuleCapacityPerAdventure[ ( int ) Map.I.RM.CurrentAdventure ];
             return basecap + cap;
         }
         return -1;
