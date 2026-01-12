@@ -6,6 +6,11 @@ using Sirenix.OdinInspector;
 public class Chests : MonoBehaviour 
 {
     public static Chests I;
+    [FoldoutGroup( "Tool" )]
+    public List<ItemType> FindToolType = null;             // find tool tech
+    [FoldoutGroup( "Tool" )]
+    public List<float> FindToolFactor = null; 
+
     [System.Serializable]
     public class SortData 
     {
@@ -222,12 +227,23 @@ public class Chests : MonoBehaviour
         MasterAudio.PlaySound3DAtVector3( snd, res.Pos );
         Statistics.AddStats( Statistics.EStatsType.RESOURCECOLLECTED, 1f );
         destroy = true;
-        float chc = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.CHEST_PERSIST_CHANCE );       // Chest persist
+        float chc = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.CHEST_PERSIST_CHANCE );              // Chest persist
         if( chc > 0 )
         {
             txt += "Chest Persist Chance: " + chc.ToString( "0." ) + "%";
             if( Util.Chance( chc ) ) { destroy = false; txt += " OK!"; }
             else txt += " Failed!";
+        }
+
+        float fchc = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.CHEST_FIND_TOOL_CHANCE );           // Find Tool Chance
+        if( fchc > 0 )
+        if( Util.Chance( fchc ) )
+        {
+            int id = Util.Sort( Chests.I.FindToolFactor );                                                   // Sort ok
+            Item tool = G.GIT( Chests.I.FindToolType[ id ] );
+            txt += "\nTool Found: " + tool.GetName();
+            Item.ForceMessage = true;
+            Item.AddItem( tool.Type, +1 );                                                                   // Give tool
         }
 
         if( destroy )

@@ -733,6 +733,7 @@ public class TechButton : MonoBehaviour
             au.UpgradeType == EAdventureUpgradeType.CHEST_BASE_BONUS_CHANCE ||
             au.UpgradeType == EAdventureUpgradeType.CUBE_CLEAR_UPGRADE_CHEST_CHANCE ||
             au.UpgradeType == EAdventureUpgradeType.CHEST_PERSIST_CHANCE ||
+            au.UpgradeType == EAdventureUpgradeType.CHEST_FIND_TOOL_CHANCE ||
             au.UpgradeType == EAdventureUpgradeType.CHEST_ITEM_CHANCE_INFLATION )
             icon = ( int ) ItemType.Chest_Points;
         if( au.UpgradeType == EAdventureUpgradeType.SPAWN_BUTCHER_CHANCE )

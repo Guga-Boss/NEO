@@ -155,6 +155,7 @@ public class ArcherArrowAnimation : MonoBehaviour {
         }
         if( Type == EBoltType.Arrow )
         {
+            ArrowSpeed = Random.Range( 14, 18 ) + ( Vector2.Distance( OrigPos, _unit.Pos ) * 2 ); // new
             Sprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ], 351 ); // To avoid the green square instead of arrow bug
             Sprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ], 352 );
         }
@@ -167,7 +168,7 @@ public class ArcherArrowAnimation : MonoBehaviour {
 
         if( _unit != null )
         {
-            if( Type == EBoltType.Spear )
+            if( Type == EBoltType.Spear || type == EBoltType.Arrow )
             if( _unit.Control.IsFlyingUnit == false ||                                                  // this has been added to allowe multiple shots of spear in a single turn, if 2 lives monster died first shot stayed stopped
                 _unit.Body.IsDead )
             {

@@ -331,9 +331,8 @@ public partial class Farm : MonoBehaviour
             if( it != null )
             {
                 float cap = ( int ) Item.GetStat( EVarType.Carry_Capacity, it );
-                float rcap = ( int ) Item.GetStat( EVarType.Carry_Capacity, it );
                 if( cap > 0 )
-                    txt += "\nCarry Cap: " + cap; // +"  (" + ( cap + rcap ) + ")";
+                    txt += "\nCarry Cap: " + cap; 
             }
 
             BuildingDescription.text = txt + "\n" + next;

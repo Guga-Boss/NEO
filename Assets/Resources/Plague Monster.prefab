@@ -132,7 +132,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000010840414934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 128.85954, y: 130.40944, z: 0}
+  m_LocalPosition: {x: -3.9923067, y: 14.602641, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000014222434856}
@@ -500,6 +500,7 @@ MonoBehaviour:
   SpikedBoulder: 0
   TrailCoil: 0
   TrailRotator: 0
+  TowerProjectileTrailFX: 1
   HookIsStuck: 0
   CreatedVine: 0
   GraphicsInitialized: 0
@@ -566,7 +567,6 @@ MonoBehaviour:
   FireSpreadLevel: 0
   FireWoodNeeded: 0
   OutsideFireWoodAllowed: 0
-  FirepitsNeededForDiscount: 0
   FreePlatformExit: 0
   OutAreaBurningBarricadeDestroyBonus: 0
   BarricadeForRune: 0
@@ -580,6 +580,9 @@ MonoBehaviour:
   RealtimeRangedAttSpeed: 0
   MiningLevel: 0
   FishingLevel: 0
+  QQMissHeroDamage: 0
+  QQMinDamage: 5
+  QQMaxDamage: 10
   Fishing_1: 0
   Fishing_2: 0
   Fishing_3: 0
@@ -603,7 +606,7 @@ MonoBehaviour:
   ResourcePersistStepCount: 0
   isWorking: 1
   IsDead: 0
-  MudPushable: 0
+  MudPushable: 1
   PerformPreMoveAttack: 0
   PerformPostMoveAttack: 0
   IsLoot: 0
@@ -734,6 +737,7 @@ MonoBehaviour:
   LastPos: {x: 0, y: 0}
   JumpTarget: {x: 0, y: 0}
   AnimationOrigin: {x: 0, y: 0}
+  MotherPos: {x: -1, y: -1}
   MoveOrderID: 0
   RamStraightMoveCount: 0
   PlatformWalkingCounter: 0
@@ -845,7 +849,7 @@ MonoBehaviour:
   FireMarkedWaspFactor: 0
   FireMarkAvailable: 1
   BaseRestDistance: 0
-  ScorpionProcessed: 0
+  UnitProcessed: 0
   BoulderPunchPower: 100
   Current: 100
   UnitMoved: 0
@@ -897,7 +901,6 @@ MonoBehaviour:
   WaitTimeCounter: -1
   WakeupTimeCounter: -1
   WakeupTotalTime: -1
-  EggsDestroyed: 0
   SpiderAttackBlockPhase: 0
   FishActionWaiting: 0
   MergingID: -1
@@ -943,6 +946,7 @@ MonoBehaviour:
   PhaseWonFreePhases: 0
   FrontalFlyingTargetDist: -1
   FlightPhaseLoopCount: 0
+  FlightLoopCount: 0
   FlightResourcePicking: 1
   FlightOrbStrike: 1
   FlightBarricadeDestroy: 1

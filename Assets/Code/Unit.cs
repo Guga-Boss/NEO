@@ -1031,7 +1031,11 @@ public partial class Unit : MonoBehaviour
                     }
                 }
                 else
-                if( ga2.TileID != Control.AllowedTerrain ) return false;                                               // Check Gaia2 block
+                {
+                    if( ga2.TileID != ETileType.BUILDING ||
+                        ga2.Building.Category != EBuildingCategory.Plant )                                            // Hero can pass through Plants in the farm
+                    if( ga2.TileID != Control.AllowedTerrain ) return false;                                          // Check Gaia2 block
+                }
             }
             else
             {

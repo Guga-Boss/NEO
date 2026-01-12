@@ -13,7 +13,7 @@ public enum EAdventureUpgradeType
     INITIAL_UPGRADE_CHEST_CHANCE, CLOVER_UPGRADE_CHEST_CHANCE, CUBE_CLEAR_UPGRADE_CHEST_CHANCE,
     SPAWN_BUTCHER_CHANCE, CHEST_BASE_BONUS_CHANCE, LOAD_COST_DISCOUNT, TRADE,
     UPGRADE_MAX_CAPACITY, CUBE_CLEAR_DEFAULT_BONUS, ITEM_PRODUCTION_LIMIT,
-    ITEM_PRODUCTION_TOTAL_TIME, ITEM_PRODUCTION_CAP, ITEM_PRODUCTION_BOOST_CHANCE, 
+    ITEM_PRODUCTION_TOTAL_TIME, ITEM_PRODUCTION_CAP, ITEM_PRODUCTION_BOOST_CHANCE, CHEST_FIND_TOOL_CHANCE
 }
 
 public enum ELeisureType
@@ -412,6 +412,10 @@ public class AdventureUpgradeInfo : MonoBehaviour
             break;
             case EAdventureUpgradeType.CUBE_CLEAR_UPGRADE_CHEST_CHANCE:
             msg += "Cube Clear Chest Upgrade Chance: " + amt.ToString( "+0;-#" ) + "%";
+            post = "%";
+            break;
+            case EAdventureUpgradeType.CHEST_FIND_TOOL_CHANCE:
+            msg += "Chest Find Tool Chance: " + amt.ToString( "+0;-#" ) + "%";
             post = "%";
             break;
             case EAdventureUpgradeType.SPAWN_BUTCHER_CHANCE:
