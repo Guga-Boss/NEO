@@ -13,7 +13,8 @@ public enum EAdventureUpgradeType
     INITIAL_UPGRADE_CHEST_CHANCE, CLOVER_UPGRADE_CHEST_CHANCE, CUBE_CLEAR_UPGRADE_CHEST_CHANCE,
     SPAWN_BUTCHER_CHANCE, CHEST_BASE_BONUS_CHANCE, LOAD_COST_DISCOUNT, TRADE,
     UPGRADE_MAX_CAPACITY, CUBE_CLEAR_DEFAULT_BONUS, ITEM_PRODUCTION_LIMIT,
-    ITEM_PRODUCTION_TOTAL_TIME, ITEM_PRODUCTION_CAP, ITEM_PRODUCTION_BOOST_CHANCE, CHEST_FIND_TOOL_CHANCE
+    ITEM_PRODUCTION_TOTAL_TIME, ITEM_PRODUCTION_CAP, ITEM_PRODUCTION_BOOST_CHANCE, CHEST_FIND_TOOL_CHANCE, 
+    TRADE_PROFIT
 }
 
 public enum ELeisureType
@@ -357,7 +358,12 @@ public class AdventureUpgradeInfo : MonoBehaviour
             break;               
        
             case EAdventureUpgradeType.TRADE:
-            msg += "Buy: " + " " + ( amt ).ToString( "+0;-#" ) + " " + Item.GetName( au.ItemAffected );
+            float p = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.TRADE_PROFIT, au.ItemAffected );               // Trade Profit extra goods
+            msg += "Buy: " + " " + ( amt + p ).ToString( "+0;-#" ) + " " + Item.GetName( au.ItemAffected );
+            break;
+
+            case EAdventureUpgradeType.TRADE_PROFIT:
+            msg += "Trade Profit for: " + Item.GetName( au.ItemAffected ) + " " + ( amt ).ToString( "+0;-#" );
             break;
 
             case EAdventureUpgradeType.UPGRADE_MAX_CAPACITY:

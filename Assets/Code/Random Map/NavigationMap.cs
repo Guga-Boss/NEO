@@ -53,7 +53,7 @@ public class NavigationMap : MonoBehaviour
         Map.I.RM.RMD.Init();
         ResourceIndicator.DisableAll();  
         Map.I.StartGame();
-        UI.I.GameLevelText.text = "Navigation Map";
+        //UI.I.GameLevelText.text = "Navigation Map";
         UI.I.GoalPanel.gameObject.SetActive( false );
         CreateMapQuests();
         DungeonDialog.UpdateStartingCube = false;

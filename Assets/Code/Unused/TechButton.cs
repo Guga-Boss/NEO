@@ -554,7 +554,9 @@ public class TechButton : MonoBehaviour
             
             if( au.UpgradeType == EAdventureUpgradeType.TRADE )                                                   // give purchased item when buying
             {
-                Item.AddItem( au.ItemAffected, au.UpgradeEffectAmount );                                          
+                float p = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.TRADE_PROFIT, au.ItemAffected );    // Trade Profit extra goods
+
+                Item.AddItem( au.ItemAffected, au.UpgradeEffectAmount + p );                                          
                 if( au.TechTotalTime < 1 )                    
                 {
                     ItemType itt = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );                 // set a total time < 1 and trade will be infinite, timer can also be provided

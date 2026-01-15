@@ -1577,9 +1577,14 @@ public class DungeonDialog : MonoBehaviour
             {
                 UI.I.GoalPanel.Copy( go.Panel, go );
                 panelOk = true;
-                UI.I.ArtifactsText.text = go.Panel.DescriptionLabel.text + ": "                                    // find next goal
-                + go.Panel.CurrentNumberLabel.text + " Done";
-                UI.I.ArtifactsText.text = UI.I.ArtifactsText.text.Replace( ".", ":" );
+
+                if( Map.I.RM.GameOver == false )
+                {
+                    UI.I.ArtifactsText.text = go.Panel.DescriptionLabel.text + ": "                                // find next goal
+                    + go.Panel.CurrentNumberLabel.text + " Done";
+                    UI.I.ArtifactsText.text = UI.I.ArtifactsText.text.Replace( ".", ":" );
+                    UI.I.GoalIcons.gameObject.SetActive( true );
+                }
                 UI.I.UpdGoalText = false;
             }
         }

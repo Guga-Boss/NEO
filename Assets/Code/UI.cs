@@ -13,7 +13,7 @@ public class UI : MonoBehaviour
     public int TurnInfoLabelCount = 0;
 	public UISlider UnitHealthBar, QuestCompletitionBar;
     public UI2DSprite PerkInfoIcon, HorseIcon, MessageBoxIcon, MessageBoxIcon2, OverlaySprite, BackgroundUI;
-    public GameObject PerkInfoIconBack, UIFolder;
+    public GameObject PerkInfoIconBack, UIFolder, GoalIcons;
 	public UI2DSprite[] Stars;
     public UILabel PerkInfoTitleText, PerkInfoDescriptionText, PerkInfoTargetHeroText, ScrollText, FreeCamModeLabel, ErrorMessageLabel, 
                    DebugLabel, MessageBoxTextLabel, MessageBoxTextLabel2, MessageBoxLevelLabel, PerkInfoLevelLabel;
@@ -598,7 +598,7 @@ public class UI : MonoBehaviour
 
         if( Manager.I.GameType == EGameType.NAVIGATION )
         {
-            ArtifactsText.text = "Navigation Map";
+            ArtifactsText.text = "";
             AreasText.text = "";
         }
     

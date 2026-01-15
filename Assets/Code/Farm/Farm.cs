@@ -125,7 +125,6 @@ public partial class Farm : MonoBehaviour
         Map.I.RM.DungeonDialog.InventoryBack.SetActive( true );
         Map.I.RM.DungeonDialog.DarkPerkBack.SetActive( false );
         UI.I.BackgroundUI.gameObject.SetActive( true );
-        UI.I.GoalPanel.gameObject.SetActive( false );
         Map.I.ForceHideVegetation = false;
         gameObject.SetActive( true );
         UI.I.gameObject.SetActive( true );
@@ -149,6 +148,8 @@ public partial class Farm : MonoBehaviour
         ConsecutiveHoneyCombsCollected = 0;
         ConsecutiveFeatherCollected = 0;
         if( !file ) Map.I.StartGame();
+        UI.I.GoalPanel.gameObject.SetActive( false );
+        UI.I.GoalIcons.gameObject.SetActive( false );
         AddStoneResources();
         Manager.I.Inventory.gameObject.SetActive( true );
         Map.I.Tilemap.Layers[ ( int ) ELayerType.GAIA ].gameObject.SetActive( false ); 
@@ -171,6 +172,10 @@ public partial class Farm : MonoBehaviour
         gameObject.SetActive( false );
         SetSelectedItem( ItemType.NONE, 0 );
         UI.I.SetBigMessage( "", Color.yellow );
+        UI.I.ArtifactsText.text = "";
+        UI.I.AreasText.text = "";
+        UI.I.GameLevelText.text = "";
+        UI.I.GoalIcons.gameObject.SetActive( false );
         MapSaver.I.UpdateIntroMessage();
         return true;
     }

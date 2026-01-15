@@ -661,6 +661,7 @@ public partial class Map : MonoBehaviour
         RecordTime = 0;
         RaftDirectionChangeAvailable = true;
         FirstCubeDiscoveredTime = 0;
+        UI.I.GoalIcons.gameObject.SetActive( false );
 
         for( int h = 0; h < HookList.Count; h++ )
         if ( HookList[ h ].gameObject.activeSelf )
@@ -3299,6 +3300,9 @@ public partial class Map : MonoBehaviour
         if( Lights.lights.Count > 1 )
             Lights.lights.RemoveRange( 1, Map.I.Lights.lights.Count - 1 );           // Remove Lights   
         GS.RemoveFixedSpells();
+        UI.I.GoalIcons.gameObject.SetActive( false );
+        UI.I.ArtifactsText.text = "";
+        UI.I.AreasText.text = "";
     }
 			
 	//_____________________________________________________________________________________________________________________ Inits the Hero data
