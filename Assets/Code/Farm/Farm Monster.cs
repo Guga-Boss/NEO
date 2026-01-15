@@ -194,9 +194,16 @@ public partial class Farm : MonoBehaviour
 
         if( from.x != -1 )
         if( Map.I.CheckArrowBlockFromTo( from, to, G.Hero) == true ) return false;
-        if( Map.I.GetUnit( ETileType.FIRE, to ) == false )
-        if( Map.I.GetUnit( ETileType.ARROW, to ) == false )
-        if( Map.I.GetUnit( to, ELayerType.GAIA2 ) ) return false;
+        Unit ga2 = Map.I.GetUnit( to, ELayerType.GAIA2 );
+        if( ga2 )
+        {
+            if( ga2.TileID != ETileType.FIRE )
+            if( ga2.TileID != ETileType.ARROW )
+            if( ga2.TileID != ETileType.BUILDING || 
+                ga2.Building.Category != EBuildingCategory.Plant )
+                return false;
+        }
+
         if( Map.I.GetUnit( ETileType.SCROLL, to ) != null ) return false;
         if( Map.CheckLeverCrossingBlock( from, to ) ) return false;
         if( Map.DoesLeverBlockMe( to, null ) ) return false;       
@@ -395,7 +402,7 @@ public partial class Farm : MonoBehaviour
             if( Map.I.GetUnit( ETileType.SCROLL, tg ) != null ) break;
             if( Map.I.CheckArrowBlockFromTo( fr, tg, G.Hero ) == true ) break;
             Unit un2 = Map.I.GetUnit( ETileType.PLAGUE_MONSTER, tg );
-            if( un2 == null || Item.IsPlagueMonster( un2.Variation, false ) == false )
+            if( un2 == null || Item.IsPlagueMonster( un2.Variation, true ) == false )
             if( i == 0 ) return true; else break;
              if( i == 0 ) type = un2.Variation;
              if( i > 0 && un2.Variation != type ) break;
@@ -674,7 +681,7 @@ public partial class Farm : MonoBehaviour
         Unit fun = Map.I.GetUnit( ETileType.PLAGUE_MONSTER, frontOld );
         if( fun == null ) return false;
         if( fun.Pos == GrabPosition ) return false;
-        if( Item.IsPlagueMonster( fun.Variation, false ) == false ) return false;
+        if( Item.IsPlagueMonster( fun.Variation, true ) == false ) return false;
         Vector2 frontNew = to + ( Manager.I.U.DirCord[ ( int ) G.Hero.Dir ] );
         if( CanCreatePlagueMonster( frontOld, frontNew, false ) == false ) return false;
         if( G.Hero.CanMoveFromTo( false, from, to, G.Hero ) == false ) return false;
