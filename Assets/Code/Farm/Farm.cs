@@ -578,6 +578,7 @@ public partial class Farm : MonoBehaviour
 
         Unit ga = Map.I.GetUnit( tg, ELayerType.GAIA );
         Unit ga2 = Map.I.GetUnit( tg, ELayerType.GAIA2 );
+        Unit mn = Map.I.GetUnit( tg, ELayerType.MONSTER );
 
         if( SelectedItem == ItemType.NONE ) return false;
         if( CarryingAmount <= 0 ) return false;
@@ -595,7 +596,7 @@ public partial class Farm : MonoBehaviour
             FreeIdleProductionSlot( ItemType.Club );                                                           // Free the Idle production slot
             return true;
         }
-
+        if( mn ) return false;
         if( ga2 != null )                                                                                      // Stack Tool: Return
         if( ga2.TileID == ETileType.ITEM ) return false;
 
