@@ -952,7 +952,7 @@ public class Sector : MonoBehaviour
                     {
                         if( Map.I.AreaID[ x, y ] == ar.GlobalID )
                         {
-                            Map.I.AreaID[ x, y ] = -1;
+                            Map.I.AreaID[ x, y ] = 0;
                             Map.I.ClearAreaTile( Map.I.TransTileMap, new Vector2( x, y ) );
                         }
                     }

@@ -63,7 +63,7 @@ public class MyPathfind : MonoBehaviour
                 if( x == ( int ) area.P1.x - 1 || x == area.P2.x + 1 ||                                        // 1 unti border to block passage out of area
                     y == ( int ) area.P2.y - 1 || y == area.P1.y + 1 ) Grid[ x, y ] = MyPathfind.BLOCKED_TILE;
 
-                if( Map.I.AreaID[ x, y ] == -1 ) Grid[ x, y ] = MyPathfind.BLOCKED_TILE;
+                if( Map.I.AreaID[ x, y ] == 0 ) Grid[ x, y ] = MyPathfind.BLOCKED_TILE;
 
                 if( Map.I.AreaID[ x, y ] != area.GlobalID )
                 {
@@ -88,7 +88,7 @@ public class MyPathfind : MonoBehaviour
 
                    // ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.MODIFIER );
 
-                    if( Map.I.AreaID[ x, y ] == -1 ) Grid[ x, y ] = MyPathfind.BLOCKED_TILE;
+                    if( Map.I.AreaID[ x, y ] == 0 ) Grid[ x, y ] = MyPathfind.BLOCKED_TILE;
 
                     if( Map.I.AreaID[ x, y ] != area.GlobalID )
                     {
@@ -116,7 +116,7 @@ public class MyPathfind : MonoBehaviour
                 if( Map.I.Gaia[ ( int ) pos.x, ( int ) pos.y ].TileID == ETileType.WATER )
                 { ok = false; }      
 
-                //if( Map.I.AreaID[ x, y ] != -1 ) ok = false;
+                //if( Map.I.AreaID[ x, y ] != 0 ) ok = false;
                 if( ok ) Grid[ x, y ] = MyPathfind.PASSABLE_TILE;
             }              
     }

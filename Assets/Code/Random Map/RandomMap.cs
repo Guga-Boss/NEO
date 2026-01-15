@@ -157,8 +157,6 @@ public class RandomMap : MonoBehaviour
         for( int y = 0; y < tm.width; y++ )                                              // Create forest walls
         for( int x = 0; x < tm.width; x++ )
             {
-                Map.I.AreaID[ x, y ] = -1;
-                PuzzleArea[ x, y ] = -1;
                 if( Util.IsMultiple( x, Sector.TSX ) || Util.IsMultiple( y, Sector.TSY ) )
                 {
                     Quest.I.CurLevel.Tilemap.SetTile( x, y, ( int ) ELayerType.GAIA, ( int ) ETileType.FOREST );
@@ -294,7 +292,7 @@ public class RandomMap : MonoBehaviour
                 for( int x = ( int ) p1.x; x <= p2.x; x++ )
                     {
                         //Debug.Log( x + " " + y );
-                        if( Map.I.AreaID[ x, y ] != -1 ) oktile = false;
+                        if( Map.I.AreaID[ x, y ] != 0 ) oktile = false;
 
                         Rect shop = new Rect( ( int ) MapCenter.x - 10, ( int ) MapCenter.y + 10, 20, 20 );
 
@@ -316,7 +314,7 @@ public class RandomMap : MonoBehaviour
 
                // if( AreaIntersect( p1, p2 ) ) ok = false;
 
-                if( Map.I.AreaID[ ( int ) MapCenter.x, ( int ) MapCenter.y ] != -1 ) ok = false;
+                if( Map.I.AreaID[ ( int ) MapCenter.x, ( int ) MapCenter.y ] != 0 ) ok = false;
             }
             if( ok )
             {
@@ -668,7 +666,7 @@ public class RandomMap : MonoBehaviour
             AreasTMOrigin = cord;
         }
 
-        UpdatePuzzleCopy( s );
+        //UpdatePuzzleCopy( s );
         Map.I.CreateAreas( Quest.I.Dungeon.Tilemap, Quest.CurrentDungeon, Quest.I.Dungeon, s.Area, ref s.AreaList, s, SD );          // Create Areas
         s.AreasCreated = true;
 
@@ -703,7 +701,7 @@ public class RandomMap : MonoBehaviour
         //for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )
         //for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
         //if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
-        //if ( PuzzleArea[ xx, yy ] == -1 )
+        //if ( PuzzleArea[ xx, yy ] == 0 )
         //    {
         //        ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( xx, yy, ( int ) ELayerType.MODIFIER );
 
@@ -1281,8 +1279,8 @@ public class RandomMap : MonoBehaviour
 
     public static bool CanCreateUnit( Vector2 tg, ELayerType layer, ETileType type )
     {
-        if( Map.I.AreaID[ ( int ) tg.x, ( int ) tg.y ] < 0 ) return false;
-        if( Map.I.RM.PuzzleArea[ ( int ) tg.x, ( int ) tg.y ] != -1 ) return false;
+        if( Map.I.AreaID[ ( int ) tg.x, ( int ) tg.y ] <= 0 ) return false;
+        if( Map.I.RM.PuzzleArea[ ( int ) tg.x, ( int ) tg.y ] > 0 ) return false;
 
         ETileType gaia = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.GAIA );
         ETileType gaia2 = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.GAIA2 );
@@ -1290,9 +1288,7 @@ public class RandomMap : MonoBehaviour
         ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.MODIFIER );
 
         if( mod == ETileType.LEVEL_ENTRANCE ) return false;
-
         monster = Map.GetTileID( monster );
-
         if( layer == ELayerType.GAIA )
         {
             if( monster != ETileType.NONE ) return false;

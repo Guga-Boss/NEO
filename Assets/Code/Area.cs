@@ -11,7 +11,7 @@ public class Area : MonoBehaviour
 	public tk2dSlicedSprite Spr;
     public EAreaColor TileColor = EAreaColor.NONE;
     public int SectorID = -1;
-    public int GlobalID = -1;
+    public int GlobalID = 0;
     public List<Vector2> TL; // Tiles List
 	public string UniqueId, AreaName;
 	public Rect AreaRect;

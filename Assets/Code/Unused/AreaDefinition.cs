@@ -158,7 +158,7 @@ public class AreaDefinition : MonoBehaviour
         if( amount > ph.Count )
         {
             Debug.LogError( "Error: No space to create: " +                          // Error: no space
-                td.Tile.ToString() + " Created: " + cont );
+                td.Tile.ToString() + " Created: " + cont + " avail: " + pl.Count );
             return ph.Count;
         }
 

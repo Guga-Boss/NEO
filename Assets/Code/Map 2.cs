@@ -306,7 +306,7 @@ public partial class Map : MonoBehaviour
     {
         bool[ ] np = { false, false, false, false, false, false, false, false }; // Neighbor present?        
 
-        if( AreaID[ ( int ) tg.x, ( int ) tg.y ] == -1 ) return;
+        if( AreaID[ ( int ) tg.x, ( int ) tg.y ] == 0 ) return;
 
         Vector2 t = new Vector2( 0, 0 );
         for( int d = 0; d < 8; d++ )
@@ -314,7 +314,7 @@ public partial class Map : MonoBehaviour
             t = tg + Manager.I.U.DirCord[ d ];
             if( PtOnMap( Map.I.Tilemap, t ) )
             {
-                if( AreaID[ ( int ) t.x, ( int ) t.y ] != -1 )
+                if( AreaID[ ( int ) t.x, ( int ) t.y ] != 0 )
                     if( AreaID[ ( int ) t.x, ( int ) t.y ] == area ) np[ d ] = true;
             }
             else np[ d ] = true;
@@ -779,9 +779,9 @@ public partial class Map : MonoBehaviour
         ETileType tile = ( ETileType ) tm.GetTile( ( int ) pos.x, ( int ) pos.y, ( int ) ELayerType.AREAS );
 
         if( tile != tgtile ) return false;
-        if( AreaID[ ( int ) pos.x, ( int ) pos.y ] > -1 ) return false;
+        if( AreaID[ ( int ) pos.x, ( int ) pos.y ] > 0 ) return false;
 
-        AreaID[ ( int ) pos.x, ( int ) pos.y ] = id;
+        AreaID[ ( int ) pos.x, ( int ) pos.y ] = id + 1;
         tlist.Add( pos );
         id++;
 
@@ -826,8 +826,7 @@ public partial class Map : MonoBehaviour
         ar.AreaName = Area.GetRandomAreaName();
         areaList.Add( ar );
         ar.SectorID = areaList.Count - 1;
-        ar.GlobalID = Quest.I.CurLevel.AreaList.Count;
-
+        ar.GlobalID = Quest.I.CurLevel.AreaList.Count + 1;
         ar.TL = new List<Vector2>();
         ar.TL.AddRange( tlist );
         ar.UpdateAreaColor();
@@ -879,7 +878,7 @@ public partial class Map : MonoBehaviour
                  {
                      ETileType tile = ( ETileType ) tm.GetTile( xx, yy, ( int ) ELayerType.AREAS );
                      if( tile == tl )
-                     if( AreaID[ xx, yy ] < 0 )
+                     if( AreaID[ xx, yy ] <= 0 )
                          {
                              SetAreaID( ref tm, ref tlist, new Vector2( xx, yy ), ref Map.I.TotalAreas, tile );
                              if( tlist.Count > 0 )
@@ -896,7 +895,7 @@ public partial class Map : MonoBehaviour
                      ETileType tile = ( ETileType ) tm.GetTile( xx, yy, ( int ) ELayerType.AREAS );
                      if( tile == ( ETileType ) tl )
                      {
-                         AreaID[ xx, yy ] = Map.I.TotalAreas;
+                         AreaID[ xx, yy ] = Map.I.TotalAreas + 1;
                          tlist.Add( new Vector2( xx, yy ) );
                      }
                  }
@@ -953,7 +952,7 @@ public partial class Map : MonoBehaviour
         if( CurrentArea == -1 ) return false;
         if( pt.x < P1.x || pt.x > P2.x ||
              pt.y > P1.y || pt.y < P2.y ) return false;
-        if( AreaID[ ( int ) pt.x, ( int ) pt.y ] < 0 ) return false;
+        if( AreaID[ ( int ) pt.x, ( int ) pt.y ] <= 0 ) return false;
         if( AreaID[ ( int ) pt.x, ( int ) pt.y ] != CurrentArea ) return false;
 
         return true;
@@ -2239,7 +2238,7 @@ public partial class Map : MonoBehaviour
     {
         for( int y = 0; y < Map.I.Tilemap.height; y++ )
             for( int x = 0; x < Map.I.Tilemap.width; x++ )
-                if( AreaID[ x, y ] == -1 )
+                if( AreaID[ x, y ] == 0 )
                     if( Unit[ x, y ] )
                         if( Unit[ x, y ].TileID == ETileType.BARRICADE )
                         {
