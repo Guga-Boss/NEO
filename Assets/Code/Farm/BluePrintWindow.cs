@@ -35,6 +35,7 @@ public class BluePrintWindow : MonoBehaviour
         Blueprint bp = Blueprint.SelectedBluePrint;
         if( BluePrintWindow.I.gameObject.activeSelf )
         {
+            UI.I.SetTurnInfoText( "", 1, Color.white );
             G.Farm.OldBlueprintButtonText.text = "Old";
             if( BothBlueprintsAreNew )
             {                                                                                          // booth bp are new

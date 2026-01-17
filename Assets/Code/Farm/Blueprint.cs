@@ -1014,6 +1014,10 @@ public class Blueprint : MonoBehaviour
 
         Building.AddItem( true, bp.CostItem, -bp.Cost );                                                                         // Charges Resource
 
+        float bn = FPow.Get( FPowType.BP_Refund_Resource_Cost );                                                                 // Firepower: Refund Resource 
+        Item.PostMessage = "Fire: " + FPow.LastName;
+        if( bn != 0 ) Item.AddItem( bp.CostItem, Util.Percent( bn, bp.Cost ) );
+
         bp.Cost += bp.PenaltyPerUse;                                                                                             // Penalty per use
 
         float suc = GetStat( EVarType.BluePrint_Success_Rate, bp );

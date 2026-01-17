@@ -43,27 +43,23 @@ public class Util
 
     public static int Sort( List<float> ph )
     {
-        List<float> hmax = new List<float>();
-        List<float> hmin = new List<float>();
-        float totHeight = 0;
+        float totHeight = 0f;
+        for( int j = 0; j < ph.Count; j++ )
+            totHeight += ph[ j ];
+
+        float sort = Random.Range( 0f, totHeight );
+        float acc = 0f;
+
         for( int j = 0; j < ph.Count; j++ )
         {
-            hmin.Add( totHeight );
-            totHeight += ph[ j ];
-            hmax.Add( totHeight );
+            acc += ph[ j ];
+            if( sort < acc )
+                return j;
         }
 
-        float sort = Random.Range( 0.0f, totHeight );
-        int id = -1;
-        for( int j = 0; j < ph.Count; j++ )
-        {
-            if( sort >= hmin[ j ] && sort <= hmax[ j ] )
-            {
-                id = j; break;
-            }
-        }
-        return id;
+        return ph.Count - 1;
     }
+
 
     public static void SortUnitListByScore( ref List<float> score, ref List<Unit> unl )
     {
@@ -1446,6 +1442,12 @@ public class Util
            result.Add( source[ i ].ToVector2() );
        }
        return result;
+   }
+   public static bool IsDiagonal( Vector2 from, Vector2 to )
+   {
+       int dx = Mathf.Abs( Mathf.RoundToInt( to.x - from.x ) );
+       int dy = Mathf.Abs( Mathf.RoundToInt( to.y - from.y ) );
+       return dx == 1 && dy == 1;
    }
 }
 

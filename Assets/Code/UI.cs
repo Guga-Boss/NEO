@@ -9,7 +9,7 @@ public class UI : MonoBehaviour
     public static UI I;
     public UILabel HeroHpText, LevelText, EnterAreaTxt, AreasText, ArtifactsText, GameLevelText, 
         TurnInfoLabel, MapLabel, UseButtonLabel, LosttHPLabel, BigTextHelpLabel, BigMessageText, QuestCompletitionLabel,
-        ArtifactInfoLabel, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, NavigationMapText;
+        ArtifactInfoLabel, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, NavigationMapText, NavigationMapText2;
     public int TurnInfoLabelCount = 0;
 	public UISlider UnitHealthBar, QuestCompletitionBar;
     public UI2DSprite PerkInfoIcon, HorseIcon, MessageBoxIcon, MessageBoxIcon2, OverlaySprite, BackgroundUI;
@@ -25,7 +25,7 @@ public class UI : MonoBehaviour
     public Perk MushroomPerk, DestroyBarricadePerk, MonsterPushPerk, MonsterPressurePerk;
 	public Unit SelUnit, CompareHero;
 	public UIGrid Grid, ResourcesGrid;
-    public UISprite ScrollBack;
+    public UISprite ScrollBack, MidPanelSprite;
 	public UI2DSprite InfoIcon;
 	public float TempSelectedPerkTimer, RKeyPressTimeCount;
 	public EPerkType TempSelectedPerk, SelectedPerk;

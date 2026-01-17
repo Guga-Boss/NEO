@@ -18,6 +18,13 @@ public partial class Farm : MonoBehaviour
     public tk2dSprite[] ItemSprite;
     [TabGroup( "Lists" )]
     public tk2dSprite NextPlagueIndicator, GrabPlagueIndicator, GlowPlagueMonsterIndicator;
+    
+    [TabGroup( "Fire" )]
+    public int FireLevel = 0;
+    [TabGroup( "Fire" )]
+    public List<FPow> FirePow = new List<FPow>();
+    [TabGroup( "Fire" )]
+    public List<FPow> FirePowMaster = new List<FPow>();
     [TabGroup( "Main" )]
     public Vector2 NextPosition, GrabPosition;
     [TabGroup( "Main" )]
@@ -45,7 +52,7 @@ public partial class Farm : MonoBehaviour
     [TabGroup( "Link" )]
     public Idle IdleEngine;
     [TabGroup( "Link" )]
-    public GameObject BlueprintUI, BuildingUI, PlagueIndicatorsFolder;
+    public GameObject BlueprintUI, BuildingUI, PlagueIndicatorsFolder, FirePowerFolder;
     [TabGroup( "Link" )]
     public BluePrintPanel BPPanel;
     [TabGroup( "Link" )]
@@ -143,6 +150,9 @@ public partial class Farm : MonoBehaviour
         UI.I.GameLevelText.text = pname + "'s Farm";
         UI.I.AreasText.text = "";
         UI.I.ArtifactsText.text = "";
+        UI.I.NavigationMapText.text = "";
+        UI.I.NavigationMapText2.text = "";
+        UI.I.ArtifactInfoLabel.text = "";
         bool file = Load();
         CarryingAmount = 0;
         ConsecutiveHoneyCombsCollected = 0;
@@ -150,6 +160,7 @@ public partial class Farm : MonoBehaviour
         if( !file ) Map.I.StartGame();
         UI.I.GoalPanel.gameObject.SetActive( false );
         UI.I.GoalIcons.gameObject.SetActive( false );
+        UI.I.PerksListFolder.SetActive( false );
         AddStoneResources();
         Manager.I.Inventory.gameObject.SetActive( true );
         Map.I.Tilemap.Layers[ ( int ) ELayerType.GAIA ].gameObject.SetActive( false ); 
@@ -176,6 +187,8 @@ public partial class Farm : MonoBehaviour
         UI.I.AreasText.text = "";
         UI.I.GameLevelText.text = "";
         UI.I.GoalIcons.gameObject.SetActive( false );
+        UI.I.PerksListFolder.SetActive( true );
+        UI.I.NavigationMapText.gameObject.SetActive( false );
         MapSaver.I.UpdateIntroMessage();
         return true;
     }
@@ -194,6 +207,7 @@ public partial class Farm : MonoBehaviour
         G.Tutorial.UpdateIt();
         G.Inventory.UpdateIt();
         UpdateFarmObjects();
+        FPow.UpdateIt();
     }
 
     public void UpdateUI()
@@ -599,6 +613,7 @@ public partial class Farm : MonoBehaviour
             Map.I.CreateExplosionFX( tg );                                                                     // Explosion FX
             MasterAudio.PlaySound3DAtVector3( "Monster Falling", un.Pos );
             FreeIdleProductionSlot( ItemType.Club );                                                           // Free the Idle production slot
+            UpdateRefund( FPowType.Refund_Tool, ItemType.Club );
             return true;
         }
         if( mn ) return false;
@@ -691,6 +706,7 @@ public partial class Farm : MonoBehaviour
                             G.Farm.SetSelectedItem( G.Farm.SelectedItem, G.Farm.CarryingAmount - 1 );              // Remove Seed from hand
                             Building.Bld.Building.CustomProductionTime = time;
                             Controller.CreateMagicEffect( tg );                                                    // Magic FX  
+                            UpdateRefund( FPowType.Refund_Seed, G.Farm.SelectedItem );
                         }
                         bi.AdditivePlantingFactor++;
                     }
@@ -735,9 +751,24 @@ public partial class Farm : MonoBehaviour
                 Building.Bld.Building.ToolType = tool;
                 Building.Bld.Building.CustomProductionTime = customProductionTime;
                 if( it.IsSeed )
+                {
                     G.Farm.SetSelectedItem( G.Farm.SelectedItem, G.Farm.CarryingAmount - 1 );                 // Remove Seed from hand
+                    UpdateRefund( FPowType.Refund_Seed, tool );                                               // Update Refund
+                }
+                else
+                    UpdateRefund( FPowType.Refund_Tool, tool );
             }
             return true;
+        }
+    }
+
+    public void UpdateRefund( FPowType type, ItemType it )
+    {
+        float chc = FPow.Get( type );                                                                 // Firepower: Refund tool
+        if( Util.Chance( chc ) )
+        {
+            G.Farm.SetSelectedItem( it, G.Farm.CarryingAmount + 1 );
+            Message.CreateMessage( ETileType.NONE, it, "Refunded!", G.Hero.Pos, Color.green );  
         }
     }
 
@@ -1369,8 +1400,7 @@ public partial class Farm : MonoBehaviour
                 }
             }
         }
-
-
+        
         inv = GameObject.Find( "Packmule Panel" );
         inve = inv.GetComponent<Inventory>();
         if( inve == null ) Debug.LogError( "No Packmule obj found" );
@@ -1379,10 +1409,13 @@ public partial class Farm : MonoBehaviour
             if( inve.ItemList[ i ] )
                 inve.ItemList[ i ].ID = i;
 
+        FPow.UpdateFirePowerNames();
+
         //EditorApplication.SaveScene();                                                        // Save Scene
         //EditorApplication.SaveAssets();
         Debug.Log( "Data Updated!" );
     }
+
     public static string SortUniqueID( int size )
     {
         const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; // 36 caracteres possíveis

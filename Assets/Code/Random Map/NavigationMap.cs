@@ -42,6 +42,11 @@ public class NavigationMap : MonoBehaviour
         Manager.I.Status = EGameStatus.PLAYING;
         Quest.I.CurLevel = Level;        
         UI.I.DebugLabel.text = "";
+        UI.I.MidPanelSprite.spriteName = "Wind Rose";
+        UI.I.MidPanelSprite.gameObject.SetActive( true );
+        UI.I.NavigationMapText.gameObject.SetActive( true );
+        UI.I.PerksListFolder.SetActive( false );
+        UI.I.NavigationMapText.text = "\nChoose the Quest\nyou want to Play here!\nThen Press M to go Back.";
         PrefabFolder.SetActive( true );
         Map.I.ForceHideVegetation = false;
         Map.I.RM.DungeonDialog.gameObject.SetActive( false );
@@ -394,6 +399,7 @@ public class NavigationMap : MonoBehaviour
         Manager.I.GameType = EGameType.CUBES;
         Map.I.RM.DungeonDialog.gameObject.SetActive( true );
         Map.I.RM.DungeonDialog.ChooseAdventure( Map.I.RM.CurrentAdventure );
+        UI.I.NavigationMapText.gameObject.SetActive( false );
         PrefabFolder.SetActive( false );
         UI.I.UpdateInfoPanel( true );
         UI.I.PerksListFolder.SetActive( true );
@@ -534,10 +540,9 @@ public class NavigationMap : MonoBehaviour
     public void UpdateUI()
     {
         UI.I.NavigationMapUI.SetActive( false );
-        UI.I.PerksListFolder.SetActive( true );
- 
         if( Manager.I.GameType == EGameType.NAVIGATION )
         {
+            UI.I.PerksListFolder.SetActive( true );
             UI.I.PerkInfoIconBack.gameObject.SetActive( false );
             UI.I.NavigationMapUI.SetActive( true );
             UI.I.PerkInfoTitleText.text = "Trophy Progress:";

@@ -68,6 +68,10 @@ public class DungeonDialog : MonoBehaviour
             BluePrintWindow.I.gameObject.SetActive( false );
             Manager.I.Inventory.gameObject.SetActive( true );
             UI.I.ScrollText.gameObject.SetActive( false );
+            UI.I.NavigationMapText.text = "";
+            UI.I.NavigationMapText2.text = "";
+            UI.I.NavigationMapText.color = Color.white;
+            UI.I.MidPanelSprite.gameObject.SetActive( false );
             Manager.I.Inventory.transform.localPosition = new Vector3( -160, 243, 0 );
             UI.I.FarmUI.gameObject.SetActive( false );           
             ErrorMessageTimer = 0;

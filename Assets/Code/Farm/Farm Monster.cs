@@ -302,6 +302,13 @@ public partial class Farm : MonoBehaviour
         if( GrabPosition == un.Pos )
             ActivateIndicator( GrabActivated, ref GrabPlagueIndicator, ref GrabPosition, mn );
         un.Kill();
+        
+        if( FPow.Has( FPowType.Explode_Flocking_on_Push ) )                                                           // Firepower: Plague Monster Destroyed on push
+        {
+            Map.I.CreateExplosionFX( mn.Pos, "Fire Explosion" );                                                      // FX
+            Map.TimeKill( mn, .3f );
+        }
+
         Controller.ForceDiagonalMovement = true;
         MasterAudio.PlaySound3DAtVector3( "Mine Switch", G.Hero.Pos );
         return false;
@@ -584,6 +591,11 @@ public partial class Farm : MonoBehaviour
         Building.AddItem( true, ItemType.Honey, HeroData.I.HoneycombPrizes[ pz ] );
         Message.CreateMessage( ETileType.NONE, ItemType.Honey, "+" +
         HeroData.I.HoneycombPrizes[ pz ], G.Hero.Pos, Color.green, true, true, 4, 0, 0, 70 );
+
+        float bn = FPow.Get( FPowType.Extra_Honey_Bonus );                                    // Firepower: Extra Honey Bonus
+        Item.PostMessage = "Fire: "+ FPow.LastName;
+        if( bn != 0 ) Item.AddItem( ItemType.Honey, bn );
+
         Item.AddItem( ItemType.HoneyComb, -2 );
         un.Kill();
         MasterAudio.PlaySound3DAtVector3( "Click 1", G.Hero.Pos );
@@ -766,6 +778,10 @@ public partial class Farm : MonoBehaviour
         ConsecutiveFeatherCollected++;
         Item.IgnoreMessage = false;
         Item.AddItem( ItemType.Feather, +1 );
+        float bn = FPow.Get( FPowType.Extra_Feather_Bonus );                                    // Firepower: Extra feather Prize
+        Item.PostMessage = "Fire: " + FPow.LastName;
+        if( bn != 0 ) Item.AddItem( ItemType.Feather, bn );
+
         un.Kill();
         it.ProductionCount += 900;                                                              // Next feather session time decrease
         MasterAudio.PlaySound3DAtVector3( "Click 1", G.Hero.Pos );

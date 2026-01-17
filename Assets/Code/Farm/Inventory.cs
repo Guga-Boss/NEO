@@ -287,6 +287,7 @@ public class Inventory : MonoBehaviour {
     {
         if( itm.Type != ItemType.NONE )
         {
+            UI.I.SetTurnInfoText( "", 1, Color.white );
             UpdateDebug( itm.Type );
             string txt = Language.Get( itm.Type.ToString().ToUpper() + "_DESCRIPTION", "Inventory" );
             txt = txt.Replace( "\\n", "\n" );

@@ -1276,13 +1276,13 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 
         bool terrain = CheckTerrainMove( from, to, true, true, false, true, false );
         
-        if( CheckBarricadeBlock( bApply, from, to ) ) return true;                                                  // Check Barricade
+        if( CheckBarricadeBlock( bApply, from, to ) ) return false;                                                  // Check Barricade
 
-        if( CheckBambooBlock( bApply, from, to ) ) return true;                                                     // Check Bamboo
+        if( CheckBambooBlock( bApply, from, to ) ) return false;                                                     // Check Bamboo
 
-        if( CheckDiagonalMove( bApply, from, to ) ) return true;                                                    // Check Diagonal Move
+        if( CheckDiagonalMove( bApply, from, to ) ) return false;                                                    // Check Diagonal Move
         
-        if( CheckPurchase( bApply, from, to ) ) return true;                                                        // Check Purchase
+        if( CheckPurchase( bApply, from, to ) ) return false;                                                        // Check Purchase
 
         if( CheckClimbing( bApply, from, to ) ) return false;                                                       // Check Climbing
 
@@ -1294,7 +1294,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 
         if( terrain == false )  return false;
 
-        if( from == to ) return true;
+        if( from == to ) return false;
 
         if( Control.MonsterPushLevel >= 1 || Control.CanPushObjects || Control.IsDynamicObject() )                  // Unit Can push others
         {
@@ -1702,19 +1702,13 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         if( Map.I.RM.SD && CubeData.I.StonepathDiagonalMovement == false )
         if( Map.I.GetUnit( ETileType.STONEPATH, G.Hero.Pos ) ) 
             diag = true;
-        if( Controller.ForceDiagonalMovement ) return false;                              // grabbing monster allows free diagonal move                                   
-        
-        if( Control.MovementLevel < 4 || diag )                                           // Diagonal move moved to here to avoid diagonal purchase bug
-        {
-            Vector2 dif = to - from;
-            bool ok = true;
-            if( dif == new Vector2(  1,  1 ) ) ok = false;
-            if( dif == new Vector2(  1, -1 ) ) ok = false;
-            if( dif == new Vector2( -1, -1 ) ) ok = false;
-            if( dif == new Vector2( -1,  1 ) ) ok = false;
+        if( Controller.ForceDiagonalMovement ) return false;                                      // grabbing monster allows free diagonal move     
 
-            if( ok == false )
+        if( Control.MovementLevel < 4 || diag )                                                   // Diagonal move moved to here to avoid diagonal purchase bug
+        {
+            if( Util.IsDiagonal( from, to ) )  
             {
+                if( FPow.Has( FPowType.Free_Diagonal_Move, false ) ) return false;                // Firepower: Free diagonal move
                 //Map.I.ShowMessage( Language.Get( "ERROR_DIAGONALMOVEFORBIDDEN" ) );
                 return true;
             }

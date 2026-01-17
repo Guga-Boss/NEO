@@ -14,7 +14,7 @@ public enum ItemType
     RND_Butcher_Level = -100,
     ALL = -2, NONE = -1,
     Stone, Coal, Iron_Ore, Iron_Bar, Vine, Rope, Wood = 6, Tools, WoodAxe, Cog, Energy, Shell, Coconut, Quest_XP, HoneyComb, Honey,
-    Feather, Clover, Butcher_Level, Butcher_Coin_Level, Butcher_Bonus_Quality_Level, Butcher_Slots_Level, Butcher_Power_Level, Blue_Coin,
+    Feather, Clover, Butcher_Level, Butcher_Coin_Level, Butcher_Bonus_Quality_Level, Butcher_Slots_Level, Butcher_Power_Level, Blue_Coin, Fire_Token, Fire_Level,
     WheelBarrow = 27, Farm_Size_Token = 29, Bronze_Trophy, Silver_Trophy, Gold_Trophy, Diamond_Trophy, Adamantium_Trophy, Genius_Trophy,
     Quest_Trial_Count, Starting_Cube, Adventure_Completion, Study_XP,
     Res_Fish_Yellow = 40, Res_Fish_Red, Res_Fish_Blue, Res_Fish_Crab, Res_Fish_Manta_Ray, Res_Fish_Water_Snake, Res_Fish_Brown, Res_Fish_Frog,
@@ -205,8 +205,6 @@ public class Item : MonoBehaviour
     public static bool IgnoreBuffer = false;
     public static string PostMessage;
     public int OldCount;
-
-
     #endregion
 
     #if UNITY_EDITOR
@@ -494,8 +492,7 @@ public class Item : MonoBehaviour
             if( ShowMessage( it.Type, amount, given ) )
             {
                 DisplayMessage( amount, initialamount, it, res, rest );
-            }
-            PostMessage = "";
+            }            
             return res;
         }
 
@@ -604,8 +601,9 @@ public class Item : MonoBehaviour
         if( amount < 0 ) col = Color.red;
         if( res && Map.I.RM.DungeonDialog.gameObject.activeSelf == false )                       // Display message
             Message.CreateMessage( ETileType.NONE, it.Type,
-            initialamount.ToString( "+0.#;-0.#;0" ) + full + PostMessage, pos,
+            initialamount.ToString( "+0.#;-0.#;0" ) + full + " " + PostMessage, pos,
             col, Util.Chance( 50 ), Util.Chance( 50 ), 4, delay, 0, 65 );
+        PostMessage = "";
     }
 
     public static float GetTotalGained( ItemType type, int adv = -1 )

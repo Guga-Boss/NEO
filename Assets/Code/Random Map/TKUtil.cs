@@ -103,7 +103,7 @@ public class TKUtil : MonoBehaviour
                 }
             }
 
-            TF.Save( "GaiaTileIDs", gaiaTileIds );                                         // Save entire list at once
+            TF.Save( "GaiaTileIDs", gaiaTileIds );                                          // Save entire list at once
 
             TF.Save( "MonsterType", mntypel );                                              // Save monster Type
 
@@ -113,7 +113,9 @@ public class TKUtil : MonoBehaviour
 
             TF.Save( "Gaia2Type", ga2typel );                                               // Save Gaia2 type
 
-            TF.Save( "Gaia2Position", ga2posl );                                            // Save Gaia2 position                        
+            TF.Save( "Gaia2Position", ga2posl );                                            // Save Gaia2 position
+
+            FPow.Save();                                                                    // Save Fire Power
 
             GS.W.Flush();                                                                   // Flush the writer
 
@@ -161,6 +163,8 @@ public class TKUtil : MonoBehaviour
             List<int> mnvaril = TF.Load<List<int>>( "MonsterVariation" );                    // Load Monster Variations
             List<int> ga2typel = TF.Load<List<int>>( "Gaia2Type" );                          // Load Gaia2 Types
             List<Vector2> ga2posl = TF.Load<List<Vector2>>( "Gaia2Position" );               // Load Gaia2 Positions            
+
+            FPow.Load();                                                                     // Load Fire Powers
 
             for( int tid = 0; tid < G.Farm.Tl.Count; tid++ )                                 // Warning: loading only farm area
             {

@@ -1221,7 +1221,7 @@ public class Altar : MonoBehaviour
                 float add = Util.Percent( rate, amt );
                 if( add != 0 )
                 {
-                    Item.PostMessage = " Bank Interest: " + rate + "%";
+                    Item.PostMessage = "Bank Interest: " + rate + "%";
                     Item.AddItem( ItBnl[ i ], add );
                 }
             }

@@ -80,6 +80,12 @@ public class BuildingItem : MonoBehaviour
         float original = ItemCount;
         while( ProductionTimeCount >= prod )
         {
+            if( ItemType == ItemType.Fire_Token )
+            {
+                FPow.UpdateCycle( this  );                                                   // Fire Power Case
+                return;
+            }
+
             if( ProductionCap > 0 )    
             if( IdleProductionCount >= cap )
             {

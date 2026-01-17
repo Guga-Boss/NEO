@@ -15,7 +15,7 @@ public enum BuildingType
     Tools_Building, Berry_Storage, Berry_Bush,
     Forge, Firepit,
     BlackBerry_Bush, Strawberry_Bush, Warehouse, 
-    Food_Warehouse                                          // ends here:  ********* Caution:  ******** This list must be in the same order of Farm.BuildingList or you may have bugs  
+    Food_Warehouse, Tent                                          // ends here:  ********* Caution:  ******** This list must be in the same order of Farm.BuildingList or you may have bugs  
 }
 
 public enum EBuildingCategory
@@ -849,6 +849,13 @@ public class Building : MonoBehaviour
         if( Map.I.BumpTarget.x != -1 )
         if( Unit.Pos == Map.I.BumpTarget )
         {
+            if( Type == BuildingType.Tent )
+            {
+                FPow.UpdateBump();
+                Map.I.BumpTarget = new Vector2( -1, -1 );
+                return;
+            }
+
             if( ++SelItemID >= Itm.Count ) SelItemID = 0;
             Message.CreateMessage( ETileType.NONE, Itm[ SelItemID ].ItemType,
             Item.GetName( Itm[ SelItemID ].ItemType ), G.Hero.Pos, Color.white );
@@ -858,11 +865,27 @@ public class Building : MonoBehaviour
         if( SelItemSprite )                                                                    // Selected item sprite update
         {
             SelItemSprite.gameObject.SetActive( false );
-            if( Itm.Count > 1 )
+
+            bool show = false;
+            if( Itm.Count > 1 ) show = true;
+            if( Type == BuildingType.Tent ) show = true;
+            if( Type == BuildingType.Work_Area ) 
+               show = true; 
+
+            if( show )
             {
                 SelItemSprite.gameObject.SetActive( true );
-                int id = ( int ) Itm[ SelItemID ].ItemType;
-                SelItemSprite.spriteId = ( int ) G.GIT( id ).TKSprite.spriteId;
+                int id = -1;
+                if( Type == BuildingType.Work_Area )
+                {
+                    id = ( int ) ToolType;
+                    float rot = SelItemSprite.transform.eulerAngles.z;
+                    rot += Time.deltaTime * 90;
+                    if( rot > 360 ) rot -= 360;
+                    SelItemSprite.transform.eulerAngles = new Vector3( 0, 0, rot );
+                }
+                else id = ( int ) Itm[ SelItemID ].ItemType;
+                SelItemSprite.spriteId = ( int ) G.GIT( id ).TKSprite.spriteId;                 // set sprite ID
             }
         }
     }

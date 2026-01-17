@@ -2528,7 +2528,8 @@ public partial class Map : MonoBehaviour
                 txt += Language.Get( itm.Type.ToString().ToUpper() + "_DESCRIPTION"+ add, "Inventory" );
                 txt = txt.Replace( "\\n", "\n" );
                 if( Manager.I.GameType == EGameType.FARM )
-                if( Farm.BuildingUI.activeSelf ) txt = "";
+                if( Farm.BuildingUI.activeSelf || 
+                    BluePrintWindow.I.gameObject.activeSelf ) txt = "";
 
                 if( un.Body.IsChest() )                                                                           // Chest Stepping
                 {
