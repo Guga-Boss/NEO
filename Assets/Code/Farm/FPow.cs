@@ -1,37 +1,75 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Sirenix.OdinInspector;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 public enum FPowType
 {
     NONE = -1,
-    Nothing, void1, Extra_Feather_Bonus, Extra_Honey_Bonus, Hurry_Production, 
-    BP_Refund_Resource_Cost, Less_X_Plague_Monster, void3, void4,
-    Hurry_Plants, Explode_Flocking_on_Push, 
-    Refund_Tool = 100, Refund_Seed,
-    Free_Diagonal_Move = 200,
+    Nothing, 
+    Extra_Feather_Bonus = 10, Extra_Honey_Bonus, 
+    Sustainable_Eggs = 50, // Static_Chicken, Extra_Eggs
+    Refund_Tool = 100, Refund_Seed, BP_Refund_Resource_Cost,
+    Free_Diagonal_Move = 200, Diagonal_Around_Forest, Diagonal_Around_Water, Diagonal_Over_Mud, Diagonal_Around_Building,
+    Bump_Squash_Plague_Behind = 300, Axe_Carnage, Explode_Flocking_on_Push,
+    Plant_Over_Monster = 400, Work_Over_Monster,
+    Hurry_Plants = 500, Hurry_Production,
+    Perma_Glow = 600
 }
 
 public class FPow : MonoBehaviour 
 {
-    public FPowType Type = FPowType.NONE;
-    public float Power = 0;
-    public int TotalUses = 0;
-    public float UsesCount = 0;
-    public int TotalResort = 1;
-    public int ResortCount = 0;
+    [HideInInspector]
     public string UniqueID = "";
-
-    [Space( 30 )]
-    public float Level1Chance = 0;
-    public float Level2Chance = 0;
-    public float Level3Chance = 0;
-    public float Level4Chance = 0;
-    public float Level5Chance = 0;
+    [Title( "Power Configuration" )]
+    [GUIColor( 0.2f, 1f, 0.2f )]                                        
+    public FPowType Type = FPowType.NONE;                                 
+    [Space( 10 )]                                                       
+    [GUIColor( 0.3f, 0.6f, 1f )]                                           
+    [PropertyRange( 1, 5 )]    
+    public int Level = 1;
+    [Space( 10 )] 
+    public float Weight = 100;
+    [Title( "Power: " )]
+    public float Power = 0;
+    [Title( "Uses:" )]
+    public int TotalUses = 0;
+    [Space( 10 )]
+    public bool OnlyFarm = true;
+    [HideInEditorMode]
+    public float UsesCount = 0;
+    [Title( "Resort" )]
+    public int TotalResort = 1;
+    [HideInEditorMode]
+    public int ResortCount = 0;
     public static string LastName = "";
-    public static FPow LastPow = null;
+    public static FPow LastPow = null, LastUnlim;
     public static bool UpdateText = true;
 
+#if UNITY_EDITOR
+    void OnValidate()
+    {
+        if( Application.isPlaying ) return;
+        if( transform.parent == null ) return;
+        if( string.IsNullOrEmpty( UniqueID ) || IsDuplicated() )
+        {
+            UniqueID = Farm.SortUniqueID( 4 );
+            EditorUtility.SetDirty( this );
+        }
+    }
+    bool IsDuplicated()
+    {
+        FPow[] all = transform.parent.GetComponentsInChildren<FPow>();
+        for( int i = 0; i < all.Length; i++ )
+        {
+            if( all[ i ] == this ) continue;
+            if( all[ i ].UniqueID == UniqueID ) return true;
+        }
+        return false;
+    }
+#endif
 
     internal static void UpdateIt()
     {
@@ -93,8 +131,21 @@ public class FPow : MonoBehaviour
                 }
             }
         }
-    }
 
+        if( FPow.Has( FPowType.Axe_Carnage, false ) )                                                   // Firepower: Plague Monster Destroyed on push
+        {
+            Unit plague = Map.I.GetUnit( ETileType.PLAGUE_MONSTER, G.Hero.GetFront() );                 // Fire Power: Axe Carnage
+            if( plague )
+            if( G.Farm.SelectedItem == ItemType.WoodAxe )
+            if( G.Farm.CarryingAmount > 0 )
+            if( Map.I.TimeKillList.Contains( plague ) == false ) 
+            {
+                Map.I.CreateExplosionFX( plague.Pos, "Fire Explosion" );                                // FX
+                Map.TimeKill( plague, .3f );
+                FPow.Has( FPowType.Axe_Carnage );                                                       // use power
+            }
+        }
+    }
 
     public static void UpdateCycle( BuildingItem bi )
     {
@@ -116,17 +167,19 @@ public class FPow : MonoBehaviour
 
         for( int lev = 1; lev <= count; lev++ )
         {
+            List<int> idlist = new List<int>();
             List<float> fact = new List<float>();
             for( int p = 0; p < pl.Count; p++ )
             {
-                if( lev == 1 ) fact.Add( pl[ p ].Level1Chance );               // atribb weight for each level
-                if( lev == 2 ) fact.Add( pl[ p ].Level2Chance );
-                if( lev == 3 ) fact.Add( pl[ p ].Level3Chance );
-                if( lev == 4 ) fact.Add( pl[ p ].Level4Chance );
-                if( lev == 5 ) fact.Add( pl[ p ].Level5Chance );
+                if( lev == pl[ p ].Level )
+                {
+                    fact.Add( pl[ p ].Weight );                                // atrib weight for each level
+                    idlist.Add( p );
+                }
             }
 
             int id = Util.Sort( fact );                                        // Sort ID
+            id = idlist[ id ];
 
             if( id < 0 || id >= pl.Count )                                     // Bug protection
                 break;
@@ -150,7 +203,7 @@ public class FPow : MonoBehaviour
     public static void UpdatePanelText()
     {      
         UI.I.NavigationMapText.color = Color.green;
-        UI.I.NavigationMapText.gameObject.SetActive( true );
+        UI.I.NavigationMapText.gameObject.SetActive( true );                                            // update meshes and objects
         UI.I.NavigationMapText2.gameObject.SetActive( true );
         UI.I.NavigationMapText2.color = Color.red;
         UI.I.NavigationMapText.text = "";
@@ -164,36 +217,40 @@ public class FPow : MonoBehaviour
             FPow p = G.Farm.FirePow[ i ];
             string nm = p.GetName();
             if( i < lev )
-                UI.I.NavigationMapText.text += "L" + ( i + 1 ) + ": " + nm + "\n";                      // uses 2 text meshes for multicolor effect
-            UI.I.NavigationMapText2.text += "L" + ( i + 1 ) + ": " + nm + "\n";
+                UI.I.NavigationMapText.text += "L" + nm + "\n";                      // uses 2 text meshes for multicolor effect
+            UI.I.NavigationMapText2.text += "L" + nm + "\n";
         }
     }
     public static bool Has( FPowType type, bool increment = true )
-    {
-        if( Manager.I.GameType != EGameType.FARM ) return false;
+    {       
         if( G.Farm.FirePow == null ) return false;
-
         int lev = Mathf.Clamp( ( int ) Item.GetNum( ItemType.Fire_Level ), 0, G.Farm.FirePow.Count );
-
+        bool val = false;
         for( int i = 0; i < lev; i++ )
         {
             FPow p = G.Farm.FirePow[ i ];
+            if( p.OnlyFarm == false ||                                                                       // Farm restriction
+                Manager.I.GameType == EGameType.FARM ) 
             if( p.Type == type )
             {
-                if( increment )
-                    p.UsesCount++;
-                if( p.TotalUses > 0 )
+                if( p.TotalUses <= 0 ||
+                    p.UsesCount < p.TotalUses )                                                              // Max uses reached
                 {
-                    if( p.UsesCount >= p.TotalUses )                                                    // Max uses reached
-                        return false;
+                    LastPow = p;
+                    LastName = p.GetName();
+                    val = true;
                 }
-                LastName = p.GetName();
-                LastPow = p;
+
+                if( p.TotalUses <= 0 )                                                                       // Found an unlimited Power
+                    LastUnlim = p;
                 UpdateText = true;
-                return true;
             }
         }
-        return false;
+        if( val )
+        if( increment )
+            LastPow.UsesCount++;                                                                             // increment uses
+
+        return val;
     }
 
     public static float Get( FPowType type, bool increment = true )
@@ -206,28 +263,57 @@ public class FPow : MonoBehaviour
         for( int i = 0; i < lev; i++ )
         {
             FPow p = G.Farm.FirePow[ i ];
+            if( p.OnlyFarm == false ||
+                Manager.I.GameType == EGameType.FARM )                                                        // Farm restriction
             if( p.Type == type )
             {
-                LastName = p.GetName();
-                LastPow = p;
-                if( increment )
-                    p.UsesCount++;
                 if( p.TotalUses <= 0 ||
-                    p.UsesCount < p.TotalUses )                                                            // Max uses reached
+                    p.UsesCount < p.TotalUses )                                                               // Max uses reached
+                {
+                    LastName = p.GetName();
+                    LastPow = p;
                     val += p.Power;
+                }
+                if( p.TotalUses <= 0 )                                                                        // Found an unlimited Power
+                    LastUnlim = p;
             }
         }
+        if( val != 0 )
+        if( increment )
+            LastPow.UsesCount++;                                                                              // increment uses
         return val;
     }
 
-    internal static void UpdateBump()
+    internal static bool UpdateBuildingBump()
     {
-        Item.AddItem( ItemType.Fire_Level, +1 );
-
-        Unit bld = Map.I.GetUnit( ETileType.BUILDING, G.Hero.GetFront() );
-        if( bld && bld.Building.Type == BuildingType.Tent )
+        bool res = false;
+        Unit frbld = Map.I.GetUnit( ETileType.BUILDING, G.Hero.GetFront() );
+        Unit bump = Map.I.GetUnit( ETileType.BUILDING, Map.I.BumpTarget );
+        if( frbld && frbld.Building.Type == BuildingType.Tent )                                            // Tent Bump
+        {
             FPow.SortPowers();
+            res = true;            
+        }
+
+        if( bump )
+            Item.AddItem( ItemType.Fire_Level, +1 );
+
+        if( bump )
+        if( FPow.Has( FPowType.Bump_Squash_Plague_Behind, false ) )                                    // Firepower: Bump Building to squash plague behind
+        {
+            EDirection dr = Util.GetTargetUnitDir( G.Hero.Pos, bump.Pos );
+            Vector2 tg = bump.Pos + Manager.I.U.DirCord[ ( int ) dr ];
+            Unit plague = Map.I.GetUnit( ETileType.PLAGUE_MONSTER, tg );
+            if( plague )                                                                               // monster found
+            {
+                Map.I.CreateExplosionFX( plague.Pos, "Fire Explosion" );                               // FX
+                Map.TimeKill( plague, .3f );
+                FPow.Has( FPowType.Bump_Squash_Plague_Behind );                                        // Use power
+                res = true;
+            }
+        }
         UpdateText = true;
+        return res;
     }
 
     public static void UpdateFirePowerNames()
@@ -249,20 +335,20 @@ public class FPow : MonoBehaviour
     }
     public string GetName()
     {
-        string nm = Type.ToString();
+        string nm = "" + Level + " - " + Type.ToString();                                                // Level and name
         nm = nm.Replace( '_', ' ' );
 
         float rem = TotalUses - UsesCount;
-        if( Type == FPowType.Hurry_Production || Type == FPowType.Hurry_Plants )
+        if( Type == FPowType.Hurry_Production || Type == FPowType.Hurry_Plants )                         // These use timer
             nm += " " + Util.ToSTime( rem );
         else
         {
             if( Power != 0 )
-                nm += " " + Power.ToString( "+#;-#;0" );
+                nm += " " + Power.ToString( "+#;-#;0" );                                                 // power
             if( Type == FPowType.BP_Refund_Resource_Cost || 
                 Type == FPowType.Refund_Seed || 
                 Type == FPowType.Refund_Tool ) nm += " %";
-            if( TotalUses > 0 ) nm += " x" + ( rem );
+            if( TotalUses > 0 ) nm += " x" + ( rem );                                                    // uses 
         }
 
         if( UniqueID == "" ) UniqueID = Farm.SortUniqueID( 5 );
@@ -275,7 +361,7 @@ public class FPow : MonoBehaviour
         List<int> reslist = new List<int>();
         List<float> useslist = new List<float>();
 
-        for( int i = 0; i < G.Farm.FirePow.Count; i++ )
+        for( int i = 0; i < G.Farm.FirePow.Count; i++ )                                      // fill lists
         {
             idlist.Add( G.Farm.FirePow[ i ].UniqueID );
             reslist.Add( G.Farm.FirePow[ i ].ResortCount );
@@ -304,7 +390,7 @@ public class FPow : MonoBehaviour
                 FPow p = G.Farm.FirePowMaster[ j ];
                 if( p.UniqueID == id )
                 {
-                    G.Farm.FirePow.Add( p );
+                    G.Farm.FirePow.Add( p );                                                 // attrib values
                     p.ResortCount = reslist[ i ];
                     p.UsesCount = useslist[ i ];
                     break;
@@ -312,5 +398,32 @@ public class FPow : MonoBehaviour
             }
         }
         UpdateText = true;
+    }
+    internal static bool CheckDiagonalMove()
+    {
+        bool res = false;
+        LastUnlim = null;
+        if( FPow.Has( FPowType.Free_Diagonal_Move, false ) ) res = true;                                    // Firepower: Free diagonal move
+        int forest = 0, water = 0, bld = 0;
+        Vector2 tg = G.Hero.Pos;
+        int rad = 1;                          
+        for( int y = ( int ) tg.y - rad; y <= tg.y + rad; y++ )                                            
+        for( int x = ( int ) tg.x - rad; x <= tg.x + rad; x++ )
+            {
+                if( Map.I.GetUnit( ETileType.FOREST, new Vector2( x, y ) ) ) forest++;                      // Count tiles
+                if( Map.I.GetUnit( ETileType.WATER, new Vector2( x, y ) ) ) water++;
+                Unit bl = Map.I.GetUnit( ETileType.BUILDING, new Vector2( x, y ) );
+                if( bl && bl.Building.Category != EBuildingCategory.Plant && 
+                    bl.Building.Category != EBuildingCategory.Work_Area ) bld++;
+            }
+        if( forest > 0 && FPow.Has( FPowType.Diagonal_Around_Forest,   false ) ) res = true;                // Firepower: Free diagonal move around Forest
+        if( water > 0  && FPow.Has( FPowType.Diagonal_Around_Water,    false ) ) res = true;                // Firepower: Free diagonal move around Water
+        if( bld > 0    && FPow.Has( FPowType.Diagonal_Around_Building, false ) ) res = true;                // Firepower: Free diagonal move around Building
+
+        if( res )
+        {
+            if( LastUnlim ) LastPow = LastUnlim;                                                            // Prioritize Unlimited power
+        }
+        return res;
     }
 }

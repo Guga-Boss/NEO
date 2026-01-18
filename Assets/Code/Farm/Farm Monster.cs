@@ -376,16 +376,21 @@ public partial class Farm : MonoBehaviour
 
     public int GetAnyNeighborCount( Unit un = null, Unit excludeMe = null )
     {
+        if( FPow.Has( FPowType.Perma_Glow, false ) )                                    // Firepower: Perma Glow
+        {
+            return 1;
+        }
+
         if( un == null ) un = G.Hero;
         int neigh = 0;
-        for( int i = 0; i < 8; i++ )
+        for( int i = 0; i < 8; i++ )                                                    // loop
         {
             Vector2 tg = un.Pos + ( Manager.I.U.DirCord[ i ] );
             Unit unn = Map.I.GetUnit( ETileType.PLAGUE_MONSTER, tg );
-            if( unn && Item.IsPlagueMonster( unn.Variation, false ) )
+            if( unn && Item.IsPlagueMonster( unn.Variation, false ) )                   // found
             if( GetNeighborCount( unn ) > 0 )
             if( excludeMe == null || Util.IsNeighbor( excludeMe.Pos, tg ) == false )
-                neigh++;
+                neigh++;                                                                // increment
         }
         return neigh;
     }
@@ -813,9 +818,12 @@ public partial class Farm : MonoBehaviour
         {
             if( un.Pos != G.Hero.GetFront() )
             {
-                un.Body.StackAmount--;
-                Map.I.CreateExplosionFX( un.Pos, "Smoke Cloud", "" );                       // FX
-                if( un.Body.StackAmount <= 0 )                                              // counter decrease
+                if( FPow.Has( FPowType.Sustainable_Eggs ) == false )                            // Firepower: Sustainable Eggs
+                {
+                    un.Body.StackAmount--;
+                    Map.I.CreateExplosionFX( un.Pos, "Smoke Cloud", "" );                       // FX
+                }
+                if( un.Body.StackAmount <= 0 )                                                  // counter decrease
                     Map.Kill( un, true );
             }
             un.UpdateText();
@@ -824,7 +832,7 @@ public partial class Farm : MonoBehaviour
 
     public void UpdatePlagueMonster( Unit un )
     {
-        UpdateChicken( un );                                                               // Update Chicken
+        UpdateChicken( un );                                                                    // Update Chicken
 
         un.Body.Sprite2.gameObject.SetActive( true );
         int neigh = GetNeighborCount( un );

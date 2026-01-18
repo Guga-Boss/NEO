@@ -2203,7 +2203,7 @@ public partial class Controller : MonoBehaviour
             bool res = Unit.CanMoveFromTo( true, from, to, Unit );                           // Apply Move
 
             if( res && Util.IsDiagonal( from, to ) )
-                FPow.Has( FPowType.Free_Diagonal_Move, true );                               // Firepower: Use Free diagonal move
+                FPow.Has( FPow.LastPow.Type, true );                                         // Firepower: Use Free diagonal move
         }
 
         Map.I.UpdateCameraAreaStepping( to );                                                // Camera area stepping

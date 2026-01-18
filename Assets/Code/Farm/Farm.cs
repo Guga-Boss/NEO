@@ -616,12 +616,29 @@ public partial class Farm : MonoBehaviour
             UpdateRefund( FPowType.Refund_Tool, ItemType.Club );
             return true;
         }
+
+        Item it = G.GIT( ( int ) SelectedItem );
+        FPowType pow = FPowType.Work_Over_Monster;                                                             // type of fire power
+        if( it.IsSeed )
+            pow = FPowType.Plant_Over_Monster;
+
+        if( FPow.Has( pow, false ) )                                                                           // Firepower: Plant and Workplace Kills monster
+        {           
+            Unit plague = Map.I.GetUnit( ETileType.PLAGUE_MONSTER, tg );
+            if( plague )                                                                                       // monster found
+            {
+                Map.I.CreateExplosionFX( plague.Pos, "Fire Explosion" );                                       // FX
+                Map.TimeKill( plague, .3f );
+                FPow.Has( pow );                                                                               // Use power
+                mn = null;
+            }
+        }
+
         if( mn ) return false;
         if( ga2 != null )                                                                                      // Stack Tool: Return
         if( ga2.TileID == ETileType.ITEM ) return false;
 
         ItemType tool = ItemType.NONE;
-        Item it = G.GIT( ( int ) SelectedItem );
         float customProductionTime = -1;
 
         if( SelectedItem == ItemType.WoodAxe )                                                                 //---------- Wood Axe
@@ -658,27 +675,15 @@ public partial class Farm : MonoBehaviour
                 return false;
         }
 
-        if( it.IsSeed )                                                                                       // Seed Planting
+        if( it.IsSeed )                                                                                            // Seed Planting
         {
             if( ga == null ) return false;
             if( ga.TileID == ETileType.MUD )
                 tool = it.Type;
             else return false;
 
-            int rad = 2;
-            for( int y = ( int ) tg.y - rad; y <= tg.y + rad; y++ )                            
-            for( int x = ( int ) tg.x - rad; x <= tg.x + rad; x++ )
-            if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )                                          // Plants min Distance check
-            if ( G.Hero.GetFront() != new Vector2( x, y ) )
-            {
-                Unit un = Map.I.GetUnit( ETileType.BUILDING, new Vector2( x, y ) );
-                if( un && un.Building != null )
-                if( un.Building.Category == EBuildingCategory.Plant )
-                {
-                    Message.RedMessage( "Plants need\n2-tile spacing\nfrom each other." );
-                    return false;
-                }
-            }
+            if( CheckPlantSpacing( tg, tool ) == false )                                                            // Check Plant Spacing
+                return false;
 
             if( ga2 )
             if( ga2.Building.Type == it.ToolCreationBuilding ) 
@@ -760,6 +765,62 @@ public partial class Farm : MonoBehaviour
             }
             return true;
         }
+    }
+    public bool CheckPlantSpacing( Vector2 tg, ItemType seed )
+    {
+        bool sameTooClose = false;             // same plant too close
+        bool diffTooClose = false;             // different plant adjacent
+        bool hasDiff1 = false;                 // first different neighbor
+        bool hasDiff2 = false;                 // second different neighbor
+        int rad = 2;                           // scan radius
+
+        for( int y = ( int ) tg.y - rad; y <= tg.y + rad; y++ )
+        for( int x = ( int ) tg.x - rad; x <= tg.x + rad; x++ )
+        {
+            Vector2 p = new Vector2( x, y );                                         // scan position
+            if( !Map.PtOnMap( Map.I.Tilemap, p ) ) continue;                         // outside map
+            if( G.Hero.GetFront() == p ) continue;                                   // ignore target
+
+            Unit un = Map.I.GetUnit( ETileType.BUILDING, p );                        // get unit
+            if( !un || un.Building == null ) continue;                               // no building
+            if( un.Building.Category != EBuildingCategory.Plant ) continue;          // not plant
+            int dist = Util.Manhattan( new Vector2( x, y ), tg );                    // grid distance
+
+            ItemType otherSeed = un.Building.ToolType;                               // neighbor seed
+            if( otherSeed == seed && dist <= 2 ) sameTooClose = true;                // same type rule
+            if( otherSeed != seed && dist <= 1 ) diffTooClose = true;                // different type rule
+  
+            if( seed == ItemType.Blackberry_Seed && dist <= 2 )
+            if( otherSeed != seed )
+                {
+                    if( !hasDiff1 ) hasDiff1 = true;                                // first different
+                    else hasDiff2 = true;                                           // second different
+                }
+        }
+
+        bool ok = true;
+        if( sameTooClose )
+        {
+            Message.RedMessage( "Plants need\n2-tile spacing\nfrom same type." );
+           ok = false;
+        }
+
+        if( seed != ItemType.Blackberry_Seed )
+        if( diffTooClose )
+        {
+            Message.RedMessage( "Plants need\n1-tile spacing\nfrom other types." );
+            ok = false;
+        }        
+
+        if( seed == ItemType.Blackberry_Seed )
+        {
+            if( !( hasDiff1 && hasDiff2 ) )
+            {
+                Message.RedMessage( "Blackberry needs\n2 different plants\nnearby (2 tiles)." );
+                ok = false;
+            }
+        }
+        return ok;                              
     }
 
     public void UpdateRefund( FPowType type, ItemType it )

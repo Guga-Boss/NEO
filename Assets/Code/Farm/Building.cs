@@ -849,12 +849,12 @@ public class Building : MonoBehaviour
         if( Map.I.BumpTarget.x != -1 )
         if( Unit.Pos == Map.I.BumpTarget )
         {
-            if( Type == BuildingType.Tent )
+            bool res = FPow.UpdateBuildingBump();                                              // Updates building bump on Fire power
+            if( res )
             {
-                FPow.UpdateBump();
                 Map.I.BumpTarget = new Vector2( -1, -1 );
                 return;
-            }
+            }           
 
             if( ++SelItemID >= Itm.Count ) SelItemID = 0;
             Message.CreateMessage( ETileType.NONE, Itm[ SelItemID ].ItemType,

@@ -1708,8 +1708,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         {
             if( Util.IsDiagonal( from, to ) )  
             {
-                if( FPow.Has( FPowType.Free_Diagonal_Move, false ) ) return false;                // Firepower: Free diagonal move
-                //Map.I.ShowMessage( Language.Get( "ERROR_DIAGONALMOVEFORBIDDEN" ) );
+                if( FPow.CheckDiagonalMove() ) return false;                                      // Firepower: Free diagonal move
                 return true;
             }
         }
