@@ -146,7 +146,7 @@ public partial class Farm : MonoBehaviour
         Map.I.AreaID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
         Manager.I.ExitLevel();
         UI.I.SetBigMessage( "", Color.white );
-        string pname = ProfileWindow.I.ProfileNames[ 0 ].text;
+        string pname = Manager.I.GetPlayerName();
         UI.I.GameLevelText.text = pname + "'s Farm";
         UI.I.AreasText.text = "";
         UI.I.ArtifactsText.text = "";
@@ -333,6 +333,7 @@ public partial class Farm : MonoBehaviour
             }
             float aux = prd - bi.ProductionTimeCount;
             string answer = Util.ToTime( aux );
+            if( maxc > 0 )
             if( bl.Category == EBuildingCategory.Producer )
             if( bi.ItemCount >= maxc ) answer = "Max Capacity Reached!";
             string next = "\nNext in: \n" + answer;

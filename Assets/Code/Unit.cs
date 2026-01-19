@@ -1282,9 +1282,9 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 
         if( CheckDiagonalMove( bApply, from, to ) ) return false;                                                    // Check Diagonal Move
         
-        if( CheckPurchase( bApply, from, to ) ) return false;                                                        // Check Purchase
+        if( CheckPurchase( bApply, from, to ) == false ) return false;                                               // Check Purchase
 
-        if( CheckClimbing( bApply, from, to ) ) return false;                                                       // Check Climbing
+        if( CheckClimbing( bApply, from, to ) ) return true;                                                         // Check Climbing
 
         if( CheckPerkRestrictions( bApply, from, to ) == false ) return false;                                      // Checks for movement level allowancePerk Restrictions
 
@@ -1717,10 +1717,10 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 
     public bool CheckPurchase( bool bApply, Vector2 from, Vector2 to )
     {
-        if( UnitType != EUnitType.HERO ) return false;
+        if( UnitType != EUnitType.HERO ) return true;
         Unit un = Map.I.GetUnit( ETileType.CLOSEDDOOR, to );
         Unit suspended = Map.I.GetUnit( ETileType.CLOSEDDOOR, G.Hero.Pos );
-        if( suspended ) return false;
+        if( suspended ) return true;
 
         if( un == null ) un = Map.I.GetUnit( ETileType.DOME, to );
 
@@ -1728,7 +1728,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             if( un != null && un.TileID == ETileType.CLOSEDDOOR )
                 if( Sector.GetPosSectorType( un.Pos ) == Sector.ESectorType.GATES )
                 {
-                    if( Map.I.RM.CheckGate( true, to ) == false ) return false;
+                    if( Map.I.RM.CheckGate( true, to ) == false ) return true;
                 }
                 else
                 {
@@ -1805,7 +1805,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                         Controller.StitchesPunishment = false;
                         Controller.PlayBumpSound = false;
                     }
-                    return false;
+                    return true;
                 }
 
         if( un )
@@ -1815,32 +1815,8 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                 {
                     Message.CreateMessage( ETileType.NONE, "Autobuy Direct Purchase Unavailable!",
                                                       Pos, new Color( 1, 0, 0, 1 ), true, true, 7 );
-                    return false;
-                }
-
-            if( un.TileID == ETileType.DOME )
-            {
-                Controller.StitchesPunishment = false;
-                int olda = Map.I.GetPosArea( from );                                                                // NO out area dome destuction to inner dome
-                int newa = Map.I.GetPosArea( to );
-                if( olda == -1 && newa != -1 ) return false;
-
-                Artifact ar = Quest.I.GetArtifactInPos( to );
-                if( ar != null )
-                {
-                    float price = ar.CalculatePrice();
-                    un.UpdateDomePrice( price );
-                    int lim = -1;
-                    if( ar.MapLevelLimit > 0 ) lim = ar.MapLevelLimit;
-                    if( Map.I.Hero.CheckLevelLimits( ar.PerkType, lim ) )
-                    {
-                        string msg = "Level Limit Reached!";
-                        if( ar.MapLevelLimit > 0 ) msg = "Level Limit for\nthis map Reached!";
-                        Message.RedMessage( msg );
-                        return false;
-                    }
-                }
-            }
+                    return true;
+                }         
 
             if( bApply == false ) return true;
 
@@ -1857,7 +1833,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             }
             return true;
         }
-        return false;
+        return true;
     }
 
     public bool CheckBarricadeBlock( bool bApply, Vector2 from, Vector2 to )

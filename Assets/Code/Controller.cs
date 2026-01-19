@@ -2203,6 +2203,7 @@ public partial class Controller : MonoBehaviour
             bool res = Unit.CanMoveFromTo( true, from, to, Unit );                           // Apply Move
 
             if( res && Util.IsDiagonal( from, to ) )
+            if( FPow.LastPow )
                 FPow.Has( FPow.LastPow.Type, true );                                         // Firepower: Use Free diagonal move
         }
 

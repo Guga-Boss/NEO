@@ -151,6 +151,8 @@ public class Building : MonoBehaviour
     
     public void UpdateText()
     {
+        if( Type == BuildingType.Tent ) 
+            FPow.TentBuilt = true;
         if( Itm == null || Itm.Count <= 0 ) return;
         BuildingItem it = Itm[ SelItemID ];
         float max = Building.GetStat( EVarType.Maximum_Item_Stack, this, SelItemID );
@@ -176,6 +178,11 @@ public class Building : MonoBehaviour
         else
         {
             Unit.HealthBar.gameObject.SetActive( false );
+        }
+
+        if( Type == BuildingType.Tent )
+        {
+            Unit.LevelTxt.text += "\n" + Util.ToSTime( prod - it.ProductionTimeCount );
         }
     }
 
@@ -814,6 +821,7 @@ public class Building : MonoBehaviour
         double time = G.Farm.IdleEngine.OffSeconds;
         Item.SetAmt( ItemType.Recipe_Image_1, 0 );
         Recipe.SelectedBuilding = null;
+        FPow.TentBuilt = false;
         Map.I.Farm.RecipePanel.gameObject.SetActive( false );
 
         for( int tid = 0; tid < G.Farm.Tl.Count; tid++ )                                                           // Last: Distribute items in Buildings         

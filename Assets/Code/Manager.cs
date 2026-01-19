@@ -132,6 +132,44 @@ private static void UpdateData()
     Farm f = ob.GetComponent<Farm>();
     f.UpdateListsCallBack();    
 }
+
+
+[MenuItem( "Tools/Save Profile" )]
+private static void SaveProfile()
+{
+    string sourcePath = "C:\\Users\\alien\\Desktop\\NEO\\Assets\\Profiles\\profile 0";    // source
+    string backupPath = "C:\\Users\\alien\\Desktop\\NEO\\Assets\\Profiles\\Profile Backup"; // destination
+
+    if( !Directory.Exists( sourcePath ) )
+    {
+        Debug.LogError( "Profile folder does not exist: " + sourcePath );
+        return;
+    }
+
+    if( !Directory.Exists( backupPath ) )
+        Directory.CreateDirectory( backupPath );
+
+    Util.CopyDirectory( sourcePath, backupPath );
+    Debug.Log( "Profile saved to backup: " + backupPath );
+}
+[MenuItem( "Tools/Load Profile" )]
+private static void LoadProfile()
+{
+    string backupPath = "C:\\Users\\alien\\Desktop\\NEO\\Assets\\Profiles\\Profile Backup"; // source
+    string profilePath = "C:\\Users\\alien\\Desktop\\NEO\\Assets\\Profiles\\profile 0";    // destination
+
+    if( !Directory.Exists( backupPath ) )
+    {
+        Debug.LogError( "No backup found: " + backupPath );
+        return;
+    }
+
+    if( Directory.Exists( profilePath ) )
+        Directory.Delete( profilePath, true ); // delete old profile
+
+    Util.CopyDirectory( backupPath, profilePath );
+    Debug.Log( "Profile restored from backup: " + backupPath );
+}
 #endif
 
 //_____________________________________________________________________________________________________________________ Main game loop
@@ -620,5 +658,13 @@ private static void UpdateData()
         Helper.I.StartingAdventure = id;
         #endif
         return id;
+    }
+
+    internal string GetPlayerName()
+    {
+        string pname = ProfileWindow.I.ProfileNames[ 0 ].text;
+        if( !string.IsNullOrEmpty( pname ) )
+            pname = char.ToUpper( pname[ 0 ] ) + pname.Substring( 1 );
+        return pname;
     }
 }

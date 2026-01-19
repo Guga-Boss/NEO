@@ -157,4 +157,23 @@ public class Message : MonoBehaviour
         }
         return msg;
     }
+    internal static void GreenMessage( ItemType itemType, string txt, float spd = .2f )
+    {
+        int rad = 2;
+        Vector2 pos = new Vector2( G.Hero.Pos.x + Random.Range( -rad, rad ), G.Hero.Pos.y + Random.Range( -rad, rad ) );
+        Message.CreateMessage( ETileType.NONE, itemType, txt, pos, new Color( 0, 1, 0, 1 ), Util.Chance( 50 ), Util.Chance( 50 ), 10, 0, spd );
+    }
+    internal static void RedMessage( ItemType itemType, string txt, float spd = .2f )
+    {
+        int rad = 2;
+        Vector2 pos = new Vector2( G.Hero.Pos.x + Random.Range( -rad, rad ), G.Hero.Pos.y + Random.Range( -rad, rad ) );
+        Message.CreateMessage( ETileType.NONE, itemType, txt, pos, new Color( 1, 0, 0, 1 ), Util.Chance( 50 ), Util.Chance( 50 ), 10, 0, spd );
+    }
+
+    internal static void WhiteMessage( ItemType itemType, string txt, float spd = .2f )
+    {
+        int rad = 2;
+        Vector2 pos = new Vector2( G.Hero.Pos.x + Random.Range( -rad, rad ), G.Hero.Pos.y + Random.Range( -rad, rad ) );
+        Message.CreateMessage( ETileType.NONE, itemType, txt, pos, Color.white, Util.Chance( 50 ), Util.Chance( 50 ), 10, 0, spd );
+    }
 }

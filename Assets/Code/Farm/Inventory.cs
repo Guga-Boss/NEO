@@ -273,13 +273,14 @@ public class Inventory : MonoBehaviour {
     }
     public void UpdateDebug( ItemType it )
     {
+        if( Manager.I.GugaVersion )
         if( Helper.I.DebugHotKey )
         {
-            //if( Input.GetMouseButtonDown( 0 ) )
-            //    Item.AddItem( IType.Inventory, it, +1 );
+            if( Input.GetMouseButtonDown( 0 ) )
+                Item.AddItem( IType.Inventory, it, +1 );
 
-            //if( Input.GetMouseButtonDown( 1 ) )
-            //    Item.AddItem( IType.Inventory, it, -1 );
+            if( Input.GetMouseButtonDown( 1 ) )
+                Item.AddItem( IType.Inventory, it, -1 );
         }
     }
 

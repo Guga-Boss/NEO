@@ -570,6 +570,118 @@
                 {
                     "key": "TECH_ITEM_PACKMULE_ITEM_CAPACITY",
                     "value": "Text TBD"
+                },
+                {
+                    "key": "FIRE_HELP_INTRO",
+                    "value": "Fire Level: Your Fire Level determines how many Fire Powers can be active (green) at the same time.\nWhen the timer reaches 0, a downgrade occurs and passive powers are reset.\n\nFire Tokens: There are two ways of Spending Fire Tokens (cost: 1):\n\n1) -Performing a NON-FRONTAL Tent Bump:\nAttempts to increase your Fire Level. \nSuccess increases the level, while failure may decrease it.\nEach failed attempt increases the chance of success on the next try.\nUP = upgrade chance. DN = downgrade chance. (Only Rolled  if Upgrade fails).\n\n2) -Performing a FRONTAL Tent Bump:\nSorts a new Fire Power randomly from the available list.\n\nBelow are the descriptions of the currently shown Fire Powers."
+                },
+                {
+                    "key": "FIRE_NOTHING",
+                    "value": "This power has no Effect."
+                },
+                {
+                    "key": "FIRE_SHOW_MORE_POWERS",
+                    "value": "By default, only the next power is visible. This power expands the view and reveals additional powers from higher levels."
+                },
+                {
+                    "key": "FIRE_UPGRADE_BASE_CHANCE",
+                    "value": "The base chance to upgrade Fire always starts at 25%.\nThis power adds directly to that base value, increasing the overall upgrade chance.\nValue Resets to 25% when Timer reaches 0."
+                },
+                {
+                    "key": "FIRE_LUCKY_STREAK_STEP",
+                    "value": "By default, each successful upgrade increases the next upgrade chance by 25%.\nThis power increases that streak bonus, making consecutive upgrades grow faster.\nValue Resets to 25% when Timer reaches 0."
+                },
+                {
+                    "key": "FIRE_DOWNGRADE_CHANCE",
+                    "value": "The downgrade chance starts at 25% by default.\nThis power reduces that chance, lowering the risk of losing a Fire level on failure.\nValue Resets to 25% when Timer reaches 0."
+                },
+                {
+                    "key": "FIRE_EXTRA_FEATHER_BONUS",
+                    "value": "When you pick up a Feather from the ground, you also receive extra Feather as Bonus."
+                },
+                {
+                    "key": "FIRE_EXTRA_HONEY_BONUS",
+                    "value": "When you pick up a Honey from the ground, you also receive extra Feather as Bonus."
+                },
+                {
+                    "key": "FIRE_SUSTAINABLE_EGGS",
+                    "value": "Eggs do not rot when left on the ground."
+                },
+                {
+                    "key": "FIRE_STATIC_CHICKEN",
+                    "value": "Chicken Do not Move."
+                },
+                {
+                    "key": "FIRE_EXTRA_EGGS",
+                    "value": "Chicken lay extra eggs."
+                },
+                {
+                    "key": "FIRE_REFUND_TOOL",
+                    "value": "When using tools like an axe, shovel, hoe, or club, there is a chance the tool is not consumed and remains in your hand."
+                },
+                {
+                    "key": "FIRE_REFUND_SEED",
+                    "value": "When you plant a seed, there is a chance the seed is refunded and remains in your hand."
+                },
+                {
+                    "key": "FIRE_BP_REFUND_RESOURCE_COST",
+                    "value": "When you use a Blueprint, it normally costs resources, usually energy.\nThis power refunds a percentage of that cost."
+                },
+                {
+                    "key": "FIRE_FREE_DIAGONAL_MOVE",
+                    "value": "Temporarily allows diagonal movement."
+                },
+                {
+                    "key": "FIRE_DIAGONAL_AROUND_FOREST",
+                    "value": "Temporarily allows diagonal movement while near Forest tiles."
+                },
+                {
+                    "key": "FIRE_DIAGONAL_AROUND_WATER",
+                    "value": "Temporarily allows diagonal movement while near Water tiles."
+                },
+                {
+                    "key": "FIRE_DIAGONAL_OVER_MUD",
+                    "value": "Temporarily allows diagonal movement while over Mud tiles."
+                },
+                {
+                    "key": "FIRE_DIAGONAL_AROUND_BUILDING",
+                    "value": "Temporarily allows diagonal movement while near Buildings."
+                },
+                {
+                    "key": "FIRE_BUMP_SQUASH_PLAGUE_BEHIND",
+                    "value": "Bump against a building and the monster behind it will be crushed."
+                },
+                {
+                    "key": "FIRE_AXE_CARNAGE",
+                    "value": "Pick up an axe from the Woodcutter Hut and use it to slaughter monsters."
+                },
+                {
+                    "key": "FIRE_EXPLODE_FLOCKING_ON_PUSH",
+                    "value": "Push a flocking monster to make it explode."
+                },
+                {
+                    "key": "FIRE_PLANT_OVER_MONSTER",
+                    "value": "Seeds can be planted on mud tiles with monsters, killing the target."
+                },
+                {
+                    "key": "FIRE_WORK_OVER_MONSTER",
+                    "value": "Work areas created with tools like a hoe or shovel can now be placed over monsters, killing them."
+                },
+                {
+                    "key": "FIRE_HURRY_PLANTS",
+                    "value": "Move the hero to face a plant, and it will grow faster."
+                },
+                {
+                    "key": "FIRE_HURRY_PRODUCTION",
+                    "value": "Move the hero to face a work area, and the job will be finished faster."
+                },
+                {
+                    "key": "FIRE_PERMA_GLOW",
+                    "value": "The hero does not need to be near flocking monsters to activate the glow. \nThis power makes the glow permanent, making farm plague monsters easier to handle."
+                },
+                {
+                    "key": "FIRE_KILL_WORN_CHANCE",
+                    "value": "Each time you spend a Fire Token to sort a new power, one is chosen at random.\nThis power gives a chance to overwrite a worn (already used) power instead of random."
                 }
             ]
         },

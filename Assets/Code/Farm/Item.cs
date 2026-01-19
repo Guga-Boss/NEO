@@ -1243,4 +1243,10 @@ public class Item : MonoBehaviour
         }
         return type;
     }
+
+    internal static void Clamp( ItemType type, float min, float max )
+    {
+        if( G.GIT( type ).Count < min ) G.GIT( type ).Count = min;
+        if( G.GIT( type ).Count > max ) G.GIT( type ).Count = max;
+    }
 }

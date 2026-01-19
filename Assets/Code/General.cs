@@ -1449,6 +1449,26 @@ public class Util
        int dy = Mathf.Abs( Mathf.RoundToInt( to.y - from.y ) );
        return dx == 1 && dy == 1;
    }
+
+   public static void CopyDirectory( string sourceDir, string targetDir )
+   {
+       if( !Directory.Exists( targetDir ) )
+           Directory.CreateDirectory( targetDir );
+
+       // Copy files
+       foreach( string file in Directory.GetFiles( sourceDir ) )
+       {
+           string destFile = targetDir + "\\" + Path.GetFileName( file );
+           File.Copy( file, destFile, true ); // overwrite
+       }
+
+       // Copy subdirectories recursively
+       foreach( string directory in Directory.GetDirectories( sourceDir ) )
+       {
+           string destSubDir = targetDir + "\\" + Path.GetFileName( directory );
+           CopyDirectory( directory, destSubDir );
+       }
+   }
 }
 
 [System.Serializable]
