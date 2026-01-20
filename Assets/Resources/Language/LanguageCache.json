@@ -573,7 +573,31 @@
                 },
                 {
                     "key": "FIRE_HELP_INTRO",
-                    "value": "Fire Level: Your Fire Level determines how many Fire Powers can be active (green) at the same time.\nWhen the timer reaches 0, a downgrade occurs and passive powers are reset.\n\nFire Tokens: There are two ways of Spending Fire Tokens (cost: 1):\n\n1) -Performing a NON-FRONTAL Tent Bump:\nAttempts to increase your Fire Level. \nSuccess increases the level, while failure may decrease it.\nEach failed attempt increases the chance of success on the next try.\nUP = upgrade chance. DN = downgrade chance. (Only Rolled  if Upgrade fails).\n\n2) -Performing a FRONTAL Tent Bump:\nSorts a new Fire Power randomly from the available list.\n\nBelow are the descriptions of the currently shown Fire Powers."
+                    "value": "Fire Level: Your Fire Level determines how many Fire Powers can be active (green) at the same time. When the timer reaches 0, a downgrade occurs and passive powers are reset.\n\nFire Tokens: There are two ways of Spending Fire Tokens (cost: 1):\n\n1) -Performing a NON-FRONTAL Tent Bump:\nAttempts to increase your Fire Level. \nSuccess increases the level, while failure may decrease it.\nEach failed attempt increases the chance of success on the next try.\n\n2) -Performing a FRONTAL Tent Bump:\nSorts a new Fire Power randomly from the available list."
+                },
+                {
+                    "key": "FIRE_HELP_INTRO_POWERS",
+                    "value": "Below are the descriptions of the currently shown Fire Powers:"
+                },
+                {
+                    "key": "FIRE_VAR_UPGRADE_BASE_CHANCE",
+                    "value": "Every time you level up the fire, your next attempt starts at this base value."
+                },
+                {
+                    "key": "FIRE_VAR_LUCKY_STREAK",
+                    "value": "When an upgrade fails and does not trigger a downgrade, this amount is added to the next upgrade chance."
+                },
+                {
+                    "key": "FIRE_VAR_DOWNGRADE_CHANCE",
+                    "value": "This value is used exclusively when an upgrade attempt fails to determine whether the power is downgraded."
+                },
+                {
+                    "key": "FIRE_VAR_TOTAL_SORT_TARGETS",
+                    "value": "Powers marked with an asterisk (‘*’) represent the current pool of candidates eligible to be sorted next.\nThis stat defines how many asterisks are used to mark those candidates."
+                },
+                {
+                    "key": "FIRE_VAR_EXTRA_POWERS_SHOWN",
+                    "value": "By default, you can only see the next power beyond your current level. Upgrade this to see more."
                 },
                 {
                     "key": "FIRE_NOTHING",
@@ -681,7 +705,11 @@
                 },
                 {
                     "key": "FIRE_KILL_WORN_CHANCE",
-                    "value": "Each time you spend a Fire Token to sort a new power, one is chosen at random.\nThis power gives a chance to overwrite a worn (already used) power instead of random."
+                    "value": "Each time you spend a Fire Token to sort a new power, one is chosen at random. \nThis power gives a chance to overwrite a worn (already used) power instead of being completely random."
+                },
+                {
+                    "key": "FIRE_NARROW_SORT_CANDIDATES",
+                    "value": "This power reduces the number of asterisk-marked powers, narrowing the Sorting list and making power management easier"
                 }
             ]
         },

@@ -381,6 +381,7 @@ public class UI : MonoBehaviour
 
     public void UpdateBigTextHelp( string basename )
     {
+        return;
         if( SelectedPerk == EPerkType.NONE ) return;
         if( PerkList[ ( int ) SelectedPerk ].HasBigHelpText == false ) return;
         if( Map.I.RM.DungeonDialog.gameObject.activeSelf )

@@ -46,7 +46,7 @@ public class NavigationMap : MonoBehaviour
         UI.I.MidPanelSprite.gameObject.SetActive( true );
         UI.I.NavigationMapText.gameObject.SetActive( true );
         UI.I.PerksListFolder.SetActive( false );
-        UI.I.NavigationMapText.text = "\nChoose the Quest\nyou want to Play here!\nThen Press M to go Back.";
+        UI.I.NavigationMapText.text = "\n              Choose the Quest\n          you want to Play here!\n        Then Press M to go Back.";
         PrefabFolder.SetActive( true );
         Map.I.ForceHideVegetation = false;
         Map.I.RM.DungeonDialog.gameObject.SetActive( false );

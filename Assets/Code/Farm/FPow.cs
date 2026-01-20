@@ -9,7 +9,7 @@ using UnityEditor;
 public enum FPowType
 {
     NONE = -1,
-    Nothing, Show_More_Powers, Upgrade_Base_Chance, Lucky_Streak_Step, Downgrade_Chance, Kill_Worn_Chance,
+    Nothing, Show_More_Powers, Upgrade_Base_Chance, Lucky_Streak_Step, Downgrade_Chance, Kill_Worn_Chance, Sort_Candidates, Add_Power_Time,
     Extra_Feather_Bonus = 30, Extra_Honey_Bonus, 
     Sustainable_Eggs = 50, // Static_Chicken, Extra_Eggs
     Refund_Tool = 100, Refund_Seed, BP_Refund_Resource_Cost,
@@ -50,12 +50,14 @@ public class FPow : MonoBehaviour
     public static FPow LastPow = null, LastUnlim;
     public static bool UpdateText = true;
     public static int TrialCount = 0;
-    public static int ExtraPowersShown = 0;
+    public static int ExtraPowersShown = 1;
     public static int LuckyStreakStep = 25;
     public static int DowngradeChance = 25;
     public static int UpgradeBaseChance = 25;
-
+    public static List<int> SortTargets;
+    public static int TotalSortTargets = 3;
     public static bool TentBuilt = false;
+    public static int RelocateAsterix = 0;
 
 #if UNITY_EDITOR
     void OnValidate()
@@ -87,6 +89,8 @@ public class FPow : MonoBehaviour
             InitPowers();
         }
 
+        UpdateTargetSorting();                                                                          // Updates Target Sorting
+
         if( UpdateText || Map.I.AdvanceTurn )
         {
             UpdatePanelText();                                                                          // Update text
@@ -95,6 +99,51 @@ public class FPow : MonoBehaviour
         UpdateFirePowers();                                                                             // Update Fire powers constant loop
         UpdateMouseHelp();                                                                              // Update Tent mouse help
     }
+
+    private static void UpdateTargetSorting()
+    {
+        if( SortTargets == null )
+            SortTargets = new List<int>();                                                              // initialize list if needed;
+
+        List<int> removed = new List<int>();                                                            // track removed targets;
+
+        int removeCount = Mathf.Min( RelocateAsterix, SortTargets.Count );                              // clamp remove amount;
+        for( int i = 0; i < removeCount; i++ )
+        {
+            int index = Random.Range( 0, SortTargets.Count );                                           // pick random target;
+            removed.Add( SortTargets[ index ] );                                                        // store removed id;
+            SortTargets.RemoveAt( index );                                                              // remove from sort list;
+        }
+
+        float bn = FPow.Get( FPowType.Sort_Candidates );                                                // Firepower: Narrow Sort Candidates;
+        if( TotalSortTargets >= 2 )
+            if( bn > 0 )
+            {
+                TotalSortTargets += ( int ) bn;                                                         // increase total sort targets;
+            }
+
+        int missing = TotalSortTargets - SortTargets.Count;                                             // how many targets are missing;
+        if( missing <= 0 )
+        {
+            RelocateAsterix = 0;                                                                        // reset counter;
+            return;
+        }
+
+        List<int> pool = new List<int>() { 1, 2, 3, 4, 5 };                                             // available targets;
+        for( int i = pool.Count - 1; i >= 0; i-- )
+        if( SortTargets.Contains( pool[ i ] ) || removed.Contains( pool[ i ] ) )
+            pool.RemoveAt( i );                                                                         // avoid duplicates and re-pick;
+
+        for( int i = 0; i < missing && pool.Count > 0; i++ )
+        {
+            int index = Random.Range( 0, pool.Count );                                                  // random index;
+            SortTargets.Add( pool[ index ] );                                                           // add target;
+            pool.RemoveAt( index );                                                                     // remove from pool;
+        }         
+        RelocateAsterix = 0;                                                                            // reset relocation counter;
+    }
+
+
     private static void UpdateMouseHelp()
     {
         UI.I.BigTextHelpLabel.gameObject.SetActive( false );
@@ -102,23 +151,51 @@ public class FPow : MonoBehaviour
         if( bld == null ) return;
         if( bld.Building.Type != BuildingType.Tent ) return;
         //if( Cursor.visible == false ) return;
-        int lev = ( int ) Item.GetNum( ItemType.Fire_Level );
-        int max = lev + 1 + ExtraPowersShown;                                                           // get max visible
+
+        int page = 1;
+        if( Input.GetMouseButton( 0 ) )                                                                     // Choose page
+            page = 2;
 
         string txt = "";
-        txt += "Fire Power Tutorial:\n\n";
-        txt += Language.Get( "FIRE_HELP_INTRO", "Main" ) + "\n\n";                                      // intro 
-
-        for( int i = 0; i < G.Farm.FirePow.Count; i++ )
-        if( i < max )
+        if( page == 1 )
         {
-            FPow p = G.Farm.FirePow[ i ];
-            txt += p.GetName() + ":\n";                                                                 // tech name
-            txt += Language.Get( "FIRE_" + p.Type.ToString().ToUpper(), "Main" ) + "\n\n";              // power description
+            txt += "Fire Power Tutorial:  (Hold Left Button for page 2)\n\n";
+            txt += Language.Get( "FIRE_HELP_INTRO", "Main" ) + "\n\n";                                      // intro 
+
+            txt += "Current Stats (values reset to default when the timer reaches zero):\n\n";
+
+            txt += "Upgrade Base Chance 'UP':  " + UpgradeBaseChance + "%:  ";
+            txt += Language.Get( "FIRE_VAR_UPGRADE_BASE_CHANCE", "Main" ) + "\n\n";  
+
+            txt += "Lucky Streak: " + LuckyStreakStep + "%:  ";
+            txt += Language.Get( "FIRE_VAR_LUCKY_STREAK", "Main" ) + "\n\n";
+
+            txt += "Downgrade Chance 'DN': " + DowngradeChance + "%:  ";
+            txt += Language.Get( "FIRE_VAR_DOWNGRADE_CHANCE", "Main" ) + "\n\n";
+
+            txt += "Sort Candidates: +" + TotalSortTargets + "\n";
+            txt += Language.Get( "FIRE_VAR_TOTAL_SORT_TARGETS", "Main" ) + "\n\n";  
+
+            txt += "Extra Powers Shown: +" + ExtraPowersShown + "\n";
+            txt += Language.Get( "FIRE_VAR_EXTRA_POWERS_SHOWN", "Main" ) + "\n\n";  
+        }
+        else
+        if( page == 2 )
+        {
+            txt += Language.Get( "FIRE_HELP_INTRO_POWERS", "Main" ) + "\n\n"; 
+            int lev = ( int ) Item.GetNum( ItemType.Fire_Level );
+            int max = lev + ExtraPowersShown;                                                               // get max visible
+            for( int i = 0; i < G.Farm.FirePow.Count; i++ )
+            if( i < max )
+            {
+                FPow p = G.Farm.FirePow[ i ];
+                txt += p.GetName() + ":\n";                                                                 // tech name
+                txt += Language.Get( "L" + "FIRE_" + p.Type.ToString().ToUpper(), "Main" ) + "\n\n";        // power description
+            }
         }
 
         UI.I.BigTextHelpLabel.gameObject.SetActive( true );
-        UI.I.BigTextHelpLabel.text = txt;                                                               // update text mesh                              
+        UI.I.BigTextHelpLabel.text = txt;                                                                   // update text mesh                              
     }
 
     private static void UpdateFirePowers()
@@ -165,9 +242,7 @@ public class FPow : MonoBehaviour
                     bi.ProductionTimeCount += step;                                                     // accelerate production
                     LastPow.UsesCount += step;                                                          // consume power
                     UpdateText = true;                                                                  // refresh UI
-
-                    if( LastPow.UsesCount > LastPow.TotalUses )
-                        LastPow.UsesCount = LastPow.TotalUses;                                          // clamp
+                    LastPow.ClampUse();                                                                 // clamp
                 }
             }
         }
@@ -205,21 +280,38 @@ public class FPow : MonoBehaviour
             if( DowngradeChance < 0 ) 
                 DowngradeChance = 0;
         }
+
+        bn = FPow.Get( FPowType.Add_Power_Time, false );                                                 // Firepower: Add Power Time
+        if( bn != 0 )
+        {
+            float secondsPerSecond = LastPow.TotalUses / bn;                                             // consume rate
+            float partial = Time.unscaledDeltaTime * secondsPerSecond;
+            List<BuildingItem> bi = Building.GetBuildingItemList( ItemType.Fire_Token );
+            bi[ 0 ].ProductionTimeCount -= partial;                                                      // applies time
+            LastPow.Use( partial );                                                                      // consume same time
+            LastPow.ClampUse();
+            UpdateText = true;
+        }
+    }
+    private void ClampUse()
+    {
+        if( UsesCount > TotalUses )
+            UsesCount = TotalUses;  
     }
 
     public static void UpdateCycle( BuildingItem bi )
     {
         bi.ProductionTimeCount = 0;
-        if( --ExtraPowersShown < 0 ) 
-            ExtraPowersShown = 0;
+        if( --ExtraPowersShown < 1 ) 
+            ExtraPowersShown = 1;
         UpgradeBaseChance = 25;
         LuckyStreakStep = 25;
         DowngradeChance = 25;
+        TotalSortTargets = 3;
         Item.AddItem( ItemType.Fire_Level, -1 );                                // Decrement Level
         Item.Clamp( ItemType.Fire_Level, 0, Max_Level );
         UpdateText = true;
     }
-
 
     public static void UpdatePanelText()
     {
@@ -229,7 +321,7 @@ public class FPow : MonoBehaviour
         if( TentBuilt == false )
         {
             string pn = Manager.I.GetPlayerName();
-            UI.I.NavigationMapText.text = "\nWelcome to the Farm,\n" + pn + "!"; 
+            UI.I.NavigationMapText.text = "\n      Welcome to the Farm,\n      " + pn + "!"; 
             return;
         }
         UI.I.NavigationMapText2.gameObject.SetActive( true );
@@ -242,7 +334,7 @@ public class FPow : MonoBehaviour
         UI.I.ArtifactInfoLabel.text = "Fire Level: " + lev + " UP: " + 
         upchc + "% - DN: " + DowngradeChance + "%";
 
-        int max = lev + 1;
+        int max = lev;
         float bn = FPow.Get( FPowType.Show_More_Powers, false );                                         // Firepower: Show more Powers
         int used = ( int ) Mathf.Min( bn, Max_Level - lev );                                             // Calculates how many are useful to be spent
         if( bn > 0 && used > 0 )
@@ -256,13 +348,13 @@ public class FPow : MonoBehaviour
         if( i < max )
         {
             FPow p = G.Farm.FirePow[ i ];
-            string nm = p.GetName( true );
+            string nm = p.GetName( i + 1 );
             if( i < lev )
-                UI.I.NavigationMapText.text += "L" + nm + "\n";                                          // uses 2 text meshes for multicolor effect
-            UI.I.NavigationMapText2.text += "L" + nm + "\n";
+                UI.I.NavigationMapText.text += nm + "\n";                                          // uses 2 text meshes for multicolor effect
+            UI.I.NavigationMapText2.text += nm + "\n";
         }
     }
-    public void Use( int amt )
+    public void Use( float amt )
     {
         UsesCount += amt;
     }
@@ -347,7 +439,7 @@ public class FPow : MonoBehaviour
             }
         }
 
-        if( idlist.Count == 0 ) return null;                                         // nothing to sort, exit
+        if( idlist.Count == 0 ) return null;                                    // nothing to sort, exit
 
         int id = Util.Sort( fact );                                             // Sort ID
         id = idlist[ id ];
@@ -375,14 +467,15 @@ public class FPow : MonoBehaviour
     internal static bool UpdateBuildingBump()
     {
         bool res = false;
-        Unit frbld = Map.I.GetUnit( ETileType.BUILDING, G.Hero.GetFront() );
-        Unit bump = Map.I.GetUnit( ETileType.BUILDING, Map.I.BumpTarget );
-        if( frbld && frbld.Building.Type == BuildingType.Tent )                                        // Tent Bump
+        Unit frbld = Map.I.GetUnit( ETileType.BUILDING, G.Hero.GetFront() );                           // Tent Frontal Bump
+        if( frbld && frbld.Building.Type == BuildingType.Tent )                                        
+        if( SortTargets.Count > 0 )
         {
             if( Building.AddItem( true, ItemType.Fire_Token, -1 ) == 0 ) 
                 return true;                                                                           // Charge Fire Token
 
-            int id = Random.Range( 1, 6 );            
+            int id = Random.Range( 0, SortTargets.Count );                                             // Pick from the list
+            id = SortTargets[ id ];
             float bn = FPow.Get( FPowType.Kill_Worn_Chance, false );                                   // Firepower: Kill worn first
             string kill = "Old: ";
             if( Util.Chance( bn ) )                                                                    // Kill Worn Chance
@@ -397,6 +490,8 @@ public class FPow : MonoBehaviour
                     break;
                 }
             }
+            if( SortTargets.Contains( id ) )                                                           // Removes ID from Sort Target
+                SortTargets.Remove( id );
 
             string msg = kill + G.Farm.FirePow[ id - 1 ].GetName();
             Message.RedMessage( ItemType.Fire_Level, msg );                                            // sorted msg
@@ -406,6 +501,7 @@ public class FPow : MonoBehaviour
             return true;            
         }
 
+        Unit bump = Map.I.GetUnit( ETileType.BUILDING, Map.I.BumpTarget );                             // Tent Bump
         if( bump && bump.Building.Type == BuildingType.Tent )                                          // bump action triggered
         {
             res = true;
@@ -416,6 +512,7 @@ public class FPow : MonoBehaviour
             if( Item.GetNum( ItemType.Fire_Level ) < Max_Level )
             if( Item.GetNum( ItemType.Fire_Token ) >= 1 )
             {
+                RelocateAsterix = 1;                                                                    // Relocates a new asterix
                 Item.IgnoreMessage = true;
                 Building.AddItem( true, ItemType.Fire_Token, -1 );                                      // Charge Fire Token
                 if( upgradeSuccess )                                                                    // if upgrade succeeded
@@ -463,7 +560,7 @@ public class FPow : MonoBehaviour
 
     public static void UpdateFirePowerNames()
     {
-        FPow[] all = G.Farm.FirePowerFolder.GetComponentsInChildren<FPow>();                           // name all FPow gameobj  
+        FPow[] all = G.Farm.FirePowerFolder.GetComponentsInChildren<FPow>();                             // name all FPow gameobj  
         G.Farm.FirePowMaster = new List<FPow>( all );
 
         for( int i = 0; i < all.Length; i++ )
@@ -472,39 +569,54 @@ public class FPow : MonoBehaviour
             p.name = p.GetName();          
         }
 
-        for( int j  = 0; j  < all.Length;  j++ )                                                        // Check for duplicated IDs
+        for( int j  = 0; j  < all.Length;  j++ )                                                         // Check for duplicated IDs
         for( int jj = 0; jj < all.Length; jj++ )
         if ( j != jj )
         if ( all[ j  ].UniqueID ==  all[ jj ].UniqueID ) 
              Debug.LogError( "Duplicated Fire Power ID: " + all[ j  ].name );
     }
-    public string GetName( bool panel = false )
+    public string GetName( int lev = -1 )
     {
-        string nm = "" + Level + " - " + Type.ToString();                                                // Level and name
+        string ini = "";
+        if( lev > 0 )                                                                                    // Adds symbol to identify next sort target
+        {
+            ini = "L";
+            if( SortTargets.Contains( lev ) )
+                ini = "*L";
+        }
+
+        string nm = ini + Level + " - " + Type.ToString();                                               // Level and name
         nm = nm.Replace( '_', ' ' );
 
         float rem = TotalUses - UsesCount;
-        if( Type == FPowType.Hurry_Production || Type == FPowType.Hurry_Plants )                         // These use timer
-            nm += " " + Util.ToSTime( rem );
+        if( Type == FPowType.Hurry_Production || Type == FPowType.Hurry_Plants || 
+            Type == FPowType.Add_Power_Time )                                                             // These use timer
+        {
+            if( IsWorn() == false )
+                nm += " " + Util.ToSTime( rem );
+            else nm += " worn";
+        }
         else
         {
             if( Power != 0 )
                 nm += " " + Power.ToString( "+#;-#;0" );                                                 // power
             if( Type == FPowType.BP_Refund_Resource_Cost ||                                              // these use percent %
-                Type == FPowType.Refund_Seed ||
-                Type == FPowType.Refund_Tool ||
+                Type == FPowType.Refund_Seed         ||
+                Type == FPowType.Refund_Tool         ||
                 Type == FPowType.Upgrade_Base_Chance ||
-                Type == FPowType.Lucky_Streak_Step ||
-                Type == FPowType.Downgrade_Chance ||
-                Type == FPowType.Kill_Worn_Chance ) nm += "%";
+                Type == FPowType.Lucky_Streak_Step   ||
+                Type == FPowType.Downgrade_Chance    ||
+                Type == FPowType.Kill_Worn_Chance    ) 
+                nm += "%";
             if( TotalUses > 0 )
             {
-                if( Type == FPowType.Upgrade_Base_Chance ||                                               // these are forced to have only one usage
-                    Type == FPowType.Lucky_Streak_Step   ||
-                    Type == FPowType.Downgrade_Chance    ||
-                    Type == FPowType.Show_More_Powers    )
+                if( Type == FPowType.Upgrade_Base_Chance    ||                                           // these are forced to have only one usage
+                    Type == FPowType.Lucky_Streak_Step      ||
+                    Type == FPowType.Downgrade_Chance       ||
+                    Type == FPowType.Show_More_Powers       ||
+                    Type == FPowType.Sort_Candidates )
                 {
-                    if( panel )
+                    if( lev > 0 )
                         nm += " worn";
                     else
                         nm += "";
@@ -520,6 +632,13 @@ public class FPow : MonoBehaviour
         if( UniqueID == "" ) UniqueID = Farm.SortUniqueID( 5 );
         return nm;
     }
+
+    private bool IsWorn()
+    {
+        if( TotalUses > 0 )
+        if( UsesCount >= TotalUses ) return true;
+        return false;
+    }
     public static void Save()
     {
         TF.SaveT( "TrialCount", TrialCount );                                                // Save Trial Count
@@ -527,7 +646,10 @@ public class FPow : MonoBehaviour
         TF.SaveT( "BaseUpgradeChance", UpgradeBaseChance );                                  // Save Base Upgrade Chance
         TF.SaveT( "LuckyStreakStep", LuckyStreakStep );                                      // Save Lucky Streak Step
         TF.SaveT( "DowngradeChance", DowngradeChance );                                      // Save Downgrade Chance
+        TF.SaveT( "SortTargets", SortTargets );                                              // Save Sort Targets
+
         TF.SaveT( "FPowSize", G.Farm.FirePow.Count );                                        // Save powers list size
+
         List<string> idlist = new List<string>();
         List<int> reslist = new List<int>();
         List<float> useslist = new List<float>();
@@ -550,6 +672,8 @@ public class FPow : MonoBehaviour
         UpgradeBaseChance = TF.LoadT<int>( "UpgradeBaseChance" );                           // Load Upgrade Base Chance
         LuckyStreakStep = TF.LoadT<int>( "LuckyStreakStep" );                               // Load Lucky Streak Step
         DowngradeChance = TF.LoadT<int>( "DowngradeChance" );                               // Load Downgrade Chance
+        //SortTargets = TF.LoadT<List<int>>( "SortTargets" );                                 // Load Sort Targets     
+
         int sz = TF.LoadT<int>( "FPowSize" );                                               // Load powers list size
 
         if( sz == 0 )                                                                       // First time
