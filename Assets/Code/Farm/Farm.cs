@@ -573,13 +573,13 @@ public partial class Farm : MonoBehaviour
             if( Input.GetMouseButtonDown( 0 ) )
             {
                 ItemType itt = Building.GetCurrentBuildingItem( G.MP );
-                Building.PlaceItem( G.MP, 1, itt, true );
+                Building.PlaceItem( G.MP, 100, itt, true );
                 G.GIT( ItemType.Energy ).Count = 100;
             }
             if( Input.GetMouseButtonDown( 1 ) )
             {
                 ItemType itt = Building.GetCurrentBuildingItem( G.MP );
-                Building.PlaceItem( G.MP, -1, itt, true );
+                Building.PlaceItem( G.MP, -100, itt, true );
             }
 
             if( Input.GetKeyDown( KeyCode.F3 ) )

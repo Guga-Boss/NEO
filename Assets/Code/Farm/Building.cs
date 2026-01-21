@@ -183,6 +183,12 @@ public class Building : MonoBehaviour
         if( Type == BuildingType.Tent )
         {
             Unit.LevelTxt.text += "\n" + Util.ToSTime( prod - it.ProductionTimeCount );
+
+            if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) )
+            if( Unit.Pos == G.Hero.GetFront() )
+                Unit.LevelTxt.text += "\nSort";
+            else
+                Unit.LevelTxt.text += "\nUpg";
         }
     }
 
