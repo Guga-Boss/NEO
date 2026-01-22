@@ -872,7 +872,15 @@ public partial class Farm : MonoBehaviour
             if( poslist.Count < 1 ) return;                                                          // Creates the Monster
             int id = Random.Range( 0, poslist.Count );
             Vector2 pt = poslist[ id ];
-            Map.I.Farm.PlaceItem( pt, 12, false, false, ItemType.Egg );                              // Place eggs on the ground
+
+            int eggs = 12;
+            float bn = FPow.Get( FPowType.Extra_Eggs_Laid, false );                                  // Firepower: Extra Eggs
+            if( bn != 0 )
+            {
+                eggs += ( int ) bn;
+                FPow.LastPow.Use( 1 );
+            }
+            Map.I.Farm.PlaceItem( pt, eggs, false, false, ItemType.Egg );                            // Place eggs on the ground
             Controller.CreateMagicEffect( pt );                                                      // Magic FX  
             Controller.CreateMagicEffect( un.Pos );                                                  // Magic FX  
             MasterAudio.PlaySound3DAtVector3( "Item Collect", un.Pos );                              // FX
@@ -908,9 +916,24 @@ public partial class Farm : MonoBehaviour
             }
 
             if( bestid == -1 ) return;
-            un.Control.ApplyMove( un.Pos, un.Pos + dl[ bestid ] );                                     // move chicken
+            un.Control.ApplyMove( un.Pos, un.Pos + dl[ bestid ] );                                    // move chicken
 
-            if( --un.Body.StackAmount <= 0 ) 
+            if( FPow.Has( FPowType.Super_Chicken, false ) )                                           // Firepower: Super Chicken
+            {
+                List<Unit> pl = Util.GetNeighbors( un.Pos, ETileType.PLAGUE_MONSTER );
+                int count = 0;
+                for( int i = 0; i < pl.Count; i++ )
+                if( Item.IsPlagueMonster( pl[ i ].Variation, false ) )
+                {
+                    Map.I.CreateExplosionFX( pl[ i ].Pos );                                           // FX
+                    pl[ i ].Kill();                                                                   // kill plague arround her
+                    count++;
+                }
+                if( count > 0 ) 
+                    FPow.LastPow.Use( 1 );
+            }
+
+            if( --un.Body.StackAmount <= 0 )
                 Map.TimeKill( un, 1 );                                                                 // not enough movements, kill chicken
 
             MasterAudio.PlaySound3DAtVector3( "Chicken", un.Pos );                                     // FX

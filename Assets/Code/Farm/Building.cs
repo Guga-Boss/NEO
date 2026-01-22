@@ -369,16 +369,16 @@ public class Building : MonoBehaviour
             else
             {
                 Item itm = G.GIT( it.ItemType );
-                if( bl.Building.Category == EBuildingCategory.Plant )                          // No fruit pickin up if not ripe yet
-                if( it.WorkIsDone == false ) return false;                   
- 
+                if( bl.Building.Category == EBuildingCategory.Plant )                                   // No fruit picking up if not ripe yet
+                if( it.WorkIsDone == false ) return false;
+
+                FPow.UpdateHarvestBonus( bl.Building, it, max );                                        // Firepower Harvest Bonus
                 float cap = ( int ) Item.GetStat( EVarType.Carry_Capacity, itm );  
-                Unit road = Map.I.GetUnit( ETileType.ROAD, G.Hero.Pos );
-                if( road ) cap += ( int ) Item.GetStat( EVarType.void3, itm );
+      
                 if( cap > 0 )
                 if( amt < 0 && Map.I.Farm.CarryingAmount >= cap )
                 {
-                    Message.RedMessage( "Maximum Carry Capacity Reached: " + cap );
+                    Message.RedMessage( "Maximum Carry Capacity Reached: " + cap );                      // Max carry cap reached
                     return false;
                 }
 
@@ -927,9 +927,10 @@ public class Building : MonoBehaviour
 
         switch( var )
         {
-            case EVarType.Maximum_Item_Stack:                                                 // max stack
+            case EVarType.Maximum_Item_Stack:                                                 // max stack, sums master list with local building max stack
             if( bi.BaseMaxItemStack <= 0 ) return -1;
-            return bi.BaseMaxItemStack + GetUseSum( var, bl.Type, bi.ItemType );
+            return bi.BaseMaxItemStack + bl.Itm[ selitem ].MaxItemStack + 
+            GetUseSum( var, bl.Type, bi.ItemType );
 
             case EVarType.Total_Building_Production_Time:
 

@@ -11,20 +11,22 @@ public enum FPowType
     NONE = -1,
     Nothing, Show_More_Powers, Upgrade_Base_Chance, Lucky_Streak_Step, 
     Downgrade_Chance, Kill_Worn_Chance, Sort_Candidates, Add_Power_Time,
-    Stat_Carryover, Bonus_Uses,
-    Extra_Feather_Bonus = 30, Extra_Honey_Bonus, 
-    Sustainable_Eggs = 50, // Static_Chicken, Extra_Eggs
-    Refund_Tool = 100, Refund_Seed, BP_Refund_Resource_Cost,
+    Stat_Carryover, Bonus_Uses, 
+    Extra_Feather_Bonus = 30, Extra_Honey_Bonus, Receive_Gift, Harvest_Bonus,
+    Sustainable_Eggs = 50, Super_Chicken, Extra_Eggs_Laid,
+    Refund_Tool = 100, Refund_Seed, BP_Refund_Resource_Cost, New_BP_Refund_Chance,  // buy plant refund, rarity idea
     Free_Diagonal_Move = 200, Diagonal_Around_Forest, Diagonal_Around_Water, 
     Diagonal_Over_Mud, Diagonal_Around_Building,
     Bump_Squash_Plague_Behind = 300, Axe_Carnage, Explode_Flocking_on_Push,
     Plant_Over_Monster = 400, Work_Over_Monster,
     Hurry_Plants = 500, Hurry_Production,
-    Perma_Glow = 600
-}   //  extra power time, skip reset vars chance
+    Perma_Glow = 600,
+    Bump_Forest_Teleport = 700, Bump_Water_Teleport
+}  
 
-public class FPow : MonoBehaviour 
+public class FPow : MonoBehaviour
 {
+    #region Variables
     [HideInInspector]
     public string UniqueID = "";
     [Title( "Power Configuration" )]
@@ -41,6 +43,7 @@ public class FPow : MonoBehaviour
     [Title( "Uses:" )]
     public int TotalUses = 0;
     public float BonusTotalUses = 0;
+    public ItemType AffectedItem = ItemType.NONE;
     [Space( 10 )]
     public bool OnlyFarm = true;
     [HideInEditorMode]
@@ -76,7 +79,7 @@ public class FPow : MonoBehaviour
         Kill_Worn_Chance,
         Bonus_Uses
     }
-
+    #endregion
 #if UNITY_EDITOR
     void OnValidate()
     {
@@ -376,7 +379,15 @@ public class FPow : MonoBehaviour
         if( bn != 0 )
         {
             BonusUses += bn;
-            LastPow.Use( bn );
+            LastPow.Use( 1 );
+        }
+
+        bn = FPow.Get( FPowType.Receive_Gift, false );                                                  // Firepower: Receive Gift
+        if( bn != 0 )
+        {
+            Item.ForceMessage = true;
+            Building.AddItem( true, ItemType.Fire_Token, bn ); 
+                LastPow.Use( bn );
         }
     }
 
@@ -588,6 +599,42 @@ public class FPow : MonoBehaviour
         BonusTotalUses = 0;
     }
 
+    internal static bool UpdateBump( Vector2 from ,Vector2 to )
+    {
+        Unit forest = Map.I.GetUnit( ETileType.FOREST, to );
+        Unit water = Map.I.GetUnit( ETileType.WATER, to );
+
+        if( ( forest && FPow.Has( FPowType.Bump_Forest_Teleport, false ) ||                            // Fire Power: Teleport
+               water && FPow.Has( FPowType.Bump_Water_Teleport,  false ) ) )
+        {
+            EDirection mov = Util.GetTargetUnitDir( to, from  );                                       // get movement direction
+            Vector2 last = new Vector2( -1, -1 );
+            List<Vector2> pl = new List<Vector2>();
+            for( int i = 1; i < G.Farm.FarmLimit.x; i++ )
+            {
+                Vector2 tg = G.Hero.Pos + Manager.I.U.DirCord[ ( int ) mov ] * i;
+                pl.Add( tg );
+                if( G.Farm.CheckFarmLimit( tg, false ) == false ) break;
+                if( Map.I.IsTileOnlyGrass( tg ) )                                                      // find last good pos
+                    last = tg;
+            }
+
+            if( last.x != -1 )
+            {
+                Map.I.LineEffect( G.Hero.Pos, last, 3.5f, .5f, Color.blue, Color.blue );               // line fx
+                G.Hero.CanMoveFromTo( true, G.Hero.Pos, last, G.Hero );
+                MasterAudio.PlaySound3DAtVector3( "Hero Jump", G.Hero.Pos );                           // play kick sound
+                LastPow.Use( 1 );
+                for( int i = 0; i < pl.Count; i++ ) {
+                    Map.I.CreateExplosionFX( pl[ i ], "Smoke Cloud", "" );
+                    if( pl[ i ] == last ) break; }                                                     // FX
+                Message.GreenMessage( ItemType.Fire_Token, "Teleport!" );
+            }
+            return true;
+        }
+        return false;
+    }
+
     internal static bool UpdateBuildingBump()
     {
         bool res = false;
@@ -700,13 +747,13 @@ public class FPow : MonoBehaviour
         {
             ini = "L";
             if( SortTargets.Contains( lev ) )
-                ini = "*L";
+                ini = "**L";
         }
 
         string nm = ini + Level + " - " + Type.ToString();                                               // Level and name
         nm = nm.Replace( '_', ' ' );
 
-        float rem = GetTotalUses() - UsesCount;
+        float rem = ( int ) GetTotalUses() - UsesCount;
         if( Type == FPowType.Hurry_Production || Type == FPowType.Hurry_Plants || 
             Type == FPowType.Add_Power_Time )                                                             // These use timer
         {
@@ -716,6 +763,11 @@ public class FPow : MonoBehaviour
         }
         else
         {
+            if( Type == FPowType.Receive_Gift )
+            {
+                nm += " " + G.GIT( AffectedItem ).GetName() + " +" + Power;
+            }
+            else
             if( Power != 0 )
                 nm += " " + Power.ToString( "+#;-#;0" );                                                 // power
             if( Type == FPowType.BP_Refund_Resource_Cost ||                                              // these use percent %
@@ -725,7 +777,9 @@ public class FPow : MonoBehaviour
                 Type == FPowType.Lucky_Streak_Step       ||
                 Type == FPowType.Downgrade_Chance        ||
                 Type == FPowType.Kill_Worn_Chance        ||
-                Type == FPowType.Bonus_Uses              ) 
+                Type == FPowType.Harvest_Bonus           ||
+                Type == FPowType.Bonus_Uses              || 
+                Type == FPowType.New_BP_Refund_Chance ) 
                 nm += "%";
             if( TotalUses > 0 )
             {
@@ -736,7 +790,8 @@ public class FPow : MonoBehaviour
                     Type == FPowType.Sort_Candidates        ||
                     Type == FPowType.Stat_Carryover         ||
                     Type == FPowType.Kill_Worn_Chance       ||
-                    Type == FPowType.Bonus_Uses )
+                    Type == FPowType.Bonus_Uses             ||
+                    Type == FPowType.Receive_Gift           )
                 {
                     if( lev > 0 )
                         nm += " -worn-";
@@ -806,7 +861,7 @@ public class FPow : MonoBehaviour
         SortTargets = TF.LoadT<List<int>>( "SortTargets" );                                 // Load Sort Targets list
         StatCarryover = TF.LoadT<int>( "StatCarryover" );                                   // Load Stat Carryover
         KillWornChance = TF.LoadT<float>( "KillWornChance" );                               // Load Kill Worn Chance
-        BonusUses = TF.LoadT<int>( "BonusUses" );                                           // Load Bonus Uses
+        BonusUses = TF.LoadT<float>( "BonusUses" );                                         // Load Bonus Uses
 
         int sz = TF.LoadT<int>( "FPowSize" );                                               // Load powers list size
 
@@ -884,5 +939,19 @@ public class FPow : MonoBehaviour
             if( LastUnlim ) LastPow = LastUnlim;                                                            // Prioritize Unlimited power
         }
         return res;
+    }
+    internal static void UpdateHarvestBonus( Building bl, BuildingItem bi, float max )
+    {
+        float bn = FPow.Get( FPowType.Harvest_Bonus, false );                                               // Firepower: Harvest Bonus
+        if( bn != 0 )
+        if( bi.ItemCount == max )
+        {
+            float amt = Util.Percent( bn, max );
+            amt = Util.FloatSort( amt );
+            bi.MaxItemStack += amt; 
+            bi.ItemCount += amt;
+            Message.GreenMessage( bi.ItemType, " Harvest Bonus: + " + amt );
+            LastPow.Use( 1 );
+        }
     }
 }

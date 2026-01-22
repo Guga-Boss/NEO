@@ -2131,6 +2131,8 @@ public partial class Controller : MonoBehaviour
 
         UpdateSuspendedBridgeConstruction( from, to );                                                            // Suspended Bridge Creation
 
+        if( FPow.UpdateBump( from, to ) ) return false;                                                           // Update Fire power Bump Powers
+
         Map.I.Farm.UpdateFeatherPicking( from, to );                                                              // Farm Feather Picking
         if( Map.I.Farm.UpdateRaftHammer( from, to ) ) return false;                                               // Raft Hammer Update
         if( Map.I.Farm.UpdateFlockingMonsterPushing( from, to ) ) return false;                                   // Farm Monster Grouped Push

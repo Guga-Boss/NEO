@@ -62,7 +62,7 @@ public class BluePrintWindow : MonoBehaviour
         if( SelectionID == -1 ) return;
 
         if( SelectionID == 1 )
-        if( BothBlueprintsAreNew )                                                           // Booth new
+        if( BothBlueprintsAreNew )                                                                                                // Booth new
         {
             Blueprint.SelectedBluePrint.Copy( BluePrintWindow.I.TempBluePrint2 );
         }
@@ -72,10 +72,19 @@ public class BluePrintWindow : MonoBehaviour
             Blueprint.SelectedBluePrint.Copy( BluePrintWindow.I.TempBluePrint );
         }
 
-        Blueprint.SelectedBluePrint.FreePlants--;
-        Item.AddItem( Inventory.IType.Inventory, ItemType.BluePrint_Image_1, -1 );
         Map.I.InvalidateInputTimer = .5f;
         gameObject.SetActive( false );
+
+        float chc = FPow.Get( FPowType.New_BP_Refund_Chance, false );                                                             // Firepower: Refund tool
+        if( Util.Chance( chc ) )
+        {
+            Message.GreenMessage( ItemType.Fire_Token, "Blueprint Refunded!" );
+        }
+        else
+        {
+            Blueprint.SelectedBluePrint.FreePlants--;                                                                              // Free plant var decrement
+            Item.AddItem( Inventory.IType.Inventory, ItemType.BluePrint_Image_1, -1 );
+        }
     }
 
     public void OnChoosePlant()
