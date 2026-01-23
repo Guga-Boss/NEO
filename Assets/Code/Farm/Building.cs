@@ -695,47 +695,36 @@ public class Building : MonoBehaviour
             G.Inventory.Save();                                                                                              // Saves Inventory if needed
         }
     }
-
-   
+       
     public static void GatherGroundObjects()
-    {
-        if( G.Farm.CarryingAmount > 0 )                                                                                       // Carried Items
+    {                                                                                                    
+        if( G.Farm.CarryingAmount > 0 )                                                     // Carried Items
         if( G.Farm.SelectedItem != ItemType.NONE )
         {
-            int res = Building.AddItem( true, G.Farm.SelectedItem, G.Farm.CarryingAmount );
-            Item.AddItem( G.Farm.SelectedItem, res );
+            Item it = G.GIT( G.Farm.SelectedItem );
+            for( int i = 0; i < G.Farm.CarryingAmount; i++ )
+                GroundProcess( it );                                                        // process hand item
         }
 
         List<Vector2> comb = new List<Vector2>();
         for( int tid = 0; tid < G.Farm.Tl.Count; tid++ )                                                                          
         {
             int x = G.Farm.Tl[ tid ].x;
-            int y = G.Farm.Tl[ tid ].y;                                                                                       // Loop Through all Ground intems in the MAP and send to inventory
+            int y = G.Farm.Tl[ tid ].y;                                                    // Loop Through all Ground intems in the MAP and send to inventory
             var ga2 = Map.I.Gaia2[ x, y ];
-
 
             if( ga2 )
             if( ga2.TileID == ETileType.ITEM )
                 {
-                    if( ga2.Variation == ( int ) ItemType.WoodAxe ||                                                          // axes have limited production cap, so it must be destroyed
-                        ga2.Variation == ( int ) ItemType.Egg ||                                                              // eggs: prevent cheating
-                        ga2.Variation == ( int ) ItemType.Feather )                                                           // remove feathers
-                        ga2.Kill();
-                    else
-                    if( ga2.Variation == ( int ) ItemType.HoneyComb )
+                    Item it = G.GIT( ga2.Variation );
+                    if( it.Type == ItemType.HoneyComb )                                     // Honeycomb
                         comb.Add( ga2.Pos );
                     else
-                    if( Item.IsPlagueMonster( ga2.Variation ) == false )
-                    {
-                        ItemType it = ( ItemType ) ga2.Variation;
-                        int res = Building.AddItem( true, it, ga2.Body.StackAmount );
-                        G.GIT( it ).Count += res;
-                        ga2.Kill();
-                    }
+                        GroundProcess( it, ga2 );                                           // Process ground item
                 }
         }
                                               
-        Util.RandomizeList( ref comb );                                                                                     // Remove combs if at full level
+        Util.RandomizeList( ref comb );                                                     // Remove combs if at full level
         if( G.Farm.MaxHoneycombsReached )
         for( int i = 0; i < 4; i++ )
         if( comb.Count > 0 )
@@ -746,6 +735,49 @@ public class Building : MonoBehaviour
             comb.RemoveAt( id );
             Item.AddItem( ItemType.HoneyComb, -2 );
         }
+    }
+
+    private static void GroundProcess( Item it, Unit ga2 = null )
+    {
+        List<ItemType> Killable = new List<ItemType> { ItemType.Egg, ItemType.Feather,                      // eggs: prevent cheating             
+        ItemType.Shovel,  ItemType.Hoe,  ItemType.WheelBarrow,  ItemType.Club, ItemType.WoodAxe };          // tools have limited production cap, so it must be destroyed
+
+        if( Killable.Contains( it.Type ) )                                                                  // remove feathers and others from the list
+        {
+            Farm.FreeIdleProductionSlot( it.Type );                                                         // Free the Idle production slot
+            if( ga2 ) ga2.Kill();
+        }
+        else
+        if( it.IsFruit )                                                                                    // Refund Seed if fruit left: Lose planting time
+        {
+            RefundSeed( it );
+            if( ga2 ) ga2.Kill();
+        }
+        else
+        if( Item.IsPlagueMonster( ( int ) it.Type ) == false )                                             // Refund these ones
+        {
+            if( ga2 )                                                                                      // Ground Object
+            {
+                float res = Building.AddItem( true, it.Type, ga2.Body.StackAmount );
+                it.Count += res;
+                if( ga2 ) ga2.Kill();
+            }
+            else                                                                                            // Hand Object
+            {
+                float res = Building.AddItem( true, G.Farm.SelectedItem, 1 );
+                Item.AddItem( G.Farm.SelectedItem, res );
+            }
+        }
+    }
+
+    public static void RefundSeed( Item it )
+    {
+        if( it.Type == ItemType.Berry_Fruit )
+            Item.AddItem( ItemType.Berry_Seed, 1f / 3f );
+        if( it.Type == ItemType.Strawberry_Fruit )
+            Item.AddItem( ItemType.Strawberry_Seed, 1f / 8f );
+        if( it.Type == ItemType.Blackberry_Fruit )
+            Item.AddItem( ItemType.Blackberry_Seed, 1f / 12f );
     }
     public static void SendItemsToWarehouses()
     {
@@ -1152,60 +1184,90 @@ public class Building : MonoBehaviour
            return -1;
        }
 
-       public static int AddItem( bool apply, ItemType type, float amt )
+       public static float AddItem( bool apply, ItemType type, float amt )
        {
            UpdateBuildingList();
 
            float avail = GetItemAmount( type );
 
+           int sign = amt < 0f ? -1 : 1;
+           float absAmt = Mathf.Abs( amt );
+           int whole = Mathf.FloorToInt( absAmt );
+           float frac = absAmt - whole;
+
            if( G.GIT( type ).HasWarehouse() == false ||
-               G.GIT( type ).WarehouseBuiltCount == 0 )                                     // Item has no warehouse or has not been built yet
+               G.GIT( type ).WarehouseBuiltCount == 0 )                    // Item has no warehouse or has not been built yet
            {
                avail = Item.GetNum( type );
-               if( amt < 0 && avail < Util.Mod( amt ) ) return 0;
+               if( amt < 0f && avail < absAmt ) return 0f;
+               if( apply == false ) return 0f;
                Item.AddItem( Inventory.IType.Inventory, type, amt );
-               return 0;
+               return amt;
            }
 
-           if( amt < 0 && avail < Util.Mod( amt ) ) return 0;                               // not enough item in buildings
+           if( amt < 0f && avail < absAmt ) return 0f;                      // Not enough item in buildings
 
-           if( apply == false )                                                             // Just checking if there´s items available           
-               return 0;          
+           if( apply == false )                                            // Just checking if there´s items available
+               return 0f;
 
-           int given = 0;
-           int un = 1;
-           if( amt < 0 ) un = -1;
+           float given = 0f;
            List<BuildingItem> il = GetBuildingItemList( type );
-           for( int done = 0; done < Util.Mod( amt ); done++ )                              // distrubutes item among warehouses
+
+           for( int done = 0; done < whole; done++ )                       // Distribute whole items among warehouses
            {
                for( int i = 0; i < il.Count; i++ )
                {
-                   float mstack = Building.GetStat( EVarType.Maximum_Item_Stack, 
-                   il[ i ].Building, il[ i ].ID );
-                   float res = il[ i ].ItemCount + un;
-                   if( mstack == -1 || ( res >= 0 && res <= mstack ) )
+                   float mstack = Building.GetStat(
+                       EVarType.Maximum_Item_Stack,
+                       il[ i ].Building,
+                       il[ i ].ID );
+
+                   float res = il[ i ].ItemCount + sign;
+
+                   if( mstack <= 0f || ( res >= 0f && res <= mstack ) )
                    {
-                       il[ i ].ItemCount += un;
-                       if( ++given == Util.Mod( amt ) ) goto outloop;
+                       il[ i ].ItemCount = res;
+                       given += sign;
+                       break;
                    }
                }
            }
-           outloop:
-           for( int i = 0; i < il.Count; i++ )
+
+           if( frac > 0f )                                                 // Distribute fractional remainder
            {
-               float mstack = Building.GetStat( EVarType.Maximum_Item_Stack, 
-                   il[ i ].Building, il[ i ].ID );
-               if( mstack != -1 )
+               for( int i = 0; i < il.Count; i++ )
                {
-                  if( il[ i ].ItemCount > mstack )
-                  {
-                      given -= ( int ) il[ i ].ItemCount - ( int ) mstack;
-                      il[ i ].ItemCount = mstack;
-                  }
+                   float mstack = Building.GetStat(
+                       EVarType.Maximum_Item_Stack,
+                       il[ i ].Building,
+                       il[ i ].ID );
+
+                   float res = il[ i ].ItemCount + ( frac * sign );
+
+                   if( mstack <= 0f || ( res >= 0f && res <= mstack ) )
+                   {
+                       il[ i ].ItemCount = res;
+                       given += frac * sign;
+                       break;
+                   }
                }
            }
+
+           for( int i = 0; i < il.Count; i++ )                              // Clamp overflow just in case
+           {
+               float mstack = Building.GetStat(
+                   EVarType.Maximum_Item_Stack,
+                   il[ i ].Building,
+                   il[ i ].ID );
+
+               if( mstack > 0f && il[ i ].ItemCount > mstack )
+                   il[ i ].ItemCount = mstack;
+           }
+
            return given;
        }
+
+
 
     public static ItemType GetCurrentBuildingItem( Vector2 tg )
        {

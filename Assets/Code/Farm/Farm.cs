@@ -187,6 +187,7 @@ public partial class Farm : MonoBehaviour
         UI.I.AreasText.text = "";
         UI.I.GameLevelText.text = "";
         UI.I.GoalIcons.gameObject.SetActive( false );
+        UI.I.BigTextHelpLabel.gameObject.SetActive( false );
         UI.I.PerksListFolder.SetActive( true );
         UI.I.NavigationMapText.gameObject.SetActive( false );
         MapSaver.I.UpdateIntroMessage();
@@ -834,7 +835,7 @@ public partial class Farm : MonoBehaviour
         }
     }
 
-    private static void FreeIdleProductionSlot( ItemType tool )
+    public static void FreeIdleProductionSlot( ItemType tool )
     {
         List<BuildingItem> il = Building.GetBuildingItemList( tool );
         for( int i = 0; i < il.Count; i++ )

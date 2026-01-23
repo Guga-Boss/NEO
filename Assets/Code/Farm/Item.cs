@@ -357,6 +357,13 @@ public class Item : MonoBehaviour
     }
     public static bool AddItem( ItemType type, float amount, Inventory.IType itype = Inventory.IType.Inventory, bool force = true, int adv = -1 )
     {
+        if( Manager.I.GameType == EGameType.FARM )
+        {
+            float res = Building.AddItem( true, type, amount );                                       // tries to Add item to building first while in the farm
+            if( res != 0 )
+                return true;
+        }
+
         return AddItem( itype, type, amount, force, adv );
     }
     public static bool AddItem( Inventory.IType itype, ItemType type, float amount, bool force = true, int adv = -1 )
