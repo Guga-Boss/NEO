@@ -268,6 +268,8 @@ public class RandomMapData : MonoBehaviour
     public int CloversPerCube = 5;
     [TabGroup( "2", "Resources" )]
     public float QuestXPPerClover = .4f;
+    [TabGroup( "2", "Resources" )]
+    public float FireTokenPerClover = .3f;
     [TabGroup( "Bonus" )]
     public float CubeClearBonusCurve = 1.5f;
     [TabGroup( "Bonus" )]
@@ -286,6 +288,10 @@ public class RandomMapData : MonoBehaviour
     public float HoneycombStartBonus = .8f;
     [TabGroup( "Bonus" )]
     public float HoneycombEndBonus = 2;
+    [TabGroup( "Bonus" )]
+    public float FireTokenStartBonus = 1f;
+    [TabGroup( "Bonus" )]
+    public float FireTokenEndBonus = 3;
     [TabGroup( "Bonus" )]
     public float QuestXPPerChest = 0.5f;
     [TabGroup( "Bonus" )]
@@ -696,6 +702,7 @@ public class RandomMapData : MonoBehaviour
         DirectLabJump = rm.DirectLabJump;
         CloversPerCube = rm.CloversPerCube;
         QuestXPPerClover = rm.QuestXPPerClover;
+        FireTokenPerClover = rm.FireTokenPerClover;
         OutRandomResourceCreationChance = rm.OutRandomResourceCreationChance;
         MinimumRandomResourceTimer = rm.MinimumRandomResourceTimer;
         MaximumRandomResourceTimer = rm.MaximumRandomResourceTimer;
@@ -716,6 +723,8 @@ public class RandomMapData : MonoBehaviour
         ShellEndBonus = rm.ShellEndBonus;
         HoneycombStartBonus = rm.HoneycombStartBonus;
         HoneycombEndBonus = rm.HoneycombEndBonus;
+        FireTokenStartBonus = rm.FireTokenStartBonus;
+        FireTokenEndBonus = rm.FireTokenEndBonus;
         ScarabPunishment = rm.ScarabPunishment;
         SpawnResourceRange = rm.SpawnResourceRange;
         RelocatorCreationChance = rm.RelocatorCreationChance;

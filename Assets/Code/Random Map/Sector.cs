@@ -812,7 +812,7 @@ public class Sector : MonoBehaviour
     {
         float shell = Util.GetCurveVal( G.HS.Number, Map.I.RM.RMD.MaxCubes, 
         Map.I.RM.RMD.ShellStartBonus, Map.I.RM.RMD.ShellEndBonus, Map.I.RM.RMD.CubeClearBonusCurve );
-        float bn = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.CUBE_CLEAR_DEFAULT_BONUS );       // tech bonus
+        float bn = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.CUBE_CLEAR_DEFAULT_BONUS );                 // tech bonus
 
         shell += Util.Percent( bn, shell ); 
         shell = Util.FloatSort( shell );
@@ -839,6 +839,16 @@ public class Sector : MonoBehaviour
         if( xp > 0 )                                                                                              // xp bonus
         {
             Item.AddItem( Inventory.IType.Inventory, ItemType.Quest_XP, xp, true );
+        }
+
+        float ft = Util.GetCurveVal( G.HS.Number, Map.I.RM.RMD.MaxCubes,
+        Map.I.RM.RMD.FireTokenStartBonus, Map.I.RM.RMD.FireTokenEndBonus, Map.I.RM.RMD.CubeClearBonusCurve );
+
+        ft += Util.Percent( bn, ft );
+        ft = Util.FloatSort( ft );
+        if( ft > 0 )                                                                                              // Fire Token bonus
+        {
+            Item.AddItem( Inventory.IType.Inventory, ItemType.Fire_Token, ft, true );
         }
 
         float hc = Util.GetCurveVal( G.HS.Number, Map.I.RM.RMD.MaxCubes,
@@ -1038,7 +1048,10 @@ public class Sector : MonoBehaviour
                 return;
            
             Item.AddItem( ItemType.Clover, 1 );                                                                  // gives clover
+
             Item.AddItem( ItemType.Quest_XP, Map.I.RM.RMD.QuestXPPerClover );                                    // gives quest xp
+
+            Item.AddItem( ItemType.Fire_Token, Map.I.RM.RMD.FireTokenPerClover );                                // gives fire token
 
             if( Util.Chance( 20 ) )           // todo: Add clover prize bonus tech to  improve these chances
             {
