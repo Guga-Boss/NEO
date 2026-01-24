@@ -144,6 +144,7 @@ public partial class Farm : MonoBehaviour
         Quest.I.CurLevel = Quest.I.Farm;
         Quest.CurrentLevel = -1;
         Map.I.AreaID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+        Map.I.BumpTarget = new Vector2( -1, -1 );
         Manager.I.ExitLevel();
         UI.I.SetBigMessage( "", Color.white );
         string pname = Manager.I.GetPlayerName();
@@ -337,7 +338,16 @@ public partial class Farm : MonoBehaviour
             if( maxc > 0 )
             if( bl.Category == EBuildingCategory.Producer )
             if( bi.ItemCount >= maxc ) answer = "Max Capacity Reached!";
-            string next = "\nNext in: \n" + answer;
+
+            string nextmsg = "\nNext in: \n";
+            if( bi.ItemType == ItemType.Fire_Level )
+            {
+                nextmsg = "\nFire Downgrade in:\n";
+                if( Item.GetNum( ItemType.Fire_Level ) < 1 )
+                    answer = " Off ";                                                         // No production if Fire Level is zero
+            }
+
+            string next = nextmsg + answer;
             if( aux <= 0 ) next = "";
 
             if( bl.Category == EBuildingCategory.Plant )
