@@ -361,7 +361,7 @@ public class FPow : MonoBehaviour
         {
             float secondsPerSecond = LastPow.GetTotalUses() / bn;                                       // consume rate
             float partial = Time.unscaledDeltaTime * secondsPerSecond;
-            List<BuildingItem> bi = Building.GetBuildingItemList( ItemType.Fire_Token );
+            List<BuildingItem> bi = Building.GetBuildingItemList( ItemType.Fire_Level );
             bi[ 0 ].ProductionTimeCount -= partial;                                                     // applies time
             LastPow.Use( partial );                                                                     // consume same time
             LastPow.ClampUse();
@@ -386,7 +386,7 @@ public class FPow : MonoBehaviour
         if( bn != 0 )
         {
             Item.ForceMessage = true;
-            Building.AddItem( true, ItemType.Fire_Token, bn ); 
+            Building.AddItem( true, LastPow.AffectedItem, bn ); 
                 LastPow.Use( bn );
         }
     }
@@ -401,9 +401,11 @@ public class FPow : MonoBehaviour
             UsesCount = GetTotalUses();  
     }
 
-    public static void UpdateCycle( BuildingItem bi )
+    public static void UpdateCycle( )
     {
-        bi.ProductionTimeCount = 0;
+        Item it = G.GIT( ItemType.Fire_Level );
+        it.ProductionCount = 0;
+
         List<Stat> stats = new List<Stat>(
         ( Stat[] ) System.Enum.GetValues( typeof( Stat ) ) );                   // fill stats list
         List<Stat> carryover = new List<Stat>();
@@ -662,6 +664,7 @@ public class FPow : MonoBehaviour
         Unit bump = Map.I.GetUnit( ETileType.BUILDING, Map.I.BumpTarget );                             // Tent Bump
         if( bump && bump.Building.Type == BuildingType.Tent )                                          // bump action triggered
         {
+            Map.I.BumpTarget = new Vector2( -1, -1 );
             res = true;
             float upChance = Mathf.Min( UpgradeBaseChance + TrialCount * LuckyStreakStep, 100f );      // cumulative upgrade chance capped at 100%
             bool upgradeSuccess = Util.Chance( upChance );                                             // roll for upgrade

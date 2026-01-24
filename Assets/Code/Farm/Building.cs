@@ -182,7 +182,10 @@ public class Building : MonoBehaviour
 
         if( Type == BuildingType.Tent )
         {
-            Unit.LevelTxt.text += "\n" + Util.ToSTime( prod - it.ProductionTimeCount );
+            Unit.LevelTxt.text = "x" + Item.GetNum( ItemType.Fire_Token ).ToString( "0." );
+            if( Item.GetNum( ItemType.Fire_Level ) >= 1 )
+                Unit.LevelTxt.text += "\n" + Util.ToSTime( prod - G.GIT( ItemType.Fire_Level ).ProductionCount );
+            else G.GIT( ItemType.Fire_Level ).ProductionCount = 0;
 
             if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) )
             if( Unit.Pos == G.Hero.GetFront() )
@@ -257,7 +260,8 @@ public class Building : MonoBehaviour
                         G.GIT( itid ).BuildingMaxStackList.Count == 0 )
                         {
                             float amt = G.GIT( itid ).Count;
-                            AddItem( true, ( ItemType ) itid, amt );
+                            if( bi.ItemType != ItemType.Fire_Level )                                                // Fire level exception
+                                AddItem( true, ( ItemType ) itid, amt );
                             float max = Building.GetStat( EVarType.Maximum_Item_Stack, res.Building, i );
                             if( max > 0 )
                                 G.GIT( itid ).BuildingMaxStackList.Add( max );
@@ -593,6 +597,7 @@ public class Building : MonoBehaviour
             if( G.Inventory.ItemList[ i ] )                                                                                   // Warning: Dont use G.GIT here: the access is directly to the itemlist via loop and id    
         {
             if( G.Inventory.ItemList[ i ].HasWarehouse() )
+           if(     G.Inventory.ItemList[ i ].Type != ItemType.Fire_Level )
             {
                 G.Inventory.ItemList[ i ].AuxCount = G.Inventory.ItemList[ i ].Count;                                         // save data for later case item with warez do not have warez built yet. 
                 G.Inventory.ItemList[ i ].AuxMaxStack = G.Inventory.ItemList[ i ].MaxStack;                                   // othewise values would be set to zero
@@ -819,13 +824,21 @@ public class Building : MonoBehaviour
                     Unit bl = Map.I.Gaia2[ x, y ];
                     if( bl.TileID == ETileType.BUILDING )
                     if( bl.Building.Category != EBuildingCategory.Plant )
+                    if( bl.Building.Type != BuildingType.Tent )
                     {
                         for( int i = 0; i < bl.Building.Itm.Count; i++ )
                         {
                             BuildingItem it = bl.Building.Itm[ i ];
+
                             ItemType id = it.ItemType;
                             float max = Building.GetStat( EVarType.Maximum_Item_Stack, bl.Building, i );           // calculates BuildingMaxStackList
-                            float lack = max - it.ItemCount;
+                            float lack = 0;
+                         
+                            if( max <= 0 )                                                                         // Se max for 0 ou -1, não há limite: pode levar tudo o que sobrou no inventário
+                                lack = bldItemCount[ ( int ) id ];
+                            else
+                                lack = max - it.ItemCount;                                                         // Se houver limite positivo, calcula quanto espaço sobra
+
                             if( it.BaseMaxItemStack <= 0 )
                                 lack = G.Inventory.ItemList[ ( int ) id ].Count;
 
@@ -833,8 +846,10 @@ public class Building : MonoBehaviour
                             {
                                 if( lack > bldItemCount[ ( int ) id ] )
                                     lack = bldItemCount[ ( int ) id ];
+
                                 it.ItemCount += lack;
                                 bldItemCount[ ( int ) id ] -= lack;
+
                                 G.GIT( id ).Count -= lack;
                             }
                         }
@@ -842,16 +857,6 @@ public class Building : MonoBehaviour
                 }
             }
         }
-        //for( int i = 0; i < G.Inventory.ItemList.Count; i++ )                                                // Displays MessagesFor Dumped Items
-        //{
-        //    if( count[ i ] > 0 )
-        //    {
-        //        Message.CreateMessage( ETileType.NONE, "No Storage for " +
-        //        G.Inventory.ItemList[ i ].name + " \nDumping: " + count[ i ] + " Units!",
-        //        Map.I.Hero.Pos + new Vector2( Random.Range( -2, 2 ), Random.Range( -2, 2 ) ), 
-        //        new Color( 0, 1, 0, 1 ), true, true, 10 );
-        //    }
-        //}
     }
     
     public static void UpdateAllBuildings()
