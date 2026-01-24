@@ -190,26 +190,38 @@ private static void LoadProfile()
 
         CheckException();                                                                  // Check for Exceptions and Quit if so
     }
-    IEnumerator InventoryProductionLoop()                                                  // Updates Inventory production - Corroutine
+    IEnumerator InventoryProductionLoop()
     {
-        float accumulatedTime = 0f;                                                        // accumulates real elapsed time
+        float lastTime = Time.unscaledTime;                                                // Store initial real-world time
+        float accumulator = 0f;                                                            // Buffer to store elapsed time slices
 
         while( true )
         {
-            yield return null;                                                             // wait for next frame
+            // 1. Calculate real time passed since last check
+            float frameTime = Time.unscaledTime - lastTime;                                // Calculate delta since last loop
+            lastTime = Time.unscaledTime;                                                  // Sync anchor with current time
 
-            // accumulate real time passed (ignores Time.timeScale)
-            accumulatedTime += Time.unscaledDeltaTime;
+            // 2. Add to buffer
+            accumulator += frameTime;                                                      // Accumulate time to be processed
 
-            // if 1 second or more has passed, update production
-            if( accumulatedTime >= 1f )
+            // 3. Determine current tick rate
+            float step = ( Map.I.RM.GameOver || 
+            Map.I.RM.DungeonDialog.gameObject.activeSelf )
+                         ? 0.1f : 1.0f;                                                    // Adjust step based on UI or Game State
+
+            // 4. Process production in fixed steps
+            // This ensures production never exceeds real-world elapsed time.
+            while( accumulator >= step )
             {
-                Inventory.UpdateInventoryProduction( accumulatedTime );                    // pass total accumulated time
-                accumulatedTime = 0f;                                                      // reset accumulator
+                Inventory.UpdateInventoryProduction( step );                              // Process one discrete time step
+                accumulator -= step;                                                      // Consume the processed time from buffer
             }
+
+            // 5. CPU Throttle
+            // Short wait to prevent high CPU usage while maintaining precision.
+            yield return new WaitForSecondsRealtime( 0.05f );                             // Poll clock every 50ms
         }
     }
-
 
     //_____________________________________________________________________________________________________________________ Update Play Game
 
@@ -298,19 +310,23 @@ private static void LoadProfile()
         if( Helper.I.ReleaseVersion == false )
         {
             if( Helper.I.StartAtFarm ) 
+            {
+                StartCoroutine( InventoryProductionLoop() );
                 Map.I.Farm.StartIt();
+            }
             else
-                if( Helper.I.StartAtCubes )
+            if( Helper.I.StartAtCubes )
+            {
+                if( Helper.I.PlayMusic )
                 {
-                    if( Helper.I.PlayMusic)
-                    {
-                        PlaylistController.StopPlaylist();                                      // Play Music
-                        PlaylistController.StartPlaylist( "Full" );
-                        PlaylistController.PlayARandomSong( DarkTonic.MasterAudio.
-                        PlaylistController.AudioPlayType.PlayNow, false );
-                    }
-                    Map.I.RM.StartCubeSession(); 
+                    StartCoroutine( InventoryProductionLoop() );
+                    PlaylistController.StopPlaylist();                                      // Play Music
+                    PlaylistController.StartPlaylist( "Full" );
+                    PlaylistController.PlayARandomSong( DarkTonic.MasterAudio.
+                    PlaylistController.AudioPlayType.PlayNow, false );
                 }
+                Map.I.RM.StartCubeSession();
+            }
             return;
         }
 
