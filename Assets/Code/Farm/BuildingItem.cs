@@ -61,6 +61,13 @@ public class BuildingItem : MonoBehaviour
             return;
         }
 
+        if( ItemType == ItemType.Fire_Level )
+        {
+            ProductionTimeCount = G.GIT( ItemType.Fire_Level ).ProductionCount;                      // Synch production for Firelevel since 2 line exist   
+            ItemCount = G.GIT( ItemType.Fire_Level ).Count;
+            return;
+        }
+
         if( ItemCount < 0 ) ItemCount = 0;
 
         int cap = -1;
@@ -80,12 +87,6 @@ public class BuildingItem : MonoBehaviour
         float original = ItemCount;
         while( ProductionTimeCount >= prod )
         {
-            if( ItemType == ItemType.Fire_Token )
-            {
-                FPow.UpdateCycle( this  );                                                   // Fire Power Case
-                return;
-            }
-
             if( ProductionCap > 0 )    
             if( IdleProductionCount >= cap )
             {
