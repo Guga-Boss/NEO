@@ -304,7 +304,17 @@ public class Inventory : MonoBehaviour {
             float tott = Item.GetStat( EVarType.Production_Total_Time, other );
             float tm = tott - itm.ProductionCount;
             string answer = Util.ToTime( tm );
-            string next = "\n\nNext in: " + answer + "(" + Util.ToSTime( tott ) + ")";
+            string nextmsg = "\n\nNext in: ";
+            if( itm.Type == ItemType.Fire_Level )
+            {
+              if( itm.Count < 1 )
+              {
+                    itm.ProductionCount = 0;                                                                     // No production if Fire Level is zero
+                    answer = " Off ";
+              }
+                nextmsg = "\n\nFire Downgrade in: ";
+            }
+            string next = nextmsg + answer + " (" + Util.ToSTime( tott ) + ")";
             if( Item.IsPlagueMonster( ( int ) itm.Type, false ) )
             {
                 next = "\n\nPosition Change in: " + answer;
