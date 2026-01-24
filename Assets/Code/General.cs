@@ -227,7 +227,10 @@ public class Util
         if( t.Hours <= 0 ) hour = "";
 
         string min = "M ";
-        if( t.Minutes > 1 ) min = " Min ";
+        if( t.Minutes > 1 )
+        if( t.Seconds == 0 ) min = " Min";
+        else min = " Min ";
+
         if( t.Minutes <= 0 ) min = "";
 
         string secs = " Sec";
