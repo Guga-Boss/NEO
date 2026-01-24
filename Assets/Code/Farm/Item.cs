@@ -982,10 +982,10 @@ public class Item : MonoBehaviour
 
         if( tottime <= 0 ) return;
 
-        ProductionCount += Time.unscaledDeltaTime + addTime;
+        ProductionCount += addTime;
 
         float max = GetMaxStack();                                                          // get stack limit
-        if( max < 0 ) max = 100000000;
+        if( max <= 0 ) max = 100000000;
 
         float plim = GetStat( EVarType.Production_Limit, this );
         if( plim > 0 )                                                                      // Max Production limited                                    
@@ -1015,6 +1015,12 @@ public class Item : MonoBehaviour
             if( Item.IsPlagueMonster( ( int ) Type, false ) )
             if( Map.I.Farm.UpdateBlockingMonsters( this ) )                                // Blocking Monster Creation
                 return;
+            
+            if( Type == ItemType.Fire_Level )                                              // Fire Level Downgrade
+            {
+                FPow.UpdateCycle();
+                return;
+            }
 
             if( Type == ItemType.Feather )                                                 // Feather Creation
             {
