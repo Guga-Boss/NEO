@@ -873,7 +873,7 @@ public partial class Farm : MonoBehaviour
             int id = Random.Range( 0, poslist.Count );
             Vector2 pt = poslist[ id ];
 
-            int eggs = 12;
+            int eggs = 13;
             float bn = FPow.Get( FPowType.Extra_Eggs_Laid, false );                                  // Firepower: Extra Eggs
             if( bn != 0 )
             {
