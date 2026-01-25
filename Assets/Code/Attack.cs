@@ -473,6 +473,7 @@ public class Attack : MonoBehaviour
         if( DamageType != EDamageType.MELEE ||
             Unit.UnitType != EUnitType.HERO )   
         if( Unit.Control.Floor == 0 )                                                         // no high att from ground
+        if( Enemy.Control.IsFlyingUnit == false )
         if( Enemy.Control.Floor == 2 ) return 0; 
 
         bool cfrom = Map.IsClimbable( from );                                                 // Climbing restriction
