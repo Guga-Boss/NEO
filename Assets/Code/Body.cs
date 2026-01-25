@@ -360,16 +360,23 @@ public class Body : MonoBehaviour
         {
             BabyData.Save( Unit );
         }
+
+        if( Unit.TileID == ETileType.TRAIL )
+        {
+            GS.W.Write( TrailCoil );
+            GS.W.Write( TrailRotator );
+        }
+
         if( Unit.TileID == ETileType.ALTAR )
         {
             GS.W.Write( RotationSpeed );
             GS.W.Write( PoleBonusAvailableAngle );
         }
         if( IsInfected )
-          {
-              GS.W.Write( InfectedRadius );
-              GS.SVector2( InfectedSprite.scale );
-          }
+        {
+            GS.W.Write( InfectedRadius );
+            GS.SVector2( InfectedSprite.scale );
+        }
 
         #region vars
         /*
@@ -675,6 +682,11 @@ public class Body : MonoBehaviour
         if( Unit.TileID == ETileType.ALGAE )
         {
             BabyData.Load( Unit );
+        }
+        if( Unit.TileID == ETileType.TRAIL )
+        {
+            TrailCoil = GS.R.ReadBoolean();
+            TrailRotator = GS.R.ReadBoolean();
         }
         if( Unit.TileID == ETileType.ALTAR )
         {
