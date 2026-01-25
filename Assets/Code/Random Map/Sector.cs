@@ -1122,8 +1122,9 @@ public class Sector : MonoBehaviour
     {
         for( int i = PrizeRes.Count - 1; i >= 0; i-- )
         {
-            if( PrizeRes[ i ] == ItemType.Quest_XP ||                  // these ones must be given on game over or gate step since they should be incremental
-                PrizeRes[ i ] == ItemType.Clover )
+            if( PrizeRes[ i ] == ItemType.Quest_XP   ||                // these ones must be given on game over or gate step since they should be incremental
+                PrizeRes[ i ] == ItemType.Clover     ||                
+                PrizeRes[ i ] == ItemType.Fire_Token )
             {
                 Item.ForceMessage = true;
                 Item.AddItem( PrizeRes[ i ], PrizeResAmt[ i ] );       // adds items
