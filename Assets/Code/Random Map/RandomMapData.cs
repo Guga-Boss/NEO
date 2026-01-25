@@ -269,7 +269,7 @@ public class RandomMapData : MonoBehaviour
     [TabGroup( "2", "Resources" )]
     public float QuestXPPerClover = .4f;
     [TabGroup( "2", "Resources" )]
-    public float FireTokenPerClover = .3f;
+    public float FireTokenPerClover = .2f;
     [TabGroup( "Bonus" )]
     public float CubeClearBonusCurve = 1.5f;
     [TabGroup( "Bonus" )]
@@ -289,9 +289,9 @@ public class RandomMapData : MonoBehaviour
     [TabGroup( "Bonus" )]
     public float HoneycombEndBonus = 2;
     [TabGroup( "Bonus" )]
-    public float FireTokenStartBonus = 1f;
+    public float FireTokenStartBonus = .5f;
     [TabGroup( "Bonus" )]
-    public float FireTokenEndBonus = 3;
+    public float FireTokenEndBonus = 2;
     [TabGroup( "Bonus" )]
     public float QuestXPPerChest = 0.5f;
     [TabGroup( "Bonus" )]
