@@ -851,6 +851,9 @@ public partial class Unit : MonoBehaviour
         if( TileID == ETileType.FISH )
             Map.I.InitFishGraphics( this );
 
+        if( TileID == ETileType.TRAIL )
+            UpdateAnimation();
+
         if( TileID == ETileType.DRAGON1 )
         {
             Body.Animator = Spr.GetComponent<tk2dSpriteAnimator>();
@@ -1276,17 +1279,17 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 
         bool terrain = CheckTerrainMove( from, to, true, true, false, true, false );
         
-        if( CheckBarricadeBlock( bApply, from, to ) ) return false;                                                  // Check Barricade
+        if( CheckBarricadeBlock( bApply, from, to ) ) return true;                                                   // Check Barricade
 
         if( CheckBambooBlock( bApply, from, to ) ) return false;                                                     // Check Bamboo
 
         if( CheckDiagonalMove( bApply, from, to ) ) return false;                                                    // Check Diagonal Move
-        
-        if( CheckPurchase( bApply, from, to ) == false ) return false;                                               // Check Purchase
 
-        if( CheckClimbing( bApply, from, to ) ) return true;                                                         // Check Climbing
+        if( CheckPurchase( bApply, from, to ) ) return true;                                                        // Check Purchase
 
-        if( CheckPerkRestrictions( bApply, from, to ) == false ) return false;                                      // Checks for movement level allowancePerk Restrictions
+        if( CheckClimbing( bApply, from, to ) ) return false;                                                       // Check Climbing
+
+        if( CheckPerkRestrictions( bApply, from, to ) == false ) return false;                                      // Checks for movement level allowance Perk Restrictions
 
         if( Control.CheckSpiderBlock( from, to ) ) return false;                                                    // Checks Spider block
 
@@ -1717,10 +1720,10 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 
     public bool CheckPurchase( bool bApply, Vector2 from, Vector2 to )
     {
-        if( UnitType != EUnitType.HERO ) return true;
+        if( UnitType != EUnitType.HERO ) return false;
         Unit un = Map.I.GetUnit( ETileType.CLOSEDDOOR, to );
         Unit suspended = Map.I.GetUnit( ETileType.CLOSEDDOOR, G.Hero.Pos );
-        if( suspended ) return true;
+        if( suspended ) return false;
 
         if( un == null ) un = Map.I.GetUnit( ETileType.DOME, to );
 
@@ -1728,7 +1731,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             if( un != null && un.TileID == ETileType.CLOSEDDOOR )
                 if( Sector.GetPosSectorType( un.Pos ) == Sector.ESectorType.GATES )
                 {
-                    if( Map.I.RM.CheckGate( true, to ) == false ) return true;
+                    if( Map.I.RM.CheckGate( true, to ) == false ) return false;
                 }
                 else
                 {
@@ -1805,7 +1808,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                         Controller.StitchesPunishment = false;
                         Controller.PlayBumpSound = false;
                     }
-                    return true;
+                    return false;
                 }
 
         if( un )
@@ -1815,8 +1818,32 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                 {
                     Message.CreateMessage( ETileType.NONE, "Autobuy Direct Purchase Unavailable!",
                                                       Pos, new Color( 1, 0, 0, 1 ), true, true, 7 );
-                    return true;
-                }         
+                    return false;
+                }
+
+            if( un.TileID == ETileType.DOME )
+            {
+                Controller.StitchesPunishment = false;
+                int olda = Map.I.GetPosArea( from );                                                                // NO out area dome destuction to inner dome
+                int newa = Map.I.GetPosArea( to );
+                if( olda == -1 && newa != -1 ) return false;
+
+                Artifact ar = Quest.I.GetArtifactInPos( to );
+                if( ar != null )
+                {
+                    float price = ar.CalculatePrice();
+                    un.UpdateDomePrice( price );
+                    int lim = -1;
+                    if( ar.MapLevelLimit > 0 ) lim = ar.MapLevelLimit;
+                    if( Map.I.Hero.CheckLevelLimits( ar.PerkType, lim ) )
+                    {
+                        string msg = "Level Limit Reached!";
+                        if( ar.MapLevelLimit > 0 ) msg = "Level Limit for\nthis map Reached!";
+                        Message.RedMessage( msg );
+                        return false;
+                    }
+                }
+            }
 
             if( bApply == false ) return true;
 
@@ -1833,7 +1860,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             }
             return true;
         }
-        return true;
+        return false;
     }
 
     public bool CheckBarricadeBlock( bool bApply, Vector2 from, Vector2 to )
