@@ -630,22 +630,7 @@ public partial class Farm : MonoBehaviour
         }
 
         Item it = G.GIT( ( int ) SelectedItem );
-        FPowType pow = FPowType.Work_Over_Monster;                                                             // type of fire power
-        if( it.IsSeed )
-            pow = FPowType.Plant_Over_Monster;
-
-        if( FPow.Has( pow, false ) )                                                                           // Firepower: Plant and Workplace Kills monster
-        {           
-            Unit plague = Map.I.GetUnit( ETileType.PLAGUE_MONSTER, tg );
-            if( plague )                                                                                       // monster found
-            {
-                Map.I.CreateExplosionFX( plague.Pos, "Fire Explosion" );                                       // FX
-                Map.TimeKill( plague, .3f );
-                FPow.Has( pow );                                                                               // Use power
-                mn = null;
-            }
-        }
-
+        if( it.IsSeed == false )
         if( mn ) return false;
         if( ga2 != null )                                                                                      // Stack Tool: Return
         if( ga2.TileID == ETileType.ITEM ) return false;
@@ -730,6 +715,23 @@ public partial class Farm : MonoBehaviour
                     return false;                
             }
 
+            FPowType pow = FPowType.Work_Over_Monster;                                                             // type of fire power
+            if( it.IsSeed )
+                pow = FPowType.Plant_Over_Monster;
+
+            if( FPow.Has( pow, false ) )                                                                           // Firepower: Plant and Workplace Kills monster
+            {
+                Unit plague = Map.I.GetUnit( ETileType.PLAGUE_MONSTER, tg );
+                if( plague )                                                                                       // monster found
+                {
+                    Map.I.CreateExplosionFX( plague.Pos, "Fire Explosion" );                                       // FX
+                    Map.TimeKill( plague, .3f );
+                    FPow.Has( pow );                                                                               // Use power
+                    mn = null;
+                }
+            }
+            else
+            if( mn ) return false;
             if( ga2 != null ) return false;
         }
 
