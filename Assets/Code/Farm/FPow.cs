@@ -79,6 +79,31 @@ public class FPow : MonoBehaviour
         Kill_Worn_Chance,
         Bonus_Uses
     }
+    public static readonly Dictionary<Stat, float> DefaultValues =
+    new Dictionary<Stat, float>
+        {
+            { Stat.Upgrade_Base_Chance, 25f },
+            { Stat.Lucky_Streak_Step,   25f },
+            { Stat.Downgrade_Chance,    25f },
+            { Stat.Sort_Candidates,      3f },
+            { Stat.Extra_Powers_Shown,   1f },
+            { Stat.Stat_Carryover,       2f },
+            { Stat.Kill_Worn_Chance,     0f },
+            { Stat.Bonus_Uses,           0f }
+        };
+    static readonly Dictionary<Stat, System.Action<float>> SetStat =
+        new Dictionary<Stat, System.Action<float>>
+    {
+        { Stat.Upgrade_Base_Chance, v => UpgradeBaseChance = ( int ) v },
+        { Stat.Lucky_Streak_Step,   v => LuckyStreakStep   = ( int ) v },
+        { Stat.Downgrade_Chance,    v => DowngradeChance  = ( int ) v },
+        { Stat.Sort_Candidates,     v => SortCandidates   = ( int ) v },
+        { Stat.Extra_Powers_Shown,  v => ExtraPowersShown = ( int ) v },
+        { Stat.Stat_Carryover,      v => StatCarryover    = ( int ) v },
+        { Stat.Kill_Worn_Chance,    v => KillWornChance   = v },
+        { Stat.Bonus_Uses,          v => BonusUses        = v }
+    };
+
     #endregion
 #if UNITY_EDITOR
     void OnValidate()
@@ -109,6 +134,9 @@ public class FPow : MonoBehaviour
         {
             InitPowers();
         }
+
+        if( UpgradeBaseChance == 0 )                                                                    // for safety
+            FPow.UpdateCycle();
 
         UpdateTargetSorting();                                                                          // Updates Target Sorting
 
@@ -220,33 +248,42 @@ public class FPow : MonoBehaviour
             txt += "Hold Left Button: Shows Powers Description.\n";
             txt += "Hold Right Button: Shows Fire Power Tutorial.\n\n";
 
-            txt += "----Current Stats--- \n\n";
+            txt += "----Current Stats---- \n\n";
 
-            txt += "1) -Upgrade Base Chance 'UP':  " + UpgradeBaseChance + "%:  ";
-            txt += Language.Get( "FIRE_STAT_UPGRADE_BASE_CHANCE", "Main" ) + "\n\n";  
+            float v;                                                                           // default value helper
+            v = DefaultValues[ Stat.Upgrade_Base_Chance ];                                     // get default
+            txt += "1) -Upgrade Base Chance 'UP': " + UpgradeBaseChance + "% (" + v + "%): ";  // current + default
+            txt += Language.Get( "FIRE_STAT_UPGRADE_BASE_CHANCE", "Main" ) + "\n\n";           // description
 
-            txt += "2) -Lucky Streak: " + LuckyStreakStep + "%:  ";
-            txt += Language.Get( "FIRE_STAT_LUCKY_STREAK", "Main" ) + "\n\n";
+            v = DefaultValues[ Stat.Lucky_Streak_Step ];                                       // get default
+            txt += "2) -Lucky Streak: " + LuckyStreakStep + "% (" + v + "%): ";                // current + default
+            txt += Language.Get( "FIRE_STAT_LUCKY_STREAK", "Main" ) + "\n\n";                  // description
 
-            txt += "3) -Downgrade Chance 'DN': " + DowngradeChance + "%:  ";
-            txt += Language.Get( "FIRE_STAT_DOWNGRADE_CHANCE", "Main" ) + "\n\n";
+            v = DefaultValues[ Stat.Downgrade_Chance ];                                        // get default
+            txt += "3) -Downgrade Chance 'DN': " + DowngradeChance + "% (" + v + "%): ";       // current + default
+            txt += Language.Get( "FIRE_STAT_DOWNGRADE_CHANCE", "Main" ) + "\n\n";              // description
 
-            txt += "4) -Sort Candidates: +" + SortCandidates + "\n";
-            txt += Language.Get( "FIRE_STAT_TOTAL_SORT_TARGETS", "Main" ) + "\n\n";  
+            v = DefaultValues[ Stat.Sort_Candidates ];                                         // get default
+            txt += "4) -Sort Candidates: +" + SortCandidates + " (" + ( int ) v + ")\n";       // current + default
+            txt += Language.Get( "FIRE_STAT_TOTAL_SORT_TARGETS", "Main" ) + "\n\n";            // description
 
-            txt += "5) -Extra Powers Shown: +" + ExtraPowersShown + "\n";
-            txt += Language.Get( "FIRE_STAT_EXTRA_POWERS_SHOWN", "Main" ) + "\n\n";
+            v = DefaultValues[ Stat.Extra_Powers_Shown ];                                      // get default
+            txt += "5) -Extra Powers Shown: +" + ExtraPowersShown + " (" + ( int ) v + ")\n";  // current + default
+            txt += Language.Get( "FIRE_STAT_EXTRA_POWERS_SHOWN", "Main" ) + "\n\n";            // description
 
-            txt += "6) -Stat Carryover: +" + StatCarryover + "\n";
-            txt += Language.Get( "FIRE_STAT_CARRYOVER", "Main" ) + "\n\n";
+            v = DefaultValues[ Stat.Stat_Carryover ];                                          // get default
+            txt += "6) -Stat Carryover: +" + StatCarryover + " (" + ( int ) v + ")\n";         // current + default
+            txt += Language.Get( "FIRE_STAT_CARRYOVER", "Main" ) + "\n\n";                     // description
 
-            txt += "7) -Kill Worn Chance: +" + KillWornChance + "%\n";
-            txt += Language.Get( "FIRE_STAT_KILL_WORN_CHANCE", "Main" ) + "\n\n";
+            v = DefaultValues[ Stat.Kill_Worn_Chance ];                                        // get default
+            txt += "7) -Kill Worn Chance: +" + KillWornChance + "% (" + v + "%)\n";            // current + default
+            txt += Language.Get( "FIRE_STAT_KILL_WORN_CHANCE", "Main" ) + "\n\n";              // description
 
-            txt += "8) -Bonus Uses: +" + BonusUses + "%\n";
-            txt += Language.Get( "FIRE_STAT_BONUS_USES", "Main" ) + "\n\n";
+            v = DefaultValues[ Stat.Bonus_Uses ];                                              // get default
+            txt += "8) -Bonus Uses: +" + BonusUses + "% (" + v + "%)\n";                       // current + default
+            txt += Language.Get( "FIRE_STAT_BONUS_USES", "Main" ) + "\n\n";                    // description
 
-            txt += "PS: Values reset to default when the timer reaches zero.";
+            txt += "PS: Values reset to (default) when the timer reaches zero.";
         }
         else
         if( page == 2 )
@@ -360,9 +397,8 @@ public class FPow : MonoBehaviour
         if( bn != 0 )
         {
             float secondsPerSecond = LastPow.GetTotalUses() / bn;                                       // consume rate
-            float partial = Time.unscaledDeltaTime * secondsPerSecond;
-            List<BuildingItem> bi = Building.GetBuildingItemList( ItemType.Fire_Level );
-            bi[ 0 ].ProductionTimeCount -= partial;                                                     // applies time
+            float partial = Time.unscaledDeltaTime * secondsPerSecond;            
+            G.GIT(ItemType.Fire_Level).ProductionCount -= partial;                                      // applies time
             LastPow.Use( partial );                                                                     // consume same time
             LastPow.ClampUse();
             UpdateText = true;
@@ -432,21 +468,16 @@ public class FPow : MonoBehaviour
         Item.AddItem( ItemType.Fire_Level, -1 );                                // Decrement Level;
         Item.Clamp( ItemType.Fire_Level, 0, Max_Level );
         UpdateText = true;
-        StatCarryover = 0;
+        StatCarryover = ( int ) DefaultValues[ Stat.Stat_Carryover ];           // Reset Carryover
     }
-
     private static void ResetStat( Stat s )
     {
-        switch( s )
-        {
-            case Stat.Upgrade_Base_Chance: UpgradeBaseChance = 25; break;
-            case Stat.Lucky_Streak_Step: LuckyStreakStep = 25;     break;
-            case Stat.Downgrade_Chance: DowngradeChance = 25;      break;
-            case Stat.Sort_Candidates: SortCandidates = 3;         break;
-            case Stat.Extra_Powers_Shown: ExtraPowersShown = 1;    break;     
-            case Stat.Kill_Worn_Chance: KillWornChance = 0;        break;
-            case Stat.Bonus_Uses: BonusUses = 0;                   break;  
-        }
+        float v;
+        if( DefaultValues.TryGetValue( s, out v ) == false )
+            return;
+        System.Action<float> set;
+        if( SetStat.TryGetValue( s, out set ) )
+            set( v );
     }
 
     public static void UpdatePanelText()
@@ -640,8 +671,9 @@ public class FPow : MonoBehaviour
     internal static bool UpdateBuildingBump()
     {
         bool res = false;
-        Unit frbld = Map.I.GetUnit( ETileType.BUILDING, G.Hero.GetFront() );                           // Tent Frontal Bump
-        if( frbld && frbld.Building.Type == BuildingType.Tent )                                        
+        Unit frbld = Map.I.GetUnit( ETileType.BUILDING, G.Hero.GetFront() );                           // Tent Frontal Bump: Sort Asterisks
+        if( frbld && frbld.Building.Type == BuildingType.Tent )
+        if( Item.GetNum( ItemType.Fire_Level ) >= 1 )                     
         if( SortTargets.Count > 0 )
         {
             if( Building.AddItem( true, ItemType.Fire_Token, -1 ) == 0 ) 
@@ -756,13 +788,17 @@ public class FPow : MonoBehaviour
         string nm = ini + Level + " - " + Type.ToString();                                               // Level and name
         nm = nm.Replace( '_', ' ' );
 
+        string worntxt = " [Worn]";                                                                      // Worn string
+        int flev = ( int ) Item.GetNum( ItemType.Fire_Level );
+        if( lev < flev ) worntxt = "";
+
         float rem = ( int ) GetTotalUses() - UsesCount;
         if( Type == FPowType.Hurry_Production || Type == FPowType.Hurry_Plants || 
             Type == FPowType.Add_Power_Time )                                                             // These use timer
         {
             if( IsWorn() == false )
                 nm += " " + Util.ToSTime( rem );
-            else nm += " -worn-";
+            else nm += worntxt;
         }
         else
         {
@@ -797,13 +833,13 @@ public class FPow : MonoBehaviour
                     Type == FPowType.Receive_Gift           )
                 {
                     if( lev > 0 )
-                        nm += " -worn-";
+                        nm += worntxt;
                     else
                         nm += "";
                 }
                 else
                 if( IsWorn() )
-                    nm += " -worn";
+                    nm += worntxt;
                 else
                     nm += " x" + ( rem );                                                    // uses 
             }
