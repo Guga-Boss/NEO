@@ -421,6 +421,8 @@ private static void LoadProfile()
             TF.SaveT( "CurrentAdventure", Map.I.RM.CurrentAdventure );                     // Save current adventure
             TF.SaveT( "WaterTiles", Map.I.Farm.WaterTiles );                               // Save Farm Water Tiles
 
+            FPow.Save();                                                                   // Save Fire Power
+
             GS.W.Flush();                                                                  // Flush the writer
 
             Security.FinalizeSave( ms, file );                                             // Finalize save
@@ -451,6 +453,8 @@ private static void LoadProfile()
             CubesTotalTime = TF.LoadT<float>( "CubesTotalTime" );                          // Load cubes total time
             int adv = TF.LoadT<int>( "CurrentAdventure" );                                 // Load current adventure
             Map.I.Farm.WaterTiles = TF.LoadT<int>( "WaterTiles" );                         // Load Farm Water Tiles
+
+            FPow.Load();                                                                   // Load Fire Powers
 
             if( Helper.I.ReleaseVersion )
             {
