@@ -363,6 +363,7 @@ public class FPow : MonoBehaviour
         {
             Unit plague = Map.I.GetUnit( ETileType.PLAGUE_MONSTER, G.Hero.GetFront() );                 // Fire Power: Axe Carnage
             if( plague )
+            if( Item.IsPlagueMonster( plague.Variation, false ) )
             if( G.Farm.SelectedItem == ItemType.WoodAxe )
             if( G.Farm.CarryingAmount > 0 )
             if( Map.I.TimeKillList.Contains( plague ) == false ) 
@@ -429,7 +430,9 @@ public class FPow : MonoBehaviour
 
     private float GetTotalUses()
     {
-        return TotalUses + Util.Percent( BonusTotalUses, TotalUses );
+        float bn = BonusTotalUses;
+        if( Type == FPowType.Bonus_Uses ) bn = 0;                                // no bonus uses for these ones
+        return TotalUses + bn;
     }
     private void ClampUse()
     {
@@ -437,10 +440,16 @@ public class FPow : MonoBehaviour
             UsesCount = GetTotalUses();  
     }
 
-    public static void UpdateCycle( )
+    public static bool UpdateCycle( )
     {
         Item it = G.GIT( ItemType.Fire_Level );
-        it.ProductionCount = 0;
+
+        if( it.Count < 0 )                                                      // already in tle floor, quit
+        {
+            it.ProductionCount = 0;
+            it.Count = 0;
+            return false;
+        }
 
         List<Stat> stats = new List<Stat>(
         ( Stat[] ) System.Enum.GetValues( typeof( Stat ) ) );                   // fill stats list
@@ -465,10 +474,10 @@ public class FPow : MonoBehaviour
             "Stat Carryover: " + Util.GetName( s.ToString() ) );                // Carryover Messages    
         }
 
-        Item.AddItem( ItemType.Fire_Level, -1 );                                // Decrement Level;
         Item.Clamp( ItemType.Fire_Level, 0, Max_Level );
         UpdateText = true;
         StatCarryover = ( int ) DefaultValues[ Stat.Stat_Carryover ];           // Reset Carryover
+        return true;
     }
     private static void ResetStat( Stat s )
     {
@@ -616,7 +625,8 @@ public class FPow : MonoBehaviour
 
         FPow p = pl[ id ];
 
-        p.BonusTotalUses = BonusUses;                                           // Bonus Uses
+        float v = Util.Percent( BonusUses, p.TotalUses );
+        p.BonusTotalUses = Util.FloatSort( v );                                 // Bonus Uses
 
         if( p.TotalResort != -1 )
         {
@@ -790,7 +800,9 @@ public class FPow : MonoBehaviour
 
         string worntxt = " [Worn]";                                                                      // Worn string
         int flev = ( int ) Item.GetNum( ItemType.Fire_Level );
-        if( lev < flev ) worntxt = "";
+        if( lev > flev )
+        if( IsWorn() == false )               
+            worntxt = "";
 
         float rem = ( int ) GetTotalUses() - UsesCount;
         if( Type == FPowType.Hurry_Production || Type == FPowType.Hurry_Plants || 
@@ -852,7 +864,7 @@ public class FPow : MonoBehaviour
     private bool IsWorn()
     {
         if( TotalUses > 0 )
-        if( UsesCount >= GetTotalUses() ) 
+        if( UsesCount >= ( int ) GetTotalUses() ) 
             return true;
         return false;
     }
@@ -915,6 +927,7 @@ public class FPow : MonoBehaviour
             List<float> useslist = TF.LoadT<List<float>>( "UsesList_" );                    // Load uses list
             List<float> bnuseslist = TF.LoadT<List<float>>( "BonusUsesList_" );             // Load Bonus uses list
 
+            G.Farm.FirePow = new List<FPow>();
             for( int i = 0; i < sz; i++ )
             {
                 string id = idlist[ i ];
@@ -923,6 +936,7 @@ public class FPow : MonoBehaviour
                     FPow p = G.Farm.FirePowMaster[ j ];
                     if( p.UniqueID == id )
                     {              
+                        G.Farm.FirePow.Add( p );
                         p.ResortCount = reslist[ i ];                                      // attrib values
                         p.UsesCount = useslist[ i ];
                         p.BonusTotalUses = bnuseslist[ i ];
