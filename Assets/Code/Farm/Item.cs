@@ -1016,12 +1016,6 @@ public class Item : MonoBehaviour
             if( Map.I.Farm.UpdateBlockingMonsters( this ) )                                // Blocking Monster Creation
                 return;
             
-            if( Type == ItemType.Fire_Level )                                              // Fire Level Downgrade
-            {
-                FPow.UpdateCycle();
-                return;
-            }
-
             if( Type == ItemType.Feather )                                                 // Feather Creation
             {
                 Map.I.Farm.UpdateFeatherCreation();
@@ -1050,6 +1044,13 @@ public class Item : MonoBehaviour
             {
                 ProductionCount = 0;
                 return;                                                                    // cannot increase IdleProductionCount anymore
+            }
+
+            if( Type == ItemType.Fire_Level )                                              // Fire Level Downgrade
+            {
+              if(  FPow.UpdateCycle() == false ) 
+                  return;
+                amount = -1;
             }
            
             if( amount > spaceLeft )                                                       // If the requested amount exceeds the remaining space, adjust it
