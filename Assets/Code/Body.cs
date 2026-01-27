@@ -917,11 +917,14 @@ public class Body : MonoBehaviour
                 }
             }
 
-            if( Lives >= 1 )                                                                                  // Only Life Lost
+            if( Lives >= 1 ) // Only Life Lost
             {
                 Hp = TotHp;
-                if( attack ) attack.AttackResult = 1;
+                if( attack ) 
+                    attack.AttackResult = 1;
+                UpdateScorpionPush( attack );
             }
+
             else                                                                                              // Unit Dies
             {
                 if( Unit.UnitType == EUnitType.HERO )
@@ -998,6 +1001,64 @@ public class Body : MonoBehaviour
         UpdateHealthBar();
         return damage;
     }
+
+    private void UpdateScorpionPush( Attack att )
+    {
+        if( Unit.TileID != ETileType.SCORPION ) return;                               // Only proceed if the unit is a scorpion
+        if( att.DamageType != EDamageType.MELEE && 
+            att.DamageType != EDamageType.RANGED ) return;
+
+        G.Hero.Body.InvulnerabilityFactor++;                                          // Increase hero invulnerability factor
+
+        // --- Normal movement of the scorpion ---
+        EDirection mov = Util.GetTargetUnitDir( G.Hero.Control.OldPos, G.Hero.Pos );  // Determine movement direction based on hero's old and current position
+        Vector2 tg = Vector2.zero;                                                    // Initialize target position
+        if( mov >= EDirection.N && mov <= EDirection.NW )
+            tg = Unit.Pos + Manager.I.U.DirCord[ ( int ) mov ];                       // Calculate target position based on direction
+
+        // --- Hero rotation logic ---
+        int rot = 0;                                                                  // Rotation value
+        if( G.Hero.Control.LastAction == EActionType.ROTATE_CW ) rot = -1;            // Clockwise rotation
+        else if( G.Hero.Control.LastAction == EActionType.ROTATE_CCW ) rot = +1;      // Counter-clockwise rotation
+
+        if( rot != 0 )
+        {
+            // Calculate sword position before rotation
+            EDirection newDir = G.Hero.Dir;                                           // Current hero direction
+            Vector2 newSwordPos = G.Hero.Pos + Manager.I.U.DirCord[ ( int ) newDir ]; // Position of the sword after rotation
+
+            // Calculate hero's new direction after rotation
+            EDirection oldDir = ( EDirection ) ( ( ( int ) newDir + rot + 8 ) % 8 );  // Previous direction before rotation
+            Vector2 oldSwordPos = G.Hero.Pos + Manager.I.U.DirCord[ ( int ) oldDir ]; // Old sword position
+
+            // Calculate scorpion movement based on new sword position
+            EDirection moveDir = Util.GetTargetUnitDir( oldSwordPos, newSwordPos );   // Direction from old sword to new sword
+            Vector2 tgRot = Unit.Pos + Manager.I.U.DirCord[ ( int ) moveDir ];        // Target position based on rotation
+
+            // If tgRot is valid, use it; otherwise keep original tg
+            if( tgRot != Unit.Pos )
+                tg = tgRot;                                                           // Update target position
+        }
+
+        if( att.DamageType == EDamageType.RANGED ) 
+            tg = Unit.Pos + Manager.I.U.DirCord[ ( int ) G.Hero.Dir ];                // Calculate target position based on direction
+
+        bool canMove = true;
+        if( att.DamageType == EDamageType.MELEE )
+        {
+            if( G.Hero.Control.LastAction == EActionType.WAIT ||
+                G.Hero.Control.LastAction == EActionType.SPECIAL )
+            {
+                canMove = false;
+            }
+        }
+        if( tg != Vector2.zero && canMove )
+        {
+            Unit.CanMoveFromTo( true, Unit.Pos, tg, G.Hero );        // Move the scorpion to the target position
+            MakeImovable = 1;                                        // Prevent multiple moves in the same action
+        }
+    }
+
     public bool UpdateWaspSpecial( Unit attacker )
     {
         List<Unit> fl = Map.I.GetFUnit( Unit.Pos );
@@ -2072,31 +2133,6 @@ public class Body : MonoBehaviour
         float hp = Map.I.HeroEnterAreaHP - G.Hero.Body.Hp;
         if( hp > 0 ) return false;
         return true;
-    }
-
-    public void ResetTurnData()
-    {
-        MakePeaceful--;
-        if( MakePeaceful < 0 )
-            MakePeaceful = 0;
-
-        MakeImovable--;
-        if( MakeImovable < 0 )
-            MakeImovable = 0;
-
-        if( ThreatLevel < 0 )
-        if( ThreatLevel > -80 )
-            ThreatLevel *= -1;
-
-        if( ThreatLevel == 1 )
-        {
-            ThreatLevel = -100;
-            //if( G.Hero.Body.IntelThreatLevel >= 11 )        // Unlimted Threats
-            ThreatLevel = 0;
-        }
-        else
-        if( ThreatLevel > 0 )
-            ThreatLevel--;
     }
 
     public bool HasFullHealth()

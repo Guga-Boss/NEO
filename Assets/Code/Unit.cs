@@ -3871,11 +3871,11 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                 if( Body.HerbBonusAmount == 1 ) txt = "";
             }
 
-            if( TileID == ETileType.SCARAB )
-            if( Body.Lives > 10 )
-                {
-                    txt = "x" + Body.Lives;
-                }   
+            if( TileID == ETileType.SCARAB && Body.Lives > 10 )
+                txt = "x" + Body.Lives;
+
+            if( TileID == ETileType.SCORPION && Body.Lives > 1 )
+                txt = "x" + Body.Lives;  
 
             RightText.color = col;
             RightText.text = txt;

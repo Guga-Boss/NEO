@@ -854,7 +854,12 @@ public partial class Controller : MonoBehaviour
 
         Vector2 oldPos = Unit.Pos;
         if( Unit.Body.IsDead ) return;
-        if( Unit.Body.MakeImovable > 0 ) return;
+
+        if( Unit.Body.MakeImovable > 0 )
+        {
+            Unit.Body.MakeImovable--;                                        // Imovable for x turns
+            return;                    
+        }
 
         Vector2 dest = Vector2.zero;                                                                           // Dynamic Object Movement
         int destRot = 0;
