@@ -344,7 +344,7 @@ public class FPow : MonoBehaviour
             if( canApply )                                                                              // apply acceleration
             {
                 float dt = Time.unscaledDeltaTime;                                                      // real delta time
-                float accel = 3600f / pow;                                                              // acceleration factor
+                float accel = LastPow.GetTotalUses() / pow;                                             // acceleration factor
                 float step = dt * accel;                                                                // accelerated seconds
 
                 float avail = LastPow.GetTotalUses() - LastPow.UsesCount;                               // remaining accelerated time
