@@ -176,7 +176,8 @@ public partial class Unit : MonoBehaviour
             Body.TotHp = un.Body.TotHp;
             Body.BaseTotHP = un.Body.BaseTotHP;
             if( copyhp ) Body.Hp = un.Body.Hp;
-            Body.Lives = un.Body.Lives;
+            Body.Lives                 = un.Body.Lives;
+            Body.InitialLives          = un.Body.InitialLives;
             Body.TotalMagicShield      = un.Body.TotalMagicShield;
             Body.TotalMissileShield    = un.Body.TotalMissileShield;
             Body.TotalMeleeShield      = un.Body.TotalMeleeShield;

@@ -871,6 +871,8 @@ public partial class Unit : MonoBehaviour
                 val = num;
             if( val < 1 ) val = 1;
             Body.Lives = val;
+            Body.InitialLives = val;
+
             break;
             case EV.RealtimeSpeed:
             float sp = Mod.GetOrientatorNum( IniPos, EOrientatorEffect.Move_Speed );
