@@ -156,7 +156,7 @@ public class Building : MonoBehaviour
         if( Itm == null || Itm.Count <= 0 ) return;
         BuildingItem it = Itm[ SelItemID ];
         float max = Building.GetStat( EVarType.Maximum_Item_Stack, this, SelItemID );
-        Unit.LevelTxt.text = "" + it.ItemCount.ToString( "0." );
+        Unit.LevelTxt.text = "" + ( int ) it.ItemCount;
         if( it.BaseMaxItemStack > 0 ) Unit.LevelTxt.text += "/" + max.ToString( "0." );
 
         if( it.ItemCount < 1 ) Unit.LevelTxt.text = "Empty";
@@ -182,7 +182,7 @@ public class Building : MonoBehaviour
 
         if( Type == BuildingType.Tent )
         {
-            Unit.LevelTxt.text = "x" + Item.GetNum( ItemType.Fire_Token ).ToString( "0." );
+            Unit.LevelTxt.text = "x" + ( int ) Item.GetNum( ItemType.Fire_Token );
             if( Item.GetNum( ItemType.Fire_Level ) >= 1 )
                 Unit.LevelTxt.text += "\n" + Util.ToSTime( prod - G.GIT( ItemType.Fire_Level ).ProductionCount );
             else G.GIT( ItemType.Fire_Level ).ProductionCount = 0;
