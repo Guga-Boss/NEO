@@ -78,7 +78,7 @@ public class Body : MonoBehaviour
     public float TotalMeleeShield,   BaseMeleeShield,   BonusMeleeShield,   MeleeShieldPerLevel,   MeleeShieldPerStar,
     TotalMissileShield, BaseMissileShield, BonusMissileShield, MissileShieldPerLevel, MissileShieldPerStar,
     TotalMagicShield,   BaseMagicShield,   BonusMagicShield,   MagicShieldPerLevel,   MagicShieldPerStar,
-    Lives, NumMushroom, HpPerMushroom, PressureAttackBonus, InvulnerabilityFactor,  
+    Lives, InitialLives = 1, NumMushroom, HpPerMushroom, PressureAttackBonus, InvulnerabilityFactor,  
     MeleeAttackLevel, RangedAttackLevel, DexterityLevel, AgilityLevel, OrbStrikerLevel, CooperationLevel, PsychicLevel,
     DamageSurplusLevel, MeleeShieldLevel, MissileShieldLevel, MagicShieldLevel, DestroyBarricadeLevel, AmbusherLevel,
 	HpPerLevel, HpPerStar, DamageTaken, MemoryLevel, ToolBoxLevel, FireMasterLevel, BerserkLevel, BeeHiveThrowerLevel, 
@@ -917,16 +917,19 @@ public class Body : MonoBehaviour
                 }
             }
 
-            if( Lives >= 1 ) // Only Life Lost
+            if( Lives >= 1 )                                                                                  // Only Life Lost
             {
                 Hp = TotHp;
                 if( attack ) 
                     attack.AttackResult = 1;
                 UpdateScorpionPush( attack );
             }
-
             else                                                                                              // Unit Dies
             {
+                if( InitialLives >= 2 )
+                if( Unit.TileID == ETileType.SCORPION )
+                   G.Hero.Body.InvulnerabilityFactor++;                                                       // Grant hero a frame of invulnerability after destroying a multi-life Scorpion 
+
                 if( Unit.UnitType == EUnitType.HERO )
                 {
                     Map.I.HeroIsDead = true;
@@ -2240,6 +2243,24 @@ public class Body : MonoBehaviour
 
         CheckSM( new VI( -1, +1 ), EDirection.W, EActionType.MOVE_N, new VI( 0, +1 ), null, null );         // Lateral W
         CheckSM( new VI( -1, -1 ), EDirection.W, EActionType.MOVE_S, new VI( 0, -1 ), null, null );         // Lateral W
+
+        // --- Lateral Slide Logic ---
+
+        // Hero West, Monster lateral positions
+        CheckSM( new VI( 0, +1 ), EDirection.W, EActionType.MOVE_NE, new VI( +1, +1 ), new VI( 0, +1 ), null );  // Lateral slide NE
+        CheckSM( new VI( 0, -1 ), EDirection.W, EActionType.MOVE_SE, new VI( +1, -1 ), new VI( 0, -1 ), null );  // Lateral slide SE
+
+        // Hero East, Monster lateral positions
+        CheckSM( new VI( 0, +1 ), EDirection.E, EActionType.MOVE_NW, new VI( -1, +1 ), new VI( 0, +1 ), null );  // Lateral slide NW
+        CheckSM( new VI( 0, -1 ), EDirection.E, EActionType.MOVE_SW, new VI( -1, -1 ), new VI( 0, -1 ), null );  // Lateral slide SW
+
+        // Hero North, Monster lateral positions
+        CheckSM( new VI( -1, 0 ), EDirection.N, EActionType.MOVE_SW, new VI( -1, -1 ), new VI( -1, 0 ), null );  // Lateral slide SW
+        CheckSM( new VI( +1, 0 ), EDirection.N, EActionType.MOVE_SE, new VI( +1, -1 ), new VI( +1, 0 ), null );  // Lateral slide SE
+
+        // Hero South, Monster lateral positions
+        CheckSM( new VI( -1, 0 ), EDirection.S, EActionType.MOVE_NW, new VI( -1, +1 ), new VI( -1, 0 ), null );  // Lateral slide NW
+        CheckSM( new VI( +1, 0 ), EDirection.S, EActionType.MOVE_NE, new VI( +1, +1 ), new VI( +1, 0 ), null );  // Lateral slide NE
 
         CheckSM( new VI( 0, -1 ), EDirection.SE, EActionType.ROTATE_CW, new VI( -1, 0 ), null, null );      // Rotate mn in the S
         CheckSM( new VI( 0, -1 ), EDirection.SW, EActionType.ROTATE_CCW, new VI( +1, 0 ), null, null );     // Rotate mn in the S
