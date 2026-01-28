@@ -1001,64 +1001,6 @@ public class Body : MonoBehaviour
         UpdateHealthBar();
         return damage;
     }
-
-    private void UpdateScorpionPush( Attack att )
-    {
-        if( Unit.TileID != ETileType.SCORPION ) return;                               // Only proceed if the unit is a scorpion
-        if( att.DamageType != EDamageType.MELEE && 
-            att.DamageType != EDamageType.RANGED ) return;
-
-        G.Hero.Body.InvulnerabilityFactor++;                                          // Increase hero invulnerability factor
-
-        // --- Normal movement of the scorpion ---
-        EDirection mov = Util.GetTargetUnitDir( G.Hero.Control.OldPos, G.Hero.Pos );  // Determine movement direction based on hero's old and current position
-        Vector2 tg = Vector2.zero;                                                    // Initialize target position
-        if( mov >= EDirection.N && mov <= EDirection.NW )
-            tg = Unit.Pos + Manager.I.U.DirCord[ ( int ) mov ];                       // Calculate target position based on direction
-
-        // --- Hero rotation logic ---
-        int rot = 0;                                                                  // Rotation value
-        if( G.Hero.Control.LastAction == EActionType.ROTATE_CW ) rot = -1;            // Clockwise rotation
-        else if( G.Hero.Control.LastAction == EActionType.ROTATE_CCW ) rot = +1;      // Counter-clockwise rotation
-
-        if( rot != 0 )
-        {
-            // Calculate sword position before rotation
-            EDirection newDir = G.Hero.Dir;                                           // Current hero direction
-            Vector2 newSwordPos = G.Hero.Pos + Manager.I.U.DirCord[ ( int ) newDir ]; // Position of the sword after rotation
-
-            // Calculate hero's new direction after rotation
-            EDirection oldDir = ( EDirection ) ( ( ( int ) newDir + rot + 8 ) % 8 );  // Previous direction before rotation
-            Vector2 oldSwordPos = G.Hero.Pos + Manager.I.U.DirCord[ ( int ) oldDir ]; // Old sword position
-
-            // Calculate scorpion movement based on new sword position
-            EDirection moveDir = Util.GetTargetUnitDir( oldSwordPos, newSwordPos );   // Direction from old sword to new sword
-            Vector2 tgRot = Unit.Pos + Manager.I.U.DirCord[ ( int ) moveDir ];        // Target position based on rotation
-
-            // If tgRot is valid, use it; otherwise keep original tg
-            if( tgRot != Unit.Pos )
-                tg = tgRot;                                                           // Update target position
-        }
-
-        if( att.DamageType == EDamageType.RANGED ) 
-            tg = Unit.Pos + Manager.I.U.DirCord[ ( int ) G.Hero.Dir ];                // Calculate target position based on direction
-
-        bool canMove = true;
-        if( att.DamageType == EDamageType.MELEE )
-        {
-            if( G.Hero.Control.LastAction == EActionType.WAIT ||
-                G.Hero.Control.LastAction == EActionType.SPECIAL )
-            {
-                canMove = false;
-            }
-        }
-        if( tg != Vector2.zero && canMove )
-        {
-            Unit.CanMoveFromTo( true, Unit.Pos, tg, G.Hero );        // Move the scorpion to the target position
-            MakeImovable = 1;                                        // Prevent multiple moves in the same action
-        }
-    }
-
     public bool UpdateWaspSpecial( Unit attacker )
     {
         List<Unit> fl = Map.I.GetFUnit( Unit.Pos );
@@ -2260,5 +2202,169 @@ public class Body : MonoBehaviour
         if( ImmunityShieldTime > 0 )
             return !Unit.Md.DefaultImmunityShieldState;                            // return shield state according with the default state
         return Unit.Md.DefaultImmunityShieldState;
+    }
+    private void UpdateScorpionPush( Attack att )
+    {
+        if( Unit.TileID != ETileType.SCORPION ) return;                                                // Only proceed if the unit is a scorpion
+        if( att.DamageType != EDamageType.MELEE &&
+            att.DamageType != EDamageType.RANGED ) return;                                             // Only physical attacks trigger the push
+
+        G.Hero.Body.InvulnerabilityFactor++;                                                           // Grant hero a frame of invulnerability
+
+        if( att.DamageType == EDamageType.RANGED )                                                     // Ranged Case
+        {
+            Vector2 tg = Unit.Pos + Manager.I.U.DirCord[ ( int ) G.Hero.Dir ];                         // Calculate target position based on direction
+            Unit.CanMoveFromTo( true, Unit.Pos, tg, G.Hero );                                          // Move the scorpion to the target position
+            MakeImovable = 1;                                                                          // Prevent multiple moves in the same action }
+            return;
+        }
+
+        CheckSM( new VI( 0, +2 ), EDirection.N, EActionType.MOVE_N, new VI( 0, +1 ), null, null );          // frontal N
+        CheckSM( new VI( 0, -2 ), EDirection.S, EActionType.MOVE_S, new VI( 0, -1 ), null, null );          // frontal S
+        CheckSM( new VI( +2, 0 ), EDirection.E, EActionType.MOVE_E, new VI( +1, 0 ), null, null );          // frontal E
+        CheckSM( new VI( -2, 0 ), EDirection.W, EActionType.MOVE_W, new VI( -1, 0 ), null, null );          // frontal W
+
+        CheckSM( new VI( +2, +2 ), EDirection.NE, EActionType.MOVE_NE, new VI( +1, +1 ), null, null );      // frontal NE
+        CheckSM( new VI( -2, +2 ), EDirection.NW, EActionType.MOVE_NW, new VI( -1, +1 ), null, null );      // frontal NW
+        CheckSM( new VI( +2, -2 ), EDirection.SE, EActionType.MOVE_SE, new VI( +1, -1 ), null, null );      // frontal SE
+        CheckSM( new VI( -2, -2 ), EDirection.SW, EActionType.MOVE_SW, new VI( -1, -1 ), null, null );      // frontal SW
+
+        CheckSM( new VI( -1, +1 ), EDirection.N, EActionType.MOVE_W, new VI( -1, 0 ), null, null );         // Lateral W
+        CheckSM( new VI( +1, +1 ), EDirection.N, EActionType.MOVE_E, new VI( +1, 0 ), null, null );         // Lateral R
+
+        CheckSM( new VI( -1, -1 ), EDirection.S, EActionType.MOVE_W, new VI( -1, 0 ), null, null );         // Lateral W
+        CheckSM( new VI( +1, -1 ), EDirection.S, EActionType.MOVE_E, new VI( +1, 0 ), null, null );         // Lateral E
+
+        CheckSM( new VI( +1, +1 ), EDirection.E, EActionType.MOVE_N, new VI( 0, +1 ), null, null );         // Lateral E
+        CheckSM( new VI( +1, -1 ), EDirection.E, EActionType.MOVE_S, new VI( 0, -1 ), null, null );         // Lateral E
+
+        CheckSM( new VI( -1, +1 ), EDirection.W, EActionType.MOVE_N, new VI( 0, +1 ), null, null );         // Lateral W
+        CheckSM( new VI( -1, -1 ), EDirection.W, EActionType.MOVE_S, new VI( 0, -1 ), null, null );         // Lateral W
+
+        CheckSM( new VI( 0, -1 ), EDirection.SE, EActionType.ROTATE_CW, new VI( -1, 0 ), null, null );      // Rotate mn in the S
+        CheckSM( new VI( 0, -1 ), EDirection.SW, EActionType.ROTATE_CCW, new VI( +1, 0 ), null, null );     // Rotate mn in the S
+        CheckSM( new VI( 0, +1 ), EDirection.NE, EActionType.ROTATE_CCW, new VI( -1, 0 ), null, null );     // Rotate mn in the N
+        CheckSM( new VI( 0, +1 ), EDirection.NW, EActionType.ROTATE_CW, new VI( +1, 0 ), null, null );      // Rotate mn in the N
+
+        CheckSM( new VI( +1, 0 ), EDirection.SE, EActionType.ROTATE_CCW, new VI( 0, +1 ), null, null );     // Rotate mn in the E
+        CheckSM( new VI( +1, 0 ), EDirection.NE, EActionType.ROTATE_CW, new VI( 0, -1 ), null, null );      // Rotate mn in the E
+        CheckSM( new VI( -1, 0 ), EDirection.SW, EActionType.ROTATE_CW, new VI( 0, +1 ), null, null );      // Rotate mn in the W
+        CheckSM( new VI( -1, 0 ), EDirection.NW, EActionType.ROTATE_CCW, new VI( 0, -1 ), null, null );     // Rotate mn in the W
+
+        CheckSM( new VI( 0, -1 ), EDirection.SW, EActionType.MOVE_E, new VI( 0, -1 ), new VI( +1, 0 ), null );   // Monster South, sword SW moving E, slide South then East
+        CheckSM( new VI( -1, 0 ), EDirection.SW, EActionType.MOVE_N, new VI( -1, 0 ), new VI( 0, +1 ), null );   // Monster West, sword SW moving N, slide West then North
+
+        CheckSM( new VI( 0, -1 ), EDirection.SE, EActionType.MOVE_W, new VI( 0, -1 ), new VI( -1, 0 ), null );   // Monster South, sword SE moving W, slide South then West
+        CheckSM( new VI( +1, 0 ), EDirection.SE, EActionType.MOVE_N, new VI( +1, 0 ), new VI( 0, +1 ), null );   // Monster East, sword SE moving N, slide East then North
+
+        CheckSM( new VI( 0, +1 ), EDirection.NW, EActionType.MOVE_E, new VI( 0, +1 ), new VI( +1, 0 ), null );   // Monster North, sword NW moving E, slide North then East
+        CheckSM( new VI( -1, 0 ), EDirection.NW, EActionType.MOVE_S, new VI( -1, 0 ), new VI( 0, -1 ), null );   // Monster West, sword NW moving S, slide West then South
+
+        CheckSM( new VI( 0, +1 ), EDirection.NE, EActionType.MOVE_W, new VI( 0, +1 ), new VI( -1, 0 ), null );   // Monster North, sword NE moving W, slide North then West
+        CheckSM( new VI( +1, 0 ), EDirection.NE, EActionType.MOVE_S, new VI( +1, 0 ), new VI( 0, -1 ), null );   // Monster East, sword NE moving S, slide East then South
+
+        // --- Diagonal slide logic based on sword rotation ---
+
+        // monster SW (-1,-1)
+        CheckSM( new VI( -1, -1 ), EDirection.W, EActionType.ROTATE_CCW, new VI( 0, -1 ), new VI( +1, 0 ), null );    // From W rotating CCW, slide S then E
+        CheckSM( new VI( -1, -1 ), EDirection.S, EActionType.ROTATE_CW, new VI( -1, 0 ), new VI( 0, +1 ), null );     // From S rotating CW, slide W then N
+
+        // monster SE (+1,-1)
+        CheckSM( new VI( +1, -1 ), EDirection.E, EActionType.ROTATE_CW, new VI( 0, -1 ), new VI( -1, 0 ), null );     // From E rotating CW, slide S then W
+        CheckSM( new VI( +1, -1 ), EDirection.S, EActionType.ROTATE_CCW, new VI( +1, 0 ), new VI( 0, +1 ), null );    // From S rotating CCW, slide E then N
+
+        // monster NW (-1,+1)
+        CheckSM( new VI( -1, +1 ), EDirection.W, EActionType.ROTATE_CW, new VI( 0, +1 ), new VI( +1, 0 ), null );     // From W rotating CW, slide N then E
+        CheckSM( new VI( -1, +1 ), EDirection.N, EActionType.ROTATE_CCW, new VI( -1, 0 ), new VI( 0, -1 ), null );    // From N rotating CCW, slide W then S
+
+        // monster NE (+1,+1)
+        CheckSM( new VI( +1, +1 ), EDirection.E, EActionType.ROTATE_CCW, new VI( 0, +1 ), new VI( -1, 0 ), null );    // From E rotating CCW, slide N then W
+        CheckSM( new VI( +1, +1 ), EDirection.N, EActionType.ROTATE_CW, new VI( +1, 0 ), new VI( 0, -1 ), null );     // From N rotating CW, slide E then S
+
+        // --- Two-tiles away slide based on diagonal sword movement ---
+
+        // monster two tiles South (0,-2)
+        CheckSM( new VI( 0, -2 ), EDirection.SE, EActionType.MOVE_SW, new VI( -1, -1 ), new VI( -1, 0 ), null );     // From SE moving SW, slide SW-diagonal then W
+        CheckSM( new VI( 0, -2 ), EDirection.SW, EActionType.MOVE_SE, new VI( +1, -1 ), new VI( +1, 0 ), null );     // From SW moving SE, slide SE-diagonal then E
+
+        // monster two tiles North (0,+2)
+        CheckSM( new VI( 0, +2 ), EDirection.NE, EActionType.MOVE_NW, new VI( -1, +1 ), new VI( -1, 0 ), null );     // From NE moving NW, slide NW-diagonal then W
+        CheckSM( new VI( 0, +2 ), EDirection.NW, EActionType.MOVE_NE, new VI( +1, +1 ), new VI( +1, 0 ), null );     // From NW moving NE, slide NE-diagonal then E
+
+        // monster two tiles East (+2,0)
+        CheckSM( new VI( +2, 0 ), EDirection.SE, EActionType.MOVE_NE, new VI( +1, +1 ), new VI( 0, +1 ), null );     // From SE moving NE, slide NE-diagonal then N
+        CheckSM( new VI( +2, 0 ), EDirection.NE, EActionType.MOVE_SE, new VI( +1, -1 ), new VI( 0, -1 ), null );     // From NE moving SE, slide SE-diagonal then S
+
+        // monster two tiles West (-2,0)
+        CheckSM( new VI( -2, 0 ), EDirection.SW, EActionType.MOVE_NW, new VI( -1, +1 ), new VI( 0, +1 ), null );     // From SW moving NE, slide NW-diagonal then N
+        CheckSM( new VI( -2, 0 ), EDirection.NW, EActionType.MOVE_SW, new VI( -1, -1 ), new VI( 0, -1 ), null );     // From NW moving SW, slide SW-diagonal then S
+
+        // Knight positions: Diagonal Facing
+        CheckSM( new VI( -1, -2 ), EDirection.SW, EActionType.MOVE_S, new VI( 0, -1 ), new VI( +1, 0 ), null );      // From SW moving S, slide South then East
+        CheckSM( new VI( +1, -2 ), EDirection.SE, EActionType.MOVE_S, new VI( 0, -1 ), new VI( -1, 0 ), null );      // From SE moving S, slide South then West
+
+        CheckSM( new VI( -1, +2 ), EDirection.NW, EActionType.MOVE_N, new VI( 0, +1 ), new VI( +1, 0 ), null );      // From NW moving N, slide North then East
+        CheckSM( new VI( +1, +2 ), EDirection.NE, EActionType.MOVE_N, new VI( 0, +1 ), new VI( -1, 0 ), null );      // From NE moving N, slide North then West
+
+        CheckSM( new VI( -2, -1 ), EDirection.SW, EActionType.MOVE_W, new VI( -1, 0 ), new VI( 0, +1 ), null );      // From SW moving W, slide West then North
+        CheckSM( new VI( -2, +1 ), EDirection.NW, EActionType.MOVE_W, new VI( -1, 0 ), new VI( 0, -1 ), null );      // From NW moving W, slide West then South
+
+        CheckSM( new VI( +2, -1 ), EDirection.SE, EActionType.MOVE_E, new VI( +1, 0 ), new VI( 0, +1 ), null );      // From SE moving E, slide East then North
+        CheckSM( new VI( +2, +1 ), EDirection.NE, EActionType.MOVE_E, new VI( +1, 0 ), new VI( 0, -1 ), null );      // From NE moving E, slide East then South
+
+        // --- Knight positions: Ortho Facing ---
+
+        // Facing West
+        CheckSM( new VI( -2, +1 ), EDirection.W, EActionType.MOVE_NW, new VI( -1, +1 ), new VI( -1, 0 ), new VI( 0, +1 ) );    // Knight NW of hero, facing W, push NW then W then N
+        CheckSM( new VI( -2, -1 ), EDirection.W, EActionType.MOVE_SW, new VI( -1, -1 ), new VI( -1, 0 ), new VI( 0, -1 ) );    // Knight SW of hero, facing W, push SW then W then S
+
+        // Facing East
+        CheckSM( new VI( +2, +1 ), EDirection.E, EActionType.MOVE_NE, new VI( +1, +1 ), new VI( +1, 0 ), new VI( 0, +1 ) );    // Knight NE of hero, facing E, push NE then E then N
+        CheckSM( new VI( +2, -1 ), EDirection.E, EActionType.MOVE_SE, new VI( +1, -1 ), new VI( +1, 0 ), new VI( 0, -1 ) );    // Knight SE of hero, facing E, push SE then E then S
+
+        // Facing North
+        CheckSM( new VI( -1, +2 ), EDirection.N, EActionType.MOVE_NW, new VI( -1, +1 ), new VI( 0, +1 ), new VI( -1, 0 ) );    // Knight NW of hero, facing N, push NW then N then W
+        CheckSM( new VI( +1, +2 ), EDirection.N, EActionType.MOVE_NE, new VI( +1, +1 ), new VI( 0, +1 ), new VI( +1, 0 ) );    // Knight NE of hero, facing N, push NE then N then E
+
+        // Facing South
+        CheckSM( new VI( -1, -2 ), EDirection.S, EActionType.MOVE_SW, new VI( -1, -1 ), new VI( 0, -1 ), new VI( -1, 0 ) );    // Knight SW of hero, facing S, push SW then S then W
+        CheckSM( new VI( +1, -2 ), EDirection.S, EActionType.MOVE_SE, new VI( +1, -1 ), new VI( 0, -1 ), new VI( +1, 0 ) );    // Knight SE of hero, facing S, push SE then S then E
+    }
+    private void CheckSM( VI delta, EDirection hdir, EActionType ac, VI? v1, VI? v2, VI? v3 )
+    {
+        if( Unit.Body.MakeImovable > 0 ) return;
+        int rot = 0;
+        if( G.Hero.Control.LastAction == EActionType.ROTATE_CW ) rot = -1;
+        else if( G.Hero.Control.LastAction == EActionType.ROTATE_CCW ) rot = +1;
+        EDirection tgdir = G.Hero.Dir;
+        if( rot != 0 )
+            tgdir = ( EDirection ) ( ( ( int ) G.Hero.Dir + rot + 8 ) % 8 );           // in case of rotation, uses old dir
+        else
+            if( Unit.Pos != G.Hero.Control.OldPos + delta )                            // in case of move uses old pos for easier calculation
+                return;
+
+        if( tgdir != hdir ) return;
+        if( ac != Map.I.CurrentMoveTrial ) return;
+        bool moved = false;
+        if( v1.HasValue &&
+            Unit.CanMoveFromTo( false, Unit.Pos, Unit.Pos + v1.Value, G.Hero ) )
+        {
+            Unit.CanMoveFromTo( true, Unit.Pos, Unit.Pos + v1.Value, G.Hero );
+            moved = true;
+        }
+        else if( v2.HasValue &&
+            Unit.CanMoveFromTo( false, Unit.Pos, Unit.Pos + v2.Value, G.Hero ) )
+        {
+            Unit.CanMoveFromTo( true, Unit.Pos, Unit.Pos + v2.Value, G.Hero );
+            moved = true;
+        }
+        else if( v3.HasValue &&
+            Unit.CanMoveFromTo( false, Unit.Pos, Unit.Pos + v3.Value, G.Hero ) )
+        {
+            Unit.CanMoveFromTo( true, Unit.Pos, Unit.Pos + v3.Value, G.Hero );
+            moved = true;
+        }
+        if( moved )
+            MakeImovable = 1;
     }
 }
