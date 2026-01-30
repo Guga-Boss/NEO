@@ -228,4 +228,9 @@ public class BuildingItem : MonoBehaviour
             Manager.I.Tutorial.BerryPlanted = true;
         }
     }
+
+    internal Item GetIt()
+    {
+        return G.GIT( ItemType );
+    }
 }
