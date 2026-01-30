@@ -557,7 +557,7 @@ public class TechButton : MonoBehaviour
                 float p = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.TRADE_PROFIT, au.ItemAffected );    // Trade Profit extra goods
 
                 Item.AddItem( au.ItemAffected, au.UpgradeEffectAmount + p );                                          
-                if( au.TechTotalTime < 1 )                    
+                if( au.TechTotalTime < 1 && au.TechTotalTime > 0 )                 
                 {
                     ItemType itt = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );                 // set a total time < 1 and trade will be infinite, timer can also be provided
                     Item it = G.GIT( itt );
