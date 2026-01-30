@@ -357,7 +357,9 @@ public class Building : MonoBehaviour
                                return false;
                            bl.Building.Itm[ bldid ].ItemCount += amt;                                  // increment bld
                            Map.I.Farm.SetSelectedItem( bl.Building.Itm[ bldid ].ItemType, 
-                           Map.I.Farm.CarryingAmount - amt );                                          // decrement carried item
+                           Map.I.Farm.CarryingAmount - amt );                                          // decrement carried item                      
+                           G.Farm.CurrentToolbar = it.GetIt().Category;                                // Auto choose inventory window
+                           bl.Building.SelItemID = bldid;                                              // Auto choose bulding item
                            return true;                               
                        }
                     return false;
@@ -939,6 +941,9 @@ public class Building : MonoBehaviour
                 SelItemSprite.spriteId = ( int ) G.GIT( id ).TKSprite.spriteId;                 // set sprite ID
             }
         }
+
+        if( Type == BuildingType.Tent ) 
+            FPow.UpdateTentTags( Unit );
     }
 
     public static float GetUseSum( EVarType var, BuildingType bl, ItemType it )
