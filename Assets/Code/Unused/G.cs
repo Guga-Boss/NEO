@@ -11,6 +11,8 @@ public class G
     public static Unit Hero = Map.I.Hero;
     public static Tutorial Tutorial = Manager.I.Tutorial;
     public static Sector HS = null;
+    public static DungeonDialog DD = null;
+
 
     public static void Init()
     {
@@ -19,6 +21,7 @@ public class G
         Inventory = Manager.I.Inventory;
         Hero = Map.I.Hero;
         Tutorial = Manager.I.Tutorial;
+        DD = Map.I.RM.DungeonDialog;
     }
 
     public static void Deb( object txt )
