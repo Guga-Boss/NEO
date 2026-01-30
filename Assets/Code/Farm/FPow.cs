@@ -11,7 +11,7 @@ public enum FPowType
     NONE = -1,
     Nothing, Show_More_Powers, Upgrade_Base_Chance, Lucky_Streak_Step, 
     Downgrade_Chance, Kill_Worn_Chance, Sort_Candidates, Add_Power_Time,
-    Stat_Carryover, Bonus_Uses, 
+    Stat_Carryover, Bonus_Uses, Tag_Level, Tag_Bubbles,
     Extra_Feather_Bonus = 30, Extra_Honey_Bonus, Receive_Gift, Harvest_Bonus,
     Sustainable_Eggs = 50, Super_Chicken, Extra_Eggs_Laid,
     Refund_Tool = 100, Refund_Seed, BP_Refund_Resource_Cost, New_BP_Refund_Chance,  // buy plant refund, rarity idea
@@ -36,8 +36,12 @@ public class FPow : MonoBehaviour
     [GUIColor( 0.3f, 0.6f, 1f )]                                           
     [PropertyRange( 1, 5 )]    
     public int Level = 1;
-    [Space( 10 )] 
+    private int SortTagID = 0;
+    [Space( 10 )]
+    [Title( "Weight:" )]
     public float Weight = 100;
+    [Space( 10 )]
+    public float TagWeight = 100;
     [Title( "Power: " )]
     public float Power = 0;
     [Title( "Uses:" )]
@@ -48,8 +52,10 @@ public class FPow : MonoBehaviour
     public bool OnlyFarm = true;
     [HideInEditorMode]
     public float UsesCount = 0;
-    [Title( "Resort" )]
+    [Title( "Sort" )]
     public int TotalResort = 1;
+    public int Rarity = 1;
+    public static int TagTarget = 0;
     [HideInEditorMode]
     public int ResortCount = 0;
     public const int Max_Level = 5;
@@ -68,6 +74,9 @@ public class FPow : MonoBehaviour
     public static int StatCarryover = 0;
     public static float KillWornChance = 0;
     public static float BonusUses = 0;
+    public static float TagLevel = 0;
+    public static float TagBubbles = 0;
+    public static Unit Tent = null;
     public enum Stat
     {
         Upgrade_Base_Chance,
@@ -77,7 +86,9 @@ public class FPow : MonoBehaviour
         Extra_Powers_Shown,
         Stat_Carryover,
         Kill_Worn_Chance,
-        Bonus_Uses
+        Bonus_Uses,
+        Tag_Level,
+        Tag_Bubbles
     }
     public static readonly Dictionary<Stat, float> DefaultValues =
     new Dictionary<Stat, float>
@@ -86,23 +97,28 @@ public class FPow : MonoBehaviour
             { Stat.Lucky_Streak_Step,   25f },
             { Stat.Downgrade_Chance,    25f },
             { Stat.Sort_Candidates,      3f },
-            { Stat.Extra_Powers_Shown,   1f },
+            { Stat.Extra_Powers_Shown,   0f },
             { Stat.Stat_Carryover,       2f },
             { Stat.Kill_Worn_Chance,     0f },
-            { Stat.Bonus_Uses,           0f }
+            { Stat.Bonus_Uses,           0f },
+            { Stat.Tag_Level,            0f },
+            { Stat.Tag_Bubbles,          0f }
         };
     static readonly Dictionary<Stat, System.Action<float>> SetStat =
         new Dictionary<Stat, System.Action<float>>
     {
         { Stat.Upgrade_Base_Chance, v => UpgradeBaseChance = ( int ) v },
         { Stat.Lucky_Streak_Step,   v => LuckyStreakStep   = ( int ) v },
-        { Stat.Downgrade_Chance,    v => DowngradeChance  = ( int ) v },
-        { Stat.Sort_Candidates,     v => SortCandidates   = ( int ) v },
-        { Stat.Extra_Powers_Shown,  v => ExtraPowersShown = ( int ) v },
-        { Stat.Stat_Carryover,      v => StatCarryover    = ( int ) v },
-        { Stat.Kill_Worn_Chance,    v => KillWornChance   = v },
-        { Stat.Bonus_Uses,          v => BonusUses        = v }
+        { Stat.Downgrade_Chance,    v => DowngradeChance   = ( int ) v },
+        { Stat.Sort_Candidates,     v => SortCandidates    = ( int ) v },
+        { Stat.Extra_Powers_Shown,  v => ExtraPowersShown  = ( int ) v },
+        { Stat.Stat_Carryover,      v => StatCarryover     = ( int ) v },
+        { Stat.Kill_Worn_Chance,    v => KillWornChance    =         v },
+        { Stat.Bonus_Uses,          v => BonusUses         =         v },
+        { Stat.Tag_Level,           v => TagLevel          = ( int ) v },
+        { Stat.Tag_Bubbles,         v => TagBubbles        = ( int ) v }
     };
+
 
     #endregion
 #if UNITY_EDITOR
@@ -283,6 +299,14 @@ public class FPow : MonoBehaviour
             txt += "8) -Bonus Uses: +" + BonusUses + "% (" + v + "%)\n";                       // current + default
             txt += Language.Get( "FIRE_STAT_BONUS_USES", "Main" ) + "\n\n";                    // description
 
+            v = DefaultValues[ Stat.Tag_Level ];                                               // get default
+            txt += "9) -Tag Level: +" + TagLevel + " (" + v + ")\n";                           // current + default
+            txt += Language.Get( "FIRE_STAT_TAG_LEVEL", "Main" ) + "\n\n";                     // description
+
+            v = DefaultValues[ Stat.Tag_Bubbles ];                                             // get default
+            txt += "10) -Tag Bubbles: +" + TagBubbles + " (" + v + ")\n";                      // current + default
+            txt += Language.Get( "FIRE_STAT_TAG_BUBBLES", "Main" ) + "\n\n";                   // description
+
             txt += "PS: Values reset to (default) when the timer reaches zero.";
         }
         else
@@ -419,6 +443,20 @@ public class FPow : MonoBehaviour
             LastPow.Use( 1 );
         }
 
+        bn = FPow.Get( FPowType.Tag_Level, false );                                                     // Firepower: Tag Level
+        if( bn != 0 )
+        {
+            TagLevel += bn;
+            LastPow.Use( 1 );
+        }
+
+        bn = FPow.Get( FPowType.Tag_Bubbles, false );                                                  // Firepower: Tag Bubbles
+        if( bn != 0 )
+        {
+            TagBubbles += bn;
+            LastPow.Use( 1 );
+        }
+
         bn = FPow.Get( FPowType.Receive_Gift, false );                                                  // Firepower: Receive Gift
         if( bn != 0 )
         {
@@ -526,8 +564,31 @@ public class FPow : MonoBehaviour
             FPow p = G.Farm.FirePow[ i ];
             string nm = p.GetName( i + 1 );
             if( i < lev )
-                UI.I.NavigationMapText.text += nm + "\n";                                          // uses 2 text meshes for multicolor effect
+                UI.I.NavigationMapText.text += nm + "\n";                                               // uses 2 text meshes for multicolor effect
             UI.I.NavigationMapText2.text += nm + "\n";
+        }
+
+        if( Util.IsNeighbor( G.Hero.Pos, Tent.Pos ) )
+        {
+            EDirection dir = Util.GetVectorDir( G.Hero.Pos - Tent.Pos );                                // Tag Text update
+            if( G.Farm.TagPowSlot.Contains( ( int ) dir ) )
+            {
+                UI.I.NavigationMapText.color = Color.yellow;
+                UI.I.NavigationMapText.text = "               ---Tag Powers---\n";
+                UI.I.NavigationMapText2.text = "";
+
+                for( int id = 1; id <= G.Farm.TagPow.Count; id++ )                                      // T1, T2, T3...
+                for( int i = 0; i < G.Farm.TagPow.Count; i++ )
+                {
+                    FPow p = G.Farm.TagPow[ i ];
+                    if( p.SortTagID != id ) continue;
+                    string nm = p.GetName();                                                            // get power name
+                    nm = nm.Replace( "**", "" ).Replace( "[Worn]", "" );                                // clean markers
+                    nm = nm.Substring( 2 );
+                    UI.I.NavigationMapText.text += "T" + id + " " + nm + "\n"; 
+                    break;                                                                              // next T
+                }
+            }
         }
     }
     public void Use( float amt )
@@ -598,18 +659,18 @@ public class FPow : MonoBehaviour
     {
         if( resetOldSlot && G.Farm.FirePow[ lev - 1 ] != null )
             G.Farm.FirePow[ lev - 1 ].ResetData();                              // restore default data for the old power
-        
-        List<FPow> pl = G.Farm.FirePowMaster;                                   // link list
+
+        List<FPow> master = G.Farm.FirePowMaster;                               // link list
         List<int> idlist = new List<int>();
         List<float> fact = new List<float>();
-        for( int i = 0; i < pl.Count; i++ )
+        for( int i = 0; i < master.Count; i++ )
         {
-            if( lev == pl[ i ].Level )
-            if( pl[ i ].ResortCount >= 1 ||
-                G.Farm.FirePow.Contains( pl[ i ] ) == false )
+            if( lev == master[ i ].Level )
+            if( master[ i ].ResortCount >= 1 ||
+                G.Farm.FirePow.Contains( master[ i ] ) == false )
             {
                 idlist.Add( i );                                                // attrib ID
-                fact.Add( pl[ i ].Weight );                                     // atrib weight for each level
+                fact.Add( master[ i ].Weight );                                 // atrib weight for each level
             }
         }
 
@@ -618,12 +679,12 @@ public class FPow : MonoBehaviour
         int id = Util.Sort( fact );                                             // Sort ID
         id = idlist[ id ];
 
-        if( id < 0 || id >= pl.Count )                                          // Bug protection
+        if( id < 0 || id >= master.Count )                                      // Bug protection
             return null;
 
-        G.Farm.FirePow[ lev - 1 ] = pl[ id ];                                   // assign power
+        G.Farm.FirePow[ lev - 1 ] = master[ id ];                               // assign power
 
-        FPow p = pl[ id ];
+        FPow p = master[ id ];
 
         float v = Util.Percent( BonusUses, p.TotalUses );
         p.BonusTotalUses = Util.FloatSort( v );                                 // Bonus Uses
@@ -680,6 +741,8 @@ public class FPow : MonoBehaviour
 
     internal static bool UpdateBuildingBump()
     {
+        if( UpdateTagBump() ) return true;                                                             // Tag Bump
+
         bool res = false;
         Unit frbld = Map.I.GetUnit( ETileType.BUILDING, G.Hero.GetFront() );                           // Tent Frontal Bump: Sort Asterisks
         if( frbld && frbld.Building.Type == BuildingType.Tent )
@@ -688,6 +751,8 @@ public class FPow : MonoBehaviour
         {
             if( Building.AddItem( true, ItemType.Fire_Token, -1 ) == 0 ) 
                 return true;                                                                           // Charge Fire Token
+
+            UpdateTagSorting();                                                                        // Updates Tag Sorting
 
             int id = Random.Range( 0, SortTargets.Count );                                             // Pick from the list
             id = SortTargets[ id ];
@@ -716,8 +781,9 @@ public class FPow : MonoBehaviour
                 if( Building.AddItem( true, ItemType.Fire_Token, -1 ) != 0 )                           // Charge Fire Token
                 {
                     RelocateAsterix = 1;                                                               // Relocates a new asterix
+                    UpdateTagSorting();                                                                // Updates Tag Sorting
+                    Message.GreenMessage( ItemType.Fire_Level, "Max Level!\nAsterisk Relocated." );    // show Max level message
                 }
-                Message.GreenMessage( ItemType.Fire_Level, "Max Level!\nAsterisk Relocated." );        // show Max level message
             }
             else
             if( Item.GetNum( ItemType.Fire_Token ) >= 1 )
@@ -725,6 +791,7 @@ public class FPow : MonoBehaviour
                 RelocateAsterix = 1;                                                                    // Relocates a new asterix
                 Item.IgnoreMessage = true;
                 Building.AddItem( true, ItemType.Fire_Token, -1 );                                      // Charge Fire Token
+                UpdateTagSorting();                                                                     // Updates Tag Sorting
                 if( upgradeSuccess )                                                                    // if upgrade succeeded
                 {
                     Item.IgnoreMessage = true;
@@ -794,8 +861,9 @@ public class FPow : MonoBehaviour
             if( SortTargets.Contains( lev ) )
                 ini = "**L";
         }
-
-        string nm = ini + Level + " - " + Type.ToString();                                               // Level and name
+        int val = Level;
+        if( TagWeight > 0 ) { ini = "R"; val = Rarity; }
+        string nm = ini + val + " - " + Type.ToString();                                               // Level and name
         nm = nm.Replace( '_', ' ' );
 
         string worntxt = " [Worn]";                                                                      // Worn string
@@ -842,7 +910,9 @@ public class FPow : MonoBehaviour
                     Type == FPowType.Stat_Carryover         ||
                     Type == FPowType.Kill_Worn_Chance       ||
                     Type == FPowType.Bonus_Uses             ||
-                    Type == FPowType.Receive_Gift           )
+                    Type == FPowType.Tag_Level              ||
+                    Type == FPowType.Tag_Bubbles            ||
+                    Type == FPowType.Receive_Gift )
                 {
                     if( lev > 0 )
                         nm += worntxt;
@@ -949,19 +1019,19 @@ public class FPow : MonoBehaviour
     }
     private static void InitPowers()
     {
-        G.Farm.FirePow = new List<FPow>();         // create new list of Fire Powers;  initialize the list
+        G.Farm.FirePow = new List<FPow>();                  // create new list of Fire Powers;  initialize the list
         for( int i = 0; i < Max_Level; i++ )
-            G.Farm.FirePow.Add( null );            // add null slots up to Max_Level;  prepare empty slots
+            G.Farm.FirePow.Add( null );                     // add null slots up to Max_Level;  prepare empty slots
 
         foreach( var p in G.Farm.FirePowMaster )
         {
-            p.ResortCount = p.TotalResort;         // reset ResortCount to default;  ensures each power can be resorted
-            p.UsesCount = 0;                       // reset UsesCount;  power starts unused
+            p.ResortCount = p.TotalResort;                  // reset ResortCount to default;  ensures each power can be resorted
+            p.UsesCount = 0;                                // reset UsesCount;  power starts unused
         }
 
         for( int i = 0; i < Max_Level; i++ )
         {
-            SortPower( i + 1, false );             // sort power into slot i; // false = don't reset old slot because it's empty
+            SortPower( i + 1, false );                     // sort power into slot i; // false = don't reset old slot because it's empty
         }
     }
 
@@ -1007,4 +1077,151 @@ public class FPow : MonoBehaviour
             LastPow.Use( 1 );
         }
     }
+
+    internal static void UpdateTentTags( Unit tent )
+    {
+        Tent = tent; 
+
+        for( int i = 0; i < 8; i++ )
+        {
+            tent.Body.BabySprite[ i ].gameObject.SetActive( false );                      // Disable all
+            tent.Body.TextList[ i ].gameObject.SetActive( false );
+        }
+
+        if( !Util.HasDada( G.Farm.TagPow ) )
+            return;
+
+
+        for( int i = 0; i < G.Farm.TagPowSlot.Count; i++ )                                // Enable only active tag slots
+        {
+            int slot = G.Farm.TagPowSlot[ i ];
+
+            if( slot < 0 || slot >= 8 )
+                continue;
+
+            tent.Body.BabySprite[ slot ].gameObject.SetActive( true );                    // enable tags
+            tent.Body.TextList[ slot ].gameObject.SetActive( true );
+            tent.Body.TextList[ slot ].text = "T" + G.Farm.TagPow[ i ].SortTagID;         // Power Level text
+        }
+    }
+
+    private static void UpdateTagSorting()
+    {
+        float chance = Util.GetCurveVal( TagLevel, 10, 25, 75, .8f );                     // Chance curve for sorting tag
+
+        G.Farm.TagPow = new List<FPow>();
+        G.Farm.TagPowSlot = new List<int>();
+        if( Util.Chance( chance ) == false )
+            return;
+
+        float tagsc = Util.GetCurveVal( TagBubbles, 10, 1, 4, 1f );                       // Chance curve for tag number
+
+        int tags = Util.FloatSort( tagsc );                                               // number of tags
+
+        List<int> freeSlots = new List<int>() { 0, 1, 2, 3, 4, 5, 6, 7 };                 // directions
+        List<int> freeLevels = new List<int>() { 1, 2, 3, 4, 5 };                         // L1..L5
+        
+        EDirection hslot = Util.GetVectorDir( G.Hero.Pos - Tent.Pos );                    // Find slot id
+        freeSlots.Remove( ( int ) hslot );                                                // do not create tag on hero position
+
+        TagTarget = 1;                                                                    // Default slot to overwrite
+
+        for( int i = 0; i < tags; i++ )
+        {
+            if( freeSlots.Count == 0 || freeLevels.Count == 0 )        // limitations
+                break;
+
+            int li = Random.Range( 0, freeLevels.Count );
+            int level = freeLevels[ li ];                              // unique level
+            freeLevels.RemoveAt( li );                                 // prevent repeat
+
+            FPow p = SortTagPower( level );                            // OFFER only
+            if( p == null )
+                continue;
+
+            p.SortTagID = i + 1;                                       // Attrib sort tag id
+
+            int si = Random.Range( 0, freeSlots.Count );
+            int slot = freeSlots[ si ];                                // unique slot
+            freeSlots.RemoveAt( si );
+
+            G.Farm.TagPow.Add( p );
+            G.Farm.TagPowSlot.Add( slot );                             // Add to lists
+        }
+    }
+
+    public static FPow SortTagPower( int lev )
+    {
+        List<FPow> pl = G.Farm.FirePowMaster;                         // master list
+        List<int> idlist = new List<int>();                           // list of valid IDs
+        List<float> fact = new List<float>();                         // corresponding weights
+
+        float rarec = Util.GetCurveVal( TagLevel, 10, 10, 50, 1f );   // Chance curve for tag number
+        bool rare = Util.Chance( rarec );
+
+        for( int i = 0; i < pl.Count; i++ )
+        {            
+            if( ( pl[ i ].ResortCount >= 1 ||                         // skip if already in FirePow or already sorted for TagPow, and check level
+                G.Farm.FirePow.Contains( pl[ i ] ) == false )
+                && !G.Farm.TagPow.Contains( pl[ i ] ) )               // avoid duplicates
+            {
+                FPow p = pl[ i ];
+                float weight = p.TagWeight;                           // base weight
+
+                if( p.Rarity > 1 )                                    // only reduce for rare tags
+                {
+                    int diff = p.Rarity - lev;                        // how much rarer than the level
+                    if( diff > 0 )
+                        weight *= Mathf.Pow( 0.5f, diff );            // halve weight for each step above level
+                }
+                idlist.Add( i );                                      // add valid ID
+                fact.Add( weight );                                   // add corresponding weight
+            }
+        }
+        if( idlist.Count == 0 ) return null;                          // nothing to offer
+
+        int id = Util.Sort( fact );                                   // weighted sort
+        id = idlist[ id ];                                            // convert to actual index
+
+        if( id < 0 || id >= pl.Count ) return null;                   // bug protection
+
+        return pl[ id ];                                              // return chosen power
+    }
+
+    private static bool UpdateTagBump()
+    {
+        Unit bump = Map.I.GetUnit( ETileType.BUILDING, Map.I.BumpTarget );    // Tent bump;
+        if( bump == null || bump.Building.Type != BuildingType.Tent )
+            return false;                                                     // no tent;
+
+        EDirection dir = Util.GetVectorDir( G.Hero.Pos - Tent.Pos );          // direction of bump;
+        int slot = ( int ) dir;
+        int idx = G.Farm.TagPowSlot.IndexOf( slot );
+        if( idx == -1 )
+            return false;                                                     // no tag in this slot;
+
+        FPow p = G.Farm.TagPow[ idx ];
+        if( p == null )
+            return false;                                                     // safety;
+
+        int lev = TagTarget;                                                  // level to assign;
+        if( G.Farm.FirePow[ lev - 1 ] != null )                               // reset old power;
+            G.Farm.FirePow[ lev - 1 ].ResetData();
+
+        G.Farm.FirePow[ lev - 1 ] = p;                                        // assign new power;
+
+        float v = Util.Percent( BonusUses, p.TotalUses );                     // apply bonus uses;
+        p.BonusTotalUses = Util.FloatSort( v );
+
+        if( p.TotalResort != -1 && p.ResortCount > 0 )                        // consume resort;
+            p.ResortCount--;
+
+        G.Farm.TagPow = new List<FPow>();                                     // reset power;
+        G.Farm.TagPowSlot = new List<int>();                                  // reset slot;
+        Map.I.BumpTarget = new Vector2( -1, -1 );                             // reset bump;
+        UpdateTagSorting();                                                   // sort more tags
+        return true;                                                          // success;
+    }
+
+
 }

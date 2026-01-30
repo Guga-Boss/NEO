@@ -24,6 +24,10 @@ public partial class Farm : MonoBehaviour
     [TabGroup( "Fire" )]
     public List<FPow> FirePow = new List<FPow>();
     [TabGroup( "Fire" )]
+    public List<FPow> TagPow = new List<FPow>();
+    [TabGroup( "Fire" )]
+    public List<int> TagPowSlot = new List<int>();
+    [TabGroup( "Fire" )]
     public List<FPow> FirePowMaster = new List<FPow>();
     [TabGroup( "Main" )]
     public Vector2 NextPosition, GrabPosition;
@@ -449,8 +453,15 @@ public partial class Farm : MonoBehaviour
 
         ItemType it = SelectedItem;
         if( force != ItemType.NONE ) it = force;
-        if( Item.IsPlagueMonster( ( int ) it ) == true ) return false;
-        
+        if( Item.IsPlagueMonster( ( int ) it ) == true ) 
+            return false;
+
+        if( it != ItemType.NONE )
+        {
+            Item item = G.GIT( it );
+            G.Farm.CurrentToolbar = item.Category;                                                                     // Auto choose inventory window
+        }
+
         if( ga2 == null )
         {
             if( amt == -1 ) return false;                                                                              // Empty target, place new

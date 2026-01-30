@@ -597,7 +597,7 @@
                 },
                 {
                     "key": "FIRE_STAT_EXTRA_POWERS_SHOWN",
-                    "value": "By default, you can only see the next power beyond your current level. Upgrade this to see more."
+                    "value": "By default, you cannot see powers beyond your current level. Upgrade this to see more."
                 },
                 {
                     "key": "FIRE_STAT_CARRYOVER",
@@ -610,6 +610,14 @@
                 {
                     "key": "FIRE_STAT_BONUS_USES",
                     "value": "Increases the number of Uses new powers have, extending their lifespan before they become worn."
+                },
+                {
+                    "key": "FIRE_STAT_TAG_LEVEL",
+                    "value": "When Fire Tokens are spent, Tags may appear around the tent. \nBumping a Tag allows you to select a replacement to L1 power at no cost.\nIncreasing this level improves Tag rarity, and spawn chance."
+                },
+                {
+                    "key": "FIRE_STAT_TAG_BUBBLES",
+                    "value": "Upgrade this to increase the number of tags generated when tag sorting succeeds."
                 },
                 {
                     "key": "FIRE_NOTHING",
