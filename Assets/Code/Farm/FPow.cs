@@ -461,8 +461,8 @@ public class FPow : MonoBehaviour
         if( bn != 0 )
         {
             Item.ForceMessage = true;
-            Building.AddItem( true, LastPow.AffectedItem, bn ); 
-                LastPow.Use( bn );
+            Building.AddItem( true, LastPow.AffectedItem, bn );
+            LastPow.Use( bn );
         }
     }
 
@@ -669,8 +669,12 @@ public class FPow : MonoBehaviour
             if( master[ i ].ResortCount >= 1 ||
                 G.Farm.FirePow.Contains( master[ i ] ) == false )
             {
+                float weight = master[ i ].Weight;
+                if( weight <= 0 ) continue;                                     // ignores powers weightless
+                if( master[ i ].TagWeight > 0 ) continue;                       // ignores tag powers
+
                 idlist.Add( i );                                                // attrib ID
-                fact.Add( master[ i ].Weight );                                 // atrib weight for each level
+                fact.Add( master[ i ].Weight );                                 // attrib weight for each level
             }
         }
 
@@ -752,8 +756,6 @@ public class FPow : MonoBehaviour
             if( Building.AddItem( true, ItemType.Fire_Token, -1 ) == 0 ) 
                 return true;                                                                           // Charge Fire Token
 
-            UpdateTagSorting();                                                                        // Updates Tag Sorting
-
             int id = Random.Range( 0, SortTargets.Count );                                             // Pick from the list
             id = SortTargets[ id ];
 
@@ -765,6 +767,8 @@ public class FPow : MonoBehaviour
             FPow p = FPow.SortPower( id );
             if( p ) 
                 Message.GreenMessage( ItemType.Fire_Level, "New: " + p.GetName() );                    // sorted msg
+
+            UpdateTagSorting();                                                                        // Updates Tag Sorting
             return true;            
         }
 
@@ -781,8 +785,8 @@ public class FPow : MonoBehaviour
                 if( Building.AddItem( true, ItemType.Fire_Token, -1 ) != 0 )                           // Charge Fire Token
                 {
                     RelocateAsterix = 1;                                                               // Relocates a new asterix
-                    UpdateTagSorting();                                                                // Updates Tag Sorting
                     Message.GreenMessage( ItemType.Fire_Level, "Max Level!\nAsterisk Relocated." );    // show Max level message
+                    UpdateTagSorting();                                                                // Updates Tag Sorting
                 }
             }
             else
@@ -791,7 +795,6 @@ public class FPow : MonoBehaviour
                 RelocateAsterix = 1;                                                                    // Relocates a new asterix
                 Item.IgnoreMessage = true;
                 Building.AddItem( true, ItemType.Fire_Token, -1 );                                      // Charge Fire Token
-                UpdateTagSorting();                                                                     // Updates Tag Sorting
                 if( upgradeSuccess )                                                                    // if upgrade succeeded
                 {
                     Item.IgnoreMessage = true;
@@ -801,7 +804,8 @@ public class FPow : MonoBehaviour
                     TrialCount = 0;                                                                     // reset trial count
                     Controller.CreateMagicEffect( bump.Pos );                                           // Magic FX  
                 }
-                else if( downgradeSuccess && Item.GetNum( ItemType.Fire_Level ) > 0 )                   // if downgrade succeeded and level > 0
+                else 
+                if( downgradeSuccess && Item.GetNum( ItemType.Fire_Level ) > 0 )                        // if downgrade succeeded and level > 0
                 {
                     Item.AddItem( ItemType.Fire_Level, -1 );                                            // decrement Fire Level
                     Message.RedMessage( ItemType.Fire_Level, "DN!" );                                   // show downgrade message
@@ -814,6 +818,7 @@ public class FPow : MonoBehaviour
                     Message.WhiteMessage( ItemType.Fire_Level, "Lucky Streak: " +
                     c + "%"  + " (+" + LuckyStreakStep + "%)");                                         // Msg
                 }
+                UpdateTagSorting();                                                                     // Updates Tag Sorting
             }
         }
 
@@ -1167,6 +1172,7 @@ public class FPow : MonoBehaviour
             {
                 FPow p = pl[ i ];
                 float weight = p.TagWeight;                           // base weight
+                if( p.Weight > 0 ) continue;                          // ignores normal powers
 
                 if( p.Rarity > 1 )                                    // only reduce for rare tags
                 {
