@@ -701,8 +701,8 @@ public partial class Farm : MonoBehaviour
         if( Item.IsPlagueMonster( fun.Variation, true ) == false ) return false;
         Vector2 frontNew = to + ( Manager.I.U.DirCord[ ( int ) G.Hero.Dir ] );
         if( CanCreatePlagueMonster( frontOld, frontNew, false ) == false ) return false;
-        if( G.Hero.CanMoveFromTo( false, from, to, G.Hero ) == false ) return false;
         Controller.ForceDiagonalMovement = true;
+        if( G.Hero.CanMoveFromTo( false, from, to, G.Hero ) == false ) return false;
         Item it = G.GIT( fun.Variation );
         Unit mn = CreateMonster( frontNew, it );                                                                     // Move the monster
         mn.Control.AnimationOrigin = frontOld;
@@ -723,6 +723,7 @@ public partial class Farm : MonoBehaviour
         if( Map.I.CheckArrowBlockFromTo( from, to, G.Hero ) == true ) return false;
         GrabActivated = !GrabActivated;
         ActivateIndicator( GrabActivated, ref GrabPlagueIndicator, ref GrabPosition, un );
+        MasterAudio.PlaySound3DAtVector3( "Click 1", G.Hero.Pos, 1, .5f );
         return true;
     }
 
@@ -730,13 +731,21 @@ public partial class Farm : MonoBehaviour
     {
         if( dead && spr.gameObject.activeSelf )
         if( un == null || Util.EqualPos( ind, un.Pos ) == false ) return;
+        
+        if( active != spr.gameObject.activeSelf )
+        {
+            float pitch = 1;
+            if( !active ) pitch = .5f;
+            MasterAudio.PlaySound3DAtVector3( "Click 1", G.Hero.Pos, 1, pitch );        // Sound FX
+            Map.I.CreateExplosionFX( un.Pos, "Smoke Cloud", "" );                       // FX
+        }
+
         spr.gameObject.SetActive( active );
         if( active )
         {
             spr.transform.parent = un.Graphic.transform;
             spr.transform.localPosition = new Vector3( 0, 0, -3 );
             ind = un.Pos;
-            MasterAudio.PlaySound3DAtVector3( "Click 1", G.Hero.Pos );
         }
         else
         {
