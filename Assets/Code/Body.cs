@@ -854,8 +854,8 @@ public class Body : MonoBehaviour
 
         if( Unit.UnitType == EUnitType.HERO )
         {
-            MasterAudio.PlaySound3DAtVector3( "Hero Damage", transform.position );                        // Hero Damage sound FX
-            if( Unit.Control.PathFinding.Path.Count > 0 ) Unit.Control.PathFinding.Path.Clear();
+            if( Unit.Control.PathFinding.Path.Count > 0 ) 
+                Unit.Control.PathFinding.Path.Clear();
         }
         else
         if( Unit.UnitType == EUnitType.MONSTER )
@@ -973,6 +973,11 @@ public class Body : MonoBehaviour
                             Unit.Kill();
                     }
             }
+        }
+        else    // HP > 0 - Still alive
+        {
+            if( Unit.UnitType == EUnitType.HERO )
+                MasterAudio.PlaySound3DAtVector3( "Hero Damage", transform.position );                            // Hero Damage sound FX
         }
 
         if( Manager.I.GameType == EGameType.CUBES )
@@ -1270,6 +1275,7 @@ public class Body : MonoBehaviour
     public static void CreateBloodSpilling( Vector2 pos, Unit un )
     {
         Transform tr = PoolManager.Pools[ "Pool" ].Spawn( "Blood Spilling" );
+        tr.transform.parent = Map.I.EffectFolder.transform;
         tr.position = new Vector3( pos.x, pos.y, -6 );
         tr.eulerAngles = new Vector3( 0, 0, Random.Range( 0, 360 ) );
         ParticleSystem pr = tr.gameObject.GetComponent<ParticleSystem>();
@@ -1277,6 +1283,7 @@ public class Body : MonoBehaviour
         pr.Play();
 
         tr = PoolManager.Pools[ "Pool" ].Spawn( "Explosion 1" );
+        tr.transform.parent = Map.I.EffectFolder.transform;
         tr.position = new Vector3( pos.x, pos.y, -6 );
         tr.eulerAngles = new Vector3( 0, 0, Random.Range( 0, 360 ) );
         pr = tr.gameObject.GetComponent<ParticleSystem>();

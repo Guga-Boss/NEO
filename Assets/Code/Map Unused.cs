@@ -1117,6 +1117,7 @@ public partial class Map : MonoBehaviour
         LineRenderer lr = tr.GetComponent<LineRenderer>();
         LightningBoltScript lb = tr.GetComponent<LightningBoltScript>();
         LightningBoltScript old = lb;
+        lb.transform.parent = EffectFolder.transform;
         lb.Start();
         lb.type = type;
         lb.Lifetime = 2;
@@ -1137,11 +1138,13 @@ public partial class Map : MonoBehaviour
             lb.Target = new Vector3( to.Pos.x, to.Pos.y, -5 );
             lb.RaftGroupID = to.Control.RaftGroupID;
         }
-        if( type == "Electric Fog" ) lb.Lifetime = 99999;
+        if( type == "Electric Fog" ) 
+            lb.Lifetime = float.MaxValue;
 
         tr = PoolManager.Pools[ "Pool" ].Spawn( "Lightning Bolt 2" );
         lr = tr.GetComponent<LineRenderer>();
         lb = tr.GetComponent<LightningBoltScript>();
+        lb.transform.parent = EffectFolder.transform;
         lb.Start();
         lb.type = type;
         lb.Lifetime = 2;
@@ -1160,8 +1163,8 @@ public partial class Map : MonoBehaviour
             lb.Target = new Vector3( to.Pos.x, to.Pos.y, -5 );
             lb.RaftGroupID = to.Control.RaftGroupID;
         }
-        if( type == "Electric Fog" ) lb.Lifetime = 99999;
-        if( type == "Plant" ) lb.Lifetime = 99999;
+        if( type == "Electric Fog" ) lb.Lifetime = float.MaxValue;
+        if( type == "Plant" ) lb.Lifetime = float.MaxValue;
         if( type != "Cube Cleared" )
         if( type != "Shield" )
         if( type != "Plant" )

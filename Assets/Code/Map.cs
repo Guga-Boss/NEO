@@ -65,7 +65,7 @@ public partial class Map : MonoBehaviour
     [TabGroup( "Link" )]
     public List<ItemType> TechEditorItemList;
     [TabGroup( "Link" )]
-    public GameObject MonsterUnitsFolder, GaiaUnitsFolder, HeroSpells,
+    public GameObject MonsterUnitsFolder, GaiaUnitsFolder, HeroSpells, EffectFolder,
         AreasFolder, GarbageFolder, ForestObj, WaterObj, PoolingFolder, DecorLayer1, DecorLayer2;
     [TabGroup( "Link" )]
     public ParticleSystem SnowParticle, RainParticle, DropsParticle, WindParticle, FireFliesParticle, FogParticle, LavaParticle;

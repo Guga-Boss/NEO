@@ -1023,7 +1023,6 @@ namespace DarkTonic.MasterAudio {
             if (!SceneHasMasterAudio) {
                 return null;
             }
-
             if (SoundsReady) {
                 return PlaySoundAtVolume(sType, volumePercentage, sourcePosition, pitch, null, variationName, false,
                     delaySoundTime, true, true);

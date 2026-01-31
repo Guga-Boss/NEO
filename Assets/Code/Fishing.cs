@@ -2136,6 +2136,7 @@ public partial class Map : MonoBehaviour
     {
         Transform tr = PoolManager.Pools[ "Pool" ].Spawn( type );                                        // FX
         tr.position = new Vector3( tg.x, tg.y, -6 );
+        tr.transform.parent = Map.I.EffectFolder.transform;
         ParticleSystem pr = tr.gameObject.GetComponent<ParticleSystem>();
         pr.Stop();
         pr.Play();

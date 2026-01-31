@@ -511,6 +511,16 @@ public class GS : MonoBehaviour
     }
     private void InitLoading()
     {
+        SpawnPool pool = PoolManager.Pools[ "Pool" ];                                       // Despawn effects from effect folder
+        Transform folder = Map.I.EffectFolder.transform;
+        for( int i = folder.childCount - 1; i >= 0; i-- )
+        {
+            Transform filho = folder.GetChild( i );
+            if( pool.IsSpawned( filho ) )
+                pool.Despawn( filho );
+        }
+
+        MasterAudio.StopAllOfSound( "Activate Key" );                                      
         CurrentButcherCoins = Item.GetNum( ItemType.Res_Butcher_Coin );
         Map.I.RM.ModedUnitlList = new List<Unit>();
         UI.I.EnableOverlay( new Color( 0, 0, 1, 1f ), 1.5f );                              // Activates Overlay effect

@@ -319,7 +319,6 @@ namespace DigitalRuby.LightningBolt
                     EndPosition = Vector3.MoveTowards( EndPosition, StartPosition, 8 * Time.deltaTime );
                 else
                     EndPosition = Vector3.MoveTowards( EndPosition, Target, 30 * Time.deltaTime );
-                if( Lifetime <= 0 ) Kill();
             }
             else
             {
@@ -347,6 +346,8 @@ namespace DigitalRuby.LightningBolt
                     }    
                 }
             }
+            if( Lifetime <= 0 ) 
+                Kill();
         }
 
         public void Kill()
