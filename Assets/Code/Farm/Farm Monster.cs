@@ -608,6 +608,7 @@ public partial class Farm : MonoBehaviour
 
     public void UpdatePlagueMonsterMovingAway()
     {
+        if( Manager.I.GameType == EGameType.NAVIGATION ) return;
         bool neigh = false;
         for( int i = 0; i < 8; i++ )
         {
