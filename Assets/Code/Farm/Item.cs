@@ -1161,7 +1161,7 @@ public class Item : MonoBehaviour
             return it.BaseProductionLimit + it.ExtraProductionLimit;
 
             case EVarType.Production_Cap:
-            return it.BaseProductionCap + it.ExtraProductionCap;
+            return it.BaseProductionCap + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_CAP );//             it.ExtraProductionCap;
 
             case EVarType.Production_Boost_Chance:
             return it.BaseProductionBoostChance + it.ExtraProductionBoostChance;
