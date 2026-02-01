@@ -821,31 +821,40 @@ public class Blueprint : MonoBehaviour
 
        List<Vector2> tgl = new List<Vector2>();
        int targetStackSize = 0;
+       int requiredItems = 0;
 
        for( int y = 0; y < 5; y++ )                                                                                                // Loop through every position
        for( int x = 0; x < 5; x++ )
            {
                if( bp.ItemMatrix[ x, y ] != ItemType.NONE )                                                                        // Compare 2 matrices
                {
+                   requiredItems += bp.ItemAmount[ x, y ];
+
                    bool match = false;
 
-                   if( _item[ x, y ] == bp.ItemMatrix[ x, y ] && _amount[ x, y ] >= bp.ItemAmount[ x, y ] )                        // normal item 
+                   if( _item[ x, y ] == bp.ItemMatrix[ x, y ] && _amount[ x, y ] >= bp.ItemAmount[ x, y ] )                        // normal item match!
                        match = true;
-                    
-                   else if( _custom[ x, y ] != EBPIconType.NONE )
+
+                   else if( bp.ItemMatrix[ x, y ] == ItemType.Tl_Blueprint_Icon_1 ||
+                            bp.ItemMatrix[ x, y ] == ItemType.Tl_Blueprint_Icon_2 )
                    {
-                       if( ( _item[ x, y ] == ItemType.Tl_Blueprint_Icon_1 && 
-                             _custom[ x, y ] == sd.BPCustomIconType1 ) ||                                                          // custom type 1
-                           ( _item[ x, y ] == ItemType.Tl_Blueprint_Icon_2 && 
-                             _custom[ x, y ] == sd.BPCustomIconType2 ) )                                                           // custom type 2
+                       if( _custom[ x, y ] != EBPIconType.NONE )
                        {
-                           if( _amount[ x, y ] >= bp.ItemAmount[ x, y ] ) match = true;
+                           if( ( bp.ItemMatrix[ x, y ] == ItemType.Tl_Blueprint_Icon_1 &&                                          // Custom icon 1
+                                 _custom[ x, y ] == sd.BPCustomIconType1 ) ||
+                               ( bp.ItemMatrix[ x, y ] == ItemType.Tl_Blueprint_Icon_2 &&                                          // Custom icon 2
+                                 _custom[ x, y ] == sd.BPCustomIconType2 ) )
+                           {
+                               if( _amount[ x, y ] >= bp.ItemAmount[ x, y ] )
+                                   match = true;                                                                                   // custom icom match!
+                           }
                        }
                    }
 
                    if( match )
                    {
-                       for( int i = 0; i < bp.ItemAmount[ x, y ]; i++ ) tgl.Add( new Vector2( x, y ) );                            // Success: add to Item list
+                       for( int i = 0; i < bp.ItemAmount[ x, y ]; i++ )
+                           tgl.Add( new Vector2( x, y ) );                                                                         // Success: add to Item list
                        if( tg + new Vector2( x, y ) == LastPlacedPos )
                            targetStackSize = bp.ItemAmount[ x, y ];
                    }
@@ -859,7 +868,7 @@ public class Blueprint : MonoBehaviour
 
            skip:
 
-           if( tgl != null && tgl.Count > 0 )
+       if( tgl != null && tgl.Count == requiredItems )                                                                             // SUCCESS!!!
            {
                Unit un = Map.I.GetUnit( ETileType.ITEM, LastPlacedPos );
                if( un )                                                                                                            // Building over Item Stack
