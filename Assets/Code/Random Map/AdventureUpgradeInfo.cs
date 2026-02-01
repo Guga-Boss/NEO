@@ -199,7 +199,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
 
         return val;
     }
-    private float GetEffectAmount( int level )
+    public float GetEffectAmount( int level )
     {
         if( IsRecurring() )
         {
@@ -216,6 +216,22 @@ public class AdventureUpgradeInfo : MonoBehaviour
                 else break;
             }
             return val;
+        }
+        return UpgradeEffectAmount;
+    }
+    public float GetEffectAtLevel( int level )
+    {
+        if( IsRecurring() )
+        {
+            if( level <= 0 )
+                return 0f;
+
+            int index = level - 1;                                                      // Level 1 usa índice 0
+
+            if( index < UpgradeRecuringEffect.Count )
+                return UpgradeRecuringEffect[ index ];
+            else
+                return UpgradeRecuringEffect[ UpgradeRecuringEffect.Count - 1 ];        // if list is partial, use last value
         }
         return UpgradeEffectAmount;
     }
@@ -244,16 +260,9 @@ public class AdventureUpgradeInfo : MonoBehaviour
         if( Application.platform == RuntimePlatform.WindowsEditor )
         if( au.TechScope == ETechScope.All_Quests ) msg += "(G) ";
 
-        float amt = au.UpgradeEffectAmount;
-        if( au.IsRecurring() )
-        {
-            ItemType it = ItemType.TechPurchase_0_0 + au.X + ( au.Y * TechButton.SX );
-            int purchased = ( int ) Item.GetNum( Inventory.IType.Inventory, it, Map.I.RM.CurrentAdventure );
-
-            if( purchased >= au.UpgradeRecuringEffect.Count )
-                purchased = au.UpgradeRecuringEffect.Count - 1;
-            amt = au.UpgradeRecuringEffect[ purchased ];
-        }
+        ItemType it = ItemType.TechPurchase_0_0 + au.X + ( au.Y * TechButton.SX );
+        int purchased = ( int ) Item.GetNum( Inventory.IType.Inventory, it, Map.I.RM.CurrentAdventure );
+        float amt = au.GetEffectAtLevel( purchased + 1 );                                                     // Get Effect power
 
         switch( au.UpgradeType )
         {

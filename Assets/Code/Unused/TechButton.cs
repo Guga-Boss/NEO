@@ -515,6 +515,8 @@ public class TechButton : MonoBehaviour
 
             LastPurchaseID = au.TechID;
             LastPurchaseTimeCount = 0;
+
+            float eff = au.GetEffectAtLevel( level );                                                                    // Get Effect power
             if( au.TotalCollected == false )
                 Item.AddItem( Inventory.IType.Inventory, au.UpgradeItem1Type, cost, true );
             if( au.PurchaseChance > 0 )                                                                                  // Purchase chance
@@ -556,7 +558,7 @@ public class TechButton : MonoBehaviour
             {
                 float p = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.TRADE_PROFIT, au.ItemAffected );    // Trade Profit extra goods
 
-                Item.AddItem( au.ItemAffected, au.UpgradeEffectAmount + p );                                          
+                Item.AddItem( au.ItemAffected, eff + p );                                          
                 if( au.TechTotalTime < 1 && au.TechTotalTime > 0 )                 
                 {
                     ItemType itt = ItemType.TechPurchase_0_0 + techX + ( techY * TechButton.SX );                 // set a total time < 1 and trade will be infinite, timer can also be provided
@@ -568,27 +570,27 @@ public class TechButton : MonoBehaviour
             }
             if( au.UpgradeType == EAdventureUpgradeType.UPGRADE_MAX_CAPACITY )                                    // Increase max item capacity
             {
-                G.GIT( au.ItemAffected ).ExtraCapacity += au.UpgradeEffectAmount;
+                G.GIT( au.ItemAffected ).ExtraCapacity += eff;
             }
             if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT )                                   // Increase max Production Limit
             {
-                G.GIT( au.ItemAffected ).ExtraProductionLimit += ( int ) au.UpgradeEffectAmount;
+                G.GIT( au.ItemAffected ).ExtraProductionLimit += ( int ) eff;
             }
             if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_CAP )                                     // Increase max item capacity
             {
-                G.GIT( au.ItemAffected ).ExtraProductionCap += ( int ) au.UpgradeEffectAmount;
+                G.GIT( au.ItemAffected ).ExtraProductionCap += ( int ) eff;
             }
             if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_BOOST_CHANCE )                            // Increase item production boost chance
             {
-                G.GIT( au.ItemAffected ).ExtraProductionBoostChance += ( int ) au.UpgradeEffectAmount;
+                G.GIT( au.ItemAffected ).ExtraProductionBoostChance += ( int ) eff;
             }
             if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME )                              // item production time
             {
-                G.GIT( au.ItemAffected ).ExtraProductionTotalTime += ( int ) au.UpgradeEffectAmount;
+                G.GIT( au.ItemAffected ).ExtraProductionTotalTime += ( int ) eff;
             }
             if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_ACTIVATED )                               // item production activation
             {
-                G.GIT( au.ItemAffected ).ProductionPurchased = ( int ) au.UpgradeEffectAmount;
+                G.GIT( au.ItemAffected ).ProductionPurchased = ( int ) eff;
             }
         }
         else
