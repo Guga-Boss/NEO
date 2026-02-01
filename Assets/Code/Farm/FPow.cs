@@ -98,7 +98,7 @@ public class FPow : MonoBehaviour
             { Stat.Downgrade_Chance,    25f },
             { Stat.Sort_Candidates,      3f },
             { Stat.Extra_Powers_Shown,   0f },
-            { Stat.Stat_Carryover,       2f },
+            { Stat.Stat_Carryover,       4f },
             { Stat.Kill_Worn_Chance,     0f },
             { Stat.Bonus_Uses,           0f },
             { Stat.Tag_Level,            0f },
@@ -155,6 +155,8 @@ public class FPow : MonoBehaviour
             FPow.UpdateCycle();
 
         UpdateTargetSorting();                                                                          // Updates Target Sorting
+
+        Item.Clamp( ItemType.Fire_Level, 0, Max_Level );                                                // Clamp Fire Level for Safety
 
         if( UpdateText || Map.I.AdvanceTurn )
         {
@@ -512,7 +514,6 @@ public class FPow : MonoBehaviour
             "Stat Carryover: " + Util.GetName( s.ToString() ) );                // Carryover Messages    
         }
 
-        Item.Clamp( ItemType.Fire_Level, 0, Max_Level );
         UpdateText = true;
         StatCarryover = ( int ) DefaultValues[ Stat.Stat_Carryover ];           // Reset Carryover
         return true;
