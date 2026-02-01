@@ -523,9 +523,19 @@ public class Attack : MonoBehaviour
         }
 
         if( Unit.UnitType == EUnitType.MONSTER )                                              // No monster attack on tiles with eggs
+        if( Unit.TileID != ETileType.FROG )
         {
-            Unit frog = Map.I.GetUnit( ETileType.FROG, G.Hero.GetFront() );                   // new: frontfacing frog geive immunity against stepping monsters
-            if( frog && Map.Stepping() ) return 0;
+            if( Map.Stepping() )
+            {
+                Unit frog = Map.I.GetUnit( ETileType.FROG, G.Hero.GetFront() );               // new: frontfacing frog gives immunity against stepping monsters
+                if( frog ) return 0;
+                for( int i = 0; i < 8; i++ )                                                  
+                {
+                    Vector2 ftg = G.Hero.Pos + Map.I.KnightTG[ i ];
+                    if( Map.I.GetUnit( ETileType.FROG, ftg ) )                                // Hero block frog gives immunity against stepping monsters
+                        return 0;
+                }
+            }
 
             int num = BabyData.GetNumActiveAlgaeinTile( tg, EAlgaeBabyType.EGG );             // Algae in tile
             if( num > 0 ) return 0;
