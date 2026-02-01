@@ -79,6 +79,7 @@ public class BluePrintWindow : MonoBehaviour
         if( Util.Chance( chc ) )
         {
             Message.GreenMessage( ItemType.Fire_Token, "Blueprint Refunded!" );
+            FPow.LastPow.Use( 1 );
         }
         else
         {
