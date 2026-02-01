@@ -762,6 +762,10 @@
                 {
                     "key": "FIRE_EXTRA_EGGS_LAID",
                     "value": "Chicken lay extra eggs."
+                },
+                {
+                    "key": "FIRE_TAG_LEVEL",
+                    "value": "Stat: Improves Tag Level."
                 }
             ]
         },
@@ -3004,7 +3008,7 @@
                 },
                 {
                     "key": "A2_QUEST_4_CUBE_5_MOD_1",
-                    "value": "Frogs are agile—but they have a major weakness:\n\n\nThe Frog Block!\n\n\nIf you quickly move into one of their 8 possible jump targets, you’ll block the jump and deal damage.\n\n\nStep onto a mud tile and hold your ground."
+                    "value": "Frogs are agile, but they have a major weakness:\n\n\nThe Frog Block!\n\n\nIf you quickly move into one of their 8 possible jump targets, you'll block the jump and deal damage.\n\n\nStep onto a mud tile and hold your ground."
                 },
                 {
                     "key": "A2_QUEST_4_CUBE_5_MOD_2",
@@ -3012,11 +3016,11 @@
                 },
                 {
                     "key": "A2_QUEST_4_CUBE_6_MOD_1",
-                    "value": "My Diary:\n\nIt seems that when I stare directly at a frog, facing him head-on, he just stares back without moving.\n\nFeels like I’m hypnotizing him! Heh.\n\n(TIP: Face a frog directly to delay its movement.)"
+                    "value": "My Diary:\n\r\nIt seems that when I stare directly at a frog, facing him head-on, he just stares back without moving.\n\r\nFeels like I’m hypnotizing him! Heh.\n\r\n(TIP: Face a frog directly to delay its movement. \nTest it: Quickly step onto the mud tile while facing West.)"
                 },
                 {
                     "key": "A2_QUEST_4_CUBE_6_MOD_2",
-                    "value": "Tip: You can delay a frog’s movement in two ways:\n\n1) -Occupy one of its 8 jump targets to prevent it from leaping.\n\n2) -Front-face the frog—just rotate and stare it down to freeze it in place."
+                    "value": "Tip: You can delay a frog’s movement in two ways:\n\n1) -Occupy one of its 8 jump targets to prevent it from leaping.\n\n2) -Front-face the frog. Just rotate and stare it down to freeze it in place."
                 },
                 {
                     "key": "A2_QUEST_4_CUBE_6_MOD_3",
@@ -3024,7 +3028,7 @@
                 },
                 {
                     "key": "A2_QUEST_4_CUBE_7_MOD_1",
-                    "value": "Strategy:\n\n1) -Frogs prefer to jump toward tiles that are directly faced by the hero.\n\n2) -Step onto the Raft Tile while facing either West or East.\n\n3) -Watch how the frog chooses the tile you’re facing as its preferred jump target,\n\neven if there are two valid options.\n\nNow, test this idea by facing both directions and observe how the frog reacts!"
+                    "value": "Strategy:\n\r\n1) -Frogs tend to choose jump targets that are directly faced by the hero.\n\r\n2) -Stand on the Raft Tile and rotate your character to face either West or East.\n\r\n3) -Notice that when two jump targets are valid, the frog will prefer the one you are facing.\n\r\nThis allows you to influence and predict where the frog will jump.\n\n\r\nNow, test this idea: Face West, observe the frog’s choice, then face East and compare the result."
                 },
                 {
                     "key": "A2_QUEST_4_CUBE_7_MOD_2",
@@ -3056,7 +3060,7 @@
                 },
                 {
                     "key": "A2_QUEST_4_CUBE_15_MOD_1",
-                    "value": "Experimental idea: Facing a frog head-on delays its movement by the number of turns shown on it. \n\nWhile doing so, you're also immune to nearby stepping monsters."
+                    "value": "Experimental Idea:\n\nFacing a frog head-on delays its movement by the number of turns shown on it.\n\nBoth staring at the frog or blocking its jump target grant immunity to nearby non-frog stepping monsters."
                 },
                 {
                     "key": "A2_QUEST_4_CUBE_15_MOD_2",
