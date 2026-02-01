@@ -2735,12 +2735,12 @@ public partial class Controller : MonoBehaviour
             }
 
             if( Unit.Body.SpawnBlocker )                                                                                // Spawn Roach blocker after attack
-                if( pos != Unit.Pos )
-                    if( Controller.GetBlocker( pos ) == null )
-                    {
-                        Map.I.SpawnFlyingUnit( pos, ELayerType.MONSTER, ETileType.BLOCKER, Unit );
-                        Unit.Body.SpawnBlocker = false;
-                    }
+            if( pos != Unit.Pos )
+            if( Controller.GetBlocker( pos ) == null )
+            {
+                Map.I.SpawnFlyingUnit( pos, ELayerType.MONSTER, ETileType.BLOCKER, Unit );
+                Unit.Body.SpawnBlocker = false;
+            }
         }
     }
 
