@@ -588,15 +588,26 @@ public class FPow : MonoBehaviour
             {
                 FPow p = G.Farm.FirePow[ i ];                                                            // Get current power
                 string nm = NGUIText.StripSymbols(p.GetName( i + 1 ));                                   // Clean existing color tags
+                bool asterisk = nm.Contains( "*" );                                                      // Check if special item
 
                 if( i < lev )
                 {
                     string cor = p.IsWorn() ? "[FFFF00]" : "[00FF00]";                                   // Yellow if worn, else Green
-                    UI.I.NavigationMapText.text += cor + nm + "[-]\n";                                   // Add to active mesh
+                    if( asterisk )
+                    {                        
+                        UI.I.NavigationMapText.text += cor + "[b]" + nm + "[/b][-]\n";                   // We MUST close tags in reverse order: [b][u]...[/u][/b]
+                    }
+                    else
+                    {
+                        UI.I.NavigationMapText.text += cor + "    " + nm + "[-]\n";                      // Standard line
+                    }
                 }
                 else
-                {
-                    UI.I.NavigationMapText2.text += "[FF0000]" + nm + "[-]\n";                           // Add to locked mesh in Red
+                {                   
+                    if( asterisk )
+                        UI.I.NavigationMapText2.text += "[FF0000][b]" + nm + "[/b][-]\n";                // Red mesh for locked items
+                    else
+                        UI.I.NavigationMapText2.text += "[FF0000]" + nm + "[-]\n";
                 }
             }
         }
@@ -897,7 +908,7 @@ public class FPow : MonoBehaviour
         {
             ini = "L";
             if( SortTargets.Contains( lev ) )
-                ini = "**L";
+                ini = "* L";
         }
         int val = Level;
         if( TagWeight > 0 ) { ini = "R"; val = Rarity; }
