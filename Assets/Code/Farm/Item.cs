@@ -1191,7 +1191,7 @@ public class Item : MonoBehaviour
         case EVarType.Total_Life_Time:
         it.TotalLifeTime = Blueprint.GetUseSum( var, it.Type );
         return Map.I.RM.RMD.RequiredItemLifeTime + it.BaseTotalLifeTime + it.TotalLifeTime +
-        ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_REQUIRED_ITEM_TIME );
+        ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_REQUIRED_ITEM_TIME, it.Type );
 
         case EVarType.Carry_Capacity:
 
