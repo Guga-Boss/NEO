@@ -197,7 +197,7 @@ public class FPow : MonoBehaviour
         if( SortCandidates >= 2 )
         {
             SortCandidates += ( int ) bn;                                                               // increase total sort targets;
-            LastPow.Use( bn );
+            LastPow.Use( 1 );
         }
 
         int missing = SortCandidates - SortTargets.Count;                                               // how many targets are missing;
@@ -262,67 +262,86 @@ public class FPow : MonoBehaviour
         string txt = "";
         if( page == 1 )
         {
-            txt += "Mouse Hover: Shows This page\n";
-            txt += "Hold Left Button: Shows Powers Description.\n";
-            txt += "Hold Right Button: Shows Fire Power Tutorial.\n\n";
+            txt += "[FFFF66]Mouse Hover:[-] Shows This page\n";
+            txt += "[FFFF66]Hold Left Button:[-] Shows Powers Description.\n";
+            txt += "[FFFF66]Hold Right Button:[-] Shows Fire Power Tutorial.\n\n";
 
-            txt += "----Current Stats---- \n\n";
+            txt += "[FFD966]----Current Stats----[-]\n\n";
 
-            float v;                                                                           // default value helper
-            v = DefaultValues[ Stat.Upgrade_Base_Chance ];                                     // get default
-            txt += "1) -Upgrade Base Chance 'UP': " + UpgradeBaseChance + "% (" + v + "%): ";  // current + default
-            txt += Language.Get( "FIRE_STAT_UPGRADE_BASE_CHANCE", "Main" ) + "\n\n";           // description
+            float v;                                                                                             // default value helper
+            string valColor;                                                                                     // value color helper
 
-            v = DefaultValues[ Stat.Lucky_Streak_Step ];                                       // get default
-            txt += "2) -Lucky Streak: " + LuckyStreakStep + "% (" + v + "%): ";                // current + default
-            txt += Language.Get( "FIRE_STAT_LUCKY_STREAK", "Main" ) + "\n\n";                  // description
+            v = DefaultValues [ Stat.Upgrade_Base_Chance ];                                                      // get default
+            valColor = ( UpgradeBaseChance == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "1) Upgrade Base Chance 'UP': " + UpgradeBaseChance + "%[-] (" + v + "%): ";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_UPGRADE_BASE_CHANCE", "Main" ) + "[-]\n\n";
 
-            v = DefaultValues[ Stat.Downgrade_Chance ];                                        // get default
-            txt += "3) -Downgrade Chance 'DN': " + DowngradeChance + "% (" + v + "%): ";       // current + default
-            txt += Language.Get( "FIRE_STAT_DOWNGRADE_CHANCE", "Main" ) + "\n\n";              // description
+            v = DefaultValues [ Stat.Lucky_Streak_Step ];                                                        // get default
+            valColor = ( LuckyStreakStep == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "2) Lucky Streak: " + LuckyStreakStep + "%[-] (" + v + "%): ";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_LUCKY_STREAK", "Main" ) + "[-]\n\n";
 
-            v = DefaultValues[ Stat.Sort_Candidates ];                                         // get default
-            txt += "4) -Sort Candidates: +" + SortCandidates + " (" + ( int ) v + ")\n";       // current + default
-            txt += Language.Get( "FIRE_STAT_TOTAL_SORT_TARGETS", "Main" ) + "\n\n";            // description
+            v = DefaultValues [ Stat.Downgrade_Chance ];                                                         // get default
+            valColor = ( DowngradeChance == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "3) Downgrade Chance 'DN': " + DowngradeChance + "%[-] (" + v + "%): ";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_DOWNGRADE_CHANCE", "Main" ) + "[-]\n\n";
 
-            v = DefaultValues[ Stat.Extra_Powers_Shown ];                                      // get default
-            txt += "5) -Extra Powers Shown: +" + ExtraPowersShown + " (" + ( int ) v + ")\n";  // current + default
-            txt += Language.Get( "FIRE_STAT_EXTRA_POWERS_SHOWN", "Main" ) + "\n\n";            // description
+            v = DefaultValues [ Stat.Sort_Candidates ];                                                          // get default
+            valColor = ( SortCandidates == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "4) Sort Candidates: +" + SortCandidates + "[-] (" + ( int ) v + ")\n";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_TOTAL_SORT_TARGETS", "Main" ) + "[-]\n\n";
 
-            v = DefaultValues[ Stat.Stat_Carryover ];                                          // get default
-            txt += "6) -Stat Carryover: +" + StatCarryover + " (" + ( int ) v + ")\n";         // current + default
-            txt += Language.Get( "FIRE_STAT_CARRYOVER", "Main" ) + "\n\n";                     // description
+            v = DefaultValues [ Stat.Extra_Powers_Shown ];                                                       // get default
+            valColor = ( ExtraPowersShown == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "5) Extra Powers Shown: +" + ExtraPowersShown + "[-] (" + ( int ) v + ")\n";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_EXTRA_POWERS_SHOWN", "Main" ) + "[-]\n\n";
 
-            v = DefaultValues[ Stat.Kill_Worn_Chance ];                                        // get default
-            txt += "7) -Kill Worn Chance: +" + KillWornChance + "% (" + v + "%)\n";            // current + default
-            txt += Language.Get( "FIRE_STAT_KILL_WORN_CHANCE", "Main" ) + "\n\n";              // description
+            v = DefaultValues [ Stat.Stat_Carryover ];                                                           // get default
+            valColor = ( StatCarryover == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "6) Stat Carryover: +" + StatCarryover + "[-] (" + ( int ) v + ")\n";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_CARRYOVER", "Main" ) + "[-]\n\n";
 
-            v = DefaultValues[ Stat.Bonus_Uses ];                                              // get default
-            txt += "8) -Bonus Uses: +" + BonusUses + "% (" + v + "%)\n";                       // current + default
-            txt += Language.Get( "FIRE_STAT_BONUS_USES", "Main" ) + "\n\n";                    // description
+            v = DefaultValues [ Stat.Kill_Worn_Chance ];                                                         // get default
+            valColor = ( KillWornChance == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "7) Kill Worn Chance: +" + KillWornChance + "%[-] (" + v + "%)\n";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_KILL_WORN_CHANCE", "Main" ) + "[-]\n\n";
 
-            v = DefaultValues[ Stat.Tag_Level ];                                               // get default
-            txt += "9) -Tag Level: +" + TagLevel + " (" + v + ")\n";                           // current + default
-            txt += Language.Get( "FIRE_STAT_TAG_LEVEL", "Main" ) + "\n\n";                     // description
+            v = DefaultValues [ Stat.Bonus_Uses ];                                                               // get default
+            valColor = ( BonusUses == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "8) Bonus Uses: +" + BonusUses + "%[-] (" + v + "%)\n";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_BONUS_USES", "Main" ) + "[-]\n\n";
 
-            v = DefaultValues[ Stat.Tag_Bubbles ];                                             // get default
-            txt += "10) -Tag Bubbles: +" + TagBubbles + " (" + v + ")\n";                      // current + default
-            txt += Language.Get( "FIRE_STAT_TAG_BUBBLES", "Main" ) + "\n\n";                   // description
+            v = DefaultValues [ Stat.Tag_Level ];                                                                // get default
+            valColor = ( TagLevel == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "9) Tag Level: +" + TagLevel + "[-] (" + v + ")\n";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_TAG_LEVEL", "Main" ) + "[-]\n\n";
 
-            txt += "PS: Values reset to (default) when the timer reaches zero.";
+            v = DefaultValues [ Stat.Tag_Bubbles ];                                                              // get default
+            valColor = ( TagBubbles == v ) ? "[FFFF66]" : "[66FF66]";
+            txt += valColor + "10) Tag Bubbles: +" + TagBubbles + "[-] (" + v + ")\n";
+            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_TAG_BUBBLES", "Main" ) + "[-]\n\n";
+
+            txt += "[999999]PS: Values reset to (default) when the timer reaches zero.[-]";
         }
+
         else
         if( page == 2 )
         {
-            txt += Language.Get( "FIRE_HELP_INTRO_POWERS", "Main" ) + "\n\n"; 
+            // Intro line in Yellow
+            txt += "[FFFF00]" + Language.Get( "FIRE_HELP_INTRO_POWERS", "Main" ) + "[-]\n\n";
+
             int lev = ( int ) Item.GetNum( ItemType.Fire_Level );
-            int max = lev + ExtraPowersShown;                                                               // get max visible
+            int max = lev + ExtraPowersShown;                                                               // Get max visible
+
             for( int i = 0; i < G.Farm.FirePow.Count; i++ )
-            if( i < max )
             {
-                FPow p = G.Farm.FirePow[ i ];
-                txt += "L" + p.GetName() + ":\n";                                                           // tech name
-                txt += Language.Get( "FIRE_" + p.Type.ToString().ToUpper(), "Main" ) + "\n\n";              // power description
+                if( i < max )
+                {
+                    FPow p = G.Farm.FirePow[ i ];
+                    txt += "[FFFF00]L" + p.GetName() + ":[-]\n";                                            // Tech name 
+                    txt += "[FFFFFF]" + Language.Get( "FIRE_" + 
+                    p.Type.ToString().ToUpper(), "Main" ) + "[-]\n\n";                                      // Tech description
+                }
             }
         }
         else
@@ -335,7 +354,6 @@ public class FPow : MonoBehaviour
         UI.I.BigTextHelpLabel.gameObject.SetActive( true );
         UI.I.BigTextHelpLabel.text = txt;                                                                   // update text mesh                              
     }
-
     private static void UpdateFirePowers()
     {
         Unit bld = Map.I.GetUnit( ETileType.BUILDING, G.Hero.GetFront() );                              // Fire Power: Hurry up frontal Building Production
@@ -552,33 +570,47 @@ public class FPow : MonoBehaviour
         int max = lev;
         float bn = FPow.Get( FPowType.Show_More_Powers, false );                                         // Firepower: Show more Powers
         int used = ( int ) Mathf.Min( bn, Max_Level - lev );                                             // Calculates how many are useful to be spent
-        if( bn > 0 && used > 0 )
-        {
-            ExtraPowersShown += ( int ) used;
+        if( bn > 0 && used > 0 )                                                                   
+        {                                                                                          
+            ExtraPowersShown += ( int ) used;                                                      
             LastPow.Use( used );                                                                         // use only necessary
-        }
+        }                                                                                          
         max += ExtraPowersShown;
+        UI.I.NavigationMapText.color = Color.white;
+        UI.I.NavigationMapText2.color = Color.white;
+
+        UI.I.NavigationMapText.color = Color.white;                                                      // Set base to white for BBCode
+        UI.I.NavigationMapText2.color = Color.white;                                                     // Set base to white for BBCode
 
         for( int i = 0; i < G.Farm.FirePow.Count; i++ )
-        if( i < max )
         {
-            FPow p = G.Farm.FirePow[ i ];
-            string nm = p.GetName( i + 1 );
-            if( i < lev )
-                UI.I.NavigationMapText.text += nm + "\n";                                               // uses 2 text meshes for multicolor effect
-            UI.I.NavigationMapText2.text += nm + "\n";
+            if( i < max )
+            {
+                FPow p = G.Farm.FirePow[ i ];                                                            // Get current power
+                string nm = NGUIText.StripSymbols(p.GetName( i + 1 ));                                   // Clean existing color tags
+
+                if( i < lev )
+                {
+                    string cor = p.IsWorn() ? "[FFFF00]" : "[00FF00]";                                   // Yellow if worn, else Green
+                    UI.I.NavigationMapText.text += cor + nm + "[-]\n";                                   // Add to active mesh
+                }
+                else
+                {
+                    UI.I.NavigationMapText2.text += "[FF0000]" + nm + "[-]\n";                           // Add to locked mesh in Red
+                }
+            }
         }
 
         if( Util.IsNeighbor( G.Hero.Pos, Tent.Pos ) )
         {
-            EDirection dir = Util.GetVectorDir( G.Hero.Pos - Tent.Pos );                                // Tag Text update
+            EDirection dir = Util.GetVectorDir( G.Hero.Pos - Tent.Pos );                                 // Tag Text update
             if( G.Farm.TagPowSlot.Contains( ( int ) dir ) )
             {
                 UI.I.NavigationMapText.color = Color.yellow;
                 UI.I.NavigationMapText.text = "               ---Tag Powers---\n";
                 UI.I.NavigationMapText2.text = "";
 
-                for( int id = 1; id <= G.Farm.TagPow.Count; id++ )                                      // T1, T2, T3...
+                for( int id = 1; id <= G.Farm.TagPow.Count; id++ )                                       // T1, T2, T3...
                 for( int i = 0; i < G.Farm.TagPow.Count; i++ )
                 {
                     FPow p = G.Farm.TagPow[ i ];
