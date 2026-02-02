@@ -132,8 +132,6 @@ public class Item : MonoBehaviour
     [TabGroup( "Production" )]
     public float BaseProductionTotalTime = 0;             // original prod time
     [TabGroup( "Production" )]
-    public float ExtraProductionTotalTime = 0;            // Purchased prod time
-    [TabGroup( "Production" )]
     public float ProductionCount;                         // time counter
     [TabGroup( "Production" )]
     public bool SaveLifeTime = false;
@@ -148,17 +146,11 @@ public class Item : MonoBehaviour
     [TabGroup( "Production" )]
     public int BaseProductionLimit = 0;                     // base prod hard limit, Prod doesnt go beyond this
     [TabGroup( "Production" )]
-    public int ExtraProductionLimit = 0;                    // purchased hard limit
-    [TabGroup( "Production" )]
     public int BaseProductionCap = 0;                       // base prod cap: goods produced limit
-    [TabGroup( "Production" )]
-    public int ExtraProductionCap = 0;                      // purchased cap
     [TabGroup( "Production" )]
     public float IdleProductionCount = 0;                   // items produced by auto production, this is consumed before Count to ensure players a free production slot
     [TabGroup( "Production" )]
     public float BaseProductionBoostChance = 0;             // base chance for production x2
-    [TabGroup( "Production" )]
-    public float ExtraProductionBoostChance = 0;            // purchased chance for production x2
 
     [TabGroup( "Option" )]
     public bool SaveData = true;
@@ -808,15 +800,7 @@ public class Item : MonoBehaviour
        
         TF.SaveT( "ProductionCount_" + UniqueID, ProductionCount );                                           // Save Production Count
 
-        TF.SaveT( "ExtraProductionTotalTime_" + UniqueID, ExtraProductionTotalTime );                         // Save Extra Production Total Time
-
-        TF.SaveT( "ExtraProductionLimit_" + UniqueID, ExtraProductionLimit );                                 // Save Extra Production Limit
-
-        TF.SaveT( "ExtraProductionCap_" + UniqueID, ExtraProductionCap );                                     // Save Extra Production Cap
-
         TF.SaveT( "IdleProductionCount_" + UniqueID, IdleProductionCount );                                   // Save Idle Production Count
-
-        TF.SaveT( "ExtraProductionBoostChance_" + UniqueID, ExtraProductionBoostChance );                     // Save Extra Production Boost Chance
 
         TF.SaveT( "TotalGained_" + UniqueID, TotalGained );                                                   // Save Total Gained
 
@@ -888,15 +872,7 @@ public class Item : MonoBehaviour
 
         ProductionCount = TF.LoadT<float>( "ProductionCount_" + UniqueID );                                  // Load Production Count   
 
-        ExtraProductionTotalTime = TF.LoadT<float>( "ExtraProductionTotalTime_" + UniqueID );                // Load Extra Production Total Time   
-
-        ExtraProductionLimit = TF.LoadT<int>( "ExtraProductionLimit_" + UniqueID );                          // Load Extra Production Limit 
-
-        ExtraProductionCap = TF.LoadT<int>( "ExtraProductionCap_" + UniqueID );                              // Load Extra Production Cap 
-
         IdleProductionCount = TF.LoadT<float>( "IdleProductionCount_" + UniqueID );                          // Load Idle Production Count
-
-        ExtraProductionBoostChance = TF.LoadT<float>( "ExtraProductionBoostChance_" + UniqueID );            // Load Extra Production Boost Chance 
 
         TotalGained = TF.LoadT<float>( "TotalGained_" + UniqueID );                                          // Load Total Gained
 
@@ -1141,7 +1117,7 @@ public class Item : MonoBehaviour
             break;
 
             case EVarType.Production_Total_Time:
-            ExtraProductionTotalTime += power;
+            //ExtraProductionTotalTime += power; 
             break;
 
         }
@@ -1155,16 +1131,16 @@ public class Item : MonoBehaviour
         switch( var )
         {
             case EVarType.Production_Total_Time:
-            return it.BaseProductionTotalTime + it.ExtraProductionTotalTime;
+            return it.BaseProductionTotalTime + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME );   
 
             case EVarType.Production_Limit:
-            return it.BaseProductionLimit + it.ExtraProductionLimit;
+            return it.BaseProductionLimit + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT ); 
 
             case EVarType.Production_Cap:
-            return it.BaseProductionCap + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_CAP );//             it.ExtraProductionCap;
+            return it.BaseProductionCap + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_CAP );             
 
             case EVarType.Production_Boost_Chance:
-            return it.BaseProductionBoostChance + it.ExtraProductionBoostChance;
+            return it.BaseProductionBoostChance + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_BOOST_CHANCE ); 
 
             case EVarType.Total_Life_Time:
             it.TotalLifeTime = Blueprint.GetUseSum( var, it.Type );
