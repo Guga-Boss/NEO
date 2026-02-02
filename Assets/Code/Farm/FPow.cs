@@ -129,7 +129,7 @@ public class FPow : MonoBehaviour
         if( string.IsNullOrEmpty( UniqueID ) || IsDuplicated() )
         {
             UniqueID = Farm.SortUniqueID( 4 );
-            EditorUtility.SetDirty( this );
+            EditorUtility.SetDirty( this ); 
         }
     }
     bool IsDuplicated()

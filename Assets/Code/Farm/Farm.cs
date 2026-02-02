@@ -202,7 +202,7 @@ public partial class Farm : MonoBehaviour
     public void UpdateIt()
     {
         if( Manager.I.GameType != EGameType.FARM ) return;
-                
+               
         UpdateInput();
         UpdateItemPlacement();
         Blueprint.CheckPatterns();
