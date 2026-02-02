@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 public enum EAdventureUpgradeType
 {
@@ -33,8 +34,9 @@ public class AdventureUpgradeInfo : MonoBehaviour
     [Header( "Cost:" )]
     public ItemType UpgradeItem1Type = ItemType.NONE;
     public float UpgradeItem1Cost = 1;
+    [Header("Recurring:")]
     public List< int> UpgradeItem1RecuringCost = null;
-
+    public List< ItemType> UpgradeItem1RecuringCostItem = null;
     public bool TotalCollected = false;
     [Header( "Item Affected:" )]
     public ItemType ItemAffected = ItemType.NONE;

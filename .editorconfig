@@ -1,0 +1,12 @@
+# EditorConfig para NEO - C# formatting
+root = true
+
+[*.cs]
+charset = utf-8
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+# Formatação de generics
+csharp_space_between_angle_brackets = false

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
@@ -395,14 +395,9 @@ public class TechButton : MonoBehaviour
                 if( bt.NeighborsOK == false ) return;
             }
         }
-
-        int amt = ( int ) Item.GetNum( Inventory.IType.Inventory, au.UpgradeItem1Type,                                           // Gets amount in storage
-        Map.I.RM.CurrentAdventure );
-
-        if( au.TotalCollected ) amt = ( int ) Item.GetTotalGained( au.UpgradeItem1Type );                                        // or gets total amount of lifetime collects
-
         int needed = ( int ) au.UpgradeItem1Cost;
- 
+        ItemType costItem = au.UpgradeItem1Type;
+
         if( au.IsRecurring() )
         {
             int purchased = level;                                                                                               // Calculates needed cost for recuring depending on next tech price
@@ -410,11 +405,18 @@ public class TechButton : MonoBehaviour
             if( purchased >= au.UpgradeItem1RecuringCost.Count )
                 purchased = au.UpgradeItem1RecuringCost.Count - 1;
             needed = ( int ) au.UpgradeItem1RecuringCost[ purchased ];
+
+            if( au.UpgradeItem1RecuringCostItem != null && au.UpgradeItem1RecuringCostItem.Count > purchased )                   // Get recuring cost item type
+                costItem = au.UpgradeItem1RecuringCostItem[ purchased ];
         }
+
+        int amt = ( int ) Item.GetNum( Inventory.IType.Inventory, costItem, Map.I.RM.CurrentAdventure );                         // Gets amount in storage
+
+        if( au.TotalCollected ) amt = ( int ) Item.GetTotalGained( costItem );                                                   // or gets total amount of lifetime collects
 
         bool enough = true;
         if( amt < needed ) enough = false;
-        string itname = G.GIT( au.UpgradeItem1Type ).GetName();
+        string itname = G.GIT( costItem ).GetName();
         string price = " " + needed + " " + itname;
         string msg = "";
         if( bt ) bt.CurTechID = id;
@@ -423,8 +425,8 @@ public class TechButton : MonoBehaviour
 
         if( btn.state == UIButtonColor.State.Hover )
         {
-            float stock = Item.GetNum( Inventory.IType.Inventory, au.UpgradeItem1Type );                                         // items int stock
-            if( au.TotalCollected ) stock = ( int ) Item.GetTotalGained( au.UpgradeItem1Type );                                  // Total items int stock
+            float stock = Item.GetNum( Inventory.IType.Inventory, costItem );                                                    // items int stock
+            if( au.TotalCollected ) stock = ( int ) Item.GetTotalGained( costItem );                                             // Total items int stock
 
             msg = AdventureUpgradeInfo.GetUpgradeMessage( au, false, true );
 
@@ -518,7 +520,7 @@ public class TechButton : MonoBehaviour
 
             float eff = au.GetEffectAtLevel( level );                                                                    // Get Effect power
             if( au.TotalCollected == false )
-                Item.AddItem( Inventory.IType.Inventory, au.UpgradeItem1Type, cost, true );
+                Item.AddItem( Inventory.IType.Inventory, costItem, cost, true );
             if( au.PurchaseChance > 0 )                                                                                  // Purchase chance
             {
                 bool sort = Util.Chance( au.PurchaseChance );
@@ -633,7 +635,7 @@ public class TechButton : MonoBehaviour
 
             label.color = col;
 
-            spr.sprite2D = G.GIT( au.UpgradeItem1Type ).Sprite.sprite2D;                                                // Updates Cost Sprite        
+            spr.sprite2D = G.GIT( costItem ).Sprite.sprite2D;                                                           // Updates Cost Sprite        
 
             if( techX != -1 )
             {
