@@ -1,6 +1,1875 @@
 {
     "sheets": [
         {
+            "name": "Big Help",
+            "entriesList": [
+                {
+                    "key": "FIREMASTER",
+                    "value": "Hero can light firepit by adding a certain amount of wood to it.\n\nthe default, and most basic way is by stepping around firepits, but as more progress is made in the firemaster perk,\n\nnew ways of adding wood can also be unlocked.\n\nImportant: Initially, Wood placement is is only allowed in Virgin Areas.\n\n\n\nSome Definitions: \n\n\nRegular wood:  Wood added by stepping around firepits.\n\n\n\nFire power: Damage taken by monsters over burning firepits Measured by a percentage of melee attack. \n\n\n\nSpread: This determines the maximum size a neighbor barricade needs to be for the fire to spread to it. \n\n\n\nOutarea: Number of outside area wood placement allowed per area. bump against a firepit to add/subtract outarea wood.\n\n\n\nWood needed:  The most important thing! Wood needed for fire ignition!\n\n\n\nPits: Hero gets a discount for the number of wood needed in the area/cube after lighting a certain number of firepits.\n\n\n\nStar Bonus: Each 10 of this increases the amount of Stars gained by the hero by 1 per bonfire Lit.\n\n\nImportant:  in some maps, the amount of wood needed for fire lighting may increase as the hero continues to clear new areas."
+                },
+                {
+                    "key": "",
+                    "value": ""
+                },
+                {
+                    "key": "BARRICADEFIGHTER",
+                    "value": "This perk determines the capacity of the hero to use Barricades in his favor while fighting in the wilderness.\n\n\nMonsters can destroy barricades of any size, while the hero needs certain abilities to do that.\n\n\nHero Barricade destruction:\n\nIn order for a hero to destroy a barricade, he needs to have a certain Barricade destruction level, (improved by collecting perks).\n\n\n\nTouched Barricade: If a hero destroys at least one log of a barricade, it turns darker. this means this barricade has been touched!\n\n\nThe maximum barricade size that can be destroyed is determined by the Destroy barricade power (D#)  plus the sum of neighbor touched barricades. \n\n\n\nHint: Place Kade facing a barricade to Check his Destruction power towards it. \n\n\nfor example: a \"D3 + 2\" showed in the perk's icon means that the hero has a destruction power of D3 \nplus two adjacent Touched Barricades that equals to D5."
+                },
+                {
+                    "key": "MOVEMENT",
+                    "value": "Use NUMPAD Keys to move you hero. Rotate using C and V, and Press x to skip turn."
+                },
+                {
+                    "key": "STORAGE",
+                    "value": "Use NUMPAD Keys to move you hero. Rotate using C and V, and Press x to skip turn.\n\nMovement is restricted depending on the Character movement Level.\n\n\nCollect movement perks to increase your movement level.\n\nHere are some Definitions:\n\n\n\nTall Tiles: Forest, closed doors, walls, etc. Any tile that blocks the character and is \"tall\".\n\n\n\nFlanked Tiles: Is a tile containing two Tall Tiles to the north and south, or to the East and West Direction.\n\n\n\nNarrow Passage: for example: when the hero wants to make a NW move to a free tile, \n\nand there is a tall tile to his north and West position, the small gap between these two tall tiles is called the narrow passage.\n\n\n\nTunnel: A tile that has only two possible walking exits.\n\n\n\nDead End: A tile that has only ONE possible walking exits.\n\n"
+                },
+                {
+                    "key": "SCOUT",
+                    "value": "This Perk Regulates the capacity of the hero to explore new areas in the map.\n\n\nSub Perks:\n\n\n\nOver Barricade Scout: Each level of this perk increases the ability of the hero to look over barricades by one unit size.\n\n\n\nShow Resource Chance: Chance for a tile containing a bonus rune to be revealed.\n\n\n\nShow Resource Neighbor Chance: This determines the chance for the neighbor tiles of a revealed rune to be revealed. \n\nUseful for checking if the resource is worth picking up.\n\n\n\nResource bonus calculation: the bonus provided by a picked up rune is equal to the amount of free tiles around it multiplied by the amount of water tiles or lit firepits.\n\n\nHint: Destroy Barricades around a resource to increase its bonus amount.\n\n\n\nVERY IMPORTANT: Resource Timers decrease by 1 for each newly cleared area.\nTry to find All Rune bonuses as soon as you can! for they perish twice as fast in the darkness! (Undiscovered = 2x)"
+                }
+            ]
+        },
+        {
+            "name": "Tutorial",
+            "entriesList": [
+                {
+                    "key": "",
+                    "value": ""
+                },
+                {
+                    "key": "TUTORIAL_1",
+                    "value": "Welcome to NEO Farm!\n\nBuild a thriving village, grow crops, harvest, forge, fish, raise animals, craft powerful weapons, and level up your RPG skills!\nClick Kade in the lower right to begin your adventure!"
+                },
+                {
+                    "key": "TUTORIAL_2",
+                    "value": "Your First Task: Pile up 4 or more resources!\n\nStand in front of stones and press Z or X to pick up or drop items.\n\nUse C and V to rotate and face objects.\nClick Kade when ready to continue!"
+                },
+                {
+                    "key": "TUTORIAL_3",
+                    "value": "Cool! \nResource stacking and Moving is the heart of NEO Farm.\n\n\nClick Kade Portrait to advance...\n\n(You can also press enter to proceed to the next Objective)"
+                },
+                {
+                    "key": "TUTORIAL_4",
+                    "value": "Now try keeping only 2 piles of resources at the same time.\n\nHint: Use X (Wait) and Z (Special) to pick up or drop resources."
+                },
+                {
+                    "key": "TUTORIAL_5",
+                    "value": "Awesome! \n\n\nYour farm is just starting to Grow!\n\n\nClick Kade to advance..."
+                },
+                {
+                    "key": "TUTORIAL_6",
+                    "value": "To do anything in NEO Farm, you need a Blueprint!\n\nCheck the Blueprint panel in the lower right (yellow text).\n\nClick it or press Page Up / Page Down to switch between Blueprints.\n\nObjective: Switch active Blueprints 10 times!"
+                },
+                {
+                    "key": "TUTORIAL_7",
+                    "value": "Awesome! \n\n\nNow it's Time for your first building!\n\n\nClick Kade Portrait to advance..."
+                },
+                {
+                    "key": "TUTORIAL_8",
+                    "value": "Objective: Build the Stone Storage Building.\n\nPlease read all the steps before proceeding:\n1 - Choose the Stone Storage Blueprint in the Blueprint panel.\n2 - Place resources on the ground matching the blueprint formation.\n3 - The last resource placed defines the building’s location.\n4 - Important: Leave as many free tiles (grass) around it as possible."
+                },
+                {
+                    "key": "TUTORIAL_9",
+                    "value": "Cowabunga!\n(Hover the mouse over the building, or place the hero in front of it for more info.)\n\nClick Kade to advance…"
+                },
+                {
+                    "key": "TUTORIAL_10",
+                    "value": "Objective: Move all the Stones to the Storage\n\nHint: Use X (Wait) and Z (Special) to carry or drop resources."
+                },
+                {
+                    "key": "TUTORIAL_11",
+                    "value": "Yippee!\nYou’re almost ready for your first fight!!\n\nClick Kade to advance…"
+                },
+                {
+                    "key": "TUTORIAL_12",
+                    "value": "Objective: Build the Tool’s Building.\n\n1 - Choose the Tool’s Building Blueprint in the Blueprint panel.\n2 - Place resources on the ground matching the blueprint formation.\n3 - The last resource placed defines the building’s location."
+                },
+                {
+                    "key": "TUTORIAL_13",
+                    "value": "Success!\nHint: You can use wheelbarrows from the Tool’s Building to move buildings around your farm later.\n\nClick Kade to advance…"
+                },
+                {
+                    "key": "TUTORIAL_14",
+                    "value": "Now press F2 and click \"To the Forest\" to start your first NEO fighting adventure.\n\nAs you gather more resources and unlock new blueprints, don’t forget to return to the farm to improve your buildings."
+                },
+                {
+                    "key": "TUTORIAL_15",
+                    "value": "Objective: Get a Blueprint to upgrade the Stone Storage's maximum capacity at the farm.\n\nYou can obtain this Blueprint in the “Fire is my Best Friend” quest by completing all objectives."
+                },
+                {
+                    "key": "TUTORIAL_16",
+                    "value": "Congrats!\nTip: Learn to deal with these little farm monsters. Each behaves differently.\nSome can be pushed, others destroyed or kicked…\nClick the Farm button and hover the mouse over their icons to learn more.\n\nDon't let them block your way while you're working on your farm!"
+                },
+                {
+                    "key": "TUTORIAL_17",
+                    "value": "Objective: Choose a new Blueprint by clicking the “New” button (lower right).\nA window will open to keep the old Blueprint or choose a new one.\nUseful to reduce the energy cost of a Blueprint or select a working pattern.\nIf no “New” button is available for the Stone Capacity upgrade, get more Blueprints in the “Fire is my Best Friend” quest."
+                },
+                {
+                    "key": "TUTORIAL_18",
+                    "value": "Congrats!\n\nThe green number on a Blueprint button shows how many of that type you have remaining.\nYou can get more by re-conquering them on the battlefield.\n\nImportant Hint: Try to collect several Blueprints before using them to reduce energy costs—energy is a valuable resource!\n\nClick Kade to advance…"
+                },
+                {
+                    "key": "TUTORIAL_19",
+                    "value": "Objective: Upgrade your Stone Storage until it reaches a Maximum Capacity of 10.\n\n\n(Blueprint Needed! - You can get one at the \"Fire is my Best Friend\" Quest ).\n\n\nUpgrading is as easy as using a Blueprint for construction.\n\nThe only difference is that the building icon should Match with the Building Position.\n\n\nSo, Choose The upgrading Blueprint and position resources accordingly."
+                },
+                {
+                    "key": "TUTORIAL_20",
+                    "value": "Congrats!\n\nImportant: Keep upgrading all buildings as soon as possible.\nResource wastage can be deadly in the wilderness…\n\nClick Kade to advance…"
+                },
+                {
+                    "key": "TUTORIAL_21",
+                    "value": "Objective: Automate a Blueprint application\n\nClick the “Auto” button to use a Blueprint automatically (no need to place items on the ground).\n\nImportant: All resources are needed, or the button will be disabled."
+                },
+                {
+                    "key": "TUTORIAL_22",
+                    "value": "Congrats!\n\nAutomation requires Cogs, which you can earn by conquering goals.\nThe harder the goal, the more Cogs you get!\n\nClick Kade to advance…"
+                },
+                {
+                    "key": "TUTORIAL_23",
+                    "value": "Objective: Build the Forge Building.\n\n1 - Get a Blueprint in the “Mining I” quest.\n2 - Select the Blueprint.\n3 - Place resources on the ground matching the blueprint formation.\n4 - Important: The last resource placed defines the building’s location."
+                },
+                {
+                    "key": "TUTORIAL_24",
+                    "value": "Now try collecting minerals like Iron Ore and Coal so you can start forging!\nYou’ll also need recipes—look for the book icon in the Goals panel.\n\nClick Kade to advance…"
+                },
+                {
+                    "key": "TUTORIAL_25",
+                    "value": "Objective: Build the Berry Building\n\n1 - Get a Blueprint in the “Fishing I” quest.\n2 - Select the Blueprint.\n3 - Place resources on the ground matching the blueprint formation.\n4 - Important: The last resource placed defines the building’s location."
+                },
+                {
+                    "key": "TUTORIAL_26",
+                    "value": "Congrats!\n\nNow try collecting some Berry Seeds so you can start planting!\n\nClick Kade to advance…"
+                },
+                {
+                    "key": "TUTORIAL_27",
+                    "value": "Objective: Plant a Berry Bush!\n\n1 - Get some Berry seeds in the Cubes.\n2 - Bump against the Berry Building until Berry Seed is selected as the building item.\n3 - Grab a Berry Seed.\n4 - Face a mud tile and press the Battle Key (Default: B).\n5 - Wait for the plant to grow.\n6 - Collect the berries and move them to the Berry Building using X and Z."
+                },
+                {
+                    "key": "TUTORIAL_28",
+                    "value": "Congrats!\n\nNow take the Berry Fruits to the Berry Building.\n\nClick Kade to advance…"
+                },
+                {
+                    "key": "TUTORIAL_29",
+                    "value": "Objective: Move a building using Wheelbarrows\n\n1 - Go to the Tool’s Building.\n2 - Grab some Wheelbarrows.\n3 - Check the required number of Wheelbarrows in the building info panel.\n4 - Place the corresponding number of Wheelbarrows on a tile adjacent to the building you want to move.\n5 - The building will be moved to that position.\n6 - Bump against the building."
+                },
+                {
+                    "key": "TUTORIAL_30",
+                    "value": "Congrats!\n\nProper building placement can be very useful for efficient farm management."
+                },
+                {
+                    "key": "TUTORIAL_31",
+                    "value": "Objective: Build the Wood Cutter Building\n\n1 - Get a Blueprint.\n2 - Place resources on the ground matching the blueprint formation.\n3 - Important: The last resource placed defines the building’s location."
+                },
+                {
+                    "key": "TUTORIAL_32",
+                    "value": "Congrats!\n\nClick Kade Portrait to advance..."
+                },
+                {
+                    "key": "TUTORIAL_33",
+                    "value": "Objective: Use the Wood Axe to Chop Down a Forest Tile\n\nSteps:\n1 - Grab the Wood Axe from the Wood Cutter Building.\n2 - Aim at a forest tile in front of your character.\n3 - Press the Battle Key (B by default) to use it.\n\nNote: Chopping may take some time."
+                },
+                {
+                    "key": "TUTORIAL_34",
+                    "value": "Congrats!\n\nYou have just increased your farm size!\nCollect Farm Size Tokens to grow your farm even more."
+                },
+                {
+                    "key": "TUTORIAL_35",
+                    "value": "Objective: Forge an Iron Bar\n\n1 - Get a “Forge Iron Bar” recipe from Mining or other quests.\n2 - Select the Forge Building by facing it from the front.\n3 - Check how many Coal and Iron Ore items are required on the left panel.\n4 - The produced item amount is shown on the right panel.\n5 - Missing items are shown in red.\n6 - Gather the required items if you don’t have enough.\n7 - Click the big Cog image to start or stop production.\n8 - Wait for the forging process to finish."
+                },
+                {
+                    "key": "TUTORIAL_36",
+                    "value": "Tip: Get as many recipes as you can and start producing early!\n\nEach production cycle consumes one recipe.\nThe book icon shows how many recipes you have available."
+                },
+                {
+                    "key": "TUTORIAL_37",
+                    "value": "Objective: Upgrade a Recipe\n\n1 - Face the building containing the recipe (Forge or Firepit).\n2 - The upgrade price is shown on the Upgrade button.\n3 - Red indicates a missing item.\n4 - Hover the mouse over the Upgrade button to see the upgrade effect.\n5 - If everything is ready, click to apply the upgrade."
+                },
+                {
+                    "key": "TUTORIAL_38",
+                    "value": "Congrats!\n\nGet recipes for the Firepit and start preparing Fish Meals.\n\nIt works the same way as in the Forge."
+                },
+                {
+                    "key": "TUTORIAL_39",
+                    "value": "More tutorial quests will be added soon…"
+                },
+                {
+                    "key": "TUTORIAL_TITLE_2",
+                    "value": "Objective: Pile up 4 or more resources."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_4",
+                    "value": "Objective: Have only 2 piles of resources at the same time."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_6",
+                    "value": "Objective: Switch Active Blueprints 10 times."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_8",
+                    "value": "Objective: Build The Stone Storage Building."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_10",
+                    "value": "Objective: Move all the Stones to the Storage."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_12",
+                    "value": "Objective: Build The Tool's Building."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_14",
+                    "value": "Check The Scroll Text."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_15",
+                    "value": "Objective: Get a Blueprint to upgrade Stone Storage Maximum capacity."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_17",
+                    "value": "Objective: Choose a new Blueprint."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_19",
+                    "value": "Objective: Upgrade your Stone Storage Capacity to 10."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_21",
+                    "value": "Objective: Automate a Blueprint application."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_23",
+                    "value": "Objective: Build The Forge Building."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_25",
+                    "value": "Objective: Build The Berry Building."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_27",
+                    "value": "Objective: Plant a Berry Bush."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_29",
+                    "value": "Objective: Move a building using Wheelbarrows."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_31",
+                    "value": "Objective: Build The Wood Cutter Building."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_33",
+                    "value": "Objective: Use The Wood Axe to Chop Down a Forest Tile."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_35",
+                    "value": "Objective: Forge an Iron Bar."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_37",
+                    "value": "Objective: Upgrade a recipe."
+                },
+                {
+                    "key": "TUTORIAL_TITLE_39",
+                    "value": ""
+                }
+            ]
+        },
+        {
+            "name": "Adventure Description",
+            "entriesList": [
+                {
+                    "key": "A1_QUEST_1",
+                    "value": "After choosing the 'Making Fire' quest, click 'New Incursion' to start it.\n\n \nOnce you've lit 10 firepits and earned the trophy, click the image below to proceed to the next quest."
+                },
+                {
+                    "key": "A1_QUEST_2",
+                    "value": "Now that you have chosen the Desired Quest, \nClick the \"New Incursion\" Button to start it...\n\nOnce you have completed your goals (left panel), \nfinalize the adventure and click the image below to choose another Quest."
+                },
+                {
+                    "key": "A1_QUEST_3",
+                    "value": "Mastering Hero Rotation is the key to efficient fighting.\n\n\nYour rotation training starts here."
+                },
+                {
+                    "key": "A2_QUEST_8",
+                    "value": "IMPORTANT: This Quest gives you a Blueprint that can be used in the farm to \nupgrade Stone Maximum Storage Capacity. \nUse it as soon as possible to avoid wasting your precious stones due to lack of storage space."
+                },
+                {
+                    "key": "A2_QUEST_16",
+                    "value": "As soon as you purchase the Auto Move Tech, just enable the Auto Move button and your character \nwill run to the next available battle spot, saving time and keeping the action going.\n\nYou can also quickly locate the next checkpoint by pressing the \"\\\" key."
+                },
+                {
+                    "key": "A2_QUEST_11",
+                    "value": "This quest offers a technology that improves all Shell gains throughout the game.\nOpen the Studies panel and look for the icon with the word \"Global\".\nGlobal techs affect every quest, everywhere.\nNotice that you have a chance to obtain it with every purchase."
+                },
+                {
+                    "key": "A2_QUEST_7",
+                    "value": "Goals (Left Panel) Information:\nRed Square: Goal has not yet been conquered.\nWhite Square: Goal has been conquered at least once.\nText: Displays goal information followed by the current state (number achieved).\nLast Two Icons: Represent prizes and their respective amounts.\nHover Action: Move the mouse over a goal to view more detailed information."
+                },
+                {
+                    "key": "A2_QUEST_13",
+                    "value": "IMPORTANT: This Quest gives you a Blueprint that can be used in the farm to \nIncrease the maximum amount of Stone that can be carried at once.\n\n\nNo more back and forth travelling, Yupee!"
+                },
+                {
+                    "key": "A2_QUEST_1",
+                    "value": "This quest grants a one-time blueprint that boosts Stone Production Speed on the farm. \nConquer 30 Cubes to obtain it. Hover the goal for more info."
+                },
+                {
+                    "key": "A1_QUEST_4",
+                    "value": "TIP 1: If you need to restart, Just Press Enter to open this Dialog and press R Key.\n\n\nTIP 2: Is this Quest getting too hard? Want more Action? Just Choose another quest in the Navigation map!"
+                },
+                {
+                    "key": "A5_QUEST_7",
+                    "value": "Time to test your Quickthinking ability...\n\n \nTIP: Advanced maps are only available for players who have\n upgraded their farms to the ultimate level. \n \nSo, Try to maximize your resource cap, generation, etc. \n \nYou will also need to craft advanced weapons to be able to fully explore NEO Scope. \n\n \nEvery resource gained counts!\n\n Play frequently! \n\n \nPlay harder!"
+                },
+                {
+                    "key": "A2_QUEST_5",
+                    "value": "Some Quests Like this one allows you to start from any Cube that has already been conquered.\n\n\nChoose an alternate starting cube in the green dropdown below the image."
+                },
+                {
+                    "key": "A2_QUEST_4",
+                    "value": "Frog is an Advanced Monster to be Fought, principally if you do not Know how to Play Chess.\n\nDo Heavy Training elsewhere before facing them!"
+                },
+                {
+                    "key": "A2_QUEST_20",
+                    "value": "NEO has a High Replay Value!\n\nNEO Was designed to reward you for every second you play it!\n\nFor every step you take you have a small chance to find Clovers!\n\nClovers can be exchanged for other resources or used to Unlock goodies.\n\nJust Keep on Playing and your Inventory will keep growing."
+                },
+                {
+                    "key": "",
+                    "value": "Studying the Cube is Vital for Success! Plan your strategy first...\n\n\nHOLD RControl Key for a second to Activate STUDY MODE!\n(Zoom Out + Hide Vegetation Layer)."
+                },
+                {
+                    "key": "A2_QUEST_19",
+                    "value": "This Quest Provides Tutorials about Farm Monsters.\n(Play it if you're getting Stuck in the farm).\n\nFarm gets much mure productive if you know how to handle Plague."
+                },
+                {
+                    "key": "A2_QUEST_3",
+                    "value": "Important: Unlock Studies!\n\nEvery time you clear a cube, you earn Shells and Cogs based on the cube’s level. \nIncrease your storage limits in the Studies panel to avoid losing rewards when storage is full (red text)."
+                },
+                {
+                    "key": "A2_QUEST_9",
+                    "value": "IMPORTANT: This provides a tech that enables automatic offline production for Shells.\nYou can find a similar tech for Cogs in the Mining I quest.\n\nNote that automatic production may have an initial per-login CAP that can be upgraded as you go."
+                },
+                {
+                    "key": "A2_QUEST_12",
+                    "value": "Hint: While Playing, if you run out of Mining Points:\n\n\nJust Press Enter to open this Dialog and press R to Quickly Restart the Session."
+                },
+                {
+                    "key": "A2_QUEST_15",
+                    "value": "This quest grants a Planting Token as a goal reward.\nThe Planting Token gives you extra space for planting on the farm.\nUse the Hoe in the Tools Building to add or remove planting spots."
+                },
+                {
+                    "key": "A2_QUEST_2",
+                    "value": "Keyboard Shortcuts for this dialog:\n\n\n(N) - Finalize or Start Incursion.\n\n(M) - Navigation Map (Finalize First).\n\n(F) - Go to the Farm (Finalize First).\n\n(Enter) - Close Dialog. (Back To Playing)\n\n(R) - Force Restart. (Finalize and Restart)\n"
+                },
+                {
+                    "key": "A2_QUEST_21",
+                    "value": "TIP: Hold F1 to Display Shortcuts for this Dialog."
+                },
+                {
+                    "key": "A4_QUEST_7",
+                    "value": "You can get a Blueprint to upgrade Wood Pile Max Storage Capacity Here. \nTry to get as much Blueprints as you can before you start using it (Since Its Initial energy cost is too High). \nBy choosing new blueprints at the farm (Green Button at the lower right) you can decrease it's energy cost. \n(Energy can only be replenished over time)"
+                },
+                {
+                    "key": "A4_QUEST_11",
+                    "value": "There's a Multitude of strategies waiting to be discovered in NEO. \n\nThe keen eye of a pro can make a difference turning an impossible challenge into a trivial solution in a twist."
+                },
+                {
+                    "key": "A3_QUEST_1",
+                    "value": "Hint: Unlock Training to upgrade your goal prizes.\n\nStone cost for playing this quest can be very expensive if you don't upgrade them."
+                },
+                {
+                    "key": "A3_QUEST_2",
+                    "value": "Once you've conquered new Blueprints, don't forget to go back to the farm to improve your buildings."
+                },
+                {
+                    "key": "A3_QUEST_3",
+                    "value": "You miss 100 percent of the shots you never take..."
+                },
+                {
+                    "key": "A3_QUEST_6",
+                    "value": "If There's something as a Voyage of discovery, \n\nit consists not in \nseeking new lands but seeing with new eyes."
+                },
+                {
+                    "key": "A3_QUEST_7",
+                    "value": "One cannot have a positive life and a negative mind."
+                },
+                {
+                    "key": "A3_QUEST_9",
+                    "value": "This Quest Allows you to Unlock the Training panel! \nBy Training your abilities you can get better bonuses for conquering goals.\n\nJust unlock \"Training\", then click the \"Training\" Button in the upper left and choose a goal to upgrade."
+                }
+            ]
+        },
+        {
+            "name": "Perks",
+            "entriesList": [
+                {
+                    "key": "MUSHROOM_TITLE",
+                    "value": "Red Mushroom"
+                },
+                {
+                    "key": "MUSHROOM",
+                    "value": "Restores HP every turn."
+                },
+                {
+                    "key": "MONSTERPRESS_TITLE",
+                    "value": "Monster Press"
+                },
+                {
+                    "key": "MONSTERPRESS",
+                    "value": "Press the enemy against an obstacle to get attack bonus."
+                },
+                {
+                    "key": "",
+                    "value": ""
+                },
+                {
+                    "key": "LOCKMELEE_TITLE",
+                    "value": "Lock Melee"
+                },
+                {
+                    "key": "LOCKMELEE",
+                    "value": "Hero automatically rotate to attack monster."
+                },
+                {
+                    "key": "SWIM_TITLE",
+                    "value": "Swim"
+                },
+                {
+                    "key": "SWIM",
+                    "value": "Hero can Swim."
+                },
+                {
+                    "key": "STACKPUSH_TITLE",
+                    "value": "Stack Push"
+                },
+                {
+                    "key": "STACKPUSH",
+                    "value": "Hero can push more than one item at once."
+                },
+                {
+                    "key": "ARROWRUSH_TITLE",
+                    "value": "Arrow Rush"
+                },
+                {
+                    "key": "ARROWRUSH_DSCRIPTION",
+                    "value": "Unit automatically moves upon stepping on an arrow."
+                },
+                {
+                    "key": "INVULNERABILITY_TITLE",
+                    "value": "Invulnerability"
+                },
+                {
+                    "key": "INVULNERABILITY",
+                    "value": "Unit becomes invulnerable for a certain amount of turns."
+                },
+                {
+                    "key": "MELEEATTACK_TITLE",
+                    "value": "Melee Fighter"
+                },
+                {
+                    "key": "MELEEATTACK_1",
+                    "value": "Allows the Unit to perform melee attacks while standing still."
+                },
+                {
+                    "key": "MELEEATTACK_2",
+                    "value": "Unit Can attack standing still, or performing Frontal and Side Attacks."
+                },
+                {
+                    "key": "MELEEATTACK_3",
+                    "value": "Sword Melee Attack."
+                },
+                {
+                    "key": "MELEEATTACK_4",
+                    "value": "The Hero gains a secondary post move attack that is executed after all monsters end up their moving.\nthis is called a \"Suicidal Attack\" since it targets any monster that jumps in front of the hero."
+                },
+                {
+                    "key": "MELEEATTACK_5",
+                    "value": "The Hero gains a secondary pre move attack that is executed right before he moves.\n\nthis is called a \"Rush Attack\"."
+                },
+                {
+                    "key": "MELEEATTACK_6",
+                    "value": "Secondary attacks power Increased."
+                },
+                {
+                    "key": "MELEEATTACK_7",
+                    "value": "Secondary attacks power Increased."
+                },
+                {
+                    "key": "MELEEATTACK_8",
+                    "value": "Secondary attacks power Increased."
+                },
+                {
+                    "key": "RANGEDATTACK_TITLE",
+                    "value": "Ranger"
+                },
+                {
+                    "key": "RANGEDATTACK_1",
+                    "value": "Allows the Unit to perform Ranged attacks while standing still."
+                },
+                {
+                    "key": "RANGEDATTACK_2",
+                    "value": "Unit Can attack standing still, or performing Frontal and Side Attacks."
+                },
+                {
+                    "key": "RANGEDATTACK_3",
+                    "value": "Bow and Arrow ranged Attack."
+                },
+                {
+                    "key": "RANGEDATTACK_4",
+                    "value": "The Hero gains a secondary post move attack that is executed after all monsters end up their moving.\nthis is called a \"Suicidal Attack\" since it targets any monster that jumps in front of the hero."
+                },
+                {
+                    "key": "RANGEDATTACK_5",
+                    "value": "The Hero gains a secondary pre move attack that is executed right before he moves.\n\nthis is called a \"Rush Attack\"."
+                },
+                {
+                    "key": "RANGEDATTACK_6",
+                    "value": "Secondary attacks power Increased."
+                },
+                {
+                    "key": "RANGEDATTACK_7",
+                    "value": "Secondary attacks power Increased."
+                },
+                {
+                    "key": "RANGEDATTACK_8",
+                    "value": "Secondary attacks power Increased."
+                },
+                {
+                    "key": "MAGICATTACK_TITLE",
+                    "value": "Magic Attack"
+                },
+                {
+                    "key": "MAGICATTACK",
+                    "value": "Does Magic Damage"
+                },
+                {
+                    "key": "MOVEMENT_TITLE",
+                    "value": "Explorer"
+                },
+                {
+                    "key": "MOVEMENT_1",
+                    "value": "Movement: N S E W\n\n\n(Use Numeric Keypad)"
+                },
+                {
+                    "key": "MOVEMENT_2",
+                    "value": "Movement: N S E W\n\nFlanked Tiles: YES\n\nTunnels: NO\n\nNarrow Passages: NO\n\nDead Ends: NO"
+                },
+                {
+                    "key": "MOVEMENT_3",
+                    "value": "Movement: Numeric Keypad\n\nRotation: C and V\nPick Resource: Z\nDrop Resource: X"
+                },
+                {
+                    "key": "MOVEMENT_4",
+                    "value": "Movement: ALL directions.\n\nFlanked Tiles: YES\n\nTunnels: YES\n\nNarrow Passages: NO\n\nDead Ends: NO"
+                },
+                {
+                    "key": "MOVEMENT_5",
+                    "value": "Movement: ALL directions.\n\nFlanked Tiles: YES\n\nTunnels: YES\n\nNarrow Passages: YES\n\nDead Ends: NO"
+                },
+                {
+                    "key": "MOVEMENT_6",
+                    "value": "Unrestricted Movement."
+                },
+                {
+                    "key": "MOVEMENT_7",
+                    "value": "The Hero gets all of the previous plus the Forest Walk Ability to Enter an Area.\n \nThe Forest Walk ability allows the hero to walk through forest tiles"
+                },
+                {
+                    "key": "MOVEMENT_8",
+                    "value": "The Hero gets all of the previous plus the Forest Walk Ability for the first 5 turns inside an area.\n \nForest walk ability allows the hero to walk through forest tiles"
+                },
+                {
+                    "key": "MOVEMENT_9",
+                    "value": "The Hero gets all of the previous plus10 Forest Walks to be spent whenever he wants.\n \nForest walk ability allows the hero to walk through forest tiles"
+                },
+                {
+                    "key": "BARRICADE_1_TITLE",
+                    "value": "Barricade"
+                },
+                {
+                    "key": "BARRICADE_1",
+                    "value": "Blocks the path. \n\nDoes not Block Ranged attacks.\n\nCan be destroyed by units that have the \"Destroy Barricade\" Perk."
+                },
+                {
+                    "key": "ARROWWALKING_TITLE",
+                    "value": "Arrow Walking"
+                },
+                {
+                    "key": "ARROWWALKING_1",
+                    "value": "Movement restricted to the same direction of the arrow."
+                },
+                {
+                    "key": "ARROWWALKING_2",
+                    "value": "Diagonal Arrow movement Allowed. \n(45 degrees)"
+                },
+                {
+                    "key": "ARROWWALKING_3",
+                    "value": "Orthogonal Arrow Movement Allowed. \n(90 degrees)"
+                },
+                {
+                    "key": "ARROWWALKING_4",
+                    "value": "Unit is only blocked by Arrow when Moving strictly against it."
+                },
+                {
+                    "key": "ARROWWALKING_5",
+                    "value": "Unit Completely ignores arrows blockage."
+                },
+                {
+                    "key": "ARROWIN_TITLE",
+                    "value": "Arrow In"
+                },
+                {
+                    "key": "ARROWIN_1",
+                    "value": "Level 1 Arrow Entrance Granted."
+                },
+                {
+                    "key": "ARROWIN_2",
+                    "value": "Level 2 Arrow Entrance Granted."
+                },
+                {
+                    "key": "ARROWIN_3",
+                    "value": "Level 3 Arrow Entrance Granted."
+                },
+                {
+                    "key": "ARROWIN_4",
+                    "value": "Level 4 Arrow Entrance Granted.\nDecreases Monster Arrow Exit Level by 1."
+                },
+                {
+                    "key": "ARROWIN_5",
+                    "value": "Level 5 Arrow Entrance Granted.\nDecreases Monster Arrow Exit Level by 2."
+                },
+                {
+                    "key": "ARROWOUT_TITLE",
+                    "value": "Arrow Out"
+                },
+                {
+                    "key": "ARROWOUT_1",
+                    "value": "Level 1 Arrow Exit Granted."
+                },
+                {
+                    "key": "ARROWOUT_2",
+                    "value": "Level 2 Arrow Exit Granted."
+                },
+                {
+                    "key": "ARROWOUT_3",
+                    "value": "Level 3 Arrow Exit Granted."
+                },
+                {
+                    "key": "ARROWOUT_4",
+                    "value": "Level 4 Arrow Exit Granted. \nDecreases Monster Arrow Entrance Level by 1."
+                },
+                {
+                    "key": "ARROWOUT_5",
+                    "value": "Level 5 Arrow Exit Granted. \nDecreases Monster Arrow Entrance Level by 2."
+                },
+                {
+                    "key": "DEXTERITY_TITLE",
+                    "value": "Dexterity"
+                },
+                {
+                    "key": "DEXTERITY_1",
+                    "value": "Increase Ranged Attack RANGE by 1."
+                },
+                {
+                    "key": "DEXTERITY_2_TITLE",
+                    "value": "Advanced Dexterity"
+                },
+                {
+                    "key": "DEXTERITY_2",
+                    "value": "Increase Ranged Attack RANGE by 2."
+                },
+                {
+                    "key": "DEXTERITY_3_TITLE",
+                    "value": "Expert Dexterity"
+                },
+                {
+                    "key": "DEXTERITY_3",
+                    "value": "Increase Ranged Attack RANGE by 3."
+                },
+                {
+                    "key": "DEXTERITY_4_TITLE",
+                    "value": "Master Dexterity"
+                },
+                {
+                    "key": "DEXTERITY_4",
+                    "value": "Increase Ranged Attack RANGE by 4."
+                },
+                {
+                    "key": "DEXTERITY_5_TITLE",
+                    "value": "Grandmaster Dexterity"
+                },
+                {
+                    "key": "DEXTERITY_5",
+                    "value": "Increase Ranged Attack RANGE by 5."
+                },
+                {
+                    "key": "ORBSTRIKER_TITLE",
+                    "value": "Orb Striker"
+                },
+                {
+                    "key": "ORBSTRIKER_1",
+                    "value": "Allow the unit to strike orbs. Only keys located in the same tile as the orb are affected. \n (Switches Door State)"
+                },
+                {
+                    "key": "ORBSTRIKER_2",
+                    "value": "Allow the unit to strike orbs. Only keys located in the same tile as the orb or the Hero are affected."
+                },
+                {
+                    "key": "ORBSTRIKER_3",
+                    "value": "Allow the unit to strike orbs. Only keys located in the same tile as the orb or the hero are affected, \n\nPLUS any Adjacent key located to the N S E or W direction of the Orb."
+                },
+                {
+                    "key": "ORBSTRIKER_4",
+                    "value": "Allow the unit to strike orbs. \n\nEvery adjacent key is affected."
+                },
+                {
+                    "key": "ORBSTRIKER_5",
+                    "value": "Allows the hero himself to activate keys by stepping over them.\n"
+                },
+                {
+                    "key": "COOPERATION_1_TITLE",
+                    "value": "Cooperation"
+                },
+                {
+                    "key": "COOPERATION_1",
+                    "value": "Allows you to change the active hero."
+                },
+                {
+                    "key": "COOPERATION_2",
+                    "value": "Allows you to change the active hero as long he is in a Splitter aligned with the targeted one. (LOS required)"
+                },
+                {
+                    "key": "COOPERATION_3",
+                    "value": "Allows you to change the active hero as long he is in a Splitter that has LOS with the targeted one."
+                },
+                {
+                    "key": "COOPERATION_4",
+                    "value": "Allows you to change the hero regardless of the Splitter's Position."
+                },
+                {
+                    "key": "DAMAGESURPLUS_TITLE",
+                    "value": "Damage Surplus"
+                },
+                {
+                    "key": "DAMAGESURPLUS_1",
+                    "value": "Upon killing a monster, 25% of the damage in excess is transferred to the next attack."
+                },
+                {
+                    "key": "DAMAGESURPLUS_2",
+                    "value": "Upon killing a monster, 50% of the damage in excess is transferred to the next attack."
+                },
+                {
+                    "key": "DAMAGESURPLUS_3",
+                    "value": "Upon killing a monster, 75% of the damage in excess is transferred to the next attack."
+                },
+                {
+                    "key": "DAMAGESURPLUS_4",
+                    "value": "Upon killing a monster, 100% of the damage in excess is transferred to the next attack."
+                },
+                {
+                    "key": "MELEESHIELD_TITLE",
+                    "value": "Melee Defender"
+                },
+                {
+                    "key": "MELEESHIELD_1",
+                    "value": "Gives a percentage of the hero Shield for protection."
+                },
+                {
+                    "key": "MELEESHIELD_2",
+                    "value": "Gives a percentage of the hero Shield for protection."
+                },
+                {
+                    "key": "MELEESHIELD_3",
+                    "value": "Gives a percentage of the hero Shield for protection."
+                },
+                {
+                    "key": "MELEESHIELD_4",
+                    "value": "Gives a percentage of the hero Shield for protection."
+                },
+                {
+                    "key": "MELEESHIELD_5",
+                    "value": "Gives a percentage of the hero Shield for protection."
+                },
+                {
+                    "key": "MELEESHIELD_6",
+                    "value": "Gives a percentage of the hero Shield for protection."
+                },
+                {
+                    "key": "MELEESHIELD_7",
+                    "value": "Gives a percentage of the hero Shield for protection."
+                },
+                {
+                    "key": "MELEESHIELD_8",
+                    "value": "Gives a percentage of the hero Shield for protection."
+                },
+                {
+                    "key": "MELEESHIELD_9",
+                    "value": "Gives a percentage of the hero Shield for protection."
+                },
+                {
+                    "key": "MISSILESHIELD_1_TITLE",
+                    "value": "Basic Missile Defense"
+                },
+                {
+                    "key": "MISSILESHIELD_1",
+                    "value": "Enables the use of shield for damage protection against Ranged Attacks."
+                },
+                {
+                    "key": "MAGICSHIELD_1_TITLE",
+                    "value": "Basic Magic Defense"
+                },
+                {
+                    "key": "MAGICSHIELD_1",
+                    "value": "Enables the use of shield for damage protection against Magical Attacks."
+                },
+                {
+                    "key": "PLATFORMWALKING_TITLE",
+                    "value": "Platform Walker"
+                },
+                {
+                    "key": "PLATFORMWALKING_1",
+                    "value": "Enables Platform stepping. Hero can only exit Platforms by Leaving towards the same direction as he entered the Platform Group\n Example: Entered Moving North -> Needs to exit Moving north, too."
+                },
+                {
+                    "key": "PLATFORMWALKING_2",
+                    "value": "Hero Receives Attack Bonus when attacking from Platforms."
+                },
+                {
+                    "key": "PLATFORMWALKING_3",
+                    "value": "Hero Receives Platform Points when he drops all platforms in a group.\n Dirty Areas only!!\n\nLifetime Platform Points Collected gives the hero Bonus Attack from Any Tile."
+                },
+                {
+                    "key": "PLATFORMWALKING_4",
+                    "value": "Every single platform gives Bonus Points When Dropped Down Individually."
+                },
+                {
+                    "key": "PLATFORMWALKING_5",
+                    "value": "Free exit Ability: \nHero can freely exit Platforms towards any direction for a price."
+                },
+                {
+                    "key": "PLATFORMWALKING_6",
+                    "value": "Hero can Close platform groups immediatelly after clearing the area. \n(first area entrance time only - Only half pp gain)"
+                },
+                {
+                    "key": "PLATFORMWALKING_7",
+                    "value": "Orientation Exit Ability: Hero can freely exit Platforms if The orientation that he entered the group \nis the same as the exit. Example:\n\nDiagonal entrance -> Free Diagonal Exit\n\nOrthogonal entrance -> Free Orthogonal Exit"
+                },
+                {
+                    "key": "PLATFORMWALKING_8",
+                    "value": "Reversed exit Ability: \nHero can also exit Platforms moving to the oposite direction as he entered the group."
+                },
+                {
+                    "key": "PLATFORMWALKING_9",
+                    "value": "Monster Exit Ability: \nHero can leave platforms to any tile neighboring a monster.."
+                },
+                {
+                    "key": "PLATFORMWALKING_10",
+                    "value": "Infinite Platform Steps!"
+                },
+                {
+                    "key": "AMBUSHER_TITLE",
+                    "value": "Ambusher"
+                },
+                {
+                    "key": "AMBUSHER_1",
+                    "value": "Every Forest Tile surrounding a Monster gives a bonus Attack Against it."
+                },
+                {
+                    "key": "AMBUSHER_2",
+                    "value": "Every Forest Tile surrounding a Monster gives a bonus Attack Against it."
+                },
+                {
+                    "key": "AMBUSHER_3",
+                    "value": "Every Forest or Monster Tile surrounding a Monster gives a bonus Attack Against it."
+                },
+                {
+                    "key": "AMBUSHER_4",
+                    "value": "Every Forest or Monster Tile surrounding a Monster gives a bonus Attack Against it."
+                },
+                {
+                    "key": "AMBUSHER_5",
+                    "value": "Every Forest and Monster Tile surrounding a Monster gives a bonus Attack Against it.\n \nPlus any Water Tile Surrounding the hero also give him an attack Bonus."
+                },
+                {
+                    "key": "AMBUSHER_6",
+                    "value": "Every Forest and Monster Tile surrounding a Monster gives a bonus Attack Against it.\n \nPlus any Water Tile Surrounding the hero also give him an attack Bonus."
+                },
+                {
+                    "key": "MONSTERCORNERING_TITLE",
+                    "value": "Monster Cornering"
+                },
+                {
+                    "key": "MONSTERCORNERING_1",
+                    "value": "Push a monster against an obstacle while attacking to improve the Damage done to that monster."
+                },
+                {
+                    "key": "MONSTERCORNERING_2",
+                    "value": "Push a monster against an obstacle while attacking to improve the Damage done to that monster."
+                },
+                {
+                    "key": "MONSTERCORNERING_3",
+                    "value": "Push a monster against an obstacle while attacking to improve the Damage done to that monster."
+                },
+                {
+                    "key": "MONSTERCORNERING_4",
+                    "value": "Push a monster against an obstacle while attacking to improve the Damage done to that monster."
+                },
+                {
+                    "key": "MONSTERPUSH_TITLE",
+                    "value": "Monster Pusher"
+                },
+                {
+                    "key": "MONSTERPUSH_1",
+                    "value": "Allows the Unit to push Monsters  inside areas.\n (Not Diagonaly)"
+                },
+                {
+                    "key": "MONSTERPUSH_2",
+                    "value": "Allows the Unit to push Monsters in any direction inside areas."
+                },
+                {
+                    "key": "MONSTERPUSH_3",
+                    "value": "Allows the Unit to push Monsters from outside areas."
+                },
+                {
+                    "key": "MONSTERPUSH_4",
+                    "value": "A Monster that is being Pushed cannot attack the hero.\n\n(but cannot be attacked as well)"
+                },
+                {
+                    "key": "MONSTERPUSH_5",
+                    "value": "Swing Push Allowed."
+                },
+                {
+                    "key": "MONSTERPUSH_6",
+                    "value": "Allows the Unit to push 2 Monsters in a row."
+                },
+                {
+                    "key": "STARS_TITLE",
+                    "value": "Stars"
+                },
+                {
+                    "key": "STARS_1",
+                    "value": "Slightly improve your HP, attack and defense.\n\nCollect 5 stars to level up and gain even bigger bonuses."
+                },
+                {
+                    "key": "SCOUT_TITLE",
+                    "value": "Scout"
+                },
+                {
+                    "key": "SCOUT_1",
+                    "value": "The higher your Scout Level the farther you can see on the map.\n\nCollect Telescopes to improve it. Move the mouse over the icon for more help..."
+                },
+                {
+                    "key": "OVERBARRICADESCOUT_TITLE",
+                    "value": "Over Barricade Scout"
+                },
+                {
+                    "key": "OVERBARRICADESCOUT_1",
+                    "value": "Each level of this perk increases the ability of the hero to look over barricades by one unit size."
+                },
+                {
+                    "key": "SHOWRESOURCECHANCE_TITLE",
+                    "value": "Show Resource Chance"
+                },
+                {
+                    "key": "SHOWRESOURCECHANCE_1",
+                    "value": "Chance for a tile containing a bonus rune to be revealed."
+                },
+                {
+                    "key": "SHOWRESOURCENEIGHBORSCHANCE_TITLE",
+                    "value": "Show Resource Neighbor Chance"
+                },
+                {
+                    "key": "SHOWRESOURCENEIGHBORSCHANCE_1",
+                    "value": "This determines the chance for the neighbor tiles of a revealed rune to be revealed. \n \nUseful for checking if the resource is worth picking up."
+                },
+                {
+                    "key": "MEMORY_TITLE",
+                    "value": "Memory"
+                },
+                {
+                    "key": "MEMORY_1",
+                    "value": "Some Icons Appear on the map Allowing you to save NEO Game Progress."
+                },
+                {
+                    "key": "MEMORY_2",
+                    "value": "Some Icons Appear also Inside Areas Allowing you to save NEO Game Progress while Fighting."
+                },
+                {
+                    "key": "MEMORY_3",
+                    "value": "Level 2 Savegame Icons Appear on the map."
+                },
+                {
+                    "key": "MEMORY_4",
+                    "value": "Level 3 Savegame Icons Appear on the map."
+                },
+                {
+                    "key": "MEMORY_5",
+                    "value": "Level 4 Savegame Icons Appear on the map."
+                },
+                {
+                    "key": "MEMORY_6",
+                    "value": "Level 5 Savegame Icons Appear on the map."
+                },
+                {
+                    "key": "TOOLBOX_TITLE",
+                    "value": "Toolbox"
+                },
+                {
+                    "key": "TOOLBOX_1",
+                    "value": "Provides a set of Tools to help you with the Gameplay.\n\nFirst Level Gives you a magnifying glass that allows you to read Scroll Texts."
+                },
+                {
+                    "key": "TOOLBOX_2",
+                    "value": "\"Provides a set of Tools to help you with the Gameplay.\n\nSecond Level gives you a measuring tape enabling the \"Grid Button\", Check menu Screen.\""
+                },
+                {
+                    "key": "TOOLBOX_3",
+                    "value": "\"Provides a set of Tools to help you with the Gameplay.\n\nThird Level gives you a Dummy for you to train your fighting. (Enables Battle Key)\""
+                },
+                {
+                    "key": "TOOLBOX_4",
+                    "value": "Provides a set of Tools to help you with the Gameplay.\n \nThird Level you a rudimentary Binocular enabling the \"Artifact and Area Seek Buttons\", Check menu Screen."
+                },
+                {
+                    "key": "TOOLBOX_5",
+                    "value": "Provides a set of Tools to help you with the Gameplay.\n\nFifth Level gives you a pencil and a paper enabling the \"Compare Hero Button\", Check menu Screen."
+                },
+                {
+                    "key": "SPRINTER_TITLE",
+                    "value": "Sprinter"
+                },
+                {
+                    "key": "SPRINTER_1",
+                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
+                },
+                {
+                    "key": "SPRINTER_2",
+                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
+                },
+                {
+                    "key": "SPRINTER_3",
+                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
+                },
+                {
+                    "key": "SPRINTER_4",
+                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
+                },
+                {
+                    "key": "SPRINTER_5",
+                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
+                },
+                {
+                    "key": "SPRINTER_6",
+                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
+                },
+                {
+                    "key": "FIREMASTER_TITLE",
+                    "value": "Fire Master"
+                },
+                {
+                    "key": "FIREMASTER_1",
+                    "value": "Allows the hero to Ignite a Pire By Stepping on FIVE tiles around it.\n\nEach file lit decreases this number by one.\n\nEach Bonfire lit in the area/cube gives attack bonuses progressivelly."
+                },
+                {
+                    "key": "FIREMASTER_2",
+                    "value": "Allows the hero to Ignite a Pire By Stepping on FOUR tiles around it."
+                },
+                {
+                    "key": "FIREMASTER_3",
+                    "value": "Allows the hero to Ignite a Pire By Stepping on THREE tiles around it."
+                },
+                {
+                    "key": "FIREMASTER_4",
+                    "value": "Allows the hero to Ignite a Pire By Stepping on TWO tiles around it."
+                },
+                {
+                    "key": "FIREMASTER_5",
+                    "value": "Allows the hero to Ignite any Surrounding Pire immediatelly."
+                },
+                {
+                    "key": "FIREMASTER_6",
+                    "value": "Fire Spreads to Neighbor Pires and Barricades.\n\nFlaming Barricades deal 30% Fire Damage to Attackers"
+                },
+                {
+                    "key": "FIREMASTER_7",
+                    "value": "Hero Can Put out the Fire by bumping against it."
+                },
+                {
+                    "key": "FIREMASTER_8",
+                    "value": "Hero Shoots fire Arrows that Ignites Pires under Monsters."
+                },
+                {
+                    "key": "FIREMASTER_9",
+                    "value": "Monsters suffer Immediate burn Damage after Stepping on Fire."
+                },
+                {
+                    "key": "FIREMASTER_10",
+                    "value": "Heroes suffer no damage when destroying burning barricades."
+                },
+                {
+                    "key": "FIREMASTER_11",
+                    "value": "Burning Damage greatly Increased!"
+                },
+                {
+                    "key": "FIREMASTER_12",
+                    "value": "Each Global Bonfire gives 1% Attack Bonus to the Hero."
+                },
+                {
+                    "key": "FIREPOWER_TITLE",
+                    "value": "Fire Power"
+                },
+                {
+                    "key": "FIRESPREAD_TITLE",
+                    "value": "Fire Spread"
+                },
+                {
+                    "key": "FIREWOODNEEDED_TITLE",
+                    "value": "Wood Needed"
+                },
+                {
+                    "key": "OUTSIDEFIREWOODALLOWED_TITLE",
+                    "value": "Outside FireWood Allowed"
+                },
+                {
+                    "key": "FIREPITSNEEDEDFORDISCOUNT_TITLE",
+                    "value": "Firepits Needed for Discount"
+                },
+                {
+                    "key": "FIRESTARBONUS_TITLE",
+                    "value": "Fire Star Bonus"
+                },
+                {
+                    "key": "BERSERK_TITLE",
+                    "value": "Berserk"
+                },
+                {
+                    "key": "BERSERK_1",
+                    "value": "Unit gains a free Melee attack when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: Only in the First Turn."
+                },
+                {
+                    "key": "BERSERK_2",
+                    "value": "Unit gains a free Melee or Ranged attack when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: First Turn."
+                },
+                {
+                    "key": "BERSERK_3",
+                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: First Turn."
+                },
+                {
+                    "key": "BERSERK_4",
+                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: First Turn."
+                },
+                {
+                    "key": "BERSERK_5",
+                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: For 2 Turns."
+                },
+                {
+                    "key": "BERSERK_6_TITLE",
+                    "value": "Grandmaster Berserk"
+                },
+                {
+                    "key": "BERSERK_6",
+                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: For 2 Turns."
+                },
+                {
+                    "key": "BERSERK_7",
+                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: For 2 Turns."
+                },
+                {
+                    "key": "BEEHIVETHROWER_TITLE",
+                    "value": "Beehive Fighter"
+                },
+                {
+                    "key": "BEEHIVETHROWER_1",
+                    "value": "Hero Can bump against beehives at forest tiles to drop them.\n\nUseful for Distracting Monsters."
+                },
+                {
+                    "key": "BEEHIVETHROWER_2",
+                    "value": "Besides Bumping, Ranged attack can also be used to drop beehives.\n\nMelhorar muitomais"
+                },
+                {
+                    "key": "BEEHIVETHROWER_3",
+                    "value": "Outside area Bumbing allowed."
+                },
+                {
+                    "key": "BEEHIVETHROWER_4",
+                    "value": "Beehive Life Counter never gets bellow the amount of Forest Tiles around it when it falls."
+                },
+                {
+                    "key": "BEEHIVETHROWER_5",
+                    "value": "Beehives can be pushed to adjacent Forest Tiles."
+                },
+                {
+                    "key": "BEEHIVETHROWER_6",
+                    "value": "Insta-kill for Beehive Targeted Monsters!"
+                },
+                {
+                    "key": "BEEHIVETHROWER_7",
+                    "value": "Hero throws BeeHives at the 8 tiles around him while standing still.\n\n(Knight's move targets from Chess)\n\nOnly monsters that have no path to the hero can be attacked.\n"
+                },
+                {
+                    "key": "BEEHIVETHROWER_8",
+                    "value": "Hero throws BeeHives at the 8 tiles around him.\n\n(Knight's move targets from Chess)\n \nMove attack allowed."
+                },
+                {
+                    "key": "BEEHIVETHROWER_9",
+                    "value": "Hero throws BeeHives at the 8 tiles around him.\n\n(Knight's move targets from Chess)\n \nHero becomes immune when successfully attacking."
+                },
+                {
+                    "key": "PSYCHIC_TITLE",
+                    "value": "Psychic"
+                },
+                {
+                    "key": "PSYCHIC_1",
+                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
+                },
+                {
+                    "key": "PSYCHIC_2",
+                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
+                },
+                {
+                    "key": "PSYCHIC_3",
+                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
+                },
+                {
+                    "key": "PSYCHIC_4",
+                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
+                },
+                {
+                    "key": "PSYCHIC_5",
+                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
+                },
+                {
+                    "key": "PSYCHIC_6",
+                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
+                },
+                {
+                    "key": "PSYCHIC_7",
+                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
+                },
+                {
+                    "key": "PSYCHIC_8",
+                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
+                },
+                {
+                    "key": "SNEAKING_TITLE",
+                    "value": "Sneaker"
+                },
+                {
+                    "key": "SNEAKING_1",
+                    "value": "Sleeping Monsters do not Wake up while Hero is in their Back Zone."
+                },
+                {
+                    "key": "SNEAKING_2",
+                    "value": "In Addition, Sleeping Monsters do not Wake up while Hero is in their BackRight or BackLeft Zones."
+                },
+                {
+                    "key": "SNEAKING_3",
+                    "value": "In Addition, Sleeping Monsters do not Wake up while Hero is in their BackSide and Side Zones."
+                },
+                {
+                    "key": "SNEAKING_4",
+                    "value": "In Addition, Sleeping Monsters do not Wake up while Hero is in their FrontSide Zones."
+                },
+                {
+                    "key": "SNEAKING_5",
+                    "value": "Sleeping Monsters only Wake up if Hero Steps in their Front Zone."
+                },
+                {
+                    "key": "WALLDESTROYER_TITLE",
+                    "value": "Wall Destroyer"
+                },
+                {
+                    "key": "WALLDESTROYER_1",
+                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
+                },
+                {
+                    "key": "WALLDESTROYER_2",
+                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
+                },
+                {
+                    "key": "WALLDESTROYER_3",
+                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
+                },
+                {
+                    "key": "WALLDESTROYER_4",
+                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
+                },
+                {
+                    "key": "WALLDESTROYER_5",
+                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
+                },
+                {
+                    "key": "LOOTER_TITLE",
+                    "value": "Looter"
+                },
+                {
+                    "key": "LOOTER_1",
+                    "value": "Hero Receives Rune Bonus after discovering a new Area."
+                },
+                {
+                    "key": "LOOTER_2",
+                    "value": "Hero Receives Rune Bonus after clearing an area."
+                },
+                {
+                    "key": "LOOTER_3",
+                    "value": "Big Monsters Give Rune bonus when killed."
+                },
+                {
+                    "key": "LOOTER_4",
+                    "value": "Small Monsters Give Rune bonus when killed."
+                },
+                {
+                    "key": "LOOTER_5",
+                    "value": "Big Monsters rune bonus: +1"
+                },
+                {
+                    "key": "LOOTER_6",
+                    "value": "Hero Receives Rune Bonus after clearing a Cube."
+                },
+                {
+                    "key": "LOOTER_7",
+                    "value": "Small monster Drop loot under certain conditions:\n\nScarabs, if killed surrounded by other Monsters.\n\nMosquitoes: if Killed last."
+                },
+                {
+                    "key": "LOOTER_8",
+                    "value": "Big Monsters Always Drop Loot."
+                },
+                {
+                    "key": "LOOTER_9",
+                    "value": "Next \"X' Kills give extra rune bonus.\n\nAchieve A \"X\" kill by killing a monster in the middle of 4 tall tiles forming an X shape.\n\nLimit of 1 per area."
+                },
+                {
+                    "key": "LOOTER_10",
+                    "value": "Next \"+' Kills give extra rune bonus.\n\nAchieve A \"+\" kill by killing a monster in the middle of 4 tall tiles forming a + shape.\n\nLimit of 1 per area."
+                },
+                {
+                    "key": "LOOTER_11",
+                    "value": "As soon as this perk is bought, there's a chance for a\n\nTriple Rune prize to be given after clearing the next areas.\n\nBonus: 3x to all runes collected in the area. Single use only."
+                },
+                {
+                    "key": "LOOTER_12",
+                    "value": "Your next Dead End Kills give rune bonuses."
+                },
+                {
+                    "key": "LOOTER_13",
+                    "value": "As soon as this perk is bought, there's a chance for a\n\nQuadruple Rune prize to be given after clearing the next areas.\n\nBonus: 4x to all runes collected in the area. Single use only."
+                },
+                {
+                    "key": "PROSPECTOR_TITLE",
+                    "value": "Prospector"
+                },
+                {
+                    "key": "PROSPECTOR_1",
+                    "value": "Hero Receives Interest Bonus after Clearing an area."
+                },
+                {
+                    "key": "PROSPECTOR_2",
+                    "value": "Better Interest Rate."
+                },
+                {
+                    "key": "PROSPECTOR_3",
+                    "value": "Bonus Applied to Resource Amount, too.    add RES PICKING imunitty here"
+                },
+                {
+                    "key": "PROSPECTOR_4",
+                    "value": "Resources Persist after Exiting Areas. MOVEDOWN"
+                },
+                {
+                    "key": "PROSPECTOR_5",
+                    "value": "Hero can Colect Resources from outside areas. (Front Facing)"
+                },
+                {
+                    "key": "PROSPECTOR_6",
+                    "value": "Hero gets 50% of Wasted Resources."
+                },
+                {
+                    "key": "PROSPECTOR_7",
+                    "value": "Hero can Colect Resources that are in front of him.  MOVEUP"
+                },
+                {
+                    "key": "PROSPECTOR_8",
+                    "value": "Much Better Interest."
+                },
+                {
+                    "key": "COLLECTOR_TITLE",
+                    "value": "Collector"
+                },
+                {
+                    "key": "RESOURCEPERSISTANCE_TITLE",
+                    "value": "Resource Persistance"
+                },
+                {
+                    "key": "RTMELEEATTACKSPEED_TITLE",
+                    "value": "RT Melee Attack Speed"
+                },
+                {
+                    "key": "RTRANGEDATTACKSPEED_TITLE",
+                    "value": "RT Ranged Attack Speed"
+                },
+                {
+                    "key": "MIRE_TITLE",
+                    "value": "Mire"
+                },
+                {
+                    "key": "MINING_TITLE",
+                    "value": "Mining"
+                },
+                {
+                    "key": "FISHING_TITLE",
+                    "value": "Fisherman"
+                },
+                {
+                    "key": "RESTDISTANCE_TITLE",
+                    "value": "Rest Distance"
+                },
+                {
+                    "key": "ECONOMIST_TITLE",
+                    "value": "Economist"
+                },
+                {
+                    "key": "BARRICADEFIGHTER_TITLE",
+                    "value": "Barricade Fighter"
+                },
+                {
+                    "key": "BARRICADEFIGHTER_1",
+                    "value": "Hover mouse over icon for more info..."
+                },
+                {
+                    "key": "BARRICADEFIGHTER_2",
+                    "value": "The Barricade located in front of the hero gets +1 as soon as he enters a new area."
+                },
+                {
+                    "key": "BARRICADEFIGHTER_3",
+                    "value": "All Barricades around the hero also get +1 as soon as he enters a new area."
+                },
+                {
+                    "key": "BARRICADEFIGHTER_4",
+                    "value": "All Barricades in the front row of the hero also get +1 as soon as he enters a new area."
+                },
+                {
+                    "key": "BARRICADEFIGHTER_5",
+                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 2 to 1.\n\n(Bump frontal Barricade to transfer Wood)"
+                },
+                {
+                    "key": "BARRICADEFIGHTER_6",
+                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 1 to 1."
+                },
+                {
+                    "key": "BARRICADEFIGHTER_7",
+                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 1 to 1.\n\nBackSide Tiles added. \nRate 3 to 1."
+                },
+                {
+                    "key": "BARRICADEFIGHTER_8",
+                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 1 to 1.\n\nBackSide Tiles added. \nRate 2 to 1."
+                },
+                {
+                    "key": "BARRICADEFIGHTER_9",
+                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 1 to 1.\n\nBackSide Tiles added. \nRate 1 to 1."
+                },
+                {
+                    "key": "DESTROYBARRICADE_TITLE",
+                    "value": "Destroy Barricade"
+                },
+                {
+                    "key": "BARRICADEFORRUNE_TITLE",
+                    "value": "Barricade For Runes"
+                },
+                {
+                    "key": "HERONEIGHBORTOUCHADDER_TITLE",
+                    "value": "Barricade Adder"
+                },
+                {
+                    "key": "OUTAREABURNINGBARRICADEDESTROYBONUS_TITLE",
+                    "value": "Outarea Burning Barricade Destroy Bonus"
+                },
+                {
+                    "key": "EVASION_TITLE",
+                    "value": "Evasion"
+                },
+                {
+                    "key": "EVASION_1",
+                    "value": "Hero gains evasion points when he enters an area.\n\nHero can evade attacks from his back tile While moving.\n\n\nCost: 1 Evasion Point."
+                },
+                {
+                    "key": "EVASION_2",
+                    "value": "Hero can evade attacks from The backSide Tiles While Moving.\n\n\nCost: 2 Evasion Points."
+                },
+                {
+                    "key": "EVASION_3",
+                    "value": "Hero can evade Attacks from behind narrow passages.\n\n\nCost: 4 Evasion Points."
+                },
+                {
+                    "key": "EVASION_4",
+                    "value": "Hero can evade Attacks if he has 2 or 3 Tall tiles towards his back Direction \n\n(in a straight line).\n\n\nCost: 4 or 2 Evasion Points respectivelly."
+                },
+                {
+                    "key": "EVASION_5",
+                    "value": "Evade Point cost reduced by 1 if the hero has moved in the Current turn.\n\n\n(Minimum cost is always 1)"
+                },
+                {
+                    "key": "EVASION_6",
+                    "value": "Fresh Attack Evasion: Hero can evade Attacks from Any tile as long he has not attacked from that position\n and direction yet.\n\nHero attack needed!\n\n\nCost: 3 Evasion Points."
+                },
+                {
+                    "key": "EVASION_7",
+                    "value": "Hero can evade attacks from Side Tiles While Moving.\n\n\nCost: 3 Evasion Points."
+                },
+                {
+                    "key": "EVASION_8",
+                    "value": "Each Monster kill gives 2 extra Evasion points."
+                },
+                {
+                    "key": "PERFECTIONIST_TITLE",
+                    "value": "Perfectionist"
+                },
+                {
+                    "key": "PERFECTIONIST_1",
+                    "value": "Perfect areas Heals the Hero.\n\nTo Achieve a perfect area, clear it with no damage taken."
+                },
+                {
+                    "key": "SCAVENGER_TITLE",
+                    "value": "Scavenger"
+                },
+                {
+                    "key": "SCAVENGER_1",
+                    "value": "Hero has a chance to find extra Bonuses in the next cubes."
+                },
+                {
+                    "key": "ARROWFIGHTER_TITLE",
+                    "value": "Arrow Fighter"
+                },
+                {
+                    "key": "ARROWFIGHTER_1",
+                    "value": ""
+                },
+                {
+                    "key": "AGILITY_TITLE",
+                    "value": "Agility"
+                },
+                {
+                    "key": "MORTALJUMP_TITLE",
+                    "value": "Mortal Jump"
+                },
+                {
+                    "key": "RISKYATTACK_TITLE",
+                    "value": "Risky Attack"
+                },
+                {
+                    "key": "OPENFIELDATTACK_TITLE",
+                    "value": "Open Field Attack"
+                },
+                {
+                    "key": "FRESHATTACK_TITLE",
+                    "value": "Fresh Attack"
+                },
+                {
+                    "key": "THREAT_TITLE",
+                    "value": "Posing Threat Level"
+                },
+                {
+                    "key": "BASETHREATDURATION_TITLE",
+                    "value": "Threat Power"
+                },
+                {
+                    "key": "SCARYLEVEL_TITLE",
+                    "value": "Scary Level"
+                },
+                {
+                    "key": "INTELLIGENCE_TITLE",
+                    "value": "Intelligence"
+                },
+                {
+                    "key": "SLAYERLEVEL_TITLE",
+                    "value": "Slayer"
+                },
+                {
+                    "key": "FLYINGTARGETTING_TITLE",
+                    "value": "Flying Targetting"
+                },
+                {
+                    "key": "SLAYERANGLE_TITLE",
+                    "value": "Flying Back Attack Angle"
+                },
+                {
+                    "key": "SLAYERMAXHP_TITLE",
+                    "value": "Flying Back Attack Max HP"
+                },
+                {
+                    "key": "DISGUISE_TITLE",
+                    "value": "Flying Disguise"
+                },
+                {
+                    "key": "DRAGONBONUSDROP_TITLE",
+                    "value": "Dragon Bonus Drop"
+                },
+                {
+                    "key": "DRAGONBARRICADEPROTECTION_TITLE",
+                    "value": "Dragon Barricade Protection"
+                }
+            ]
+        },
+        {
+            "name": "Building",
+            "entriesList": [
+                {
+                    "key": "",
+                    "value": ""
+                },
+                {
+                    "key": "STONE_STORAGE_DESCRIPTION",
+                    "value": "Stores Stones."
+                },
+                {
+                    "key": "WOOD_PILE_DESCRIPTION",
+                    "value": "Stores Wood."
+                },
+                {
+                    "key": "WOOD_CUTTER_DESCRIPTION",
+                    "value": "Produces Axes for Choping Down Forest Tiles."
+                },
+                {
+                    "key": "WORK_AREA_DESCRIPTION",
+                    "value": "Man at Work!"
+                },
+                {
+                    "key": "FORGE_DESCRIPTION",
+                    "value": "Melts Basic ore into Bars."
+                },
+                {
+                    "key": "FIREPIT_DESCRIPTION",
+                    "value": "Prepare Delicious Food Here!"
+                },
+                {
+                    "key": "WAREHOUSE_DESCRIPTION",
+                    "value": "Stores Basic Resources."
+                },
+                {
+                    "key": "FOOD_WAREHOUSE_DESCRIPTION",
+                    "value": "Stores Food."
+                },
+                {
+                    "key": "TOOLS_BUILDING_DESCRIPTION",
+                    "value": "Stores Tools for Farm Improvements."
+                },
+                {
+                    "key": "ROAD_BUILDING_DESCRIPTION",
+                    "value": "Stores Trowels for Road Building."
+                },
+                {
+                    "key": "ROAD_WORK_AREA_DESCRIPTION",
+                    "value": "Road is Being Built..."
+                },
+                {
+                    "key": "TENT_DESCRIPTION",
+                    "value": "The Tent is where the Hero resides.\nIt provides support bonuses that improve Farming efficiency.\nHover mouse to learn more."
+                },
+                {
+                    "key": "BERRY_STORAGE_DESCRIPTION",
+                    "value": "Stores Berries and Seeds for berries."
+                },
+                {
+                    "key": "BERRY_BUSH_DESCRIPTION",
+                    "value": "Grows Delicious Berries."
+                },
+                {
+                    "key": "BLACKBERRY_BUSH_DESCRIPTION",
+                    "value": "Grows Delicious Blackberries."
+                },
+                {
+                    "key": "STRAWBERRY_BUSH_DESCRIPTION",
+                    "value": "Grows Delicious Strawberries."
+                },
+                {
+                    "key": "PLANT_2_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_3_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_4_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_5_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_6_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_7_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_8_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_9_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_10_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_11_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_12_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_13_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_14_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_15_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "PLANT_16_DESCRIPTION",
+                    "value": "Plant Description"
+                },
+                {
+                    "key": "SEED_BUILDING_1_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_2_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_3_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_4_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_5_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_6_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_7_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_8_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_9_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_10_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_11_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_12_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_13_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_14_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_15_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "SEED_BUILDING_16_DESCRIPTION",
+                    "value": "Seed Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_1_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_2_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_3_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_4_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_5_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_6_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_7_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_8_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_9_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_10_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_11_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_12_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_13_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_14_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_15_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                },
+                {
+                    "key": "FRUIT_BUILDING_16_DESCRIPTION",
+                    "value": "Fruit Building Description."
+                }
+            ]
+        },
+        {
             "name": "Main",
             "entriesList": [
                 {
@@ -573,7 +2442,7 @@
                 },
                 {
                     "key": "FIRE_HELP_INTRO",
-                    "value": "Fire Level: Your Fire Level determines how many Fire Powers can be active (green) at the same time. When the timer reaches 0, a downgrade occurs and passive powers are reset.\n\nFire Tokens: There are two ways of Spending Fire Tokens (cost: 1):\n\n1) -Performing a NON-FRONTAL Tent Bump:\nAttempts to increase your Fire Level. \nSuccess increases the level, while failure may decrease it.\nEach failed attempt increases the chance of success on the next try.\nPlus: An Asterisk is Randomly Relocated.\n\n2) -Performing a FRONTAL Tent Bump:\nSorts a new Fire Power randomly from the available Asterisk list."
+                    "value": "[b][FFFF00]Fire Power Tutorial:[-][/b]\n\n[FFFF00]Fire Level: [-][FFFFFF]Your Fire Level determines how many Fire Powers can be active at the same time. When the timer reaches 0, a downgrade occurs and passive powers are reset.[-]\n\n\n\n[FFFF00]Fire Tokens: [-][FFFFFF]There are two ways of Spending Fire Tokens (cost: 1):[-]\n\n\n\n[FFFF00]1) -Performing a NON-FRONTAL Tent Bump:[-]\n[FFFFFF]Attempts to increase your Fire Level.\nSuccess increases the level, while failure may decrease it.\nEach failed attempt increases the chance of success on the next try.\nPlus: An Asterisk is Randomly Relocated.[-]\n\n\n\n[FFFF00]2) -Performing a FRONTAL Tent Bump:[-]\n[FFFFFF]Sorts a new Fire Power randomly from the available Asterisk list.[-]"
                 },
                 {
                     "key": "FIRE_HELP_INTRO_POWERS",
@@ -613,7 +2482,7 @@
                 },
                 {
                     "key": "FIRE_STAT_TAG_LEVEL",
-                    "value": "When Fire Tokens are spent, Tags may appear around the tent. \nBumping a Tag allows you to select a replacement to L1 power at no cost.\nIncreasing this level improves Tag rarity, and spawn chance."
+                    "value": "When Fire Tokens are spent, Tags may appear around the tent. \nBumping a Tag Bubble allows you to select a replacement to L1 power at no cost.\nIncreasing this level improves Tag rarity, and spawn chance."
                 },
                 {
                     "key": "FIRE_STAT_TAG_BUBBLES",
@@ -4493,1875 +6362,6 @@
                 {
                     "key": "A23_DYNAMIC_ARROWS_CUBE_1",
                     "value": ""
-                }
-            ]
-        },
-        {
-            "name": "Adventure Description",
-            "entriesList": [
-                {
-                    "key": "A1_QUEST_1",
-                    "value": "After choosing the 'Making Fire' quest, click 'New Incursion' to start it.\n\n \nOnce you've lit 10 firepits and earned the trophy, click the image below to proceed to the next quest."
-                },
-                {
-                    "key": "A1_QUEST_2",
-                    "value": "Now that you have chosen the Desired Quest, \nClick the \"New Incursion\" Button to start it...\n\nOnce you have completed your goals (left panel), \nfinalize the adventure and click the image below to choose another Quest."
-                },
-                {
-                    "key": "A1_QUEST_3",
-                    "value": "Mastering Hero Rotation is the key to efficient fighting.\n\n\nYour rotation training starts here."
-                },
-                {
-                    "key": "A2_QUEST_8",
-                    "value": "IMPORTANT: This Quest gives you a Blueprint that can be used in the farm to \nupgrade Stone Maximum Storage Capacity. \nUse it as soon as possible to avoid wasting your precious stones due to lack of storage space."
-                },
-                {
-                    "key": "A2_QUEST_16",
-                    "value": "As soon as you purchase the Auto Move Tech, just enable the Auto Move button and your character \nwill run to the next available battle spot, saving time and keeping the action going.\n\nYou can also quickly locate the next checkpoint by pressing the \"\\\" key."
-                },
-                {
-                    "key": "A2_QUEST_11",
-                    "value": "This quest offers a technology that improves all Shell gains throughout the game.\nOpen the Studies panel and look for the icon with the word \"Global\".\nGlobal techs affect every quest, everywhere.\nNotice that you have a chance to obtain it with every purchase."
-                },
-                {
-                    "key": "A2_QUEST_7",
-                    "value": "Goals (Left Panel) Information:\nRed Square: Goal has not yet been conquered.\nWhite Square: Goal has been conquered at least once.\nText: Displays goal information followed by the current state (number achieved).\nLast Two Icons: Represent prizes and their respective amounts.\nHover Action: Move the mouse over a goal to view more detailed information."
-                },
-                {
-                    "key": "A2_QUEST_13",
-                    "value": "IMPORTANT: This Quest gives you a Blueprint that can be used in the farm to \nIncrease the maximum amount of Stone that can be carried at once.\n\n\nNo more back and forth travelling, Yupee!"
-                },
-                {
-                    "key": "A2_QUEST_1",
-                    "value": "This quest grants a one-time blueprint that boosts Stone Production Speed on the farm. \nConquer 30 Cubes to obtain it. Hover the goal for more info."
-                },
-                {
-                    "key": "A1_QUEST_4",
-                    "value": "TIP 1: If you need to restart, Just Press Enter to open this Dialog and press R Key.\n\n\nTIP 2: Is this Quest getting too hard? Want more Action? Just Choose another quest in the Navigation map!"
-                },
-                {
-                    "key": "A5_QUEST_7",
-                    "value": "Time to test your Quickthinking ability...\n\n \nTIP: Advanced maps are only available for players who have\n upgraded their farms to the ultimate level. \n \nSo, Try to maximize your resource cap, generation, etc. \n \nYou will also need to craft advanced weapons to be able to fully explore NEO Scope. \n\n \nEvery resource gained counts!\n\n Play frequently! \n\n \nPlay harder!"
-                },
-                {
-                    "key": "A2_QUEST_5",
-                    "value": "Some Quests Like this one allows you to start from any Cube that has already been conquered.\n\n\nChoose an alternate starting cube in the green dropdown below the image."
-                },
-                {
-                    "key": "A2_QUEST_4",
-                    "value": "Frog is an Advanced Monster to be Fought, principally if you do not Know how to Play Chess.\n\nDo Heavy Training elsewhere before facing them!"
-                },
-                {
-                    "key": "A2_QUEST_20",
-                    "value": "NEO has a High Replay Value!\n\nNEO Was designed to reward you for every second you play it!\n\nFor every step you take you have a small chance to find Clovers!\n\nClovers can be exchanged for other resources or used to Unlock goodies.\n\nJust Keep on Playing and your Inventory will keep growing."
-                },
-                {
-                    "key": "",
-                    "value": "Studying the Cube is Vital for Success! Plan your strategy first...\n\n\nHOLD RControl Key for a second to Activate STUDY MODE!\n(Zoom Out + Hide Vegetation Layer)."
-                },
-                {
-                    "key": "A2_QUEST_19",
-                    "value": "This Quest Provides Tutorials about Farm Monsters.\n(Play it if you're getting Stuck in the farm).\n\nFarm gets much mure productive if you know how to handle Plague."
-                },
-                {
-                    "key": "A2_QUEST_3",
-                    "value": "Important: Unlock Studies!\n\nEvery time you clear a cube, you earn Shells and Cogs based on the cube’s level. \nIncrease your storage limits in the Studies panel to avoid losing rewards when storage is full (red text)."
-                },
-                {
-                    "key": "A2_QUEST_9",
-                    "value": "IMPORTANT: This provides a tech that enables automatic offline production for Shells.\nYou can find a similar tech for Cogs in the Mining I quest.\n\nNote that automatic production may have an initial per-login CAP that can be upgraded as you go."
-                },
-                {
-                    "key": "A2_QUEST_12",
-                    "value": "Hint: While Playing, if you run out of Mining Points:\n\n\nJust Press Enter to open this Dialog and press R to Quickly Restart the Session."
-                },
-                {
-                    "key": "A2_QUEST_15",
-                    "value": "This quest grants a Planting Token as a goal reward.\nThe Planting Token gives you extra space for planting on the farm.\nUse the Hoe in the Tools Building to add or remove planting spots."
-                },
-                {
-                    "key": "A2_QUEST_2",
-                    "value": "Keyboard Shortcuts for this dialog:\n\n\n(N) - Finalize or Start Incursion.\n\n(M) - Navigation Map (Finalize First).\n\n(F) - Go to the Farm (Finalize First).\n\n(Enter) - Close Dialog. (Back To Playing)\n\n(R) - Force Restart. (Finalize and Restart)\n"
-                },
-                {
-                    "key": "A2_QUEST_21",
-                    "value": "TIP: Hold F1 to Display Shortcuts for this Dialog."
-                },
-                {
-                    "key": "A4_QUEST_7",
-                    "value": "You can get a Blueprint to upgrade Wood Pile Max Storage Capacity Here. \nTry to get as much Blueprints as you can before you start using it (Since Its Initial energy cost is too High). \nBy choosing new blueprints at the farm (Green Button at the lower right) you can decrease it's energy cost. \n(Energy can only be replenished over time)"
-                },
-                {
-                    "key": "A4_QUEST_11",
-                    "value": "There's a Multitude of strategies waiting to be discovered in NEO. \n\nThe keen eye of a pro can make a difference turning an impossible challenge into a trivial solution in a twist."
-                },
-                {
-                    "key": "A3_QUEST_1",
-                    "value": "Hint: Unlock Training to upgrade your goal prizes.\n\nStone cost for playing this quest can be very expensive if you don't upgrade them."
-                },
-                {
-                    "key": "A3_QUEST_2",
-                    "value": "Once you've conquered new Blueprints, don't forget to go back to the farm to improve your buildings."
-                },
-                {
-                    "key": "A3_QUEST_3",
-                    "value": "You miss 100 percent of the shots you never take..."
-                },
-                {
-                    "key": "A3_QUEST_6",
-                    "value": "If There's something as a Voyage of discovery, \n\nit consists not in \nseeking new lands but seeing with new eyes."
-                },
-                {
-                    "key": "A3_QUEST_7",
-                    "value": "One cannot have a positive life and a negative mind."
-                },
-                {
-                    "key": "A3_QUEST_9",
-                    "value": "This Quest Allows you to Unlock the Training panel! \nBy Training your abilities you can get better bonuses for conquering goals.\n\nJust unlock \"Training\", then click the \"Training\" Button in the upper left and choose a goal to upgrade."
-                }
-            ]
-        },
-        {
-            "name": "Tutorial",
-            "entriesList": [
-                {
-                    "key": "",
-                    "value": ""
-                },
-                {
-                    "key": "TUTORIAL_1",
-                    "value": "Welcome to NEO Farm!\n\nBuild a thriving village, grow crops, harvest, forge, fish, raise animals, craft powerful weapons, and level up your RPG skills!\nClick Kade in the lower right to begin your adventure!"
-                },
-                {
-                    "key": "TUTORIAL_2",
-                    "value": "Your First Task: Pile up 4 or more resources!\n\nStand in front of stones and press Z or X to pick up or drop items.\n\nUse C and V to rotate and face objects.\nClick Kade when ready to continue!"
-                },
-                {
-                    "key": "TUTORIAL_3",
-                    "value": "Cool! \nResource stacking and Moving is the heart of NEO Farm.\n\n\nClick Kade Portrait to advance...\n\n(You can also press enter to proceed to the next Objective)"
-                },
-                {
-                    "key": "TUTORIAL_4",
-                    "value": "Now try keeping only 2 piles of resources at the same time.\n\nHint: Use X (Wait) and Z (Special) to pick up or drop resources."
-                },
-                {
-                    "key": "TUTORIAL_5",
-                    "value": "Awesome! \n\n\nYour farm is just starting to Grow!\n\n\nClick Kade to advance..."
-                },
-                {
-                    "key": "TUTORIAL_6",
-                    "value": "To do anything in NEO Farm, you need a Blueprint!\n\nCheck the Blueprint panel in the lower right (yellow text).\n\nClick it or press Page Up / Page Down to switch between Blueprints.\n\nObjective: Switch active Blueprints 10 times!"
-                },
-                {
-                    "key": "TUTORIAL_7",
-                    "value": "Awesome! \n\n\nNow it's Time for your first building!\n\n\nClick Kade Portrait to advance..."
-                },
-                {
-                    "key": "TUTORIAL_8",
-                    "value": "Objective: Build the Stone Storage Building.\n\nPlease read all the steps before proceeding:\n1 - Choose the Stone Storage Blueprint in the Blueprint panel.\n2 - Place resources on the ground matching the blueprint formation.\n3 - The last resource placed defines the building’s location.\n4 - Important: Leave as many free tiles (grass) around it as possible."
-                },
-                {
-                    "key": "TUTORIAL_9",
-                    "value": "Cowabunga!\n(Hover the mouse over the building, or place the hero in front of it for more info.)\n\nClick Kade to advance…"
-                },
-                {
-                    "key": "TUTORIAL_10",
-                    "value": "Objective: Move all the Stones to the Storage\n\nHint: Use X (Wait) and Z (Special) to carry or drop resources."
-                },
-                {
-                    "key": "TUTORIAL_11",
-                    "value": "Yippee!\nYou’re almost ready for your first fight!!\n\nClick Kade to advance…"
-                },
-                {
-                    "key": "TUTORIAL_12",
-                    "value": "Objective: Build the Tool’s Building.\n\n1 - Choose the Tool’s Building Blueprint in the Blueprint panel.\n2 - Place resources on the ground matching the blueprint formation.\n3 - The last resource placed defines the building’s location."
-                },
-                {
-                    "key": "TUTORIAL_13",
-                    "value": "Success!\nHint: You can use wheelbarrows from the Tool’s Building to move buildings around your farm later.\n\nClick Kade to advance…"
-                },
-                {
-                    "key": "TUTORIAL_14",
-                    "value": "Now press F2 and click \"To the Forest\" to start your first NEO fighting adventure.\n\nAs you gather more resources and unlock new blueprints, don’t forget to return to the farm to improve your buildings."
-                },
-                {
-                    "key": "TUTORIAL_15",
-                    "value": "Objective: Get a Blueprint to upgrade the Stone Storage's maximum capacity at the farm.\n\nYou can obtain this Blueprint in the “Fire is my Best Friend” quest by completing all objectives."
-                },
-                {
-                    "key": "TUTORIAL_16",
-                    "value": "Congrats!\nTip: Learn to deal with these little farm monsters. Each behaves differently.\nSome can be pushed, others destroyed or kicked…\nClick the Farm button and hover the mouse over their icons to learn more.\n\nDon't let them block your way while you're working on your farm!"
-                },
-                {
-                    "key": "TUTORIAL_17",
-                    "value": "Objective: Choose a new Blueprint by clicking the “New” button (lower right).\nA window will open to keep the old Blueprint or choose a new one.\nUseful to reduce the energy cost of a Blueprint or select a working pattern.\nIf no “New” button is available for the Stone Capacity upgrade, get more Blueprints in the “Fire is my Best Friend” quest."
-                },
-                {
-                    "key": "TUTORIAL_18",
-                    "value": "Congrats!\n\nThe green number on a Blueprint button shows how many of that type you have remaining.\nYou can get more by re-conquering them on the battlefield.\n\nImportant Hint: Try to collect several Blueprints before using them to reduce energy costs—energy is a valuable resource!\n\nClick Kade to advance…"
-                },
-                {
-                    "key": "TUTORIAL_19",
-                    "value": "Objective: Upgrade your Stone Storage until it reaches a Maximum Capacity of 10.\n\n\n(Blueprint Needed! - You can get one at the \"Fire is my Best Friend\" Quest ).\n\n\nUpgrading is as easy as using a Blueprint for construction.\n\nThe only difference is that the building icon should Match with the Building Position.\n\n\nSo, Choose The upgrading Blueprint and position resources accordingly."
-                },
-                {
-                    "key": "TUTORIAL_20",
-                    "value": "Congrats!\n\nImportant: Keep upgrading all buildings as soon as possible.\nResource wastage can be deadly in the wilderness…\n\nClick Kade to advance…"
-                },
-                {
-                    "key": "TUTORIAL_21",
-                    "value": "Objective: Automate a Blueprint application\n\nClick the “Auto” button to use a Blueprint automatically (no need to place items on the ground).\n\nImportant: All resources are needed, or the button will be disabled."
-                },
-                {
-                    "key": "TUTORIAL_22",
-                    "value": "Congrats!\n\nAutomation requires Cogs, which you can earn by conquering goals.\nThe harder the goal, the more Cogs you get!\n\nClick Kade to advance…"
-                },
-                {
-                    "key": "TUTORIAL_23",
-                    "value": "Objective: Build the Forge Building.\n\n1 - Get a Blueprint in the “Mining I” quest.\n2 - Select the Blueprint.\n3 - Place resources on the ground matching the blueprint formation.\n4 - Important: The last resource placed defines the building’s location."
-                },
-                {
-                    "key": "TUTORIAL_24",
-                    "value": "Now try collecting minerals like Iron Ore and Coal so you can start forging!\nYou’ll also need recipes—look for the book icon in the Goals panel.\n\nClick Kade to advance…"
-                },
-                {
-                    "key": "TUTORIAL_25",
-                    "value": "Objective: Build the Berry Building\n\n1 - Get a Blueprint in the “Fishing I” quest.\n2 - Select the Blueprint.\n3 - Place resources on the ground matching the blueprint formation.\n4 - Important: The last resource placed defines the building’s location."
-                },
-                {
-                    "key": "TUTORIAL_26",
-                    "value": "Congrats!\n\nNow try collecting some Berry Seeds so you can start planting!\n\nClick Kade to advance…"
-                },
-                {
-                    "key": "TUTORIAL_27",
-                    "value": "Objective: Plant a Berry Bush!\n\n1 - Get some Berry seeds in the Cubes.\n2 - Bump against the Berry Building until Berry Seed is selected as the building item.\n3 - Grab a Berry Seed.\n4 - Face a mud tile and press the Battle Key (Default: B).\n5 - Wait for the plant to grow.\n6 - Collect the berries and move them to the Berry Building using X and Z."
-                },
-                {
-                    "key": "TUTORIAL_28",
-                    "value": "Congrats!\n\nNow take the Berry Fruits to the Berry Building.\n\nClick Kade to advance…"
-                },
-                {
-                    "key": "TUTORIAL_29",
-                    "value": "Objective: Move a building using Wheelbarrows\n\n1 - Go to the Tool’s Building.\n2 - Grab some Wheelbarrows.\n3 - Check the required number of Wheelbarrows in the building info panel.\n4 - Place the corresponding number of Wheelbarrows on a tile adjacent to the building you want to move.\n5 - The building will be moved to that position.\n6 - Bump against the building."
-                },
-                {
-                    "key": "TUTORIAL_30",
-                    "value": "Congrats!\n\nProper building placement can be very useful for efficient farm management."
-                },
-                {
-                    "key": "TUTORIAL_31",
-                    "value": "Objective: Build the Wood Cutter Building\n\n1 - Get a Blueprint.\n2 - Place resources on the ground matching the blueprint formation.\n3 - Important: The last resource placed defines the building’s location."
-                },
-                {
-                    "key": "TUTORIAL_32",
-                    "value": "Congrats!\n\nClick Kade Portrait to advance..."
-                },
-                {
-                    "key": "TUTORIAL_33",
-                    "value": "Objective: Use the Wood Axe to Chop Down a Forest Tile\n\nSteps:\n1 - Grab the Wood Axe from the Wood Cutter Building.\n2 - Aim at a forest tile in front of your character.\n3 - Press the Battle Key (B by default) to use it.\n\nNote: Chopping may take some time."
-                },
-                {
-                    "key": "TUTORIAL_34",
-                    "value": "Congrats!\n\nYou have just increased your farm size!\nCollect Farm Size Tokens to grow your farm even more."
-                },
-                {
-                    "key": "TUTORIAL_35",
-                    "value": "Objective: Forge an Iron Bar\n\n1 - Get a “Forge Iron Bar” recipe from Mining or other quests.\n2 - Select the Forge Building by facing it from the front.\n3 - Check how many Coal and Iron Ore items are required on the left panel.\n4 - The produced item amount is shown on the right panel.\n5 - Missing items are shown in red.\n6 - Gather the required items if you don’t have enough.\n7 - Click the big Cog image to start or stop production.\n8 - Wait for the forging process to finish."
-                },
-                {
-                    "key": "TUTORIAL_36",
-                    "value": "Tip: Get as many recipes as you can and start producing early!\n\nEach production cycle consumes one recipe.\nThe book icon shows how many recipes you have available."
-                },
-                {
-                    "key": "TUTORIAL_37",
-                    "value": "Objective: Upgrade a Recipe\n\n1 - Face the building containing the recipe (Forge or Firepit).\n2 - The upgrade price is shown on the Upgrade button.\n3 - Red indicates a missing item.\n4 - Hover the mouse over the Upgrade button to see the upgrade effect.\n5 - If everything is ready, click to apply the upgrade."
-                },
-                {
-                    "key": "TUTORIAL_38",
-                    "value": "Congrats!\n\nGet recipes for the Firepit and start preparing Fish Meals.\n\nIt works the same way as in the Forge."
-                },
-                {
-                    "key": "TUTORIAL_39",
-                    "value": "More tutorial quests will be added soon…"
-                },
-                {
-                    "key": "TUTORIAL_TITLE_2",
-                    "value": "Objective: Pile up 4 or more resources."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_4",
-                    "value": "Objective: Have only 2 piles of resources at the same time."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_6",
-                    "value": "Objective: Switch Active Blueprints 10 times."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_8",
-                    "value": "Objective: Build The Stone Storage Building."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_10",
-                    "value": "Objective: Move all the Stones to the Storage."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_12",
-                    "value": "Objective: Build The Tool's Building."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_14",
-                    "value": "Check The Scroll Text."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_15",
-                    "value": "Objective: Get a Blueprint to upgrade Stone Storage Maximum capacity."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_17",
-                    "value": "Objective: Choose a new Blueprint."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_19",
-                    "value": "Objective: Upgrade your Stone Storage Capacity to 10."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_21",
-                    "value": "Objective: Automate a Blueprint application."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_23",
-                    "value": "Objective: Build The Forge Building."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_25",
-                    "value": "Objective: Build The Berry Building."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_27",
-                    "value": "Objective: Plant a Berry Bush."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_29",
-                    "value": "Objective: Move a building using Wheelbarrows."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_31",
-                    "value": "Objective: Build The Wood Cutter Building."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_33",
-                    "value": "Objective: Use The Wood Axe to Chop Down a Forest Tile."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_35",
-                    "value": "Objective: Forge an Iron Bar."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_37",
-                    "value": "Objective: Upgrade a recipe."
-                },
-                {
-                    "key": "TUTORIAL_TITLE_39",
-                    "value": ""
-                }
-            ]
-        },
-        {
-            "name": "Perks",
-            "entriesList": [
-                {
-                    "key": "MUSHROOM_TITLE",
-                    "value": "Red Mushroom"
-                },
-                {
-                    "key": "MUSHROOM",
-                    "value": "Restores HP every turn."
-                },
-                {
-                    "key": "MONSTERPRESS_TITLE",
-                    "value": "Monster Press"
-                },
-                {
-                    "key": "MONSTERPRESS",
-                    "value": "Press the enemy against an obstacle to get attack bonus."
-                },
-                {
-                    "key": "",
-                    "value": ""
-                },
-                {
-                    "key": "LOCKMELEE_TITLE",
-                    "value": "Lock Melee"
-                },
-                {
-                    "key": "LOCKMELEE",
-                    "value": "Hero automatically rotate to attack monster."
-                },
-                {
-                    "key": "SWIM_TITLE",
-                    "value": "Swim"
-                },
-                {
-                    "key": "SWIM",
-                    "value": "Hero can Swim."
-                },
-                {
-                    "key": "STACKPUSH_TITLE",
-                    "value": "Stack Push"
-                },
-                {
-                    "key": "STACKPUSH",
-                    "value": "Hero can push more than one item at once."
-                },
-                {
-                    "key": "ARROWRUSH_TITLE",
-                    "value": "Arrow Rush"
-                },
-                {
-                    "key": "ARROWRUSH_DSCRIPTION",
-                    "value": "Unit automatically moves upon stepping on an arrow."
-                },
-                {
-                    "key": "INVULNERABILITY_TITLE",
-                    "value": "Invulnerability"
-                },
-                {
-                    "key": "INVULNERABILITY",
-                    "value": "Unit becomes invulnerable for a certain amount of turns."
-                },
-                {
-                    "key": "MELEEATTACK_TITLE",
-                    "value": "Melee Fighter"
-                },
-                {
-                    "key": "MELEEATTACK_1",
-                    "value": "Allows the Unit to perform melee attacks while standing still."
-                },
-                {
-                    "key": "MELEEATTACK_2",
-                    "value": "Unit Can attack standing still, or performing Frontal and Side Attacks."
-                },
-                {
-                    "key": "MELEEATTACK_3",
-                    "value": "Sword Melee Attack."
-                },
-                {
-                    "key": "MELEEATTACK_4",
-                    "value": "The Hero gains a secondary post move attack that is executed after all monsters end up their moving.\nthis is called a \"Suicidal Attack\" since it targets any monster that jumps in front of the hero."
-                },
-                {
-                    "key": "MELEEATTACK_5",
-                    "value": "The Hero gains a secondary pre move attack that is executed right before he moves.\n\nthis is called a \"Rush Attack\"."
-                },
-                {
-                    "key": "MELEEATTACK_6",
-                    "value": "Secondary attacks power Increased."
-                },
-                {
-                    "key": "MELEEATTACK_7",
-                    "value": "Secondary attacks power Increased."
-                },
-                {
-                    "key": "MELEEATTACK_8",
-                    "value": "Secondary attacks power Increased."
-                },
-                {
-                    "key": "RANGEDATTACK_TITLE",
-                    "value": "Ranger"
-                },
-                {
-                    "key": "RANGEDATTACK_1",
-                    "value": "Allows the Unit to perform Ranged attacks while standing still."
-                },
-                {
-                    "key": "RANGEDATTACK_2",
-                    "value": "Unit Can attack standing still, or performing Frontal and Side Attacks."
-                },
-                {
-                    "key": "RANGEDATTACK_3",
-                    "value": "Bow and Arrow ranged Attack."
-                },
-                {
-                    "key": "RANGEDATTACK_4",
-                    "value": "The Hero gains a secondary post move attack that is executed after all monsters end up their moving.\nthis is called a \"Suicidal Attack\" since it targets any monster that jumps in front of the hero."
-                },
-                {
-                    "key": "RANGEDATTACK_5",
-                    "value": "The Hero gains a secondary pre move attack that is executed right before he moves.\n\nthis is called a \"Rush Attack\"."
-                },
-                {
-                    "key": "RANGEDATTACK_6",
-                    "value": "Secondary attacks power Increased."
-                },
-                {
-                    "key": "RANGEDATTACK_7",
-                    "value": "Secondary attacks power Increased."
-                },
-                {
-                    "key": "RANGEDATTACK_8",
-                    "value": "Secondary attacks power Increased."
-                },
-                {
-                    "key": "MAGICATTACK_TITLE",
-                    "value": "Magic Attack"
-                },
-                {
-                    "key": "MAGICATTACK",
-                    "value": "Does Magic Damage"
-                },
-                {
-                    "key": "MOVEMENT_TITLE",
-                    "value": "Explorer"
-                },
-                {
-                    "key": "MOVEMENT_1",
-                    "value": "Movement: N S E W\n\n\n(Use Numeric Keypad)"
-                },
-                {
-                    "key": "MOVEMENT_2",
-                    "value": "Movement: N S E W\n\nFlanked Tiles: YES\n\nTunnels: NO\n\nNarrow Passages: NO\n\nDead Ends: NO"
-                },
-                {
-                    "key": "MOVEMENT_3",
-                    "value": "Movement: Numeric Keypad\n\nRotation: C and V\nPick Resource: Z\nDrop Resource: X"
-                },
-                {
-                    "key": "MOVEMENT_4",
-                    "value": "Movement: ALL directions.\n\nFlanked Tiles: YES\n\nTunnels: YES\n\nNarrow Passages: NO\n\nDead Ends: NO"
-                },
-                {
-                    "key": "MOVEMENT_5",
-                    "value": "Movement: ALL directions.\n\nFlanked Tiles: YES\n\nTunnels: YES\n\nNarrow Passages: YES\n\nDead Ends: NO"
-                },
-                {
-                    "key": "MOVEMENT_6",
-                    "value": "Unrestricted Movement."
-                },
-                {
-                    "key": "MOVEMENT_7",
-                    "value": "The Hero gets all of the previous plus the Forest Walk Ability to Enter an Area.\n \nThe Forest Walk ability allows the hero to walk through forest tiles"
-                },
-                {
-                    "key": "MOVEMENT_8",
-                    "value": "The Hero gets all of the previous plus the Forest Walk Ability for the first 5 turns inside an area.\n \nForest walk ability allows the hero to walk through forest tiles"
-                },
-                {
-                    "key": "MOVEMENT_9",
-                    "value": "The Hero gets all of the previous plus10 Forest Walks to be spent whenever he wants.\n \nForest walk ability allows the hero to walk through forest tiles"
-                },
-                {
-                    "key": "BARRICADE_1_TITLE",
-                    "value": "Barricade"
-                },
-                {
-                    "key": "BARRICADE_1",
-                    "value": "Blocks the path. \n\nDoes not Block Ranged attacks.\n\nCan be destroyed by units that have the \"Destroy Barricade\" Perk."
-                },
-                {
-                    "key": "ARROWWALKING_TITLE",
-                    "value": "Arrow Walking"
-                },
-                {
-                    "key": "ARROWWALKING_1",
-                    "value": "Movement restricted to the same direction of the arrow."
-                },
-                {
-                    "key": "ARROWWALKING_2",
-                    "value": "Diagonal Arrow movement Allowed. \n(45 degrees)"
-                },
-                {
-                    "key": "ARROWWALKING_3",
-                    "value": "Orthogonal Arrow Movement Allowed. \n(90 degrees)"
-                },
-                {
-                    "key": "ARROWWALKING_4",
-                    "value": "Unit is only blocked by Arrow when Moving strictly against it."
-                },
-                {
-                    "key": "ARROWWALKING_5",
-                    "value": "Unit Completely ignores arrows blockage."
-                },
-                {
-                    "key": "ARROWIN_TITLE",
-                    "value": "Arrow In"
-                },
-                {
-                    "key": "ARROWIN_1",
-                    "value": "Level 1 Arrow Entrance Granted."
-                },
-                {
-                    "key": "ARROWIN_2",
-                    "value": "Level 2 Arrow Entrance Granted."
-                },
-                {
-                    "key": "ARROWIN_3",
-                    "value": "Level 3 Arrow Entrance Granted."
-                },
-                {
-                    "key": "ARROWIN_4",
-                    "value": "Level 4 Arrow Entrance Granted.\nDecreases Monster Arrow Exit Level by 1."
-                },
-                {
-                    "key": "ARROWIN_5",
-                    "value": "Level 5 Arrow Entrance Granted.\nDecreases Monster Arrow Exit Level by 2."
-                },
-                {
-                    "key": "ARROWOUT_TITLE",
-                    "value": "Arrow Out"
-                },
-                {
-                    "key": "ARROWOUT_1",
-                    "value": "Level 1 Arrow Exit Granted."
-                },
-                {
-                    "key": "ARROWOUT_2",
-                    "value": "Level 2 Arrow Exit Granted."
-                },
-                {
-                    "key": "ARROWOUT_3",
-                    "value": "Level 3 Arrow Exit Granted."
-                },
-                {
-                    "key": "ARROWOUT_4",
-                    "value": "Level 4 Arrow Exit Granted. \nDecreases Monster Arrow Entrance Level by 1."
-                },
-                {
-                    "key": "ARROWOUT_5",
-                    "value": "Level 5 Arrow Exit Granted. \nDecreases Monster Arrow Entrance Level by 2."
-                },
-                {
-                    "key": "DEXTERITY_TITLE",
-                    "value": "Dexterity"
-                },
-                {
-                    "key": "DEXTERITY_1",
-                    "value": "Increase Ranged Attack RANGE by 1."
-                },
-                {
-                    "key": "DEXTERITY_2_TITLE",
-                    "value": "Advanced Dexterity"
-                },
-                {
-                    "key": "DEXTERITY_2",
-                    "value": "Increase Ranged Attack RANGE by 2."
-                },
-                {
-                    "key": "DEXTERITY_3_TITLE",
-                    "value": "Expert Dexterity"
-                },
-                {
-                    "key": "DEXTERITY_3",
-                    "value": "Increase Ranged Attack RANGE by 3."
-                },
-                {
-                    "key": "DEXTERITY_4_TITLE",
-                    "value": "Master Dexterity"
-                },
-                {
-                    "key": "DEXTERITY_4",
-                    "value": "Increase Ranged Attack RANGE by 4."
-                },
-                {
-                    "key": "DEXTERITY_5_TITLE",
-                    "value": "Grandmaster Dexterity"
-                },
-                {
-                    "key": "DEXTERITY_5",
-                    "value": "Increase Ranged Attack RANGE by 5."
-                },
-                {
-                    "key": "ORBSTRIKER_TITLE",
-                    "value": "Orb Striker"
-                },
-                {
-                    "key": "ORBSTRIKER_1",
-                    "value": "Allow the unit to strike orbs. Only keys located in the same tile as the orb are affected. \n (Switches Door State)"
-                },
-                {
-                    "key": "ORBSTRIKER_2",
-                    "value": "Allow the unit to strike orbs. Only keys located in the same tile as the orb or the Hero are affected."
-                },
-                {
-                    "key": "ORBSTRIKER_3",
-                    "value": "Allow the unit to strike orbs. Only keys located in the same tile as the orb or the hero are affected, \n\nPLUS any Adjacent key located to the N S E or W direction of the Orb."
-                },
-                {
-                    "key": "ORBSTRIKER_4",
-                    "value": "Allow the unit to strike orbs. \n\nEvery adjacent key is affected."
-                },
-                {
-                    "key": "ORBSTRIKER_5",
-                    "value": "Allows the hero himself to activate keys by stepping over them.\n"
-                },
-                {
-                    "key": "COOPERATION_1_TITLE",
-                    "value": "Cooperation"
-                },
-                {
-                    "key": "COOPERATION_1",
-                    "value": "Allows you to change the active hero."
-                },
-                {
-                    "key": "COOPERATION_2",
-                    "value": "Allows you to change the active hero as long he is in a Splitter aligned with the targeted one. (LOS required)"
-                },
-                {
-                    "key": "COOPERATION_3",
-                    "value": "Allows you to change the active hero as long he is in a Splitter that has LOS with the targeted one."
-                },
-                {
-                    "key": "COOPERATION_4",
-                    "value": "Allows you to change the hero regardless of the Splitter's Position."
-                },
-                {
-                    "key": "DAMAGESURPLUS_TITLE",
-                    "value": "Damage Surplus"
-                },
-                {
-                    "key": "DAMAGESURPLUS_1",
-                    "value": "Upon killing a monster, 25% of the damage in excess is transferred to the next attack."
-                },
-                {
-                    "key": "DAMAGESURPLUS_2",
-                    "value": "Upon killing a monster, 50% of the damage in excess is transferred to the next attack."
-                },
-                {
-                    "key": "DAMAGESURPLUS_3",
-                    "value": "Upon killing a monster, 75% of the damage in excess is transferred to the next attack."
-                },
-                {
-                    "key": "DAMAGESURPLUS_4",
-                    "value": "Upon killing a monster, 100% of the damage in excess is transferred to the next attack."
-                },
-                {
-                    "key": "MELEESHIELD_TITLE",
-                    "value": "Melee Defender"
-                },
-                {
-                    "key": "MELEESHIELD_1",
-                    "value": "Gives a percentage of the hero Shield for protection."
-                },
-                {
-                    "key": "MELEESHIELD_2",
-                    "value": "Gives a percentage of the hero Shield for protection."
-                },
-                {
-                    "key": "MELEESHIELD_3",
-                    "value": "Gives a percentage of the hero Shield for protection."
-                },
-                {
-                    "key": "MELEESHIELD_4",
-                    "value": "Gives a percentage of the hero Shield for protection."
-                },
-                {
-                    "key": "MELEESHIELD_5",
-                    "value": "Gives a percentage of the hero Shield for protection."
-                },
-                {
-                    "key": "MELEESHIELD_6",
-                    "value": "Gives a percentage of the hero Shield for protection."
-                },
-                {
-                    "key": "MELEESHIELD_7",
-                    "value": "Gives a percentage of the hero Shield for protection."
-                },
-                {
-                    "key": "MELEESHIELD_8",
-                    "value": "Gives a percentage of the hero Shield for protection."
-                },
-                {
-                    "key": "MELEESHIELD_9",
-                    "value": "Gives a percentage of the hero Shield for protection."
-                },
-                {
-                    "key": "MISSILESHIELD_1_TITLE",
-                    "value": "Basic Missile Defense"
-                },
-                {
-                    "key": "MISSILESHIELD_1",
-                    "value": "Enables the use of shield for damage protection against Ranged Attacks."
-                },
-                {
-                    "key": "MAGICSHIELD_1_TITLE",
-                    "value": "Basic Magic Defense"
-                },
-                {
-                    "key": "MAGICSHIELD_1",
-                    "value": "Enables the use of shield for damage protection against Magical Attacks."
-                },
-                {
-                    "key": "PLATFORMWALKING_TITLE",
-                    "value": "Platform Walker"
-                },
-                {
-                    "key": "PLATFORMWALKING_1",
-                    "value": "Enables Platform stepping. Hero can only exit Platforms by Leaving towards the same direction as he entered the Platform Group\n Example: Entered Moving North -> Needs to exit Moving north, too."
-                },
-                {
-                    "key": "PLATFORMWALKING_2",
-                    "value": "Hero Receives Attack Bonus when attacking from Platforms."
-                },
-                {
-                    "key": "PLATFORMWALKING_3",
-                    "value": "Hero Receives Platform Points when he drops all platforms in a group.\n Dirty Areas only!!\n\nLifetime Platform Points Collected gives the hero Bonus Attack from Any Tile."
-                },
-                {
-                    "key": "PLATFORMWALKING_4",
-                    "value": "Every single platform gives Bonus Points When Dropped Down Individually."
-                },
-                {
-                    "key": "PLATFORMWALKING_5",
-                    "value": "Free exit Ability: \nHero can freely exit Platforms towards any direction for a price."
-                },
-                {
-                    "key": "PLATFORMWALKING_6",
-                    "value": "Hero can Close platform groups immediatelly after clearing the area. \n(first area entrance time only - Only half pp gain)"
-                },
-                {
-                    "key": "PLATFORMWALKING_7",
-                    "value": "Orientation Exit Ability: Hero can freely exit Platforms if The orientation that he entered the group \nis the same as the exit. Example:\n\nDiagonal entrance -> Free Diagonal Exit\n\nOrthogonal entrance -> Free Orthogonal Exit"
-                },
-                {
-                    "key": "PLATFORMWALKING_8",
-                    "value": "Reversed exit Ability: \nHero can also exit Platforms moving to the oposite direction as he entered the group."
-                },
-                {
-                    "key": "PLATFORMWALKING_9",
-                    "value": "Monster Exit Ability: \nHero can leave platforms to any tile neighboring a monster.."
-                },
-                {
-                    "key": "PLATFORMWALKING_10",
-                    "value": "Infinite Platform Steps!"
-                },
-                {
-                    "key": "AMBUSHER_TITLE",
-                    "value": "Ambusher"
-                },
-                {
-                    "key": "AMBUSHER_1",
-                    "value": "Every Forest Tile surrounding a Monster gives a bonus Attack Against it."
-                },
-                {
-                    "key": "AMBUSHER_2",
-                    "value": "Every Forest Tile surrounding a Monster gives a bonus Attack Against it."
-                },
-                {
-                    "key": "AMBUSHER_3",
-                    "value": "Every Forest or Monster Tile surrounding a Monster gives a bonus Attack Against it."
-                },
-                {
-                    "key": "AMBUSHER_4",
-                    "value": "Every Forest or Monster Tile surrounding a Monster gives a bonus Attack Against it."
-                },
-                {
-                    "key": "AMBUSHER_5",
-                    "value": "Every Forest and Monster Tile surrounding a Monster gives a bonus Attack Against it.\n \nPlus any Water Tile Surrounding the hero also give him an attack Bonus."
-                },
-                {
-                    "key": "AMBUSHER_6",
-                    "value": "Every Forest and Monster Tile surrounding a Monster gives a bonus Attack Against it.\n \nPlus any Water Tile Surrounding the hero also give him an attack Bonus."
-                },
-                {
-                    "key": "MONSTERCORNERING_TITLE",
-                    "value": "Monster Cornering"
-                },
-                {
-                    "key": "MONSTERCORNERING_1",
-                    "value": "Push a monster against an obstacle while attacking to improve the Damage done to that monster."
-                },
-                {
-                    "key": "MONSTERCORNERING_2",
-                    "value": "Push a monster against an obstacle while attacking to improve the Damage done to that monster."
-                },
-                {
-                    "key": "MONSTERCORNERING_3",
-                    "value": "Push a monster against an obstacle while attacking to improve the Damage done to that monster."
-                },
-                {
-                    "key": "MONSTERCORNERING_4",
-                    "value": "Push a monster against an obstacle while attacking to improve the Damage done to that monster."
-                },
-                {
-                    "key": "MONSTERPUSH_TITLE",
-                    "value": "Monster Pusher"
-                },
-                {
-                    "key": "MONSTERPUSH_1",
-                    "value": "Allows the Unit to push Monsters  inside areas.\n (Not Diagonaly)"
-                },
-                {
-                    "key": "MONSTERPUSH_2",
-                    "value": "Allows the Unit to push Monsters in any direction inside areas."
-                },
-                {
-                    "key": "MONSTERPUSH_3",
-                    "value": "Allows the Unit to push Monsters from outside areas."
-                },
-                {
-                    "key": "MONSTERPUSH_4",
-                    "value": "A Monster that is being Pushed cannot attack the hero.\n\n(but cannot be attacked as well)"
-                },
-                {
-                    "key": "MONSTERPUSH_5",
-                    "value": "Swing Push Allowed."
-                },
-                {
-                    "key": "MONSTERPUSH_6",
-                    "value": "Allows the Unit to push 2 Monsters in a row."
-                },
-                {
-                    "key": "STARS_TITLE",
-                    "value": "Stars"
-                },
-                {
-                    "key": "STARS_1",
-                    "value": "Slightly improve your HP, attack and defense.\n\nCollect 5 stars to level up and gain even bigger bonuses."
-                },
-                {
-                    "key": "SCOUT_TITLE",
-                    "value": "Scout"
-                },
-                {
-                    "key": "SCOUT_1",
-                    "value": "The higher your Scout Level the farther you can see on the map.\n\nCollect Telescopes to improve it. Move the mouse over the icon for more help..."
-                },
-                {
-                    "key": "OVERBARRICADESCOUT_TITLE",
-                    "value": "Over Barricade Scout"
-                },
-                {
-                    "key": "OVERBARRICADESCOUT_1",
-                    "value": "Each level of this perk increases the ability of the hero to look over barricades by one unit size."
-                },
-                {
-                    "key": "SHOWRESOURCECHANCE_TITLE",
-                    "value": "Show Resource Chance"
-                },
-                {
-                    "key": "SHOWRESOURCECHANCE_1",
-                    "value": "Chance for a tile containing a bonus rune to be revealed."
-                },
-                {
-                    "key": "SHOWRESOURCENEIGHBORSCHANCE_TITLE",
-                    "value": "Show Resource Neighbor Chance"
-                },
-                {
-                    "key": "SHOWRESOURCENEIGHBORSCHANCE_1",
-                    "value": "This determines the chance for the neighbor tiles of a revealed rune to be revealed. \n \nUseful for checking if the resource is worth picking up."
-                },
-                {
-                    "key": "MEMORY_TITLE",
-                    "value": "Memory"
-                },
-                {
-                    "key": "MEMORY_1",
-                    "value": "Some Icons Appear on the map Allowing you to save NEO Game Progress."
-                },
-                {
-                    "key": "MEMORY_2",
-                    "value": "Some Icons Appear also Inside Areas Allowing you to save NEO Game Progress while Fighting."
-                },
-                {
-                    "key": "MEMORY_3",
-                    "value": "Level 2 Savegame Icons Appear on the map."
-                },
-                {
-                    "key": "MEMORY_4",
-                    "value": "Level 3 Savegame Icons Appear on the map."
-                },
-                {
-                    "key": "MEMORY_5",
-                    "value": "Level 4 Savegame Icons Appear on the map."
-                },
-                {
-                    "key": "MEMORY_6",
-                    "value": "Level 5 Savegame Icons Appear on the map."
-                },
-                {
-                    "key": "TOOLBOX_TITLE",
-                    "value": "Toolbox"
-                },
-                {
-                    "key": "TOOLBOX_1",
-                    "value": "Provides a set of Tools to help you with the Gameplay.\n\nFirst Level Gives you a magnifying glass that allows you to read Scroll Texts."
-                },
-                {
-                    "key": "TOOLBOX_2",
-                    "value": "\"Provides a set of Tools to help you with the Gameplay.\n\nSecond Level gives you a measuring tape enabling the \"Grid Button\", Check menu Screen.\""
-                },
-                {
-                    "key": "TOOLBOX_3",
-                    "value": "\"Provides a set of Tools to help you with the Gameplay.\n\nThird Level gives you a Dummy for you to train your fighting. (Enables Battle Key)\""
-                },
-                {
-                    "key": "TOOLBOX_4",
-                    "value": "Provides a set of Tools to help you with the Gameplay.\n \nThird Level you a rudimentary Binocular enabling the \"Artifact and Area Seek Buttons\", Check menu Screen."
-                },
-                {
-                    "key": "TOOLBOX_5",
-                    "value": "Provides a set of Tools to help you with the Gameplay.\n\nFifth Level gives you a pencil and a paper enabling the \"Compare Hero Button\", Check menu Screen."
-                },
-                {
-                    "key": "SPRINTER_TITLE",
-                    "value": "Sprinter"
-                },
-                {
-                    "key": "SPRINTER_1",
-                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
-                },
-                {
-                    "key": "SPRINTER_2",
-                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
-                },
-                {
-                    "key": "SPRINTER_3",
-                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
-                },
-                {
-                    "key": "SPRINTER_4",
-                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
-                },
-                {
-                    "key": "SPRINTER_5",
-                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
-                },
-                {
-                    "key": "SPRINTER_6",
-                    "value": "As soon as the unit get this ability, it receives a bonus attack.\n\nBonus decreases each turn by 10%.\n\nBonus granted on: Area enter."
-                },
-                {
-                    "key": "FIREMASTER_TITLE",
-                    "value": "Fire Master"
-                },
-                {
-                    "key": "FIREMASTER_1",
-                    "value": "Allows the hero to Ignite a Pire By Stepping on FIVE tiles around it.\n\nEach file lit decreases this number by one.\n\nEach Bonfire lit in the area/cube gives attack bonuses progressivelly."
-                },
-                {
-                    "key": "FIREMASTER_2",
-                    "value": "Allows the hero to Ignite a Pire By Stepping on FOUR tiles around it."
-                },
-                {
-                    "key": "FIREMASTER_3",
-                    "value": "Allows the hero to Ignite a Pire By Stepping on THREE tiles around it."
-                },
-                {
-                    "key": "FIREMASTER_4",
-                    "value": "Allows the hero to Ignite a Pire By Stepping on TWO tiles around it."
-                },
-                {
-                    "key": "FIREMASTER_5",
-                    "value": "Allows the hero to Ignite any Surrounding Pire immediatelly."
-                },
-                {
-                    "key": "FIREMASTER_6",
-                    "value": "Fire Spreads to Neighbor Pires and Barricades.\n\nFlaming Barricades deal 30% Fire Damage to Attackers"
-                },
-                {
-                    "key": "FIREMASTER_7",
-                    "value": "Hero Can Put out the Fire by bumping against it."
-                },
-                {
-                    "key": "FIREMASTER_8",
-                    "value": "Hero Shoots fire Arrows that Ignites Pires under Monsters."
-                },
-                {
-                    "key": "FIREMASTER_9",
-                    "value": "Monsters suffer Immediate burn Damage after Stepping on Fire."
-                },
-                {
-                    "key": "FIREMASTER_10",
-                    "value": "Heroes suffer no damage when destroying burning barricades."
-                },
-                {
-                    "key": "FIREMASTER_11",
-                    "value": "Burning Damage greatly Increased!"
-                },
-                {
-                    "key": "FIREMASTER_12",
-                    "value": "Each Global Bonfire gives 1% Attack Bonus to the Hero."
-                },
-                {
-                    "key": "FIREPOWER_TITLE",
-                    "value": "Fire Power"
-                },
-                {
-                    "key": "FIRESPREAD_TITLE",
-                    "value": "Fire Spread"
-                },
-                {
-                    "key": "FIREWOODNEEDED_TITLE",
-                    "value": "Wood Needed"
-                },
-                {
-                    "key": "OUTSIDEFIREWOODALLOWED_TITLE",
-                    "value": "Outside FireWood Allowed"
-                },
-                {
-                    "key": "FIREPITSNEEDEDFORDISCOUNT_TITLE",
-                    "value": "Firepits Needed for Discount"
-                },
-                {
-                    "key": "FIRESTARBONUS_TITLE",
-                    "value": "Fire Star Bonus"
-                },
-                {
-                    "key": "BERSERK_TITLE",
-                    "value": "Berserk"
-                },
-                {
-                    "key": "BERSERK_1",
-                    "value": "Unit gains a free Melee attack when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: Only in the First Turn."
-                },
-                {
-                    "key": "BERSERK_2",
-                    "value": "Unit gains a free Melee or Ranged attack when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: First Turn."
-                },
-                {
-                    "key": "BERSERK_3",
-                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: First Turn."
-                },
-                {
-                    "key": "BERSERK_4",
-                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: First Turn."
-                },
-                {
-                    "key": "BERSERK_5",
-                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: For 2 Turns."
-                },
-                {
-                    "key": "BERSERK_6_TITLE",
-                    "value": "Grandmaster Berserk"
-                },
-                {
-                    "key": "BERSERK_6",
-                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: For 2 Turns."
-                },
-                {
-                    "key": "BERSERK_7",
-                    "value": "Unit gains free Melee or Ranged attacks when skill is activated.\n\nActivated on: Area Enter.\n\nEffect Last: For 2 Turns."
-                },
-                {
-                    "key": "BEEHIVETHROWER_TITLE",
-                    "value": "Beehive Fighter"
-                },
-                {
-                    "key": "BEEHIVETHROWER_1",
-                    "value": "Hero Can bump against beehives at forest tiles to drop them.\n\nUseful for Distracting Monsters."
-                },
-                {
-                    "key": "BEEHIVETHROWER_2",
-                    "value": "Besides Bumping, Ranged attack can also be used to drop beehives.\n\nMelhorar muitomais"
-                },
-                {
-                    "key": "BEEHIVETHROWER_3",
-                    "value": "Outside area Bumbing allowed."
-                },
-                {
-                    "key": "BEEHIVETHROWER_4",
-                    "value": "Beehive Life Counter never gets bellow the amount of Forest Tiles around it when it falls."
-                },
-                {
-                    "key": "BEEHIVETHROWER_5",
-                    "value": "Beehives can be pushed to adjacent Forest Tiles."
-                },
-                {
-                    "key": "BEEHIVETHROWER_6",
-                    "value": "Insta-kill for Beehive Targeted Monsters!"
-                },
-                {
-                    "key": "BEEHIVETHROWER_7",
-                    "value": "Hero throws BeeHives at the 8 tiles around him while standing still.\n\n(Knight's move targets from Chess)\n\nOnly monsters that have no path to the hero can be attacked.\n"
-                },
-                {
-                    "key": "BEEHIVETHROWER_8",
-                    "value": "Hero throws BeeHives at the 8 tiles around him.\n\n(Knight's move targets from Chess)\n \nMove attack allowed."
-                },
-                {
-                    "key": "BEEHIVETHROWER_9",
-                    "value": "Hero throws BeeHives at the 8 tiles around him.\n\n(Knight's move targets from Chess)\n \nHero becomes immune when successfully attacking."
-                },
-                {
-                    "key": "PSYCHIC_TITLE",
-                    "value": "Psychic"
-                },
-                {
-                    "key": "PSYCHIC_1",
-                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
-                },
-                {
-                    "key": "PSYCHIC_2",
-                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
-                },
-                {
-                    "key": "PSYCHIC_3",
-                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
-                },
-                {
-                    "key": "PSYCHIC_4",
-                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
-                },
-                {
-                    "key": "PSYCHIC_5",
-                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
-                },
-                {
-                    "key": "PSYCHIC_6",
-                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
-                },
-                {
-                    "key": "PSYCHIC_7",
-                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
-                },
-                {
-                    "key": "PSYCHIC_8",
-                    "value": "Hero uses his Psychic powers to Guess the next cube's trait."
-                },
-                {
-                    "key": "SNEAKING_TITLE",
-                    "value": "Sneaker"
-                },
-                {
-                    "key": "SNEAKING_1",
-                    "value": "Sleeping Monsters do not Wake up while Hero is in their Back Zone."
-                },
-                {
-                    "key": "SNEAKING_2",
-                    "value": "In Addition, Sleeping Monsters do not Wake up while Hero is in their BackRight or BackLeft Zones."
-                },
-                {
-                    "key": "SNEAKING_3",
-                    "value": "In Addition, Sleeping Monsters do not Wake up while Hero is in their BackSide and Side Zones."
-                },
-                {
-                    "key": "SNEAKING_4",
-                    "value": "In Addition, Sleeping Monsters do not Wake up while Hero is in their FrontSide Zones."
-                },
-                {
-                    "key": "SNEAKING_5",
-                    "value": "Sleeping Monsters only Wake up if Hero Steps in their Front Zone."
-                },
-                {
-                    "key": "WALLDESTROYER_TITLE",
-                    "value": "Wall Destroyer"
-                },
-                {
-                    "key": "WALLDESTROYER_1",
-                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
-                },
-                {
-                    "key": "WALLDESTROYER_2",
-                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
-                },
-                {
-                    "key": "WALLDESTROYER_3",
-                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
-                },
-                {
-                    "key": "WALLDESTROYER_4",
-                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
-                },
-                {
-                    "key": "WALLDESTROYER_5",
-                    "value": "Gives A Bomb to Destroy Facing Wall or Forest Tiles."
-                },
-                {
-                    "key": "LOOTER_TITLE",
-                    "value": "Looter"
-                },
-                {
-                    "key": "LOOTER_1",
-                    "value": "Hero Receives Rune Bonus after discovering a new Area."
-                },
-                {
-                    "key": "LOOTER_2",
-                    "value": "Hero Receives Rune Bonus after clearing an area."
-                },
-                {
-                    "key": "LOOTER_3",
-                    "value": "Big Monsters Give Rune bonus when killed."
-                },
-                {
-                    "key": "LOOTER_4",
-                    "value": "Small Monsters Give Rune bonus when killed."
-                },
-                {
-                    "key": "LOOTER_5",
-                    "value": "Big Monsters rune bonus: +1"
-                },
-                {
-                    "key": "LOOTER_6",
-                    "value": "Hero Receives Rune Bonus after clearing a Cube."
-                },
-                {
-                    "key": "LOOTER_7",
-                    "value": "Small monster Drop loot under certain conditions:\n\nScarabs, if killed surrounded by other Monsters.\n\nMosquitoes: if Killed last."
-                },
-                {
-                    "key": "LOOTER_8",
-                    "value": "Big Monsters Always Drop Loot."
-                },
-                {
-                    "key": "LOOTER_9",
-                    "value": "Next \"X' Kills give extra rune bonus.\n\nAchieve A \"X\" kill by killing a monster in the middle of 4 tall tiles forming an X shape.\n\nLimit of 1 per area."
-                },
-                {
-                    "key": "LOOTER_10",
-                    "value": "Next \"+' Kills give extra rune bonus.\n\nAchieve A \"+\" kill by killing a monster in the middle of 4 tall tiles forming a + shape.\n\nLimit of 1 per area."
-                },
-                {
-                    "key": "LOOTER_11",
-                    "value": "As soon as this perk is bought, there's a chance for a\n\nTriple Rune prize to be given after clearing the next areas.\n\nBonus: 3x to all runes collected in the area. Single use only."
-                },
-                {
-                    "key": "LOOTER_12",
-                    "value": "Your next Dead End Kills give rune bonuses."
-                },
-                {
-                    "key": "LOOTER_13",
-                    "value": "As soon as this perk is bought, there's a chance for a\n\nQuadruple Rune prize to be given after clearing the next areas.\n\nBonus: 4x to all runes collected in the area. Single use only."
-                },
-                {
-                    "key": "PROSPECTOR_TITLE",
-                    "value": "Prospector"
-                },
-                {
-                    "key": "PROSPECTOR_1",
-                    "value": "Hero Receives Interest Bonus after Clearing an area."
-                },
-                {
-                    "key": "PROSPECTOR_2",
-                    "value": "Better Interest Rate."
-                },
-                {
-                    "key": "PROSPECTOR_3",
-                    "value": "Bonus Applied to Resource Amount, too.    add RES PICKING imunitty here"
-                },
-                {
-                    "key": "PROSPECTOR_4",
-                    "value": "Resources Persist after Exiting Areas. MOVEDOWN"
-                },
-                {
-                    "key": "PROSPECTOR_5",
-                    "value": "Hero can Colect Resources from outside areas. (Front Facing)"
-                },
-                {
-                    "key": "PROSPECTOR_6",
-                    "value": "Hero gets 50% of Wasted Resources."
-                },
-                {
-                    "key": "PROSPECTOR_7",
-                    "value": "Hero can Colect Resources that are in front of him.  MOVEUP"
-                },
-                {
-                    "key": "PROSPECTOR_8",
-                    "value": "Much Better Interest."
-                },
-                {
-                    "key": "COLLECTOR_TITLE",
-                    "value": "Collector"
-                },
-                {
-                    "key": "RESOURCEPERSISTANCE_TITLE",
-                    "value": "Resource Persistance"
-                },
-                {
-                    "key": "RTMELEEATTACKSPEED_TITLE",
-                    "value": "RT Melee Attack Speed"
-                },
-                {
-                    "key": "RTRANGEDATTACKSPEED_TITLE",
-                    "value": "RT Ranged Attack Speed"
-                },
-                {
-                    "key": "MIRE_TITLE",
-                    "value": "Mire"
-                },
-                {
-                    "key": "MINING_TITLE",
-                    "value": "Mining"
-                },
-                {
-                    "key": "FISHING_TITLE",
-                    "value": "Fisherman"
-                },
-                {
-                    "key": "RESTDISTANCE_TITLE",
-                    "value": "Rest Distance"
-                },
-                {
-                    "key": "ECONOMIST_TITLE",
-                    "value": "Economist"
-                },
-                {
-                    "key": "BARRICADEFIGHTER_TITLE",
-                    "value": "Barricade Fighter"
-                },
-                {
-                    "key": "BARRICADEFIGHTER_1",
-                    "value": "Hover mouse over icon for more info..."
-                },
-                {
-                    "key": "BARRICADEFIGHTER_2",
-                    "value": "The Barricade located in front of the hero gets +1 as soon as he enters a new area."
-                },
-                {
-                    "key": "BARRICADEFIGHTER_3",
-                    "value": "All Barricades around the hero also get +1 as soon as he enters a new area."
-                },
-                {
-                    "key": "BARRICADEFIGHTER_4",
-                    "value": "All Barricades in the front row of the hero also get +1 as soon as he enters a new area."
-                },
-                {
-                    "key": "BARRICADEFIGHTER_5",
-                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 2 to 1.\n\n(Bump frontal Barricade to transfer Wood)"
-                },
-                {
-                    "key": "BARRICADEFIGHTER_6",
-                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 1 to 1."
-                },
-                {
-                    "key": "BARRICADEFIGHTER_7",
-                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 1 to 1.\n\nBackSide Tiles added. \nRate 3 to 1."
-                },
-                {
-                    "key": "BARRICADEFIGHTER_8",
-                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 1 to 1.\n\nBackSide Tiles added. \nRate 2 to 1."
-                },
-                {
-                    "key": "BARRICADEFIGHTER_9",
-                    "value": "Hero can transfer Wood from his back tile to his front tile at a rate of 1 to 1.\n\nBackSide Tiles added. \nRate 1 to 1."
-                },
-                {
-                    "key": "DESTROYBARRICADE_TITLE",
-                    "value": "Destroy Barricade"
-                },
-                {
-                    "key": "BARRICADEFORRUNE_TITLE",
-                    "value": "Barricade For Runes"
-                },
-                {
-                    "key": "HERONEIGHBORTOUCHADDER_TITLE",
-                    "value": "Barricade Adder"
-                },
-                {
-                    "key": "OUTAREABURNINGBARRICADEDESTROYBONUS_TITLE",
-                    "value": "Outarea Burning Barricade Destroy Bonus"
-                },
-                {
-                    "key": "EVASION_TITLE",
-                    "value": "Evasion"
-                },
-                {
-                    "key": "EVASION_1",
-                    "value": "Hero gains evasion points when he enters an area.\n\nHero can evade attacks from his back tile While moving.\n\n\nCost: 1 Evasion Point."
-                },
-                {
-                    "key": "EVASION_2",
-                    "value": "Hero can evade attacks from The backSide Tiles While Moving.\n\n\nCost: 2 Evasion Points."
-                },
-                {
-                    "key": "EVASION_3",
-                    "value": "Hero can evade Attacks from behind narrow passages.\n\n\nCost: 4 Evasion Points."
-                },
-                {
-                    "key": "EVASION_4",
-                    "value": "Hero can evade Attacks if he has 2 or 3 Tall tiles towards his back Direction \n\n(in a straight line).\n\n\nCost: 4 or 2 Evasion Points respectivelly."
-                },
-                {
-                    "key": "EVASION_5",
-                    "value": "Evade Point cost reduced by 1 if the hero has moved in the Current turn.\n\n\n(Minimum cost is always 1)"
-                },
-                {
-                    "key": "EVASION_6",
-                    "value": "Fresh Attack Evasion: Hero can evade Attacks from Any tile as long he has not attacked from that position\n and direction yet.\n\nHero attack needed!\n\n\nCost: 3 Evasion Points."
-                },
-                {
-                    "key": "EVASION_7",
-                    "value": "Hero can evade attacks from Side Tiles While Moving.\n\n\nCost: 3 Evasion Points."
-                },
-                {
-                    "key": "EVASION_8",
-                    "value": "Each Monster kill gives 2 extra Evasion points."
-                },
-                {
-                    "key": "PERFECTIONIST_TITLE",
-                    "value": "Perfectionist"
-                },
-                {
-                    "key": "PERFECTIONIST_1",
-                    "value": "Perfect areas Heals the Hero.\n\nTo Achieve a perfect area, clear it with no damage taken."
-                },
-                {
-                    "key": "SCAVENGER_TITLE",
-                    "value": "Scavenger"
-                },
-                {
-                    "key": "SCAVENGER_1",
-                    "value": "Hero has a chance to find extra Bonuses in the next cubes."
-                },
-                {
-                    "key": "ARROWFIGHTER_TITLE",
-                    "value": "Arrow Fighter"
-                },
-                {
-                    "key": "ARROWFIGHTER_1",
-                    "value": ""
-                },
-                {
-                    "key": "AGILITY_TITLE",
-                    "value": "Agility"
-                },
-                {
-                    "key": "MORTALJUMP_TITLE",
-                    "value": "Mortal Jump"
-                },
-                {
-                    "key": "RISKYATTACK_TITLE",
-                    "value": "Risky Attack"
-                },
-                {
-                    "key": "OPENFIELDATTACK_TITLE",
-                    "value": "Open Field Attack"
-                },
-                {
-                    "key": "FRESHATTACK_TITLE",
-                    "value": "Fresh Attack"
-                },
-                {
-                    "key": "THREAT_TITLE",
-                    "value": "Posing Threat Level"
-                },
-                {
-                    "key": "BASETHREATDURATION_TITLE",
-                    "value": "Threat Power"
-                },
-                {
-                    "key": "SCARYLEVEL_TITLE",
-                    "value": "Scary Level"
-                },
-                {
-                    "key": "INTELLIGENCE_TITLE",
-                    "value": "Intelligence"
-                },
-                {
-                    "key": "SLAYERLEVEL_TITLE",
-                    "value": "Slayer"
-                },
-                {
-                    "key": "FLYINGTARGETTING_TITLE",
-                    "value": "Flying Targetting"
-                },
-                {
-                    "key": "SLAYERANGLE_TITLE",
-                    "value": "Flying Back Attack Angle"
-                },
-                {
-                    "key": "SLAYERMAXHP_TITLE",
-                    "value": "Flying Back Attack Max HP"
-                },
-                {
-                    "key": "DISGUISE_TITLE",
-                    "value": "Flying Disguise"
-                },
-                {
-                    "key": "DRAGONBONUSDROP_TITLE",
-                    "value": "Dragon Bonus Drop"
-                },
-                {
-                    "key": "DRAGONBARRICADEPROTECTION_TITLE",
-                    "value": "Dragon Barricade Protection"
-                }
-            ]
-        },
-        {
-            "name": "Big Help",
-            "entriesList": [
-                {
-                    "key": "FIREMASTER",
-                    "value": "Hero can light firepit by adding a certain amount of wood to it.\n\nthe default, and most basic way is by stepping around firepits, but as more progress is made in the firemaster perk,\n\nnew ways of adding wood can also be unlocked.\n\nImportant: Initially, Wood placement is is only allowed in Virgin Areas.\n\n\n\nSome Definitions: \n\n\nRegular wood:  Wood added by stepping around firepits.\n\n\n\nFire power: Damage taken by monsters over burning firepits Measured by a percentage of melee attack. \n\n\n\nSpread: This determines the maximum size a neighbor barricade needs to be for the fire to spread to it. \n\n\n\nOutarea: Number of outside area wood placement allowed per area. bump against a firepit to add/subtract outarea wood.\n\n\n\nWood needed:  The most important thing! Wood needed for fire ignition!\n\n\n\nPits: Hero gets a discount for the number of wood needed in the area/cube after lighting a certain number of firepits.\n\n\n\nStar Bonus: Each 10 of this increases the amount of Stars gained by the hero by 1 per bonfire Lit.\n\n\nImportant:  in some maps, the amount of wood needed for fire lighting may increase as the hero continues to clear new areas."
-                },
-                {
-                    "key": "",
-                    "value": ""
-                },
-                {
-                    "key": "BARRICADEFIGHTER",
-                    "value": "This perk determines the capacity of the hero to use Barricades in his favor while fighting in the wilderness.\n\n\nMonsters can destroy barricades of any size, while the hero needs certain abilities to do that.\n\n\nHero Barricade destruction:\n\nIn order for a hero to destroy a barricade, he needs to have a certain Barricade destruction level, (improved by collecting perks).\n\n\n\nTouched Barricade: If a hero destroys at least one log of a barricade, it turns darker. this means this barricade has been touched!\n\n\nThe maximum barricade size that can be destroyed is determined by the Destroy barricade power (D#)  plus the sum of neighbor touched barricades. \n\n\n\nHint: Place Kade facing a barricade to Check his Destruction power towards it. \n\n\nfor example: a \"D3 + 2\" showed in the perk's icon means that the hero has a destruction power of D3 \nplus two adjacent Touched Barricades that equals to D5."
-                },
-                {
-                    "key": "MOVEMENT",
-                    "value": "Use NUMPAD Keys to move you hero. Rotate using C and V, and Press x to skip turn."
-                },
-                {
-                    "key": "STORAGE",
-                    "value": "Use NUMPAD Keys to move you hero. Rotate using C and V, and Press x to skip turn.\n\nMovement is restricted depending on the Character movement Level.\n\n\nCollect movement perks to increase your movement level.\n\nHere are some Definitions:\n\n\n\nTall Tiles: Forest, closed doors, walls, etc. Any tile that blocks the character and is \"tall\".\n\n\n\nFlanked Tiles: Is a tile containing two Tall Tiles to the north and south, or to the East and West Direction.\n\n\n\nNarrow Passage: for example: when the hero wants to make a NW move to a free tile, \n\nand there is a tall tile to his north and West position, the small gap between these two tall tiles is called the narrow passage.\n\n\n\nTunnel: A tile that has only two possible walking exits.\n\n\n\nDead End: A tile that has only ONE possible walking exits.\n\n"
-                },
-                {
-                    "key": "SCOUT",
-                    "value": "This Perk Regulates the capacity of the hero to explore new areas in the map.\n\n\nSub Perks:\n\n\n\nOver Barricade Scout: Each level of this perk increases the ability of the hero to look over barricades by one unit size.\n\n\n\nShow Resource Chance: Chance for a tile containing a bonus rune to be revealed.\n\n\n\nShow Resource Neighbor Chance: This determines the chance for the neighbor tiles of a revealed rune to be revealed. \n\nUseful for checking if the resource is worth picking up.\n\n\n\nResource bonus calculation: the bonus provided by a picked up rune is equal to the amount of free tiles around it multiplied by the amount of water tiles or lit firepits.\n\n\nHint: Destroy Barricades around a resource to increase its bonus amount.\n\n\n\nVERY IMPORTANT: Resource Timers decrease by 1 for each newly cleared area.\nTry to find All Rune bonuses as soon as you can! for they perish twice as fast in the darkness! (Undiscovered = 2x)"
-                }
-            ]
-        },
-        {
-            "name": "Building",
-            "entriesList": [
-                {
-                    "key": "",
-                    "value": ""
-                },
-                {
-                    "key": "STONE_STORAGE_DESCRIPTION",
-                    "value": "Stores Stones."
-                },
-                {
-                    "key": "WOOD_PILE_DESCRIPTION",
-                    "value": "Stores Wood."
-                },
-                {
-                    "key": "WOOD_CUTTER_DESCRIPTION",
-                    "value": "Produces Axes for Choping Down Forest Tiles."
-                },
-                {
-                    "key": "WORK_AREA_DESCRIPTION",
-                    "value": "Man at Work!"
-                },
-                {
-                    "key": "FORGE_DESCRIPTION",
-                    "value": "Melts Basic ore into Bars."
-                },
-                {
-                    "key": "FIREPIT_DESCRIPTION",
-                    "value": "Prepare Delicious Food Here!"
-                },
-                {
-                    "key": "WAREHOUSE_DESCRIPTION",
-                    "value": "Stores Basic Resources."
-                },
-                {
-                    "key": "FOOD_WAREHOUSE_DESCRIPTION",
-                    "value": "Stores Food."
-                },
-                {
-                    "key": "TOOLS_BUILDING_DESCRIPTION",
-                    "value": "Stores Tools for Farm Improvements."
-                },
-                {
-                    "key": "ROAD_BUILDING_DESCRIPTION",
-                    "value": "Stores Trowels for Road Building."
-                },
-                {
-                    "key": "ROAD_WORK_AREA_DESCRIPTION",
-                    "value": "Road is Being Built..."
-                },
-                {
-                    "key": "TENT_DESCRIPTION",
-                    "value": "The Tent is where the Hero resides.\nIt provides support bonuses that improve Farming efficiency.\nHover mouse to learn more."
-                },
-                {
-                    "key": "BERRY_STORAGE_DESCRIPTION",
-                    "value": "Stores Berries and Seeds for berries."
-                },
-                {
-                    "key": "BERRY_BUSH_DESCRIPTION",
-                    "value": "Grows Delicious Berries."
-                },
-                {
-                    "key": "BLACKBERRY_BUSH_DESCRIPTION",
-                    "value": "Grows Delicious Blackberries."
-                },
-                {
-                    "key": "STRAWBERRY_BUSH_DESCRIPTION",
-                    "value": "Grows Delicious Strawberries."
-                },
-                {
-                    "key": "PLANT_2_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_3_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_4_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_5_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_6_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_7_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_8_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_9_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_10_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_11_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_12_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_13_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_14_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_15_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "PLANT_16_DESCRIPTION",
-                    "value": "Plant Description"
-                },
-                {
-                    "key": "SEED_BUILDING_1_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_2_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_3_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_4_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_5_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_6_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_7_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_8_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_9_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_10_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_11_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_12_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_13_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_14_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_15_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "SEED_BUILDING_16_DESCRIPTION",
-                    "value": "Seed Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_1_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_2_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_3_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_4_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_5_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_6_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_7_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_8_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_9_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_10_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_11_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_12_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_13_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_14_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_15_DESCRIPTION",
-                    "value": "Fruit Building Description."
-                },
-                {
-                    "key": "FRUIT_BUILDING_16_DESCRIPTION",
-                    "value": "Fruit Building Description."
                 }
             ]
         }

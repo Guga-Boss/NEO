@@ -145,13 +145,12 @@ public class AdventureUpgradeInfo : MonoBehaviour
     {
         AdventureUpgradeInfo.InitCache();                                                                                       // Lazy init Cache
         int index = ( int ) type;
+
+        if(  itt == ItemType.NONE )
         if( statCache [ index ] != float.MinValue )                                                                             // return cached val if exists
         {
             return statCache [ index ];
         }
-
-
-        Debug.Log("here");
 
         float val = 0;
         int level = GetTechLevel();

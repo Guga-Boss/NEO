@@ -579,6 +579,8 @@ public class TechButton : MonoBehaviour
             }
 
             AdventureUpgradeInfo.ResetCache( au.UpgradeType );                                                    // Reset Cache for this tech
+
+            Item.ClearCache( au.ItemAffected );                                                                   // Clear Item cache for affected item
         }
         else
         {                                                                                                         // Only Updates Unlock Cost Color and Label

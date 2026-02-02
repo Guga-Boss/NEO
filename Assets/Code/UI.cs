@@ -172,8 +172,6 @@ public class UI : MonoBehaviour
                 LastClickedPerk = SelectedPerk;
                 PerkInfoIconBack.gameObject.SetActive( true );
                 PerkInfoDescriptionText.transform.localPosition = new Vector3( -118, -113f, 0f );
-                PerkInfoDescriptionText.width = 314;
-                PerkInfoDescriptionText.width = 148;
                 PerkInfoDescriptionText.color = Color.white;
                 ArtifactLevelDifference = 0;
 			}
@@ -1470,9 +1468,9 @@ public class UI : MonoBehaviour
             int steps = 1 + ( int ) G.Hero.Control.PlatformSteps;
 
             if( steps <= 20 )
-                addDesc += "\n\nTotal Steps: " + steps;
+                addDesc += "\nTotal Steps: " + steps;
             else
-                addDesc += "\n\nTotal Steps: Infinite!";
+                addDesc += "\nTotal Steps: Infinite!";
             if( levelFactor >= 3 )
             {
             addDesc += "\nPlatform Points: " + HeroData.I.PlatformPoints;

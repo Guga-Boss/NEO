@@ -347,7 +347,6 @@ public class FPow : MonoBehaviour
         else
         if( page == 3 )
         {
-            txt += "Fire Power Tutorial:\n\n";
             txt += Language.Get( "FIRE_HELP_INTRO", "Main" ) + "\n\n";                                      // intro 
         }
 

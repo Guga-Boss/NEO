@@ -132,6 +132,8 @@ public class Item : MonoBehaviour
     [TabGroup( "Production" )]
     public float BaseProductionTotalTime = 0;             // original prod time
     [TabGroup( "Production" )]
+    public float CachedProductionTotalTime = float.MinValue;
+    [TabGroup( "Production" )]
     public float ProductionCount;                         // time counter
     [TabGroup( "Production" )]
     public bool SaveLifeTime = false;
@@ -144,13 +146,19 @@ public class Item : MonoBehaviour
     [TabGroup( "Production" )]
     public bool CountLifetime = false;
     [TabGroup( "Production" )]
-    public int BaseProductionLimit = 0;                     // base prod hard limit, Prod doesnt go beyond this
+    public int BaseProductionLimit = 0;                                  // base prod hard limit, Prod doesnt go beyond this
     [TabGroup( "Production" )]
-    public int BaseProductionCap = 0;                       // base prod cap: goods produced limit
+    public int CachedProductionLimit = int.MinValue;
     [TabGroup( "Production" )]
-    public float IdleProductionCount = 0;                   // items produced by auto production, this is consumed before Count to ensure players a free production slot
+    public int BaseProductionCap = 0;                                    // base prod cap: goods produced limit
     [TabGroup( "Production" )]
-    public float BaseProductionBoostChance = 0;             // base chance for production x2
+    public int CachedProductionCap = int.MinValue;
+    [TabGroup( "Production" )]
+    public float IdleProductionCount = 0;                                // items produced by auto production, this is consumed before Count to ensure players a free production slot
+    [TabGroup( "Production" )]
+    public float BaseProductionBoostChance = 0;                          // base chance for production x2
+    [TabGroup( "Production" )]
+    public float CachedProductionBoostChance = float.MinValue;
 
     [TabGroup( "Option" )]
     public bool SaveData = true;
@@ -212,6 +220,16 @@ public class Item : MonoBehaviour
     public void StartIt()
     {
         Count = DefaultNumber;
+    }
+
+    public static void ClearCache( ItemType type )
+    {
+        if( type == ItemType.NONE ) return;
+        Item itm = G.GIT( type );
+        itm.CachedProductionCap = int.MinValue;
+        itm.CachedProductionLimit = int.MinValue;
+        itm.CachedProductionBoostChance = float.MinValue;
+        itm.CachedProductionTotalTime = float.MinValue;
     }
 
     public static float GetNum( ItemType type, Inventory.IType itype = Inventory.IType.Inventory, int adv = -1 )
@@ -1130,38 +1148,66 @@ public class Item : MonoBehaviour
     {
         switch( var )
         {
-            case EVarType.Production_Total_Time:
-            return it.BaseProductionTotalTime + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME );   
+        case EVarType.Production_Total_Time:
+            {
+                if( it.CachedProductionTotalTime != float.MinValue )
+                    return it.CachedProductionTotalTime;
 
-            case EVarType.Production_Limit:
-            return it.BaseProductionLimit + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT ); 
+                it.CachedProductionTotalTime = it.BaseProductionTotalTime +
+                    ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME, it.Type );
+                return it.CachedProductionTotalTime;
+            }
 
-            case EVarType.Production_Cap:
-            return it.BaseProductionCap + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_CAP );             
+        case EVarType.Production_Limit:
+            {
+                if( it.CachedProductionLimit != int.MinValue )
+                    return it.CachedProductionLimit;
 
-            case EVarType.Production_Boost_Chance:
-            return it.BaseProductionBoostChance + AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_BOOST_CHANCE ); 
+                it.CachedProductionLimit = it.BaseProductionLimit +
+                    ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT, it.Type );
+                return it.CachedProductionLimit;
+            }
 
-            case EVarType.Total_Life_Time:
-            it.TotalLifeTime = Blueprint.GetUseSum( var, it.Type );
-            return Map.I.RM.RMD.RequiredItemLifeTime + it.BaseTotalLifeTime + it.TotalLifeTime +
-            ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_REQUIRED_ITEM_TIME );
+        case EVarType.Production_Cap:
+            {
+                if( it.CachedProductionCap != int.MinValue )
+                    return it.CachedProductionCap;
 
-            case EVarType.Carry_Capacity:
+                it.CachedProductionCap = it.BaseProductionCap +
+                    ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_CAP, it.Type );
+                return it.CachedProductionCap;
+            }
 
-            it.CarryCapacity = Blueprint.GetUseSum( var, it.Type );
-            return it.BaseCarryCapacity + it.CarryCapacity;
+        case EVarType.Production_Boost_Chance:
+            {
+                if( it.CachedProductionBoostChance != float.MinValue )
+                    return it.CachedProductionBoostChance;
 
-            case EVarType.PackMule_Capacity:
-            float cap = Blueprint.GetUseSum( var, it.Type );
+                it.CachedProductionBoostChance = ( it.BaseProductionBoostChance +
+                    AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.ITEM_PRODUCTION_BOOST_CHANCE, it.Type ) );
+                return it.CachedProductionBoostChance;
+            }
 
-            float basecap = 0;
-            if( Map.I.RM.CurrentAdventure != -1 )
-            if( it.BasePackmuleCapacityPerAdventure != null )
-            if( it.BasePackmuleCapacityPerAdventure.Count > 0 )
-            if( ( int ) Map.I.RM.CurrentAdventure < it.BasePackmuleCapacityPerAdventure.Count )
-                basecap = it.BasePackmuleCapacityPerAdventure[ ( int ) Map.I.RM.CurrentAdventure ];
-            return basecap + cap;
+        case EVarType.Total_Life_Time:
+        it.TotalLifeTime = Blueprint.GetUseSum( var, it.Type );
+        return Map.I.RM.RMD.RequiredItemLifeTime + it.BaseTotalLifeTime + it.TotalLifeTime +
+        ( int ) AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_REQUIRED_ITEM_TIME );
+
+        case EVarType.Carry_Capacity:
+
+        it.CarryCapacity = Blueprint.GetUseSum( var, it.Type );
+        return it.BaseCarryCapacity + it.CarryCapacity;
+
+        case EVarType.PackMule_Capacity:
+        float cap = Blueprint.GetUseSum( var, it.Type );
+
+        float basecap = 0;
+        if( Map.I.RM.CurrentAdventure != -1 )
+        if( it.BasePackmuleCapacityPerAdventure != null )
+        if( it.BasePackmuleCapacityPerAdventure.Count > 0 )
+        if( ( int ) Map.I.RM.CurrentAdventure < it.BasePackmuleCapacityPerAdventure.Count )
+            basecap = it.BasePackmuleCapacityPerAdventure [ ( int ) Map.I.RM.CurrentAdventure ];
+        return basecap + cap;
         }
         return -1;
     }
