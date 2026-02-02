@@ -1087,10 +1087,10 @@ public class Blueprint : MonoBehaviour
             tgb.AffectedVariableAmount += power;
             break;
 
-            case EVarType.Production_Total_Time:
-            Item it = G.GIT( tgb.AffectedItem );
-            it.ExtraProductionTotalTime += power;
-            break;
+            //case EVarType.Production_Total_Time:
+            //Item it = G.GIT( tgb.AffectedItem );
+            //it.ExtraProductionTotalTime += power;
+            //break;
         }
 
         string nm = Util.GetName( bp.AffectedVariable.ToString() );
