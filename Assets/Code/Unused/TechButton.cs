@@ -572,29 +572,16 @@ public class TechButton : MonoBehaviour
             {
                 G.GIT( au.ItemAffected ).ExtraCapacity += eff;
             }
-            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_LIMIT )                                   // Increase max Production Limit
-            {
-                G.GIT( au.ItemAffected ).ExtraProductionLimit += ( int ) eff;
-            }
-            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_CAP )                                     // Increase max item capacity
-            {
-                G.GIT( au.ItemAffected ).ExtraProductionCap += ( int ) eff;
-            }
-            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_BOOST_CHANCE )                            // Increase item production boost chance
-            {
-                G.GIT( au.ItemAffected ).ExtraProductionBoostChance += ( int ) eff;
-            }
-            if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_TOTAL_TIME )                              // item production time
-            {
-                G.GIT( au.ItemAffected ).ExtraProductionTotalTime += ( int ) eff;
-            }
+            
             if( au.UpgradeType == EAdventureUpgradeType.ITEM_PRODUCTION_ACTIVATED )                               // item production activation
             {
                 G.GIT( au.ItemAffected ).ProductionPurchased = ( int ) eff;
             }
+
+            AdventureUpgradeInfo.ResetCache( au.UpgradeType );                                                    // Reset Cache for this tech
         }
         else
-        {                                                                                                        // Only Updates Unlock Cost Color and Label
+        {                                                                                                         // Only Updates Unlock Cost Color and Label
             if( level <= 0 && techX == -1 &&
                 Map.I.RM.RMD.StartingAdventureLevel == 0 )
                 label.text = "Unlock Quest for: ";

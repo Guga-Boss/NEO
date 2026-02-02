@@ -70,6 +70,22 @@ public class AdventureUpgradeInfo : MonoBehaviour
     public int Y, TechID, QuestID;
     public static List<ItemType> ChestBonusItem, InitialPrizeBonusList;
 
+    public static float[] statCache = null;
+    public static void InitCache()
+    {
+        if( statCache != null ) return;
+        int count = System.Enum.GetValues(typeof(EAdventureUpgradeType)).Length;
+        statCache = new float [ count ];
+        
+        for( int i = 0; i < statCache.Length; i++ )                                                      // Inicializa com MinValue para indicar que ainda não foi calculado
+            statCache [ i ] = float.MinValue;
+    }
+
+    public static void ResetCache( EAdventureUpgradeType type )
+    {
+        int index = ( int ) type;
+        statCache [ index ] = float.MinValue; 
+    }
     public static int GetTechLevel( int x = -1, int y = -1, int tech = -1 )
     {
         RandomMap rm = null;
@@ -127,6 +143,16 @@ public class AdventureUpgradeInfo : MonoBehaviour
 
     public static float GetStat( EAdventureUpgradeType type, ItemType itt = ItemType.NONE, bool countNone = true )
     {
+        AdventureUpgradeInfo.InitCache();                                                                                       // Lazy init Cache
+        int index = ( int ) type;
+        if( statCache [ index ] != float.MinValue )                                                                             // return cached val if exists
+        {
+            return statCache [ index ];
+        }
+
+
+        Debug.Log("here");
+
         float val = 0;
         int level = GetTechLevel();
         if( type == EAdventureUpgradeType.UPGRADE_PACKMULE_STACK ) val = 1;
@@ -139,7 +165,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
         { val = Map.I.RM.RMD.BaseChestPersistChance + ( Map.I.SessionChestsOpenCount * 2 ) ; }
 
         int init = 1 - Map.I.RM.RMD.StartingAdventureLevel;
-        if ( Map.I.RM.RMD.AdventureUpgradeInfoList.Length > 0 )                                             // Sums the value of Adventure level
+        if ( Map.I.RM.RMD.AdventureUpgradeInfoList.Length > 0 )                                                                 // Sums the value of Adventure level
         for( int i = init; i < Map.I.RM.RMD.AdventureUpgradeInfoList.Length; i++ )
         {
             AdventureUpgradeInfo up = Map.I.RM.RMD.AdventureUpgradeInfoList[ i ];
@@ -197,6 +223,7 @@ public class AdventureUpgradeInfo : MonoBehaviour
         if( type == EAdventureUpgradeType.CHEST_PERSIST_CHANCE )                                       // define  limits for these
         if( val > 40 ) val = 40;
 
+        statCache [ index ] = val;
         return val;
     }
     public float GetEffectAmount( int level )
