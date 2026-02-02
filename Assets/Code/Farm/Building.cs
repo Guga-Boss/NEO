@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
@@ -1033,9 +1033,8 @@ public class Building : MonoBehaviour
             {
                 BuildingItem it = null;
                 for( int i = 0; i < bl.Building.Itm.Count; i++ )
-                    if( bp.AffectedItem == bl.Building.Itm[ i ].ItemType )
-                        it = bl.Building.Itm[ i ];
-
+                if ( bp.AffectedItem == bl.Building.Itm[ i ].ItemType )
+                     it = bl.Building.Itm[ i ];
 
                 string pow = power.ToString( "+#;-#;0" ); 
                 if( it )
@@ -1050,12 +1049,6 @@ public class Building : MonoBehaviour
                     case EVarType.Item_Count:
 
                     it.ItemCount += power;
-
-                    break;
-
-                    case EVarType.Maximum_Item_Stack:
-
-                    it.MaxItemStack += power;
 
                     break;
 
