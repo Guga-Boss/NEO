@@ -1,4 +1,4 @@
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -15,6 +15,7 @@ class tk2dSpriteEditor : Editor
     public override void OnInspectorGUI()
     {
 		DrawSpriteEditorGUI();
+
     }
 
     public void OnSceneGUI()
@@ -131,7 +132,8 @@ class tk2dSpriteEditor : Editor
 
 	protected void DrawSpriteEditorGUI()
 	{
-		Event ev = Event.current;
+        DrawNeoConvertButton();
+        Event ev = Event.current;
 		tk2dSpriteGuiUtility.SpriteSelector( targetSprites[0].Collection, targetSprites[0].spriteId, spriteChangedCallbackInstance, null );
 
         if (targetSprites[0].Collection != null)
@@ -493,6 +495,41 @@ class tk2dSpriteEditor : Editor
 			Selection.activeGameObject = go;
 			Undo.RegisterCreatedObjectUndo(go, "Create Sprite");
 		} );
+    }
+
+    void DrawNeoConvertButton()
+    {
+        GUILayout.Space( 12 );
+
+        Color oldColor = GUI.backgroundColor;
+        GUI.backgroundColor = Color.red;
+
+        GUILayout.BeginVertical( "box" );
+        GUILayout.Space( 6 );
+
+        GUIStyle bigButton = new GUIStyle(GUI.skin.button);
+        bigButton.fontSize = 16;
+        bigButton.fixedHeight = 50;
+        bigButton.fontStyle = FontStyle.Bold;
+
+        if( GUILayout.Button( "🔥 CONVERT TO NSPRITE 🔥", bigButton ) )
+        {
+            tk2dSprite spr = (tk2dSprite)target;
+            var sprite = spr.CurrentSprite;
+            NSprite.Convert( spr );
+        }
+
+        if( GUILayout.Button( "🔥 Finalize 🔥", bigButton ) )
+        {
+            tk2dSprite spr = (tk2dSprite)target;
+            var sprite = spr.CurrentSprite;
+            NSprite.Finalize( spr );
+        }
+
+        GUILayout.Space( 6 );
+        GUILayout.EndVertical();
+
+        GUI.backgroundColor = oldColor;
     }
 }
 

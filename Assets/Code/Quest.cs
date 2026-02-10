@@ -1,7 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using HeavyDutyInspector;
 using DarkTonic.MasterAudio;
 
 public class Quest : MonoBehaviour 

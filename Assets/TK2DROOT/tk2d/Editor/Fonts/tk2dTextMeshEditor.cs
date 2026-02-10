@@ -90,28 +90,28 @@ class tk2dTextMeshEditor : Editor
 
 		if (drawRightHandle)
 		{
-			Vector3 newp1 = Handles.Slider(p1, transform.right, HandleUtility.GetHandleSize(p1), Handles.ArrowCap, 0.0f);
-			if (newp1 != p1)
-			{
-				tk2dUndo.RecordObject(textMesh, "TextMesh Wrap Length");
-				int newPx = (int)Mathf.Round((newp1 - p0).magnitude / (font.texelSize.x * transform.localScale.x));
-				newPx = Mathf.Max(newPx, 0);
-				textMesh.wordWrapWidth = newPx;
-				textMesh.Commit();
-			}
+			//Vector3 newp1 = Handles.Slider(p1, transform.right, HandleUtility.GetHandleSize(p1), Handles.ArrowCap, 0.0f);
+			//if (newp1 != p1)
+			//{
+			//	tk2dUndo.RecordObject(textMesh, "TextMesh Wrap Length");
+			//	int newPx = (int)Mathf.Round((newp1 - p0).magnitude / (font.texelSize.x * transform.localScale.x));
+			//	newPx = Mathf.Max(newPx, 0);
+			//	textMesh.wordWrapWidth = newPx;
+			//	textMesh.Commit();
+			//}
 		}
 
 		if (drawLeftHandle)
 		{
-			Vector3 newp0 = Handles.Slider(p0, -transform.right, HandleUtility.GetHandleSize(p0), Handles.ArrowCap, 0.0f);
-			if (newp0 != p0)
-			{
-				tk2dUndo.RecordObject(textMesh, "TextMesh Wrap Length");
-				int newPx = (int)Mathf.Round((p1 - newp0).magnitude / (font.texelSize.x * transform.localScale.x));
-				newPx = Mathf.Max(newPx, 0);
-				textMesh.wordWrapWidth = newPx;
-				textMesh.Commit();
-			}
+			//Vector3 newp0 = Handles.Slider(p0, -transform.right, HandleUtility.GetHandleSize(p0), Handles.ArrowCap, 0.0f);
+			//if (newp0 != p0)
+			//{
+			//	tk2dUndo.RecordObject(textMesh, "TextMesh Wrap Length");
+			//	int newPx = (int)Mathf.Round((p1 - newp0).magnitude / (font.texelSize.x * transform.localScale.x));
+			//	newPx = Mathf.Max(newPx, 0);
+			//	textMesh.wordWrapWidth = newPx;
+			//	textMesh.Commit();
+			//}
 		}
 	}
 

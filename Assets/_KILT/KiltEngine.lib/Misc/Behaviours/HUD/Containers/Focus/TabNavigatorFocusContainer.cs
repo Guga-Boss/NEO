@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
+//// gg using System.Runtime.Remoting.Messaging;
 
 public class TabNavigatorFocusContainer : FocusContainer 
 {
@@ -28,7 +29,8 @@ public class TabNavigatorFocusContainer : FocusContainer
 	bool _checking = false;
 	protected virtual IEnumerator ChangeInput()
 	{
-		if(!_checking)
+        return null;// gg 
+        if(!_checking)
 		{
 			_checking = true;
 			EventSystem v_eventSystem = EventSystem.current;
@@ -38,7 +40,9 @@ public class TabNavigatorFocusContainer : FocusContainer
 				GameObject v_currentSelectedGameObject = v_eventSystem.currentSelectedGameObject;
 				Selectable v_currentSelectedComponent = v_currentSelectedGameObject != null? v_currentSelectedGameObject.GetComponent<Selectable>() : null;
 
-				if(!(v_currentSelectedComponent is InputField) || !(((InputField)v_currentSelectedComponent).multiLine))
+
+                /*// gg 
+                if(!(v_currentSelectedComponent is InputField) || !(((InputField)v_currentSelectedComponent).multiLine))
 				{
 					List<Selectable> v_currentSelectables = new List<Selectable>();
 					for(int i=0; i<Selectable.allSelectables.Count; i++)
@@ -86,15 +90,16 @@ public class TabNavigatorFocusContainer : FocusContainer
 					if (v_currentSelectedComponent != null)
 					{
 						InputField v_inputfield = v_currentSelectedComponent.GetComponent<InputField>();
-						if (v_inputfield != null)
-							v_inputfield.OnPointerClick(new PointerEventData(v_eventSystem));
-						yield return StartCoroutine(CoroutineUtil.WaitForRealSeconds(0.05f));
+                        // gg //if (v_inputfield != null)
+                        //	v_inputfield.OnPointerClick(new PointerEventData(v_eventSystem));
+                        yield return StartCoroutine(CoroutineUtil.WaitForRealSeconds(0.05f));
 					}
 				}
-			}
-			_checking = false;
+
+                */
+            }
+            _checking = false;
 		}
 	}
-
 	#endregion
 }

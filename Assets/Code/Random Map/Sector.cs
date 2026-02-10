@@ -532,7 +532,7 @@ public class Sector : MonoBehaviour
         Quest.I.UpdateArtifactData( ref Map.I.Hero );
         Map.I.FreeCamAreaZoom = 0;
         Map.TrailTiles = null;
-        G.Hero.Spr.gameObject.SetActive( true );
+        G.Hero.NSpr.gameObject.SetActive( true );
         G.Hero.Body.Shadow.gameObject.SetActive( true );
         Secret.FlushSecretList = new List<Vector2>();
 

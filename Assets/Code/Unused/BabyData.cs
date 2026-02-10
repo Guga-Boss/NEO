@@ -15,7 +15,7 @@ public class BabyData : MonoBehaviour
     public Unit Algae;
     public int ID = 0;
     public EAlgaeBabyType BabyType = EAlgaeBabyType.NETTLE;
-    public tk2dSprite Sprite;
+    public NSprite Sprite;
     public CircleCollider2D Collider;
     public Rigidbody2D RigidBody;
     public Vector2 Cord;
@@ -70,7 +70,7 @@ public class BabyData : MonoBehaviour
         bd.RigidBody.freezeRotation = false;
         bd.RigidBody.mass = 30;
         bd.ConsecutiveFlowerHitCount = 0;
-        bd.RigidBody.velocity = Vector2.zero;
+        bd.RigidBody.linearVelocity = Vector2.zero;
         if( init )
             bd.TimesDestroyed = 0;
     }
@@ -99,7 +99,7 @@ public class BabyData : MonoBehaviour
                 GS.SVector3( bd.transform.localPosition );
                 GS.SVector3( bd.transform.localScale );
                 GS.SVector3( bd.Sprite.transform.eulerAngles );
-                GS.SVector2( bd.RigidBody.velocity );
+                GS.SVector2( bd.RigidBody.linearVelocity );
             }
         }
     }
@@ -128,7 +128,7 @@ public class BabyData : MonoBehaviour
                 bd.transform.localPosition = GS.LVector3();
                 bd.transform.localScale = GS.LVector3();
                 bd.Sprite.transform.eulerAngles = GS.LVector3();
-                bd.RigidBody.velocity = GS.LVector2();
+                bd.RigidBody.linearVelocity = GS.LVector2();
             }
         }
     }
@@ -237,7 +237,7 @@ public class BabyData : MonoBehaviour
                 }
                 else
                 {
-                    dt.RigidBody.velocity = Vector2.zero;
+                    dt.RigidBody.linearVelocity = Vector2.zero;
                     dt.ConsecutiveFlowerHitCount = 0;
                 }
                 break;
@@ -273,7 +273,7 @@ public class BabyData : MonoBehaviour
                         G.Hero.Body.InvulnerabilityFactor = .3f;                                                                    // activate protection shield
                         MasterAudio.PlaySound3DAtTransform( "Electric Orb", G.Hero.transform, .3f );
                         sprscale = Random.Range( 0.55f, 0.7f );
-                        dt.RigidBody.velocity = Vector2.zero;
+                        dt.RigidBody.linearVelocity = Vector2.zero;
                     }
      
                 break;
@@ -401,7 +401,7 @@ public class BabyData : MonoBehaviour
                 if( bd.BabyType == EAlgaeBabyType.PROTECTOR )
                 {
                     bd.RigidBody.isKinematic = true;
-                    bd.RigidBody.velocity = Vector2.zero;
+                    bd.RigidBody.linearVelocity = Vector2.zero;
                 }
             }
         }
@@ -453,7 +453,7 @@ public class BabyData : MonoBehaviour
             BabyTimeCounter = 0;
             HitCount++;
             HitTimeCount = 0;
-            RigidBody.velocity = Vector2.zero;
+            RigidBody.linearVelocity = Vector2.zero;
             MasterAudio.PlaySound3DAtVector3( "Click 2", Map.I.MainHook.transform.position );
         }
     }

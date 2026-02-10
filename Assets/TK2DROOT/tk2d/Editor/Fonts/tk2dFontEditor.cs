@@ -45,11 +45,11 @@ public class tk2dFontEditor : Editor
 				{
 					if (buttonPressed == 0)
 					{
-						ConvertTextureToFormat(tex, TextureImporterFormat.Automatic16bit);
+						//ConvertTextureToFormat(tex, TextureImporterFormat.Automatic16bit);
 					}
 					else
 					{
-						ConvertTextureToFormat(tex, TextureImporterFormat.AutomaticTruecolor);
+						//ConvertTextureToFormat(tex, TextureImporterFormat.AutomaticTruecolor);
 					}
 				}
 			}
@@ -66,7 +66,7 @@ public class tk2dFontEditor : Editor
 				new string[] { "Fix" }
 				) != -1)
 			{
-				ConvertTextureToFormat(gen.gradientTexture, TextureImporterFormat.AutomaticTruecolor);
+				//ConvertTextureToFormat(gen.gradientTexture, TextureImporterFormat.AutomaticTruecolor);
 			}
 		}
 
@@ -181,8 +181,8 @@ public class tk2dFontEditor : Editor
 		{
 			// make sure the source texture is npot and readable, and uncompressed
         	TextureImporter importer = (TextureImporter)TextureImporter.GetAtPath(assetPath);
-			if (importer.textureFormat != format)
-				importer.textureFormat = format;
+			//if (importer.textureFormat != format)
+			//	importer.textureFormat = format;
 			
 			AssetDatabase.ImportAsset(assetPath);
 		}

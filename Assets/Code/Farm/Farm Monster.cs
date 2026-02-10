@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -141,8 +141,8 @@ public partial class Farm : MonoBehaviour
     public Unit CreateMonster( Vector2 pt, Item it )
     {
         if( it.Type == ItemType.Feather || it.Type == ItemType.HoneyComb )                       // Creates Feathers and hcombs only after Scorpion quest got Bronze
-        if( Map.I.RM.DungeonDialog.GetTrophyCount(
-            Map.I.RM.RMList[ 11 ].QuestID, ETrophyType.BRONZE ) < 1 ) return null;               // BE CAREFUL not to change Quests ID!
+     //gggg   //if( Map.I.RM.DungeonDialog.GetTrophyCount(
+        //    Map.I.RM.RMList[ 11 ].QuestID, ETrophyType.BRONZE ) < 1 ) return null;               // BE CAREFUL not to change Quests ID!
         if( pt == ScrollPosition ) return null;                                                  // No creation over scroll pos
         if( pt == Map.I.LevelEntrancePosition ) return null;
         Unit prefabUnit = Map.I.GetUnitPrefab( ETileType.PLAGUE_MONSTER );

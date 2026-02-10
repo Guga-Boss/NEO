@@ -1953,8 +1953,8 @@ public class Mine : MonoBehaviour
             {
                 Controller.MoveFlyingUnitTo( ref mine, mine.Pos, G.Hero.Pos );
                 Map.I.SetHeroDeathTimer( .2f );                                                              // or kill the hero squashed
-                G.Hero.Spr.transform.localPosition = new Vector3( 
-                G.Hero.Spr.transform.localPosition.x, G.Hero.Spr.transform.localPosition.y, -1.75f );        
+                G.Hero.NSpr.transform.localPosition = new Vector3( 
+                G.Hero.NSpr.transform.localPosition.x, G.Hero.NSpr.transform.localPosition.y, -1.75f );        
                 res = true;
             }
             G.HS.FailedMineMoveRandomly--;
@@ -2201,7 +2201,7 @@ public class Mine : MonoBehaviour
         Map.I.TunnelPhaseTimer += Time.deltaTime;
         if( Map.I.TunnelPhase == 0 )                                                                               // first phase move to first hole
         {
-            G.Hero.Spr.color = new Color( 1, 1, 1, 1 - ( Map.I.TunnelPhaseTimer * 4 ) );
+            G.Hero.NSpr.color = new Color( 1, 1, 1, 1 - ( Map.I.TunnelPhaseTimer * 4 ) );
             G.Hero.Graphic.transform.position = Vector3.Lerp( from, to, Map.I.TurnTime * 12 );
             if( G.Hero.Graphic.transform.position == to )
               { Map.I.TunnelPhase++; Map.I.TunnelPhaseTimer = 0; }
@@ -2209,16 +2209,16 @@ public class Mine : MonoBehaviour
         else
         if( Map.I.TunnelPhase == 1 )                                                                               // fade out hero sprite
         {
-            G.Hero.Spr.color = new Color( 1, 1, 1, 1 - ( Map.I.TunnelPhaseTimer * 4 ) );
-            if( G.Hero.Spr.color.a <= 1f ) 
+            G.Hero.NSpr.color = new Color( 1, 1, 1, 1 - ( Map.I.TunnelPhaseTimer * 4 ) );
+            if( G.Hero.NSpr.color.a <= 1f ) 
               { Map.I.TunnelPhase++; Map.I.TunnelPhaseTimer = 0; }
         }
         else
         if( Map.I.TunnelPhase == 2 )                                                                              // fade in hero sprite
         {
             G.Hero.Graphic.transform.position = Map.I.TunnelCordList[ 2 ];
-            G.Hero.Spr.color = new Color( 1, 1, 1, Map.I.TunnelPhaseTimer * 8 );
-            if( G.Hero.Spr.color.a >= 1 )
+            G.Hero.NSpr.color = new Color( 1, 1, 1, Map.I.TunnelPhaseTimer * 8 );
+            if( G.Hero.NSpr.color.a >= 1 )
               { Map.I.TunnelPhase++; Map.I.TunnelPhaseTimer = 0; }
         }
         else

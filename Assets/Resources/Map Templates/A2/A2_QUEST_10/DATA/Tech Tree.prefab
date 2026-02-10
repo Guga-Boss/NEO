@@ -1,0 +1,1391 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1202016898472164}
+  m_IsPrefabParent: 1
+--- !u!1 &1015240476932174
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4950894761428258}
+  - component: {fileID: 114089404354289708}
+  m_Layer: 0
+  m_Name: 'Auto Move Unlocked ''\'' Key (Energy 10)  time:  4 Hr '
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1037843274308684
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4977943436456430}
+  m_Layer: 0
+  m_Name: Tech 1 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1079752356476530
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4597543767283402}
+  m_Layer: 0
+  m_Name: Tech 0 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1080401879408640
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4167460643213164}
+  - component: {fileID: 114331794364797160}
+  m_Layer: 0
+  m_Name: 'Available Cubes: +3 (Strawberry_Fruit 30)'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1160470558967970
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4093791436034784}
+  m_Layer: 0
+  m_Name: Tech 3 3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1202016898472164
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4579540576470542}
+  m_Layer: 0
+  m_Name: Tech Tree
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1337131636884844
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4408273786076114}
+  m_Layer: 0
+  m_Name: Tech 5 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1355389196046012
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4092612874649094}
+  - component: {fileID: 114331287389414786}
+  m_Layer: 0
+  m_Name: 'Increase Max Cap: Cog +5 (Shell 20)'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1357039757201458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4281950245581582}
+  m_Layer: 0
+  m_Name: Tech 0 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1416068535942946
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4319898448693084}
+  - component: {fileID: 114109535582566306}
+  m_Layer: 0
+  m_Name: 'Find Clover Chance: +20% (Energy 20)  time:  1H '
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1441909451125958
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4446684974316248}
+  - component: {fileID: 114678219335239510}
+  m_Layer: 0
+  m_Name: 'Load Cost Discount: +50% (Shell 15)  time:  1H '
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1444080891397266
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4306476521728864}
+  - component: {fileID: 114831579356166316}
+  m_Layer: 0
+  m_Name: '(G) Clover Pick Bonus: +1% chance to get Cog (Recurring) 5x  tot: 4'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!1 &1494271839184052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4582757267732818}
+  m_Layer: 0
+  m_Name: Tech 1 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1603969998030198
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4037180382862898}
+  m_Layer: 0
+  m_Name: Tech 4 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1629682773302656
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4806085953830478}
+  m_Layer: 0
+  m_Name: Tech 2 2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1644690569668278
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4926533489383450}
+  m_Layer: 0
+  m_Name: Tech 3 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1651683444003602
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4076153858204240}
+  - component: {fileID: 114222614108513684}
+  m_Layer: 0
+  m_Name: 'Default Cube Clear Bonuses: +10% (Energy 20)  time:  1H '
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1666630564505416
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4954079741998508}
+  - component: {fileID: 114303342002381944}
+  m_Layer: 0
+  m_Name: 'Base Chest Bonus Chance: +5% (Recurring) 10x  tot: 50'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1682124288201104
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4492096546315014}
+  m_Layer: 0
+  m_Name: Tech 3 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1728211480740474
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4956724245440042}
+  - component: {fileID: 114670242373023286}
+  m_Layer: 0
+  m_Name: 'Available Cubes: +2 (Shell 40)'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1756740164774502
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4480369175792548}
+  - component: {fileID: 114883024041599826}
+  m_Layer: 0
+  m_Name: '(G) Clover Pick Bonus: +1% chance to get Shell (Recurring) 5x  tot: 4'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!1 &1775674145578400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4061696990805410}
+  m_Layer: 0
+  m_Name: Tech 0 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1782421890881324
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4200174279159100}
+  - component: {fileID: 114373788503663034}
+  m_Layer: 0
+  m_Name: 'Increase Max Cap: Shell +5 (Cog 20)'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1784620002162104
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4677928782694626}
+  - component: {fileID: 114069581967480030}
+  m_Layer: 0
+  m_Name: 'Available Cubes: +3 (Feather 150)'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1846911163870202
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4117771542903414}
+  m_Layer: 0
+  m_Name: Tech 1 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1899733747295250
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4776110121317896}
+  - component: {fileID: 114397040924365408}
+  m_Layer: 0
+  m_Name: '(G) Shell Prize Bonus: +3% (Stone 1)  Chance:  10%'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1928095961112638
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4029720713537220}
+  - component: {fileID: 114307967388665130}
+  m_Layer: 0
+  m_Name: 'Available Cubes: +3 (Cog 40)'
+  m_TagString: Tech
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1931524910337640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4737608094490578}
+  m_Layer: 0
+  m_Name: Tech 5 1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1983038034750102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4964030735337150}
+  m_Layer: 0
+  m_Name: Tech 2 0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4029720713537220
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928095961112638}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 117.51187, y: -37.1275, z: -0.600003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4061696990805410}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4037180382862898
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1603969998030198}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4319898448693084}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4061696990805410
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1775674145578400}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 256.30005, y: 60, z: 0.6000018}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4029720713537220}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4076153858204240
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651683444003602}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4281950245581582}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4092612874649094
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1355389196046012}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4582757267732818}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4093791436034784
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1160470558967970}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4117771542903414
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1846911163870202}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 256.30005, y: 60, z: 0.6000018}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4956724245440042}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4167460643213164
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1080401879408640}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 117.51187, y: -37.1275, z: -0.600003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4964030735337150}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4200174279159100
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1782421890881324}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4582757267732818}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4281950245581582
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1357039757201458}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4076153858204240}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4306476521728864
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444080891397266}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4977943436456430}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4319898448693084
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1416068535942946}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4037180382862898}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4408273786076114
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1337131636884844}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4950894761428258}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4446684974316248
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1441909451125958}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4737608094490578}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4480369175792548
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1756740164774502}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4597543767283402}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4492096546315014
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1682124288201104}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4954079741998508}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4579540576470542
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1202016898472164}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2131.9456, y: -134.6152, z: 4.7734537}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4061696990805410}
+  - {fileID: 4117771542903414}
+  - {fileID: 4964030735337150}
+  - {fileID: 4926533489383450}
+  - {fileID: 4408273786076114}
+  - {fileID: 4492096546315014}
+  - {fileID: 4037180382862898}
+  - {fileID: 4737608094490578}
+  - {fileID: 4281950245581582}
+  - {fileID: 4582757267732818}
+  - {fileID: 4806085953830478}
+  - {fileID: 4597543767283402}
+  - {fileID: 4977943436456430}
+  - {fileID: 4093791436034784}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4582757267732818
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1494271839184052}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4200174279159100}
+  - {fileID: 4092612874649094}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4597543767283402
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1079752356476530}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4480369175792548}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4677928782694626
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1784620002162104}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 117.51187, y: -37.1275, z: -0.600003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4926533489383450}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4737608094490578
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1931524910337640}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4446684974316248}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4776110121317896
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1899733747295250}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4806085953830478}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4806085953830478
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1629682773302656}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4776110121317896}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4926533489383450
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1644690569668278}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 256.30005, y: 60, z: 0.6000018}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4677928782694626}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4950894761428258
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1015240476932174}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4408273786076114}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4954079741998508
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1666630564505416}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4492096546315014}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4956724245440042
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1728211480740474}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 117.51187, y: -37.1275, z: -0.600003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4117771542903414}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4964030735337150
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1983038034750102}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 256.30005, y: 60, z: 0.6000018}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4167460643213164}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4977943436456430
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1037843274308684}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4306476521728864}
+  m_Father: {fileID: 4579540576470542}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114069581967480030
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1784620002162104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 6
+  UpgradeItem1Type: 16
+  UpgradeItem1Cost: 150
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 3
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
+  X: 3
+  Y: 0
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114089404354289708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1015240476932174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 22
+  UpgradeItem1Type: 10
+  UpgradeItem1Cost: 10
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 1
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 14400
+  PurchaseChance: 0
+  LeisureType: 1
+  X: 5
+  Y: 0
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114109535582566306
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1416068535942946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 24
+  UpgradeItem1Type: 10
+  UpgradeItem1Cost: 20
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: 17
+  UpgradeEffectAmount: 20
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 3600
+  PurchaseChance: 0
+  LeisureType: 1
+  X: 4
+  Y: 1
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114222614108513684
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1651683444003602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 33
+  UpgradeItem1Type: 10
+  UpgradeItem1Cost: 20
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 10
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 3600
+  PurchaseChance: 0
+  LeisureType: 4
+  X: 0
+  Y: 2
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114303342002381944
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1666630564505416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 29
+  UpgradeItem1Type: 87
+  UpgradeItem1Cost: 2
+  UpgradeItem1RecuringCost: 0a000000140000001e00000028000000320000003c00000046000000500000005a00000064000000
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 10
+  UpgradeRecuringEffect:
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  - 5
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: 1
+  X: 3
+  Y: 1
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114307967388665130
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928095961112638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 6
+  UpgradeItem1Type: 9
+  UpgradeItem1Cost: 40
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 3
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
+  X: 0
+  Y: 0
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114331287389414786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1355389196046012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 32
+  UpgradeItem1Type: 11
+  UpgradeItem1Cost: 20
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: 9
+  UpgradeEffectAmount: 5
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: 4
+  X: 1
+  Y: 2
+  TechID: 1
+  QuestID: 23
+--- !u!114 &114331794364797160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1080401879408640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 6
+  UpgradeItem1Type: 242
+  UpgradeItem1Cost: 30
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 3
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
+  X: 2
+  Y: 0
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114373788503663034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1782421890881324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 32
+  UpgradeItem1Type: 9
+  UpgradeItem1Cost: 20
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: 11
+  UpgradeEffectAmount: 5
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: 4
+  X: 1
+  Y: 2
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114397040924365408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1899733747295250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 21
+  UpgradeItem1Type: 0
+  UpgradeItem1Cost: 1
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: 11
+  UpgradeEffectAmount: 3
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 1
+  TechTotalTime: 0
+  PurchaseChance: 10
+  LeisureType: 4
+  X: 2
+  Y: 2
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114670242373023286
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1728211480740474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 6
+  UpgradeItem1Type: 11
+  UpgradeItem1Cost: 40
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 2
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
+  X: 1
+  Y: 0
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114678219335239510
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1441909451125958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 30
+  UpgradeItem1Type: 11
+  UpgradeItem1Cost: 15
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 50
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 3600
+  PurchaseChance: 0
+  LeisureType: 4
+  X: 5
+  Y: 1
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114831579356166316
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1444080891397266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 7
+  UpgradeItem1Type: 11
+  UpgradeItem1Cost: 10
+  UpgradeItem1RecuringCost: 0f0000000f0000000f0000000f0000000f000000
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: 9
+  UpgradeEffectAmount: 1
+  UpgradeRecuringEffect:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 1
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: 4
+  X: 1
+  Y: 3
+  TechID: 0
+  QuestID: 23
+--- !u!114 &114883024041599826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1756740164774502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 7
+  UpgradeItem1Type: 9
+  UpgradeItem1Cost: 10
+  UpgradeItem1RecuringCost: 0f0000000f0000000f0000000f0000000f000000
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: 11
+  UpgradeEffectAmount: 1
+  UpgradeRecuringEffect:
+  - 1
+  - 1
+  - 1
+  - 1
+  - 0
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 1
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: 4
+  X: 0
+  Y: 3
+  TechID: 0
+  QuestID: 23

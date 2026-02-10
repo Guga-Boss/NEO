@@ -1,8 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
-#if UNITY_EDITOR  
+using UnityEngine.UI;
+using TMPro;
+
+
+#if UNITY_EDITOR
 using UnityEditor;
 #endif
 
@@ -28,6 +32,7 @@ public class DungeonDialog : MonoBehaviour
     public UISlider DificultySlider;
     public UIToggle AutoBuyModeToggle, BlindModeToggle;
     public UIPopupList PlayerType, StartingCubePopup;
+    public TMP_Dropdown SelectQuestDropdown;
     public GameObject BluePrintUI, QuestList, InventoryGO, PackmuleGO, 
     GoalsGO, StudiesGO, TechButtonsGO, BambooFrame, InventoryBack, DarkPerkBack, DecorFolder;
     public UITable ObjectivesTable;
@@ -100,6 +105,17 @@ public class DungeonDialog : MonoBehaviour
             QuickRestartAllowed = true;
             TechButton.UpdateMatrix = true;
             TechButton.UpdateIt();
+
+            SelectQuestDropdown.ClearOptions();
+            SelectQuestDropdown.options.Add( new TMP_Dropdown.OptionData( "Select Quest..." ) );
+            for( int i = 0; i < Map.I.RM.RMList.Count; i++ )
+             if( Map.I.RM.RMList[ i ].Available )
+            {
+                SelectQuestDropdown.options.Add( new TMP_Dropdown.OptionData( Map.I.RM.RMList[ i ].QuestHelper.QuestName ) );
+            }
+            SelectQuestDropdown.value = 0;
+            SelectQuestDropdown.RefreshShownValue();
+            SelectQuestDropdown.onValueChanged.AddListener( OnQuestDropdownChanged );
         }
     }
      public void OnDisable()
@@ -1350,7 +1366,7 @@ public class DungeonDialog : MonoBehaviour
         NewIncursion = false;
         NewButtonClicked = false;
         Item.AddItem( ItemType.Quest_Trial_Count, +1 );
-        G.Hero.Spr.spriteId = 256;
+        G.Hero.NSpr.spriteId = 256;
         GetObjectivesList( Map.I.RM.CurrentAdventure, true );
     }
 
@@ -1406,9 +1422,13 @@ public class DungeonDialog : MonoBehaviour
                     SetMsg( "ERROR: Finalize Current Adventure First!", Color.red );
             return;
         }
-         
+
         ShowEndgameStats = false;
         Map.I.RM.CurrentAdventure = adv;
+
+        //Map.I.RM.CurrentAdventure = 0; // gggg added to fix bug , remove after migration
+
+
         Map.I.RM.ORMD = Map.I.RM.RMList[ ( int ) Map.I.RM.CurrentAdventure ];
 
         Map.I.RM.RMD.Copy( Map.I.RM.RMList[ ( int ) Map.I.RM.CurrentAdventure ] );
@@ -1843,5 +1863,22 @@ public class DungeonDialog : MonoBehaviour
                 //G.Error( "CubeSave source folder does not exist!" );
             }
         }
+    }
+    public void OnQuestDropdownChanged( int dropdownIndex )
+    {
+        if( dropdownIndex == 0 ) return; // nula "Select Quest..."
+        string questName = SelectQuestDropdown.options[ dropdownIndex ].text;
+        int id = -1;
+        for( int i = 0; i < Map.I.RM.RMList.Count; i++ )
+        {
+            if( !Map.I.RM.RMList[ i ].Available ) continue;
+            if( Map.I.RM.RMList[ i ].QuestHelper.QuestName == questName )
+            {
+                id = Map.I.RM.RMList[ i ].QuestID;
+                break;
+            }
+        }
+        if( id >= 0 )
+            Map.I.RM.DungeonDialog.ChooseAdventure( id );                               // Select quest from dropdown
     }
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -6,6 +6,8 @@ using System.Text;
 using System.IO;
 using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
+using System.Linq;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -426,8 +428,8 @@ public partial class Farm : MonoBehaviour
         if( G.Tutorial.CheckPhase( 2 ) == false ) return false;                                                        // Tutorial restriction
 
         int amt = 0;                                                                                                   // Key check
-        if( cInput.GetKeyDown( "Wait"    ) ) amt = +1;
-        if( cInput.GetKeyDown( "Special" ) ) amt = -1;
+        //if( cInput.GetKeyDown( "Wait"    ) ) amt = +1;
+        //if( cInput.GetKeyDown( "Special" ) ) amt = -1;
 
         if( UpdateToolUsage( tg ) ) return false;                                                                      // Tool Usage
         if( amt == 0 ) return false;
@@ -616,7 +618,7 @@ public partial class Farm : MonoBehaviour
     }
     public bool UpdateToolUsage( Vector2 tg )
     {
-        if( cInput.GetKeyDown( "Battle" ) == false ) return false;
+        //if( cInput.GetKeyDown( "Battle" ) == false ) return false;
 
         Unit ga = Map.I.GetUnit( tg, ELayerType.GAIA );
         Unit ga2 = Map.I.GetUnit( tg, ELayerType.GAIA2 );
@@ -955,7 +957,6 @@ public partial class Farm : MonoBehaviour
         //Blueprint[] bp = go.GetComponentsInChildren<Blueprint>();
         //BluePrintList.Clear();
         //BluePrintList.AddRange( bp );
-
         MapSaver ms = GameObject.Find( "Areas Template Tilemap" ).
         GetComponent<MapSaver>();
         Map.I = GameObject.Find( "----------------Map" ).GetComponent<Map>();
@@ -971,6 +972,62 @@ public partial class Farm : MonoBehaviour
         nm.MapBonusList = new List<NavigationMapBonus>();
         int[ , ] poscount = new int[ TechButton.SX, TechButton.SY ];
         Map.I.GlobalTechList = new List<AdventureUpgradeInfo>();
+
+        List<RandomMapData> temp = new List<RandomMapData>();                             // Code to update master list with new maps from resources
+
+        string rootFolder = "Assets/Resources/Map Templates";
+
+        foreach( string guid in AssetDatabase.FindAssets(
+        "t:Prefab", new[ ] { rootFolder } ) )
+        {
+            string path = AssetDatabase.GUIDToAssetPath( guid );                          // get prefab path
+            string parentFolder = System.IO.Path.GetDirectoryName( path );                // get parent folder
+
+            if( parentFolder == rootFolder )                                              // skip prefabs directly in root folder
+                continue;
+
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>( path );               // load prefab
+            var maps = prefab.GetComponentsInChildren<RandomMapData>( true );             // collect all RandomMapData
+
+            foreach( var r in maps )
+            {
+                if( r.name == "Default Quest" )                                           // skip default quest templates
+                    continue;
+
+                temp.Add( r );                                                            // add valid map
+                temp[ temp.Count - 1 ].name = r.QuestHelper.QuestName;                    // obj name from quest name
+            }
+        }
+
+        int nextID = 0;                                                                   // next available QuestID
+        foreach( var r in rm.RMList )
+        {
+            if( r.QuestID >= nextID )
+                nextID = r.QuestID + 1;                                                   // compute next id based on master list
+        }
+
+        foreach( var r in temp )
+        {
+            bool exists = false;                                                          // assume new map
+
+            r.name = r.QuestHelper.QuestName;                                             // obj name from quest name
+            foreach( var old in rm.RMList )
+            {
+                if( old.QuestID == r.QuestID )
+                {
+                    exists = true;                                                        // map already exists in master list
+                    break;
+                }
+            }
+            if( exists )
+                continue;                                                                 // skip existing maps
+
+            r.QuestID = nextID++;                                                         // assign new id at the end
+            rm.RMList.Add( r );                                                           // append to master list
+
+            Debug.Log( "NEW MAP ADDED | ID: " + r.QuestID + " | Name: " +
+                r.name + " | Quest: " + r.QuestHelper.QuestName, r.gameObject );          // log new phase
+        }
 
         Helper.I = GameObject.Find( "Helper" ).GetComponent<Helper>();
         Helper.I.StartingAdventure = ms.CurrentAdventure;
@@ -1029,13 +1086,13 @@ public partial class Farm : MonoBehaviour
                 }
         }
 
-        for( int m = 0; m < rmaps.Count; m++ )                                                                   // WARNING Quests cant be deleted or quest id will be changed
-        {
-            rm.RMList.Add( rmaps[ m ] );
-            int id = rm.RMList.Count - 1;
-            rm.RMList[ id ].QuestID = id;                                                                        // Assign Quest id
-            Debug.Log( "New Quests Have been added: " + rmaps[ m ].name + " id: " + id );                        // new Quests Added
-        }
+        //for( int m = 0; m < rmaps.Count; m++ )                                                                   // WARNING Quests cant be deleted or quest id will be changed
+        //{
+        //    rm.RMList.Add( rmaps[ m ] );
+        //    int id = rm.RMList.Count - 1;
+        //    rm.RMList[ id ].QuestID = id;                                                                        // Assign Quest id
+        //    Debug.Log( "New Quests Have been added: " + rmaps[ m ].name + " id: " + id );                        // new Quests Added
+        //}
 
         string repeat = "";                                                             // Check for repeated Quest signature
         bool rep = Util.CheckRepeated( siglist, ref repeat );

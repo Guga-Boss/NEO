@@ -17,9 +17,9 @@ namespace tk2dRuntime.TileMap
 		public int sortingOrder = 0;
 
 		public bool skipMeshGeneration = false;
-		public PhysicMaterial physicMaterial = null;
-#if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
-		public PhysicsMaterial2D physicsMaterial2D = null;
+    // gg [SerializeField] private PhysicMaterial physicMaterial;    [SerializeField] private PhysicMaterial physicMaterial;
+#if !( UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 )
+        public PhysicsMaterial2D physicsMaterial2D = null;
 #endif
 		
 		public LayerInfo()

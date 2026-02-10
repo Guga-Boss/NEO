@@ -430,7 +430,7 @@ public class FragmentSpawner : MonoBehaviour {
 		if(this.GetComponent<Rigidbody2D>() != null)
 		{
 			v_body.mass = Mathf.Max(0.001f, m_fragmentMass);//(rigidbody2D.mass/Mathf.Max(1,m_maxAmountOfFragments))/25;
-			v_body.velocity = UseOldRigidBodyVelocity? GetComponent<Rigidbody2D>().velocity : Vector2.zero;
+			v_body.linearVelocity = UseOldRigidBodyVelocity? GetComponent<Rigidbody2D>().linearVelocity : Vector2.zero;
 			v_body.angularVelocity = UseOldRigidBodyVelocity? GetComponent<Rigidbody2D>().angularVelocity : 0;
 			v_body.gravityScale = m_fragmentGravityScale;
 			

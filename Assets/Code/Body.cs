@@ -184,6 +184,8 @@ public class Body : MonoBehaviour
     public List<bool> WoodAdded;
     [TabGroup( "List" )]
     public List<tk2dSprite> BabySprite, BabyBackSprite;
+    [TabGroup( "List" )]
+    public List<NSprite> NBabySprite, NBabyBackSprite;
     [TabGroup( "Link" )]
     public GameObject BabySpriteFolder;
     [TabGroup( "List" )]
@@ -1679,7 +1681,7 @@ public class Body : MonoBehaviour
         float bonus = 0;
         if( attacker.UnitType == EUnitType.HERO && Unit.Control.IsFlyingUnit )                                   // Hero Attacks Dragon
         {
-            float perc = Map.I.GetAngleDamageInPercent( attacker.Spr.transform.rotation.eulerAngles, 
+            float perc = Map.I.GetAngleDamageInPercent( attacker.NSpr.transform.rotation.eulerAngles, 
                          Unit.Spr.transform.rotation.eulerAngles );
             bonus = Util.Percent( perc, 50 );
 
@@ -1708,7 +1710,7 @@ public class Body : MonoBehaviour
         if( attacker.TileID == ETileType.DRAGON1 )  
         if( attacker.Control.IsFlyingUnit && Unit.UnitType == EUnitType.HERO )                                  // Dragon Attacks Hero
         {
-            float perc = Map.I.GetAngleDamageInPercent( Unit.Spr.transform.rotation.eulerAngles,
+            float perc = Map.I.GetAngleDamageInPercent( Unit.NSpr.transform.rotation.eulerAngles,
             attacker.Spr.transform.rotation.eulerAngles );
             bonus = Util.Percent( perc, 50 );
         }
@@ -1874,7 +1876,7 @@ public class Body : MonoBehaviour
         Message.CreateMessage( ETileType.NONE, msg, Unit.Pos, new Color( 1, 0, 0, 1 ), true, true, 7 );
         Map.I.CubeDeath = false;
         Map.I.DeathAnimationTimer = 0;
-        G.Hero.Body.RigidBody.velocity = Vector2.zero;
+        G.Hero.Body.RigidBody.linearVelocity = Vector2.zero;
         G.Hero.Graphic.gameObject.SetActive( true );
     }
 

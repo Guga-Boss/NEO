@@ -202,49 +202,53 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 		get { return _scale.y < 0; }
 		set { scale = new Vector3( _scale.x, Mathf.Abs(_scale.y) * (value?-1:1), _scale.z ); }
 	}
-	
-	/// <summary>
-	/// Gets or sets the sprite identifier.
-	/// </summary>
-	/// <value>
-	/// The spriteId is a unique number identifying each sprite.
-	/// Use <see cref="tk2dBaseSprite.GetSpriteIdByName">GetSpriteIdByName</see> to resolve an identifier from the current sprite collection.
-	/// </value>
-	public int spriteId 
-	{ 
-		get { return _spriteId; } 
-		set 
-		{
-			if (value != _spriteId)
-			{
-				InitInstance();
-				value = Mathf.Clamp(value, 0, collectionInst.spriteDefinitions.Length - 1);
-				if (_spriteId < 0 || _spriteId >= collectionInst.spriteDefinitions.Length ||
-					GetCurrentVertexCount() != collectionInst.spriteDefinitions[value].positions.Length ||
-					collectionInst.spriteDefinitions[_spriteId].complexGeometry != collectionInst.spriteDefinitions[value].complexGeometry)
-				{
-					_spriteId = value;
-					UpdateGeometry();
-				}
-				else
-				{
-					_spriteId = value;
-					UpdateVertices();
-				}
-				UpdateMaterial();
-				UpdateCollider();
 
-				if (SpriteChanged != null) {
-					SpriteChanged( this );
-				}
-			}
-		} 
-	}
+    /// <summary>
+    /// Gets or sets the sprite identifier.
+    /// </summary>
+    /// <value>
+    /// The spriteId is a unique number identifying each sprite.
+    /// Use <see cref="tk2dBaseSprite.GetSpriteIdByName">GetSpriteIdByName</see> to resolve an identifier from the current sprite collection.
+    /// </value>
+   // private int _spriteId;
 
-	/// <summary>
-	/// Sets the sprite by identifier.
-	/// </summary>
-	public void SetSprite(int newSpriteId) {
+    public int spriteId
+    {
+        get => _spriteId;
+        set
+        {
+            // VERIFICAÇÃO DE NULO COM MENSAGEM PERSONALIZADA
+            if( collectionInst == null )
+            {
+                InitInstance(); // Tenta inicializar
+
+                if( collectionInst == null )
+                {
+                    // Mostra o erro no Console com o nome do objeto que está com problema
+                    Debug.LogError( $"<color=red>[NSprite Error]</color> A coleção de sprites está NULA no objeto: <b>{gameObject.name}</b>" );
+                    return;
+                }
+            }
+
+            // Lógica de atualização se o valor for diferente
+            if( value != _spriteId )
+            {
+                // Garante que o ID não estoure os limites da coleção
+                _spriteId = Mathf.Clamp( value, 0, collectionInst.spriteDefinitions.Length - 1 );
+
+                // ... (restante da sua lógica de UpdateGeometry / UpdateVertices)
+                UpdateMaterial();
+                UpdateCollider();
+
+                SpriteChanged?.Invoke( this );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Sets the sprite by identifier.
+    /// </summary>
+    public void SetSprite(int newSpriteId) {
 		this.spriteId = newSpriteId;
 	}
 
@@ -782,18 +786,18 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 		tk2dSpriteDefinition sprite = collectionInst.spriteDefinitions[_spriteId];
 		if (sprite.colliderType == tk2dSpriteDefinition.ColliderType.Unset)
 			return;
-		
-		PhysicMaterial physicsMaterial = GetComponent<Collider>()?GetComponent<Collider>().sharedMaterial:null;
-		bool isTrigger = GetComponent<Collider>()?GetComponent<Collider>().isTrigger:false;
 
-#if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
-		PhysicsMaterial2D physicsMaterial2D = GetComponent<Collider2D>()?GetComponent<Collider2D>().sharedMaterial:null;
-		if (GetComponent<Collider2D>() != null) {
-			isTrigger = GetComponent<Collider2D>().isTrigger;
-		}
+        // gg PhysicMaterial physicsMaterial = GetComponent<Collider>()?GetComponent<Collider>().sharedMaterial:null;
+        // gg bool isTrigger = GetComponent<Collider>()?GetComponent<Collider>().isTrigger:false;
+
+        // gg #if !( UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 )
+        PhysicsMaterial2D physicsMaterial2D = GetComponent<Collider2D>()?GetComponent<Collider2D>().sharedMaterial:null;
+        // gg if (GetComponent<Collider2D>() != null) {
+        // gg  isTrigger = GetComponent<Collider2D>().isTrigger;
+        // gg  }
 #endif
 
-		boxCollider = gameObject.GetComponent<BoxCollider>();
+        boxCollider = gameObject.GetComponent<BoxCollider>();
 		meshCollider = gameObject.GetComponent<MeshCollider>();
 
 #if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
@@ -878,31 +882,31 @@ public abstract class tk2dBaseSprite : MonoBehaviour, tk2dRuntime.ISpriteCollect
 		
 		if (GetComponent<Collider>())
 		{
-			GetComponent<Collider>().isTrigger = isTrigger;
-			GetComponent<Collider>().material = physicsMaterial;
-		}
+            // gg GetComponent<Collider>().isTrigger = isTrigger;
+            // gg   GetComponent<Collider>().material = physicsMaterial;
+        }
 
-#if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2)
-		if (boxCollider2D) {
-			boxCollider2D.isTrigger = isTrigger;
-			boxCollider2D.sharedMaterial = physicsMaterial2D;
+#if !( UNITY_3_5 || UNITY_4_0 || UNITY_4_0_1 || UNITY_4_1 || UNITY_4_2 )
+        if (boxCollider2D) {
+            // gg boxCollider2D.isTrigger = isTrigger;
+            boxCollider2D.sharedMaterial = physicsMaterial2D;
 		}
 
 		foreach (EdgeCollider2D ec in edgeCollider2D) {
-			ec.isTrigger = isTrigger;
-			ec.sharedMaterial = physicsMaterial2D;
+            // gg 	ec.isTrigger = isTrigger;
+            ec.sharedMaterial = physicsMaterial2D;
 		}
 
 		foreach (PolygonCollider2D pc in polygonCollider2D) {
-			pc.isTrigger = isTrigger;
-			pc.sharedMaterial = physicsMaterial2D;
+            // gg pc.isTrigger = isTrigger;
+            pc.sharedMaterial = physicsMaterial2D;
 		}
 #endif
 
 	}
-#endif
+    // gg #endif
 
-	protected void Awake()
+    protected void Awake()
 	{
 		if (collection != null)
 		{

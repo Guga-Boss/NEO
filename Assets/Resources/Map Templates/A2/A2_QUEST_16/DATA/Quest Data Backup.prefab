@@ -1,26 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1982588776663084}
-  m_IsPrefabParent: 1
---- !u!1 &1982588776663084
+--- !u!1 &1516126876922836
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
-  - component: {fileID: 4650419481938934}
-  - component: {fileID: 114325743850464072}
-  - component: {fileID: 114476401032805360}
+  - component: {fileID: 4536821182801452}
+  - component: {fileID: 114067421366825380}
+  - component: {fileID: 114856521739048234}
   m_Layer: 0
   m_Name: Quest Data Backup
   m_TagString: Map Quest
@@ -28,31 +18,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4650419481938934
+--- !u!4 &4536821182801452
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1982588776663084}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516126876922836}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 31, y: 21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114325743850464072
+--- !u!114 &114067421366825380
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1982588776663084}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516126876922836}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapData: {fileID: 114476401032805360}
+  MapData: {fileID: 114856521739048234}
   MonsterSprite: {fileID: 0}
   NestSprite: {fileID: 0}
   BackgroundSprite: {fileID: 0}
@@ -62,53 +55,51 @@ MonoBehaviour:
   Signature: A2_QUEST_16
   SubFolder: A2
   NavigationMapIcon: 1551
---- !u!114 &114476401032805360
+--- !u!114 &114856521739048234
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1982588776663084}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1516126876922836}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqueID: T8TRZ
   IsUp: 0
   Notes: 
-  QuestHelper: {fileID: 114325743850464072}
+  QuestHelper: {fileID: 114067421366825380}
   MapCord: {x: 63, y: 21}
   BlockArea: {x: 2, y: 2}
-  ImagesFolder: {fileID: 1660625657210558, guid: 2a3b21832cc51aa49971ff84d0c1f54f,
-    type: 2}
-  GoalsFolder: {fileID: 1169091181276812, guid: ab3838e17a199914486bb074b0700c6b,
-    type: 2}
+  ImagesFolder: {fileID: 1074361534690388, guid: 0add34548a5f05e4b8eae7a93678ac6b,
+    type: 3}
+  GoalsFolder: {fileID: 1779241682354436, guid: f9453f357b0296c4c88e107f2bebdead,
+    type: 3}
   GoalList:
-  - {fileID: 114150220077199578, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114957784920454094, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114618480826292886, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114825194265389574, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114139240216779942, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114084259010757846, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114776259752864320, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114649070731738702, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114187363517470814, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114204924370019642, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114147895412591846, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114617287289979010, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114304390267405264, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114818697976958092, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114676649743611330, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114535550600032956, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114391320316598676, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114320523085277782, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114821303671871206, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
-  - {fileID: 114455041593183396, guid: ab3838e17a199914486bb074b0700c6b, type: 2}
+  - {fileID: 114995146167063838, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114396385883008050, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114598889878602694, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114013537451584462, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114543940714550598, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114082048889085382, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114989745737337092, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114574621053381510, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114628038090576440, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114098187244461648, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114323827974151496, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114069464428102830, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114546663720311652, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114377111806988206, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114074619041271494, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
+  - {fileID: 114782263184241026, guid: f9453f357b0296c4c88e107f2bebdead, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
   QuestID: 5
   EnableAlternateStartingCube: 1
   LabType: 0
-  InitiallyAvailableCubes: 20
+  InitiallyAvailableCubes: 15
   Available: 1
   RequiredAdventureList: 
   RequiredBronzeTrophies: 0
@@ -122,23 +113,24 @@ MonoBehaviour:
   RequiredItemLifeTime: 60
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
-  UpgradeListFolder: {fileID: 1661339966183400, guid: 4787b8e16b1ae6544a56e1fd2bbfe6d1,
-    type: 2}
+  UpgradeListFolder: {fileID: 1079676138737430, guid: 8af0b2bc48180bd4da6f303aa65cb6da,
+    type: 3}
   AdventureUpgradeInfoList:
-  - {fileID: 114550779794065336, guid: 4787b8e16b1ae6544a56e1fd2bbfe6d1, type: 2}
-  TechListFolder: {fileID: 1721797279447766, guid: e3a6bd297c26bb84ea13e6a68fd57b83,
-    type: 2}
+  - {fileID: 114497515420676422, guid: 8af0b2bc48180bd4da6f303aa65cb6da, type: 3}
+  TechListFolder: {fileID: 1725039428371006, guid: 8058e6cc3277b8e4fb95f69be1368eb3,
+    type: 3}
   StartingAdventureLevel: 1
   StartingTrainningLevel: 0
   RescueToGate: 1
   StartingGotoCheckPointLevel: 0
-  GotoCheckPointResourceCost: 1
-  AutoOpenGateResourceCost: 1
+  GotoCheckPointResourceCost: 0
+  AutoOpenGateResourceCost: 0
   RescueEnabled: 0
   MaxCubes: 30
   QuestSecrets: 0
   MaximumUnits: 0
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 200
   CubeClearHPBonus: 0
   ShowPopup: 0
@@ -169,6 +161,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -222,32 +216,28 @@ MonoBehaviour:
   SpawnResourceRange: 1
   RelocatorCreationChance: 0
   InitialUpgradeChestChance: 50
-  CloverPickUpgradeChestChance: 30
+  CloverPickUpgradeChestChance: 20
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 5
-  QuestXPPerClover: 0.04
-  TotalShellBonus: 20
-  TotalCogBonus: 10
-  TotalQuestXPBonus: 10
-  QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  QuestXPPerClover: 0.4
+  FireTokenPerClover: 0.2
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
+  QuestXPPerChest: 0.5
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 0
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -308,11 +298,10 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114187936219512106, guid: 19fda4b5f7451b94eb4fd3777a2bc27c, type: 2}
+  - {fileID: 114624049416968742, guid: da9cb8990d0077f4d8b228ef2b128ac3, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4
@@ -383,7 +372,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20

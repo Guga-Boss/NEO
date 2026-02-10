@@ -77,9 +77,9 @@ public class Building : MonoBehaviour
     [TabGroup( "Link" )]
     public List<tk2dSprite> SpriteList;
     [TabGroup( "Link" )]
-    public List<tk2dSprite> AcessoryList;
+    public List<NSprite> AcessoryList;
     [TabGroup( "Link" )]
-    public tk2dSprite SelItemSprite;
+    public NSprite SelItemSprite;
     [TabGroup( "Link" )]
     public List<BuildingItem> Itm;
     [TabGroup( "Link" )]
@@ -104,7 +104,8 @@ public class Building : MonoBehaviour
         CustomProductionTime = bl.CustomProductionTime;
         WateringCount = bl.WateringCount;
         FertilizingTimeCount = bl.FertilizingTimeCount;
-        WateringTimeCount = bl.WateringTimeCount;        
+        WateringTimeCount = bl.WateringTimeCount;
+
         for( int i = 0; i < bl.AcessoryList.Count; i++ )
         {
             AcessoryList[ i ].transform.localPosition = bl.AcessoryList[ i ].transform.localPosition;
@@ -165,7 +166,7 @@ public class Building : MonoBehaviour
 
         if( Category == EBuildingCategory.Plant )
         {
-            Unit.HealthBar.gameObject.SetActive( false );
+            //Unit.HealthBar.gameObject.SetActive( false );
             Unit.LevelTxt.text = Util.ToSTime( prod - it.ProductionTimeCount );
             if( it.WorkIsDone )
                 Unit.LevelTxt.text = "";
@@ -177,7 +178,7 @@ public class Building : MonoBehaviour
         }
         else
         {
-            Unit.HealthBar.gameObject.SetActive( false );
+            //Unit.HealthBar.gameObject.SetActive( false );
         }
 
         if( Type == BuildingType.Tent )

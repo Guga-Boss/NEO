@@ -1,22 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1712243772843860}
-  m_IsPrefabParent: 1
 --- !u!1 &1712243772843860
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4158444678039400}
   - component: {fileID: 114408922937500398}
@@ -30,50 +20,76 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4158444678039400
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712243772843860}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 21, y: 26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114408922937500398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712243772843860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapData: {fileID: 114283535677114486}
+  MonsterSprite: {fileID: 0}
+  NestSprite: {fileID: 0}
+  BackgroundSprite: {fileID: 0}
+  QuestNameMesh: {fileID: 0}
+  QuestPanel: {fileID: 0}
+  QuestName: Did I hear the Word "Roach"?
+  Signature: A3_QUEST_5
+  SubFolder: A3
+  NavigationMapIcon: 640
 --- !u!114 &114283535677114486
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1712243772843860}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqueID: 
   IsUp: 0
   Notes: 
   QuestHelper: {fileID: 114408922937500398}
   MapCord: {x: 53, y: 26}
   BlockArea: {x: 2, y: 2}
   ImagesFolder: {fileID: 1762782866163594, guid: 78fea33aba40bf7498b7f03ccdb322a4,
-    type: 2}
+    type: 3}
   GoalsFolder: {fileID: 1056566989955790, guid: 1e463e96e0b99bd44b2d1291d6b7a213,
-    type: 2}
+    type: 3}
   GoalList:
-  - {fileID: 114196423652253432, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 2}
-  - {fileID: 114583816075292876, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 2}
-  - {fileID: 114009882023782442, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 2}
-  - {fileID: 114375837347059208, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 2}
-  - {fileID: 114761284323648724, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 2}
-  - {fileID: 114122109176518062, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 2}
-  - {fileID: 114305425572216166, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 2}
-  - {fileID: 114149734760897456, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 2}
-  - {fileID: 114135651449853182, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 2}
+  - {fileID: 114196423652253432, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 3}
+  - {fileID: 114583816075292876, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 3}
+  - {fileID: 114009882023782442, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 3}
+  - {fileID: 114375837347059208, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 3}
+  - {fileID: 114761284323648724, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 3}
+  - {fileID: 114122109176518062, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 3}
+  - {fileID: 114305425572216166, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 3}
+  - {fileID: 114149734760897456, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 3}
+  - {fileID: 114135651449853182, guid: 1e463e96e0b99bd44b2d1291d6b7a213, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
-  QuestID: 45
+  QuestID: 24
   EnableAlternateStartingCube: 1
   LabType: 0
   InitiallyAvailableCubes: 3
@@ -91,10 +107,10 @@ MonoBehaviour:
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
   UpgradeListFolder: {fileID: 1932966394463314, guid: 0479147dbd0eb5c4e8477f079187c149,
-    type: 2}
+    type: 3}
   AdventureUpgradeInfoList: []
   TechListFolder: {fileID: 1994119853350828, guid: 4a7c6fb4cad9f174799cd24d19e85ad0,
-    type: 2}
+    type: 3}
   StartingAdventureLevel: 0
   StartingTrainningLevel: 0
   RescueToGate: 1
@@ -106,6 +122,7 @@ MonoBehaviour:
   QuestSecrets: 0
   MaximumUnits: 0
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 100
   CubeClearHPBonus: 100
   ShowPopup: 0
@@ -136,6 +153,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -191,30 +210,26 @@ MonoBehaviour:
   InitialUpgradeChestChance: 50
   CloverPickUpgradeChestChance: 30
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 5
   QuestXPPerClover: 0.04
-  TotalShellBonus: 20
-  TotalCogBonus: 10
-  TotalQuestXPBonus: 10
+  FireTokenPerClover: 0.2
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
   QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 0
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -275,11 +290,10 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114298395858985100, guid: 9e877c98cef816f48875a3656b3acf64, type: 2}
+  - {fileID: 114298395858985100, guid: 9e877c98cef816f48875a3656b3acf64, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4
@@ -350,7 +364,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20
@@ -395,24 +408,3 @@ MonoBehaviour:
   BlockerPlagueMonsterGenerationFactor: 0
   GrabPlagueMonsterGenerationFactor: 0
   BlockerPlagueMonsterBaseCost: 5
---- !u!114 &114408922937500398
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1712243772843860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MapData: {fileID: 114283535677114486}
-  MonsterSprite: {fileID: 0}
-  NestSprite: {fileID: 0}
-  BackgroundSprite: {fileID: 0}
-  QuestNameMesh: {fileID: 0}
-  QuestPanel: {fileID: 0}
-  QuestName: Did I hear the Word "Roach"?
-  Signature: A3_QUEST_5
-  SubFolder: A3
-  NavigationMapIcon: 640

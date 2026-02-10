@@ -1,22 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1905332223703620}
-  m_IsPrefabParent: 1
 --- !u!1 &1905332223703620
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4035376945715686}
   - component: {fileID: 114566718412941698}
@@ -30,22 +20,47 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4035376945715686
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1905332223703620}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114566718412941698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905332223703620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapData: {fileID: 114532480624685000}
+  MonsterSprite: {fileID: 0}
+  NestSprite: {fileID: 0}
+  BackgroundSprite: {fileID: 0}
+  QuestNameMesh: {fileID: 0}
+  QuestPanel: {fileID: 0}
+  QuestName: First Threat
+  Signature: A1_QUEST_2
+  SubFolder: A1
+  NavigationMapIcon: 641
 --- !u!114 &114532480624685000
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1905332223703620}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -59,14 +74,14 @@ MonoBehaviour:
   MapCord: {x: 64, y: 5}
   BlockArea: {x: 2, y: 2}
   ImagesFolder: {fileID: 1704550883038932, guid: c3af4f545cfd2f14baee22c2917d2f66,
-    type: 2}
+    type: 3}
   GoalsFolder: {fileID: 1640364766539124, guid: bcef6c4a75248354fa1a0505ba749c06,
-    type: 2}
+    type: 3}
   GoalList:
-  - {fileID: 114068706264890022, guid: bcef6c4a75248354fa1a0505ba749c06, type: 2}
+  - {fileID: 114068706264890022, guid: bcef6c4a75248354fa1a0505ba749c06, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
-  QuestID: 6
+  QuestID: 1
   EnableAlternateStartingCube: 0
   LabType: 0
   InitiallyAvailableCubes: -1
@@ -84,10 +99,10 @@ MonoBehaviour:
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
   UpgradeListFolder: {fileID: 1663704177212306, guid: de8481b4099b4a74f8fc39deadbfb57a,
-    type: 2}
+    type: 3}
   AdventureUpgradeInfoList: []
   TechListFolder: {fileID: 1357032829115766, guid: 0c9799654cc0c87448cb1398abab14a0,
-    type: 2}
+    type: 3}
   StartingAdventureLevel: 1
   StartingTrainningLevel: 0
   RescueToGate: 1
@@ -99,6 +114,7 @@ MonoBehaviour:
   QuestSecrets: 0
   MaximumUnits: 0
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 10
   CubeClearHPBonus: 0
   ShowPopup: 0
@@ -129,6 +145,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -184,30 +202,26 @@ MonoBehaviour:
   InitialUpgradeChestChance: 50
   CloverPickUpgradeChestChance: 30
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 5
   QuestXPPerClover: 0.04
-  TotalShellBonus: 5
-  TotalCogBonus: 3
-  TotalQuestXPBonus: 10
+  FireTokenPerClover: 0.2
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
   QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 0
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -268,11 +282,10 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114581670148048018, guid: 952ec40d35d84d447b352f711d78f37a, type: 2}
+  - {fileID: 114581670148048018, guid: 952ec40d35d84d447b352f711d78f37a, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4
@@ -343,7 +356,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20
@@ -388,24 +400,3 @@ MonoBehaviour:
   BlockerPlagueMonsterGenerationFactor: 0
   GrabPlagueMonsterGenerationFactor: 0
   BlockerPlagueMonsterBaseCost: 5
---- !u!114 &114566718412941698
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1905332223703620}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MapData: {fileID: 114532480624685000}
-  MonsterSprite: {fileID: 0}
-  NestSprite: {fileID: 0}
-  BackgroundSprite: {fileID: 0}
-  QuestNameMesh: {fileID: 0}
-  QuestPanel: {fileID: 0}
-  QuestName: First Threat
-  Signature: A1_QUEST_2
-  SubFolder: A1
-  NavigationMapIcon: 641

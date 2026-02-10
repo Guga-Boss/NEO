@@ -1,26 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1802467479089660}
-  m_IsPrefabParent: 1
---- !u!1 &1802467479089660
+--- !u!1 &1544173612155500
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
-  - component: {fileID: 4596140308720882}
-  - component: {fileID: 114548672586000886}
-  - component: {fileID: 114020710108659746}
+  - component: {fileID: 4736747076234374}
+  - component: {fileID: 114464176233321370}
+  - component: {fileID: 114631196083429666}
   m_Layer: 0
   m_Name: Quest Data Backup
   m_TagString: Map Quest
@@ -28,64 +18,105 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4596140308720882
+--- !u!4 &4736747076234374
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1802467479089660}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544173612155500}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 5, y: 9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114020710108659746
+--- !u!114 &114464176233321370
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1802467479089660}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544173612155500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapData: {fileID: 114631196083429666}
+  MonsterSprite: {fileID: 0}
+  NestSprite: {fileID: 0}
+  BackgroundSprite: {fileID: 0}
+  QuestNameMesh: {fileID: 0}
+  QuestPanel: {fileID: 0}
+  QuestName: Scorpion Valley
+  Signature: A1_QUEST_4
+  SubFolder: A1
+  NavigationMapIcon: 1548
+--- !u!114 &114631196083429666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1544173612155500}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqueID: EFKO4
   IsUp: 0
-  Notes: add new diagonal kick technique
-  QuestHelper: {fileID: 114548672586000886}
+  Notes: 'add new diagonal kick technique
+
+
+    multi-life scorpion hack and slash
+    is super cool add brain, kick, etc find dummies and chage to fighting them cubes
+    29 & 30
+
+    make hard ones
+
+
+    too much easy ones: suspended, bone ,etc, improve
+    them
+
+    review from beginning
+
+
+
+'
+  QuestHelper: {fileID: 114464176233321370}
   MapCord: {x: 69, y: 9}
   BlockArea: {x: 2, y: 2}
-  ImagesFolder: {fileID: 1231163219493816, guid: 858a847e7b855404d918d0db53106b7a,
-    type: 2}
-  GoalsFolder: {fileID: 1482389398502260, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c,
-    type: 2}
+  ImagesFolder: {fileID: 1819387340253738, guid: 6861306c394dd9245925babf77eabaec,
+    type: 3}
+  GoalsFolder: {fileID: 1837454362605160, guid: d2b001d2472683b42b9a6445f3001ba0,
+    type: 3}
   GoalList:
-  - {fileID: 114918272764260030, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114863358243348644, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114212713920258276, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114177415605000582, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114469277480411042, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114648691702050448, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114352764462129734, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114959201424345248, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114018345332776308, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114826503297464622, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114786457955262528, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114453221041875362, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114842613411856906, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114411646609422262, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114020641001128348, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114362266457307986, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114352084555764920, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
-  - {fileID: 114554000690728318, guid: 0dfe57e73c82c3348a5f0b53acd3ba7c, type: 2}
+  - {fileID: 114417836453424412, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114868543673732194, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114588318907046070, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114209190717997790, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114264740578808648, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114610519264526188, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114287940494189786, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114974380941592366, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114811064640607726, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114357371716400244, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114032713477718958, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114343277336983698, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114467254214149694, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114543232894502816, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114506569614541484, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
+  - {fileID: 114797663956675616, guid: d2b001d2472683b42b9a6445f3001ba0, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
-  QuestID: 11
+  QuestID: 3
   EnableAlternateStartingCube: 1
   LabType: 0
-  InitiallyAvailableCubes: 30
+  InitiallyAvailableCubes: 20
   Available: 1
   RequiredAdventureList: 
   RequiredBronzeTrophies: 0
@@ -99,23 +130,24 @@ MonoBehaviour:
   RequiredItemLifeTime: 60
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
-  UpgradeListFolder: {fileID: 1751369673011572, guid: 4e98213206cb9754a9022e3c6f18d216,
-    type: 2}
+  UpgradeListFolder: {fileID: 1155600242056594, guid: d152886448972f54899b9bd82439e00f,
+    type: 3}
   AdventureUpgradeInfoList:
-  - {fileID: 114533715480253692, guid: 4e98213206cb9754a9022e3c6f18d216, type: 2}
-  TechListFolder: {fileID: 1009033185141434, guid: 83846a9a813b74e4a9127bc2d3f67aa5,
-    type: 2}
+  - {fileID: 114387453025837068, guid: d152886448972f54899b9bd82439e00f, type: 3}
+  TechListFolder: {fileID: 1784275430318146, guid: b8357e9d0764bd04f9ed29db17787b37,
+    type: 3}
   StartingAdventureLevel: 1
   StartingTrainningLevel: 0
   RescueToGate: 1
-  StartingGotoCheckPointLevel: 1
-  GotoCheckPointResourceCost: 1
-  AutoOpenGateResourceCost: 1
+  StartingGotoCheckPointLevel: 0
+  GotoCheckPointResourceCost: 0
+  AutoOpenGateResourceCost: 0
   RescueEnabled: 1
   MaxCubes: 60
   QuestSecrets: 0
   MaximumUnits: 0
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 250
   CubeClearHPBonus: 0
   ShowPopup: 0
@@ -146,6 +178,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -199,32 +233,28 @@ MonoBehaviour:
   SpawnResourceRange: 1
   RelocatorCreationChance: 0
   InitialUpgradeChestChance: 50
-  CloverPickUpgradeChestChance: 30
+  CloverPickUpgradeChestChance: 20
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 5
-  QuestXPPerClover: 0.04
-  TotalShellBonus: 5
-  TotalCogBonus: 3
-  TotalQuestXPBonus: 10
-  QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  QuestXPPerClover: 0.4
+  FireTokenPerClover: 0.2
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
+  QuestXPPerChest: 0.5
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 0
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -285,11 +315,10 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114003408281539828, guid: 1cc7537a079b91d4e8647378fe9bb609, type: 2}
+  - {fileID: 114235506115849610, guid: 23c162580e91a7c48a68c0b025fd4cc0, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4
@@ -360,7 +389,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20
@@ -405,24 +433,3 @@ MonoBehaviour:
   BlockerPlagueMonsterGenerationFactor: 0
   GrabPlagueMonsterGenerationFactor: 0
   BlockerPlagueMonsterBaseCost: 5
---- !u!114 &114548672586000886
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1802467479089660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MapData: {fileID: 114020710108659746}
-  MonsterSprite: {fileID: 0}
-  NestSprite: {fileID: 0}
-  BackgroundSprite: {fileID: 0}
-  QuestNameMesh: {fileID: 0}
-  QuestPanel: {fileID: 0}
-  QuestName: Scorpion Valley
-  Signature: A1_QUEST_4
-  SubFolder: A1
-  NavigationMapIcon: 1548

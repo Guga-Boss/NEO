@@ -1,22 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1163364732800016}
-  m_IsPrefabParent: 1
 --- !u!1 &1163364732800016
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4462063685021506}
   - component: {fileID: 114294319539146762}
@@ -30,22 +20,25 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4462063685021506
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1163364732800016}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 31, y: 19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114294319539146762
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1163364732800016}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -64,32 +57,34 @@ MonoBehaviour:
   NavigationMapIcon: 641
 --- !u!114 &114620363724130820
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1163364732800016}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqueID: 
   IsUp: 0
   Notes: 
   QuestHelper: {fileID: 114294319539146762}
   MapCord: {x: 63, y: 51}
   BlockArea: {x: 2, y: 2}
   ImagesFolder: {fileID: 1258235606989490, guid: e5272d8c40f0c024c826e6edfd188e30,
-    type: 2}
+    type: 3}
   GoalsFolder: {fileID: 1087408830407648, guid: 73a12ac08e84bda4791019ed5d557f31,
-    type: 2}
+    type: 3}
   GoalList:
-  - {fileID: 114146135968364072, guid: 73a12ac08e84bda4791019ed5d557f31, type: 2}
-  - {fileID: 114235004492261756, guid: 73a12ac08e84bda4791019ed5d557f31, type: 2}
-  - {fileID: 114768496567083910, guid: 73a12ac08e84bda4791019ed5d557f31, type: 2}
-  - {fileID: 114684416822555122, guid: 73a12ac08e84bda4791019ed5d557f31, type: 2}
+  - {fileID: 114146135968364072, guid: 73a12ac08e84bda4791019ed5d557f31, type: 3}
+  - {fileID: 114235004492261756, guid: 73a12ac08e84bda4791019ed5d557f31, type: 3}
+  - {fileID: 114768496567083910, guid: 73a12ac08e84bda4791019ed5d557f31, type: 3}
+  - {fileID: 114684416822555122, guid: 73a12ac08e84bda4791019ed5d557f31, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
-  QuestID: 82
+  QuestID: 66
   EnableAlternateStartingCube: 0
   LabType: 0
   InitiallyAvailableCubes: -1
@@ -107,10 +102,10 @@ MonoBehaviour:
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
   UpgradeListFolder: {fileID: 1001825234724442, guid: 2d366c90d2508c249ba7623fb77fb74b,
-    type: 2}
+    type: 3}
   AdventureUpgradeInfoList: []
   TechListFolder: {fileID: 1690991217332712, guid: 66345850e879b5844a7c814c9f395389,
-    type: 2}
+    type: 3}
   StartingAdventureLevel: 1
   StartingTrainningLevel: 0
   RescueToGate: 1
@@ -122,6 +117,7 @@ MonoBehaviour:
   QuestSecrets: 0
   MaximumUnits: 0
   CubeDeathDamage: 100
+  HeroStartingHP: 100
   QuestRelevance: 100
   CubeClearHPBonus: 0
   ShowPopup: 0
@@ -152,6 +148,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -207,30 +205,26 @@ MonoBehaviour:
   InitialUpgradeChestChance: 50
   CloverPickUpgradeChestChance: 30
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 5
   QuestXPPerClover: 0.04
-  TotalShellBonus: 20
-  TotalCogBonus: 10
-  TotalQuestXPBonus: 10
+  FireTokenPerClover: 0.2
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
   QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 0
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -291,11 +285,10 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114912876411424438, guid: 912c3347aed5f4b40a2dec304674d034, type: 2}
+  - {fileID: 114912876411424438, guid: 912c3347aed5f4b40a2dec304674d034, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4
@@ -366,7 +359,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20

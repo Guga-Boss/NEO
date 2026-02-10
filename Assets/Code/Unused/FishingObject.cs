@@ -256,17 +256,17 @@ public class FishingObject : MonoBehaviour
     {
         float fact = 1f;
         Vector3 ivec = Vector3.zero;
-        if( cInput.GetKey( "Move NE" ) ) ivec += new Vector3( fact, fact,   0 ); else            
-        if( cInput.GetKey( "Move SE" ) ) ivec += new Vector3( +fact, -fact, 0 ); else
-        if( cInput.GetKey( "Move SW" ) ) ivec += new Vector3( -fact, -fact, 0 ); else
-        if( cInput.GetKey( "Move NW" ) ) ivec += new Vector3( -fact, +fact, 0 );
-        if( ivec == Vector3.zero )
-           {
-            if( cInput.GetKey( "Move N" ) ) ivec += new Vector3( 0, fact, 0  ); else
-            if( cInput.GetKey( "Move S" ) ) ivec += new Vector3( 0, -fact, 0 ); else
-            if( cInput.GetKey( "Move E" ) ) ivec += new Vector3( +fact, 0    ); else
-            if( cInput.GetKey( "Move W" ) ) ivec += new Vector3( -fact, 0, 0 );
-           }
+        //if( cInput.GetKey( "Move NE" ) ) ivec += new Vector3( fact, fact,   0 ); else            
+        //if( cInput.GetKey( "Move SE" ) ) ivec += new Vector3( +fact, -fact, 0 ); else
+        //if( cInput.GetKey( "Move SW" ) ) ivec += new Vector3( -fact, -fact, 0 ); else
+        //if( cInput.GetKey( "Move NW" ) ) ivec += new Vector3( -fact, +fact, 0 );
+        //if( ivec == Vector3.zero )
+        //   {
+        //    if( cInput.GetKey( "Move N" ) ) ivec += new Vector3( 0, fact, 0  ); else
+        //    if( cInput.GetKey( "Move S" ) ) ivec += new Vector3( 0, -fact, 0 ); else
+        //    if( cInput.GetKey( "Move E" ) ) ivec += new Vector3( +fact, 0    ); else
+        //    if( cInput.GetKey( "Move W" ) ) ivec += new Vector3( -fact, 0, 0 );
+        //   }
 
         Vector2 tg = TilePos + new Vector2( -ivec.x, -ivec.y );
         Unit orb = Map.I.GetUnit( ETileType.ORB, tg );                                            // Side orb exists?
@@ -338,8 +338,8 @@ public class FishingObject : MonoBehaviour
     {
         float avail = Item.GetNum( ItemType.Res_Harpoon );
         if( avail < 1 ) return;
-        if( cInput.GetKey( "Rotate CCW" ) == false )  
-        if( cInput.GetKey( "Rotate CW" ) == false ) return;
+        //if( cInput.GetKey( "Rotate CCW" ) == false )  
+        //if( cInput.GetKey( "Rotate CW" ) == false ) return;
 
         Vector2 vec = Map.I.GetInputVector( true );
         if( vec == Vector2.zero ) return;

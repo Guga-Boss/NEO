@@ -661,9 +661,9 @@ public class tk2dSpriteCollectionData : MonoBehaviour
 								path = UnityEditor.AssetDatabase.GetAssetPath( materialInsts[i].mainTexture );
 								if (path.Length > 0) {
 									importer = UnityEditor.TextureImporter.GetAtPath(path) as UnityEditor.TextureImporter;
-									if (importer != null && (importer.alphaIsTransparency || importer.grayscaleToAlpha) ) {
+									if (importer != null && (importer.alphaIsTransparency ) ) {
 										importer.alphaIsTransparency = false;
-										importer.grayscaleToAlpha = false;
+										//importer.grayscaleToAlpha = false;
 										UnityEditor.EditorUtility.SetDirty(importer);
 										UnityEditor.AssetDatabase.ImportAsset(path);
 									}

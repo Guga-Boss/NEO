@@ -34,7 +34,7 @@ public class tk2dSprite : tk2dBaseSprite
 		{
 			// reset spriteId if outside bounds
 			// this is when the sprite collection data is corrupt
-			if (_spriteId < 0 || _spriteId >= Collection.Count)
+			if (_spriteId < 0 || _spriteId >= Collection.Count) 
 				_spriteId = 0;
 			
 			Build();

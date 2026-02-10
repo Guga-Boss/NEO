@@ -40,7 +40,7 @@ public class OrientationSetterInteraction : InteractionBehaviour {
 				if(Screen.autorotateToPortrait || Screen.autorotateToPortraitUpsideDown)
 					Screen.orientation = ScreenOrientation.Portrait;
 				else
-					Screen.orientation = ScreenOrientation.Landscape;
+					Screen.orientation = ScreenOrientation.LandscapeLeft;
 			}
 			Screen.orientation = Orientation;
 		}

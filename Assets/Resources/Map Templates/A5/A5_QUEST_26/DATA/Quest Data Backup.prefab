@@ -1,22 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1901982164743406}
-  m_IsPrefabParent: 1
 --- !u!1 &1901982164743406
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4292173859750520}
   - component: {fileID: 114371961187998812}
@@ -30,50 +20,76 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4292173859750520
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1901982164743406}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 24, y: 9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114371961187998812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1901982164743406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapData: {fileID: 114204129279845044}
+  MonsterSprite: {fileID: 0}
+  NestSprite: {fileID: 0}
+  BackgroundSprite: {fileID: 0}
+  QuestNameMesh: {fileID: 0}
+  QuestPanel: {fileID: 0}
+  QuestName: Herbs II
+  Signature: A5_QUEST_26
+  SubFolder: A5
+  NavigationMapIcon: 1802
 --- !u!114 &114204129279845044
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1901982164743406}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqueID: 
   IsUp: 0
   Notes: 
   QuestHelper: {fileID: 114371961187998812}
   MapCord: {x: 24, y: 41}
   BlockArea: {x: 2, y: 2}
   ImagesFolder: {fileID: 1771951752847216, guid: 1fa2a0d6e88e0e045a4711742c65b513,
-    type: 2}
+    type: 3}
   GoalsFolder: {fileID: 1017031104123290, guid: e92fe6c28966cce48b5e2ebe9831c1a6,
-    type: 2}
+    type: 3}
   GoalList:
-  - {fileID: 114883745380988976, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114953507198905392, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114057710667176352, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114886632915344800, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114070561154342106, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114517314293927680, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114052070210791998, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114572909330958524, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114931815728376524, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114712466991795732, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114398096499072224, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
-  - {fileID: 114067755501680950, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 2}
+  - {fileID: 114883745380988976, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114953507198905392, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114057710667176352, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114886632915344800, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114070561154342106, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114517314293927680, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114052070210791998, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114572909330958524, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114931815728376524, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114712466991795732, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114398096499072224, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
+  - {fileID: 114067755501680950, guid: e92fe6c28966cce48b5e2ebe9831c1a6, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
   QuestID: 59
@@ -94,10 +110,10 @@ MonoBehaviour:
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
   UpgradeListFolder: {fileID: 1404893736033982, guid: d8aa005d79146d94cae3be5e95e32cca,
-    type: 2}
+    type: 3}
   AdventureUpgradeInfoList: []
   TechListFolder: {fileID: 1476017756425560, guid: 7f3afe80909f03048828c6e281c2accd,
-    type: 2}
+    type: 3}
   StartingAdventureLevel: 1
   StartingTrainningLevel: 0
   RescueToGate: 0
@@ -109,6 +125,7 @@ MonoBehaviour:
   QuestSecrets: 0
   MaximumUnits: 33
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 100
   CubeClearHPBonus: 0
   ShowPopup: 0
@@ -139,6 +156,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -194,30 +213,26 @@ MonoBehaviour:
   InitialUpgradeChestChance: 50
   CloverPickUpgradeChestChance: 30
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 5
   QuestXPPerClover: 0.04
-  TotalShellBonus: 20
-  TotalCogBonus: 10
-  TotalQuestXPBonus: 10
+  FireTokenPerClover: 0.2
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
   QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 3
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -278,11 +293,10 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114979250274719028, guid: e447e02af790a5c4c8bdf250478d693c, type: 2}
+  - {fileID: 114979250274719028, guid: e447e02af790a5c4c8bdf250478d693c, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4
@@ -353,7 +367,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20
@@ -398,24 +411,3 @@ MonoBehaviour:
   BlockerPlagueMonsterGenerationFactor: 0
   GrabPlagueMonsterGenerationFactor: 0
   BlockerPlagueMonsterBaseCost: 5
---- !u!114 &114371961187998812
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1901982164743406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MapData: {fileID: 114204129279845044}
-  MonsterSprite: {fileID: 0}
-  NestSprite: {fileID: 0}
-  BackgroundSprite: {fileID: 0}
-  QuestNameMesh: {fileID: 0}
-  QuestPanel: {fileID: 0}
-  QuestName: Herbs II
-  Signature: A5_QUEST_26
-  SubFolder: A5
-  NavigationMapIcon: 1802

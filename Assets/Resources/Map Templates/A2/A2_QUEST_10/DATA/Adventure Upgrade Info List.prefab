@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1710882550820392}
+  m_IsPrefabParent: 1
+--- !u!1 &1382995611122042
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4009694070007572}
+  - component: {fileID: 114763571771177860}
+  m_Layer: 0
+  m_Name: Quest Unlocked (Clover 300)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1710882550820392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4587501137728384}
+  m_Layer: 0
+  m_Name: Adventure Upgrade Info List
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1924409327967304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4265404802676486}
+  - component: {fileID: 114256844844465360}
+  m_Layer: 0
+  m_Name: Unlock Studies (Cog 8)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4009694070007572
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1382995611122042}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 51.018127, y: 29.127499, z: 0.6000061}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4587501137728384}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4265404802676486
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1924409327967304}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 51.018127, y: 29.127499, z: 0.6000061}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4587501137728384}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4587501137728384
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1710882550820392}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2186.4575, y: -187.7427, z: 4.173451}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4009694070007572}
+  - {fileID: 4265404802676486}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114256844844465360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1924409327967304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 2
+  UpgradeItem1Type: 9
+  UpgradeItem1Cost: 8
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 1
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
+  X: 0
+  Y: 0
+  TechID: 0
+  QuestID: 0
+--- !u!114 &114763571771177860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1382995611122042}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d163f4e5080c7448c96076f0c0e10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpgradeType: 0
+  UpgradeItem1Type: 17
+  UpgradeItem1Cost: 300
+  UpgradeItem1RecuringCost: 
+  UpgradeItem1RecuringCostItem: 
+  TotalCollected: 0
+  ItemAffected: -1
+  UpgradeEffectAmount: 1
+  UpgradeRecuringEffect: []
+  StudyXPBonus: 1
+  UpNeed: 0
+  DownNeed: 0
+  LeftNeed: 0
+  RightNeed: 0
+  TechNeed: 0
+  StudiesLevelToShow: 0
+  OnlyShowIfNeighborsArrowsPermit: 0
+  TechScope: 0
+  TechTotalTime: 0
+  PurchaseChance: 0
+  LeisureType: -1
+  X: 0
+  Y: 0
+  TechID: 0
+  QuestID: 0

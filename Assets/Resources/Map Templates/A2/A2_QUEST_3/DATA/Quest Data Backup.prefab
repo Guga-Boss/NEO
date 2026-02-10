@@ -1,26 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1081011596241318}
-  m_IsPrefabParent: 1
---- !u!1 &1081011596241318
+--- !u!1 &1551550088193348
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
-  - component: {fileID: 4217340638803980}
-  - component: {fileID: 114415022782551106}
-  - component: {fileID: 114371531247542804}
+  - component: {fileID: 4821725824540248}
+  - component: {fileID: 114150470412980638}
+  - component: {fileID: 114673685004448786}
   m_Layer: 0
   m_Name: Quest Data Backup
   m_TagString: Map Quest
@@ -28,25 +18,50 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4217340638803980
+--- !u!4 &4821725824540248
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1081011596241318}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551550088193348}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 8, y: 19, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114371531247542804
+--- !u!114 &114150470412980638
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1081011596241318}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551550088193348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapData: {fileID: 114673685004448786}
+  MonsterSprite: {fileID: 0}
+  NestSprite: {fileID: 0}
+  BackgroundSprite: {fileID: 0}
+  QuestNameMesh: {fileID: 0}
+  QuestPanel: {fileID: 0}
+  QuestName: Preparing for the Winter
+  Signature: A2_QUEST_3
+  SubFolder: A2
+  NavigationMapIcon: 641
+--- !u!114 &114673685004448786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551550088193348}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
@@ -55,39 +70,30 @@ MonoBehaviour:
   UniqueID: 8JQ5M
   IsUp: 0
   Notes: adjust mini snow balls alpha value
-  QuestHelper: {fileID: 114415022782551106}
+  QuestHelper: {fileID: 114150470412980638}
   MapCord: {x: 72, y: 19}
   BlockArea: {x: 2, y: 2}
-  ImagesFolder: {fileID: 1254920172507740, guid: a4a068b28696ff14c87104a441469a5d,
-    type: 2}
-  GoalsFolder: {fileID: 1752867942448990, guid: f225299c6e784c94ab3581a2dd54df6d,
-    type: 2}
+  ImagesFolder: {fileID: 1589035665034512, guid: 8a7569fb91f6b264588d69d6dfbf68fc,
+    type: 3}
+  GoalsFolder: {fileID: 1193294270854328, guid: 4353530b8b26cc643ad1f00c2cb41d1a,
+    type: 3}
   GoalList:
-  - {fileID: 114323233769139558, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114088102208776794, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114027848062646166, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114422214486993654, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114160041482401552, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114636130893251194, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114564944580513836, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114842020802026870, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114549932815925202, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114884724494043176, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114399162725764900, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114814776763339498, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114055974400822518, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114275591399657058, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114690627531399468, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114159019857132626, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114589245711739606, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114011325095682598, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
-  - {fileID: 114263120914483752, guid: f225299c6e784c94ab3581a2dd54df6d, type: 2}
+  - {fileID: 114324273449776238, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
+  - {fileID: 114605766814383272, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
+  - {fileID: 114612627756601290, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
+  - {fileID: 114302637833849434, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
+  - {fileID: 114296858971144626, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
+  - {fileID: 114047379255411800, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
+  - {fileID: 114252991221240172, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
+  - {fileID: 114090921178382042, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
+  - {fileID: 114305659337240808, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
+  - {fileID: 114850578987411758, guid: 4353530b8b26cc643ad1f00c2cb41d1a, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
-  QuestID: 22
+  QuestID: 6
   EnableAlternateStartingCube: 1
   LabType: 0
-  InitiallyAvailableCubes: -1
+  InitiallyAvailableCubes: 15
   Available: 1
   RequiredAdventureList: 
   RequiredBronzeTrophies: 0
@@ -101,23 +107,24 @@ MonoBehaviour:
   RequiredItemLifeTime: 60
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
-  UpgradeListFolder: {fileID: 1902593567286304, guid: ace96fedf989f164ebaa290cd25181c1,
-    type: 2}
+  UpgradeListFolder: {fileID: 1166952331008820, guid: 193cc20b746ebd140b8bee7c22ab2bf9,
+    type: 3}
   AdventureUpgradeInfoList:
-  - {fileID: 114732432162459828, guid: ace96fedf989f164ebaa290cd25181c1, type: 2}
-  TechListFolder: {fileID: 1401173411055550, guid: b6a0f4eb34d8cc940974786586c109bf,
-    type: 2}
+  - {fileID: 114087128043967442, guid: 193cc20b746ebd140b8bee7c22ab2bf9, type: 3}
+  TechListFolder: {fileID: 1420564456593364, guid: f1889d13f70ea6f41ad342ec5c1e726d,
+    type: 3}
   StartingAdventureLevel: 1
   StartingTrainningLevel: 0
   RescueToGate: 1
   StartingGotoCheckPointLevel: 0
-  GotoCheckPointResourceCost: 1
-  AutoOpenGateResourceCost: 1
+  GotoCheckPointResourceCost: 0
+  AutoOpenGateResourceCost: 0
   RescueEnabled: 0
   MaxCubes: 30
   QuestSecrets: 0
   MaximumUnits: 0
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 100
   CubeClearHPBonus: 100
   ShowPopup: 0
@@ -148,6 +155,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -201,32 +210,28 @@ MonoBehaviour:
   SpawnResourceRange: 1
   RelocatorCreationChance: 0
   InitialUpgradeChestChance: 50
-  CloverPickUpgradeChestChance: 30
+  CloverPickUpgradeChestChance: 20
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 5
-  QuestXPPerClover: 0.04
-  TotalShellBonus: 50
-  TotalCogBonus: 25
-  TotalQuestXPBonus: 10
-  QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  QuestXPPerClover: 0.4
+  FireTokenPerClover: 0.2
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
+  QuestXPPerChest: 0.5
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 0
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -287,11 +292,10 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114143936548404630, guid: 16a72294bfc3f6e46ae90ff8764e71ca, type: 2}
+  - {fileID: 114934531832890254, guid: afd0e76b94e69bb4ba7a25df38edc1ca, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4
@@ -362,7 +366,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20
@@ -407,24 +410,3 @@ MonoBehaviour:
   BlockerPlagueMonsterGenerationFactor: 0
   GrabPlagueMonsterGenerationFactor: 0
   BlockerPlagueMonsterBaseCost: 5
---- !u!114 &114415022782551106
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1081011596241318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MapData: {fileID: 114371531247542804}
-  MonsterSprite: {fileID: 0}
-  NestSprite: {fileID: 0}
-  BackgroundSprite: {fileID: 0}
-  QuestNameMesh: {fileID: 0}
-  QuestPanel: {fileID: 0}
-  QuestName: Preparing for the Winter
-  Signature: A2_QUEST_3
-  SubFolder: A2
-  NavigationMapIcon: 641

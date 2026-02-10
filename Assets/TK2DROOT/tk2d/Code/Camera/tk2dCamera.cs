@@ -354,86 +354,38 @@ public class tk2dCamera : MonoBehaviour
 		}
 	}
 #endif
-	
+
 #if UNITY_EDITOR
 	static bool Editor__getGameViewSizeError = false;
 	public static bool Editor__gameViewReflectionError = false;
 
-	// Try and get game view size
-	// Will return true if it is able to work this out
-	// If width / height == 0, it means the user has selected an aspect ratio "Resolution"
 	public static bool Editor__GetGameViewSize(out float width, out float height, out float aspect) {
 		try {
 			Editor__gameViewReflectionError = false;
 
-			System.Type gameViewType = System.Type.GetType("UnityEditor.GameView,UnityEditor");
-			System.Reflection.MethodInfo GetMainGameView = gameViewType.GetMethod("GetMainGameView", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
-			object mainGameViewInst = GetMainGameView.Invoke(null, null);
-			if (mainGameViewInst == null) {
+			// Método moderno e oficial da Unity para obter o tamanho da GameView
+			Vector2 size = UnityEditor.Handles.GetMainGameViewSize();
+
+			// Se o tamanho for inválido (menor ou igual a zero), retornamos falso para usar fallback
+			if (size.x <= 0 || size.y <= 0) {
 				width = height = aspect = 0;
 				return false;
 			}
-			System.Reflection.FieldInfo s_viewModeResolutions = gameViewType.GetField("s_viewModeResolutions", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
-			if (s_viewModeResolutions == null) {
-				System.Reflection.PropertyInfo currentGameViewSize = gameViewType.GetProperty("currentGameViewSize", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
-				object gameViewSize = currentGameViewSize.GetValue(mainGameViewInst, null);
-				System.Type gameViewSizeType = gameViewSize.GetType();
-				int gvWidth = (int)gameViewSizeType.GetProperty("width").GetValue(gameViewSize, null);
-				int gvHeight = (int)gameViewSizeType.GetProperty("height").GetValue(gameViewSize, null);
-				int gvSizeType = (int)gameViewSizeType.GetProperty("sizeType").GetValue(gameViewSize, null);
-				if (gvWidth == 0 || gvHeight == 0) {
-					width = height = aspect = 0;
-					return false;
-				}
-				else if (gvSizeType == 0) {
-					width = height = 0;
-					aspect = (float)gvWidth / (float)gvHeight;
-					return true;
-				}
-				else {
-					width = gvWidth; height = gvHeight;
-					aspect = (float)gvWidth / (float)gvHeight;
-					return true;
-				}
-			}
-			else {
-				Vector2[] viewModeResolutions = (Vector2[])s_viewModeResolutions.GetValue(null);
-				float[] viewModeAspects = (float[])gameViewType.GetField("s_viewModeAspects", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).GetValue(null);
-				string[] viewModeStrings = (string[])gameViewType.GetField("s_viewModeAspectStrings", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).GetValue(null);
-				if (mainGameViewInst != null 
-					&& viewModeStrings != null
-					&& viewModeResolutions != null && viewModeAspects != null) {
-					int aspectRatio = (int)gameViewType.GetField("m_AspectRatio", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic).GetValue(mainGameViewInst);
-					string thisViewModeString = viewModeStrings[aspectRatio];
-					if (thisViewModeString.Contains("Standalone")) {
-						width = UnityEditor.PlayerSettings.defaultScreenWidth; height = UnityEditor.PlayerSettings.defaultScreenHeight;
-						aspect = width / height;
-					}
-					else if (thisViewModeString.Contains("Web")) {
-						width = UnityEditor.PlayerSettings.defaultWebScreenWidth; height = UnityEditor.PlayerSettings.defaultWebScreenHeight;
-						aspect = width / height;
-					}
-					else {
-						width = viewModeResolutions[ aspectRatio ].x; height = viewModeResolutions[ aspectRatio ].y;
-						aspect = viewModeAspects[ aspectRatio ];
-						// this is an error state
-						if (width == 0 && height == 0 && aspect == 0) {
-							return false;
-						}
-					}
-					return true;
-				}
-			}
+
+			width = size.x;
+			height = size.y;
+			aspect = width / height;
+			return true;
 		}
 		catch (System.Exception e) {
-			if (Editor__getGameViewSizeError == false) {
-				Debug.LogError("tk2dCamera.GetGameViewSize - has a Unity update broken this?\nThis is not a fatal error, but a warning that you've probably not got the latest 2D Toolkit update.\n\n" + e.ToString());
+			if (!Editor__getGameViewSizeError) {
+				Debug.LogWarning("tk2dCamera: Fallback para tamanho da tela padrão. Detalhes: " + e.Message);
 				Editor__getGameViewSizeError = true;
 			}
 			Editor__gameViewReflectionError = true;
+			width = height = aspect = 0;
+			return false;
 		}
-		width = height = aspect = 0;
-		return false;
 	}
 #endif
 
@@ -654,7 +606,6 @@ public class tk2dCamera : MonoBehaviour
 
 		// Only need the half texel offset on PC/D3D, when not running in d3d11 mode
 		bool needHalfTexelOffset = (Application.platform == RuntimePlatform.WindowsPlayer ||
-						   			Application.platform == RuntimePlatform.WindowsWebPlayer ||
 						   			Application.platform == RuntimePlatform.WindowsEditor);
 		float halfTexel = (halfTexelOffset && needHalfTexelOffset && SystemInfo.graphicsShaderLevel < 40) ? 0.5f : 0.0f;
 
@@ -787,14 +738,14 @@ public class tk2dCamera : MonoBehaviour
 			// Find an override if necessary
 			Matrix4x4 m = GetProjectionMatrixForOverride( settings, settings.CurrentResolutionOverride, _targetResolution.x, _targetResolution.y, true, out _screenExtents, out _nativeScreenExtents );
 
-#if !(UNITY_3_5 || UNITY_4_0 || UNITY_4_1)
+#if !( UNITY_3_5 || UNITY_4_0 || UNITY_4_1 )
 			// Windows phone?
-			if (Application.platform == RuntimePlatform.WP8Player &&
-			    (Screen.orientation == ScreenOrientation.LandscapeLeft || Screen.orientation == ScreenOrientation.LandscapeRight)) {
-				float angle = (Screen.orientation == ScreenOrientation.LandscapeRight) ? 90.0f : -90.0f;
-				Matrix4x4 m2 = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 0, angle), Vector3.one);
-				m = m2 * m;
-			}			
+			//if (Application.platform == RuntimePlatform.WP8Player &&
+			//    (Screen.orientation == ScreenOrientation.LandscapeLeft || Screen.orientation == ScreenOrientation.LandscapeRight)) {
+			//	float angle = (Screen.orientation == ScreenOrientation.LandscapeRight) ? 90.0f : -90.0f;
+			//	Matrix4x4 m2 = Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 0, angle), Vector3.one);
+			//	m = m2 * m;
+			//}			
 #endif
 
 			if (unityCamera.projectionMatrix != m) {

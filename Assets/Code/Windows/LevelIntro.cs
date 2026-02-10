@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
 
 
 public class LevelIntro : MonoBehaviour
@@ -26,6 +28,23 @@ public class LevelIntro : MonoBehaviour
         ExitLevelTimer = -1;
         Back.color = new Color( 1, 1, 1, 0 );
     }
+
+#if UNITY_EDITOR
+    [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton
+    static void InitSingleton()
+    {
+        EditorApplication.delayCall += () =>
+        {
+            if( !Application.isPlaying )
+            {
+                GameObject go = GameObject.Find("Level Intro");
+                if( go != null )
+                    I = go.GetComponent<LevelIntro>();
+            }
+        };
+    }
+#endif
+
 
     // Update is called once per frame
     void Update()
@@ -53,7 +72,7 @@ public class LevelIntro : MonoBehaviour
             Manager.I.GoToMainMenu( true );                                                    // Main Menu Shortcut
 
         UpdateInternetConnection();        
-        Manager.I.Reward.UpdateDailyReward();
+        //gg Manager.I.Reward.UpdateDailyReward();
         Manager.I.UpdateIdleProductionInitialization();
     }
     public void UpdateInternetConnection()
@@ -105,7 +124,7 @@ public class LevelIntro : MonoBehaviour
             string file = Manager.I.GetProfileFolder() + Manager.I.QuestName +
                    "/Game Exit Savegame - L" + ( i - 1 ) + ".wq";
 
-            if( ES2.Exists( file ) || i == Quest.CurrentLevel + 1 || Manager.I.GugaVersion )
+            if( File.Exists( file ) || i == Quest.CurrentLevel + 1 || Manager.I.GugaVersion )
             {
                 //ButtonObjList[ i ].SetActive( true );
                 if( _mapLoaded == false ) SelectedLevel = i;
@@ -155,7 +174,7 @@ public class LevelIntro : MonoBehaviour
             if( Manager.I.IdleInitialized == false ) return;
         } 
 
-        if( G.Tutorial.CheckPhase( 14, true ) == false ) return;
+        //ggg if( G.Tutorial.CheckPhase( 14, true ) == false ) return;
         gameObject.SetActive( false );
         UI.I.gameObject.SetActive( true );
         Manager.I.Status = EGameStatus.PLAYING;

@@ -1,4 +1,4 @@
-﻿//----------------------------------------------
+//----------------------------------------------
 //            NGUI: Next-Gen UI kit
 // Copyright © 2011-2013 Tasharen Entertainment
 //----------------------------------------------
@@ -1079,39 +1079,41 @@ public class KiltUICamera : UICamera
 	
 	protected virtual void UpdateHoveredObject(Vector2 p_position)
 	{
-		bool v_sucess = false;
-		if(EventSystem.current != null)
-			hoveredObject = (v_sucess = Raycast(p_position, out lastHitUGUI)) ? lastHitUGUI.gameObject : fallThrough;
-		//Take care, new UIEvent System will be called, in all layers, before we can call camera methods
-		if(!v_sucess)
-		{
-			#if NGUI_DLL
-			foreach(UICamera v_uiCamera in UICamList)
-			#else
-			foreach(KiltUICamera v_uiCamera in UICamList)
-			#endif
-			{
-				if(v_uiCamera != null)
-				{
-					if(!v_sucess)
-						hoveredObject = (v_sucess = RaycastToCamera(v_uiCamera, p_position, out lastHit2D)) ? lastHit2D.collider.gameObject : fallThrough;
-					if(!v_sucess)
-						hoveredObject = (v_sucess = RaycastToCamera(v_uiCamera, p_position, out lastHit)) ? lastHit.collider.gameObject : fallThrough;
-					if(v_sucess)
-						break;
-				}
-			}
-		}
-		
-		if (hoveredObject == null) hoveredObject = genericEventHandler;
-	}
 
-	#region RayCast
 
-	/// <summary>
-	/// Returns the object under the specified position.
-	/// </summary>
-	static RaycastHit2D mEmpty2D = new RaycastHit2D();
+        /*// gg 	bool v_sucess = false;
+            if(EventSystem.current != null)
+                hoveredObject = (v_sucess = Raycast(p_position, out lastHitUGUI)) ? lastHitUGUI.gameObject : fallThrough;
+            //Take care, new UIEvent System will be called, in all layers, before we can call camera methods
+            if(!v_sucess)
+            {
+                #if NGUI_DLL
+                foreach(UICamera v_uiCamera in UICamList)
+                #else
+                foreach(KiltUICamera v_uiCamera in UICamList)
+                #endif
+                {
+                    if(v_uiCamera != null)
+                    {
+                        if(!v_sucess)
+                            hoveredObject = (v_sucess = RaycastToCamera(v_uiCamera, p_position, out lastHit2D)) ? lastHit2D.collider.gameObject : fallThrough;
+                        if(!v_sucess)
+                            hoveredObject = (v_sucess = RaycastToCamera(v_uiCamera, p_position, out lastHit)) ? lastHit.collider.gameObject : fallThrough;
+                        if(v_sucess)
+                            break;
+                    }
+                }
+            }
+
+            if (hoveredObject == null) hoveredObject = genericEventHandler;*/
+    }
+
+    #region RayCast
+
+    /// <summary>
+    /// Returns the object under the specified position.
+    /// </summary>
+    static RaycastHit2D mEmpty2D = new RaycastHit2D();
 	#if NGUI_DLL
 	static public bool RaycastToCamera (UICamera p_camera, Vector3 inPos, out RaycastHit2D hit)
 	#else
@@ -1306,7 +1308,7 @@ public class KiltUICamera : UICamera
 		if (p_camera != null && p_camera.enabled && GetActive(p_camera.gameObject))
 		{
 			hit = mEmptyUGUI;
-			PointerEventData v_pointer = new PointerEventData(EventSystem.current);
+            /*// gg PointerEventData v_pointer = new PointerEventData(EventSystem.current);
 			v_pointer.position = inPos;
 			List<RaycastResult> v_raycastResults = new List<RaycastResult>();
 			EventSystem.current.RaycastAll(v_pointer, v_raycastResults);
@@ -1327,9 +1329,9 @@ public class KiltUICamera : UICamera
 				if(!v_foundEventHandler)
 					hit = v_raycastResults.GetFirst();
 				return true;
-			}
-		}
-		hit = mEmptyUGUI;
+			}*/
+        }
+        hit = mEmptyUGUI;
 		return false;
 	}
 	
@@ -1374,50 +1376,50 @@ public class KiltUICamera : UICamera
 	static public bool Raycast (Vector3 inPos, out RaycastResult hit)
 	{
 		hit = mEmptyUGUI;
-		PointerEventData v_pointer = new PointerEventData(EventSystem.current);
-		v_pointer.position = inPos;
-		List<RaycastResult> v_raycastResults = new List<RaycastResult>();
-		EventSystem.current.RaycastAll(v_pointer, v_raycastResults);
-		if(v_raycastResults.Count > 0)
-		{
-			bool v_foundEventHandler = false;
-			for(int i=0; i<v_raycastResults.Count; i++)
-			{
-				RaycastResult v_raycastResult = v_raycastResults[i];
-				v_foundEventHandler = UpdateRayCastWithType<IEventSystemHandler>(ref v_raycastResult);
-				if(v_foundEventHandler)
-				{
-					hit = v_raycastResult;
-					break;
-				}
-			}
-			if(!v_foundEventHandler)
-				hit = v_raycastResults.GetFirst();
-			return true;
-		}
-		hit = mEmptyUGUI;
-		return false;
+        // gg 	//PointerEventData v_pointer = new PointerEventData(EventSystem.current);
+        //v_pointer.position = inPos;
+        //List<RaycastResult> v_raycastResults = new List<RaycastResult>();
+        //EventSystem.current.RaycastAll(v_pointer, v_raycastResults);
+        //if(v_raycastResults.Count > 0)
+        //{
+        //	bool v_foundEventHandler = false;
+        //	for(int i=0; i<v_raycastResults.Count; i++)
+        //	{
+        //		RaycastResult v_raycastResult = v_raycastResults[i];
+        //		v_foundEventHandler = UpdateRayCastWithType<IEventSystemHandler>(ref v_raycastResult);
+        //		if(v_foundEventHandler)
+        //		{
+        //			hit = v_raycastResult;
+        //			break;
+        //		}
+        //	}
+        //	if(!v_foundEventHandler)
+        //		hit = v_raycastResults.GetFirst();
+        //	return true;
+        //}
+        //hit = mEmptyUGUI;
+        return false;
 	}
 
 	#endregion
 	
 	static protected bool UpdateRayCastWithType<T>(ref RaycastResult p_ray)
 	{
-		if(p_ray.gameObject != null)
-		{
-			List<Component> v_components = new List<Component>();
-			v_components.AddChecking(p_ray.gameObject.GetComponent(typeof(T)));
-			v_components.MergeList(new List<Component>(p_ray.gameObject.GetComponentsInParent(typeof(T))));
-			foreach(Component v_component in v_components)
-			{
-				if(!(v_component is MonoBehaviour) || (v_component as MonoBehaviour).enabled)
-				{
-					p_ray.gameObject = v_component.gameObject;
-					return true;
-				}
-			}
-		}
-		return false;
+        // gg //if(p_ray.gameObject != null)
+        //{
+        //	List<Component> v_components = new List<Component>();
+        //	v_components.AddChecking(p_ray.gameObject.GetComponent(typeof(T)));
+        //	v_components.MergeList(new List<Component>(p_ray.gameObject.GetComponentsInParent(typeof(T))));
+        //	foreach(Component v_component in v_components)
+        //	{
+        //		if(!(v_component is MonoBehaviour) || (v_component as MonoBehaviour).enabled)
+        //		{
+        //			p_ray.gameObject = v_component.gameObject;
+        //			return true;
+        //		}
+        //	}
+        //}
+        return false;
 	}
 	
 	#if NGUI_DLL
@@ -2052,10 +2054,10 @@ public class KiltUICamera : UICamera
 				GUILayout.Label("Last Hit: " + GetHierarchy(lastHit.collider.gameObject).Replace("\"", ""));
 			if(lastHit2D.collider != null)
 				GUILayout.Label("Last Hit 2D: " + GetHierarchy(lastHit2D.collider.gameObject).Replace("\"", ""));
-			if(lastHitUGUI.gameObject != null)
-				GUILayout.Label("Last Hit UGUI: " + GetHierarchy(lastHitUGUI.gameObject).Replace("\"", ""));
-		}
-	}
+            // gg if(lastHitUGUI.gameObject != null)
+            // gg   GUILayout.Label("Last Hit UGUI: " + GetHierarchy(lastHitUGUI.gameObject).Replace("\"", ""));
+        }
+    }
 	#endif
 	
 	#endregion
@@ -2481,10 +2483,10 @@ public class KiltUICamera : UICamera
 			List<RaycastResult> v_newList = new List<RaycastResult>();
 			foreach(RaycastResult v_result in p_results)
 			{
-				if(v_result.gameObject != null && (p_layerMask == (p_layerMask | (1 << v_result.gameObject.layer))))
-					v_newList.Add(v_result);
-			}
-			p_results.Clear();
+                // gg if(v_result.gameObject != null && (p_layerMask == (p_layerMask | (1 << v_result.gameObject.layer))))
+                // gg   v_newList.Add(v_result);
+            }
+            p_results.Clear();
 			foreach(RaycastResult v_result in v_newList)
 			{
 				p_results.Add(v_result);

@@ -105,27 +105,27 @@ public class Recipe : MonoBehaviour
        int res = GetNextRecipeThatIsAvailable( bl );
        if( res == -1 ) return;
 
-       float time = .4f;
-       if( ActivateKeypressTimeCount < time )
-       if( cInput.GetKeyUp( "Battle" ) == true )                                                                     // Chooses next recipe
-           {
-               GetNextRecipe( +1, bl );
-               ActivateKeypressTimeCount = 0;
-           }
+       //gggg blocofloat time = .4f;
+       //if( ActivateKeypressTimeCount < time )
+       //if( cInput.GetKeyUp( "Battle" ) == true )                                                                     // Chooses next recipe
+       //    {
+       //        GetNextRecipe( +1, bl );
+       //        ActivateKeypressTimeCount = 0;
+       //    }
 
-       if( cInput.GetKey( "Battle" ) == true )                                                                       // KeyHold recive activation
-           ActivateKeypressTimeCount += Time.unscaledDeltaTime;
-       else
-           ActivateKeypressTimeCount = 0;
+       //if( cInput.GetKey( "Battle" ) == true )                                                                       // KeyHold recive activation
+       //    ActivateKeypressTimeCount += Time.unscaledDeltaTime;
+       //else
+       //    ActivateKeypressTimeCount = 0;
 
-       if( cInput.GetKey( "Battle" ) == true )
-       if( ActivateKeypressTimeCount > time )                                                                        // switches activation state
-       if( ActivateKeypressTimeCount < 2 ) 
-       {
-           ActivateKeypressTimeCount = 2;
-           Recipe sr = SelectedBuilding.Building.RecipeList[ bl.SelectedRecipeID ];
-           sr.Activated = !sr.Activated;
-       }
+       //if( cInput.GetKey( "Battle" ) == true )
+       //if( ActivateKeypressTimeCount > time )                                                                        // switches activation state
+       //if( ActivateKeypressTimeCount < 2 ) 
+       //{
+       //    ActivateKeypressTimeCount = 2;
+       //    Recipe sr = SelectedBuilding.Building.RecipeList[ bl.SelectedRecipeID ];
+       //    sr.Activated = !sr.Activated;
+       //}
     }
 
     public static void UpdateRecipesAvailable( Building bl )

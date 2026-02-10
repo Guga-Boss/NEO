@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 
@@ -518,7 +518,7 @@ public class tk2dTileMapEditor : Editor, ITileMapEditorHost{
                 else
 #endif
                 {
-                    tileMap.data.Layers[ layer ].physicMaterial = ( PhysicMaterial ) EditorGUILayout.ObjectField( "Physic Material", tileMap.data.Layers[ layer ].physicMaterial, typeof( PhysicMaterial ), false );
+                    // gg   tileMap.data.Layers[ layer ].physicMaterial = ( PhysicMaterial ) EditorGUILayout.ObjectField( "Physic Material", tileMap.data.Layers[ layer ].physicMaterial, typeof( PhysicMaterial ), false );
                 }
 
                 if( tk2dGuiUtility.EndChangeCheck() )

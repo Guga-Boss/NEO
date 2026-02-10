@@ -86,10 +86,10 @@ public class tk2dEditorSpriteDataUnloader : MonoBehaviour {
 
 	public string oldScene = "";
 	void EditorUpdate() {
-		if (oldScene != UnityEditor.EditorApplication.currentScene) {
-			oldScene = UnityEditor.EditorApplication.currentScene;
-			DestroyDisconnectedResources();
-		}
+		//if (oldScene != UnityEditor.EditorApplication.currentScene) {
+		//	oldScene = UnityEditor.EditorApplication.currentScene;
+		//	DestroyDisconnectedResources();
+		//}
 	}
 #endif
 }

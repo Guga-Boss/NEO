@@ -1,10 +1,12 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using DarkTonic.MasterAudio;
-using Sirenix.OdinInspector;
 using DigitalRuby.LightningBolt;
 using PathologicalGames;
+using Sirenix.OdinInspector;
+using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Windows;
 
 #region Enums
 public enum EControlType
@@ -1731,68 +1733,28 @@ public partial class Controller : MonoBehaviour
     {
         if( Map.I.RepeatToLast ) return ForceMove;
 
-        float dlim = .18f;
-        if( Input.GetAxis( "Joy1 Axis 1" ) > dlim )
-            if( Input.GetAxis( "Joy1 Axis 2" ) < -dlim ) return EActionType.MOVE_NE;
+        // 1. DIAGONAIS (Se apertar duas teclas, a diagonal vence)
+        if( INP.I.NE ) return EActionType.MOVE_NE;
+        if( INP.I.NW ) return EActionType.MOVE_NW;
+        if( INP.I.SE ) return EActionType.MOVE_SE;
+        if( INP.I.SW ) return EActionType.MOVE_SW;
 
-        if( Input.GetAxis( "Joy1 Axis 1" ) > dlim )
-            if( Input.GetAxis( "Joy1 Axis 2" ) > dlim ) return EActionType.MOVE_SE;
+        // 2. CARDINAIS (Direções puras)
+        if( INP.I.N ) return EActionType.MOVE_N;
+        if( INP.I.S ) return EActionType.MOVE_S;
+        if( INP.I.E ) return EActionType.MOVE_E;
+        if( INP.I.W ) return EActionType.MOVE_W;
 
-        if( Input.GetAxis( "Joy1 Axis 1" ) < -dlim )
-            if( Input.GetAxis( "Joy1 Axis 2" ) < -dlim ) return EActionType.MOVE_NW;
+        // 3. ROTAÇÕES
+        if( INP.I.CCW ) return EActionType.ROTATE_CCW;
+        if( INP.I.CW ) return EActionType.ROTATE_CW;
 
-        if( Input.GetAxis( "Joy1 Axis 1" ) < -dlim )
-            if( Input.GetAxis( "Joy1 Axis 2" ) > dlim ) return EActionType.MOVE_SW;
-
-        dlim = .3f;
-        if( Input.GetAxis( "Joy1 Axis 4" ) > dlim )
-            if( Input.GetAxis( "Joy1 Axis 5" ) < -dlim ) return EActionType.MOVE_NE;
-
-        if( Input.GetAxis( "Joy1 Axis 4" ) > dlim )
-            if( Input.GetAxis( "Joy1 Axis 5" ) > dlim ) return EActionType.MOVE_SE;
-
-        if( Input.GetAxis( "Joy1 Axis 4" ) < -dlim )
-            if( Input.GetAxis( "Joy1 Axis 5" ) < -dlim ) return EActionType.MOVE_NW;
-
-        if( Input.GetAxis( "Joy1 Axis 4" ) < -dlim )
-            if( Input.GetAxis( "Joy1 Axis 5" ) > dlim ) return EActionType.MOVE_SW;
-
-        float lim = .4f;
-        if( Input.GetAxis( "Joy1 Axis 1" ) < -lim ) return EActionType.MOVE_W;
-        if( Input.GetAxis( "Joy1 Axis 1" ) > lim ) return EActionType.MOVE_E;
-
-        if( Input.GetAxis( "Joy1 Axis 2" ) < -lim ) return EActionType.MOVE_N;
-        if( Input.GetAxis( "Joy1 Axis 2" ) > lim ) return EActionType.MOVE_S;
-
-        if( Input.GetButton( "Rotate CW" ) ) return EActionType.ROTATE_CW;
-        if( Input.GetButton( "Rotate CCW" ) ) return EActionType.ROTATE_CCW;
-
-        if( cInput.GetKey( "Rotate CW" ) ) return EActionType.ROTATE_CW;
-        if( cInput.GetKey( "Rotate CCW" ) ) return EActionType.ROTATE_CCW;
-        if( cInput.GetKey( "Wait" ) ) return EActionType.WAIT;
-        if( cInput.GetKey( "Move N" ) ) return EActionType.MOVE_N;
-        if( cInput.GetKey( "Move NE" ) ) return EActionType.MOVE_NE;
-        if( cInput.GetKey( "Move E" ) ) return EActionType.MOVE_E;
-        if( cInput.GetKey( "Move SE" ) ) return EActionType.MOVE_SE;
-        if( cInput.GetKey( "Move S" ) ) return EActionType.MOVE_S;
-        if( cInput.GetKey( "Move SW" ) ) return EActionType.MOVE_SW;
-        if( cInput.GetKey( "Move W" ) ) return EActionType.MOVE_W;
-        if( cInput.GetKey( "Move NW" ) ) return EActionType.MOVE_NW;
-        if( LastAction != EActionType.NONE )
-            if( cInput.GetKey( "Battle" ) )
-                if( Manager.I.GameType != EGameType.FARM )
-                    return Map.I.InvertActionList[ ( int ) LastAction ];
-
-        float scr = Input.GetAxis( "Mouse ScrollWheel" );
-        if( UI.I.MouseOverUI == false )
-        {
-            if( scr < 0 ) return EActionType.ROTATE_CW;
-            if( scr > 0 ) return EActionType.ROTATE_CCW;
-        }
-
+        // 3. ROTAÇÕES
+        if( INP.I.Wait ) return EActionType.WAIT;
+        if( INP.I.Special ) return EActionType.SPECIAL;
+        if( INP.I.Battle ) return EActionType.BATTLE;
         return EActionType.NONE;
     }
-
 
     //______________________________________________________________________________________________________________________ Human Movement
 
@@ -1817,14 +1779,14 @@ public partial class Controller : MonoBehaviour
         EActionType vcrac = EActionType.NONE;
 
         int rot = 0;                                                                                            // Battle Key
-        if( ForceMove == EActionType.BATTLE || cInput.GetKey( "Battle" ) )
-            if( Map.I.Hero.Body.ToolBoxLevel < 3 )
-                if( Manager.I.GameType == EGameType.NORMAL )
-                {
-                    Map.I.ShowMessage( Language.Get( "ERROR_TOOLBOX3" ) );
-                    ForceMove = EActionType.NONE;
-                    return false;
-                }
+        // gggg if( ForceMove == EActionType.BATTLE || cInput.GetKey( "Battle" ) )
+        //    if( Map.I.Hero.Body.ToolBoxLevel < 3 )
+        //        if( Manager.I.GameType == EGameType.NORMAL )
+        //        {
+        //            Map.I.ShowMessage( Language.Get( "ERROR_TOOLBOX3" ) );
+        //            ForceMove = EActionType.NONE;
+        //            return false;
+        //        }
 
         ac = GetUserAction();
 
@@ -2195,6 +2157,7 @@ public partial class Controller : MonoBehaviour
 
         Map.I.AutoOpenGateStep++;
         LastAction = ac;
+        TurnTime = 0;
         LastMoveAction = ac;
 
         if( PathFinding.Path.Count > 0 )
@@ -4230,7 +4193,7 @@ public partial class Controller : MonoBehaviour
             else
                 if( Unit.Variation == 2 )                                                  // Shoot towards Hero Direction, fly towards hero
                 {
-                    Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, G.Hero.Spr.transform.position );
+                    Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, G.Hero.NSpr.transform.position );
                     Unit.Spr.transform.rotation = Quaternion.RotateTowards(
                     Unit.Spr.transform.rotation, qn, FlyingRotationSpeed * Time.deltaTime );
                     add = Unit.Spr.transform.up * Time.deltaTime * FlyingSpeed;
@@ -4239,7 +4202,7 @@ public partial class Controller : MonoBehaviour
                 else
                     if( Unit.Variation == 3 )                                                  // Zig zag TBD
                     {
-                        Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, G.Hero.Spr.transform.position );
+                        Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, G.Hero.NSpr.transform.position );
                         Unit.Spr.transform.rotation = Quaternion.RotateTowards(
                         Unit.Spr.transform.rotation, qn, FlyingRotationSpeed * Time.deltaTime );
                         add = Unit.Spr.transform.up * Time.deltaTime * FlyingSpeed;
@@ -4548,7 +4511,7 @@ public partial class Controller : MonoBehaviour
     {
         if( G.HS.CubeTurnCount < 2 ) return false;                                                                             // to avoid initial quicktravel kill
         if( G.Hero.Body.InvulnerabilityFactor > 0 ) return false;
-        float dist = Vector2.Distance( G.Hero.Spr.transform.position, Unit.transform.position );
+        float dist = Vector2.Distance( G.Hero.NSpr.transform.position, Unit.transform.position );
         if( dist <= tgdist )                                                                                                   // Hero hit!
         {
             if( Unit.TileID == ETileType.BOUNCING_BALL )                                                                       // Round Pushing ball
@@ -4557,7 +4520,7 @@ public partial class Controller : MonoBehaviour
             G.Hero.Body.ReceiveDamage( att.BaseDamage, EDamageType.BLEEDING, Unit, att );                                      // Deduct damage        
             G.Hero.Body.InvulnerabilityFactor = .5f;
             if( death ) Map.I.StartCubeDeath();
-            Body.CreateDeathFXAt( G.Hero.Spr.transform.position );                                                             // Fx
+            Body.CreateDeathFXAt( G.Hero.NSpr.transform.position );                                                             // Fx
             if( snd != "" )
                 MasterAudio.PlaySound3DAtVector3( snd, G.Hero.Pos );                                                           // Sound FX
             return true;

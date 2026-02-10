@@ -1,8 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using HeavyDutyInspector;
 using DarkTonic.MasterAudio;
 using System;
 #if UNITY_EDITOR  
@@ -36,8 +35,8 @@ public class Manager : MonoBehaviour
     public GameObject MainMenu, InitialObject;
     public bool DebugMode, ShowTileText, MapInitialized, ForceRestart, ForceRestartFromBeginning;
     public Util U;
-    public Quest Quest;
     public NiobiumStudios.DailyRewards Reward;
+    public Quest Quest;
     public int ProfileNumber;
     public string[] InputNames;
     public string SaveInfo;
@@ -79,7 +78,7 @@ public class Manager : MonoBehaviour
         else
             Manager.I.Reward.now = System.DateTime.Now;
 
-        Map.I.NavigationMap.AreasTilemap.transform.parent = Map.I.AreasTilemapFolder.transform;
+        //gg Map.I.NavigationMap.AreasTilemap.transform.parent = Map.I.AreasTilemapFolder.transform;
         Map.I.NavigationMap.Tilemap.gameObject.SetActive( false );
 		MapInitialized = false;
         ForceRestart = false;
@@ -91,10 +90,28 @@ public class Manager : MonoBehaviour
         Camera = Cam.GetComponent<Camera>();
     }
 #if UNITY_EDITOR
-[MenuItem( "Tools/Select Cube Data _F8" )]
+
+    [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton
+    static void InitEditor()
+    {
+        EditorApplication.delayCall += () =>
+        {
+            if( !Application.isPlaying )
+            {
+                GameObject go = GameObject.Find("----------------Game Manager---------");
+                if( go != null )
+                {
+                    I = go.GetComponent<Manager>();
+                    if( I != null )
+                        I.U = new Util();
+                }
+            }
+        };
+    }
+
+    [MenuItem( "Tools/Select Cube Data _F8" )]
     private static void SelectInitialObject()
     {
-        I = GameObject.Find( "----------------Game Manager---------" ).GetComponent<Manager>();
         Selection.activeGameObject = I.InitialObject;
         EditorApplication.delayCall += () =>
         {
@@ -185,8 +202,6 @@ private static void LoadProfile()
         {
             ToggleConsole();
         }
-
-        Manager.I.Reward.TickTime();
 
         CheckException();                                                                  // Check for Exceptions and Quit if so
     }
@@ -294,6 +309,7 @@ private static void LoadProfile()
 
     public void PlayGame()
     {
+        SettingsWindow.I.RestoreDefaultSettings();  //ggg temporario ate arrumar setting screen       // ******************************
         if( Security.CheckPlayerFilesConsistency() == false )                                 // Checks for cheaters
             return;
 
@@ -662,6 +678,7 @@ private static void LoadProfile()
     }
     public int UpdateCurrentAdventure()
     {
+        return 0;//ggg
         int id = -1;
         #if UNITY_EDITOR
         if( Selection.activeGameObject == null ) return -1;
@@ -682,7 +699,8 @@ private static void LoadProfile()
 
     internal string GetPlayerName()
     {
-        string pname = ProfileWindow.I.ProfileNames[ 0 ].text;
+        return "nameless"; //gggg
+        string pname = ProfileWindow.I.ProfileNames[ 0 ];
         if( !string.IsNullOrEmpty( pname ) )
             pname = char.ToUpper( pname[ 0 ] ) + pname.Substring( 1 );
         return pname;

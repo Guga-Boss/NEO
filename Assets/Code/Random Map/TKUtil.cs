@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -124,7 +124,7 @@ public class TKUtil : MonoBehaviour
     public static bool Load( string file, ref tk2dTileMap tm )
     {
         file = Manager.I.GetProfileFolder() + file;
-        if( ES2.Exists( file ) == false ) return false;
+        if( File.Exists( file ) == false ) return false;
 
         Farm.RevealedTileList = new List<Vector2>();
         Map.I.Farm.ChooserMonsterList = new List<Vector2>();

@@ -1,26 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1217200501263010}
-  m_IsPrefabParent: 1
---- !u!1 &1217200501263010
+--- !u!1 &1878939267351914
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
-  - component: {fileID: 4298973495065042}
-  - component: {fileID: 114400627622736978}
-  - component: {fileID: 114653026116148408}
+  - component: {fileID: 4325626328677824}
+  - component: {fileID: 114599590167768332}
+  - component: {fileID: 114976205640674612}
   m_Layer: 0
   m_Name: Quest Data Backup
   m_TagString: Map Quest
@@ -28,31 +18,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4298973495065042
+--- !u!4 &4325626328677824
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1217200501263010}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878939267351914}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 19, y: 28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114400627622736978
+--- !u!114 &114599590167768332
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1217200501263010}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878939267351914}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapData: {fileID: 114653026116148408}
+  MapData: {fileID: 114976205640674612}
   MonsterSprite: {fileID: 0}
   NestSprite: {fileID: 0}
   BackgroundSprite: {fileID: 0}
@@ -62,46 +55,48 @@ MonoBehaviour:
   Signature: A2_QUEST_21
   SubFolder: A2
   NavigationMapIcon: 646
---- !u!114 &114653026116148408
+--- !u!114 &114976205640674612
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1217200501263010}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878939267351914}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqueID: 8V1CO
   IsUp: 0
   Notes: 
-  QuestHelper: {fileID: 114400627622736978}
+  QuestHelper: {fileID: 114599590167768332}
   MapCord: {x: 83, y: 28}
   BlockArea: {x: 2, y: 2}
-  ImagesFolder: {fileID: 1981418413295572, guid: 562671e7c7c829f4c82d398d54862b4b,
-    type: 2}
-  GoalsFolder: {fileID: 1679062866012686, guid: b3fd9d44a82a5b2429fe55c39dad21a0,
-    type: 2}
+  ImagesFolder: {fileID: 1725049757976656, guid: 6b0c9f13cceca344b8c762427072ed44,
+    type: 3}
+  GoalsFolder: {fileID: 1753877236195914, guid: 1e0f9edee362cac4daaf3c8713fe099a,
+    type: 3}
   GoalList:
-  - {fileID: 114863931382373228, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114792050435706494, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114356697342095650, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114863845770467948, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114245810678763766, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114067807811782508, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114642095636523146, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114402622305897756, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114442967412541190, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114077289340396682, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114001656547495812, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114573726828113926, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114316117744061476, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114457061661258340, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114187462984179718, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
-  - {fileID: 114859150983178326, guid: b3fd9d44a82a5b2429fe55c39dad21a0, type: 2}
+  - {fileID: 114149461229986734, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114177462145794080, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114836026574670028, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114553984122750896, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114632528803410088, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114972824669385386, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114367776122975248, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114664562783704230, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114488814288435316, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114231661083830444, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114621056904281352, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114976616642182334, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114276301725300974, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114410933327159854, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114997642133886264, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
+  - {fileID: 114186443927405048, guid: 1e0f9edee362cac4daaf3c8713fe099a, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
-  QuestID: 30
+  QuestID: 19
   EnableAlternateStartingCube: 1
   LabType: 0
   InitiallyAvailableCubes: 10
@@ -118,24 +113,25 @@ MonoBehaviour:
   RequiredItemLifeTime: 60
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
-  UpgradeListFolder: {fileID: 1367088513900160, guid: cda3d2f9f03c00943b087c52d42b8c81,
-    type: 2}
+  UpgradeListFolder: {fileID: 1554587453689562, guid: 4987df6d76b08014faf33330aea1ff62,
+    type: 3}
   AdventureUpgradeInfoList:
-  - {fileID: 114273657176713888, guid: cda3d2f9f03c00943b087c52d42b8c81, type: 2}
-  - {fileID: 114452511614420468, guid: cda3d2f9f03c00943b087c52d42b8c81, type: 2}
-  TechListFolder: {fileID: 1229701226359768, guid: dfa5dfdd5ea411643b1c6593627bd090,
-    type: 2}
+  - {fileID: 114120247366669280, guid: 4987df6d76b08014faf33330aea1ff62, type: 3}
+  - {fileID: 114151765939334472, guid: 4987df6d76b08014faf33330aea1ff62, type: 3}
+  TechListFolder: {fileID: 1366792466310544, guid: d14a183a1837c124a9e552d8a4bbf826,
+    type: 3}
   StartingAdventureLevel: 0
   StartingTrainningLevel: 0
   RescueToGate: 1
   StartingGotoCheckPointLevel: 0
-  GotoCheckPointResourceCost: 1
-  AutoOpenGateResourceCost: 1
+  GotoCheckPointResourceCost: 0
+  AutoOpenGateResourceCost: 0
   RescueEnabled: 0
-  MaxCubes: 15
-  QuestSecrets: 0
+  MaxCubes: 17
+  QuestSecrets: 1
   MaximumUnits: 0
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 100
   CubeClearHPBonus: 100
   ShowPopup: 0
@@ -166,6 +162,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -219,32 +217,28 @@ MonoBehaviour:
   SpawnResourceRange: 1
   RelocatorCreationChance: 0
   InitialUpgradeChestChance: 50
-  CloverPickUpgradeChestChance: 30
+  CloverPickUpgradeChestChance: 20
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 5
-  QuestXPPerClover: 0.04
-  TotalShellBonus: 20
-  TotalCogBonus: 10
-  TotalQuestXPBonus: 10
-  QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  QuestXPPerClover: 0.4
+  FireTokenPerClover: 0.2
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
+  QuestXPPerChest: 0.5
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 0
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -305,11 +299,10 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114826844452723022, guid: e044a9ca2fbaccd4ebb20d4b413bb48c, type: 2}
+  - {fileID: 114360323266042502, guid: adc3aaaa95b1d5946bb7b5de0ee822aa, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4
@@ -380,7 +373,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20

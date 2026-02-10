@@ -111,6 +111,8 @@ public partial class Unit : MonoBehaviour
     [TabGroup( "Link" )]
     public tk2dSprite Spr;
     [TabGroup( "Link" )]
+    public NSprite NSpr;
+    [TabGroup( "Link" )]
     public GameObject Graphic;
     [TabGroup( "Link" )]
     public tk2dTextMesh LevelTxt, RightText;
@@ -1510,7 +1512,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         }
 
       if( tgl.Count > 0 )
-          iTween.PunchRotation( G.Hero.Spr.gameObject, new Vector3( 0, 0, Util.RandSig( 20 ) ), .25f );          // punch fx
+          iTween.PunchRotation( G.Hero.NSpr.gameObject, new Vector3( 0, 0, Util.RandSig( 20 ) ), .25f );          // punch fx
 
         if( tgl.Count <= 0 ) return false;
 
@@ -1547,7 +1549,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                 int size = G.Hero.Body.Sp[ i ].BambooSize - breaksz[ i ];
                 G.Hero.Body.Sp[ i ].BambooSize -= size;                
                 Item.AddItem( ItemType.Res_Bamboo, -size );
-                iTween.PunchRotation( G.Hero.Spr.gameObject, new Vector3( 0, 0, 30 ), .5f );                       // fx
+                iTween.PunchRotation( G.Hero.NSpr.gameObject, new Vector3( 0, 0, 30 ), .5f );                       // fx
                 if( firefx )
                 {                    
                     MasterAudio.PlaySound3DAtVector3( "Fire Ignite", to );
@@ -2817,7 +2819,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         //Spr.transform.Rotate( 0, 0, -( 45.0f * ( float ) ( int ) Dir ) );
 
         if( UnitType == EUnitType.HERO )
-            Body.Shadow.transform.rotation = Spr.transform.rotation;
+            Body.Shadow.transform.rotation = NSpr.transform.rotation;
 		return true;
 	}
         
@@ -3449,8 +3451,8 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         Vector2 diference = Pos - tg;
         float sign = ( vec2.y < tg.y ) ? -1.0f : 1.0f;
         float angle = Vector2.Angle( Vector2.right, diference ) * sign;
-        angle -= Spr.transform.eulerAngles.z;
-        angle = AngleInDeg( vec2, tg ) - Spr.transform.eulerAngles.z - 90;
+        angle -= NSpr.transform.eulerAngles.z;
+        angle = AngleInDeg( vec2, tg ) - NSpr.transform.eulerAngles.z - 90;
 
         if( customDir != EDirection.NONE )
         {
@@ -3538,7 +3540,9 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             Body.EffectList[ 0 ].SetActive( Activated );
             return;
         }
-        Spr.gameObject.SetActive( _activated );
+        if( Spr ) Spr.gameObject.SetActive( _activated );
+        if( NSpr ) NSpr.gameObject.SetActive( _activated );
+
         if( LevelTxt )
             LevelTxt.gameObject.SetActive( _activated );
         
@@ -4480,7 +4484,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                    eff4 = true;
                    sp3scale = .9f;                   
                    Vector3 hammerangle = Util.GetRotationAngleVector( G.Hero.Dir );
-                   Body.EffectList[ 4 ].gameObject.transform.localEulerAngles = G.Hero.Spr.transform.eulerAngles;
+                   Body.EffectList[ 4 ].gameObject.transform.localEulerAngles = G.Hero.NSpr.transform.eulerAngles;
                    Body.Sprite3.transform.position = new Vector3( mid.x, mid.y, Body.Sprite3.transform.localPosition.z );
                }
                else

@@ -21,9 +21,9 @@ public static class ImageUtils
 					float v_widthRatio = (float)v_sizeToApply / p_texture.width;
 					float v_heightRatio = (float)v_sizeToApply / p_texture.height;
 					if (v_widthRatio < v_heightRatio) 
-						v_return = p_texture.Resize((int)(p_texture.width * v_widthRatio), (int)(p_texture.height * v_widthRatio));
+						v_return = p_texture.Reinitialize((int)(p_texture.width * v_widthRatio), (int)(p_texture.height * v_widthRatio));
 					else 
-						v_return = p_texture.Resize((int)(p_texture.width * v_heightRatio), (int)(p_texture.height * v_heightRatio));
+						v_return = p_texture.Reinitialize((int)(p_texture.width * v_heightRatio), (int)(p_texture.height * v_heightRatio));
 				}
 				catch{}
 			}

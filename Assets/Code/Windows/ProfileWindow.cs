@@ -1,10 +1,12 @@
-﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
 public class ProfileWindow : MonoBehaviour 
 {
 	public static ProfileWindow I;
-	public tk2dTextMesh[] ProfileNames;
+	public List<string> ProfileNames;
 	public GameObject NameInputPanel;
 	public int ProfileNum;
 	public tk2dTextMesh ProfileName;
@@ -25,16 +27,12 @@ public class ProfileWindow : MonoBehaviour
 	{
 		if( ProfileNum != -1 )
 		{
-			ProfileNames[ (int) ProfileNum ].text = ProfileName.text;
-			
-			for( int i = 0; i < ProfileNames.Length; i++ )
-				if ( i == ProfileNum ) ProfileNames[ i ].color = new Color( 0, 1, 0, 1 );
-			else ProfileNames[ i ].color = new Color( 1, 1, 1, 1 );
+			ProfileNames[ (int) ProfileNum ] = ProfileName.text;			
 			MainMenu.I.ProfileButton.text = Language.Get("PROFILE_BUTTON")
-                          + ":\n" + ProfileNames[ (int) ProfileNum ].text;
-			NameInputPanel.gameObject.SetActive( true );
-			
-			if( Input.GetKeyDown( KeyCode.Return ) ) FinalizeProfileScreen();
+            + ":\n" + ProfileNames[ (int) ProfileNum ];
+			NameInputPanel.gameObject.SetActive( true );			
+			if( Input.GetKeyDown( KeyCode.Return ) )
+                FinalizeProfileScreen();
 		}
 	}
 
@@ -49,51 +47,62 @@ public class ProfileWindow : MonoBehaviour
         MainMenu.I.LogoImage.gameObject.SetActive( false );
 	}
 
-	//_____________________________________________________________________________________________________________________ Save Profile
-	
-	public void SaveProfileWindowData()
-	{
-        string file = Application.persistentDataPath + "/Profiles/ProfileNames.dat";
-        if( Application.platform == RuntimePlatform.WindowsPlayer )
-            file = Application.dataPath + "/Profiles/ProfileNames.dat";
-
-		for( int i = 0; i < ProfileNames.Length; i++ )
-			ES2.Save( ProfileNames[ i ].text, file + "?tag=ProfileNames: " + i );
-		ES2.Save( Manager.I.ProfileNumber, file + "?tag=ProfileNumber" );
-	}
-
-
-	//_____________________________________________________________________________________________________________________ Load Profile
-
-	public void LoadProfileWindowData()
+    //_____________________________________________________________________________________________________________________ Save Profile
+    public void SaveProfileWindowData()
     {
-        string file = Application.persistentDataPath + "/Profiles/ProfileNames.dat";
+        string file = Application.persistentDataPath + "/Profiles/ProfileNames.dat";                         // set file path
         if( Application.platform == RuntimePlatform.WindowsPlayer )
-            file = Application.dataPath + "/Profiles/ProfileNames.dat";
-		if( ES2.Exists( file ) )
-		{
-			Manager.I.ProfileNumber = ES2.Load<int>( file + "?tag=ProfileNumber");
-			if( Manager.I.ProfileNumber != -1 )
-			{
-				for( int i = 0; i < ProfileNames.Length; i++ )
-					ProfileNames[ i ].text = ES2.Load<string>( file + "?tag=ProfileNames: " + i );
-				MainMenu.I.ProfileButton.text = Language.Get("PROFILE_BUTTON")
-					+ ":\n" + ProfileNames[ (int) Manager.I.ProfileNumber ].text;
-				ProfileName.text = ProfileNames[ (int) Manager.I.ProfileNumber ].text;
-				ProfileNum = Manager.I.ProfileNumber;
-			}
-		}
+            file = Application.dataPath + "/Profiles/ProfileNames.dat";                                      // adjust path for Windows
+
+        Directory.CreateDirectory( Path.GetDirectoryName( file ) );                                          // ensure folder exists
+
+        using( MemoryStream ms = new MemoryStream() )
+        using( BinaryWriter writer = new BinaryWriter( ms ) )                                                // open memory stream
+        {
+            GS.W = writer;                                                                                   // assign BinaryWriter to GS.W for TF
+            int Version = Security.SaveHeader( 1, false );                                                   // save header defining current save version
+            TF.SaveT( "ProfileNumber", Manager.I.ProfileNumber );                                            // save current profile number
+            TF.SaveT( "ProfileNames", ProfileNames );                                                        // save profile names
+
+            File.WriteAllBytes( file, ms.ToArray() );                                                        // write file directly 
+        }
     }
 
-	//_____________________________________________________________________________________________________________________ Finalize  Profile
+    //_____________________________________________________________________________________________________________________ Load Profile
+    public void LoadProfileWindowData()
+    {
+        string file = Application.persistentDataPath + "/Profiles/ProfileNames.dat";                         // set file path
+        if( Application.platform == RuntimePlatform.WindowsPlayer )
+            file = Application.dataPath + "/Profiles/ProfileNames.dat";                                      // adjust path for Windows
 
-	public void FinalizeProfileScreen()
+        if( Manager.I.ProfileNumber == -1 ) return;                                                          // skip if no profile selected
+        if( !File.Exists( file ) ) return;                                                                   // skip if file missing
+
+        byte[] fileData = File.ReadAllBytes(file);                                                           // read full file
+
+        using( GS.R = new BinaryReader( new MemoryStream( fileData ) ) )                                     // use memory stream for TF
+        {
+            int SaveVersion = Security.LoadHeader( false );                                                  // load header
+            Manager.I.ProfileNumber = TF.LoadT<int>( "ProfileNumber" );                                      // load profile number
+            ProfileNames = TF.LoadT<List<string>>( "ProfileNames" );                                         // load profile names
+
+            //MainMenu.I.ProfileButton.text = Language.Get( "PROFILE_BUTTON" )                                 // update main menu button
+            //    + ":\n" + ProfileNames[ (int) Manager.I.ProfileNumber ];
+            //ProfileName.text = ProfileNames[ (int) Manager.I.ProfileNumber ];                                // update current profile name
+            ProfileNum = Manager.I.ProfileNumber;                                                            // set internal profile index
+        }
+    }
+
+
+    //_____________________________________________________________________________________________________________________ Finalize  Profile
+
+    public void FinalizeProfileScreen()
 	{
 		if( ProfileName.text == "" ) return;
 		if( ProfileName.text == "Empty" ) return;
 		if( ProfileNum == -1 ) return;
 		MainMenu.I.ProfileButton.text = Language.Get("PROFILE_BUTTON")
-                      + ":\n" + ProfileNames[ (int) ProfileNum ].text;
+                      + ":\n" + ProfileNames[ (int) ProfileNum ];
 		gameObject.SetActive( false );
 
 		Manager.I.ProfileNumber = ProfileNum;
@@ -122,16 +131,16 @@ public class ProfileWindow : MonoBehaviour
 	{
 		ProfileNum = number;
 
-		if( ProfileNames[ number ].text == "Empty" )                                                         // New profile click
+		if( ProfileNames[ number ] == "Empty" )                                                              // New profile click
           { 
 			InitNewProfile();
           } 
         else                                                                                                 // Existing profile click
           {
-		    ProfileName.text = ProfileNames[ ProfileNum ].text;
+		    ProfileName.text = ProfileNames[ ProfileNum ];
     		QuestWindow.I.LoadQuestWindowData( ProfileNum );
 			MainMenu.I.ProfileButton.text = Language.Get("PROFILE_BUTTON")
-                        + ":\n" + ProfileNames[ (int) ProfileNum ].text;
+                        + ":\n" + ProfileNames[ (int) ProfileNum ];
 			SettingsWindow.I.LoadSettingsWindowData( ProfileNum );
           }
 	}

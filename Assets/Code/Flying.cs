@@ -490,7 +490,7 @@ public partial class Controller : MonoBehaviour
                 SideFlightSpeed = TotalSideFlightSpeed;
                 if( Util.Chance( 50 ) ) SideFlightSpeed *= -1;
             }
-            add += G.Hero.Spr.transform.up * Map.I.RM.RMD.DragonShotImpactForce;                              // Adds shot impact to movement vector
+            add += G.Hero.NSpr.transform.up * Map.I.RM.RMD.DragonShotImpactForce;                              // Adds shot impact to movement vector
             Unit.Body.FrameDamageTaken = 0;
         }
 
@@ -2988,22 +2988,22 @@ public partial class Controller : MonoBehaviour
 
         Map.I.UpdateFishBehaviour( Unit );
 
-        Vector3[ ] plist = new[ ] { Unit.Spr.transform.position, G.Hero.Spr.transform.position };
+        Vector3[ ] plist = new[ ] { Unit.NSpr.transform.position, G.Hero.NSpr.transform.position };
         if( Unit.Activated == false ) return;
         if( SwimmingDepht == 0 ) 
-            Unit.Spr.color = new Color( 1, 1, 1, 1 );
+            Unit.NSpr.color = new Color( 1, 1, 1, 1 );
         else
         {
             float alpha = 1 - SwimmingDepht;
-            Unit.Spr.color = new Color( 1, 1, 1, Mathf.Lerp( Unit.Spr.color.a, alpha, Time.deltaTime * .01f ) );
-            Unit.Spr.color = new Color( 1, 1, 1, alpha );
+            Unit.NSpr.color = new Color( 1, 1, 1, Mathf.Lerp( Unit.NSpr.color.a, alpha, Time.deltaTime * .01f ) );
+            Unit.NSpr.color = new Color( 1, 1, 1, alpha );
         }
 
         if( FishSwimType != EFishSwimType.NORMAL ) 
         if( FishSwimType != EFishSwimType.FLEE_TO_FARTHEST )
         if( FishSwimType != EFishSwimType.FLEE_TO_RANDOM )
             return;
-       // Unit.Spr.color = new Color( 1, 1, 1, Helper.I.FloatVal );
+       // Unit.NSpr.color = new Color( 1, 1, 1, Helper.I.FloatVal );
         CheckFishTargetReached();
         SortFishTarget();
         //UpdateAttackRate();
@@ -3046,12 +3046,12 @@ public partial class Controller : MonoBehaviour
         if( FlightTargetTime > 5 )
             rotationSpeed += FlightTargetTime * 2;
 
-        Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, FlyingTarget );
-        Unit.Spr.transform.rotation = Quaternion.RotateTowards( 
-        Unit.Spr.transform.rotation, qn, Time.deltaTime * rotationSpeed );
+        Quaternion qn = Util.GetRotationToPoint( Unit.NSpr.transform.position, FlyingTarget );
+        Unit.NSpr.transform.rotation = Quaternion.RotateTowards( 
+        Unit.NSpr.transform.rotation, qn, Time.deltaTime * rotationSpeed );
 
         //if( Unit.Body.IsFish == false )
-        //    Unit.Spr.transform.eulerAngles = new Vector3( 0, 0, 0 );
+        //    Unit.NSpr.transform.eulerAngles = new Vector3( 0, 0, 0 );
 
         if( Unit.Body.FishCaught )                                                                        // Fish being caught animation
         {
@@ -3077,7 +3077,7 @@ public partial class Controller : MonoBehaviour
                 spd = FishAction[ CurFA ].EffectVal;
             if( OverFishTimeCount > 0 )
             if( FlightTargetTime < .5f ) spd = .3f;
-            Unit.transform.position += Unit.Spr.transform.up * Time.deltaTime * spd;                                 // Updates fish position
+            Unit.transform.position += Unit.NSpr.transform.up * Time.deltaTime * spd;                                 // Updates fish position
         }
 
         if( Unit.Body.FishCaught && Util.Chance( 5 ) )                                                               // Fish Caught animation

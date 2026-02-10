@@ -1,4 +1,4 @@
-﻿//
+//
 // Lightning Bolt for Unity
 // (c) 2016 Digital Ruby, LLC
 // Source code may be used for personal or commercial projects.
@@ -291,8 +291,8 @@ namespace DigitalRuby.LightningBolt
                 lineRenderer = GetComponent<LineRenderer>();
             lineRenderer.SetVertexCount(0);
             UpdateFromMaterialChange();
-            StartUnit = null;
-            EndUnit = null;
+            //gg StartUnit = null;
+            //gg EndUnit = null;
             StartObject = null;
             EndObject = null;
         }
@@ -323,8 +323,8 @@ namespace DigitalRuby.LightningBolt
             else
             {
                 EndPosition = Target;
-                if( StartUnit ) StartPosition = new Vector3( StartUnit.transform.position.x, StartUnit.transform.position.y, -4 );
-                if( EndUnit ) EndPosition = new Vector3( EndUnit.transform.position.x, EndUnit.transform.position.y, -4 ); 
+                //gg if( StartUnit ) StartPosition = new Vector3( StartUnit.transform.position.x, StartUnit.transform.position.y, -4 );
+                //gg if( EndUnit ) EndPosition = new Vector3( EndUnit.transform.position.x, EndUnit.transform.position.y, -4 ); 
             }
 
             if( type == "Rest Line" )
@@ -334,17 +334,17 @@ namespace DigitalRuby.LightningBolt
             }
             else
             if( type == "Electric Fog" )
-            { 
-                Unit f = Controller.GetFog( EndPosition );
-                if( f ) { }
-                else
-                {
-                    bool res = SortDestination( RaftGroupID );
-                    if( res == false )
-                    {
-                        Kill();
-                    }    
-                }
+            {
+                //gg     //Unit f = Controller.GetFog( EndPosition );
+                //if( f ) { }
+                //else
+                //{
+                //    bool res = SortDestination( RaftGroupID );
+                //    if( res == false )
+                //    {
+                //        Kill();
+                //    }    
+                //}
             }
             if( Lifetime <= 0 ) 
                 Kill();
@@ -414,27 +414,27 @@ namespace DigitalRuby.LightningBolt
 
         internal bool SortDestination( int raftid )
         {
-            List<Unit> rl = Controller.GetFogList( raftid );
-            if( rl.Count < 2 )
-            {
-                Kill();
-                return false;
-            }
-            int idd = Random.Range( 0, rl.Count );
-            EndUnit = rl[ idd ];
-            if( Lighting2 )
-                Lighting2.EndUnit = rl[ idd ];
+            //gg //List<Unit> rl = Controller.GetFogList( raftid );
+            //if( rl.Count < 2 )
+            //{
+            //    Kill();
+            //    return false;
+            //}
+            //int idd = Random.Range( 0, rl.Count );
+            //EndUnit = rl[ idd ];
+            //if( Lighting2 )
+            //    Lighting2.EndUnit = rl[ idd ];
             return true;
         }
-        public void KillFog( Unit un )
+       public void KillFog( Unit un )
         {
             List<Unit> rl = Controller.GetFogList( un.Control.RaftGroupID );
-            if( rl.Count < 2 )
+            if(rl.Count< 2 )
             {
                 Kill();
                 return;
             }
             SortDestination( un.Control.RaftGroupID );
-        }
     }
+}
 }

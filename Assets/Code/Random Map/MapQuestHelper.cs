@@ -1,9 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using System.Runtime.InteropServices.ComTypes;
-using Sirenix.OdinInspector.Demos;
+//using Sirenix.OdinInspector.Demos;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

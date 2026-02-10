@@ -369,7 +369,7 @@ public partial class Controller : MonoBehaviour
              else
              {
                  G.Hero.transform.position = new Vector3( G.Hero.Pos.x, G.Hero.Pos.y, G.Hero.transform.position.z );
-                 G.Hero.Spr.transform.localPosition = new Vector3( 0, 0, G.Hero.Spr.transform.localPosition.z );
+                 G.Hero.NSpr.transform.localPosition = new Vector3( 0, 0, G.Hero.NSpr.transform.localPosition.z );
                  G.Hero.Graphic.transform.localPosition = new Vector3( 0, 0, G.Hero.Graphic.transform.localPosition.z );
              }
          }
@@ -601,7 +601,7 @@ public partial class Controller : MonoBehaviour
         //    Map.I.Hero.Body.ReceiveDamage( 9999, EDamageType.MELEE, Unit, null );
         //    FallingAnimation.CreateAnim( ( int ) ETileType.INACTIVE_HERO, 0, new 
         //    Vector3( fr.Pos.x, fr.Pos.y, -5 ), fr.transform.eulerAngles );
-        //    G.Hero.Spr.gameObject.SetActive( false );
+        //    G.Hero.NSpr.gameObject.SetActive( false );
         //}
 
         //float ppFactor = 1;
@@ -1040,9 +1040,9 @@ public partial class Controller : MonoBehaviour
 
     public void SnowSlideTowards( Vector2 from, Vector2 to, Unit bumper )
     {
-        float current = Unit.Body.RigidBody.velocity.magnitude;
+        float current = Unit.Body.RigidBody.linearVelocity.magnitude;
         current *= 50;
-        Unit.Body.RigidBody.velocity = Vector2.zero;
+        Unit.Body.RigidBody.linearVelocity = Vector2.zero;
         Vector2 spd = Util.GetTargetUnitVector( from, to );
         spd.Normalize();
         float def = Map.I.RM.RMD.DefaultSnowSpeed;
@@ -1098,7 +1098,7 @@ public partial class Controller : MonoBehaviour
         }
 
         Map.I.HeroSwordCollider.enabled = false;
-        Unit.Body.RigidBody.velocity = Vector2.zero;
+        Unit.Body.RigidBody.linearVelocity = Vector2.zero;
         G.Hero.CircleCollider.enabled = false;
         SnowSliding = false;
         Controller.InputVectorList = new List<Vector3>();
@@ -1109,9 +1109,9 @@ public partial class Controller : MonoBehaviour
         Map.I.StartCubeDeath( false, false, "Hero Death 2" );
         if( tile == ETileType.WATER )
             MasterAudio.PlaySound3DAtVector3( "Water Splash", transform.position );                  // Sound FX  
-        FallingAnimation.CreateAnim( G.Hero.Spr.spriteId, 1, new
+        FallingAnimation.CreateAnim( G.Hero.NSpr.spriteId, 1, new
         Vector3( G.Hero.Pos.x, G.Hero.Pos.y, -5 ), G.Hero.transform.eulerAngles, .4f, 1.1f );
-        G.Hero.Spr.gameObject.SetActive( false );
+        G.Hero.NSpr.gameObject.SetActive( false );
     }
     public bool UpdateSnowSliding()
     {
@@ -1123,7 +1123,7 @@ public partial class Controller : MonoBehaviour
         {
             if( Map.I.CheckArrowBlockFromTo( OldPos, Unit.Pos, Unit ) )
             {
-                Unit.Body.RigidBody.velocity = Vector2.zero;
+                Unit.Body.RigidBody.linearVelocity = Vector2.zero;
                 Unit.transform.position = new Vector3( ( int ) OldPos.x,
                 ( int ) OldPos.y, Unit.transform.position.z );
                 return false;
@@ -1132,9 +1132,9 @@ public partial class Controller : MonoBehaviour
             return false;
         }
         if( snow == null ) return false;
-        Unit.Body.RigidBody.drag = 0;
+        Unit.Body.RigidBody.linearDamping = 0;
 
-        LastVelocity = Unit.Body.RigidBody.velocity;
+        LastVelocity = Unit.Body.RigidBody.linearVelocity;
 
         SlideTimeCount += Time.deltaTime;                                                                     // Reactivates hero collider which was deactivated to avoid collision right after entering snowto avoid 
         if( SlideTimeCount > 0.1f )
@@ -1189,13 +1189,13 @@ public partial class Controller : MonoBehaviour
         if( Map.I.GetUnit( ETileType.SAND, OldPos ) )
         if( Map.I.GetUnit( ETileType.SNOW, Unit.Pos ) )
         {
-            Unit.Body.RigidBody.velocity =
-            Unit.Body.RigidBody.velocity.normalized * ( Map.I.RM.RMD.DefaultSnowSpeed / 50 );                            //From Sand to Snow minimum Speed Limit
+            Unit.Body.RigidBody.linearVelocity =
+            Unit.Body.RigidBody.linearVelocity.normalized * ( Map.I.RM.RMD.DefaultSnowSpeed / 50 );                            //From Sand to Snow minimum Speed Limit
         }
 
         SnowEnterFrameCount++;
-        if( Unit.Body.RigidBody.velocity.magnitude > Map.I.RM.RMD.SnowSpeedLimit )
-            Unit.Body.RigidBody.velocity = Unit.Body.RigidBody.velocity.normalized * Map.I.RM.RMD.SnowSpeedLimit;        // Snow Speed Limit
+        if( Unit.Body.RigidBody.linearVelocity.magnitude > Map.I.RM.RMD.SnowSpeedLimit )
+            Unit.Body.RigidBody.linearVelocity = Unit.Body.RigidBody.linearVelocity.normalized * Map.I.RM.RMD.SnowSpeedLimit;        // Snow Speed Limit
 
         SnowSliding = true;
         Map.I.ConsecutivePlatformSteps = 0;
@@ -1216,7 +1216,7 @@ public partial class Controller : MonoBehaviour
             Unit arrow = Map.I.GetUnit( ETileType.ARROW, new Vector2( posx, posy ) );
             Unit ga2 = Map.I.GetUnit( new Vector2( posx, posy ), ELayerType.GAIA2 );
 
-            Vector2 dir = Unit.Body.RigidBody.velocity;
+            Vector2 dir = Unit.Body.RigidBody.linearVelocity;
             float angle = Mathf.Atan2( dir.y, dir.x ) * Mathf.Rad2Deg;
             EDirection dr = Util.GetAngleDirection( angle );
             Vector2 tt = new Vector2( posx, posy );
@@ -1253,7 +1253,7 @@ public partial class Controller : MonoBehaviour
             {
                 if( Map.I.CheckArrowBlockFromTo( OldPos, Unit.Pos, Unit ) )
                 {
-                    Unit.Body.RigidBody.velocity = Vector2.zero;
+                    Unit.Body.RigidBody.linearVelocity = Vector2.zero;
                     return false;
                 }
 
@@ -1270,7 +1270,7 @@ public partial class Controller : MonoBehaviour
             if( res == false ) Map.I.StartCubeDeath();
         }
 
-        if( Unit.Body.RigidBody.velocity == Vector2.zero )                                                // no sound FX if stopped
+        if( Unit.Body.RigidBody.linearVelocity == Vector2.zero )                                                // no sound FX if stopped
             MasterAudio.StopAllOfSound( "Snow Slide" );
         return true;
     }
@@ -1297,7 +1297,7 @@ public partial class Controller : MonoBehaviour
             {
                 MasterAudio.PlaySound3DAtVector3( "Bump", transform.position );
                 Unit.transform.position = new Vector3( Unit.Pos.x, Unit.Pos.y, Unit.transform.position.z );
-                Unit.Body.RigidBody.velocity = Vector2.zero;
+                Unit.Body.RigidBody.linearVelocity = Vector2.zero;
                 Controller.InputVectorList = new List<Vector3>();
                 Controller.PunchOrigin = puncher.Pos;
                 Vector2 dir = Util.GetRelativePosition( EDirection.N, puncher.Dir );
@@ -1335,7 +1335,7 @@ public partial class Controller : MonoBehaviour
         if( mn && mn.ValidMonster )
         {
             Map.I.StartCubeDeath();
-            G.Hero.Spr.gameObject.SetActive( false );
+            G.Hero.NSpr.gameObject.SetActive( false );
         }
     }
 
@@ -1369,7 +1369,7 @@ public partial class Controller : MonoBehaviour
                 Vector2 ddd = Manager.I.U.DirCord[ ( int ) car ];
                 Vector2 fr = new Vector2( posx, posy ) - ddd;
                 bool res = UpdateMudObjectPush( true, fr, new Vector2( posx, posy ) );                           // Mud Object push x snow
-                if( res ) G.Hero.Body.RigidBody.velocity = LastVelocity;
+                if( res ) G.Hero.Body.RigidBody.linearVelocity = LastVelocity;
             }
         }
         Unit un = Map.I.GetUnit( new Vector2( posx, posy ), ELayerType.MONSTER );
@@ -1469,9 +1469,9 @@ public partial class Controller : MonoBehaviour
 
     public void SandSlideTowards( Vector2 from, Vector2 to, Unit bumper )
     {
-        float current = Unit.Body.RigidBody.velocity.magnitude;
+        float current = Unit.Body.RigidBody.linearVelocity.magnitude;
         current *= 50;
-        Unit.Body.RigidBody.velocity = Vector2.zero;
+        Unit.Body.RigidBody.linearVelocity = Vector2.zero;
         Vector2 spd = Util.GetTargetUnitVector( from, to );
         spd.Normalize();
         float def = 200;// Map.I.RM.RMD.DefaultSandSpeed;
@@ -1548,7 +1548,7 @@ public partial class Controller : MonoBehaviour
         }
 
         if( tosnow == null )
-            Unit.Body.RigidBody.velocity = Vector2.zero;
+            Unit.Body.RigidBody.linearVelocity = Vector2.zero;
 
         G.Hero.transform.rotation = new Quaternion( 0, 0, 0, 0 );
         Map.I.HeroSwordCollider.enabled = false;
@@ -1560,14 +1560,14 @@ public partial class Controller : MonoBehaviour
     public bool UpdateSandSliding()
     {
         if( Map.I.RM.GameOver ) return false;
-        if( Map.I.FreeCamMode ) { Unit.Body.RigidBody.velocity = Vector3.zero; return false; }
+        if( Map.I.FreeCamMode ) { Unit.Body.RigidBody.linearVelocity = Vector3.zero; return false; }
         if( Manager.I.GameType == EGameType.NAVIGATION ) return false;
         Unit Sand = Map.I.GetUnit( ETileType.SAND, Unit.Pos );
         if( Sand == null )
         {
             if( Map.I.CheckArrowBlockFromTo( OldPos, Unit.Pos, Unit ) )
             {
-                Unit.Body.RigidBody.velocity = Vector2.zero;
+                Unit.Body.RigidBody.linearVelocity = Vector2.zero;
                 Unit.transform.position = new Vector3( ( int ) OldPos.x,
                 ( int ) OldPos.y, Unit.transform.position.z );
                 return false;
@@ -1578,7 +1578,7 @@ public partial class Controller : MonoBehaviour
         if( Manager.I.GameType == EGameType.CUBES )
             MasterAudio.PlaySound3DFollowTransform( "Sand Slide", transform );
         MasterAudio.StopAllOfSound( "Snow Slide" );
-        Unit.Body.RigidBody.drag = 80;
+        Unit.Body.RigidBody.linearDamping = 80;
 
         SlideTimeCount += Time.deltaTime;                                        // Reactivates hero collider which was deactivated to avoid collision right after entering sand avoid . on sabd this allows diagonal perfection slide good for puzzles
         if( SlideTimeCount > 0.1f )
@@ -1587,7 +1587,7 @@ public partial class Controller : MonoBehaviour
         }
 
         float bumptime = 0.7f;
-        if( BumperTimeCount < bumptime ) Unit.Body.RigidBody.drag = 0.15f;
+        if( BumperTimeCount < bumptime ) Unit.Body.RigidBody.linearDamping = 0.15f;
 
         BumperTimeCount += Time.fixedDeltaTime;
 
@@ -1617,7 +1617,7 @@ public partial class Controller : MonoBehaviour
 
         if( add != Vector2.zero )
         {
-            Unit.Body.RigidBody.drag = 0;
+            Unit.Body.RigidBody.linearDamping = 0;
             MasterAudio.PlaySound3DFollowTransform( "Sand Step", transform );
             add.Normalize();
             add *= 100;
@@ -1639,8 +1639,8 @@ public partial class Controller : MonoBehaviour
 
         float lim = 3;
         SnowEnterFrameCount = 0;
-        if( Unit.Body.RigidBody.velocity.magnitude > lim )
-            Unit.Body.RigidBody.velocity = Unit.Body.RigidBody.velocity.normalized * lim;                                // Sand Speed Limit
+        if( Unit.Body.RigidBody.linearVelocity.magnitude > lim )
+            Unit.Body.RigidBody.linearVelocity = Unit.Body.RigidBody.linearVelocity.normalized * lim;                                // Sand Speed Limit
 
         Map.I.HeroSwordCollider.enabled = false;
         if( Map.I.IsHeroMeleeAvailable() )
@@ -1674,7 +1674,7 @@ public partial class Controller : MonoBehaviour
                 MasterAudio.PlaySound3DAtVector3( "Bump", transform.position );
                 Unit.transform.position = new Vector3( Unit.Pos.x, Unit.Pos.y, Unit.transform.position.z );
                 Vector2 dir = Util.GetRelativePosition( EDirection.N, puncher.Dir );
-                iTween.PunchPosition( puncher.Graphic.gameObject, Unit.Body.RigidBody.velocity * 0.1f, .5f );
+                iTween.PunchPosition( puncher.Graphic.gameObject, Unit.Body.RigidBody.linearVelocity * 0.1f, .5f );
                 SandSlideTowards( puncher.Pos, puncher.Pos + dir, puncher );
             }
         }
@@ -1719,7 +1719,7 @@ public partial class Controller : MonoBehaviour
             {
                 if( Map.I.CheckArrowBlockFromTo( OldPos, Unit.Pos, Unit ) )
                 {
-                    Unit.Body.RigidBody.velocity = Vector2.zero;
+                    Unit.Body.RigidBody.linearVelocity = Vector2.zero;
                     return false;
                 }
                 TurnTime = 0;
@@ -1765,7 +1765,7 @@ public partial class Controller : MonoBehaviour
     }
     public void ArrowSlideStop( bool snow )
     {
-        Unit.Body.RigidBody.velocity = Vector2.zero;
+        Unit.Body.RigidBody.linearVelocity = Vector2.zero;
         if( snow )
             Unit.transform.position = OldSnowSlidingPosition;
         else

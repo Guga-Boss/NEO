@@ -1132,7 +1132,7 @@ public class FPow : MonoBehaviour
 
         for( int i = 0; i < 8; i++ )
         {
-            tent.Body.BabySprite[ i ].gameObject.SetActive( false );                      // Disable all
+            tent.Body.NBabySprite[ i ].gameObject.SetActive( false );                      // Disable all
             tent.Body.TextList[ i ].gameObject.SetActive( false );
         }
 
@@ -1147,7 +1147,7 @@ public class FPow : MonoBehaviour
             if( slot < 0 || slot >= 8 )
                 continue;
 
-            tent.Body.BabySprite[ slot ].gameObject.SetActive( true );                    // enable tags
+            tent.Body.NBabySprite[ slot ].gameObject.SetActive( true );                    // enable tags
             tent.Body.TextList[ slot ].gameObject.SetActive( true );
             tent.Body.TextList[ slot ].text = "T" + G.Farm.TagPow[ i ].SortTagID;         // Power Level text
         }

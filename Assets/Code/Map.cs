@@ -1,11 +1,13 @@
-﻿using UnityEngine;
+using DarkTonic.MasterAudio;
+using DigitalRuby.LightningBolt;
+using PathologicalGames;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using DarkTonic.MasterAudio;
-using PathologicalGames;
 using System.Linq;
-using DigitalRuby.LightningBolt;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 
 
 //Todo List before next release
@@ -21,17 +23,19 @@ using DigitalRuby.LightningBolt;
 // StumpyStrust for wodden perk back
 // Muska666 for cashier soundfx
 
-public enum ESpriteCol
-{
-    NONE = -1, MAP_PLAY, MONSTER_ANIM, ITEM
-}
 
 [System.Serializable]
 public partial class Map : MonoBehaviour
 {
     #region Variables
     public static Map I;
+
     [TabGroup( "Main" )]
+    public MyTilemap TransT;
+    [TabGroup( "Main" )]
+    public MyTilemap TM;
+    [ TabGroup( "Main" )]
+    [ListDrawerSettings( ShowIndexLabels = true )]
     public Unit[] SharedObjectsList;
     [TabGroup( "Main" )]
     [HideLabel, ReadOnly]
@@ -278,6 +282,22 @@ public partial class Map : MonoBehaviour
         Map.I.ZoomMode = RM.RMD.DefaultZoom;
  	}
 
+#if UNITY_EDITOR
+    [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton
+    static void InitSingleton()
+    {
+        EditorApplication.delayCall += () =>
+        {
+            if( !Application.isPlaying )
+            {
+                GameObject mapGO = GameObject.Find("----------------Map");
+                if( mapGO != null )
+                    I = mapGO.GetComponent<Map>();
+            }
+        };
+    }
+#endif
+
     public void Save()
     {
         GS.W.Write( ( int ) PlatformEntranceMove );
@@ -521,7 +541,7 @@ public partial class Map : MonoBehaviour
         AltarBonusStruct.BumpTimeCount = 0;
         Map.I.PlatformEntranceMove = EActionType.NONE;
         Controller.UpdatePlatformEntranceIndicator();
-        G.Hero.Body.RigidBody.velocity = Vector2.zero;
+        G.Hero.Body.RigidBody.linearVelocity = Vector2.zero;
         G.Hero.Body.RigidBody.isKinematic = false;
         G.Hero.CircleCollider.enabled = false;
         G.HS = null;
@@ -2321,7 +2341,7 @@ public partial class Map : MonoBehaviour
         float sc = 1;
         if( TurnTime <= .5f || Controller.SnowSliding || Controller.SandSliding )
         {
-            Util.SmoothRotate( G.Hero.Spr.transform, G.Hero.Dir, 30 );                               // Animate hero rotation
+            Util.SmoothRotate( G.Hero.NSpr.transform, G.Hero.Dir, 30 );                               // Animate hero rotation
             Util.SmoothRotate( G.Hero.Body.Shadow.transform, G.Hero.Dir, 30 );
         }
 
@@ -2334,7 +2354,7 @@ public partial class Map : MonoBehaviour
             if( Hero.Control.Floor >= 2 && Map.GMine( EMineType.BRIDGE, Hero.Pos ) ) z= -2f;         // hero over bridge z pos                              
             if( Hero.Control.Floor == 1 && Map.GMine( EMineType.LADDER, Hero.Pos ) ) z = -2f;        // hero over ladder z pos               
             if( Hero.Control.Floor == 4 ) z = -2f;  
-            Hero.Spr.transform.localPosition = new Vector3( 0, 0, z );               // hero below bridge z pos
+            Hero.NSpr.transform.localPosition = new Vector3( 0, 0, z );               // hero below bridge z pos
         }
 
         int sprite = 0;
@@ -2349,33 +2369,33 @@ public partial class Map : MonoBehaviour
             int bs = 32;
             if( Hero.Control.LastMoveType != EMoveType.ROTATE )
             if( Util.IsEven( LevelTurnCount ) ) bs = 34;
-            G.Hero.Spr.spriteId = 256 + bs;
+            G.Hero.NSpr.spriteId = 256 + bs;
             G.Hero.Body.Shadow.spriteId = 256 + bs + 1;
         }
         else
         if( sprite == 1 )   // Bow and arrow  
         {
-            G.Hero.Spr.spriteId = 256;
+            G.Hero.NSpr.spriteId = 256;
             G.Hero.Body.Shadow.spriteId = 256 + 1;
             if( Map.Stepping() == false )
             if( G.Hero.RangedAttack.SpeedTimeCounter < Util.Percent( 75, tot ) )   // Bow shot
             {
-                G.Hero.Spr.spriteId = 258;
+                G.Hero.NSpr.spriteId = 258;
                 G.Hero.Body.Shadow.spriteId = 258 + 1;
             }
         }
         else
         if( sprite == 2 )    // Melee
         {
-            G.Hero.Spr.spriteId = 256 + 64;
+            G.Hero.NSpr.spriteId = 256 + 64;
             G.Hero.Body.Shadow.spriteId = 256 + 64 + 1;
         }
 
         if( KickTimer > 0 )                                                                                       // Kick Sprite
         {
-            G.Hero.Spr.spriteId = 293;
+            G.Hero.NSpr.spriteId = 293;
             EDirection mov = Util.GetTargetUnitDir( G.Hero.Control.OldPos, G.Hero.Pos );
-            G.Hero.Spr.transform.eulerAngles = Util.GetRotationAngleVector( mov );
+            G.Hero.NSpr.transform.eulerAngles = Util.GetRotationAngleVector( mov );
             G.Hero.Body.Shadow.gameObject.SetActive( false );
             sc = 1.4f;
         }
@@ -2387,14 +2407,14 @@ public partial class Map : MonoBehaviour
         if( Item.GetNum( ItemType.Res_Mining_Points ) >= 1 )
         if( GFU( ETileType.MINE, G.Hero.Pos ) == null )
         {
-            G.Hero.Spr.spriteId = 258 + 64;
+            G.Hero.NSpr.spriteId = 258 + 64;
             G.Hero.Body.Shadow.spriteId = 258 + 64 + 1;
             HeroPickaxeSprite.gameObject.SetActive( true );
         }
 
         if( FishingMode != EFishingPhase.NO_FISHING )                                                             // Hero fishing
         {
-            G.Hero.Spr.spriteId = 258 + 64;
+            G.Hero.NSpr.spriteId = 258 + 64;
             G.Hero.Body.Shadow.spriteId = 258 + 64 + 1;
             HeroFishingPoleSprite.gameObject.SetActive( true );
         }
@@ -2410,8 +2430,8 @@ public partial class Map : MonoBehaviour
         
         if( Map.I.CubeDeath )                                                                                      // Dead Sprite
         {
-            G.Hero.Spr.spriteId = 294;
-            G.Hero.Spr.transform.eulerAngles = new Vector3( 0, 0, 0 );
+            G.Hero.NSpr.spriteId = 294;
+            G.Hero.NSpr.transform.eulerAngles = new Vector3( 0, 0, 0 );
             G.Hero.Body.Shadow.gameObject.SetActive( false );
             sc = 1.2f;
             G.Hero.Graphic.transform.position = G.Hero.transform.position;
@@ -2422,7 +2442,7 @@ public partial class Map : MonoBehaviour
             G.Hero.RotateTo( G.Hero.Dir );
         }
 
-        Hero.Spr.scale = new Vector2( sc, sc );                                                                   // sprite Scale
+        Hero.NSpr.scale = new Vector2( sc, sc );                                                                   // sprite Scale
 
         //Unit pl = GetUnit( ETileType.TRAP, Hero.Pos );                                                            // Hero att speed bonus text info
         //if( pl == null )
@@ -2449,13 +2469,13 @@ public partial class Map : MonoBehaviour
         if( G.Hero.Body.InvulnerabilityFactor <= 0 )
         {
             HeroDeathTimer = time;
-            G.Hero.Body.RigidBody.velocity = Vector2.zero;
+            G.Hero.Body.RigidBody.linearVelocity = Vector2.zero;
             Controller.InputVectorList = new List<Vector3>();
             Controller.InputVector = Vector2.zero;
             InvalidateInputTimer = .4f;
             if( sprite )
             {
-                G.Hero.Spr.gameObject.SetActive( false );                                                             // disables sprite for better animation
+                G.Hero.NSpr.gameObject.SetActive( false );                                                             // disables sprite for better animation
                 G.Hero.Body.Shadow.gameObject.SetActive( false );
             }
             return true;
@@ -2466,18 +2486,18 @@ public partial class Map : MonoBehaviour
     {
         if( Manager.I.GameType == EGameType.NAVIGATION ) return;
         if( Map.I.RM.DungeonDialog.gameObject.activeSelf ) return;                                 // to avoid navigation map dying bug
-        G.Hero.Body.RigidBody.velocity = Vector2.zero;
+        G.Hero.Body.RigidBody.linearVelocity = Vector2.zero;
         Controller.InputVectorList = new List<Vector3>();
         Controller.InputVector = Vector2.zero;
         Map.I.InvalidateInputTimer = .4f;
         Map.I.CubeDeath = true;
-        G.Hero.Spr.spriteId = 294;
-        G.Hero.Spr.transform.eulerAngles = Vector2.zero;
+        G.Hero.NSpr.spriteId = 294;
+        G.Hero.NSpr.transform.eulerAngles = Vector2.zero;
 
         if( fx != "" )
             MasterAudio.PlaySound3DAtVector3( fx, G.Hero.transform.position );
         UI.I.EnableOverlay( new Color( 1, 0, 0, .4f ), 1.5f );
-        Vector2 pt = G.Hero.Spr.transform.position;
+        Vector2 pt = G.Hero.NSpr.transform.position;
         if( showBloodOnSprPosition == false )
             pt = G.Hero.transform.position;
         if( bloodfx )
@@ -3316,13 +3336,13 @@ public partial class Map : MonoBehaviour
         if( pos.x == -1 ) Debug.LogError( "Hero Start Pos not Set on level: " +
                                            Quest.CurrentLevel );        
         if( init ) ChangeHero( hero, false );
-        Hero.Spr.transform.localPosition = new Vector3( 0, 0, -1.9f );
+        Hero.NSpr.transform.localPosition = new Vector3( 0, 0, -1.9f );
 		Hero.Control.ApplyMove( new Vector2( -1, -1 ), pos );
         Hero.Control.OldPos = new Vector2( pos.x, pos.y );
         Hero.Control.LastPos = new Vector2( pos.x, pos.y );
         Hero.Control.AnimationOrigin = new Vector2( pos.x, pos.y );
-        Hero.Spr.gameObject.SetActive( true );
-        Hero.Spr.gameObject.SetActive( true );
+        Hero.NSpr.gameObject.SetActive( true );
+        Hero.NSpr.gameObject.SetActive( true );
         Hero.Body.Shadow.gameObject.SetActive( true );
 		HeroIsDead = false;
         if( restartHP ) Hero.Body.Hp = Hero.Body.TotHp; 
@@ -4373,7 +4393,7 @@ public partial class Map : MonoBehaviour
         int sort = Util.GetRandomDir();
         if( drl.Count > 0 ) sort = Random.Range( 0, drl.Count );
         G.Hero.RotateTo( ( EDirection ) drl[ sort ] );                                                                      // random dir       
-        G.Hero.Spr.transform.eulerAngles = Util.GetRotationAngleVector( G.Hero.Dir );
+        G.Hero.NSpr.transform.eulerAngles = Util.GetRotationAngleVector( G.Hero.Dir );
         G.Hero.Body.Shadow.transform.eulerAngles = Util.GetRotationAngleVector( G.Hero.Dir );
         MasterAudio.PlaySound3DAtVector3( "Hero Jump", G.Hero.Pos );                                                       // sound FX
     }

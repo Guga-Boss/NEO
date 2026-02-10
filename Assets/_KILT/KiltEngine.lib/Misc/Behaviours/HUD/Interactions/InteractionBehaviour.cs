@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
@@ -532,12 +532,12 @@ public class InteractionBehaviour : MonoBehaviour , UnityEngine.EventSystems.IEv
 			EventTrigger.Entry v_entryToUpdate = null;
 			foreach(EventTrigger.Entry v_entry in p_eventTrigger.triggers)
 			{
-				if(v_entry.eventID == p_type)
-				{
-					v_entryToUpdate = v_entry;
-					break;
-				}
-			}
+                // gg if(v_entry.eventID == p_type)
+                {
+                    // gg       v_entryToUpdate = v_entry;
+                    // gg       break;
+                }
+            }
 			if(v_entryToUpdate == null)
 			{
 				v_entryToUpdate = CreateEventEntry(p_type);
@@ -551,8 +551,8 @@ public class InteractionBehaviour : MonoBehaviour , UnityEngine.EventSystems.IEv
 	private EventTrigger.Entry CreateEventEntry(EventTriggerType p_type)
 	{
 		EventTrigger.Entry v_entry = new EventTrigger.Entry();
-		v_entry.eventID = p_type;
-		TryAddEventListener(v_entry);
+        // gg v_entry.eventID = p_type;
+        TryAddEventListener( v_entry);
 		return v_entry;
 	}
 

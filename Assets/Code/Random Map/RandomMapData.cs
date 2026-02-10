@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -624,8 +624,6 @@ public class RandomMapData : MonoBehaviour
     [TabGroup( "3", "Farm" )]
     public int BlockerPlagueMonsterBaseCost = 5;
     public static int PlayCount = 0;
-
-
 
     public void Copy( RandomMapData rm, bool all = true )
     {

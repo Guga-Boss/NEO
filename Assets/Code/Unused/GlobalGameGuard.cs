@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 using UnityEngine;
 #if UNITY_STANDALONE_WIN
 #endif
-using UnityEngine.UI;
+// ggusing UnityEngine.UI;
 
 public class GlobalGameGuard : MonoBehaviour
 {
@@ -115,10 +115,10 @@ public class GlobalGameGuard : MonoBehaviour
     private System.Collections.IEnumerator ShowErrorCanvas( string message )
     {
         GameObject canvasGO = new GameObject( "ErrorCanvas" );                     // Create canvas
-        Canvas canvas = canvasGO.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvasGO.AddComponent<CanvasScaler>();
-        canvasGO.AddComponent<GraphicRaycaster>();
+        // gg Canvas canvas = canvasGO.AddComponent<Canvas>();
+        // gg canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        // gg canvasGO.AddComponent<CanvasScaler>();
+        // gg canvasGO.AddComponent<GraphicRaycaster>();
 
         GameObject panelGO = new GameObject( "Panel" );
         panelGO.transform.SetParent( canvasGO.transform );
@@ -128,17 +128,17 @@ public class GlobalGameGuard : MonoBehaviour
         rt.offsetMin = Vector2.zero;
         rt.offsetMax = Vector2.zero;
 
-        UnityEngine.UI.Image img = panelGO.AddComponent<UnityEngine.UI.Image>();
-        img.color = new Color( 0, 0, 0, 0.75f );                                        // Semi-transparent background
+        // gg UnityEngine.UI.Image img = panelGO.AddComponent<UnityEngine.UI.Image>();
+        // gg  img.color = new Color( 0, 0, 0, 0.75f );                                        // Semi-transparent background
 
         GameObject textGO = new GameObject( "Text" );
         textGO.transform.SetParent( panelGO.transform );
-        UnityEngine.UI.Text txt = textGO.AddComponent<UnityEngine.UI.Text>();
-        txt.text = "Critical error detected!\n\n" + message + 
-        "\nThe game will close to prevent data loss.\n\n" + MyMessage;                  // English message
-        txt.alignment = TextAnchor.MiddleCenter;
-        txt.font = Resources.GetBuiltinResource<Font>( "Arial.ttf" );
-        txt.color = Color.white;
+        // gg   UnityEngine.UI.Text txt = textGO.AddComponent<UnityEngine.UI.Text>();
+        // gg    txt.text = "Critical error detected!\n\n" + message + 
+        // gg     "\nThe game will close to prevent data loss.\n\n" + MyMessage;                  // English message
+        // gg    txt.alignment = TextAnchor.MiddleCenter;
+        // gg   txt.font = Resources.GetBuiltinResource<Font>( "Arial.ttf" );
+        // gg     txt.color = Color.white;
 
         RectTransform txtRt = textGO.GetComponent<RectTransform>();
         txtRt.anchorMin = Vector2.zero;

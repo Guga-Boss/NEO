@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq; 
@@ -9,6 +9,7 @@ using Sirenix.OdinInspector;
 using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
+using System;
 
 public enum EMapTemplate
 {
@@ -282,6 +283,10 @@ public class MapSaver : MonoBehaviour
             RandomMapData rm = GetRM().RMList[ CurrentAdventure ];
             SubFolder = rm.QuestHelper.SubFolder;
         }
+
+        MyTilemap.Load( tm, Map.I.TM ); 
+
+
         return true;
     }
     public void Save()
@@ -310,8 +315,8 @@ public class MapSaver : MonoBehaviour
 
         if( Converting == false )
             CopyToRelease( nm, fn, file );                                                                        // Copy to PC version    
-        if( Application.isPlaying == false )
-            SubFolder = rm.QuestHelper.SubFolder;
+        //ggif( Application.isPlaying == false )
+        //    SubFolder = rm.QuestHelper.SubFolder;
     }
     private void CopyToRelease(string nm, string fn, string file )
     {
@@ -456,7 +461,7 @@ public class MapSaver : MonoBehaviour
         for( int rmid = 0; rmid < rm.RMList.Count; rmid++ )                                                                                       // Check for Duplicated Goal ID
         {
             string folder = Application.dataPath + "/Resources/Map Templates/" + rm.RMList[ rmid ].QuestHelper.SubFolder + "/" + rm.RMList[ rmid ].QuestHelper.Signature + "/";
-            string[] fl = ES2.GetFiles( folder, "*.NEO" );
+            string[] fl = Directory.GetFiles(folder, "*.NEO");
             List<string> list = fl.ToList();
 
             CubeData.available = rm.RMList[ rmid ].Available;
@@ -479,25 +484,23 @@ public class MapSaver : MonoBehaviour
         MapName = oldm;
         FolderName = oldfolder;
         Converting = false;
-    }    
+    }
     #endregion
-    #endif
+#endif
 
-    public string[] GetFiles()
+    public string[ ] GetFiles()
     {
-        string folder = Application.dataPath + "/Resources/Map Templates/" + FolderName + "/";
-        string[ ] fl = ES2.GetFiles( folder, "*.NEO" );
-        List<string> list = fl.ToList();
+        string folder = Application.dataPath + "/Resources/Map Templates/" + FolderName + "/";       // full folder path
+        if( !System.IO.Directory.Exists( folder ) ) return new string[ 0 ];                          // safety check
 
-        var sortedWords = from w in list orderby w select w;
-        sortedWords = sortedWords.OrderBy( x => x.Length );
-        
-        //Debug.Log("The sorted list of words:");
-        //foreach( var w in sortedWords )
-        //{
-        //    Debug.Log( w );
-        //}
-        return sortedWords.ToArray();
+        string[] fl = System.IO.Directory.GetFiles(folder, "*.NEO");                                 // get all .NEO files
+        List<string> list = new List<string>(fl);                                                    // convert to list
+                                                                                                     // sort alphabetically first
+        list.Sort( StringComparer.Ordinal );
+                                                                                                     // then sort by length
+        list = list.OrderBy( x => x.Length ).ToList();                                               // optional debug
+                                                                                                     // foreach(var w in list) Debug.Log(w);
+        return list.ToArray();                                                                       // return sorted array
     }
 
     public void PrevMapCallBack()
@@ -506,27 +509,33 @@ public class MapSaver : MonoBehaviour
         if( CurrentCube != "" )
         {
             for( int i = 0; i < files.Length; i++ )
-            if( files[ i ] == CurrentCube + ".NEO" )
             {
-                if( i == 0 )
+                string fileName = System.IO.Path.GetFileName(files[i]);                                         // get just the file name
+                if( fileName == CurrentCube + ".NEO" )
                 {
-                    CurrentCube = files[ files.Length - 1 ];
+                    if( i == 0 )
+                        CurrentCube = System.IO.Path.GetFileNameWithoutExtension( files[ files.Length - 1 ] );  // wrap to last
+                    else
+                        CurrentCube = System.IO.Path.GetFileNameWithoutExtension( files[ i - 1 ] );             // previous file
+                    break;                                                                                      // stop after match
                 }
-                else
-                    CurrentCube = files[ i - 1 ];
             }
         }
         else
-            CurrentCube = "Cube 1";
-
-        CurrentCube = CurrentCube.Replace( ".NEO", "" ); 
+           CurrentCube = "Cube 1";                                                                              // default
         MapName = CurrentCube;
-        CurrentAdventureName = GetRM().RMList[ ( int ) CurrentAdventure ].name;
-        MapQuestHelper hp = GetRM().RMList[ CurrentAdventure ].GetComponent<MapQuestHelper>();
+                                                                                                                // ensure CurrentAdventure is valid
+        if( CurrentAdventure < 0 || CurrentAdventure >= GetRM().RMList.Count )
+            CurrentAdventure = 0;
+
+        CurrentAdventureName = GetRM().RMList[ (int) CurrentAdventure ].name;
+
+        MapQuestHelper hp = GetRM().RMList[CurrentAdventure].GetComponent<MapQuestHelper>();
         FolderName = hp.SubFolder + "/" + hp.Signature;
         Load();
         hp.UpdateExternaEditorInfo();
     }
+
 
     public void NextMapCallBack()
     {
@@ -534,24 +543,30 @@ public class MapSaver : MonoBehaviour
         if( CurrentCube != "" )
         {
             for( int i = 0; i < files.Length; i++ )
-                if( files[ i ] == CurrentCube + ".NEO" )
+            {
+                string fileName = System.IO.Path.GetFileName(files[i]);                                           // get just the file name
+                if( fileName == CurrentCube + ".NEO" )
                 {
                     if( i == files.Length - 1 )
-                    {
-                        CurrentCube = files[ 0 ];
-                    }
+                        CurrentCube = System.IO.Path.GetFileNameWithoutExtension( files[ 0 ] );                   // wrap around
                     else
-                        CurrentCube = files[ i + 1 ];
+                        CurrentCube = System.IO.Path.GetFileNameWithoutExtension( files[ i + 1 ] );               // next file
+                    break;                                                                                        // important, stop loop after match
                 }
+            }
         }
         else
-            CurrentCube = "Cube 1";
-
-        CurrentCube = CurrentCube.Replace( ".NEO", "" ); 
+            CurrentCube = "Cube 1";                                                                               // default
         MapName = CurrentCube;
-        CurrentAdventureName = GetRM().RMList[ ( int ) CurrentAdventure ].name;
-        MapQuestHelper hp = GetRM().RMList[ CurrentAdventure ].GetComponent<MapQuestHelper>();
-        FolderName = hp.SubFolder + "/" + hp.Signature;   
+
+                                                                                                                  // make sure CurrentAdventure is within bounds
+        if( CurrentAdventure < 0 || CurrentAdventure >= GetRM().RMList.Count )
+            CurrentAdventure = 0;
+
+        CurrentAdventureName = GetRM().RMList[ (int) CurrentAdventure ].name;
+
+        MapQuestHelper hp = GetRM().RMList[CurrentAdventure].GetComponent<MapQuestHelper>();
+        FolderName = hp.SubFolder + "/" + hp.Signature;
         Load();
         hp.UpdateExternaEditorInfo();
     }
@@ -621,7 +636,7 @@ public class MapSaver : MonoBehaviour
     public void DeleteMapCallBack()
     {
         string file = Application.dataPath + "/Resources/Map Templates/" + FolderName + "/" + CurrentCube + ".NEO";
-        ES2.Delete( file );
+        File.Delete( file );
         CurrentCube = "";
         MapName = "Cube 1";
         Debug.Log( "Cube Deleted! " + file );

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.IO;
 using System.Text;
 using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
@@ -629,12 +630,12 @@ public class RandomMapGoal : MonoBehaviour
  
         if( Adventure == -1 ) return;
         UpdateScoreListCreation();
-        if( ES2.Exists( file ) )
+        if( File.Exists( file ) )
         {
             RandomMapData rm = Map.I.RM.RMList[ Map.I.RM.CurrentAdventure ];
             string key = rm.QuestHelper.Signature + " " + UniqueID + " ";
             string txt = "";
-            if( ES2.Exists( file + "?tag=Goal Info " + key ) )
+            if( File.Exists( file + "?tag=Goal Info " + key ) )
                 txt = ES2.Load<string>( file + "?tag=Goal Info " + key );
 
             G.LineSplit = Regex.Split( txt, "\r\n|\r|\n" );

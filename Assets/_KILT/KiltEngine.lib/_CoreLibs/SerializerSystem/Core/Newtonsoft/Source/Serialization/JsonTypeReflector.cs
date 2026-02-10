@@ -320,16 +320,12 @@ namespace Newtonsoft.Json.Serialization
 #if !(UNITY_ANDROID || UNITY_WEBPLAYER || (UNITY_IOS || UNITY_WEBGL || UNITY_XBOXONE || UNITY_XBOX360 || UNITY_PS4 || UNITY_PS3 || UNITY_WII || UNITY_IPHONE) || (UNITY_WP8 || UNITY_WP_8_1) || (UNITY_WINRT && !UNITY_EDITOR))
             try
           {
-            new ReflectionPermission(ReflectionPermissionFlag.MemberAccess).Demand();
-            new ReflectionPermission(ReflectionPermissionFlag.RestrictedMemberAccess).Demand();
-#pragma warning disable 618
-			new SecurityPermission(SecurityPermissionFlag.SkipVerification).Demand();
-            new SecurityPermission(SecurityPermissionFlag.UnmanagedCode).Demand();
-#pragma warning restore 108
-			new SecurityPermission(PermissionState.Unrestricted).Demand();
-            _dynamicCodeGeneration = true;
-          }
-          catch (Exception)
+                        // Code Access Security não é suportado no Unity moderno
+                        // Mantido apenas por compatibilidade com código antigo //gg
+                        _dynamicCodeGeneration = false;
+
+                    }
+                    catch (Exception)
           {
             _dynamicCodeGeneration = false;
           }

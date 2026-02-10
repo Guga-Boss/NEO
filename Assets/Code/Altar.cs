@@ -1,10 +1,9 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
-using PathologicalGames;
 public enum EAltarBonusType
 {
     ANY = -2, NONE = -1, Give_Bonus, Hang_Bonus, Lock, Angle_Modifier, Rotate_CW, Rotate_CCW,

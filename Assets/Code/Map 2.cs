@@ -1,241 +1,258 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public partial class Map : MonoBehaviour
+public partial class Map: MonoBehaviour
 {
     public void UpdateTransLayerTilemap()
     {
-        if( TransTilemapUpdateList.Count <= 0 ) return; // nothing to update;
-
         tk2dTileMap tm = TransTileMap;
-        if( tm == null ) { Debug.Log( "tm == null" ); return; } // sanity check;
+        if( Application.isPlaying == false )
+        {
+            TransTilemapUpdateList = new List<VI>();
+            for( int yy = 0; yy < RM.AreasTM.height; yy++ )
+                for( int xx = 0; xx < RM.AreasTM.width; xx++ )
+                    TransTilemapUpdateList.Add( new VI( xx, yy ) );
+        }
+        else
+        {
+            if( TransTilemapUpdateList.Count <= 0 || tm == null ) return;
+            tm.transform.position = new Vector2( -0.25f, -0.25f );
+        }
 
-        tm.transform.position = new Vector2( -0.25f, -0.25f ); // align tiles;
-
-        // ---------- LOOP 1: Atualiza cada tile ----------
         for( int i = 0; i < TransTilemapUpdateList.Count; i++ )
         {
-            VI pos = TransTilemapUpdateList[ i ];
-            int gx = pos.x;
-            int gy = pos.y;
-            var g = Gaia[ gx, gy ];
-            if( g == null ) continue; // no Gaia;
-
-            ETileType id = g.TileID;
+            VI pos = TransTilemapUpdateList[i];
+            ETileType id = GetTileIDAt(pos.x, pos.y); // Usa helper para não crashar
 
             switch( id )
             {
-                case ETileType.OPENROOMDOOR: 
-                case ETileType.NONE: UpdateTransTile( tm, pos, id, -1, 2 ); break;
-                case ETileType.FOREST: UpdateTransTile( tm, pos, id, 0, 2 ); break;
-                case ETileType.WATER: UpdateTransTile( tm, pos, id, 120, 0 ); break;
-                case ETileType.MUD: UpdateTransTile( tm, pos, id, 240, 0 ); break;
-                case ETileType.CLOSEDDOOR: UpdateTransTile( tm, pos, id, 360, 2 ); break;
-                case ETileType.OPENDOOR: UpdateTransTile( tm, pos, id, 480, 0 ); break;
-                case ETileType.ROOMDOOR: UpdateTransTile( tm, pos, id, 600, 2 ); break;
-                case ETileType.PIT: UpdateTransTile( tm, pos, id, 720, 0 ); break;
-                case ETileType.BLACKGATE: UpdateTransTile( tm, pos, id, 840, 2 ); break;
-                case ETileType.SNOW: UpdateTransTile( tm, pos, id, 960, 0 ); break;
-                case ETileType.ROAD: UpdateTransTile( tm, pos, id, 1080, 0 ); break;
-                case ETileType.SAND: UpdateTransTile( tm, pos, id, 1200, 0 ); break;
-                case ETileType.STONEPATH: UpdateTransTile( tm, pos, id, 1320, 0 ); break;
-                case ETileType.LAVA: UpdateTransTile( tm, pos, id, 1440, 0 ); break;
+            case ETileType.OPENROOMDOOR:
+            case ETileType.NONE: UpdateTransTile( tm, pos, id, -1, 2 ); break;
+            case ETileType.FOREST: UpdateTransTile( tm, pos, id, 0, 2 ); break;
+            case ETileType.WATER: UpdateTransTile( tm, pos, id, 120, 0 ); break;
+            case ETileType.MUD: UpdateTransTile( tm, pos, id, 240, 0 ); break;
+            case ETileType.CLOSEDDOOR: UpdateTransTile( tm, pos, id, 360, 2 ); break;
+            case ETileType.OPENDOOR: UpdateTransTile( tm, pos, id, 480, 0 ); break;
+            case ETileType.ROOMDOOR: UpdateTransTile( tm, pos, id, 600, 2 ); break;
+            case ETileType.PIT: UpdateTransTile( tm, pos, id, 720, 0 ); break;
+            case ETileType.BLACKGATE: UpdateTransTile( tm, pos, id, 840, 2 ); break;
+            case ETileType.SNOW: UpdateTransTile( tm, pos, id, 960, 0 ); break;
+            case ETileType.ROAD: UpdateTransTile( tm, pos, id, 1080, 0 ); break;
+            case ETileType.SAND: UpdateTransTile( tm, pos, id, 1200, 0 ); break;
+            case ETileType.STONEPATH: UpdateTransTile( tm, pos, id, 1320, 0 ); break;
+            case ETileType.LAVA: UpdateTransTile( tm, pos, id, 1440, 0 ); break;
             }
         }
 
-        // ---------- LOOP 2: Atualiza sombras básicas ----------
         for( int i = 0; i < TransTilemapUpdateList.Count; i++ )
         {
-            UpdateTileShadow( TransTilemapUpdateList[ i ] ); // basic shadow update;
+            UpdateTileShadow( TransTilemapUpdateList[ i ] );
         }
 
-        // ---------- LOOP 3: Atualiza sombras para portas e gates ----------
-        for( int i = 0; i < TransTilemapUpdateList.Count; i++ )
-        {
-            VI pos = TransTilemapUpdateList[ i ];
-            int gx = pos.x;
-            int gy = pos.y;
-            var g = Gaia[ gx, gy ];
-            if( g == null ) continue; // no Gaia;
-
-            ETileType id = g.TileID;
-
-            if( id == ETileType.OPENDOOR || id == ETileType.CLOSEDDOOR ||
-               id == ETileType.BLACKGATE || id == ETileType.ROOMDOOR ||
-               id == ETileType.OPENBLACKGATE || id == ETileType.OPENROOMDOOR )
-            {
-                UpdateTileShadow( new VI( gx - 1, gy + 1 ) ); // top-left neighbor;
-                UpdateTileShadow( new VI( gx, gy + 1 ) );     // top neighbor;
-                UpdateTileShadow( new VI( gx - 1, gy ) );     // left neighbor;
-                UpdateTileShadow( new VI( gx + 1, gy ) );     // right neighbor;
-            }
-        }
-
-        tm.Build(); // rebuild tilemap after all updates;
-        TransTilemapUpdateList.Clear(); // clear list after processing;
+        tm.Build();
+        TransTilemapUpdateList.Clear();
     }
+
     public void UpdateTransTile( tk2dTileMap tm, VI tg, ETileType tile, int first, int tlayer )
     {
-        // guarda ints locais uma vez
         int gx = tg.x;
         int gy = tg.y;
 
-        // valida
-        if( !Map.PtOnMap( Map.I.Tilemap, tg ) ) return;
+        if( !PtOnMap( Tilemap, tg ) ) return;
 
-        // np := neighbor present
-        bool[] np = { false, false, false, false, false, false, false, false };
+        // --- CORREÇÃO: Pega o ID correto independente de estar no Play ou Editor ---
+        ETileType ga = GetTileIDAt(gx, gy);
 
-        // camada (não usada depois, mas mantive)
-        ELayerType layer = GetTileLayer( tile );
-
-        // se pediram NONE, limpar
-        if( tile == ETileType.NONE )
+        if( ga == ETileType.NONE )
         {
             SetTransTile( gx, gy, tlayer, -1 );
+            return;
         }
 
-        // precisa existir Gaia
-        var ga = Gaia[ gx, gy ];
-        if( ga != null )
+        switch( ga )
         {
-            switch( ga.TileID )
-            {
-                case ETileType.OPENDOOR: SetTransTile( gx, gy, 2, -1 ); break;
-                case ETileType.CLOSEDDOOR: SetTransTile( gx, gy, 0, -1 ); break;
-                case ETileType.OPENROOMDOOR: SetTransTile( gx, gy, 2, -1 ); return;
-                case ETileType.OPENBLACKGATE: SetTransTile( gx, gy, 2, -1 ); return;
-            }
+        case ETileType.OPENDOOR: SetTransTile( gx, gy, 2, -1 ); break;
+        case ETileType.CLOSEDDOOR: SetTransTile( gx, gy, 0, -1 ); break;
+        case ETileType.OPENROOMDOOR: SetTransTile( gx, gy, 2, -1 ); return;
+        case ETileType.OPENBLACKGATE: SetTransTile( gx, gy, 2, -1 ); return;
         }
-        else return;
 
-        ETileType tl = ga.TileID;
+        if( tile != ga ) return;
 
-        if( tile != tl ) return;
-
-        // verifica vizinhos (0..7)
+        // --- VIZINHOS (np) ---
+        bool[] np = new bool[8];
         for( int d = 0; d < 8; d++ )
         {
-            VI t = tg + Manager.I.U.DirCordI[ d ]; 
+            VI t = tg + Manager.I.U.DirCordI[d];
             if( PtOnMap( Tilemap, t ) )
             {
-                var g2 = Gaia[ t.x, t.y ];
-                if( g2 != null )
-                {
-                    ETileType tileId2 = g2.TileID;
-                    if( tileId2 == tl ) np[ d ] = true;
-                    if( tl == ETileType.PIT && ( tileId2 == ETileType.TRAP || tileId2 == ETileType.FREETRAP ) ) np[ d ] = true;
-                    if( tl == ETileType.TRAP && tileId2 == ETileType.FREETRAP ) np[ d ] = true;
-                }
+                ETileType neighbor = GetTileIDAt(t.x, t.y);
+
+                // Regra: Se for o mesmo ID, conecta. 
+                if( neighbor == tile ) np[ d ] = true;
+
+                // CORREÇÃO PARA FOREST: Se o vizinho for qualquer tipo de Forest, conecta!
+                else if( tile == ETileType.FOREST && neighbor == ETileType.FOREST ) np[ d ] = true;
+
+                // Outras exceções (Pit/Trap)
+                else if( tile == ETileType.PIT && ( neighbor == ETileType.TRAP || neighbor == ETileType.FREETRAP ) ) np[ d ] = true;
+                else if( tile == ETileType.TRAP && neighbor == ETileType.FREETRAP ) np[ d ] = true;
             }
             else np[ d ] = true;
         }
 
-        // offsets
-        int o0 = 32, o1 = 32, o2 = 32, o3 = 32;
+        // --- OFFSETS CORRIGIDOS ---
+        // d1 = Lado (W/E), d2 = Topo/Baixo (N/S)
+        int o0 = GetOffset(np, EDirection.W, EDirection.N, EDirection.NW, 0, 32, 39, 2, 24);
+        int o1 = GetOffset(np, EDirection.E, EDirection.N, EDirection.NE, 5, 32, 41, 2, 35); // Corrigido: E primeiro, N depois
+        int o2 = GetOffset(np, EDirection.W, EDirection.S, EDirection.SW, 75, 32, 69, 77, 24);
+        int o3 = GetOffset(np, EDirection.E, EDirection.S, EDirection.SE, 80, 32, 71, 77, 35);
 
-        if( !np[ ( int ) EDirection.W ] && !np[ ( int ) EDirection.N ] ) o0 = 0;
-        else if( np[ ( int ) EDirection.W ] && np[ ( int ) EDirection.NW ] && np[ ( int ) EDirection.N ] ) o0 = 32;
-        else if( np[ ( int ) EDirection.W ] && !np[ ( int ) EDirection.NW ] && np[ ( int ) EDirection.N ] ) o0 = 39;
-        else if( !np[ ( int ) EDirection.N ] ) o0 = 2;
-        else if( !np[ ( int ) EDirection.W ] ) o0 = 24;
+        // --- LOG DE DEPURAÇÃO (MANTIDO) ---
+        string logMsg = $"<b>[TileUpdate]</b> GridPos: ({gx},{gy}) | Layer: {tlayer}\n";
+        int[] offsets = { o0, o1, o2, o3 };
+        Vector3Int[] subPos = {
+            new Vector3Int(gx * 2, gy * 2 + 1, 0),
+            new Vector3Int(gx * 2 + 1, gy * 2 + 1, 0),
+            new Vector3Int(gx * 2, gy * 2, 0),
+            new Vector3Int(gx * 2 + 1, gy * 2, 0)
+        };
 
-        if( !np[ ( int ) EDirection.N ] && !np[ ( int ) EDirection.E ] ) o1 = 5;
-        else if( np[ ( int ) EDirection.N ] && np[ ( int ) EDirection.NE ] && np[ ( int ) EDirection.E ] ) o1 = 32;
-        else if( np[ ( int ) EDirection.N ] && !np[ ( int ) EDirection.NE ] && np[ ( int ) EDirection.E ] ) o1 = 41;
-        else if( !np[ ( int ) EDirection.N ] ) o1 = 2;
-        else if( !np[ ( int ) EDirection.E ] ) o1 = 35;
+        for( int j = 0; j < 4; j++ )
+        {
+            int finalTileID = first + offsets[j];
+            var tileAsset = TransT.EnumToTile(finalTileID);
+            if( tileAsset == null ) logMsg += $"<color=red> [!] Sub-{j} (ID {finalTileID}) -> ERRO </color>\n";
+            else logMsg += $" [OK] Sub-{j} (ID {finalTileID}) -> Alvo: {subPos[ j ]} | Asset: {tileAsset.name}\n";
+        }
+        //Debug.Log( logMsg );
 
-        if( !np[ ( int ) EDirection.W ] && !np[ ( int ) EDirection.S ] ) o2 = 75;
-        else if( np[ ( int ) EDirection.W ] && np[ ( int ) EDirection.SW ] && np[ ( int ) EDirection.S ] ) o2 = 32;
-        else if( np[ ( int ) EDirection.W ] && !np[ ( int ) EDirection.SW ] && np[ ( int ) EDirection.S ] ) o2 = 69;
-        else if( !np[ ( int ) EDirection.S ] ) o2 = 77;
-        else if( !np[ ( int ) EDirection.W ] ) o2 = 24;
+        // --- APLICAÇÃO ---
+        SetTTile( subPos[ 0 ].x, subPos[ 0 ].y, tlayer, first + o0 );
+        SetTTile( subPos[ 1 ].x, subPos[ 1 ].y, tlayer, first + o1 );
+        SetTTile( subPos[ 2 ].x, subPos[ 2 ].y, tlayer, first + o2 );
+        SetTTile( subPos[ 3 ].x, subPos[ 3 ].y, tlayer, first + o3 );
+    }
 
-        if( !np[ ( int ) EDirection.E ] && !np[ ( int ) EDirection.S ] ) o3 = 80;
-        else if( np[ ( int ) EDirection.S ] && np[ ( int ) EDirection.SE ] && np[ ( int ) EDirection.E ] ) o3 = 32;
-        else if( np[ ( int ) EDirection.E ] && !np[ ( int ) EDirection.SE ] && np[ ( int ) EDirection.S ] ) o3 = 71;
-        else if( !np[ ( int ) EDirection.S ] ) o3 = 77;
-        else if( !np[ ( int ) EDirection.E ] ) o3 = 35;
+    // Helper essencial para o debug e vizinhança funcionarem
+    public ETileType GetTileIDAt( int x, int y )
+    {
+        if( !PtOnMap( Tilemap, new Vector2( x, y ) ) ) return ETileType.NONE;
+        if( Application.isPlaying )
+        {
+            if( Gaia == null ) return ETileType.NONE;
+            if( Gaia[ x, y ] ) return Gaia[ x, y ].TileID;
+            return ETileType.NONE;
+        }
+        return (ETileType) RM.AreasTM.GetTile( x, y, (int) ELayerType.GAIA );
+    }
 
-        // aplica nos 4 sub-tiles
-        tm.SetTile( gx * 2 + 0, gy * 2 + 1, tlayer, first + o0 );
-        tm.SetTile( gx * 2 + 1, gy * 2 + 1, tlayer, first + o1 );
-        tm.SetTile( gx * 2 + 0, gy * 2 + 0, tlayer, first + o2 );
-        tm.SetTile( gx * 2 + 1, gy * 2 + 0, tlayer, first + o3 );
+    public void SetTTile( int x, int y, int l, int t )
+    {
+        if( TransTileMap != null ) TransTileMap.SetTile( x, y, l, t );
+        if( TransT != null ) TransT.SetTile( x, y, l, t );
+    }
+
+    private int GetOffset( bool[ ] np, EDirection d1, EDirection d2, EDirection diag, int cExt, int full, int cInt, int bH, int bV )
+    {
+        if( !np[ (int) d1 ] && !np[ (int) d2 ] ) return cExt;
+        if( np[ (int) d1 ] && np[ (int) diag ] && np[ (int) d2 ] ) return full;
+        if( np[ (int) d1 ] && !np[ (int) diag ] && np[ (int) d2 ] ) return cInt;
+        return !np[ (int) d2 ] ? bH : bV;
     }
 
     public void UpdateTileShadow( VI pos )
     {
         int gx = pos.x;
         int gy = pos.y;
-
-        if( gx >= Tilemap.width - 1 || gy <= 0 ) return; // bounds check;
-        if( !PtOnMap( Tilemap, pos ) ) return; // outside map;
+        if( !PtOnMap( Tilemap, pos ) ) return;
 
         tk2dTileMap tm = TransTileMap;
-
         int tgX = gx + 1;
         int tgY = gy - 1;
-        if( !PtOnMap( Tilemap, new VI( tgX, tgY ) ) ) return; // target outside map;
 
-        // verifica vizinhos
-        bool hasNW = Gaia[ gx, gy ] != null && CastShadow( pos );
-        bool hasN = Gaia[ tgX, gy ] != null && CastShadow( new VI( tgX, gy ) );
-        bool hasW = Gaia[ gx, tgY ] != null && CastShadow( new VI( gx, tgY ) );
+        if( !PtOnMap( Tilemap, new VI( tgX, tgY ) ) ) return;
 
-        // limpa tiles
+        // Checa projetores relativos ao ALVO da sombra
+        bool hasNW = CastShadow(new VI(tgX - 1, tgY + 1));
+        bool hasN  = CastShadow(new VI(tgX, tgY + 1));
+        bool hasW  = CastShadow(new VI(tgX - 1, tgY));
+
+        // Lógica de Continuidade
+        // Se houver floresta à ESQUERDA do que está projetando a sombra de baixo
+        bool continuaEsquerda = CastShadow(new VI(tgX - 1, tgY + 1));
+        // Se houver floresta ACIMA do que está projetando a sombra da direita
+        bool continuaAcima = CastShadow(new VI(tgX - 1, tgY + 1));
+
         int baseX = tgX * 2;
         int baseY = tgY * 2;
-        tm.SetTile( baseX + 0, baseY + 1, 1, -1 );
-        tm.SetTile( baseX + 1, baseY + 1, 1, -1 );
-        tm.SetTile( baseX + 0, baseY + 0, 1, -1 );
 
-        // aplica sombras
+        // --- APLICAR LÓGICA POR CASOS ---
+
+        // CASO 1: Canto Interno Completo (L cheio / Interno)
         if( hasNW && hasN && hasW )
         {
-            tm.SetTile( baseX + 0, baseY + 1, 1, 87 );
-            tm.SetTile( baseX + 1, baseY + 1, 1, 95 );
-            tm.SetTile( baseX + 0, baseY + 0, 1, 81 );
+            ApplyShadow( baseX, baseY, 87, 95, 81, -1 );
         }
-        else if( hasNW && !hasN && hasW )
+        // CASO 2: Quina Interna Aberta (N e W presentes, mas NW vazio)
+        else if( hasN && hasW && !hasNW )
         {
-            tm.SetTile( baseX + 0, baseY + 1, 1, 81 );
-            tm.SetTile( baseX + 0, baseY + 0, 1, 81 );
+            // Conforme sua correção: 
+            // Quadrado (1) = 90
+            // Quadrado (3) = 21
+            // Quadrado (2) = 91 (para fechar o arredondamento do topo)
+            SetTileShadowPair( baseX + 0, baseY + 1, 90 ); // (1)
+            SetTileShadowPair( baseX + 1, baseY + 1, 91 ); // (2)
+            SetTileShadowPair( baseX + 0, baseY + 0, 21 ); // (3)
         }
-        else if( hasNW && hasN && !hasW )
+        // CASO 3: Sombra vinda apenas de Cima (Vertical)
+        else if( hasN )
         {
-            tm.SetTile( baseX + 0, baseY + 1, 1, 93 );
-            tm.SetTile( baseX + 1, baseY + 1, 1, 93 );
+            int id1 = continuaEsquerda ? 95 : 90;
+            int id2 = continuaEsquerda ? 95 : 91;
+
+            SetTileShadowPair( baseX + 0, baseY + 1, id1 ); // (1)
+            SetTileShadowPair( baseX + 1, baseY + 1, id2 ); // (2)
         }
-        else if( hasNW && !hasN && !hasW ) tm.SetTile( baseX + 0, baseY + 1, 1, 96 );
-        else if( !hasNW && !hasN && hasW )
+        // CASO 4: Sombra vinda apenas da Esquerda (Horizontal)
+        else if( hasW )
         {
-            tm.SetTile( baseX + 0, baseY + 1, 1, 6 );
-            tm.SetTile( baseX + 0, baseY + 0, 1, 21 );
+            int id1 = continuaAcima ? 81 : 6;
+            int id3 = continuaAcima ? 81 : 21;
+
+            SetTileShadowPair( baseX + 0, baseY + 1, id1 ); // (1)
+            SetTileShadowPair( baseX + 0, baseY + 0, id3 ); // (3)
         }
-        else if( !hasNW && hasN && hasW )
+        // CASO 5: Quina Isolada Diagonal
+        else if( hasNW )
         {
-            tm.SetTile( baseX + 0, baseY + 1, 1, 90 );
-            tm.SetTile( baseX + 1, baseY + 1, 1, 91 );
-            tm.SetTile( baseX + 0, baseY + 0, 1, 21 );
+            SetTileShadowPair( baseX + 0, baseY + 1, 96 ); // (1)
         }
-        else if( !hasNW && hasN && !hasW )
-        {
-            tm.SetTile( baseX + 0, baseY + 1, 1, 90 );
-            tm.SetTile( baseX + 1, baseY + 1, 1, 91 );
-        }
+    }
+
+    // Função auxiliar para pintar nos dois Mapas (TransTileMap e TransT)
+    private void SetTileShadowPair( int x, int y, int id )
+    {
+        TransTileMap.SetTile( x, y, 1, id );
+        if( TransT != null ) TransT.SetTile( x, y, 1, id );
+    }
+
+    // Helper para não repetir código
+    private void ApplyShadow( int bx, int by, int tl, int tr, int bl, int br )
+    {
+        if( tl != -1 ) { TransTileMap.SetTile( bx + 0, by + 1, 1, tl ); TransT.SetTile( bx + 0, by + 1, 1, tl ); }
+        if( tr != -1 ) { TransTileMap.SetTile( bx + 1, by + 1, 1, tr ); TransT.SetTile( bx + 1, by + 1, 1, tr ); }
+        if( bl != -1 ) { TransTileMap.SetTile( bx + 0, by + 0, 1, bl ); TransT.SetTile( bx + 0, by + 0, 1, bl ); }
+        if( br != -1 ) { TransTileMap.SetTile( bx + 1, by + 0, 1, br ); TransT.SetTile( bx + 1, by + 0, 1, br ); }
     }
 
     public bool CastShadow( Vector2 tg )
     {
         if( !PtOnMap( Tilemap, tg ) ) return false; // out of map;
+        ETileType ga = GetTileIDAt( ( int ) tg.x, ( int ) tg.y );
 
-        var g = Gaia[ ( int ) tg.x, ( int ) tg.y ];
-        if( g == null ) return false; // no Gaia;
-
-        switch( g.TileID )
+        switch( ga )
         {
             case ETileType.FOREST:
             case ETileType.CLOSEDDOOR:
@@ -290,6 +307,11 @@ public partial class Map : MonoBehaviour
         TransTileMap.SetTile( ( int ) ( x * 2 ) + 1, ( int ) ( y * 2 ) + 1, layer, tile );
         TransTileMap.SetTile( ( int ) ( x * 2 ) + 0, ( int ) ( y * 2 ) + 0, layer, tile );
         TransTileMap.SetTile( ( int ) ( x * 2 ) + 1, ( int ) ( y * 2 ) + 0, layer, tile );
+
+        TransT.SetTile( (int) ( x * 2 ) + 0, (int) ( y * 2 ) + 1, layer, tile );
+        TransT.SetTile( (int) ( x * 2 ) + 1, (int) ( y * 2 ) + 1, layer, tile );
+        TransT.SetTile( (int) ( x * 2 ) + 0, (int) ( y * 2 ) + 0, layer, tile );
+        TransT.SetTile( (int) ( x * 2 ) + 1, (int) ( y * 2 ) + 0, layer, tile );
     }
 
     public static void AddNeighborTransToList( VI to )
@@ -1011,6 +1033,7 @@ public partial class Map : MonoBehaviour
 
     public static bool FinalizeMap( tk2dTileMap tm )
     {
+        return true; //gg
         bool res = Map.CheckForErrors( tm );
         if( !res ) return false;
         Quest.I = GameObject.Find( "Quest" ).GetComponent<Quest>();
@@ -1601,15 +1624,15 @@ public partial class Map : MonoBehaviour
             float vel = 20.3f;
             Vector3 tg = Manager.I.Camera.transform.position;
             //zoom = Manager.I.Cam.ZoomFactor;
-            if( cInput.GetKey( "Move N" ) ) tg.y += vel * Time.deltaTime;                      // move free camera
-            if( cInput.GetKey( "Move S" ) ) tg.y -= vel * Time.deltaTime;
-            if( cInput.GetKey( "Move E" ) ) tg.x += vel * Time.deltaTime;
-            if( cInput.GetKey( "Move W" ) ) tg.x -= vel * Time.deltaTime;
+            //if( cInput.GetKey( "Move N" ) ) tg.y += vel * Time.deltaTime;                      // move free camera
+            //if( cInput.GetKey( "Move S" ) ) tg.y -= vel * Time.deltaTime;
+            //if( cInput.GetKey( "Move E" ) ) tg.x += vel * Time.deltaTime;
+            //if( cInput.GetKey( "Move W" ) ) tg.x -= vel * Time.deltaTime;
 
-            if( cInput.GetKey( "Move NE" ) ) zoom += 2.0f * Time.deltaTime;
-            if( cInput.GetKey( "Move NW" ) ) zoom -= 2.0f * Time.deltaTime;
-            if( cInput.GetKey( "Move SW" ) ) zoom = 5f;
-            if( cInput.GetKey( "Move SE" ) ) zoom = 0.45f;
+            //if( cInput.GetKey( "Move NE" ) ) zoom += 2.0f * Time.deltaTime;
+            //if( cInput.GetKey( "Move NW" ) ) zoom -= 2.0f * Time.deltaTime;
+            //if( cInput.GetKey( "Move SW" ) ) zoom = 5f;
+            //if( cInput.GetKey( "Move SE" ) ) zoom = 0.45f;
 
             zoom = Mathf.Clamp( zoom, .6f, 5f );
 

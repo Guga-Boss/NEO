@@ -123,7 +123,6 @@ public class GlobalDefinesManager
 		WriteInPrefs(defs, BuildTargetGroup.PSP2, false);
 		WriteInPrefs(defs, BuildTargetGroup.SamsungTV, false);
 		WriteInPrefs(defs, BuildTargetGroup.Standalone, false);
-		WriteInPrefs(defs, BuildTargetGroup.WebPlayer, false);
         WriteInPrefs(defs, BuildTargetGroup.WebGL, false);
         WriteInPrefs(defs, BuildTargetGroup.XBOX360, false);
 		WriteInPrefs(defs, BuildTargetGroup.XboxOne, false);

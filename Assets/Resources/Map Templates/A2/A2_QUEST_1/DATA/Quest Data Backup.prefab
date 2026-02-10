@@ -1,26 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1610933123877544}
-  m_IsPrefabParent: 1
---- !u!1 &1610933123877544
+--- !u!1 &1471335720600732
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
-  - component: {fileID: 4474344830961836}
-  - component: {fileID: 114201332482132552}
-  - component: {fileID: 114914078882051228}
+  - component: {fileID: 4592168479257148}
+  - component: {fileID: 114484054427947062}
+  - component: {fileID: 114390853747862344}
   m_Layer: 0
   m_Name: Quest Data Backup
   m_TagString: Map Quest
@@ -28,31 +18,34 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4474344830961836
+--- !u!4 &4592168479257148
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1610933123877544}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471335720600732}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 8, y: 13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114201332482132552
+--- !u!114 &114484054427947062
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1610933123877544}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471335720600732}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapData: {fileID: 114914078882051228}
+  MapData: {fileID: 114390853747862344}
   MonsterSprite: {fileID: 0}
   NestSprite: {fileID: 0}
   BackgroundSprite: {fileID: 0}
@@ -62,12 +55,13 @@ MonoBehaviour:
   Signature: A2_QUEST_1
   SubFolder: A2
   NavigationMapIcon: 132
---- !u!114 &114914078882051228
+--- !u!114 &114390853747862344
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1610933123877544}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471335720600732}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
@@ -76,31 +70,31 @@ MonoBehaviour:
   UniqueID: SQZK4
   IsUp: 0
   Notes: 
-  QuestHelper: {fileID: 114201332482132552}
+  QuestHelper: {fileID: 114484054427947062}
   MapCord: {x: 72, y: 13}
   BlockArea: {x: 2, y: 2}
-  ImagesFolder: {fileID: 1145255793648592, guid: af08d73008e1caf4886c1ff386dd2a37,
-    type: 2}
-  GoalsFolder: {fileID: 1321039171548922, guid: 4a1f7fe172b11e543bcbdc843b711454,
-    type: 2}
+  ImagesFolder: {fileID: 1634503237763280, guid: 3305d10f29de7284585258b1ae078afc,
+    type: 3}
+  GoalsFolder: {fileID: 1393944576401726, guid: b8ef804515580e343aea9e88ec1409f3,
+    type: 3}
   GoalList:
-  - {fileID: 114568505778337156, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114719072424745106, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114863068633301316, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114604742460676754, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114713738184974084, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114593639896045916, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114142965596421292, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114098884960927856, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114767363016486222, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114355856379313506, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114708342310601126, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114032519046793472, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114468750042809018, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
-  - {fileID: 114434142853790312, guid: 4a1f7fe172b11e543bcbdc843b711454, type: 2}
+  - {fileID: 114916046049123100, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114551165527767842, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114069470446186868, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114152200051029206, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114438773338716454, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114699397152242686, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114475542670485408, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114732545446104016, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114025400934786500, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114755816714511616, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114460310535173374, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114923955431896962, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114996525618740570, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
+  - {fileID: 114229709837717540, guid: b8ef804515580e343aea9e88ec1409f3, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
-  QuestID: 15
+  QuestID: 4
   EnableAlternateStartingCube: 1
   LabType: 0
   InitiallyAvailableCubes: 20
@@ -117,23 +111,24 @@ MonoBehaviour:
   RequiredItemLifeTime: 60
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
-  UpgradeListFolder: {fileID: 1863592880270160, guid: 4170bf288582d034ebd8a8f2b8ef8e4d,
-    type: 2}
+  UpgradeListFolder: {fileID: 1552991261298770, guid: f3504099df2205242981b7b6ea341b5e,
+    type: 3}
   AdventureUpgradeInfoList:
-  - {fileID: 114106618225922330, guid: 4170bf288582d034ebd8a8f2b8ef8e4d, type: 2}
-  TechListFolder: {fileID: 1535552599582178, guid: d2e8e36ade5064c418bda84ae96fd365,
-    type: 2}
+  - {fileID: 114600834572994896, guid: f3504099df2205242981b7b6ea341b5e, type: 3}
+  TechListFolder: {fileID: 1562569156183428, guid: 1c9480775b5213d4aa39a236f8fe1166,
+    type: 3}
   StartingAdventureLevel: 1
   StartingTrainningLevel: 0
   RescueToGate: 1
   StartingGotoCheckPointLevel: 0
-  GotoCheckPointResourceCost: 1
-  AutoOpenGateResourceCost: 1
+  GotoCheckPointResourceCost: 0
+  AutoOpenGateResourceCost: 0
   RescueEnabled: 1
   MaxCubes: 40
   QuestSecrets: 0
   MaximumUnits: 0
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 100
   CubeClearHPBonus: 0
   ShowPopup: 0
@@ -164,6 +159,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -225,6 +222,7 @@ MonoBehaviour:
   ChestBonusItemList: 
   CloversPerCube: 5
   QuestXPPerClover: 0.4
+  FireTokenPerClover: 0.2
   CubeClearBonusCurve: 1.5
   ShellStartBonus: 1
   ShellEndBonus: 3
@@ -232,8 +230,10 @@ MonoBehaviour:
   CogEndBonus: 3
   XpStartBonus: 1
   XpEndBonus: 3
-  HoneycombStartBonus: 1
-  HoneycombEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
   QuestXPPerChest: 0.5
   AltarEvolutionFactor: 100
   BaseRestingDistance: 0
@@ -299,7 +299,7 @@ MonoBehaviour:
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114245945002716340, guid: bea1e135a8e355a44b8694350b1ed222, type: 2}
+  - {fileID: 114432882072775878, guid: a0ada9f200c059c4397e853f306bf66d, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4

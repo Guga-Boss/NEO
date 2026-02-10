@@ -33,12 +33,12 @@ namespace tk2dRuntime.TileMap
 						
 						BuildForChunk(tileMap, chunk, baseX, baseY);
 
-						PhysicMaterial material = tileMap.data.Layers[layerId].physicMaterial;
-						if (chunk.meshCollider != null) {
-							chunk.meshCollider.sharedMaterial = material;
-						}
-					}
-				}
+                        // gg //PhysicMaterial material = tileMap.data.Layers[layerId].physicMaterial;
+                        //if (chunk.meshCollider != null) {
+                        //	chunk.meshCollider.sharedMaterial = material;
+                        // gg  }
+                    }
+                }
 			}
 		}
 		

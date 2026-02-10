@@ -980,7 +980,7 @@ public class Rope2D : MonoBehaviour
 						Rigidbody2D v_body = GetRigidBody2DFromObject(v_object);
 						if(v_body != null)
 						{
-							v_body.velocity = Vector2.zero;
+							v_body.linearVelocity = Vector2.zero;
 							v_body.angularVelocity = 0;
 						}
 					}
@@ -1233,8 +1233,8 @@ public class Rope2D : MonoBehaviour
 		{
 			v_rigidBody.mass = p_nodeMass;
 			v_rigidBody.gravityScale = NodeGravityScale;
-			v_rigidBody.angularDrag = NodeAngularDrag;
-			v_rigidBody.drag = NodeLinearDrag;
+			v_rigidBody.angularDamping = NodeAngularDrag;
+			v_rigidBody.linearDamping = NodeLinearDrag;
 			v_rigidBody.collisionDetectionMode = NodeCollisionDetectionType == RigidbodyCollisionDetectionTypeEnum.Continuous? CollisionDetectionMode2D.Continuous : CollisionDetectionMode2D.Discrete;
 		}
 		return v_newNode;

@@ -557,7 +557,7 @@ public class BlockSelector : MonoBehaviour
 	#endregion
 }
 
-[SerializeField]
+[System.Serializable]
 public class FolderPrefabs
 {
 	#region Private Variables

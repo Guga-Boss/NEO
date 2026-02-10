@@ -358,7 +358,7 @@ public abstract class Block : MonoBehaviour {
 	//int _counter = 0;
 	protected virtual void LateUpdate()
 	{
-		OldVelocity = GetComponent<Rigidbody2D>() != null? GetComponent<Rigidbody2D>().velocity : Vector2.zero;
+		OldVelocity = GetComponent<Rigidbody2D>() != null? GetComponent<Rigidbody2D>().linearVelocity : Vector2.zero;
 	}
 	
 	#endregion
@@ -540,7 +540,7 @@ public abstract class Block : MonoBehaviour {
 					{
 						if(GetComponent<Rigidbody2D>() != null)
 						{
-							if(Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) < 0.02f && Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity) < 2)
+							if(Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.y) < 0.02f && Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity) < 2)
 								m_currentTimeToDestroy = m_timeToDestroy;
 						}
 					}
@@ -612,7 +612,7 @@ public abstract class Block : MonoBehaviour {
 		if(GetComponent<Rigidbody2D>() != null)
 		{
 			//Debug.Log("Linear : "  + rigidbody2D.velocity + " Angular : " + rigidbody2D.angularVelocity);
-			if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > 0.7f || Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity) > 25)
+			if (Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.y) > 0.7f || Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity) > 25)
 			{
 				return true;
 			}
@@ -624,7 +624,7 @@ public abstract class Block : MonoBehaviour {
 	{
 		if(GetComponent<Rigidbody2D>() != null)
 		{
-			if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x) > 0.01f || Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) > 0.01f || Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity) > 25)
+			if (Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.x) > 0.01f || Mathf.Abs(GetComponent<Rigidbody2D>().linearVelocity.y) > 0.01f || Mathf.Abs(GetComponent<Rigidbody2D>().angularVelocity) > 25)
 			{
 				return true;
 			}
@@ -647,8 +647,8 @@ public abstract class Block : MonoBehaviour {
 			Block v_block1 = p_object1.GetComponent<Block>();
 			Block v_block2 = p_object2.GetComponent<Block>();
 			
-			p_velocity1 = v_block1 != null? v_block1.OldVelocity : (p_object1.GetComponent<Rigidbody2D>() != null? p_object1.GetComponent<Rigidbody2D>().velocity : Vector2.zero);
-			p_velocity2 = v_block2 != null? v_block2.OldVelocity : (p_object2.GetComponent<Rigidbody2D>() != null? p_object2.GetComponent<Rigidbody2D>().velocity : Vector2.zero);
+			p_velocity1 = v_block1 != null? v_block1.OldVelocity : (p_object1.GetComponent<Rigidbody2D>() != null? p_object1.GetComponent<Rigidbody2D>().linearVelocity : Vector2.zero);
+			p_velocity2 = v_block2 != null? v_block2.OldVelocity : (p_object2.GetComponent<Rigidbody2D>() != null? p_object2.GetComponent<Rigidbody2D>().linearVelocity : Vector2.zero);
 		}
 		float v_impactVelocityX = p_velocity1.x - p_velocity2.x;
 		v_impactVelocityX *= Mathf.Sign(v_impactVelocityX);

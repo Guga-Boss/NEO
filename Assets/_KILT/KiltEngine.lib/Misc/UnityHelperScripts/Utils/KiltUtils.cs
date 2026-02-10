@@ -866,7 +866,7 @@ public static class KiltUtils
 		if(p_body != null)
 		{
 			bool v_oldKinematic = p_body.isKinematic;
-			p_body.velocity = Vector2.zero;
+			p_body.linearVelocity = Vector2.zero;
 			p_body.angularVelocity = 0;
 			p_body.isKinematic = true;
 			p_body.isKinematic = v_oldKinematic;

@@ -1,22 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1000012976639304}
-  m_IsPrefabParent: 1
 --- !u!1 &1000012976639304
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4000013397958258}
   - component: {fileID: 114000011438575964}
@@ -29,22 +19,25 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &4000013397958258
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012976639304}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114000011438575964
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012976639304}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -12153,17 +12146,17 @@ MonoBehaviour:
     attachPoints: []
   - name: Monster Animation/288
     boundsData:
-    - {x: 0.0625, y: 0.125, z: 0}
+    - {x: 0, y: -0.25, z: 0}
     - {x: 1, y: 0.5, z: 0}
     untrimmedBoundsData:
-    - {x: 0.0625, y: 0.375, z: 0}
+    - {x: 0, y: 0, z: 0}
     - {x: 1, y: 1, z: 0}
     texelSize: {x: 0.015625, y: 0.015625}
     positions:
-    - {x: -0.4375, y: -0.125, z: 0}
-    - {x: 0.5625, y: -0.125, z: 0}
-    - {x: -0.4375, y: 0.375, z: 0}
-    - {x: 0.5625, y: 0.375, z: 0}
+    - {x: -0.5, y: -0.5, z: 0}
+    - {x: 0.5, y: -0.5, z: 0}
+    - {x: -0.5, y: 0, z: 0}
+    - {x: 0.5, y: 0, z: 0}
     normals: []
     tangents: []
     uvs:
@@ -43080,7 +43073,7 @@ MonoBehaviour:
   loadable: 0
   invOrthoSize: 2
   halfTargetHeight: 32
-  buildKey: 1053657332
+  buildKey: 1937731384
   dataGuid: 39771258af581544f95cfa4feb0141fc
   managedSpriteCollection: 0
   hasPlatformData: 0

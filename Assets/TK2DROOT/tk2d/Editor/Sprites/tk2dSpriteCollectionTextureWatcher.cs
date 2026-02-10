@@ -7,6 +7,7 @@ public class tk2dSpriteCollectionTextureWatcher : AssetPostprocessor
 {
 	void OnPreprocessTexture()
 	{
+        return; //gg 
 		if (tk2dPreferences.inst.autoRebuild)
 		{
 			// Make sure sprite textures always have the correct format set up
@@ -19,7 +20,8 @@ public class tk2dSpriteCollectionTextureWatcher : AssetPostprocessor
 	
 	static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
 	{
-		if (tk2dPreferences.inst.autoRebuild && importedAssets != null && importedAssets.Length	!= 0)
+        return; //gg 
+        if( tk2dPreferences.inst.autoRebuild && importedAssets != null && importedAssets.Length	!= 0)
 		{
 			tk2dSpriteCollectionBuilder.RebuildOutOfDate(importedAssets);
 		}

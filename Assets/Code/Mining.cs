@@ -169,8 +169,8 @@ public partial class Controller : MonoBehaviour
             Controller.CreateMagicEffect( G.Hero.Pos, "Mine Debris" );                            // Mine Debris FX
         }
 
-        if( iTween.Count( G.Hero.Spr.gameObject ) <= 0 )                                          // Pickaxe rotation animation
-            iTween.PunchRotation( G.Hero.Spr.gameObject, new Vector3( 0, 0, 30 ), .5f );
+        if( iTween.Count( G.Hero.NSpr.gameObject ) <= 0 )                                          // Pickaxe rotation animation
+            iTween.PunchRotation( G.Hero.NSpr.gameObject, new Vector3( 0, 0, 30 ), .5f );
 
         EDirection dir = Util.GetTargetUnitDir( from, tg );                                       // Rotate to face mine
         if( frontface )
@@ -1850,7 +1850,7 @@ public partial class Controller : MonoBehaviour
                         destmine = dm;
                         Transform tr = PoolManager.Pools[ "Pool" ].Spawn( "Archer Arrow" );                          // Creates the Kick hook animation since no kick is performed, only a hook connection
                         ArcherArrowAnimation ar = tr.gameObject.GetComponent<ArcherArrowAnimation>();
-                        ArcherArrowAnimation.FixedRotation = G.Hero.Spr.transform.eulerAngles.z;
+                        ArcherArrowAnimation.FixedRotation = G.Hero.NSpr.transform.eulerAngles.z;
                         ar.AuxUnit = null;
                         for( int j = 0; j < Unit.Body.RopeConnectFather.Count; j++ )
                             if( Unit.Body.RopeConnectFather[ j ].Body.RopeConnectSon == Unit )

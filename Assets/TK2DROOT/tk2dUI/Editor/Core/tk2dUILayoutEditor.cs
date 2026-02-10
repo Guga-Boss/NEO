@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -29,11 +29,11 @@ public class tk2dUILayoutEditor : Editor {
 				Handles.color = Color.cyan;
 				float arrowSize = 0.3f * HandleUtility.GetHandleSize(p[0]);
 				if (sizer.horizontal) {
-					Handles.ArrowCap(0, (p[0] + p[3]) * 0.5f, Quaternion.LookRotation(p[1] - p[0]), arrowSize);
-					Handles.ArrowCap(0, (p[1] + p[2]) * 0.5f, Quaternion.LookRotation(p[0] - p[1]), arrowSize);
+					//Handles.ArrowCap(0, (p[0] + p[3]) * 0.5f, Quaternion.LookRotation(p[1] - p[0]), arrowSize);
+					//Handles.ArrowCap(0, (p[1] + p[2]) * 0.5f, Quaternion.LookRotation(p[0] - p[1]), arrowSize);
 				} else {
-					Handles.ArrowCap(0, (p[0] + p[1]) * 0.5f, Quaternion.LookRotation(p[3] - p[0]), arrowSize);
-					Handles.ArrowCap(0, (p[2] + p[3]) * 0.5f, Quaternion.LookRotation(p[0] - p[3]), arrowSize);
+					//Handles.ArrowCap(0, (p[0] + p[1]) * 0.5f, Quaternion.LookRotation(p[3] - p[0]), arrowSize);
+					//Handles.ArrowCap(0, (p[2] + p[3]) * 0.5f, Quaternion.LookRotation(p[0] - p[3]), arrowSize);
 				}
 			}
 		}

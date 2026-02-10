@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
@@ -631,27 +631,27 @@ public partial class Map : MonoBehaviour
 
     public bool CheckMouseRotation()
     {
-        if( Application.platform == RuntimePlatform.Android )
-            if( Input.touchCount == 1 )
-            {
-                if( Input.touches[ 0 ].phase == TouchPhase.Began )
-                    if( new Vector2( Mtx, Mty ) == Hero.Pos )
-                    {
-                        DraggingFromHero = true;
-                    }
-                    else DraggingFromHero = false;
+     //gg   //if( Application.platform == RuntimePlatform.Android )
+        //    if( Input.touchCount == 1 )
+        //    {
+        //        if( Input.touches[ 0 ].phase == TouchPhase.Began )
+        //            if( new Vector2( Mtx, Mty ) == Hero.Pos )
+        //            {
+        //                DraggingFromHero = true;
+        //            }
+        //            else DraggingFromHero = false;
 
-                if( DraggingFromHero == false ) return false;
+        //        if( DraggingFromHero == false ) return false;
 
-                if( Input.touches[ 0 ].phase == TouchPhase.Ended )
-                {
-                    if( DraggingFromHero )
-                        SwipeTileOrigin[ 0 ] = SwipeTileDest[ 0 ] = SwipeOrigin[ 0 ] = SwipeDest[ 0 ] = new Vector2( -1, -1 );
-                    DraggingFromHero = false;
-                    return true;
-                }
-            }
-            else return false;
+        //        if( Input.touches[ 0 ].phase == TouchPhase.Ended )
+        //        {
+        //            if( DraggingFromHero )
+        //                SwipeTileOrigin[ 0 ] = SwipeTileDest[ 0 ] = SwipeOrigin[ 0 ] = SwipeDest[ 0 ] = new Vector2( -1, -1 );
+        //            DraggingFromHero = false;
+        //            return true;
+        //        }
+        //    }
+        //    else return false;
 
         if( new Vector2( Mtx, Mty ) == Hero.Pos )
         {
@@ -698,11 +698,11 @@ public partial class Map : MonoBehaviour
 
         if( Input.GetMouseButtonDown( 2 ) ) MouseRotationIndicatorState = !MouseRotationIndicatorState;
 
-        if( Application.platform == RuntimePlatform.Android )
-        {
-            MouseRotationIndicator.gameObject.SetActive( false );
-            MouseRotationIndicatorState = false;
-        }
+        //gg  //if( Application.platform == RuntimePlatform.Android )
+        //{
+        //    MouseRotationIndicator.gameObject.SetActive( false );
+        //    MouseRotationIndicatorState = false;
+        //}
 
         if( Input.GetMouseButton( 1 ) || ( DraggingFromHero && Input.GetMouseButton( 0 ) ) )
         {
@@ -926,7 +926,7 @@ public partial class Map : MonoBehaviour
                         if( Map.I.ButtonPressingTimeCount < 10 )
                             mb = false;
 
-        if( Application.platform == RuntimePlatform.Android && Input.touchCount > 1 ) return;
+        //gg  if( Application.platform == RuntimePlatform.Android && Input.touchCount > 1 ) return;
 
         if( dest.x != -1 )                                                                                                             // Pathfinding move           
             if( mb )
@@ -971,11 +971,11 @@ public partial class Map : MonoBehaviour
             if( HeroIsDead && AdvanceTurn )
                 Map.I.TDCol.TurnData[ CurArea.AreaTurnCount - 1 ].HeroDie = true;
 
-        if( cInput.GetKey( "Advance VCR" ) )
-        {
-            RepeatButton();
-            return;
-        }
+        //ggggif( cInput.GetKey( "Advance VCR" ) )
+        //{
+        //    RepeatButton();
+        //    return;
+        //}
 
         if( UI.I.RepeatButton.state == UIButtonColor.State.Pressed )
             if( ButtonPressingTimeCount > 1 )

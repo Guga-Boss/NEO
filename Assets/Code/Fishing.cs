@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
@@ -252,7 +252,7 @@ public partial class Map : MonoBehaviour
             if( un.Control.FishingLine )
                 {
                     un.Control.FishingLine.SetPosition( 0, PoleEndHelper.transform.position );
-                    un.Control.FishingLine.SetPosition( 1, un.Spr.transform.position );
+                    un.Control.FishingLine.SetPosition( 1, un.NSpr.transform.position );
                 }        
 
             if( un.Activated == false )
@@ -294,7 +294,7 @@ public partial class Map : MonoBehaviour
             UI.I.BigMessageTextTimeCounter = .1f;
                                 
             CurrentFishingPole.Activate( false );                                                         // Deactivate Pole
-            CurrentFishingPole.Spr.gameObject.SetActive( true );            
+            CurrentFishingPole.NSpr.gameObject.SetActive( true );            
             CurrentFishingPole.LevelTxt.gameObject.SetActive( true );
             MasterAudio.StopAllOfSound( "Water Flow" );
             UI.I.SelectedPerk = UI.I.LastClickedPerk;
@@ -815,10 +815,11 @@ public partial class Map : MonoBehaviour
 
     public bool GetKey( string key, bool down )
     {
-        if( down )
-            return cInput.GetKeyDown( key );
-        else
-            return cInput.GetKey( key );
+        return true; //ggg
+        //if( down )
+        //    return cInput.GetKeyDown( key );
+        //else
+        //    return cInput.GetKey( key );
     }
     public Vector3 GetInputVector( bool down )
     {
@@ -998,17 +999,17 @@ public partial class Map : MonoBehaviour
         float fact = 1f;
         hk.transform.position = new Vector3( x, y, hk.transform.position.z );
         Vector3 ivec = Vector3.zero;
-        if( cInput.GetKeyDown( "Move NE" ) ) ivec += new Vector3( fact, fact,   0 ); else            // Keyboard input for Int Tile movement
-        if( cInput.GetKeyDown( "Move SE" ) ) ivec += new Vector3( +fact, -fact, 0 ); else
-        if( cInput.GetKeyDown( "Move SW" ) ) ivec += new Vector3( -fact, -fact, 0 ); else
-        if( cInput.GetKeyDown( "Move NW" ) ) ivec += new Vector3( -fact, +fact, 0 );
-        if( ivec == Vector3.zero )
-           {
-            if( cInput.GetKeyDown( "Move N" ) ) ivec += new Vector3( 0, fact, 0  ); else
-            if( cInput.GetKeyDown( "Move S" ) ) ivec += new Vector3( 0, -fact, 0 ); else
-            if( cInput.GetKeyDown( "Move E" ) ) ivec += new Vector3( +fact, 0    ); else
-            if( cInput.GetKeyDown( "Move W" ) ) ivec += new Vector3( -fact, 0, 0 );
-           }
+        //if( cInput.GetKeyDown( "Move NE" ) ) ivec += new Vector3( fact, fact,   0 ); else            // Keyboard input for Int Tile movement
+        //if( cInput.GetKeyDown( "Move SE" ) ) ivec += new Vector3( +fact, -fact, 0 ); else
+        //if( cInput.GetKeyDown( "Move SW" ) ) ivec += new Vector3( -fact, -fact, 0 ); else
+        //if( cInput.GetKeyDown( "Move NW" ) ) ivec += new Vector3( -fact, +fact, 0 );
+        //if( ivec == Vector3.zero )
+        //   {
+        //    if( cInput.GetKeyDown( "Move N" ) ) ivec += new Vector3( 0, fact, 0  ); else
+        //    if( cInput.GetKeyDown( "Move S" ) ) ivec += new Vector3( 0, -fact, 0 ); else
+        //    if( cInput.GetKeyDown( "Move E" ) ) ivec += new Vector3( +fact, 0    ); else
+        //    if( cInput.GetKeyDown( "Move W" ) ) ivec += new Vector3( -fact, 0, 0 );
+        //   }
         EDirection dr = Util.GetTargetUnitDir( Vector2.zero, hk.ForcedMoveDir );
         Unit arrow = Map.I.GetUnit( ETileType.ARROW, hk.TilePos );                                   // Charges Harpoon direction over arrow
         if( arrow != null && hk.ForcedMoveDir != Vector3.zero )
@@ -1798,8 +1799,8 @@ public partial class Map : MonoBehaviour
         un.Control.MaxFishSpeed = 2f;
         un.Control.FlyingSpeed = Random.Range( .5f, 2f );
         FishActionStruct.ResetAll( un );
-        un.Spr.transform.localPosition = new Vector3( 0, 0, un.Spr.transform.localPosition.z );
-        un.Spr.transform.localScale = new Vector3( 1, 1, 1 );
+        un.NSpr.transform.localPosition = new Vector3( 0, 0, un.NSpr.transform.localPosition.z );
+        un.NSpr.transform.localScale = new Vector3( 1, 1, 1 );
         un.Body.Sprite3.gameObject.SetActive( false );
         InitFishGraphics( un );
     }
@@ -1839,111 +1840,111 @@ public partial class Map : MonoBehaviour
         un.Graphic.gameObject.SetActive( true );
         un.Graphic.transform.localPosition = new Vector3( 0, 0, 0 );
         un.gameObject.SetActive( true );
-        un.Body.Animator = un.Spr.GetComponent<tk2dSpriteAnimator>();
+        //un.Body.Animator = un.Spr.GetComponent<tk2dSpriteAnimator>();
         un.Body.Sprite2.gameObject.SetActive( false );
         un.Body.Sprite3.gameObject.SetActive( false );
         un.RightText.text = "";
         un.LevelTxt.text = "";
         if( un.Water.GlowingFish )
             un.Body.Sprite3.gameObject.SetActive( true );
-        un.Spr.transform.localScale = new Vector3( 1, 1, 1 );
+        un.NSpr.transform.localScale = new Vector3( 1, 1, 1 );
         switch( un.Body.FishType )
         {
-            case EFishType.FISH_1:
-            un.Body.Animator.Play( "Yellow Fish Swimming" );
-            break;
-            case EFishType.FISH_2:
-            un.Body.Animator.Play( "Red Fish Swimming" );
-            break;
-            case EFishType.FISH_3:
-            un.Body.Animator.Play( "Blue Fish Swimming" );
-            break;
-            case EFishType.FISH_CRAB:
-            un.Body.Animator.Play( "Black Fish Swimming" );
-            break;
-            case EFishType.FISH_MANTA:
-            un.Body.Animator.Play( "Manta Ray 1 Swimming" );
-            break;
-            case EFishType.FISH_BROWN:
-            un.Body.Animator.Play( "Manta Ray 2 Swimming" );
-            break;
-            case EFishType.FISH_SNAKE:
-            un.Body.Animator.Play( "Snake Swimming" );
-            break;
-            case EFishType.FISH_FROG:
-            un.Body.Animator.Play( "Frog Swimming" );
-            break;
+            //case EFishType.FISH_1:
+            //un.Body.Animator.Play( "Yellow Fish Swimming" );
+            //break;
+            //case EFishType.FISH_2:
+            //un.Body.Animator.Play( "Red Fish Swimming" );
+            //break;
+            //case EFishType.FISH_3:
+            //un.Body.Animator.Play( "Blue Fish Swimming" );
+            //break;
+            //case EFishType.FISH_CRAB:
+            //un.Body.Animator.Play( "Black Fish Swimming" );
+            //break;
+            //case EFishType.FISH_MANTA:
+            //un.Body.Animator.Play( "Manta Ray 1 Swimming" );
+            //break;
+            //case EFishType.FISH_BROWN:
+            //un.Body.Animator.Play( "Manta Ray 2 Swimming" );
+            //break;
+            //case EFishType.FISH_SNAKE:
+            //un.Body.Animator.Play( "Snake Swimming" );
+            //break;
+            //case EFishType.FISH_FROG:
+            //un.Body.Animator.Play( "Frog Swimming" );
+            //break;
             case EFishType.FAST_TILE:
-            un.Spr.spriteId = 480;
-            un.Body.Animator.Stop();
+            un.NSpr.spriteId = 480;
+            //un.Body.Animator.Stop();
             break;
             case EFishType.BONUS_TIME:
             un.Body.Sprite2.spriteId = 481;
             un.Body.Sprite2.gameObject.SetActive( true );
-            un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
+            //un.Body.Animator.Play( "Black Manta Ray Swimming" );
+            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.BONUS_HOOK_SMALL:
             un.Body.Sprite2.spriteId = 487;
             un.Body.Sprite2.gameObject.SetActive( true );
-            un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
+            //un.Body.Animator.Play( "Black Manta Ray Swimming" );
+            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.BONUS_HOOK_MEDIUM:
             un.Body.Sprite2.spriteId = 488;
             un.Body.Sprite2.gameObject.SetActive( true );
-            un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
+            //un.Body.Animator.Play( "Black Manta Ray Swimming" );
+            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.BONUS_HOOK_LARGE:
             un.Body.Sprite2.spriteId = 489;
             un.Body.Sprite2.gameObject.SetActive( true );
-            un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
+            //un.Body.Animator.Play( "Black Manta Ray Swimming" );
+            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.CLOSED_WATER_TRAP:
-            un.Spr.spriteId = 483;
-            un.Body.Animator.Stop();
+            un.NSpr.spriteId = 483;
+            //un.Body.Animator.Stop();
             break;
             case EFishType.OPEN_WATER_TRAP:
-            un.Spr.spriteId = 484;
-            un.Body.Animator.Stop();
+            un.NSpr.spriteId = 484;
+            //un.Body.Animator.Stop();
             break;
             case EFishType.BAIT:
-            un.Spr.spriteId = 485;
-            un.Body.Animator.Stop();
+            un.NSpr.spriteId = 485;
+            //un.Body.Animator.Stop();
             break;
             case EFishType.HOOK_PULL:
-            un.Spr.spriteId = 486;
-            un.Body.Animator.Stop();
+            un.NSpr.spriteId = 486;
+            //un.Body.Animator.Stop();
             break;
             case EFishType.INT_TILE:
-            un.Spr.spriteId = 482;
-            un.Body.Animator.Stop();
+            un.NSpr.spriteId = 482;
+            //un.Body.Animator.Stop();
             break;
             case EFishType.TIME_SKIP:
             un.Body.Sprite2.spriteId = 490;
             un.Body.Sprite2.gameObject.SetActive( true );
-            un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
+            //un.Body.Animator.Play( "Black Manta Ray Swimming" );
+            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.BONUS_FISHING_LEVEL:
             un.Body.Sprite2.spriteId = 491;
             un.Body.Sprite2.gameObject.SetActive( true );
-            un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
+            //un.Body.Animator.Play( "Black Manta Ray Swimming" );
+            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
         }
         if( un.Body.IsFish )
         {
-            un.Spr.transform.eulerAngles = new Vector3( 0, 0, Random.Range( 0, 360 ) );
+            un.NSpr.transform.eulerAngles = new Vector3( 0, 0, Random.Range( 0, 360 ) );
             un.Body.EffectList[ 0 ].gameObject.SetActive( true );
         }
         else
         {
-            un.Spr.transform.eulerAngles = new Vector3( 0, 0, 0 );
-            un.Spr.transform.position = new Vector3( un.Spr.transform.position.x, 
-            un.Spr.transform.position.y, un.Spr.transform.position.z + .01f );
+            un.NSpr.transform.eulerAngles = new Vector3( 0, 0, 0 );
+            un.NSpr.transform.position = new Vector3( un.NSpr.transform.position.x, 
+            un.NSpr.transform.position.y, un.NSpr.transform.position.z + .01f );
             un.Body.EffectList[ 0 ].gameObject.SetActive( false );
         }
     }

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using PathologicalGames;
+using System.IO;
 
 public class UI : MonoBehaviour
 {
@@ -891,7 +892,7 @@ public class UI : MonoBehaviour
 
                 string file = Manager.I.GetProfileFolder() + Manager.I.QuestName + "/" +
                              "Save Game L" + Quest.CurrentLevel + " " + x + " " + y + ".wq";
-                bool exists = ES2.Exists( file + "?tag=SaveInfo" );
+                bool exists = File.Exists( file + "?tag=SaveInfo" );
                 
                 Map.I.Gaia2[ x, y ].gameObject.SetActive( false );
 

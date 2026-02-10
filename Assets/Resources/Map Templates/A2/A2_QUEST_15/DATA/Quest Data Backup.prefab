@@ -1,26 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1349628051843208}
-  m_IsPrefabParent: 1
---- !u!1 &1349628051843208
+--- !u!1 &1460814931267542
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
-  - component: {fileID: 4735432205559142}
-  - component: {fileID: 114948836445859592}
-  - component: {fileID: 114087481047327432}
+  - component: {fileID: 4430681873688404}
+  - component: {fileID: 114907370574472782}
+  - component: {fileID: 114756776549250926}
   m_Layer: 0
   m_Name: Quest Data Backup
   m_TagString: Map Quest
@@ -28,66 +18,87 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4735432205559142
+--- !u!4 &4430681873688404
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1349628051843208}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460814931267542}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 23, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114087481047327432
+--- !u!114 &114907370574472782
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1349628051843208}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460814931267542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MapData: {fileID: 114756776549250926}
+  MonsterSprite: {fileID: 0}
+  NestSprite: {fileID: 0}
+  BackgroundSprite: {fileID: 0}
+  QuestNameMesh: {fileID: 0}
+  QuestPanel: {fileID: 0}
+  QuestName: Mining II
+  Signature: A2_QUEST_15
+  SubFolder: A2
+  NavigationMapIcon: 1674
+--- !u!114 &114756776549250926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460814931267542}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3341083a3dfe3764d8176a5a85540cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UniqueID: EN6KP
   IsUp: 0
   Notes: 
-  QuestHelper: {fileID: 114948836445859592}
+  QuestHelper: {fileID: 114907370574472782}
   MapCord: {x: 87, y: 8}
   BlockArea: {x: 2, y: 2}
-  ImagesFolder: {fileID: 1601088150840292, guid: 6c447bfebbbbe26418ef6432e5bfeb22,
-    type: 2}
-  GoalsFolder: {fileID: 1081507886914344, guid: a1050f76318acf548a98f720d6687ccc,
-    type: 2}
+  ImagesFolder: {fileID: 1316014841410154, guid: 6760fc577cfde3a42a6341d721123fb4,
+    type: 3}
+  GoalsFolder: {fileID: 1194726934686562, guid: 5b189a6783b31c7479e2da7b0245832c,
+    type: 3}
   GoalList:
-  - {fileID: 114174163446657086, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114143451716808270, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114226854495209278, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114861547355065176, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114035293190186962, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114586441409993302, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114351913377102502, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114219177371946000, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114908554265040828, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114242379527750642, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114837863059134028, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114117668317575440, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114275590359405476, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114014702728271866, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114761568184291312, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114878479076556162, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114196190005822116, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114792143466793442, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114029339631873644, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
-  - {fileID: 114270408928893658, guid: a1050f76318acf548a98f720d6687ccc, type: 2}
+  - {fileID: 114878010310527848, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114231891531641696, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114240151370743798, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114517323945594510, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114435353533730466, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114712214203696414, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114900566268657106, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114483719477413816, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114555964455519794, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114618558875680444, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114417806036794670, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114030464043244602, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114844694382459188, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114058172211467790, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
+  - {fileID: 114930312724250152, guid: 5b189a6783b31c7479e2da7b0245832c, type: 3}
   SDID: 0
   SectorHintFolder: {fileID: 0}
   QuestID: 10
   EnableAlternateStartingCube: 1
   LabType: 0
-  InitiallyAvailableCubes: 10
+  InitiallyAvailableCubes: 15
   Available: 1
   RequiredAdventureList: 
   RequiredBronzeTrophies: 0
@@ -101,23 +112,25 @@ MonoBehaviour:
   RequiredItemLifeTime: 60
   RequiredMaxCapacityItem: -1
   RequiredMaxCapacityAmount: 0
-  UpgradeListFolder: {fileID: 1286894272590538, guid: 14fffd5c27f0d584ba4ef5ed8409ca76,
-    type: 2}
+  UpgradeListFolder: {fileID: 1623393527504290, guid: 3e261517f0897b943b2d0fbe8a00fb09,
+    type: 3}
   AdventureUpgradeInfoList:
-  - {fileID: 114046520959958698, guid: 14fffd5c27f0d584ba4ef5ed8409ca76, type: 2}
-  TechListFolder: {fileID: 1808331420800038, guid: c63c62562749457479f9dd610b1035f3,
-    type: 2}
-  StartingAdventureLevel: 1
+  - {fileID: 114594069752942126, guid: 3e261517f0897b943b2d0fbe8a00fb09, type: 3}
+  - {fileID: 114431007194952662, guid: 3e261517f0897b943b2d0fbe8a00fb09, type: 3}
+  TechListFolder: {fileID: 1250035156771766, guid: 1e64119867e22484c8bb01fac691f881,
+    type: 3}
+  StartingAdventureLevel: 0
   StartingTrainningLevel: 0
   RescueToGate: 1
   StartingGotoCheckPointLevel: 0
-  GotoCheckPointResourceCost: 1
-  AutoOpenGateResourceCost: 1
+  GotoCheckPointResourceCost: 0
+  AutoOpenGateResourceCost: 0
   RescueEnabled: 1
   MaxCubes: 30
-  QuestSecrets: 0
+  QuestSecrets: 2
   MaximumUnits: 0
   CubeDeathDamage: 10
+  HeroStartingHP: 100
   QuestRelevance: 100
   CubeClearHPBonus: 0
   ShowPopup: 0
@@ -148,6 +161,8 @@ MonoBehaviour:
   MonsterLevelIncreaseFactor: 0
   MonsterLevelFactorInflation: 0
   DynamicMonsterLevelAddPerDeath: 0.05
+  DefaulLoadItemType: 10
+  DefaultLoadCost: 2
   MaximumDirtyAreas: 0
   LockedZoom: 0
   DefaultZoom: 0
@@ -201,32 +216,28 @@ MonoBehaviour:
   SpawnResourceRange: 1
   RelocatorCreationChance: 0
   InitialUpgradeChestChance: 50
-  CloverPickUpgradeChestChance: 30
+  CloverPickUpgradeChestChance: 20
   CubeClearUpgradeChestChance: 30
+  OpenChestUpgradeChestChance: 50
+  BaseChestPersistChance: 0
   ChestInflationCummulative: 0
   ChestBonusItemList: 
   CloversPerCube: 5
-  QuestXPPerClover: 0.04
-  TotalShellBonus: 20
-  TotalCogBonus: 10
-  TotalQuestXPBonus: 10
-  QuestXPPerChest: 0.1
-  BaseHoneycombBonusChance: 10
-  MinimumSongOfPeaceTimer: 12
-  MaximumSongOfPeaceTimer: 18
-  MinimumFreePassTimer: 4
-  MaximumFreePassTimer: 8
-  BaseBeehiveChance: 0
-  BaseBeehiveTurns: 1
-  NeighborPerfectCubeBonusPercent: 0
-  PerfectAreaPercentBonus: 0
-  PerfectAreaHPBonus: 2
-  MushroomBonus: 0
-  WoundedMonsterBonus: 0
-  AllBurntBonus: 0
-  MarkedAreaBonus: 0
-  BackAttackBonus: 0
-  BaseSleepingChance: 0
+  QuestXPPerClover: 0.4
+  FireTokenPerClover: 0.2
+  CubeClearBonusCurve: 1.5
+  ShellStartBonus: 1
+  ShellEndBonus: 3
+  CogStartBonus: 1
+  CogEndBonus: 3
+  XpStartBonus: 1
+  XpEndBonus: 3
+  HoneycombStartBonus: 0.8
+  HoneycombEndBonus: 2
+  FireTokenStartBonus: 0.5
+  FireTokenEndBonus: 2
+  QuestXPPerChest: 0.5
+  AltarEvolutionFactor: 100
   BaseRestingDistance: 0
   RestingNeedLOSCheck: 0
   BaseFrontalProtectionChance: 0
@@ -287,11 +298,10 @@ MonoBehaviour:
   BaseWoodRequiredForSale: 20
   WoodForRunePrize: 2
   BaseThreatDuration: 1
-  BaseFirePitsNeededForDiscont: 5
   PreferedLabPosition: {x: 3, y: 4}
   DirectLabJump: 1
   SDList:
-  - {fileID: 114655312188918160, guid: 9faf3c2da18f4ed43a49430a61d842e6, type: 2}
+  - {fileID: 114723364663084730, guid: 31d556090045e2f45b078c019c59c069, type: 3}
   LabModAction: 01000000020000000200000003000000
   LabModValue:
   - 4
@@ -362,7 +372,6 @@ MonoBehaviour:
   VigorRTAttackSpeedBonus: 50
   VigorTime: 4
   DifficultyBonusFactor: 1
-  QueroQueroShotMissedDamage: 10
   QueroQueroWaitTime: 2
   NeighborWaspAttSpeedBonusPerTile: 10
   NeighborWaspPerTileInflation: 20
@@ -407,24 +416,3 @@ MonoBehaviour:
   BlockerPlagueMonsterGenerationFactor: 0
   GrabPlagueMonsterGenerationFactor: 0
   BlockerPlagueMonsterBaseCost: 5
---- !u!114 &114948836445859592
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1349628051843208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7ddab35a3d467249b47dd2f4a0794ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MapData: {fileID: 114087481047327432}
-  MonsterSprite: {fileID: 0}
-  NestSprite: {fileID: 0}
-  BackgroundSprite: {fileID: 0}
-  QuestNameMesh: {fileID: 0}
-  QuestPanel: {fileID: 0}
-  QuestName: Mining II
-  Signature: A2_QUEST_15
-  SubFolder: A2
-  NavigationMapIcon: 1674

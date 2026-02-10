@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class QuestWindow : MonoBehaviour 
@@ -17,22 +17,22 @@ public class QuestWindow : MonoBehaviour
 	
 	public void SaveQuestWindowData()
 	{
-		if( Manager.I.ProfileNumber == -1 ) return;
-        string file = Application.persistentDataPath + "/Profiles/Profile " + Manager.I.ProfileNumber + "/Quest Data.dat";
-		ES2.Save( QuestMenu.Index, file + "?tag=SelectedItem" );
-		ES2.Save( Manager.I.QuestName, file + "?tag=QuestName" );
+		//if( Manager.I.ProfileNumber == -1 ) return;
+  //      string file = Application.persistentDataPath + "/Profiles/Profile " + Manager.I.ProfileNumber + "/Quest Data.dat";
+		//ES2.Save( QuestMenu.Index, file + "?tag=SelectedItem" );
+		//ES2.Save( Manager.I.QuestName, file + "?tag=QuestName" );
 	}
 
 	//_____________________________________________________________________________________________________________________ Load Quest data
 
   	public void LoadQuestWindowData( int profile )
 	{
-        string file = Application.persistentDataPath + "/Profiles/Profile " + profile + "/Quest Data.dat";
-		if( ES2.Exists( file ) )
-		{
-			QuestMenu.Index     = ES2.Load<int>( file + "?tag=SelectedItem");
-			Manager.I.QuestName = ES2.Load<string>( file + "?tag=QuestName");
-		}
+  //      string file = Application.persistentDataPath + "/Profiles/Profile " + profile + "/Quest Data.dat";
+		//if( ES2.Exists( file ) )
+		//{
+		//	QuestMenu.Index     = ES2.Load<int>( file + "?tag=SelectedItem");
+		//	Manager.I.QuestName = ES2.Load<string>( file + "?tag=QuestName");
+		//}
 	}
 
 	//_____________________________________________________________________________________________________________________ Finalize quest Window

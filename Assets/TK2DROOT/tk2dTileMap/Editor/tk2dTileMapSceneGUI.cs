@@ -381,8 +381,8 @@ public class tk2dTileMapSceneGUI
             // 2. Checa se acabou a floresta
             if( tileMap.GetTile( nx, ny, ( int ) ELayerType.GAIA ) != ( int ) ETileType.FOREST ) break;
 
-            // 3. --- NOVO: Checa se j· existe uma vinha no caminho ---
-            // Se encontrar outra decoraÁ„o, pare O ANTES dela para deixar o buffer
+            // 3. --- NOVO: Checa se j√° existe uma vinha no caminho ---
+            // Se encontrar outra decora√ß√£o, pare O ANTES dela para deixar o buffer
             if( tileMap.GetTile( nx, ny, ( int ) ELayerType.DECOR2 ) != -1 ) break;
 
             max++;
@@ -390,8 +390,8 @@ public class tk2dTileMapSceneGUI
 
         if( max < 2 ) return;
 
-        // O loop 'i < max' garante que vamos parar 1 tile antes do obst·culo (seja floresta ou outra vinha)
-        // Deixando o espaÁo exato para a transiÁ„o.
+        // O loop 'i < max' garante que vamos parar 1 tile antes do obst√°culo (seja floresta ou outra vinha)
+        // Deixando o espa√ßo exato para a transi√ß√£o.
         for( int i = 1; i < max; i++ )
         {
             int cx = x + dx * i;
@@ -410,10 +410,10 @@ public class tk2dTileMapSceneGUI
         }
     }
 
-    // Uma vers„o da sua funÁ„o sem o ForceBuild interno para n„o pesar o processamento
+    // Uma vers√£o da sua fun√ß√£o sem o ForceBuild interno para n√£o pesar o processamento
     private void MakeAutoDecor()
     {
-        // Primeiro: conexıes horizontais
+        // Primeiro: conex√µes horizontais
         for( int y = 0; y < tileMap.height; y++ )
         {
             for( int x = 0; x < tileMap.width; x++ )
@@ -426,7 +426,7 @@ public class tk2dTileMapSceneGUI
             }
         }
 
-        // Segundo: conexıes verticais
+        // Segundo: conex√µes verticais
         for( int y = 0; y < tileMap.height; y++ )
         {
             for( int x = 0; x < tileMap.width; x++ )
@@ -448,7 +448,7 @@ public class tk2dTileMapSceneGUI
 
     private bool CanPlaceDecoration( int x, int y )
     {
-        // Verifica se o tile est· livre para decoraÁ„o
+        // Verifica se o tile est√° livre para decora√ß√£o
         return tileMap.GetTile( x, y, ( int ) ELayerType.DECOR ) == -1 &&
                tileMap.GetTile( x, y, ( int ) ELayerType.DECOR2 ) == -1 &&
                tileMap.GetTile( x, y, ( int ) ELayerType.GAIA ) == ( int ) ETileType.FOREST;
@@ -897,38 +897,38 @@ public class tk2dTileMapSceneGUI
 					}
 				}				
 				break;
-            case EventType.keyDown:                                  // guga add tk
-                {
-                   // tk2dTileMapEditor.UpdateBrushInput(  editorData );                    
-                }
-                break;
-            case EventType.keyUp:                                  
-                {
+            //case EventType.KeyDown:                                  // guga add tk
+            //    {
+            //       // tk2dTileMapEditor.UpdateBrushInput(  editorData );                    
+            //    }
+            //    break;
+            //case EventType.keyUp:                                  
+            //    {
 
                   
-                    //if( Event.current.alt )
-                    if( Event.current.keyCode == KeyCode.P )
-                        {
-                            string txt = "";
-                            int count = 0;
-                            for( int y = 0; y < tileMap.height; y++ )
-                            for( int x = 0; x < tileMap.width; x++ )
-                            {
-                                int tile = tileMap.GetTile( ( int ) x, ( int ) y, ( int ) ELayerType.MODIFIER );                     // use this to find a modifier in the map, press P after clicking the map
-                                if( tile != -1 )
-                                if( tile == ( int ) MapSaver.Get().AutoMod + 288 )
-                                {
-                                    txt += "   (" + x + " " + y + ")";
-                                    count++;
-                                }
-                            }
-                        if( count == 0  )
-                            Debug.Log( "NEO IS A GREAT SUCCESS! - NONE FOUND!" );
-                        else
-                            Debug.Log( MapSaver.Get().AutoMod + " Found: " + count + " Pos List: " + txt );
-                        }
-                    break;
-                }
+            //        //if( Event.current.alt )
+            //        if( Event.current.keyCode == KeyCode.P )
+            //            {
+            //                string txt = "";
+            //                int count = 0;
+            //                for( int y = 0; y < tileMap.height; y++ )
+            //                for( int x = 0; x < tileMap.width; x++ )
+            //                {
+            //                    int tile = tileMap.GetTile( ( int ) x, ( int ) y, ( int ) ELayerType.MODIFIER );                     // use this to find a modifier in the map, press P after clicking the map
+            //                    if( tile != -1 )
+            //                    if( tile == ( int ) MapSaver.Get().AutoMod + 288 )
+            //                    {
+            //                        txt += "   (" + x + " " + y + ")";
+            //                        count++;
+            //                    }
+            //                }
+            //            if( count == 0  )
+            //                Debug.Log( "NEO IS A GREAT SUCCESS! - NONE FOUND!" );
+            //            else
+            //                Debug.Log( MapSaver.Get().AutoMod + " Found: " + count + " Pos List: " + txt );
+            //            }
+            //        break;
+            //    }
 				
 			case EventType.MouseUp:
 				if ((Event.current.button == 0 || Event.current.button == 1) && GUIUtility.hotControl == controlID)

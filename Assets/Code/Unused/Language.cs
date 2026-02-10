@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -102,28 +102,28 @@ public class Language : MonoBehaviour
             string url = csvUrls[ i ];
             string abaNome = TabNames[ i ].Trim();
 
-            WWW www = new WWW( url );
-            while( !www.isDone )
-                yield return null;
+            // gg   //WWW www = new WWW( url );
+            //while( !www.isDone )
+            //    yield return null;
 
-            if( !string.IsNullOrEmpty( www.error ) )
-            {
-                Debug.LogError( "Erro ao baixar CSV da aba '" + abaNome + "': " + www.error );
-                continue;
-            }
+            //if( !string.IsNullOrEmpty( www.error ) )
+            //{
+            //    Debug.LogError( "Erro ao baixar CSV da aba '" + abaNome + "': " + www.error );
+            //    continue;
+            //}
 
-            string text = System.Text.Encoding.UTF8.GetString( www.bytes );
+            // gg    string text = System.Text.Encoding.UTF8.GetString( www.bytes );
 
-            if( text.Length > 0 && text[ 0 ] == '\uFEFF' )
-                text = text.Substring( 1 );
+            // gg   //if( text.Length > 0 && text[ 0 ] == '\uFEFF' )
+            //    text = text.Substring( 1 );
 
-            if( string.IsNullOrEmpty( text ) )
-            {
-                Debug.LogWarning( "CSV vazio para a aba '" + abaNome + "'." );
-                continue;
-            }
+            //if( string.IsNullOrEmpty( text ) )
+            //{
+            //    Debug.LogWarning( "CSV vazio para a aba '" + abaNome + "'." );
+            //    continue;
+            //}
 
-            ParseCSV( text, abaNome );
+            // gg  ParseCSV( text, abaNome );
             loadedCount++;
             Debug.Log( "Aba carregada (PlayMode / PC Build): " + abaNome );
         }
@@ -157,31 +157,31 @@ public class Language : MonoBehaviour
             string url = csvUrls[ i ];
             string abaNome = TabNames[ i ].Trim();
 
-            WWW www = new WWW( url );
-            while( !www.isDone ) { }
+            // gg   //WWW www = new WWW( url );
+            //while( !www.isDone ) { }
 
-            if( !string.IsNullOrEmpty( www.error ) )
-            {
-                Debug.LogError( "Erro ao baixar CSV da aba '" + abaNome + "': " + www.error );
-                continue;
-            }
+            //if( !string.IsNullOrEmpty( www.error ) )
+            //{
+            //    Debug.LogError( "Erro ao baixar CSV da aba '" + abaNome + "': " + www.error );
+            //    continue;
+            //}
 
             // converte bytes para UTF-8, ignorando Content-Type
-            string text = System.Text.Encoding.UTF8.GetString( www.bytes );
+            // gg  string text = System.Text.Encoding.UTF8.GetString( www.bytes );
 
             // remove BOM se existir
-            if( text.Length > 0 && text[ 0 ] == '\uFEFF' )
-                text = text.Substring( 1 );
+            //if( text.Length > 0 && text[ 0 ] == '\uFEFF' )
+            //    text = text.Substring( 1 );
 
-            if( string.IsNullOrEmpty( text ) )
-            {
-                Debug.LogWarning( "CSV vazio para a aba '" + abaNome + "'." );
-                continue;
-            }
+            //if( string.IsNullOrEmpty( text ) )
+            //{
+            //    Debug.LogWarning( "CSV vazio para a aba '" + abaNome + "'." );
+            //    continue;
+            //}
 
-            ParseCSV( text, abaNome );
-            loadedCount++;
-            Debug.Log( "Aba carregada (Editor): " + abaNome );
+            //ParseCSV( text, abaNome );
+            //loadedCount++;
+            //Debug.Log( "Aba carregada (Editor): " + abaNome );
         }
 
         Debug.Log( "Editor: " + loadedCount + "/" + csvUrls.Count + " abas carregadas com sucesso." );
@@ -209,11 +209,11 @@ public class Language : MonoBehaviour
             WWW www = new WWW( url );
             yield return www;
 
-            if( !string.IsNullOrEmpty( www.error ) )
-            {
-                Debug.LogError( "Erro ao baixar CSV da aba '" + abaNome + "' no PlayMode: " + www.error );
-                continue;
-            }
+            // gg    //if( !string.IsNullOrEmpty( www.error ) )
+            //{
+            //    Debug.LogError( "Erro ao baixar CSV da aba '" + abaNome + "' no PlayMode: " + www.error );
+            //    continue;
+            //}
 
             // converte bytes para UTF-8, ignorando Content-Type
             string text = System.Text.Encoding.UTF8.GetString( www.bytes );

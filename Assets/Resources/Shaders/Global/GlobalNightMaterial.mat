@@ -2,19 +2,25 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: GlobalNightMaterial
   m_Shader: {fileID: 4800000, guid: d3823f4f5ca0120448287ed189c44944, type: 3}
-  m_ShaderKeywords: _BLENDMODE_OVERLAY
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _BLENDMODE_OVERLAY
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -62,6 +68,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _BlendMode: 0
     - _BloomIntensity: 1
@@ -71,7 +78,7 @@ Material:
     - _CloudIntensity: 0.3
     - _Cutoff: 0.5
     - _Darkness: 0.35400003
-    - _DayLight: 0.35234657
+    - _DayLight: 0.35620964
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _FalloffCurve: 2
@@ -79,11 +86,11 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Intensity: 1
-    - _MasterIntensity: 0
+    - _MasterIntensity: 1
     - _Metallic: 0
     - _MinLightness: 0.1
     - _Mode: 0
-    - _NightIntensity: 1.932283
+    - _NightIntensity: 1.9205768
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Radius: 0.2
@@ -98,7 +105,7 @@ Material:
     - _Center: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _CloudSpeed: {r: 0.1, g: 0.05, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkColor: {r: 0, g: 0, b: 0, a: 1}
+    - _DarkColor: {r: 0, g: 0, b: 0.085, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LightColor: {r: 1, g: 0.49286336, b: 0.014705896, a: 1}
     - _MasterColor: {r: 1, g: 1, b: 1, a: 1}
@@ -107,3 +114,5 @@ Material:
     - _NightDarkColor: {r: 0.6525252, g: 0.6525252, b: 0.6820606, a: 1}
     - _Tint: {r: 0, g: 0, b: 0.09093103, a: 1}
     - _TintColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

@@ -6,6 +6,6 @@ public class tk2dDemoReloadController : MonoBehaviour
 {
 	void Reload()
 	{
-		Application.LoadLevel(Application.loadedLevel);
+		//Application.LoadLevel(Application.loadedLevel);
 	}
 }

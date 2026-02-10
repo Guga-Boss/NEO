@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using Sirenix.OdinInspector;
@@ -619,6 +619,8 @@ public class Helper : MonoBehaviour
     }
     public string GetOriListText()
     {
+        
+        return "";// gg
         string str = "";
         MapSaver ms = MapSaver.Get();
         RandomMap rm = GameObject.Find( "----------------Random Map----------------" ).GetComponent<RandomMap>();

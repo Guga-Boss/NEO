@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using PathologicalGames;
@@ -140,7 +140,7 @@ public class RandomMap : MonoBehaviour
         for( int i = 0; i < RMD.SDList.Length; i++ )
             RMD.SDList[ i ].Reset();
 
-        AreasTM.gameObject.SetActive( false );
+        if( AreasTM )  AreasTM.gameObject.SetActive( false ); //gggg
         UI.I.FarmUI.gameObject.SetActive( false );
         BluePrintWindow.I.gameObject.SetActive( false );
         
@@ -1696,13 +1696,13 @@ public class RandomMap : MonoBehaviour
             LastLabHeroPos = Map.I.LevelEntrancePosition;
         }
             
-        if( cInput.GetKey( "Wait" ) )
-             JumpKeyTimer += Time.deltaTime;
+        //if( cInput.GetKey( "Wait" ) )
+        //     JumpKeyTimer += Time.deltaTime;
 
-        if( cInput.GetKeyUp( "Wait" ) )
-        {
-            JumpKeyTimer = 0; 
-        }
+        //if( cInput.GetKeyUp( "Wait" ) )
+        //{
+        //    JumpKeyTimer = 0; 
+        //}
 
         if( LockSectorJump ) return;
 
@@ -1736,18 +1736,18 @@ public class RandomMap : MonoBehaviour
                         s.Add( RMSector[ x, y ] );
                 }
 
-            if( cInput.GetKeyDown( "Wait" ) )
-            {
-                LastSectorJumpID++;
-                if( LastSectorJumpID >= s.Count ) LastSectorJumpID = 0;
+            //ggggif( cInput.GetKeyDown( "Wait" ) )
+            //{
+            //    LastSectorJumpID++;
+            //    if( LastSectorJumpID >= s.Count ) LastSectorJumpID = 0;
 
-                if( s.Count > 0 )
-                if( s[ LastSectorJumpID ].LastHeroPos.x != -1 )
-                {
-                    Map.I.Hero.Control.ApplyMove( Map.I.Hero.Pos, s[ LastSectorJumpID ].LastHeroPos );
-                    Sector.EnterSector( HeroSector, s[ LastSectorJumpID ].LastHeroPos );
-                }
-            }
+            //    if( s.Count > 0 )
+            //    if( s[ LastSectorJumpID ].LastHeroPos.x != -1 )
+            //    {
+            //        Map.I.Hero.Control.ApplyMove( Map.I.Hero.Pos, s[ LastSectorJumpID ].LastHeroPos );
+            //        Sector.EnterSector( HeroSector, s[ LastSectorJumpID ].LastHeroPos );
+            //    }
+            //}
         }         
     }
 

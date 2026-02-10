@@ -1,4 +1,4 @@
-﻿using System;                        // Basic system functions
+using System;                        // Basic system functions
 using System.IO;                     // File operations (Stream, MemoryStream)
 using System.Text;                   // Encoding, StringBuilder
 using System.Security.Cryptography;  // HMAC, RandomNumberGenerator, AES
@@ -204,7 +204,7 @@ public static class Security
     // Secure UniqueID generator
     public static void SortUniqueID()
     {
-        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"; // Uppercase + numbers
+        const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";                 // Uppercase + numbers
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
 
         byte[] randomBytes = new byte[ 16 ];
@@ -213,46 +213,48 @@ public static class Security
 
         for( int i = 0; i < 16; i++ )
         {
-            int idx = randomBytes[ i ] % chars.Length;          // Map random byte to char set
+            int idx = randomBytes[ i ] % chars.Length;                               // Map random byte to char set
             sb.Append( chars[ idx ] );
-            if( i == 3 || i == 7 || i == 11 ) sb.Append( '-' ); // Format: XXXX-XXXX-XXXX-XXXX
+            if( i == 3 || i == 7 || i == 11 ) sb.Append( '-' );                      // Format: XXXX-XXXX-XXXX-XXXX
         }
 
-        G.Farm.UniqueID = sb.ToString();                       // Save generated ID
+        G.Farm.UniqueID = sb.ToString();                                             // Save generated ID
     }
 
     internal static void FinalizeSave( MemoryStream ms, string file )
     {
-        byte[] rawData = ms.ToArray();                          // Get raw data
+        byte[] rawData = ms.ToArray();                                               // Get raw data
 
-        byte[] protectedData = Security.CheckSave( rawData );   // Protect with AES + HMAC
+        byte[] protectedData = Security.CheckSave( rawData );                        // Protect with AES + HMAC
 
-        string tempFile = file + ".tmp";                        // Temporary file for atomic save
-        File.WriteAllBytes( tempFile, protectedData );          // Write temp file
+        string tempFile = file + ".tmp";                                             // Temporary file for atomic save
+        File.WriteAllBytes( tempFile, protectedData );                               // Write temp file
 
-        if( File.Exists( file ) ) File.Delete( file );          // Delete old save
-        File.Move( tempFile, file );                            // Rename temp file to final save
+        if( File.Exists( file ) ) File.Delete( file );                               // Delete old save
+        File.Move( tempFile, file );                                                 // Rename temp file to final save
     }
 
-    public static int LoadHeader()
+    public static int LoadHeader( bool FarmID = true )
     {
-        int version = GS.R.ReadInt32();                         // Load Version
+        int version = GS.R.ReadInt32();                                              // Load Version
 
-        string unique = GS.R.ReadString();                      // Load Unique Player ID 
+        if( FarmID == false ) return version;
+        string unique = GS.R.ReadString();                                           // Load Unique Player ID 
 
         if( G.Farm.UniqueID == "" )
-            G.Farm.UniqueID = unique;                           // Attrib case empty (first time)
+            G.Farm.UniqueID = unique;                                                // Attrib case empty (first time)
         else
-            if( unique != G.Farm.UniqueID )
+        if( unique != G.Farm.UniqueID )
             {
                 WindowsMessageBox.ShowErrorAndQuit( "Bad Farm Unique ID" );          // unique id mismatch
             }
         return version;
     }
 
-    internal static int SaveHeader( int version )
+    internal static int SaveHeader( int version, bool FarmID = true )
     {
         int SaveVersion = version;
+        if( FarmID )
         if( G.Farm.UniqueID == "" )
         {
             WindowsMessageBox.ShowErrorAndQuit( "Cannot Save Empty Unique ID" );
@@ -261,6 +263,8 @@ public static class Security
 
         GS.W.Write( SaveVersion );                                                   // Save Version
 
+        if( FarmID == false )
+            return version;
         GS.W.Write( G.Farm.UniqueID );                                               // Save Player Unique ID
         return version;
     }
