@@ -1006,10 +1006,10 @@ public partial class Unit : MonoBehaviour
             int tile = Map.I.Tilemap.GetTile( ( int ) to.x, ( int ) to.y, ( int ) ELayerType.GAIA );
             if( tile >= 0 && ( int ) tile < Map.I.Tilemap.data.tileInfo.Length )                                     // Decor Gaia Block 
             {
-                var tileInfo = Map.I.Tilemap.data.tileInfo[ tile ];
-                if( tileInfo.Layer == ELayerType.GAIA )
-                if( tileInfo.Blocked )
-                    return false;
+                //var tileInfo = Map.I.Tilemap.data.tileInfo[ tile ];
+                //if( tileInfo.Layer == ELayerType.GAIA )
+                //if( tileInfo.Blocked )
+                //    return false;
             }
         }
        
@@ -4748,12 +4748,12 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                RightText.color = Color.white; 
                Body.EffectList[ 1 ].gameObject.transform.localEulerAngles = angle;
                Body.EffectList[ 1 ].gameObject.SetActive( true );
-               Body.Rope.NodeDistanceOffSet = -0.2f;
+            //ggropeBody.Rope.NodeDistanceOffSet = -0.2f;
 
-               //if( neigh )
-               {
-                   //Body.MineLeverActivePuller.Body.EffectList[ 2 ].gameObject.SetActive( true );
-                   float rot = 1;
+            //if( neigh )
+            {
+                //Body.MineLeverActivePuller.Body.EffectList[ 2 ].gameObject.SetActive( true );
+                float rot = 1;
                    if( Body.MineLeverActivePuller.Body.ClockwiseChainPush ) rot = -1;
                    Body.MineLeverActivePuller.Body.EffectList[ 2 ].transform.Rotate( new Vector3( 0, 0, 30 * Time.deltaTime * rot ) );
                }

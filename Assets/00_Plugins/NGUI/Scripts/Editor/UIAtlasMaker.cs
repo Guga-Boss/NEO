@@ -603,9 +603,9 @@ public class UIAtlasMaker : EditorWindow
 			bytes = null;
 
 			// Load the texture we just saved as a Texture2D
-			AssetDatabase.SaveAssets();
-			AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
-			tex = NGUIEditorTools.ImportTexture(newPath, false, true, !atlas.premultipliedAlpha);
+			//ggAssetDatabase.SaveAssets();
+            //ggAssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            tex = NGUIEditorTools.ImportTexture(newPath, false, true, !atlas.premultipliedAlpha);
 
 			// Update the atlas texture
 			if (newTexture)
@@ -614,10 +614,10 @@ public class UIAtlasMaker : EditorWindow
 				else atlas.spriteMaterial.mainTexture = tex;
 				ReleaseSprites(sprites);
 				
-				AssetDatabase.SaveAssets();
-				AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
-			}
-			return true;
+				//ggAssetDatabase.SaveAssets();
+                //ggAssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            }
+            return true;
 		}
 		else
 		{
@@ -935,10 +935,10 @@ public class UIAtlasMaker : EditorWindow
 
 						// Save the material
 						AssetDatabase.CreateAsset(mat, matPath);
-						AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+                        //ggAssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 
-						// Load the material so it's usable
-						mat = AssetDatabase.LoadAssetAtPath(matPath, typeof(Material)) as Material;
+                        // Load the material so it's usable
+                        mat = AssetDatabase.LoadAssetAtPath(matPath, typeof(Material)) as Material;
 					}
 
 					// Create a new prefab for the atlas
@@ -953,11 +953,11 @@ public class UIAtlasMaker : EditorWindow
 					// Update the prefab
 					PrefabUtility.ReplacePrefab(go, prefab);
 					DestroyImmediate(go);
-					AssetDatabase.SaveAssets();
-					AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+					//ggAssetDatabase.SaveAssets();
+                    //ggAssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 
-					// Select the atlas
-					go = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
+                    // Select the atlas
+                    go = AssetDatabase.LoadAssetAtPath(path, typeof(GameObject)) as GameObject;
 					NGUISettings.atlas = go.GetComponent<UIAtlas>();
 					Selection.activeGameObject = go;
 				}

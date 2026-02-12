@@ -282,8 +282,8 @@ public class ArcherArrowAnimation : MonoBehaviour {
             }
             if( AuxUnit )
             {
-                AuxUnit.Body.RopeDestination.transform.position = transform.position;      //  needs to animate chain too
-                AuxUnit.Body.Rope.AutoCalculateAmountOfNodes = true;
+                //ggropeAuxUnit.Body.RopeDestination.transform.position = transform.position;      //  needs to animate chain too
+                //ggropeAuxUnit.Body.Rope.AutoCalculateAmountOfNodes = true;
             }
         }
 

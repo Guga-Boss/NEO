@@ -205,23 +205,23 @@ namespace UnityEngine
     }
 }
 
-public class ES2
-{
-    public static void Save<T>( T data, string identifier ) { }
-    public static T Load<T>( string identifier ) => default( T );
-    public static bool Exists( string identifier ) => false;
-    public static void Delete( string identifier ) { }
+//public class ES2
+//{
+//    public static void Save<T>( T data, string identifier ) { }
+//    public static T Load<T>( string identifier ) => default( T );
+//    public static bool Exists( string identifier ) => false;
+//    public static void Delete( string identifier ) { }
 
-    public static string[ ] GetFiles( string path ) => new string[ 0 ];
-    public static void Rename( string source, string dest ) { }
-    public static string[ ] GetFiles( string path, string extension ) => new string[ 0 ];
-}
+//    public static string[ ] GetFiles( string path ) => new string[ 0 ];
+//    public static void Rename( string source, string dest ) { }
+//    public static string[ ] GetFiles( string path, string extension ) => new string[ 0 ];
+//}
 
-public class ES2Settings
-{
-    public ES2Settings() { }
-    public ES2Settings( string identifier ) { }
-}
+//public class ES2Settings
+//{
+//    public ES2Settings() { }
+//    public ES2Settings( string identifier ) { }
+//}
 
 public interface IColorable
 {

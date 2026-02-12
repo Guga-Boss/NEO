@@ -11,7 +11,7 @@ namespace ZipBackup
         FastZip = 2
     }
 
-    [InitializeOnLoad]
+    //ggini[InitializeOnLoad]
     public static class Backup
     {
         static Backup()

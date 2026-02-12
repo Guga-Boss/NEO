@@ -673,7 +673,7 @@ public partial class Map : MonoBehaviour
         Hero.LevelTxt.gameObject.SetActive( false );
         Tilemap.Layers[ ( int ) ELayerType.GRID ].gameObject.SetActive( false );
         Tilemap.Layers[ ( int ) ELayerType.AREAS ].gameObject.SetActive( false );
-        FishingLine.transform.parent.gameObject.SetActive( false );
+        //ggropeFishingLine.transform.parent.gameObject.SetActive( false );
         ShowGrid = false;
         MaskMove = false;
         CountRecordTime = false;
@@ -940,7 +940,7 @@ public partial class Map : MonoBehaviour
 
         if( un.Body )
         {
-            un.Body.Rope = null;
+            //ggropeun.Body.Rope = null;
             un.Body.RopeConnectFather = new List<Unit>();
             un.Body.RopeConnectSon = null;
             if( un.Body.ImmunityDome )
@@ -3465,9 +3465,9 @@ public partial class Map : MonoBehaviour
 
         if( tile >= 0 && ( int ) tile < Map.I.Tilemap.data.tileInfo.Length )
         {
-            var tileInfo = Map.I.Tilemap.data.tileInfo[ ( int ) tile ];
-            if( tileInfo.Layer == ELayerType.GAIA )
-                return ETileType.DECOR_GAIA;
+            //var tileInfo = Map.I.Tilemap.data.tileInfo[ ( int ) tile ];
+            //if( tileInfo.Layer == ELayerType.GAIA )
+            //    return ETileType.DECOR_GAIA;
         }
 
         if( ( int ) tile >= ( int ) ETileType.DECOR_TALL && ( int ) tile < ( int ) ETileType.DECOR_TALL + TotDecor )

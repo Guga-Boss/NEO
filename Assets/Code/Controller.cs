@@ -1153,8 +1153,8 @@ public partial class Controller : MonoBehaviour
 
     public void UpdatePostMove()
     {
-        if( Unit.Body.RopeConnectSon != null && Unit.Body.Rope != null )
-            Unit.UpdateChainSizes( Unit.Body.RopeConnectSon.transform.position );
+        //ggropeif( Unit.Body.RopeConnectSon != null && Unit.Body.Rope != null )
+        //    Unit.UpdateChainSizes( Unit.Body.RopeConnectSon.transform.position );
 
         if( Unit.Body.RopeConnectFather != null )                                                                                 // chain update
             for( int f = 0; f < Unit.Body.RopeConnectFather.Count; f++ )
@@ -2125,9 +2125,9 @@ public partial class Controller : MonoBehaviour
                 }
 
                 Map.I.BumpTarget = to;
-                LastAction = ac;                              //added recently check for bugs
+                LastAction = ac;                               //added recently check for bugs
                 UpdateFrontalTargetManeuver( from, to );                                                              // Frontal target maneuver
-                UpdateBumpDamage( to );                                                                               // Damage cause by bumping objects
+                UpdateBumpDamage( to );                                                                               // Damage cause by bumping objects  
                 Vector3 pun = Util.GetTargetUnitVector( from, to );                                                   // obstacle bump fx
                 iTween.PunchPosition( Unit.Graphic.gameObject, pun * 0.3f, .6f );
                 if( PlayBumpSound )
@@ -2264,7 +2264,7 @@ public partial class Controller : MonoBehaviour
                 FirstMoveDone = false;
                 return true;
             }
-        return false;
+        return false; 
     }
 
     //______________________________________________________________________________________________________________________ Ram Movement
@@ -4277,17 +4277,17 @@ public partial class Controller : MonoBehaviour
         if( Unit.Body.MineType == EMineType.HOOK )
         if( new Vector2( Unit.Graphic.transform.position.x, Unit.Graphic.transform.position.y ) == FlyingTarget )
         {
-            for( int j = 0; j < Unit.Body.RopeConnectFather.Count; j++ )                                                               // smooth the chain after arrival
-                Unit.Body.RopeConnectFather[ j ].Body.Rope.AutoCalculateAmountOfNodes = true;
-            FlyingTarget = new Vector2( -1, -1 );
+                //ggrope//for( int j = 0; j < Unit.Body.RopeConnectFather.Count; j++ )                                                               // smooth the chain after arrival
+                //    Unit.Body.RopeConnectFather[ j ].Body.Rope.AutoCalculateAmountOfNodes = true;
+                FlyingTarget = new Vector2( -1, -1 );
         }
         else
         for( int j = 0; j < Unit.Body.RopeConnectFather.Count; j++ )
         {
-            Unit.Body.RopeConnectFather[ j ].Body.RopeDestination.transform.position = Unit.Graphic.transform.position + add;          // Adjust chain size while flying
-            float dst = Vector2.Distance( Unit.Graphic.transform.position, Unit.Body.RopeConnectFather[ j ].Pos );
-            Unit.Body.RopeConnectFather[ j ].Body.Rope.AmountOfNodes = ( int ) ( dst * 3.0f );
-        }
+                    //ggrope//Unit.Body.RopeConnectFather[ j ].Body.RopeDestination.transform.position = Unit.Graphic.transform.position + add;          // Adjust chain size while flying
+                    //float dst = Vector2.Distance( Unit.Graphic.transform.position, Unit.Body.RopeConnectFather[ j ].Pos );
+                    //Unit.Body.RopeConnectFather[ j ].Body.Rope.AmountOfNodes = ( int ) ( dst * 3.0f );
+                }
     }
 
     public static bool KillProj = false;

@@ -236,7 +236,7 @@ public class MapQuestHelper: MonoBehaviour
 
             string app = Application.dataPath + "/Resources/";
             FileUtil.DeleteFileOrDirectory( app + path + dt + nm + ".prefab" ); // delete old prefab
-            AssetDatabase.Refresh(); // Refresh editor
+            //ggAssetDatabase.Refresh(); // Refresh editor
 
             return go;
         }

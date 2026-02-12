@@ -132,10 +132,10 @@ public partial class Map : MonoBehaviour
     public tk2dSprite PoleEndHelper;  // pole ending position to connect to the line
     [TabGroup( "Fish" )]
     public LineRenderer FishingLineChunk;
-    [TabGroup( "Fish" )]
-    public Tack PoleStart, PoleEnd;
-    [TabGroup( "Fish" )]
-    public TackRope FishingLine;
+    //ggrope[TabGroup( "Fish" )]
+    //public Tack PoleStart, PoleEnd;
+    //[TabGroup( "Fish" )]
+    //public TackRope FishingLine;
     [TabGroup( "Fish" )]
     public float IdleInputTimer = 0;   
     #endregion
@@ -172,8 +172,8 @@ public partial class Map : MonoBehaviour
         if( Manager.I.GameType != EGameType.CUBES ) return;
         if( FishingLineBreakTimerCount >= 0 )
             FishingLineBreakTimerCount += Time.deltaTime;
-        if( FishingLineBreakTimerCount > 15 )
-            FishingLine.transform.parent.gameObject.SetActive( false );
+        ////ggropeif( FishingLineBreakTimerCount > 15 )
+        //    FishingLine.transform.parent.gameObject.SetActive( false );
         UpdateFishingLineAnimation();                                                               // Updates sishing line animation
 
         Water.UpdateFishingMessages();
@@ -181,32 +181,32 @@ public partial class Map : MonoBehaviour
 
     private void UpdateFishingLineAnimation()
     {
-        if( FishingLine )
-        {
-            Color c1 = new Color( 1, 1, 1, 1 );
-            Color c2 = new Color( 1, 1, 1, .4f );
-            if( FishingLineChunk == null )
-                FishingLineChunk = FishingLine.transform.GetComponentInChildren<LineRenderer>();
+        //if( FishingLine )
+        //{
+        //    Color c1 = new Color( 1, 1, 1, 1 );
+        //    Color c2 = new Color( 1, 1, 1, .4f );
+        //    if( FishingLineChunk == null )
+        //        FishingLineChunk = FishingLine.transform.GetComponentInChildren<LineRenderer>();
 
-            if( FishingMode == EFishingPhase.NO_FISHING )
-                PoleStart.transform.position = G.Hero.Graphic.transform.position;
-            else
-            {
-                if( FishingLineChunk )
-                    FishingLineChunk.SetColors( c1, c2 );
-                FishingLineChunk.SetWidth( 0.04f, 0.04f );
-                PoleStart.transform.position = PoleEndHelper.transform.position;
-                if( FishingLineTimerCount > 3 )
-                {
-                    FishingLineTimerCount = 0;
-                    FishingLine.AutoCalculateAmountOfNodes = true;
-                    float fact = 15; if( Util.Chance( 50 ) ) fact *= -1;
-                    iTween.PunchRotation( G.Hero.Graphic, new Vector3( 0, 0, fact ), .8f );
-                }
-                PoleEnd.transform.position = MainHook.transform.position;
-            }
-            FishingLineTimerCount += Time.deltaTime;
-        }
+        //    if( FishingMode == EFishingPhase.NO_FISHING )
+        //        PoleStart.transform.position = G.Hero.Graphic.transform.position;
+        //    else
+        //    {
+        //        if( FishingLineChunk )
+        //            FishingLineChunk.SetColors( c1, c2 );
+        //        FishingLineChunk.SetWidth( 0.04f, 0.04f );
+        //        PoleStart.transform.position = PoleEndHelper.transform.position;
+        //        if( FishingLineTimerCount > 3 )
+        //        {
+        //            FishingLineTimerCount = 0;
+        //            FishingLine.AutoCalculateAmountOfNodes = true;
+        //            float fact = 15; if( Util.Chance( 50 ) ) fact *= -1;
+        //            iTween.PunchRotation( G.Hero.Graphic, new Vector3( 0, 0, fact ), .8f );
+        //        }
+        //        PoleEnd.transform.position = MainHook.transform.position;
+        //    }
+        //    FishingLineTimerCount += Time.deltaTime;
+        //}
     }
     public void UpdateFlyingObjectsAnimation()
     {
@@ -358,10 +358,10 @@ public partial class Map : MonoBehaviour
         UI.I.SetBigMessage( "Pulling Hook: " + FishingTimerCount.ToString( "0.0" )
             + " s.", Color.yellow, -1, -1, 850 );
 
-        FishingLine.transform.parent.gameObject.SetActive( true );
-        if( NumFishCaught >= 1 )
-        if( FishingTimerCount > .2f )
-            FishingLine.transform.parent.gameObject.SetActive( false );
+        //ggropeFishingLine.transform.parent.gameObject.SetActive( true );
+        //if( NumFishCaught >= 1 )
+        //if( FishingTimerCount > .2f )
+        //    FishingLine.transform.parent.gameObject.SetActive( false );
     }
 
     public void UpdateFishingAction()
@@ -461,7 +461,7 @@ public partial class Map : MonoBehaviour
 
     public void BreakTheLine( bool fx )
     {
-        FishingLine.ObjectB = null;
+        //ggropeFishingLine.ObjectB = null;
         //FishingLine.CutNode( FishingLine.m_nodes[ FishingLine.m_nodes.Count - 1 ], true );       
         FishingTimerCount = 0;
         FishingLineBreakTimerCount = 0;
@@ -1658,7 +1658,7 @@ public partial class Map : MonoBehaviour
                 break;
             }            
         }
-        FishingLine.ObjectB = PoleEnd.gameObject;
+        //ggropeFishingLine.ObjectB = PoleEnd.gameObject;
         G.Hero.RotateTo( dr );
         CurrentFishingPole = pole;
         pole.Spr.color = new Color( 1, 1, 1, .0f );
@@ -1678,8 +1678,8 @@ public partial class Map : MonoBehaviour
         FishingMode = EFishingPhase.INTRO;
         UI.I.SetBigMessage( "Fishing in: ", Color.yellow, 3f, -1, 850 );
         MasterAudio.PlaySound3DAtVector3( "Fishing Reel", G.Hero.transform.position );
-        FishingLine.transform.parent.gameObject.SetActive( true );
-        FishingLine.AutoCalculateAmountOfNodes = true;
+        //ggrope FishingLine.transform.parent.gameObject.SetActive( true );
+        //ggropeFishingLine.AutoCalculateAmountOfNodes = true;
         MinHook = MaxHook = Vector2.zero;
         UI.I.SelectedPerk = EPerkType.FISHING;
         UI.I.UpdateInfoPanel();

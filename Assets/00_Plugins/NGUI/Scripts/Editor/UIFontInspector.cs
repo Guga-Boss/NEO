@@ -641,9 +641,9 @@ public class UIFontInspector : Editor
 			byte[] bytes = final.EncodeToPNG();
 			NGUITools.DestroyImmediate(final);
 			System.IO.File.WriteAllBytes(path, bytes);
-			AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
-		}
-		else
+            //ggAssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+        }
+        else
 		{
 			// Update the atlas
 			final.name = mFont.spriteName;

@@ -1,9 +1,10 @@
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 public enum EAltarBonusType
 {
     ANY = -2, NONE = -1, Give_Bonus, Hang_Bonus, Lock, Angle_Modifier, Rotate_CW, Rotate_CCW,
@@ -1182,8 +1183,8 @@ public class Altar : MonoBehaviour
                 resetItem.Reset();
                 Bnl[ i ] = resetItem;
             }
-            bl.Shuffle();
-            for( int i = 0; i < bl.Count; i++ )
+        bl = bl.OrderBy( x => Random.value ).ToList();
+        for( int i = 0; i < bl.Count; i++ )
             {
                 AltarBonusStruct tm = Bnl[ i ];
                 tm.Copy( bl[ i ] );

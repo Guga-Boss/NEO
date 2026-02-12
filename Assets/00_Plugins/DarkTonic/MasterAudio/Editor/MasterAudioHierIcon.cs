@@ -2,7 +2,7 @@ using DarkTonic.MasterAudio;
 using UnityEditor;
 using UnityEngine;
 
-[InitializeOnLoad]
+//ggini[InitializeOnLoad]
 // ReSharper disable once CheckNamespace
 public class MasterAudioHierIcon : MonoBehaviour {
     static readonly Texture2D MAicon;

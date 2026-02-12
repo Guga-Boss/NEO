@@ -86,7 +86,7 @@ public class Attack : MonoBehaviour
 		if( apply == false ) return;
         if( Unit.Body.MakePeaceful > 0 ) return;
 
-        if( DamageType == EDamageType.RANGED )                                                    // No ranged attack if hero jumped to avoid back and forth bug
+        if( DamageType == EDamageType.RANGED )                                                    // No ranged attack if hero jumped to avoid back and forth bug 
         if( Controller.HeroJumped ) return;
 
         AttackResult = 0;                                                               
@@ -110,7 +110,7 @@ public class Attack : MonoBehaviour
 
                 tothp += hp;
                 if( DuplicatorCount == 0 )
-                if( ShotPassThroughCount <= 0 )                                                  // pass through attack
+                if( ShotPassThroughCount <= 0 )                                                  // pass through attack     
                     {
                         if( hp == BREAK ) goto endloop;
                         if( TargettingType == ETargettingType.MISSILE && tothp > 0 ) 

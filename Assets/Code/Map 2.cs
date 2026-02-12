@@ -11,8 +11,8 @@ public partial class Map: MonoBehaviour
         {
             TransTilemapUpdateList = new List<VI>();
             for( int yy = 0; yy < RM.AreasTM.height; yy++ )
-                for( int xx = 0; xx < RM.AreasTM.width; xx++ )
-                    TransTilemapUpdateList.Add( new VI( xx, yy ) );
+            for( int xx = 0; xx < RM.AreasTM.width; xx++ )                
+                 TransTilemapUpdateList.Add( new VI( xx, yy ) );                
         }
         else
         {

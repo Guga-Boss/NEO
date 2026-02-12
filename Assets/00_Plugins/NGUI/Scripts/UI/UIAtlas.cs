@@ -514,8 +514,8 @@ public class UIAtlas : MonoBehaviour
 			}
 			sprites.Clear();
 #if UNITY_EDITOR
-			NGUITools.SetDirty(this);
-			UnityEditor.AssetDatabase.SaveAssets();
+			//ggNGUITools.SetDirty(this);
+			//ggUnityEditor.AssetDatabase.SaveAssets();
 #endif
 			return true;
 		}

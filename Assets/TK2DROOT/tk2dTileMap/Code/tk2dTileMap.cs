@@ -588,32 +588,32 @@ public class tk2dTileMap : MonoBehaviour, tk2dRuntime.ISpriteCollectionForceBuil
 		var layer = layers[layerId];
 		for (int y = 0; y < numTilesY; ++y)
 		{
-			for (int x = 0; x < numTilesX; ++x)
-			{
-				layer.SetTile(x0 + x, y0 + y, -1);
+			//for (int x = 0; x < numTilesX; ++x)
+			//{
+			//	layer.SetTile(x0 + x, y0 + y, -1);
 
-                //////////////////////////////////////////////////////////////// guga add tk del other layers
+   //             //////////////////////////////////////////////////////////////// guga add tk del other layers
 
-                if( layerId == ( int ) ELayerType.DECOR ||   // del both decors
-                    layerId == ( int ) ELayerType.DECOR2 )
-                {
-                    layers[ ( int ) ELayerType.DECOR ].SetTile( x0 + x, y0 + y, -1 );
-                    layers[ ( int ) ELayerType.DECOR2 ].SetTile( x0 + x, y0 + y, -1 );
-                }
-                if( GameObject.Find( "Areas Template Tilemap" ) != null )
-                if( Event.current.alt == false ) 
-                {
-                    layers[ ( int ) ELayerType.GAIA ].SetTile( x0 + x, y0 + y, -1 );
-                    layers[ ( int ) ELayerType.GAIA2 ].SetTile( x0 + x, y0 + y, -1 );
-                    layers[ ( int ) ELayerType.MONSTER ].SetTile( x0 + x, y0 + y, -1 );
-                    layers[ ( int ) ELayerType.MODIFIER ].SetTile( x0 + x, y0 + y, -1 );
-                    layers[ ( int ) ELayerType.AREAS ].SetTile( x0 + x, y0 + y, -1 );
-                    layers[ ( int ) ELayerType.DECOR ].SetTile( x0 + x, y0 + y, -1 );
-                    layers[ ( int ) ELayerType.DECOR2 ].SetTile( x0 + x, y0 + y, -1 );
-                    layers[ ( int ) ELayerType.RAFT ].SetTile( x0 + x, y0 + y, -1 );
-                }
-                //////////////////////////////////////////////////////////////////
-			}
+   //             if( layerId == ( int ) ELayerType.DECOR ||   // del both decors
+   //                 layerId == ( int ) ELayerType.DECOR2 )
+   //             {
+   //                 layers[ ( int ) ELayerType.DECOR ].SetTile( x0 + x, y0 + y, -1 );
+   //                 layers[ ( int ) ELayerType.DECOR2 ].SetTile( x0 + x, y0 + y, -1 );
+   //             }
+   //             if( GameObject.Find( "Areas Template Tilemap" ) != null )
+   //             if( Event.current.alt == false ) 
+   //             {
+   //                 layers[ ( int ) ELayerType.GAIA ].SetTile( x0 + x, y0 + y, -1 );
+   //                 layers[ ( int ) ELayerType.GAIA2 ].SetTile( x0 + x, y0 + y, -1 );
+   //                 layers[ ( int ) ELayerType.MONSTER ].SetTile( x0 + x, y0 + y, -1 );
+   //                 layers[ ( int ) ELayerType.MODIFIER ].SetTile( x0 + x, y0 + y, -1 );
+   //                 layers[ ( int ) ELayerType.AREAS ].SetTile( x0 + x, y0 + y, -1 );
+   //                 layers[ ( int ) ELayerType.DECOR ].SetTile( x0 + x, y0 + y, -1 );
+   //                 layers[ ( int ) ELayerType.DECOR2 ].SetTile( x0 + x, y0 + y, -1 );
+   //                 layers[ ( int ) ELayerType.RAFT ].SetTile( x0 + x, y0 + y, -1 );
+   //             }
+   //             //////////////////////////////////////////////////////////////////
+			//}
 		}
 		
 		layer.OptimizeIncremental();

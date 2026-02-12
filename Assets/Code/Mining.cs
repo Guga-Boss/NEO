@@ -1993,7 +1993,7 @@ public partial class Controller : MonoBehaviour
         for( int i = 0; i < destmine.Body.RopeConnectFather.Count; i++ )
         {
             destmine.Body.RopeConnectFather[ i ].Body.RopeConnectSon = destmine;
-            destmine.Body.RopeConnectFather[ i ].Body.Rope.gameObject.SetActive( true );
+            //ggropedestmine.Body.RopeConnectFather[ i ].Body.Rope.gameObject.SetActive( true );
             if( updchain )
                 destmine.Body.RopeConnectFather[ i ].UpdateChainSizes( destmine.Pos );
         }
@@ -2014,7 +2014,7 @@ public partial class Controller : MonoBehaviour
         {
             _unit.Body.RopeConnectFather[ i ].Body.RopeConnectSon = _unit;
             _unit.Body.RopeConnectFather[ i ].UpdateChainSizes( _unit.Pos );
-            _unit.Body.RopeConnectFather[ i ].Body.Rope.gameObject.SetActive( true );
+            //ggrope_unit.Body.RopeConnectFather[ i ].Body.Rope.gameObject.SetActive( true );
             _unit.Body.RopeConnectFather[ i ].Body.ShackleDistance =
             Util.Manhattan( pos, _unit.Body.RopeConnectFather[ i ].Pos ) - 1;
             _unit.Body.OriginalHookType = EMineType.SHACKLE;

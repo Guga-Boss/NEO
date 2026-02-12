@@ -35,7 +35,14 @@ public class NSprite: MonoBehaviour
 
     public SpriteRenderer Render;
 
-    private void OnValidate() => UpdateVisuals();
+#if UNITY_EDITOR
+    // Altere a linha 38 para:
+    private void OnValidate()
+    {
+        // Evita erro de SendMessage/Physics no console 
+        UnityEditor.EditorApplication.delayCall += UpdateVisuals;
+    }
+#endif
 
     private void OnColChanged()
     {

@@ -57,12 +57,12 @@ public class Body : MonoBehaviour
     public Vector2 FireSourcePos = new Vector2( -1, -1 );
     [TabGroup( "Link" )]
     public Rigidbody2D RigidBody;
-    [TabGroup( "Link" )]
-    public TackRope Rope;
+    //ggrope[TabGroup( "Link" )]
+    //public TackRope Rope;
     [TabGroup( "Link" )]
     public List<tk2dSprite> PoleSpriteList, PoleBackSpriteList;
-    [TabGroup( "Link" )]
-    public Tack RopeOrigin, RopeDestination;
+    //[TabGroup( "Link" )]
+    //ggropepublic Tack RopeOrigin, RopeDestination;
     [TabGroup( "Link" )]
     public GameObject RopeRotationHelper;
     [TabGroup( "Bool" )]
@@ -1584,7 +1584,7 @@ public class Body : MonoBehaviour
         if( type == EDamageType.FIRE ) return 0;
         if( type == EDamageType.BLEEDING ) return 0;
         
-		if( attacker.Control.MonsterCorneringLevel >= 1 &&                                                // Cornering bonus
+		if( attacker.Control.MonsterCorneringLevel >= 1 &&                                                // Cornering bonus  
 				Unit.Control.IsBeingPushedAgainstObstacle )
 		{
             UI.I.ConeringBonus = HeroData.I.MonsterCorneringBonus[ ( int )
@@ -1599,7 +1599,7 @@ public class Body : MonoBehaviour
     public float CheckRoach( Unit attacker, Attack attack, ref float damage )
     {
         float bonus = 0;
-        if( attacker.UnitType == EUnitType.HERO )                                                       // Hero Attacks Roach
+        if( attacker.UnitType == EUnitType.HERO )                                                       // Hero Attacks Roach  
         {
             if( Unit.TileID != ETileType.ROACH ) return 0;
 
@@ -1620,7 +1620,7 @@ public class Body : MonoBehaviour
 
             dir -= ( int ) Unit.Dir;
             if( ( int ) dir < 0 ) dir += 8;
-            if( ( EDirection ) dir == EDirection.NONE ) G.Deb( "bad Roach babies pos" );
+            if( ( EDirection ) dir == EDirection.NONE ) Debug.Log( "bad Roach babies pos" );
 
             bool killbaby = true;
             if( dir == ( int ) EDirection.N )                                                           // Frontal baby can only be killed after the others

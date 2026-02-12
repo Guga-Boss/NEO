@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using DarkTonic.MasterAudio;
 using System.Collections;
 using System.Collections.Generic;
-using DarkTonic.MasterAudio;
+using UnityEngine;
+using static UnityEngine.UI.Image;
 public enum EFlyingAction
 {
     NONE = 0, FlyToPosition, FlyToHero, FollowHero, RoamAroundOrigin, JumpToStep, ApproachHero, SetRotationSpeed, SetFlyingMaxSpeed,
@@ -2378,9 +2379,9 @@ public partial class Controller : MonoBehaviour
                         }
                     }
                 }
-                if( merge != null )                                                                  // merge groups if connected
+                if( merge != null )                                                                  // merge groups if connected 
                 {
-                    List<Unit> ral = rl.CloneList();
+                    List<Unit> ral = new List<Unit>( rl );
                     ral.AddRange( GetRaftList( otherid ) );
                     {
                         for( int j = 0; j < ral.Count; j++ )                                        // update all raft units

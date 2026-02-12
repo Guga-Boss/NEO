@@ -1831,23 +1831,23 @@ public partial class Unit : MonoBehaviour
         
         if( GS.IsLoading )                                                                           // If its cube loading, only despawn chain objects instead of killing father list
         {
-            for( int i = Body.RopeConnectFather.Count - 1; i >= 0; i-- )
-            {
-                if( Body.RopeConnectFather[ i ].Body.Rope )
-                if( PoolManager.Pools[ "Pool" ].IsSpawned(
-                    Body.RopeConnectFather[ i ].Body.Rope.transform.parent ) )
-                {
-                    PoolManager.Pools[ "Pool" ].Despawn(
-                    Body.RopeConnectFather[ i ].Body.Rope.transform.parent );
-                    Body.RopeConnectFather[ i ].Body.Rope = null;
-                }
-            }
-            if( Body.Rope )
-            {
-                if( PoolManager.Pools[ "Pool" ].IsSpawned( Body.Rope.transform.parent ) )
-                    PoolManager.Pools[ "Pool" ].Despawn( Body.Rope.transform.parent );
-                Body.Rope = null;
-            }
+            //ggrope//for( int i = Body.RopeConnectFather.Count - 1; i >= 0; i-- )
+            //{
+            //    if( Body.RopeConnectFather[ i ].Body.Rope )
+            //    if( PoolManager.Pools[ "Pool" ].IsSpawned(
+            //        Body.RopeConnectFather[ i ].Body.Rope.transform.parent ) )
+            //    {
+            //        PoolManager.Pools[ "Pool" ].Despawn(
+            //        Body.RopeConnectFather[ i ].Body.Rope.transform.parent );
+            //        Body.RopeConnectFather[ i ].Body.Rope = null;
+            //    }
+            //}
+            //if( Body.Rope )
+            //{
+            //    if( PoolManager.Pools[ "Pool" ].IsSpawned( Body.Rope.transform.parent ) )
+            //        PoolManager.Pools[ "Pool" ].Despawn( Body.Rope.transform.parent );
+            //    Body.Rope = null;
+            //}
             return;
         }
 
@@ -1895,84 +1895,84 @@ public partial class Unit : MonoBehaviour
                     Body.RopeConnectFather[ i ].Kill();
             }
         }
-        if( Body.Rope )                                                                // despawn chain object
-        {
-            if( PoolManager.Pools[ "Pool" ].IsSpawned( Body.Rope.transform.parent ) )
-                PoolManager.Pools[ "Pool" ].Despawn( Body.Rope.transform.parent );
-            Body.Rope = null;
-        }
+        //ggrope//if( Body.Rope )                                                                // despawn chain object
+        //{
+        //    if( PoolManager.Pools[ "Pool" ].IsSpawned( Body.Rope.transform.parent ) )
+        //        PoolManager.Pools[ "Pool" ].Despawn( Body.Rope.transform.parent );
+        //    Body.Rope = null;
+        //}
     }
     public void UpdateChainSizes( Vector2 tg )
     {
-        if( Body.Rope == null )                                                            // Creates the chain object if theres no one yet created
-        {
-            Transform tr = PoolManager.Pools[ "Pool" ].Spawn( "Chain" );
-            Body.Rope = tr.GetComponentInChildren<TackRope>();
-            tr.transform.parent = Graphic.transform;
-            tr.name = "Chain " + Random.Range(0,99);
-            Body.Rope.name = "Rope";
-            ChainLinks cl = tr.GetComponentInChildren<ChainLinks>();
-            cl.transform.localPosition = Vector2.zero;
-            cl.gameObject.SetActive( true );
-            Body.Rope.gameObject.SetActive( true );
-            Body.RopeOrigin = Body.Rope.ObjectA.GetComponent<Tack>();
-            Body.RopeDestination = Body.Rope.ObjectB.GetComponent<Tack>();
-            Body.RopeRotationHelper = cl.RotationHelper;
-            Body.RopeOrigin.transform.localPosition = Vector2.zero;
-            Body.RopeOrigin.gameObject.SetActive( true );
-            Body.RopeDestination.gameObject.SetActive( true );
-            Body.RopeDestination.transform.localPosition = new Vector3( 1, 1 );
-            Body.RopeRotationHelper.gameObject.SetActive( true );
-            Body.RopeRotationHelper.gameObject.SetActive( false );
-            if( Body.MineHasLever() )
-                Body.RopeRotationHelper.gameObject.SetActive( true );
-        }
+        //ggrope//if( Body.Rope == null )                                                            // Creates the chain object if theres no one yet created
+        //{
+        //    Transform tr = PoolManager.Pools[ "Pool" ].Spawn( "Chain" );
+        //    Body.Rope = tr.GetComponentInChildren<TackRope>();
+        //    tr.transform.parent = Graphic.transform;
+        //    tr.name = "Chain " + Random.Range(0,99);
+        //    Body.Rope.name = "Rope";
+        //    ChainLinks cl = tr.GetComponentInChildren<ChainLinks>();
+        //    cl.transform.localPosition = Vector2.zero;
+        //    cl.gameObject.SetActive( true );
+        //    Body.Rope.gameObject.SetActive( true );
+        //    Body.RopeOrigin = Body.Rope.ObjectA.GetComponent<Tack>();
+        //    Body.RopeDestination = Body.Rope.ObjectB.GetComponent<Tack>();
+        //    Body.RopeRotationHelper = cl.RotationHelper;
+        //    Body.RopeOrigin.transform.localPosition = Vector2.zero;
+        //    Body.RopeOrigin.gameObject.SetActive( true );
+        //    Body.RopeDestination.gameObject.SetActive( true );
+        //    Body.RopeDestination.transform.localPosition = new Vector3( 1, 1 );
+        //    Body.RopeRotationHelper.gameObject.SetActive( true );
+        //    Body.RopeRotationHelper.gameObject.SetActive( false );
+        //    if( Body.MineHasLever() )
+        //        Body.RopeRotationHelper.gameObject.SetActive( true );
+        //}
 
-        //if( Body.MineType == EMineType.SPIKE_BALL && Body.ShackleDistance >= 1 ) return;   // new
-        Body.Rope.gameObject.SetActive( true );        
-        Vector3 add = Vector3.zero;
-        Vector3 dist = new Vector3( tg.x, tg.y, 0 ) - transform.position;
-        if( Body.RopeConnectSon && Body.RopeConnectSon.Body.MineType == EMineType.HOOK )
-            add = new Vector3( 0, -0.27f, 0 );
-        Body.Rope.transform.parent.transform.localScale = new Vector3( 1, 1, 1 );
-        Body.RopeDestination.transform.localPosition = dist + add;
-        float vl = -0.4f;
-        if( Body.ClockwiseChainPush ) vl *= -1;
-        Quaternion qn = Util.GetRotationToPoint( Pos, Body.RopeDestination.transform.position );
-        Body.RopeRotationHelper.transform.rotation = Quaternion.RotateTowards(
-        Body.RopeRotationHelper.transform.rotation, qn, 999f );
-        if( Body.MineType == EMineType.SHACKLE ) vl = 0.2f;
-        Body.RopeOrigin.transform.localPosition = Body.RopeRotationHelper.transform.right * vl;
-        Body.Rope.AutoCalculateAmountOfNodes = true;
-        if( Body.MineHasLever() )
-        if( Util.Neighbor( G.Hero.Pos, Pos ) )
-        {
-            Body.EffectList[ 2 ].gameObject.SetActive( true );
-            Body.EffectList[ 2 ].gameObject.transform.rotation = Quaternion.RotateTowards(
-            Body.RopeRotationHelper.transform.rotation, qn, 999f );
-        }
-        Body.RopeOrigin.gameObject.SetActive( true );
-        Body.RopeDestination.gameObject.SetActive( true );
+        ////if( Body.MineType == EMineType.SPIKE_BALL && Body.ShackleDistance >= 1 ) return;   // new
+        //Body.Rope.gameObject.SetActive( true );        
+        //Vector3 add = Vector3.zero;
+        //Vector3 dist = new Vector3( tg.x, tg.y, 0 ) - transform.position;
+        //if( Body.RopeConnectSon && Body.RopeConnectSon.Body.MineType == EMineType.HOOK )
+        //    add = new Vector3( 0, -0.27f, 0 );
+        //Body.Rope.transform.parent.transform.localScale = new Vector3( 1, 1, 1 );
+        //Body.RopeDestination.transform.localPosition = dist + add;
+        //float vl = -0.4f;
+        //if( Body.ClockwiseChainPush ) vl *= -1;
+        //Quaternion qn = Util.GetRotationToPoint( Pos, Body.RopeDestination.transform.position );
+        //Body.RopeRotationHelper.transform.rotation = Quaternion.RotateTowards(
+        //Body.RopeRotationHelper.transform.rotation, qn, 999f );
+        //if( Body.MineType == EMineType.SHACKLE ) vl = 0.2f;
+        //Body.RopeOrigin.transform.localPosition = Body.RopeRotationHelper.transform.right * vl;
+        //Body.Rope.AutoCalculateAmountOfNodes = true;
+        //if( Body.MineHasLever() )
+        //if( Util.Neighbor( G.Hero.Pos, Pos ) )
+        //{
+        //    Body.EffectList[ 2 ].gameObject.SetActive( true );
+        //    Body.EffectList[ 2 ].gameObject.transform.rotation = Quaternion.RotateTowards(
+        //    Body.RopeRotationHelper.transform.rotation, qn, 999f );
+        //}
+        //Body.RopeOrigin.gameObject.SetActive( true );
+        //Body.RopeDestination.gameObject.SetActive( true );
     }
 
     public void UpdateSpikedBallChainSizes()
     {
-        if( Body.ShackleDistance == -1 ) return;
-        if( Body.RopeConnectSon == null ) return;                                                            // optimize: dont run always
-        Body.RopeDestination.transform.position = Body.RopeConnectSon.Graphic.transform.position;
-        Body.Rope.AutoCalculateAmountOfNodes = false;
-        float dst = Vector2.Distance( Pos, Body.RopeConnectSon.Pos );
-        Body.Rope.NonTensionedColor = Color.white;
-        Body.Rope.AmountOfNodes = ( int ) ( Body.ShackleDistance * 2.5f );
-        float dd = Util.Manhattan( Pos, Body.RopeConnectSon.Pos ) - 1;
-        if( dd >= Body.ShackleDistance )
-        {
-            //Body.Rope.AmountOfNodes = ( int ) ( dst * 1.7f );
-            Body.Rope.AutoCalculateAmountOfNodes = true;
-            Body.Rope.NonTensionedColor = new Color32( 255, 144, 144, 255 );
-            Body.Rope.RopeMaxSizeMultiplier = 1;
-            Debug.Log("here");
-        }
+        //ggrope//if( Body.ShackleDistance == -1 ) return;
+        //if( Body.RopeConnectSon == null ) return;                                                            // optimize: dont run always
+        //Body.RopeDestination.transform.position = Body.RopeConnectSon.Graphic.transform.position;
+        //Body.Rope.AutoCalculateAmountOfNodes = false;
+        //float dst = Vector2.Distance( Pos, Body.RopeConnectSon.Pos );
+        //Body.Rope.NonTensionedColor = Color.white;
+        //Body.Rope.AmountOfNodes = ( int ) ( Body.ShackleDistance * 2.5f );
+        //float dd = Util.Manhattan( Pos, Body.RopeConnectSon.Pos ) - 1;
+        //if( dd >= Body.ShackleDistance )
+        //{
+        //    //Body.Rope.AmountOfNodes = ( int ) ( dst * 1.7f );
+        //    Body.Rope.AutoCalculateAmountOfNodes = true;
+        //    Body.Rope.NonTensionedColor = new Color32( 255, 144, 144, 255 );
+        //    Body.Rope.RopeMaxSizeMultiplier = 1;
+        //    Debug.Log("here");
+        //}
     }
 
     public bool LastMoveWasStill()

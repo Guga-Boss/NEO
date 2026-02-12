@@ -3,7 +3,7 @@ using System;
 using DarkTonic.MasterAudio;
 using UnityEditor;
 
-[InitializeOnLoad]
+//ggini[InitializeOnLoad]
 // ReSharper disable once CheckNamespace
 public class AudioScriptOrderManager  {
     static AudioScriptOrderManager() {

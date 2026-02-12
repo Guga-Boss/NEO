@@ -1827,7 +1827,7 @@ public class DungeonDialog : MonoBehaviour
                 System.IO.File.Copy( s, fullpath, true );
             }
 
-            G.Deb( "Profile Backuped. " + subfolder );
+            Debug.Log( "Profile Backuped. " + subfolder );
         }
         else
         {
@@ -1856,7 +1856,7 @@ public class DungeonDialog : MonoBehaviour
                     System.IO.File.Copy( s, fullpath, true );
                 }
 
-                G.Deb( "Cube Save Backuped. " + cubeDest );
+                    Debug.Log( "Cube Save Backuped. " + cubeDest );
             }
             else
             {

@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace EckTechGames
 {
-	[InitializeOnLoad]
-	public class AutoSaveExtension
+    //ggini[InitializeOnLoad]
+    public class AutoSaveExtension
 	{
 		// Static constructor that gets called when unity fires up.
 		static AutoSaveExtension()
@@ -18,7 +18,7 @@ namespace EckTechGames
 			if (EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)
 			{
 				EditorApplication.SaveScene();
-				AssetDatabase.SaveAssets();
+				//ggAssetDatabase.SaveAssets();   
 			}
 		}
 	}

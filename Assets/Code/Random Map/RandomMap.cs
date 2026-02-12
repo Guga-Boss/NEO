@@ -1269,11 +1269,11 @@ public class RandomMap : MonoBehaviour
         if( tl >= 0 && ( int ) tl < Map.I.Tilemap.data.tileInfo.Length )
         {
             var tileInfo = Map.I.Tilemap.data.tileInfo[ ( int ) tl ];
-            if( tileInfo.Layer == ELayerType.GAIA )
-            {
-                Map.I.Tilemap.SetTile( x, y, ( int ) ( int ) ELayerType.GAIA, ( int ) tl );
-                Map.I.UpdateTileGameObjectCreation( x, y, ELayerType.GAIA, ETileType.DECOR_GAIA );
-            }
+            //if( tileInfo.Layer == ELayerType.GAIA )
+            //{
+            //    Map.I.Tilemap.SetTile( x, y, ( int ) ( int ) ELayerType.GAIA, ( int ) tl );
+            //    Map.I.UpdateTileGameObjectCreation( x, y, ELayerType.GAIA, ETileType.DECOR_GAIA );
+            //}
         }
     }
 

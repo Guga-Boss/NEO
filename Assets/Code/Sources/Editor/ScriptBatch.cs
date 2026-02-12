@@ -20,7 +20,7 @@ public class ScriptBatch
                 prop.boolValue = !result;
                 so.ApplyModifiedProperties();
                 EditorUtility.SetDirty( asset );
-                AssetDatabase.SaveAssets();
+                //ggAssetDatabase.SaveAssets();
                 UnityEngine.Debug.Log( "Obfuscation: " + !result );
             }
         }
@@ -35,7 +35,7 @@ public class ScriptBatch
         string[ ] levels = new string[ ] { "Assets/NEO.unity"};
 
         EditorApplication.SaveScene();
-        AssetDatabase.SaveAssets();
+        //ggAssetDatabase.SaveAssets();
 
         // Build player.
         BuildPipeline.BuildPlayer( levels, path + "/NEO.exe", BuildTarget.StandaloneWindows, BuildOptions.None );

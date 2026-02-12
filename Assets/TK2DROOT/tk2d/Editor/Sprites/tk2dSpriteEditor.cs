@@ -516,14 +516,14 @@ class tk2dSpriteEditor : Editor
         {
             tk2dSprite spr = (tk2dSprite)target;
             var sprite = spr.CurrentSprite;
-            NSprite.Convert( spr );
+           // NSprite.Convert( spr );
         }
 
         if( GUILayout.Button( "🔥 Finalize 🔥", bigButton ) )
         {
             tk2dSprite spr = (tk2dSprite)target;
             var sprite = spr.CurrentSprite;
-            NSprite.Finalize( spr );
+           // NSprite.Finalize( spr );
         }
 
         GUILayout.Space( 6 );

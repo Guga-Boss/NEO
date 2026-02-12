@@ -448,7 +448,7 @@ public static class NGUIEditorTools
 			settings.npotScale = TextureImporterNPOTScale.None;
 			settings.alphaIsTransparency = false;
 			ti.SetTextureSettings(settings);
-			AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
+			//ggAssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
 		}
 		return true;
 	}
@@ -486,7 +486,7 @@ public static class NGUIEditorTools
 			settings.aniso = 4;
 			settings.alphaIsTransparency = alphaTransparency;
 			ti.SetTextureSettings(settings);
-			AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
+		//gg	AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate | ImportAssetOptions.ForceSynchronousImport);
 		}
 		return true;
 	}
@@ -504,8 +504,8 @@ public static class NGUIEditorTools
 			//return AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D)) as Texture2D;
 
 			Texture2D tex = AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D)) as Texture2D;
-			AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
-			return tex;
+            //ggAssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            return tex;
 		}
 		return null;
 	}

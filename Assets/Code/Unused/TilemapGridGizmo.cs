@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-//[ExecuteAlways]
+[ExecuteAlways]
 public class MyTilemapEditor: MonoBehaviour
 {
     [Header("Grid Settings")]

@@ -148,34 +148,45 @@ public class TilePaletteWatcher: EditorWindow
                 // Força a Tile Palette a desenhar na layer correta
                 GridPaintingState.scenePaintTarget = targetLayer;
 
-                Debug.Log( $"<color=green><b>[Auto-Layer]</b></color> Brush: {selected.name} -> Layer: {layer}" );
+                Debug.Log( $"<color=green><b>[Auto-Layer]</b></color> Brush: {selected.name} -> Layer: {layer}  Tile: {tileType}" );
+
             }
         }
     }
 
-    private int GetGlobalID( Sprite sprite )
+    private int GetGlobalID( Sprite s )
     {
-        if( sprite == null ) return -1;
-        Rect r = sprite.textureRect;
-        const int tileW = 64;
-        const int textureSize = 4096;
-        const int totalMapWidth = 128;
+        if( s == null ) return -1;
 
-        float scaleFactor = (float)textureSize / sprite.texture.width;
-        int colX = Mathf.RoundToInt((r.x * scaleFactor) / tileW);
-        int rowBottomUp = Mathf.RoundToInt((r.y * scaleFactor) / tileW);
-        int rowTopDown = 63 - rowBottomUp;
+        // 1. Pega o localID do nome (ex: Tiles 1_2)
+        string name = s.name;
+        int underscore = name.LastIndexOf('_');
+        if( underscore == -1 || !int.TryParse( name.Substring( underscore + 1 ), out int localID ) )
+            return 0;
 
-        int pngIndex = 0;
-        if( sprite.texture.name.Contains( "Tile 2" ) ) pngIndex = 1;
-        else if( sprite.texture.name.Contains( "Tile 3" ) ) pngIndex = 2;
-        else if( sprite.texture.name.Contains( "Tile 4" ) ) pngIndex = 3;
+        // 2. Descobre o quadrante pela textura
+        int quadrant = 0; // Q0 padrão
+        string texName = s.texture.name;
+        if( texName.Contains( "Tile 2" ) ) quadrant = 1; // Q1
+        else if( texName.Contains( "Tile 3" ) ) quadrant = 2; // Q2
+        else if( texName.Contains( "Tile 4" ) ) quadrant = 3; // Q3
 
-        int offsetX = (pngIndex % 2) * 64;
-        int offsetY = (pngIndex / 2) * 64;
+        // 3. Calcula posição dentro do quadrante
+        int xInQuad = localID % 64;
+        int yInQuad = localID / 64;
 
-        return ( ( rowTopDown + offsetY ) * totalMapWidth ) + ( colX + offsetX );
+        // 4. Calcula offset do quadrante
+        int offsetX = (quadrant % 2) * 64;
+        int offsetY = (quadrant / 2) * 64;
+
+        // 5. GlobalID na textura inteira (128x128 tiles)
+        int globalX = xInQuad + offsetX;
+        int globalY = yInQuad + offsetY;
+
+        int globalID = globalY * 128 + globalX;
+        return globalID;
     }
+
 
     private void ExtractBrushData( out TileBase tile, out Vector3Int pos )
     {

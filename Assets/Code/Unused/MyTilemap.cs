@@ -4,6 +4,12 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
 using System.Linq;
+using static tk2dTileMapData;
+using UnityEditor.Tilemaps;
+using UnityEngine.SocialPlatforms;
+
+
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,23 +18,180 @@ using UnityEditor;
 [ExecuteAlways]
 public class MyTilemap: SerializedMonoBehaviour
 {
-    [Tooltip("Nome do tile que vai gerar o botão")]
+    [Title("Configurações de Identificação")]
     public string targetTileName = "QuestTile";
-    public List<string> FoldersToSearch;
+    public List<string> FoldersToSearch = new List<string>();
 
-    [Header("Borda e Grid")]
-    public bool RestrainDrawing = false;
+    [Title("Configurações de Grid")]
+    public bool RestrainDrawing = true;
     public Vector2Int GridSize = new Vector2Int(29, 29);
 
-    [Header("Tilemaps")]
+    [Title("Referências")]
     public List<Tilemap> Tilemaps;
-
     public MyTilemapEditor TilemapEditor;
 
-    // Agora o dicionário usa int como chave
-    [Header("Base de Dados de Tiles")]
-    [DictionaryDrawerSettings(KeyLabel = "Tile ID (int)", ValueLabel = "Tile Asset")]
+    [Title("Base de Dados (Bake)")]
     public Dictionary<int, TileBase> spriteToTileMap = new Dictionary<int, TileBase>();
+
+    [ReadOnly]
+    public Dictionary<Vector2Int, RandomMapData> questDataCache = new Dictionary<Vector2Int, RandomMapData>();
+
+    public static bool IgnoreUpdate = false;
+
+    // ===================================================================================
+    // SISTEMA DE PROCESSAMENTO SEGURO (EDITOR)
+    // ===================================================================================
+#if UNITY_EDITOR
+    private List<Tilemap> dirtyMaps = new List<Tilemap>();
+    private List<Vector3Int> dirtyPositions = new List<Vector3Int>();
+    private bool isProcessing = false;
+
+    private void OnEnable()
+    {
+        // Garante que não haja duplicatas na inscrição
+        Tilemap.tilemapTileChanged -= OnTilemapChanged;
+        Tilemap.tilemapTileChanged += OnTilemapChanged;
+
+        EditorApplication.update -= OnEditorUpdate;
+        EditorApplication.update += OnEditorUpdate;
+    }
+
+    private void OnDisable()
+    {
+        Tilemap.tilemapTileChanged -= OnTilemapChanged;
+        EditorApplication.update -= OnEditorUpdate;
+    }
+
+    // 1. O evento apenas captura a intenção (Rápido e leve)
+    private void OnTilemapChanged( Tilemap tilemap, Tilemap.SyncTile[ ] changes )
+    {
+        if( isProcessing || !RestrainDrawing || Tilemaps == null || IgnoreUpdate ) return;
+
+        foreach( var change in changes )
+        {
+            if( change.tile != null )
+            {
+                dirtyMaps.Add( tilemap );
+                dirtyPositions.Add( change.position );
+            }
+        }
+    }
+
+    // 2. O Update processa as mudanças fora do ciclo de pintura do Unity
+    private void OnEditorUpdate()
+    {
+        if( IgnoreUpdate ) return;
+
+        if( gameObject.name.Contains( "Trans" ) )
+        {
+            dirtyMaps.Clear();
+            dirtyPositions.Clear();
+            return;
+        }
+
+        if( isProcessing || dirtyPositions.Count == 0 ) return;
+
+        isProcessing = true;
+
+        // SILENCIADOR: Desconectamos o evento para que o SetTile do script não gere recursão
+        Tilemap.tilemapTileChanged -= OnTilemapChanged;
+
+        try
+        {
+            for( int i = 0; i < dirtyPositions.Count; i++ )
+            {
+                ProcessPosition( dirtyMaps[ i ], dirtyPositions[ i ] );
+            }
+        }
+        catch( Exception e )
+        {
+            Debug.LogError( $"[MyTilemap] Erro ao processar: {e.Message}" );
+        }
+        finally
+        {
+            dirtyMaps.Clear();
+            dirtyPositions.Clear();
+            isProcessing = false;
+
+            // RELIGAR: Voltamos a ouvir as mudanças do usuário   
+            Tilemap.tilemapTileChanged += OnTilemapChanged;
+        }
+    }
+
+    private void ProcessPosition( Tilemap sourceMap, Vector3Int pos )
+    {
+        if( sourceMap == null ) return;
+
+        // Regra de Borda
+        if( pos.x < 0 || pos.x >= GridSize.x || pos.y < 0 || pos.y >= GridSize.y )
+        {
+            sourceMap.SetTile( pos, null );
+            return;
+        }
+
+        // Obtemos o tile diretamente do mapa que foi alterado
+        TileBase tile = sourceMap.GetTile(pos);
+        if( tile == null ) return;
+
+        // Calculamos o ID Global (Ex: Forest = 2, Last Tile = 8127)
+        int tileID = GetGlobalIDFromSprite((tile as Tile)?.sprite);
+
+        if( tileID != -1 && Map.I != null )
+        {
+            ELayerType correctLayer = Map.GetTileLayer((ETileType)tileID);
+            int layerIndex = (int)correctLayer;
+
+            // Validação de Layer e troca automática  
+            if( correctLayer != ELayerType.DECOR )
+            if( correctLayer != ELayerType.DECOR2 )
+            if( correctLayer != ELayerType.NONE && layerIndex < Tilemaps.Count )
+            {
+                if( Tilemaps[ layerIndex ] != sourceMap )
+                {
+                    sourceMap.SetTile( pos, null );
+                    Tilemaps[ layerIndex ].SetTile( pos, tile );
+                }
+            }
+        }
+    }
+#endif
+
+    // ===================================================================================
+    // MATEMÁTICA DE QUADRANTES (128x128)
+    // ===================================================================================
+
+    public int GetGlobalIDFromSprite( Sprite s )
+    {
+        if( s == null ) return -1;
+
+        // 1. Extrair localID do nome: "Tiles 1_4095" -> 4095
+        string name = s.name;
+        int underscore = name.LastIndexOf('_');
+        if( underscore == -1 || !int.TryParse( name.Substring( underscore + 1 ), out int localID ) )
+            return -1;
+
+        // 2. Determinar Quadrante (p)
+        int p = 0;
+        string texName = s.texture.name;
+        if( texName.Contains( "Tile 2" ) ) p = 1;      // Direita Cima
+        else if( texName.Contains( "Tile 3" ) ) p = 2; // Esquerda Baixo
+        else if( texName.Contains( "Tile 4" ) ) p = 3; // Direita Baixo
+
+        // 3. Coordenadas locais (64x64)
+        int lx = localID % 64;
+        int ly = localID / 64;
+
+        // 4. Coordenadas globais (128x128)
+        int gx = lx + (p % 2) * 64;
+        int gy = ly + (p / 2) * 64;
+
+        // Fórmula: $ID = (gy \times 128) + gx$
+        return ( gy * 128 ) + gx;
+    }
+
+    // ===================================================================================
+    // BOTÕES E UTILITÁRIOS
+    // ===================================================================================
 
     [Button( "Navigation Map", ButtonSizes.Gigantic ), GUIColor( 0, 1f, 0 )]
     public void LoadNavigatioMap()
@@ -47,203 +210,104 @@ public class MyTilemap: SerializedMonoBehaviour
     {
         Tilemaps = new List<Tilemap>( GetComponentsInChildren<Tilemap>() );
     }
+    public void ChangePalette( string paletteName )
+    {
+        // 1. Procura o Asset da Paleta pelo nome
+        // Assume que suas paletas estão em uma pasta "Palettes" ou similar
+        string[] guids = AssetDatabase.FindAssets(paletteName + " t:Prefab");
+
+        if( guids.Length > 0 )
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guids[0]);
+            GameObject palettePrefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+
+            if( palettePrefab != null )
+            {
+                // 2. A MÁGICA: Define a paleta ativa no GridPaintingState
+                GridPaintingState.palette = palettePrefab;
+
+                // 3. Força a janela Tile Palette a atualizar a visualização
+               // InspectorWindow.RepaintAllInspectors();
+
+                Debug.Log( $"<color=green>[Master]</color> Paleta alterada para: {paletteName}" );
+            }
+        }
+        else
+        {
+            Debug.LogWarning( $"[Master] Paleta '{paletteName}' não encontrada!" );
+        }
+    }
+
 
     [Button( "Update Trans Tilemap", ButtonSizes.Gigantic ), GUIColor( 1, 1f, 0 )]
     public void UpdateTrans()
     {
+        ChangePalette( "Trans Tilemap" );
         ClearTilemap( Map.I.TransT );
         Map.I.UpdateTransLayerTilemap();
         Map.I.TransTilemapUpdateList = new List<VI>(); // reset list;
     }
 
-    [ReadOnly] public Dictionary<Vector2Int, RandomMapData> questDataCache = new Dictionary<Vector2Int, RandomMapData>();
-
-    [Button( "Update Quest Names", ButtonSizes.Gigantic ), GUIColor( 0, 1f, 0 )]
-    public void UpdateQuestNames()
-    {
-        RandomMap rm = MapSaver.Get().GetRM();
-        questDataCache.Clear();
-
-        foreach( RandomMapData rmd in rm.RMList )
-        {
-            Vector2Int coord = new Vector2Int((int)rmd.MapCord.x, (int)rmd.MapCord.y);
-            if( !questDataCache.ContainsKey( coord ) )
-            {
-                questDataCache.Add( coord, rmd );
-            }
-        }
-        Debug.Log( $"Cache atualizado: {questDataCache.Count} quests mapeadas." );
-    }
-
-    // ===================================================================================
-    // LÓGICA CORE (Baseada no TilePaletteWatcher)
-    // ===================================================================================
-    private int GetGlobalIDFromSprite( Sprite sprite )
-    {
-        if( sprite == null ) return -1;
-
-        Rect r = sprite.textureRect;
-
-        const int tileW = 64;
-        const int textureSize = 4096;
-        const int totalMapWidth = 128;
-
-        float scaleFactor = (float)textureSize / sprite.texture.width;
-
-        float realX = r.x * scaleFactor;
-        float realY = r.y * scaleFactor;
-
-        float epsilon = 0.1f;
-        int colX = Mathf.FloorToInt((realX + epsilon) / tileW);
-        int rowBottomUp = Mathf.FloorToInt((realY + epsilon) / tileW);
-
-        int rowTopDown = 63 - rowBottomUp;
-
-        int pngIndex = 0;
-        string texName = sprite.texture.name;
-
-        if( texName.Contains( "Tile 2" ) ) pngIndex = 1;
-        else if( texName.Contains( "Tile 3" ) ) pngIndex = 2;
-        else if( texName.Contains( "Tile 4" ) ) pngIndex = 3;
-
-        int offsetX = (pngIndex % 2) * 64;
-        int offsetY = (pngIndex / 2) * 64;
-
-        int globalX = colX + offsetX;
-        int globalY = rowTopDown + offsetY;
-
-        int globalID = (globalY * totalMapWidth) + globalX;
-
-        return globalID;
-    }
-
-    // ===================================================================================
-    // BAKE (Gera o Dicionário)
-    // ===================================================================================
     [Button( "Bake Tiles", ButtonSizes.Gigantic ), GUIColor( 0, 1f, 0 )]
     public void BakeTileReference()
     {
         spriteToTileMap = new Dictionary<int, TileBase>();
-
-        string[] guids = AssetDatabase.FindAssets("t:Tile", FoldersToSearch.ToArray<string>());
+        string[] paths = (FoldersToSearch != null && FoldersToSearch.Count > 0) ? FoldersToSearch.ToArray() : null;
+        string[] guids = AssetDatabase.FindAssets("t:Tile", paths);
 
         bool usequadrant = true;
         if( gameObject.name.Contains( "Trans" ) )
             usequadrant = false;
 
-
-
         foreach( string guid in guids )
         {
             string path = AssetDatabase.GUIDToAssetPath(guid);
-            Tile tileAsset = AssetDatabase.LoadAssetAtPath<Tile>(path);
+            Tile t = AssetDatabase.LoadAssetAtPath<Tile>(path);
 
-            if( tileAsset == null || tileAsset.sprite == null ) continue;
+            if( t == null || t.sprite == null ) continue;
 
-            int globalID;
-            if(  usequadrant== false ) 
+            int id;
+            if( usequadrant == false )
             {
                 // IDs sequenciais para TransTilemap
-                globalID = spriteToTileMap.Count;
+                id = spriteToTileMap.Count;
             }
             else
             {
                 // Lógica normal do Watcher
-                globalID = GetGlobalIDFromSprite( tileAsset.sprite );
+                id = GetGlobalIDFromSprite( t.sprite );
             }
 
-            if( globalID != -1 && !spriteToTileMap.ContainsKey( globalID ) )
+            if( id != -1 && !spriteToTileMap.ContainsKey( id ) )
             {
-                spriteToTileMap.Add( globalID, tileAsset );
+                spriteToTileMap.Add( id, t );
             }
         }
 
-        Debug.Log( $"<color=cyan><b>[BAKE]</b></color> Sucesso! {spriteToTileMap.Count} tiles mapeados usando a lógica do Watcher." );
+        Debug.Log( $"<color=cyan><b>[BAKE]</b></color> Sucesso! {spriteToTileMap.Count} tiles mapeados." );
         EditorUtility.SetDirty( this );
     }
 
-    // ===================================================================================
-    // EDITOR UPDATE (Troca Layer Automática)
-    // ===================================================================================
-#if UNITY_EDITOR
-    private void OnEnable() => EditorApplication.update += EditorUpdate;
-    private void OnDisable() => EditorApplication.update -= EditorUpdate;
-
-    private void EditorUpdate()
+    internal void SetTile( int x, int y, int layer, int id )
     {
-        return;
-        if( !RestrainDrawing || Tilemaps == null ) return;
-        if( this == null || gameObject == null ) return;
-
-        for( int i = Tilemaps.Count - 1; i >= 0; i-- )
-        {
-            var tilemap = Tilemaps[i];
-            if( tilemap == null ) continue;
-
-            try
-            {
-                BoundsInt bounds = tilemap.cellBounds;
-                foreach( var pos in bounds.allPositionsWithin )
-                {
-                    if( !tilemap.HasTile( pos ) ) continue;
-
-                    if( pos.x < 0 || pos.x >= GridSize.x || pos.y < 0 || pos.y >= GridSize.y )
-                    {
-                        tilemap.SetTile( pos, null );
-                        continue;
-                    }
-
-                    TileBase tile = tilemap.GetTile(pos);
-                    if( tile == null ) continue;
-
-                    int tileID = GetGlobalIDFromSprite((tile as Tile)?.sprite);
-
-                    if( tileID != -1 )
-                    {
-                        ELayerType correctLayer = Map.GetTileLayer((ETileType)tileID);
-                        if( correctLayer != ELayerType.DECOR && correctLayer != ELayerType.DECOR2 )
-                        if( correctLayer != ELayerType.NONE )
-                        {
-                            int layerIndex = (int)correctLayer;
-                            if( layerIndex < Tilemaps.Count && Tilemaps[ layerIndex ] != tilemap )
-                            {
-                                tilemap.SetTile( pos, null );
-                                Tilemaps[ layerIndex ].SetTile( pos, tile );
-                            }
-                        }
-                    }
-                }
-            }
-            catch( MissingReferenceException ) { return; }
-        }
-    }
-#endif
-
-    public TileBase EnumToTile( int type )
-    {
-        if( spriteToTileMap.TryGetValue( type, out TileBase tile ) )
-        {
-            //Debug.Log( tile + "  " + spriteToTileMap.Count + "  " + name );
-            return tile;
-        }
-        return null;
+        if( layer < 0 || layer >= Tilemaps.Count ) return;
+        Tilemap tilemap = Tilemaps[layer];
+        if( tilemap == null ) return;
+        TileBase tile = EnumToTile(id);
+        tilemap.SetTile( new Vector3Int( x, y, 0 ), tile );
+        // ISSO AQUI força a Unity a redesenhar o que o script acabou de fazer
+        //if( !Application.isPlaying )
+        //{
+        //    tilemap.RefreshTile( new Vector3Int( x, y, 0 ) );
+        //    EditorUtility.SetDirty( tilemap );
+        //}
     }
 
-    public int TileToID( TileBase tileBase )
-    {
-        Tile tile = tileBase as Tile;
-        if( tile == null || tile.sprite == null ) return -1;
-        return GetGlobalIDFromSprite( tile.sprite );
-    }
-
-    // ===================================================================================
-    // LOAD (Tk2d -> Unity) - CORRIGIDO
-    // ===================================================================================
     public static void Load( tk2dTileMap tm, MyTilemap myTilemap )
     {
+        IgnoreUpdate = true;
         myTilemap.TilemapEditor.gridSize = new Vector2Int( tm.width, tm.height );
         myTilemap.GridSize = new Vector2Int( tm.width, tm.height );
-
         ClearTilemap( myTilemap );
 
         const int totalMapWidth = 128;
@@ -259,6 +323,7 @@ public class MyTilemap: SerializedMonoBehaviour
                 for( int x = 0; x < tm.width; x++ )
                 {
                     int tk2dRawID = tm.GetTile(x, y, l);
+
                     if( tk2dRawID < 0 ) continue;
 
                     int col = tk2dRawID % 128;
@@ -287,31 +352,30 @@ public class MyTilemap: SerializedMonoBehaviour
             }
         }
         Debug.Log( "<color=green>Load Concluído com Sincronia de Quadrantes!</color>" );
-        myTilemap.UpdateTrans();
+        Map.I.TransT.UpdateTrans();
+        IgnoreUpdate = false;
     }
 
-    private static void ClearTilemap( MyTilemap myTilemap )
+    public static void ClearTilemap( MyTilemap mt )
     {
-        foreach( var tmap in myTilemap.Tilemaps )
-            if( tmap != null ) tmap.ClearAllTiles();
+        if( mt.Tilemaps != null )
+            foreach( var t in mt.Tilemaps ) if( t ) t.ClearAllTiles();
     }
 
-    internal void SetTile( int x, int y, int layer, int tk2dID )
+    public TileBase EnumToTile( int type )
     {
-        if( layer < 0 || layer >= Tilemaps.Count ) return;
-        Tilemap tilemap = Tilemaps[layer];
-        if( tilemap == null ) return;
-
-        TileBase tile = EnumToTile(tk2dID);
-        tilemap.SetTile( new Vector3Int( x, y, 0 ), tile );
-
-//#if UNITY_EDITOR
-//        // ISSO AQUI força a Unity a redesenhar o que o script acabou de fazer
-//        if( !Application.isPlaying )
-//        {
-//            tilemap.RefreshTile( new Vector3Int( x, y, 0 ) );
-//            EditorUtility.SetDirty( tilemap );
-//        }
-//#endif
+        if( spriteToTileMap.TryGetValue( type, out TileBase tile ) )       
+            return tile;        
+        return null;
     }
+
+    public int TileToID( TileBase tileBase )
+    {
+        Tile tile = tileBase as Tile;
+        if( tile == null || tile.sprite == null ) return -1;
+        return GetGlobalIDFromSprite( tile.sprite );
+    }
+
+    [Button( "Update Tilemaps List" )]
+    public void Upd() => Tilemaps = new List<Tilemap>( GetComponentsInChildren<Tilemap>( true ) );
 }

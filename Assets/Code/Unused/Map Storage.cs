@@ -796,8 +796,8 @@ public partial class Map : MonoBehaviour
     {
         if( tile < 0 ) return ELayerType.NONE;
 
-        var tileInfo = Map.I.Tilemap.data.tileInfo[ ( int ) tile ];
-        if( tileInfo.Layer != ELayerType.NONE ) return tileInfo.Layer;
+        //var tileInfo = Map.I.Tilemap.data.tileInfo[ ( int ) tile ];
+        //if( tileInfo.Layer != ELayerType.NONE ) return tileInfo.Layer;
 
         tile = Map.GetTileID( tile );
 

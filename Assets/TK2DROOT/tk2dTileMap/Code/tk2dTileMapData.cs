@@ -38,7 +38,7 @@ namespace tk2dRuntime.TileMap
 		public int intVal;
 		public float floatVal;
 		public bool enablePrefabOffset;
-        public ELayerType Layer = ELayerType.NONE;                     // guga add tk
+      //  public ELayerType Layer = ELayerType.NONE;                     // guga add tk
         public bool Blocked = false;                                   //
 	}
 }

@@ -24,7 +24,6 @@ public class Manager : MonoBehaviour
     public Quest ActiveQuest;
     public PlaylistController PlaylistController;
     public string PlayerName, QuestName;
-    public MiniMap MiniMap;
     public Idle InventoryIdle, FarmIdle;
     public EGameStatus Status;
     public EGameType GameType;
@@ -60,7 +59,8 @@ public class Manager : MonoBehaviour
         I = this;
         U = new Util();
 
-        Inventory.InitDictionary();                                                              // init item dictionary
+        G.Init();
+        Inventory.InitDictionary();                                                              // init item dictionary 
         SaveOnEndGame = false;
         UpdateCurrentAdventure( );
 

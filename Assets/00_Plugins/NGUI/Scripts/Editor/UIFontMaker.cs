@@ -448,10 +448,10 @@ public class UIFontMaker : EditorWindow
 
 					// Save the material
 					AssetDatabase.CreateAsset(mat, matPath);
-					AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+                    //ggAssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 
-					// Load the material so it's usable
-					mat = AssetDatabase.LoadAssetAtPath(matPath, typeof(Material)) as Material;
+                    // Load the material so it's usable
+                    mat = AssetDatabase.LoadAssetAtPath(matPath, typeof(Material)) as Material;
 				}
 
 				mat.mainTexture = NGUISettings.fontTexture;
@@ -519,15 +519,15 @@ public class UIFontMaker : EditorWindow
 
 						// Save the material
 						AssetDatabase.CreateAsset(mat, matPath);
-						AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+                        //ggAssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 
-						// Load the material so it's usable
-						mat = AssetDatabase.LoadAssetAtPath(matPath, typeof(Material)) as Material;
+                        // Load the material so it's usable
+                        mat = AssetDatabase.LoadAssetAtPath(matPath, typeof(Material)) as Material;
 					}
-					else AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+                    //gg	else AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 
-					// Re-load the texture
-					tex = AssetDatabase.LoadAssetAtPath(texPath, typeof(Texture2D)) as Texture2D;
+                    // Re-load the texture
+                    tex = AssetDatabase.LoadAssetAtPath(texPath, typeof(Texture2D)) as Texture2D;
 
 					// Assign the texture
 					mat.mainTexture = tex;
@@ -545,10 +545,10 @@ public class UIFontMaker : EditorWindow
 			// Update the prefab
 			PrefabUtility.ReplacePrefab(go, prefab);
 			DestroyImmediate(go);
-			AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            //ggAssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 
-			// Select the atlas
-			go = AssetDatabase.LoadAssetAtPath(prefabPath, typeof(GameObject)) as GameObject;
+            // Select the atlas
+            go = AssetDatabase.LoadAssetAtPath(prefabPath, typeof(GameObject)) as GameObject;
 			uiFont = go.GetComponent<UIFont>();
 		}
 
