@@ -75,14 +75,70 @@ public class UIBasicSpriteEditor : UIWidgetInspector
 			NGUIEditorTools.DrawProperty("Flip", serializedObject, "mFlip");
 		}
 
-		//GUI.changed = false;
-		//Vector4 draw = EditorGUILayout.Vector4Field("Draw Region", mWidget.drawRegion);
+        //GUI.changed = false;
+        //Vector4 draw = EditorGUILayout.Vector4Field("Draw Region", mWidget.drawRegion);
 
-		//if (GUI.changed)
-		//{
-		//    NGUIEditorTools.RegisterUndo("Draw Region", mWidget);
-		//    mWidget.drawRegion = draw;
-		//}
-		base.DrawCustomProperties();
+        //if (GUI.changed)
+        //{
+        //    NGUIEditorTools.RegisterUndo("Draw Region", mWidget);
+        //    mWidget.drawRegion = draw;
+        //}
+
+
+
+        GUILayout.Space( 12 );
+        Color oldColor = GUI.backgroundColor;
+        GUI.backgroundColor = Color.red;
+
+        GUILayout.BeginVertical( "box" );
+        GUILayout.Space( 6 );
+
+        // --- DIAGNÓSTICO ---
+        // Isso vai te dizer no console se é UISprite, UITexture ou outro
+        string typeName = target.GetType().Name;
+
+        GUIStyle bigButton = new GUIStyle(GUI.skin.button);
+        bigButton.fontSize = 15;
+        bigButton.fixedHeight = 45;
+        bigButton.fontStyle = FontStyle.Bold;
+
+        // Tenta pegar como Sprite ou Texture (ambos são UIBasicSprite)
+        UIBasicSprite basicSpr = target as UIBasicSprite;
+
+        //if( basicSpr != null )
+        //{
+        //    if( GUILayout.Button( $"🔥 CONVERT {typeName.ToUpper()} 🔥", bigButton ) )
+        //    {
+        //        // Se for UISprite, chama sua ação atual
+        //        if( target is UISprite spr )
+        //        {
+        //            if( ConvertUISAction != null ) ConvertUISAction.Invoke( spr );
+        //            else Debug.LogError( "ConvertUISAction não configurada!" );
+        //        }
+        //        // Se for UITexture, o processo é levemente diferente (não tem Atlas)
+        //        else if( target is UITexture tex )
+        //        {
+        //            Debug.LogWarning( $"[Aviso] {tex.name} é um UITexture. O ConvertUISprite atual espera um Atlas. Deseja converter texturas também?" );
+        //            // Se quiser converter texturas, precisaremos de um NSprite.ConvertUITexture(tex)
+        //        }
+        //    }
+
+        //    if( GUILayout.Button( "🔥 Finalize 🔥", bigButton ) )
+        //    {
+        //        if( FinalizeUISAction != null ) FinalizeUISAction.Invoke( target );
+        //        else Debug.LogError( "FinalizeUISAction não configurada!" );
+        //    }
+        //}
+
+        GUILayout.Space( 6 );
+        GUILayout.EndVertical();
+        GUI.backgroundColor = oldColor;
+
+
+
+        base.DrawCustomProperties();
 	}
+    // DECLARE AQUI (Linha 15 aproximadamente):
+    public static System.Action<object> ConvertUISAction;
+    public static System.Action<object> FinalizeUISAction;
 }

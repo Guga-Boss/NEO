@@ -799,24 +799,24 @@ public class RandomMapGoal : MonoBehaviour
 
             Panel.UpgradePriceAmountLabel.text = "x" + gu.UpgradeCostAmount;     
             if( gu.UpgradeCostType !=  ItemType.NONE )
-                Panel.UpgradePriceIcon.sprite2D = G.GIT( gu.UpgradeCostType ).Sprite.sprite2D;
+                Panel.UpgradePriceIcon.sprite2D = G.GIT( gu.UpgradeCostType ).NSprite.sprite;
             Panel.UpgradeBonusAmountLabel.text = "+" + gu.UpgradeBonusAmount;
 
             if( BonusItem != ItemType.NONE )
             if( gu.UpgradeType == EGoalUpgradeType.ITEM )
                 Panel.UpgradeBonusIcon.sprite2D = 
-                G.GIT( BonusItem ).Sprite.sprite2D;
+                G.GIT( BonusItem ).NSprite.sprite;
             if( BonusItem2 != ItemType.NONE )
             if( gu.UpgradeType == EGoalUpgradeType.ITEM2 )
                 Panel.UpgradeBonusIcon.sprite2D = 
-                G.GIT( BonusItem2 ).Sprite.sprite2D;
+                G.GIT( BonusItem2 ).NSprite.sprite;
             if( gu.UpgradeType == EGoalUpgradeType.RECIPE_BONUS )
                 Panel.UpgradeBonusIcon.sprite2D = 
-                G.GIT( ItemType.Recipe_Image_1 ).Sprite.sprite2D;
+                G.GIT( ItemType.Recipe_Image_1 ).NSprite.sprite;
             if( gu.UpgradeType == EGoalUpgradeType.BLUEPRINT_PLANTS ||
                 gu.UpgradeType == EGoalUpgradeType.BLUEPRINT_USES )
                 Panel.UpgradeBonusIcon.sprite2D = 
-                G.GIT( ItemType.BluePrint_Image_1 ).Sprite.sprite2D;
+                G.GIT( ItemType.BluePrint_Image_1 ).NSprite.sprite;
 
             if( level < 1 )
             {

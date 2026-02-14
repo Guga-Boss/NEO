@@ -4833,7 +4833,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
            {
                Body.Sprite4.gameObject.SetActive( true );
                int id = ( int ) Body.MiningPrize;
-               Body.Sprite4.spriteId = G.GIT( id ).TKSprite.spriteId;
+               Body.Sprite4.spriteId = G.GIT( id ).NSprite.spriteId;
                Body.Sprite4.transform.eulerAngles = new Vector3( 0, 0, 0 );
             }
            float sca = 1.2f;

@@ -879,7 +879,7 @@ public class Attack : MonoBehaviour
                 {
                     un.Variation = bvar[ i ];
                     if( un.Variation >= 0 )
-                        un.Spr.spriteId = G.GIT( un.Variation ).TKSprite.spriteId;
+                        un.Spr.spriteId = G.GIT( un.Variation ).NSprite.spriteId;
                     un.Body.StackAmount = 1;
                     un.Body.BonusItemList = null;
                 }

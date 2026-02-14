@@ -2,6 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using System.Collections.Generic;
+using System;
 
 public class NSprite: MonoBehaviour
 {
@@ -39,10 +40,17 @@ public class NSprite: MonoBehaviour
     // Altere a linha 38 para:
     private void OnValidate()
     {
-        // Evita erro de SendMessage/Physics no console 
-        UnityEditor.EditorApplication.delayCall += UpdateVisuals;
+        UnityEditor.EditorApplication.delayCall += () =>
+        {
+            if( this != null ) // Verifica se o objeto ainda existe
+                UpdateVisuals();
+        };
     }
 #endif
+
+    [BoxGroup("Layout")]
+    [OnValueChanged("UpdateVisuals")]
+    public int TkSpriteId = -1;
 
     private void OnColChanged()
     {
@@ -94,7 +102,8 @@ public class NSprite: MonoBehaviour
 
     public void UpdateVisuals()
     {
-        if( Render == null ) Render = GetComponent<SpriteRenderer>();
+        if( this == null || Render == null ) return; // previne chamadas em objetos destruído
+        if( Render == null ) Render = GetComponent<SpriteRenderer>(); // bug aqui
         if( Render == null ) Render = gameObject.AddComponent<SpriteRenderer>();
 
         if( sprite == null ) return;
@@ -128,6 +137,211 @@ public class NSprite: MonoBehaviour
         return ESpriteCol.NONE;
     }
 
+    [InitializeOnLoadMethod]
+    private static void InitMigrationActions()
+    {
+        Debug.Log( "🔌 [NSprite] Inicializando Ações de Migração (tk2d + NGUI)..." );
+
+        // --- TK2D ACTIONS ---
+        tk2dSpriteEditor.ConvertAction = ( obj ) =>
+        {
+            var sprite = obj as tk2dSprite;
+            if( sprite != null ) NSprite.Convert( sprite );
+        };
+
+        tk2dSpriteEditor.FinalizeAction = ( obj ) =>
+        {
+            var sprite = obj as tk2dSprite;
+            if( sprite != null ) NSprite.Finalize( sprite );
+        };
+
+        // --- NGUI ACTIONS (O que estava faltando!) ---
+        // Usamos UIBasicSpriteEditor para cobrir UISprite e UI2DSprite de uma vez
+        UIBasicSpriteEditor.ConvertUISAction = ( obj ) =>
+        {
+            if( obj != null ) NSprite.ConvertUISprite( obj );
+        };
+
+        UIBasicSpriteEditor.FinalizeUISAction = ( obj ) =>
+        {
+            if( obj != null ) NSprite.FinalizeUISprite( obj );
+        };
+    }
+
+    public static void FinalizeUISprite( object obj )
+    {
+        var widget = obj as UIWidget;
+        if( widget == null ) return;
+        var root = widget.gameObject;
+
+        // 1. Cache dos dados ORIGINAIS
+        Vector3 originalTransformScale = root.transform.localScale;
+        int originalW = widget.width;
+        int originalH = widget.height;
+        Color originalColor = widget.color;
+        int originalDepth = widget.depth;
+
+        // --- CACHE DO FLIP (NOVO) ---
+        bool flipX = false;
+        bool flipY = false;
+        // UISprite e UI2DSprite herdam de UIBasicSprite, que contém a propriedade 'flip'
+        if( obj is UIBasicSprite basicSpr )
+        {
+            var f = basicSpr.flip;
+            flipX = ( f == UIBasicSprite.Flip.Horizontally || f == UIBasicSprite.Flip.Both );
+            flipY = ( f == UIBasicSprite.Flip.Vertically || f == UIBasicSprite.Flip.Both );
+        }
+        // ----------------------------
+
+        // Pega o Sprite do Preview temporário
+        var child = root.transform.Find("Unity_Migration_Preview_UI");
+        Sprite finalSprite = null;
+        if( child != null )
+        {
+            var srChild = child.GetComponent<SpriteRenderer>();
+            if( srChild != null ) finalSprite = srChild.sprite;
+            Undo.DestroyObjectImmediate( child.gameObject );
+        }
+
+        UnityEditor.EditorApplication.delayCall += () =>
+        {
+            if( root == null ) return;
+
+            // 2. Limpeza
+            Undo.DestroyObjectImmediate( widget );
+            var box = root.GetComponent<BoxCollider>();
+            if( box != null ) Undo.DestroyObjectImmediate( box );
+
+            // 3. Adiciona Novos Componentes
+            var sr = root.AddComponent<SpriteRenderer>();
+            var ns = root.AddComponent<NSprite>();
+
+            // 4. RESTAURAÇÃO FIEL
+            root.transform.localScale = originalTransformScale;
+
+            // Configura NSprite
+            ns.scale = new Vector2( originalW, originalH );
+            ns.sprite = finalSprite;
+            ns.baseColor = originalColor;
+
+            // Se o seu NSprite tiver variáveis de flip, descomente abaixo:
+            // ns.flipX = flipX;
+            // ns.flipY = flipY;
+
+            // Configura Renderer
+            sr.drawMode = SpriteDrawMode.Sliced;
+            sr.sprite = finalSprite;
+            sr.color = originalColor;
+            sr.sortingOrder = originalDepth;
+            sr.sortingLayerName = "Default";
+
+            // --- APLICA O FLIP NO RENDERER ---
+            sr.flipX = flipX;
+            sr.flipY = flipY;
+            // ---------------------------------
+
+            ns.UpdateVisuals();
+
+            // Atribuição Final do Size (Mantida no final para garantir)
+            sr.size = new Vector2( ns.scale.x, ns.scale.y );
+
+            UnityEditor.EditorUtility.SetDirty( root );
+            Debug.Log( $"[Finalize] {root.name} Finalizado! Size: {originalW}x{originalH} | Flip: {flipX}/{flipY}" );
+        };
+    }
+
+    public static void ConvertUISprite( object obj )
+    {
+        if( obj == null ) return;
+        UIWidget widget = obj as UIWidget;
+        if( widget == null ) return;
+
+        Sprite sp = null;
+        string sprName = "";
+        ESpriteCol targetEnum = ESpriteCol.NONE;
+
+        // 1. Identifica o Sprite
+        if( obj is UISprite spr )
+        {
+            if( spr.atlas != null )
+            {
+                string colName = spr.atlas.name.Replace("Atlas", "").Trim();
+                targetEnum = GetCollectionFromTk2d( colName ); // Ajuste conforme seu helper
+                sprName = spr.spriteName;
+                IDM.InitSingleton();
+                sp = IDM.I.GetSpriteFromIDMByName( targetEnum, sprName );
+            }
+        }
+        else if( obj is UI2DSprite spr2d )
+        {
+            sp = spr2d.sprite2D;
+            sprName = ( sp != null ) ? sp.name : "Unknown";
+            targetEnum = ESpriteCol.ITEM;
+        }
+
+        if( sp != null )
+        {
+            string childName = "Unity_Migration_Preview_UI";
+            Transform childTransform = widget.transform.Find(childName);
+            GameObject childGO = childTransform == null ? new GameObject(childName) : childTransform.gameObject;
+
+            childGO.transform.SetParent( widget.transform );
+            childGO.transform.localPosition = new Vector3( 0, 0, -0.1f ); // Levemente à frente
+            childGO.transform.localRotation = Quaternion.identity;      // Zera rotação
+
+            // --- CORREÇÃO DE TAMANHO (AQUI ESTAVA O ERRO) ---
+            // Pegamos o tamanho que o Sprite tem "naturalmente" na Unity
+            float spriteNativeW = sp.bounds.size.x;
+            float spriteNativeH = sp.bounds.size.y;
+
+            // Proteção contra divisão por zero
+            if( spriteNativeW == 0 ) spriteNativeW = 1f;
+            if( spriteNativeH == 0 ) spriteNativeH = 1f;
+
+            // A escala deve esticar o sprite para bater com o tamanho do NGUI
+            // Ex: Se NGUI é 100px e o Sprite nativo é 1.0 unidade -> Escala vira 100
+            Vector3 finalScale = new Vector3(
+            widget.width / spriteNativeW,
+            widget.height / spriteNativeH,
+            1f
+        );
+
+            childGO.transform.localScale = finalScale;
+            // ------------------------------------------------
+
+            // Garante componentes
+            SpriteRenderer sr = childGO.GetComponent<SpriteRenderer>();
+            if( sr == null ) sr = childGO.AddComponent<SpriteRenderer>();
+
+            NSprite nsComp = childGO.GetComponent<NSprite>();
+            if( nsComp == null ) nsComp = childGO.AddComponent<NSprite>();
+
+            // Configura Renderer
+            sr.sprite = sp;
+            sr.sortingLayerName = "Default";
+            sr.gameObject.layer = 5;
+            sr.sortingOrder = widget.depth;
+            sr.color = widget.color;
+
+            // Configura NSprite
+            nsComp.collection = targetEnum;
+            nsComp.sprite = sp;
+            nsComp.baseColor = widget.color;
+            nsComp.spriteName = sprName;
+            // Salva o tamanho original em pixels, caso seu script use isso depois
+            nsComp.scale = new Vector2( widget.width, widget.height );
+
+            // IMPORTANTE: Se o seu UpdateVisuals() resetar a escala, o bug volta.
+            // Se isso acontecer, comente essa linha abaixo temporariamente.
+            nsComp.UpdateVisuals();
+
+            // Agora sim: esconde o original (que está intacto por trás)
+            widget.enabled = true;
+            childGO.SetActive( true );
+
+            Debug.Log( $"[Migração] Preview ajustado! NGUI: {widget.width}x{widget.height} | Escala: {finalScale}" );
+        }
+    }
     public static void Convert( tk2dSprite tkSprite )
     {
         if( tkSprite == null || tkSprite.Collection == null ) return;

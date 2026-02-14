@@ -7,7 +7,7 @@ public class Chests : MonoBehaviour
 {
     public static Chests I;
     [FoldoutGroup( "Tool" )]
-    public List<ItemType> FindToolType = null;             // find tool tech
+    public List<ItemType> FindToolType = null;             // find tool tech 
     [FoldoutGroup( "Tool" )]
     public List<float> FindToolFactor = null; 
 

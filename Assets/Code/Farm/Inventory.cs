@@ -167,21 +167,21 @@ public class Inventory : MonoBehaviour {
         for( int i = 0; i < EmptySlotList.Count; i++ )
         {
             EmptySlotList[ i ].gameObject.SetActive( true );
-            EmptySlotList[ i ].IconLabel.gameObject.SetActive( false );
-            EmptySlotList[ i ].Sprite.gameObject.SetActive( false );
+            EmptySlotList[ i ].TIconLabel.gameObject.SetActive( false );
+            EmptySlotList[ i ].NSprite.gameObject.SetActive( false );
 
             if( rm.RequiredItem != ItemType.NONE )                                                              // Empty slot Stuff
             if( i == 0 )
             if( rm.GetRequiredItemAmount() > 0 )
             {
-                EmptySlotList[ i ].Sprite.gameObject.SetActive( true );
-                EmptySlotList[ i ].Sprite.sprite2D = 
-                G.GIT( rm.RequiredItem ).Sprite.sprite2D;
-                EmptySlotList[ i ].Sprite.color = Color.red;
+                EmptySlotList[ i ].NSprite.gameObject.SetActive( true );
+                //EmptySlotList[ i ].Sprite.sprite2D = 
+                //G.GIT( rm.RequiredItem ).Sprite.sprite2D;
+                //EmptySlotList[ i ].Sprite.color = Color.red;
 
-                EmptySlotList[ i ].IconLabel.gameObject.SetActive( true );
-                EmptySlotList[ i ].IconLabel.text = "x" + rm.GetRequiredItemAmount();
-                EmptySlotList[ i ].IconLabel.color = Color.red;         
+                EmptySlotList[ i ].TIconLabel.gameObject.SetActive( true );
+                EmptySlotList[ i ].TIconLabel.text = "x" + rm.GetRequiredItemAmount();
+                EmptySlotList[ i ].TIconLabel.color = Color.red;         
             }
 
             if( i >= size )
@@ -194,16 +194,16 @@ public class Inventory : MonoBehaviour {
             it.gameObject.SetActive( false );
             bool ex = false;
 
-            it.Sprite.gameObject.SetActive( true );
-            if( i >= size )
-                it.Sprite.gameObject.transform.parent.gameObject.SetActive( false );
+            //it.Sprite.gameObject.SetActive( true );
+            //if( i >= size )
+            //    it.Sprite.gameObject.transform.parent.gameObject.SetActive( false );
 
-            if( it.Type != ItemType.NONE && it.Count > 0 )
-            {
-                ex = true;
-                it.Sprite.sprite2D = G.GIT( it.Type ).Sprite.sprite2D;
-                EmptySlotList[ i ].gameObject.SetActive( false );
-            }
+            //if( it.Type != ItemType.NONE && it.Count > 0 )
+            //{
+            //    ex = true;
+            //    it.Sprite.sprite2D = G.GIT( it.Type ).Sprite.sprite2D;
+            //    EmptySlotList[ i ].gameObject.SetActive( false );
+            //}
 
             if( ex )
             {
@@ -222,20 +222,20 @@ public class Inventory : MonoBehaviour {
                         int amount = ( int ) ItemList[ i ].Count;
                         if( amount < it.MaxStack )
                         {
-                            it.IconLabel.text = "" + amount + " / " + it.MaxStack;
-                            it.IconLabel.color = Color.red;
+                            it.TIconLabel.text = "" + amount + " / " + it.MaxStack;
+                            it.TIconLabel.color = Color.red;
                         }
                         else
-                            it.IconLabel.color = Color.green;
+                            it.TIconLabel.color = Color.green;
 
                         if( it.CountLifetime )
                         {
                             float tottime = Item.GetStat( EVarType.Total_Life_Time, it );
-                            it.IconLabel.text = Util.ToSTime( tottime - it.LifeTimeCount );
+                            it.TIconLabel.text = Util.ToSTime( tottime - it.LifeTimeCount );
                         }
                     }
 
-            if( it.IconButton.state == UIButtonColor.State.Hover )
+            if( it.IsHovering() )
             {
                 string msg = UpdateInfoText( it );                                                  // Updates mouse over item text
                 string nm = G.GIT( it.Type ).GetName() +":\n\n";
@@ -262,11 +262,11 @@ public class Inventory : MonoBehaviour {
     public ItemType GetHoverItem()
     {
         for( int i = 0; i < ItemList.Count; i++ )
-            if( ItemList[ i ] )
+        if ( ItemList[ i ] )
             {
-                if( ItemList[ i ].IconButton.state == UIButtonColor.State.Hover )
+                if( ItemList[ i ].IsHovering() )
                 {
-                    return ( ItemType ) i;
+                    return (ItemType) i;
                 }
             }
         return ItemType.NONE;

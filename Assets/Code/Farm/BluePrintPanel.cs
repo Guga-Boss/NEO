@@ -57,7 +57,7 @@ public class BluePrintPanel : MonoBehaviour
                 ( bp.UsesList.Count + bp.AvailableUses ) + mx;    
         }
 
-        Cost1Item.sprite2D = G.GIT( bp.CostItem ).Sprite.sprite2D;
+        Cost1Item.sprite2D = G.GIT( bp.CostItem ).NSprite.sprite;
 
         Cost1Label.text = "x" + bp.Cost.ToString("0.#");
         float suc = bp.BaseSuccessRate + bp.SuccessRate;
@@ -66,7 +66,6 @@ public class BluePrintPanel : MonoBehaviour
         for( int y = 0; y < 5; y++ )
         for( int x = 0; x < 5; x++ )
             {
-                UI2DSprite sp = null;
                 int id = ( int ) bp.ItemMatrix[ x, y ];
                 UILabel label = Labels[ x, y ];
 
@@ -77,8 +76,7 @@ public class BluePrintPanel : MonoBehaviour
                 {
                     if( id != -1 )
                     {
-                        sp = G.GIT( id ).Sprite;
-                        Sprites[ x, y ].sprite2D = sp.sprite2D;
+                        Sprites[ x, y ].sprite2D = G.GIT( id ).NSprite.sprite;
                     }
 
                     Buttons[ x, y ].enabled = false;
@@ -141,7 +139,7 @@ public class BluePrintPanel : MonoBehaviour
         {
             AutoApplyButton.gameObject.SetActive( true );
             AutoApplyCostLabel.text = "x" + bp.AutoApplyCost;
-            AutoApplyItem.sprite2D = G.GIT( bp.AutoApplyCostItem ).Sprite.sprite2D;
+            AutoApplyItem.sprite2D = G.GIT( bp.AutoApplyCostItem ).NSprite.sprite;
             bool res = bp.AutoApply( true );
             if( res ) AutoApplyCostLabel.color = Color.white;
             else AutoApplyCostLabel.color = Color.red;
@@ -158,7 +156,7 @@ public class BluePrintPanel : MonoBehaviour
             {
                 BuyPlantsButton.gameObject.SetActive( true );
                 BuyBPLabel.text = "x" + bp.BuyBPCost;
-                BuyBPItem.sprite2D = G.GIT( bp.BuyBPCostItem ).Sprite.sprite2D;
+                BuyBPItem.sprite2D = G.GIT( bp.BuyBPCostItem ).NSprite.sprite;
                 bool res = bp.BuyPlants( true );
                 if( res ) BuyBPLabel.color = Color.white;
                 else BuyBPLabel.color = Color.red;

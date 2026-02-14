@@ -635,7 +635,7 @@ public class TechButton : MonoBehaviour
 
             label.color = col;
 
-            spr.sprite2D = G.GIT( costItem ).Sprite.sprite2D;                                                           // Updates Cost Sprite        
+            spr.sprite2D = G.GIT( costItem ).NSprite.sprite;                                                            // Updates Cost Sprite        
 
             if( techX != -1 )
             {
@@ -734,7 +734,7 @@ public class TechButton : MonoBehaviour
         if( au.UpgradeType == EAdventureUpgradeType.SPAWN_BUTCHER_CHANCE )
             icon = ( int ) ItemType.Butcher_Level;
         if( icon >= 0 ) 
-            bt.DescriptionSprite.sprite2D = G.GIT( icon ).Sprite.sprite2D;
+            bt.DescriptionSprite.sprite2D = G.GIT( icon ).NSprite.sprite;
     }
 
     public void OnTechButtonPress()

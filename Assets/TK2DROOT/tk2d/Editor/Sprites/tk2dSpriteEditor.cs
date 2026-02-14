@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(tk2dSprite))]
-class tk2dSpriteEditor : Editor
+public class tk2dSpriteEditor : Editor
 {
 	// Serialized properties are going to be far too much hassle
 	private tk2dBaseSprite[] targetSprites = new tk2dBaseSprite[0];
@@ -497,6 +497,8 @@ class tk2dSpriteEditor : Editor
 		} );
     }
 
+    public static System.Action<object> ConvertAction;
+    public static System.Action<object> FinalizeAction;
     void DrawNeoConvertButton()
     {
         GUILayout.Space( 12 );
@@ -516,14 +518,14 @@ class tk2dSpriteEditor : Editor
         {
             tk2dSprite spr = (tk2dSprite)target;
             var sprite = spr.CurrentSprite;
-           // NSprite.Convert( spr );
+            ConvertAction?.Invoke( spr );
         }
 
         if( GUILayout.Button( "🔥 Finalize 🔥", bigButton ) )
         {
             tk2dSprite spr = (tk2dSprite)target;
             var sprite = spr.CurrentSprite;
-           // NSprite.Finalize( spr );
+            FinalizeAction?.Invoke( spr );
         }
 
         GUILayout.Space( 6 );

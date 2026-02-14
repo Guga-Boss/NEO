@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Sirenix.OdinInspector;
 using DarkTonic.MasterAudio;
+using TMPro;
+using UnityEngine.UI;
+
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -70,15 +74,15 @@ public class Item : MonoBehaviour
     [TabGroup( "Main" )]
     public Inventory.IType InventoryType;
     [TabGroup( "Link" )]
-    public UIButton IconButton;
+    public BoxCollider Collider;
     [TabGroup( "Link" )]
-    public UILabel IconLabel;
+    public BoxCollider2D Collider2D;
+    [TabGroup( "Link" )]
+    public TextMeshPro TIconLabel;
     [TabGroup( "Link" )]
     public UI2DSprite Selection;
     [TabGroup( "Link" )]
-    public UI2DSprite Sprite;
-    [TabGroup( "Link" )]
-    public tk2dSprite TKSprite;
+    public NSprite NSprite;
     [TabGroup( "Warez" )]
     public List<Building> WarehouseList;
     [TabGroup( "Warez" )]
@@ -788,16 +792,16 @@ public class Item : MonoBehaviour
                 cont = Util.SumList( PerAdventureCount );
         }
 
-        IconLabel.color = Color.white;
+        TIconLabel.color = Color.white;
         float max = GetMaxStack();
         if( max > 0 )
         {
-            IconLabel.text = "" + cont.ToString( "0." ) + " / " + max.ToString( "0." );
+            TIconLabel.text = "" + cont.ToString( "0." ) + " / " + max.ToString( "0." );
             if( cont >= max )
-                IconLabel.color = Color.red;
+                TIconLabel.color = Color.red;
         }
         else
-            IconLabel.text = "" + cont.ToString( "0." );
+            TIconLabel.text = "" + cont.ToString( "0." );
     }
     public void Save()
     {
@@ -1284,5 +1288,325 @@ public class Item : MonoBehaviour
     {
         if( G.GIT( type ).Count < min ) G.GIT( type ).Count = min;
         if( G.GIT( type ).Count > max ) G.GIT( type ).Count = max;
+    }
+
+    [Button( "Convert All", ButtonSizes.Gigantic ), GUIColor( 0, 1f, 0 )]
+    public void ConvertAll()
+    {
+//        // 1. Validação da lista de itens
+//        if( Manager.I == null || Manager.I.Inventory == null || Manager.I.Inventory.ItemList == null )
+//        {
+//            Debug.LogError( "Manager.I ou ItemList não encontrados. Verifique se o Manager está instanciado." );
+//            return;
+//        }
+
+//        var itemList = Manager.I.Inventory.ItemList;
+//        int sucessos = 0;
+
+//        for( int i = 1; i < itemList.Count; i++ )
+//        {
+//            var item = itemList[i];
+//            if( item == null || item.gameObject == null ) continue;
+
+//            // --- PASSO 1: DESBLOQUEIO ---
+//            // Garante que o objeto está editável (resolve o nome cinza na Hierarchy)
+//            item.gameObject.hideFlags = HideFlags.None;
+
+//            // --- PASSO 2: REFERÊNCIA DO 3D ---
+//            BoxCollider col3D = item.GetComponent<BoxCollider>();
+//            if( col3D == null ) continue;
+
+//            // --- PASSO 3: CACHE DOS DADOS ---
+//            // Guardamos as informações em variáveis locais antes de apagar o componente
+//            Vector2 centroTemporario = new Vector2(col3D.center.x, col3D.center.y);
+//            Vector2 tamanhoTemporario = new Vector2(col3D.size.x, col3D.size.y);
+
+//            // Registra o Undo para que você possa desfazer a operação se necessário
+//#if UNITY_EDITOR
+//            Undo.RecordObject( item.gameObject, "Converter Collider para 2D" );
+//#endif
+
+//            // --- PASSO 4: APAGAR O 3D ---
+//            // Obrigatório remover para que o Unity permita adicionar o 2D no mesmo objeto
+//            DestroyImmediate( col3D );
+
+//            // --- PASSO 5: CRIAR E TRANSFERIR PARA O 2D ---
+//            BoxCollider2D col2D = item.gameObject.AddComponent<BoxCollider2D>();
+
+//            if( col2D != null )
+//            {
+//                col2D.offset = centroTemporario;
+//                col2D.size = tamanhoTemporario;
+
+//                // --- PASSO 6: ATUALIZAR REFERÊNCIAS NO SCRIPT ---
+//                item.Collider = null; // Limpa referência antiga
+//                item.Collider2D = col2D; // Define a nova referência 2D
+
+//                sucessos++;
+//            }
+//            //return;
+//        }
+
+//        Debug.Log( $"[Migração] {sucessos} itens convertidos para BoxCollider2D com sucesso!" );
+    }
+
+    //ggdel
+    public void CreateTMP( Transform iconTransform, string numberText = "x4" )
+    {
+        if( iconTransform == null )
+        {
+            Debug.LogWarning( "Icon transform inválido." );
+            return;
+        }
+
+        // =========================
+        // Verifica se já existe TMP filho
+        // =========================
+        TextMeshPro existingTMP = iconTransform.GetComponentInChildren<TextMeshPro>();
+        if( existingTMP != null )
+        {
+            Debug.Log( "[CreateInventoryNumberTMP] TMP já existe, pulando criação." );
+            return;
+        }
+
+        // =========================
+        // Cria GameObject TMP 3D
+        // =========================
+        GameObject tmpGO = new GameObject("Item Label");
+        tmpGO.transform.SetParent( iconTransform );
+        tmpGO.transform.localPosition = new Vector3( 31f, -11f, 0f ); // canto direito do ícone
+        tmpGO.transform.localRotation = Quaternion.identity;
+        tmpGO.transform.localScale = Vector3.one;
+        tmpGO.layer = 5;
+
+        // =========================
+        // Adiciona TextMeshPro 3D
+        // =========================
+        TextMeshPro tmp = tmpGO.AddComponent<TextMeshPro>();
+
+        // =========================
+        // Configurações do texto
+        // =========================
+        tmp.text = numberText.ToLower();          // força lowercase
+        tmp.fontSize = 220;                         // tamanho da fonte
+        tmp.font = Resources.GetBuiltinResource<TMP_FontAsset>( "LiberationSans SDF.asset" ); // fonte Unity
+        tmp.fontStyle = FontStyles.Bold;           // bold
+        tmp.alignment = TextAlignmentOptions.TopRight; // alinhamento top-right
+        tmp.enableWordWrapping = false;
+        tmp.color = Color.white;
+
+        // =========================
+        // Outline e sombra para visibilidade
+        // =========================
+
+
+        tmp.fontMaterial.EnableKeyword( "UNDERLAY_ON" ); // Liga o underlay
+        tmp.fontMaterial.SetFloat( "_UnderlayOffsetX", 1f );
+        tmp.fontMaterial.SetFloat( "_UnderlayOffsetY", -0.1f );
+        tmp.fontMaterial.SetFloat( "_UnderlayDilate", 1f );
+        tmp.fontMaterial.SetFloat( "_UnderlaySoftness", 0.3f );
+
+        tmp.ForceMeshUpdate(); // força atualizar mesh com efeito
+  
+
+    // =========================
+    // Ajusta mesh para width/height
+    // =========================
+    tmp.rectTransform.sizeDelta = new Vector2( 50f, 50f ); // largura x altura
+        tmp.rectTransform.pivot = new Vector2( 1, 1 );         // pivot top-right
+
+        // =========================
+        // Sorting Layer / Depth
+        // =========================
+        MeshRenderer mr = tmpGO.GetComponent<MeshRenderer>();
+        //mr.sortingLayerName = "Default";
+        mr.sortingOrder = 4;
+        mr.gameObject.layer = 5;
+        mr.sortingLayerName = "UI"; // ou "UI" se quiser
+        TIconLabel = tmp;
+
+        Debug.Log( "[CreateInventoryNumberTMP] TMP 3D criado com outline e sombra." );
+    }
+
+
+    [Button( "Convert", ButtonSizes.Gigantic ), GUIColor( 0, 1f, 0 )]
+    public void Convert()
+    {
+        //CreateTMP( transform );
+        //return;
+
+
+        if( NSprite ) return;
+
+
+UI2DSprite Sprite = this.GetComponentInChildren<UI2DSprite>();
+
+        if( Sprite == null )
+        {
+            Debug.LogWarning( "Sprite inválido." );
+            return;
+        }
+
+        if( Sprite.sprite2D == null )
+        {
+            Debug.LogWarning( "UI2DSprite não possui sprite2D." );
+            return;
+        }
+
+        // =========================
+        // CRIAR GAMEOBJECT FILHO PARA ITEM
+        // =========================
+        GameObject copyGO = new GameObject("Item Sprite");
+        copyGO.transform.SetParent( Sprite.transform.parent );
+        copyGO.transform.localPosition = Sprite.transform.localPosition;
+        copyGO.transform.localRotation = Sprite.transform.localRotation;
+        copyGO.transform.localScale = Sprite.transform.localScale;
+
+        // =========================
+        // CRIAR SPRITE RENDERER
+        // =========================
+        SpriteRenderer newSR = copyGO.AddComponent<SpriteRenderer>();
+        newSR.sortingOrder = Sprite.depth + 1;
+        newSR.sortingLayerName = "Default";
+        newSR.color = Sprite.color;
+        newSR.sprite = Sprite.sprite2D;
+
+        // =========================
+        // CRIAR NSprite NOVO
+        // =========================
+        NSprite newNS = copyGO.AddComponent<NSprite>();
+        newNS.Render = newSR;
+        newNS.sprite = Sprite.sprite2D;
+        newNS.spriteName = Sprite.sprite2D.name;
+        newNS.baseColor = Sprite.color;
+        newNS.collection = ESpriteCol.ITEM;
+        //newNS.TkSpriteId = newNS.id
+        newNS.preserveAspect = true;
+
+        // Escala baseada no tamanho NGUI
+        Vector2 nativeSize = Sprite.sprite2D.bounds.size;
+        if( nativeSize.x != 0 && nativeSize.y != 0 )
+        {
+            newNS.scale = new Vector2( Sprite.width / nativeSize.x, Sprite.height / nativeSize.y );
+        }
+        else
+        {
+            newNS.scale = Vector2.one;
+        }
+
+        newNS.UpdateVisuals();
+        NSprite = newNS;
+
+        // =========================
+        // CRIAR BACKGROUND PARA COMPARAÇÃO
+        // =========================
+        UISprite back = this.GetComponent<UISprite>();
+        CreateBackgroundCopy( back, ESpriteCol.MONSTER_ANIM, 275 );
+
+        // =========================
+        // REMOVER COMPONENTES E OBJETOS ORIGINAIS
+        // =========================
+        // Destroy do componente UISprite
+        if( back != null )
+        {
+            Undo.DestroyObjectImmediate( back ); // permite desfazer
+        }
+
+        //if( TKSprite != null )
+        //{
+        //    Undo.DestroyObjectImmediate( TKSprite.gameObject );
+        //}
+
+        if( Sprite != null )
+        {
+            Undo.DestroyObjectImmediate( Sprite.gameObject );
+        }
+
+        Debug.Log( $"Conversão concluída: {copyGO.name} agora é o NSprite principal." );
+    }
+
+    public void CreateBackgroundCopy( UISprite back, ESpriteCol collection, int spriteId )
+    {
+        if( back == null )
+        {
+            Debug.LogWarning( "Back inválido." );
+            return;
+        }
+
+        // =========================
+        // CRIAR OBJETO DE BACKGROUND
+        // =========================
+        GameObject bgGO = new GameObject("Item Back");
+        bgGO.transform.SetParent( back.transform ); // filho do original
+        bgGO.transform.localPosition = Vector3.zero;
+        bgGO.transform.localRotation = Quaternion.identity;
+        bgGO.transform.localScale = Vector3.one;
+        bgGO.layer = 5; // exemplo
+
+        // =========================
+        // PEGAR SPRITE DA COLLECTION PELO ID
+        // =========================
+
+
+        if( IDM.I == null )
+        {
+            IDM.InitSingleton();
+
+        }
+
+        Sprite sprite = IDM.I.GetSpriteById(collection, spriteId);
+        if( sprite == null )
+        {
+            Debug.Log( $"Sprite não encontrado na collection {collection} com ID {spriteId}, usando sprite do back." );
+            //sprite = back.sprite2D;
+        }
+
+        // =========================
+        // ADICIONAR SPRITE RENDERER
+        // =========================
+        SpriteRenderer sr = bgGO.AddComponent<SpriteRenderer>();
+        sr.sprite = sprite;
+        sr.color = back.color;
+        sr.sortingOrder = back.depth;
+        sr.sortingLayerName = "Default";
+
+        // =========================
+        // ADICIONAR NSprite PARA COMPARAÇÃO
+        // =========================
+        NSprite ns = bgGO.AddComponent<NSprite>();
+        ns.Render = sr;
+        ns.sprite = sprite;
+        ns.spriteName = sprite.name;
+        ns.baseColor = back.color;
+        ns.collection = collection;
+        ns.spriteId = spriteId;
+
+        // Escala baseada no tamanho NGUI original
+        Vector2 nativeSize = sprite.bounds.size;
+        if( nativeSize.x != 0 && nativeSize.y != 0 )
+        {
+            ns.scale = new Vector2(
+                back.width / nativeSize.x,
+                back.height / nativeSize.y
+            );
+        }
+        else
+        {
+            ns.scale = Vector2.one;
+        }
+
+        ns.preserveAspect = true;
+        ns.UpdateVisuals();
+
+        Debug.Log( $"Background copy criado: {bgGO.name} paralelo a {back.name} com sprite {sprite.name}" );
+    }
+    internal bool IsHovering()
+    {
+        if( Collider2D != null )
+        {
+            Vector2 mouseWorldPos =  UI.I.UICamera.ScreenToWorldPoint(Input.mousePosition);
+            return Collider2D.OverlapPoint( mouseWorldPos );
+        }
+        return false;
     }
 }

@@ -108,9 +108,7 @@ public class Message : MonoBehaviour
             msg = tr.gameObject.GetComponent<Message>();
             msg.Icon.gameObject.SetActive( true );
             msg.ShowIcon = true;
-            tk2dSprite sp = G.GIT( itemicon ).TKSprite;
-            if( sp != null ) msg.Icon.spriteId = sp.spriteId;
-            else msg.ShowIcon = false;
+            msg.Icon.spriteId = G.GIT( itemicon ).NSprite.spriteId;
             msg.transform.position += new Vector3( .5f, 0, 0 );
         }
         else

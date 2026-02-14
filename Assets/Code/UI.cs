@@ -28,7 +28,8 @@ public class UI : MonoBehaviour
 	public UIGrid Grid, ResourcesGrid;
     public UISprite ScrollBack, MidPanelSprite;
 	public UI2DSprite InfoIcon;
-	public float TempSelectedPerkTimer, RKeyPressTimeCount;
+    public Camera UICamera;
+    public float TempSelectedPerkTimer, RKeyPressTimeCount;
 	public EPerkType TempSelectedPerk, SelectedPerk;
 	public Vector2 LockedTile;
 	public UI2DSprite[] PortraitList;

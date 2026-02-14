@@ -54,7 +54,7 @@ public class ScriptBatch
         ////proc.Start();
 
         // --- Copiar LanguageCache.json para dentro de NEO_Data ---
-        string sourcePath = "C:/Users/alien/Desktop/NEO/Assets/Resources/Language/LanguageCache.json";
+        string sourcePath = "C:/NEO/Assets/Resources/Language/LanguageCache.json";
 
         // Application.dataPath na build aponta para <BuildFolder>/NEO_Data
         string dataDir = Path.Combine( path, "NEO_Data" );

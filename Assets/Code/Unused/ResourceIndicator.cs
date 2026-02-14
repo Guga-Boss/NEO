@@ -133,7 +133,7 @@ public class ResourceIndicator : MonoBehaviour
                 UI.I.ResourceIndicators[ IndicatorCount ].Label.color = Color.green;
             }
             UI.I.ResourceIndicators[ IndicatorCount ].Sprite.sprite2D =
-            G.GIT( itemType ).Sprite.sprite2D;
+            G.GIT( itemType ).NSprite.sprite;
             IndicatorCount++;
 
             if( IndicatorCount > UI.I.ResourceIndicators.Count - 1 )

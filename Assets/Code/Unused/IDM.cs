@@ -108,4 +108,13 @@ public class IDM: SerializedMonoBehaviour
         }
         return null;
     }
+    public Sprite GetSpriteFromIDMByName( ESpriteCol colType, string spriteName )
+    {
+        if( CollectionsDic.TryGetValue( colType, out var col ) )
+        {
+            // Busca na lista de sprites pelo nome
+            return col.Sprites.Find( s => s != null && s.name == spriteName );
+        }
+        return null;
+    }
 }

@@ -7,13 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GlobalNightMaterial
-  m_Shader: {fileID: 4800000, guid: d3823f4f5ca0120448287ed189c44944, type: 3}
+  m_Name: New Material
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _BLENDMODE_OVERLAY
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -24,11 +23,11 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _BumpMap:
+    - _AlphaTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _CloudTex:
+    - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -48,14 +47,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _LightMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 6, y: 6}
+        m_Offset: {x: 1, y: 1}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -70,49 +65,28 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BlendMode: 0
-    - _BloomIntensity: 1
-    - _BloomRadius: 0.141
-    - _BloomThreshold: 1.5
+    - PixelSnap: 0
     - _BumpScale: 1
-    - _CloudIntensity: 0.3
     - _Cutoff: 0.5
-    - _Darkness: 0.35400003
-    - _DayLight: 0.35
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FalloffCurve: 2
+    - _EnableExternalAlpha: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _Intensity: 1
-    - _MasterIntensity: 1
     - _Metallic: 0
-    - _MinLightness: 0.1
     - _Mode: 0
-    - _NightIntensity: 1.939394
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _Radius: 0.2
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Threshold: 0.612
-    - _TimeY: 28.023094
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Center: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _CloudSpeed: {r: 0.1, g: 0.05, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DarkColor: {r: 0, g: 0, b: 0.085, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _LightColor: {r: 1, g: 0.49286336, b: 0.014705896, a: 1}
-    - _MasterColor: {r: 1, g: 1, b: 1, a: 1}
-    - _MousePos: {r: 0.5, g: 0.5, b: 0, a: 0}
-    - _NightColor: {r: 0.1, g: 0.1, b: 0.3, a: 1}
-    - _NightDarkColor: {r: 0.6525252, g: 0.6525252, b: 0.6820606, a: 1}
-    - _Tint: {r: 0, g: 0, b: 0.09093103, a: 1}
-    - _TintColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

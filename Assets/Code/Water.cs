@@ -741,14 +741,14 @@ public class Water : MonoBehaviour
                 id = showFishMod;                                                                                // these ones use just the real mod id
             EFishType tp = Map.I.RM.SD.ModList[ id ].WaterObjectType;                                            // Finds sprite id         
             int res = ( int ) Map.I.GetFishResID( tp );
-            Unit.Body.Sprite3.spriteId = G.GIT( res ).TKSprite.spriteId;
+            Unit.Body.Sprite3.spriteId = G.GIT( res ).NSprite.spriteId;
         }
         if( showItem )
         {
             Unit.Body.Sprite3.gameObject.SetActive( true );                                                      // Show default prize sprite
             Water w = Unit.Water;
             Unit.Body.Sprite3.spriteId = Manager.I.Inventory.
-            ItemList[ ( int ) w.DefaultItemPrize ].TKSprite.spriteId;
+            ItemList[ ( int ) w.DefaultItemPrize ].NSprite.spriteId;
         }
     }
     public static bool CheckCn( EPoleBonusCnType PoleBonusCnType, Unit un )

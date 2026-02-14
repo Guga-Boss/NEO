@@ -505,7 +505,7 @@ public class Spell : MonoBehaviour
                         ArcherArrowAnimation.SpriteID = ( int ) ItemType.Res_WebTrap;
                         ArcherArrowAnimation an = ArcherArrowAnimation.Create( G.Hero.Pos, mn.Pos, EBoltType.Spell, 5 );
                         an.Sprite.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];
-                        an.Sprite.spriteId = G.GIT( ItemType.Res_WebTrap ).TKSprite.spriteId;
+                        an.Sprite.spriteId = G.GIT( ItemType.Res_WebTrap ).NSprite.spriteId;
                         an.Sprite.transform.localScale = new Vector3( .8f, .8f, 1 );
                         an.RandomFactor = Vector3.zero;
                         ArcherArrowAnimation.PlayExplosion = 1;
@@ -552,7 +552,7 @@ public class Spell : MonoBehaviour
                     col = ESpriteCol.ITEM;
 
                     int itid = un.Body.BabyVariation[ i ];
-                    id = G.GIT( itid ).TKSprite.spriteId;
+                    id = G.GIT( itid ).NSprite.spriteId;
                     s.SpellSprite.scale = new Vector3( .35f, .35f, 1f );
                     scale = -1;
                     euler = 0;

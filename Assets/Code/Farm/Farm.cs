@@ -478,7 +478,7 @@ public partial class Farm : MonoBehaviour
             GameObject go = Map.I.CreateUnit( prefabUnit, tg );                                                       // create object
             Unit res = go.GetComponent<Unit>();
             res.Variation = ( int ) it;
-            res.Spr.spriteId = G.GIT( it ).TKSprite.spriteId;
+            res.Spr.spriteId = G.GIT( it ).NSprite.spriteId;
             res.Body.StackAmount = amt;
             res.Body.ExclusiveToAdventure = ExclusiveToAdventureItem;
             res.UpdateText();
@@ -535,8 +535,8 @@ public partial class Farm : MonoBehaviour
         ExclusiveToAdventureItem = exclusive;
         for( int i = 0; i < ItemSprite.Length; i++ )
         {
-            if( it != ItemType.NONE && G.GIT( it ).TKSprite )
-            ItemSprite[ i ].spriteId = G.GIT( it ).TKSprite.spriteId;
+            if( it != ItemType.NONE )
+            ItemSprite[ i ].spriteId = G.GIT( it ).NSprite.spriteId;
             ItemSprite[ i ].gameObject.SetActive( false );
 
             if( CarryingAmount > i )
@@ -1076,7 +1076,7 @@ public partial class Farm : MonoBehaviour
                 {
                     NavigationMapBonus rd = prefabObject.GetComponent<NavigationMapBonus>();
                     rd.TextMesh.text = "x" + rd.BonusAmount;
-                    rd.BonusIcon.spriteId = G.GIT( rd.BonusItem ).TKSprite.spriteId;
+                    rd.BonusIcon.spriteId = G.GIT( rd.BonusItem ).NSprite.spriteId;
                     nm.MapBonusList.Add( rd );
                     rd.MapCord = new Vector2( pos.x, pos.y );
 

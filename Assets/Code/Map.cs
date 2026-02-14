@@ -1124,7 +1124,7 @@ public partial class Map : MonoBehaviour
             if( un.TileID == ETileType.PLAGUE_MONSTER )
             {
                 un.Variation = ( int ) Farm.GetRandomMonsterType();
-                un.Spr.spriteId = G.GIT( un.Variation ).TKSprite.spriteId;
+                un.Spr.spriteId = G.GIT( un.Variation ).NSprite.spriteId;
             } 
             else
             if( un.TileID == ETileType.PROJECTILE )
@@ -1287,7 +1287,7 @@ public partial class Map : MonoBehaviour
             un.Body.EffectList[ 2 ].gameObject.SetActive( false );
             un.Variation = ( int ) RM.RMD.DefaulLoadItemType;
             un.Body.StackAmount = RM.RMD.DefaultLoadCost;
-            un.Body.Sprite2.spriteId = G.GIT( un.Variation ).TKSprite.spriteId;
+            un.Body.Sprite2.spriteId = G.GIT( un.Variation ).NSprite.spriteId;
             un.RightText.text = "x" + GS.GetLoadCost( un ).ToString( "0.#" );
         }
 

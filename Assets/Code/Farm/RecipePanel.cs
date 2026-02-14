@@ -114,7 +114,7 @@ public class RecipePanel : MonoBehaviour
         }
 
         RecipeUpgradeInfo ui = bl.RecipeList[ ( int ) bl.SelectedRecipeID ].RecipeUpgradeInfoList[ lev ];
-        UpgradeItemType.sprite2D = G.GIT( ui.UpgradeItemCostType ).Sprite.sprite2D;
+        UpgradeItemType.sprite2D = G.GIT( ui.UpgradeItemCostType ).NSprite.sprite;
         UpgradeItemCostLabel.text = "x" + ui.UpgradeItemCostAmount;
         bool res = bl.RecipeList[ ( int ) bl.SelectedRecipeID ].UpgradeRecipe( false, bl );
 
@@ -172,7 +172,7 @@ public class RecipePanel : MonoBehaviour
         {
             if( gen == false )
             {
-                ReqSprites[ arrayId ].sprite2D = G.GIT( itt ).Sprite.sprite2D;
+                ReqSprites[ arrayId ].sprite2D = G.GIT( itt ).NSprite.sprite;
                 ReqLabel[ arrayId ].text = "x" + amt;
                 ReqSprites[ arrayId ].transform.parent.gameObject.SetActive( true );
                 ReqLabel[ arrayId ].color = Color.white;
@@ -182,7 +182,7 @@ public class RecipePanel : MonoBehaviour
             }
             else
             {
-                GenSprites[ arrayId ].sprite2D = G.GIT( itt ).Sprite.sprite2D;
+                GenSprites[ arrayId ].sprite2D = G.GIT( itt ).NSprite.sprite;
                 GenLabel[ arrayId ].text = "x" + amt;
                 GenSprites[ arrayId ].transform.parent.gameObject.SetActive( true );
 

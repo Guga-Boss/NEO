@@ -70,7 +70,7 @@ public class Manager : MonoBehaviour
         Manager.I.QuestName = "Main Quest";
 
         if( Environment.UserName == "alien" )
-        if( Directory.Exists( "C:/Users/alien/Desktop/NEO/Assets/Resources" ) )
+        if( Directory.Exists( "C:/NEO/Assets/Resources" ) )
             GugaVersion = true;                                                                  // checks for my version
 
         if( Helper.I.ReleaseVersion || Helper.I.StartAtCubes == false )
@@ -154,8 +154,8 @@ private static void UpdateData()
 [MenuItem( "Tools/Save Profile" )]
 private static void SaveProfile()
 {
-    string sourcePath = "C:\\Users\\alien\\Desktop\\NEO\\Assets\\Profiles\\profile 0";    // source
-    string backupPath = "C:\\Users\\alien\\Desktop\\NEO\\Assets\\Profiles\\Profile Backup"; // destination
+    string sourcePath = "C:\\NEO\\Assets\\Profiles\\profile 0";    // source
+    string backupPath = "C:\\NEO\\Assets\\Profiles\\Profile Backup"; // destination
 
     if( !Directory.Exists( sourcePath ) )
     {
@@ -172,8 +172,8 @@ private static void SaveProfile()
 [MenuItem( "Tools/Load Profile" )]
 private static void LoadProfile()
 {
-    string backupPath = "C:\\Users\\alien\\Desktop\\NEO\\Assets\\Profiles\\Profile Backup"; // source
-    string profilePath = "C:\\Users\\alien\\Desktop\\NEO\\Assets\\Profiles\\profile 0";    // destination
+    string backupPath = "C:\\NEO\\Assets\\Profiles\\Profile Backup"; // source
+    string profilePath = "C:\\NEO\\Assets\\Profiles\\profile 0";    // destination
 
     if( !Directory.Exists( backupPath ) )
     {

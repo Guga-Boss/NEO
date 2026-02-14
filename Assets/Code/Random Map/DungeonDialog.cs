@@ -21,7 +21,9 @@ public class DungeonDialog : MonoBehaviour
     #region Variables
     public Unit Unit;
     public UI2DSprite[] SpriteList;
-    public UI2DSprite[] Resources, TrophiesSprite;
+    public UI2DSprite[] Resources;
+    public NSprite[] TrophiesSprite;
+
     public UI2DSprite UnlockCost1Sprite, PackMuleEmptySlot, TechEditorFocus;
     public UISprite AutoGotoCheckMark;
     public UILabel MainTextLabel, DungeonNameLabel, DungeonNumberLabel, NewDungeonLabel, 
@@ -1487,32 +1489,33 @@ public class DungeonDialog : MonoBehaviour
             go.Panel.TrophyIcon.gameObject.SetActive( true );
             go.Panel.TrophyIcon.color = Color.white;
             if( go.TrophyType == ETrophyType.BRONZE )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Bronze_Trophy ).Sprite.sprite2D;
+                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Bronze_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.SILVER )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Silver_Trophy ).Sprite.sprite2D;
+                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Silver_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.GOLD )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Gold_Trophy ).Sprite.sprite2D;
+                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Gold_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.DIAMOND )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Diamond_Trophy ).Sprite.sprite2D;
+                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Diamond_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.ADAMANTIUM )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Adamantium_Trophy ).Sprite.sprite2D;
+                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Adamantium_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.GENIUS )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Genius_Trophy ).Sprite.sprite2D;
+                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Genius_Trophy ).NSprite.sprite;
             else
             {
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ( int ) ItemType.Bronze_Trophy ).Sprite.sprite2D;
+                go.Panel.TrophyIcon.sprite2D = G.GIT( (int) ItemType.Bronze_Trophy ).NSprite.sprite;
                 go.Panel.TrophyIcon.color = new Color( .001f, .001f, .001f, .001f );  // Invisible trophy to avoid the trophy disaligned bug
             }
 
             int id = ( int ) go.BonusItem - 1;                                                                          // Item 1
+
             if( go.BonusItem != ItemType.NONE )
                 go.Panel.Prize1Icon.sprite2D =
-                G.GIT( go.BonusItem ).Sprite.sprite2D;
+                G.GIT( go.BonusItem ).NSprite.sprite;
             float bonus = go.GetStat( EGoalUpgradeType.ITEM );
             go.Panel.Prize1Label.text = "x" + bonus;      
 
@@ -1525,7 +1528,7 @@ public class DungeonDialog : MonoBehaviour
             id = ( int ) go.BonusItem2 - 1;                                                                              // Item 2
             if( go.BonusItem2 != ItemType.NONE )
                 go.Panel.Prize2Icon.sprite2D =
-                G.GIT( go.BonusItem2 ).Sprite.sprite2D;
+                G.GIT( go.BonusItem2 ).NSprite.sprite;
             bonus = go.GetStat( EGoalUpgradeType.ITEM2 );
             go.Panel.Prize2Label.text = "x" + bonus;
             icon = true;
@@ -1541,12 +1544,12 @@ public class DungeonDialog : MonoBehaviour
                 if( go.TargetBluePrint.AffectedItem != ItemType.NONE )
                 {
                     go.Panel.Prize2BackIcon.sprite2D =
-                    G.GIT( go.TargetBluePrint.AffectedItem ).Sprite.sprite2D;
+                    G.GIT( go.TargetBluePrint.AffectedItem ).NSprite.sprite;
                     go.Panel.Prize2BackIcon.gameObject.SetActive( true );
                 }
-                
+
                 go.Panel.Prize2Icon.sprite2D =
-                G.GIT( ItemType.BluePrint_Image_1 ).Sprite.sprite2D;
+                G.GIT( ItemType.BluePrint_Image_1 ).NSprite.sprite;
 
                 if( go.TargetBluePrint.GeneratedBuilding != BuildingType.NONE )
                     go.Panel.Prize2Icon.color = Color.yellow;
@@ -1571,11 +1574,11 @@ public class DungeonDialog : MonoBehaviour
             if( go.TargetRecipe != null )                                                                            // BluePrint Bonus
             {
                 go.Panel.Prize2BackIcon.sprite2D =
-                G.GIT( go.TargetRecipe.Generated_Item_1 ).Sprite.sprite2D;
+                G.GIT( go.TargetRecipe.Generated_Item_1 ).NSprite.sprite;
                 go.Panel.Prize2BackIcon.gameObject.SetActive( true );                
                 go.Panel.Prize2Icon.color = Color.white;
                 go.Panel.Prize2Icon.sprite2D =
-                G.GIT( ItemType.Recipe_Image_1 ).Sprite.sprite2D;
+                G.GIT( ItemType.Recipe_Image_1 ).NSprite.sprite;
                 bonus = go.GetStat( EGoalUpgradeType.RECIPE_BONUS );
                 go.Panel.Prize2Label.text = "x" + bonus;
                 icon = true;
@@ -1589,7 +1592,7 @@ public class DungeonDialog : MonoBehaviour
             {
                 icon = true;
                 go.Panel.RequirementIcon.sprite2D =
-                G.GIT( go.ConditionItem ).Sprite.sprite2D;
+                G.GIT( go.ConditionItem ).NSprite.sprite;
                 go.Panel.RequirementLabel.text = "x" + go.ConditionItemAmount;
             }
 

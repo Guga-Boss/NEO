@@ -212,9 +212,7 @@ public partial class Unit : MonoBehaviour
 
                 if( tp != ItemType.NONE ) val = tp;
                 Variation = ( int ) val;
-                if( G.GIT( val ).TKSprite == null )
-                    G.Error( "Create a TKSprite first. " + val );
-                int id = G.GIT( val ).TKSprite.spriteId;
+                int id = G.GIT( val ).NSprite.spriteId;
                 if( TileID == ETileType.SAVEGAME )
                 {
                     Body.Sprite2.gameObject.SetActive( true );

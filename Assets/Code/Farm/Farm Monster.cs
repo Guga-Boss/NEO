@@ -166,7 +166,7 @@ public partial class Farm : MonoBehaviour
             res.Body.Animator.Stop();
             res.Body.Sprite2.gameObject.SetActive( false );
             res.Spr.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];          // others like feather, chicken, etc
-            res.Spr.spriteId = G.GIT( res.Variation ).TKSprite.spriteId;
+            res.Spr.spriteId = G.GIT( res.Variation ).NSprite.spriteId;
             if( res.Variation == ( int ) ItemType.Chicken )       
                 res.Body.StackAmount = 12;                                                       // Chicken initial timer
         }

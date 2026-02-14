@@ -131,7 +131,7 @@ public class ArcherArrowAnimation : MonoBehaviour {
         if( Type == EBoltType.Item )
         {
             Sprite.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];
-            Sprite.spriteId = G.GIT( SpriteID ).TKSprite.spriteId;
+            Sprite.spriteId = G.GIT( SpriteID ).NSprite.spriteId;
             ArrowSpeed = 20f;
             tr.localScale = new Vector3( .5f, .5f, .5f );
         }
@@ -139,7 +139,7 @@ public class ArcherArrowAnimation : MonoBehaviour {
         if( Type == EBoltType.Spell )
         {
             Sprite.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];
-            Sprite.spriteId = G.GIT( SpriteID ).TKSprite.spriteId;
+            Sprite.spriteId = G.GIT( SpriteID ).NSprite.spriteId;
             ArrowSpeed = 20f;
             tr.localScale = new Vector3( .5f, .5f, .5f );
             FadeAnimation = false;

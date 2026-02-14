@@ -1321,41 +1321,44 @@ public static class NGUIEditorTools
 		return state;
 	}
 
-	/// <summary>
-	/// Begin drawing the content area.
-	/// </summary>
+    /// <summary>
+    /// Begin drawing the content area.
+    /// </summary>
 
-	static public void BeginContents () { BeginContents(NGUISettings.minimalisticLook); }
+    // 1. O atalho (não precisa mudar, mas deixe-o aqui)
+    static public void BeginContents() { BeginContents( NGUISettings.minimalisticLook ); }
 
-	static bool mEndHorizontal = false;
+    static bool mEndHorizontal = false;
 
-	/// <summary>
-	/// Begin drawing the content area.
-	/// </summary>
+    // 2. O que realmente desenha (Onde estava o erro do "AS TextArea")
+    static public void BeginContents( bool minimalistic )
+    {
+        if( !minimalistic )
+        {
+            mEndHorizontal = true;
+            GUILayout.BeginHorizontal();
 
-	static public void BeginContents (bool minimalistic)
-	{
-		if (!minimalistic)
-		{
-			mEndHorizontal = true;
-			GUILayout.BeginHorizontal();
-			EditorGUILayout.BeginHorizontal("AS TextArea", GUILayout.MinHeight(10f));
-		}
-		else
-		{
-			mEndHorizontal = false;
-			EditorGUILayout.BeginHorizontal(GUILayout.MinHeight(10f));
-			GUILayout.Space(10f);
-		}
-		GUILayout.BeginVertical();
-		GUILayout.Space(2f);
-	}
+            // --- FIX PARA UNITY MODERNA ---
+            // Verificamos se o estilo antigo existe. Se não, usamos o HelpBox.
+            string styleName = "AS TextArea";
+            if( GUI.skin.FindStyle( styleName ) == null ) styleName = "HelpBox";
 
-	/// <summary>
-	/// End drawing the content area.
-	/// </summary>
+            EditorGUILayout.BeginHorizontal( styleName, GUILayout.MinHeight( 10f ) );
+        }
+        else
+        {
+            mEndHorizontal = false;
+            EditorGUILayout.BeginHorizontal( GUILayout.MinHeight( 10f ) );
+            GUILayout.Space( 10f );
+        }
+        GUILayout.BeginVertical();
+        GUILayout.Space( 2f );
+    }
+    /// <summary>
+    /// End drawing the content area.
+    /// </summary>
 
-	static public void EndContents ()
+    static public void EndContents ()
 	{
 		GUILayout.Space(3f);
 		GUILayout.EndVertical();

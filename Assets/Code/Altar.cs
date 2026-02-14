@@ -441,7 +441,7 @@ public class Altar : MonoBehaviour
             if( NextAltarBonus.AltarBonusItem != ItemType.NONE )
             {
                 Body.Sprite4.gameObject.SetActive( true );                                          // Next bonus item sprite
-                Body.Sprite4.spriteId = G.GIT( NextAltarBonus.AltarBonusItem ).TKSprite.spriteId;
+                Body.Sprite4.spriteId = G.GIT( NextAltarBonus.AltarBonusItem ).NSprite.spriteId;
             }
         }
 
@@ -484,7 +484,7 @@ public class Altar : MonoBehaviour
                 if( al.AltarBonusItem != ItemType.NONE )
                 {
                     Body.BabyBackSprite[ i ].spriteId =
-                    G.GIT( al.AltarBonusItem ).TKSprite.spriteId;
+                    G.GIT( al.AltarBonusItem ).NSprite.spriteId;
                     Body.BabyBackSprite[ i ].gameObject.SetActive( true );
                 }
                 Unit.Altar.ScopeObjList[ i ].gameObject.SetActive( false );                               
@@ -607,7 +607,7 @@ public class Altar : MonoBehaviour
                 if( al.TotalHangTimer > 0 )
                 if( al.HangTimer <= 0 )
                 {
-                    al.Reset();                                                                        // Hanged object kill after time is up
+                    al.Reset();                                                                         // Hanged object kill after time is up
                     Controller.CreateMagicEffect( spr.transform.position );
                     MasterAudio.PlaySound3DAtVector3( "Error 2", G.Hero.Pos );
                 }
@@ -616,7 +616,7 @@ public class Altar : MonoBehaviour
 
                 if( al.AltarBonusItem != ItemType.NONE )
                 {
-                    spr.spriteId = G.GIT( al.AltarBonusItem ).TKSprite.spriteId;                               // Hanged item sprite                    
+                    spr.spriteId = G.GIT( al.AltarBonusItem ).NSprite.spriteId;                        // Hanged item sprite                    
                     spr.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];
                 }
                 else

@@ -857,7 +857,7 @@ public class Mine : MonoBehaviour
                 Unit.Body.Sprite4.transform.eulerAngles = new Vector3( 0, 0, 0 );
                 Unit.Body.Sprite4.gameObject.SetActive( true );                                                      // Show default prize sprite
                 Unit.Body.Sprite4.spriteId = Manager.I.Inventory.
-                ItemList[ ( int ) Unit.Body.MiningPrize ].TKSprite.spriteId;
+                ItemList[ ( int ) Unit.Body.MiningPrize ].NSprite.spriteId;
             }
             else
                 Unit.Body.Sprite4.gameObject.SetActive( false );
@@ -1445,7 +1445,7 @@ public class Mine : MonoBehaviour
                     Unit un = go.GetComponent<Unit>();
                     un.Variation = ( int ) Unit.Body.MiningPrize;
                     un.Body.BonusItemList = null;
-                    int id = G.GIT( un.Variation ).TKSprite.spriteId;
+                    int id = G.GIT( un.Variation ).NSprite.spriteId;
                     un.Spr.spriteId = id;
                     un.Body.StackAmount = stackamt;
                 }
