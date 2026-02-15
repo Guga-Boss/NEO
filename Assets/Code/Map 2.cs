@@ -7,6 +7,7 @@ public partial class Map: MonoBehaviour
     public void UpdateTransLayerTilemap()
     {
         tk2dTileMap tm = TransTileMap;
+
         if( Application.isPlaying == false )
         {
             TransTilemapUpdateList = new List<VI>();

@@ -620,6 +620,7 @@ public class Item : MonoBehaviour
             full = " Full";
         }
         if( amount < 0 ) col = Color.red;
+
         if( res && Map.I.RM.DungeonDialog.gameObject.activeSelf == false )                       // Display message
             Message.CreateMessage( ETileType.NONE, it.Type,
             initialamount.ToString( "+0.#;-0.#;0" ) + full + " " + PostMessage, pos,
@@ -715,7 +716,8 @@ public class Item : MonoBehaviour
         if( it == ItemType.Energy ) return false;
         if( it == ItemType.Shell ) return false;
         if( it == ItemType.Cog ) return false;
-       return true;
+        if( it == ItemType.Quest_Trial_Count ) return false;
+        return true;
     }
 
     public static bool MoveItem( Inventory.IType to, ItemType itemType, int p, int packID = -1 )
@@ -1355,7 +1357,7 @@ public class Item : MonoBehaviour
     {
         if( iconTransform == null )
         {
-            Debug.LogWarning( "Icon transform inválido." );
+            Debug.Log( "Icon transform inválido." );
             return;
         }
 
@@ -1443,13 +1445,13 @@ UI2DSprite Sprite = this.GetComponentInChildren<UI2DSprite>();
 
         if( Sprite == null )
         {
-            Debug.LogWarning( "Sprite inválido." );
+            Debug.Log( "Sprite inválido." );
             return;
         }
 
         if( Sprite.sprite2D == null )
         {
-            Debug.LogWarning( "UI2DSprite não possui sprite2D." );
+            Debug.Log( "UI2DSprite não possui sprite2D." );
             return;
         }
 
@@ -1529,7 +1531,7 @@ UI2DSprite Sprite = this.GetComponentInChildren<UI2DSprite>();
     {
         if( back == null )
         {
-            Debug.LogWarning( "Back inválido." );
+            Debug.Log( "Back inválido." );
             return;
         }
 

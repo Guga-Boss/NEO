@@ -614,11 +614,12 @@ public class RandomMapGoal : MonoBehaviour
             G.Txt += "\n";
         }
 
-        ES2.Save( G.Txt, file + "?tag=Goal Info " + key );                                       // Save to file
+        //ES2.Save( G.Txt, file + "?tag=Goal Info " + key );                                       // Save to file
     }
 
     public void Load( string nm = "" )
     {
+        return;
         //Debug.Log( Map.I.RM.CurrentAdventure );                                               // Enable this to reset information about this goal. bugs may be caused if quests are moved or relocated, etc
         //Init();
         //Save( false );

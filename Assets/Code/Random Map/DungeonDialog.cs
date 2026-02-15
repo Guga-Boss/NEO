@@ -1523,10 +1523,9 @@ public class DungeonDialog : MonoBehaviour
             if( bonus == 0 ) icon = false;
             if( go.BonusItem == ItemType.NONE ) icon = false;
             go.Panel.Prize1Icon.gameObject.SetActive( icon );
-            go.Panel.Prize1Label.gameObject.SetActive( icon );    
-
-            id = ( int ) go.BonusItem2 - 1;                                                                              // Item 2
-            if( go.BonusItem2 != ItemType.NONE )
+            go.Panel.Prize1Label.gameObject.SetActive( icon );
+                                                                                     
+            if( go.BonusItem2 != ItemType.NONE )                                                                           // Item 2
                 go.Panel.Prize2Icon.sprite2D =
                 G.GIT( go.BonusItem2 ).NSprite.sprite;
             bonus = go.GetStat( EGoalUpgradeType.ITEM2 );

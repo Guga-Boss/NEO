@@ -306,8 +306,11 @@ public class MyTilemap: SerializedMonoBehaviour
     public static void Load( tk2dTileMap tm, MyTilemap myTilemap )
     {
         IgnoreUpdate = true;
+        if( Application.isPlaying ) return;
+
         myTilemap.TilemapEditor.gridSize = new Vector2Int( tm.width, tm.height );
         myTilemap.GridSize = new Vector2Int( tm.width, tm.height );
+
         ClearTilemap( myTilemap );
 
         const int totalMapWidth = 128;
@@ -347,7 +350,9 @@ public class MyTilemap: SerializedMonoBehaviour
                     TileBase tile = myTilemap.EnumToTile(globalID);
 
                     if( tile != null )
+                    {
                         targetTilemap.SetTile( new Vector3Int( x, y, 0 ), tile );
+                    }
                 }
             }
         }

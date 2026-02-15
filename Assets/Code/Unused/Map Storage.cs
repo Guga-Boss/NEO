@@ -708,15 +708,22 @@ public partial class Map : MonoBehaviour
                     mod && l == 4 || dec && l == 6 || areas && l == 7 || dec2 && l == 8 || raft && l == 9 )
                     {
                         if( justadd == false )
-                            to.SetTile( ( int ) tg.x, ( int ) tg.y, l, ( int ) ETileType.NONE );
+                        {
+                            to.SetTile( (int) tg.x, (int) tg.y, l, (int) ETileType.NONE );
+                            Map.I.TM.SetTile( x, y, l, (int) ETileType.NONE );
+                        }
                         int tl = from.GetTile( ( int ) fromOrigin.x + x, ( int ) fromOrigin.y + y, l );
 
                         //if( tl != ( int ) ETileType.ARTIFACT )
                         {
-                            if( justadd == false || tl != -1 )
-                                to.SetTile( ( int ) tg.x, ( int ) tg.y, l, tl );
-                        }
+                            if( justadd == false || tl != -1 )                           
+                            {
+                                to.SetTile( (int) tg.x, (int) tg.y, l, tl );
 
+                                if( l == (int) ELayerType.GAIA == false || Map.I.RM.InvisibleGaia( (ETileType) tl ) == false )
+                                    Map.I.TM.SetTile( (int) tg.x, (int) tg.y, l, tl );
+                            }
+                        }
                         FlipTile( to, ( ETileType ) tl, tg, l, flipx, flipy );
                     }
             }
@@ -724,6 +731,7 @@ public partial class Map : MonoBehaviour
     
     public void FlipTile( tk2dTileMap tm, ETileType tl, Vector2 tg, int l, bool flipx, bool flipy )
     {
+        return;
         if( flipx == false )
         if( flipy == false ) return;
 

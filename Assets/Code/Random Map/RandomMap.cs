@@ -153,17 +153,17 @@ public class RandomMap : MonoBehaviour
         PuzzleArea = new int[ tm.width, tm.height ];
         Map.I.AreaID = new int[ tm.width, tm.height ];
 
-        if( FirstInitialization )                                                        // Attention:  List being created only one time for optimization, if you want o change gate size, refactor code comparing with a var: "old size"
-        for( int y = 0; y < tm.width; y++ )                                              // Create forest walls
+        if( FirstInitialization )                                                         // Attention:  List being created only one time for optimization, if you want o change gate size, refactor code comparing with a var: "old size"
+        for( int y = 0; y < tm.height; y++ )                                              // Create forest walls
         for( int x = 0; x < tm.width; x++ )
             {
                 if( Util.IsMultiple( x, Sector.TSX ) || Util.IsMultiple( y, Sector.TSY ) )
                 {
-                    Quest.I.CurLevel.Tilemap.SetTile( x, y, ( int ) ELayerType.GAIA, ( int ) ETileType.FOREST );
+                    Quest.I.CurLevel.Tilemap.SetTile( x, y, (int) ELayerType.GAIA, (int) ETileType.FOREST );
                     Fl.Add( new VI( x, y ) );
                 }
             }
-        
+
         Sector.CreateObjects();
 
         Sector.InitAll();
@@ -1083,7 +1083,10 @@ public class RandomMap : MonoBehaviour
             Mod.ApplyMods( xx, yy );                                                                                        // Apply Mod   
 
             if( Sector.GetPosSectorType( new Vector2( xx, yy ) ) == Sector.ESectorType.GATES )
-                Map.I.Tilemap.SetTile( xx, yy, ( int ) ELayerType.TERRAIN, 1536 );                                         // creates grass tile behind gate tiles 
+               {
+                  Map.I.Tilemap.SetTile( xx, yy, (int) ELayerType.TERRAIN, 1536 );                                         // creates grass tile behind gate tiles 
+                  Map.I.TM.SetTile( xx, yy, 0, 1536 );
+               }
 
             if( Map.I.Unit[ xx, yy ] )
             if( Map.I.Unit[ xx, yy ].ValidMonster )
@@ -1127,13 +1130,12 @@ public class RandomMap : MonoBehaviour
             Map.I.ClearTransTile( xx, yy, 1 );                                                                           // optimize apenas gaia tiles (nao sei se da, optimize no GS.LOad tambem)
             Map.I.ClearTransTile( xx, yy, 2 );
             
-            ETileType ga = ( ETileType ) Map.I.Tilemap.GetTile( xx, yy, 1 );                                             // clears gaia Back tiles so only traps will be shown
-            if( ga == ETileType.WATER     || ga == ETileType.FOREST ||
-                ga == ETileType.MUD       || ga == ETileType.CLOSEDDOOR ||
-                ga == ETileType.OPENDOOR  || ga == ETileType.ROOMDOOR ||
-                ga == ETileType.BLACKGATE || ga == ETileType.PIT ||
-                ga == ETileType.SNOW      || ga == ETileType.SAND )
-                Map.I.Tilemap.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1 ); 
+            ETileType ga = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( xx, yy, 1 );                                   // clears gaia Back tiles so only traps will be shown
+            if( InvisibleGaia( ga ) )
+               {
+                 Map.I.Tilemap.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1 );
+                 Map.I.TM.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1 );
+               }
         }
 
         for( int i = 0; i < KeyListToDelete.Count; i++ )
@@ -1190,6 +1192,15 @@ public class RandomMap : MonoBehaviour
         Map.I.Tilemap.Build();
 
         Debug.Log( "Sector Created: "+ SD.name + " " + "Flip X " + s.FlipX + " Flip Y " + s.FlipY );        
+    }
+    public bool InvisibleGaia( ETileType ga )
+    {
+        if( ga == ETileType.WATER || ga == ETileType.FOREST ||
+            ga == ETileType.MUD || ga == ETileType.CLOSEDDOOR ||
+            ga == ETileType.OPENDOOR || ga == ETileType.ROOMDOOR ||
+            ga == ETileType.BLACKGATE || ga == ETileType.PIT ||
+            ga == ETileType.SNOW || ga == ETileType.SAND ) return true;
+        return false;
     }
 
     public void CreateCubeLightningEffect( Sector s, string type )
@@ -1261,9 +1272,12 @@ public class RandomMap : MonoBehaviour
     public void CopyDecorTiles( int x, int y )
     {
         ETileType tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.DECOR );                  // copies decor tiles 
-        Map.I.Tilemap.SetTile( x, y, ( int ) ( int ) ELayerType.DECOR, ( int ) tl );
+        Map.I.Tilemap.SetTile( x, y, (int) (int) ELayerType.DECOR, (int) tl );
+        Map.I.TM.SetTile( x, y, ( int ) ELayerType.DECOR, ( int ) tl );
+
         tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.DECOR2 );
         Map.I.Tilemap.SetTile( x, y, ( int ) ( int ) ELayerType.DECOR2, ( int ) tl );
+        Map.I.TM.SetTile( x, y, ( int ) ELayerType.DECOR2, ( int ) tl );
 
         tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.GAIA );                             // copy decor gaia
         if( tl >= 0 && ( int ) tl < Map.I.Tilemap.data.tileInfo.Length )
@@ -1336,6 +1350,7 @@ public class RandomMap : MonoBehaviour
                 {
                     Map.I.Tilemap.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR, ( int ) tl );
                     Quest.I.Dungeon.Tilemap.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR, ( int ) tl );
+                    Map.I.TM.SetTile( ( int ) tg.x, ( int ) tg.y, (int) ELayerType.DECOR, ( int ) tl );
                 }
             }
     }

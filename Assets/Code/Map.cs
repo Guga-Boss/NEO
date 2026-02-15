@@ -448,6 +448,8 @@ public partial class Map : MonoBehaviour
 
     public void StartGame()
     {
+        MyTilemap.ClearTilemap( TM );
+        MyTilemap.ClearTilemap( TransT );
         InitFolders();
         DebugPage = 0;
         SessionFrameCount = 0;
@@ -464,6 +466,12 @@ public partial class Map : MonoBehaviour
         Revealed = new bool[ Tilemap.width, Tilemap.height ];
         RevealFactor = new float[ Tilemap.width, Tilemap.height ];
         TransInit = new bool[ Tilemap.width, Tilemap.height ];
+
+        TransT.transform.position = new Vector3( -0.5f, -0.5f, -0.001f );
+        TransT.GridSize = new Vector2Int( TransTileMap.width, TransTileMap.height );
+        TM.transform.position = new Vector3( -0.5f, -0.5f );
+        TM.GridSize = new Vector2Int( Tilemap.width, Tilemap.height );
+
         LOSFireList = new List<Unit>();
         BoomerangList = new List<Unit>();
         KillList = new List<Unit>();
@@ -595,6 +603,11 @@ public partial class Map : MonoBehaviour
         Tilemap.Layers[ ( int ) ELayerType.RAFT ].gameObject.SetActive( false );
         Tilemap.Layers[ ( int ) ELayerType.MONSTER ].gameObject.SetActive( false );
 
+        TM.Tilemaps[ (int) ELayerType.GAIA ].gameObject.SetActive( true );    //gg
+        TM.Tilemaps[ (int) ELayerType.GAIA2 ].gameObject.SetActive( false );
+        TM.Tilemaps[ (int) ELayerType.RAFT ].gameObject.SetActive( false );
+        TM.Tilemaps[ (int) ELayerType.MONSTER ].gameObject.SetActive( false );
+
         Quest.I.UpdateArtifactData( ref Hero );
         LastFileSavedName = "";
         InitMapVariablesDefaults();
@@ -673,6 +686,11 @@ public partial class Map : MonoBehaviour
         Hero.LevelTxt.gameObject.SetActive( false );
         Tilemap.Layers[ ( int ) ELayerType.GRID ].gameObject.SetActive( false );
         Tilemap.Layers[ ( int ) ELayerType.AREAS ].gameObject.SetActive( false );
+
+        TM.Tilemaps[ (int) ELayerType.GRID ].gameObject.SetActive( false );
+        TM.Tilemaps[ (int) ELayerType.AREAS ].gameObject.SetActive( false );
+        TM.Tilemaps[ (int) ELayerType.MODIFIER ].gameObject.SetActive( false );
+
         //ggropeFishingLine.transform.parent.gameObject.SetActive( false );
         ShowGrid = false;
         MaskMove = false;
@@ -785,8 +803,10 @@ public partial class Map : MonoBehaviour
 
     CopyTilemap( false, tm, ref Tilemap, new Vector2( 0, 0 ), new Vector2( 0, 0 ), tm.width, tm.height, false, false );
 
-	//Tilemap.Build();  //new opt
-    Tilemap.gameObject.SetActive( true );
+        //Tilemap.Build();  //new opt
+    Tilemap.gameObject.SetActive( false );
+    TM.gameObject.SetActive( true );
+
 	Tilemap.transform.position = new Vector3( 0, 0, 0 );
 	AreasFolder = new GameObject("Areas");
 	AreasFolder.transform.parent = transform;	
@@ -3993,6 +4013,27 @@ public partial class Map : MonoBehaviour
     
     private void UpdateProgressiveTransLayerCalculation()
     {
+/////////////////////////////// // gg
+
+        //int rr =10;
+
+        //    for( int y = (int) Hero.Pos.y + rr; y >= (int) Hero.Pos.y - rr; y-- )
+        //        for( int x = (int) Hero.Pos.x + rr; x >= (int) Hero.Pos.x - rr; x-- )                           // loop around hero in an increasing radius to update trans tiles
+        //            if( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+        //            {
+        //                    ClearTransTile( x, y, 0 );                                                                          // clear back trans tiles
+        //                    ClearTransTile( x, y, 1 );
+        //                    ClearTransTile( x, y, 2 );
+        //                    AddTrans( new VI( x, y ), false );                                                                   // add to list
+        //               }
+
+        //ForceUpdateTrans = true;
+        //if( TransTilemapUpdateList.Count > 0 )
+        //    UpdateTransLayerTilemap();
+        //return;
+        //////////////////////////////////////////
+        ///
+
         if( AdvanceTurn ) return;
 
         if( UpdateTilemap )                                                                                          // updates tilemap if requested

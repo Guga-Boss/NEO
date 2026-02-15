@@ -412,7 +412,7 @@ public partial class Map : MonoBehaviour
                     else tile = ( int ) ETileType.GRID;
 
                     Tilemap.SetTile( x, y, ( int ) ELayerType.GRID, tile );
-
+                    TM.SetTile( x, y, (int) ELayerType.GRID, tile );
                     if( Helper.I.ShowGaiaGrid == false )
                     {
                         ETileType tl = ( ETileType ) Quest.I.CurLevel.Tilemap.GetTile( x, y, ( int ) ELayerType.GAIA ); // old test it
@@ -420,7 +420,10 @@ public partial class Map : MonoBehaviour
                             tl == ETileType.CLOSEDDOOR ||
                             tl == ETileType.ROOMDOOR ||
                             tl == ETileType.WATER )
-                            Tilemap.SetTile( x, y, ( int ) ELayerType.GRID, -1 );
+                            {
+                                Tilemap.SetTile( x, y, (int) ELayerType.GRID, -1 );
+                                TM.SetTile( x, y, (int) ELayerType.GRID, -1 );
+                            }
                     }
 
                     if( tile == ( int ) ETileType.NONE ) tile = ( int ) ETileType.GRID;
