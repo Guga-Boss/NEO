@@ -290,6 +290,30 @@ public class UILabelInspector : UIWidgetInspector
 			GUILayout.EndHorizontal();
 		}
 		EditorGUI.EndDisabledGroup();
-		return isValid;
-	}
+        GUILayout.Space( 10 );
+        EditorGUILayout.LabelField( "MIGRAÇÃO PARA TEXTMESHPRO", EditorStyles.boldLabel );
+
+        if( GUILayout.Button( "🚀 CONVERT TO TEXTMESHPRO (3D)", GUILayout.Height( 30 ) ) )
+        {
+            // Invoca a action passando o label e 'false' para 3D
+            ConvertLabelAction?.Invoke( mLabel, false );
+        }
+
+        if( GUILayout.Button( "📱 CONVERT TO TMP (UI/UGUI)", GUILayout.Height( 30 ) ) )
+        {
+            // Invoca a action passando o label e 'true' para UI
+            ConvertLabelAction?.Invoke( mLabel, true );
+        }
+
+        if( GUILayout.Button( "🔥 FINALIZE TMP 🔥", GUILayout.Height( 30 ) ) )
+        {
+            FinalizeLabelAction?.Invoke( mLabel );
+        }
+
+        return isValid;
+    }
+
+    // Deixe estas Actions estáticas no final da classe UILabelInspector
+    public static System.Action<object, bool> ConvertLabelAction;
+    public static System.Action<object> FinalizeLabelAction;
 }

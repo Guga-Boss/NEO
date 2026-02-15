@@ -8,6 +8,8 @@ public partial class Map: MonoBehaviour
     {
         tk2dTileMap tm = TransTileMap;
 
+        TM.gameObject.SetActive(false);
+
         if( Application.isPlaying == false )
         {
             TransTilemapUpdateList = new List<VI>();
@@ -53,6 +55,7 @@ public partial class Map: MonoBehaviour
 
         tm.Build();
         TransTilemapUpdateList.Clear();
+        TM.gameObject.SetActive( true );
     }
 
     public void UpdateTransTile( tk2dTileMap tm, VI tg, ETileType tile, int first, int tlayer )

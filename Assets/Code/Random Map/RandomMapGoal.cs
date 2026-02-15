@@ -575,6 +575,7 @@ public class RandomMapGoal : MonoBehaviour
 
     public void Save( string nm = "" )
     {
+        return;
         if( Manager.I.SaveOnEndGame == false ) return;
         string file = Manager.I.GetProfileFolder();
         if( nm != "" ) file += "Cube Save/Goal" + nm + ".NEO";                                    // Provides filename

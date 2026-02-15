@@ -26,11 +26,12 @@ public class DungeonDialog : MonoBehaviour
 
     public UI2DSprite UnlockCost1Sprite, PackMuleEmptySlot, TechEditorFocus;
     public UISprite AutoGotoCheckMark;
-    public UILabel MainTextLabel, DungeonNameLabel, DungeonNumberLabel, NewDungeonLabel, 
-                   DificultyLabel, GoalInfoLabel, BackButtonLabel, UnlockCostLabel1, 
-                   TrainningModeButtonLabel, StudyModeButtonLabel, StudiesCompletedLabel,
-                   AvailableCubesLabel, GameCompletitionLabel;
-    public UILabel[] TrophiesAmountLabel;
+    public UILabel DungeonNumberLabel, NewDungeonLabel, 
+                   DificultyLabel, BackButtonLabel, UnlockCostLabel1;
+    public TextMeshPro TMainTextLabel, TAvailableCubesLabel, DungeonNameLabel, GameCompletitionLabel, StudiesCompletedLabel, GoalInfoLabel;
+    public TextMeshProUGUI TrainingModeButtonLabel, StudyModeButtonLabel;
+
+    public TextMeshPro[] TrophiesAmountLabel;
     public UISlider DificultySlider;
     public UIToggle AutoBuyModeToggle, BlindModeToggle;
     public UIPopupList PlayerType, StartingCubePopup;
@@ -38,7 +39,7 @@ public class DungeonDialog : MonoBehaviour
     public GameObject BluePrintUI, QuestList, InventoryGO, PackmuleGO, 
     GoalsGO, StudiesGO, TechButtonsGO, BambooFrame, InventoryBack, DarkPerkBack, DecorFolder;
     public UITable ObjectivesTable;
-    public UIButton BackButton, ProvisionsModeButton, StudiesModeButton, TrainingModeButton, NavigationMapButton, AutoGotoPuzzleButton;
+    public Button BackButton, ProvisionsModeButton, StudiesModeButton, TrainingModeButton, NavigationMapButton, AutoGotoPuzzleButton;
     public float Dificulty = 100;
     public float DificultyLimit = 0;
     public string[] DificultyNames;
@@ -196,14 +197,14 @@ public class DungeonDialog : MonoBehaviour
         if( Inventory.HoverIcon == null && ErrorMessageTimer <= 0 )
         {
             string sig = Map.I.GetAdv().QuestHelper.Signature;
-            MainTextLabel.text = Util.GetText( sig, "Adventure Description" );
-            if( MainTextLabel.text.Contains( "##" ) )                                                           // default description text
-                MainTextLabel.text = "Welcome to " + Map.I.GetAdv().QuestHelper.QuestName + "...";
-            MainTextLabel.color = Color.white;
+            TMainTextLabel.text = Util.GetText( sig, "Adventure Description" );
+            if( TMainTextLabel.text.Contains( "##" ) )                                                           // default description text
+                TMainTextLabel.text = "Welcome to " + Map.I.GetAdv().QuestHelper.QuestName + "...";
+            TMainTextLabel.color = Color.white;
             if( WindowType == EWindowType.Studies )
-                MainTextLabel.text = Util.GetText( "STUDIES_HELP", "Main" ); else
+                TMainTextLabel.text = Util.GetText( "STUDIES_HELP", "Main" ); else
             if( WindowType == EWindowType.Training )
-                MainTextLabel.text = Util.GetText( "TRAINING_HELP", "Main" );
+                TMainTextLabel.text = Util.GetText( "TRAINING_HELP", "Main" );
         }
         if( gameObject.activeSelf ) Cursor.visible = true;   
         ConqueredGoals = 0;
@@ -336,30 +337,30 @@ public class DungeonDialog : MonoBehaviour
                 if( go.ConquestCount > 0 )
                     SelectedGoal = ( int ) go.Trig.ConditionVal1;
 
-                MainTextLabel.color = Color.white;
+                TMainTextLabel.color = Color.white;
                 string awa = "" + go.TotalAwarded;
                 if( go.TotalAwarded <= 0 ) awa = "Unlimited";
                 int level = go.GetGoalLevel();
-                MainTextLabel.text  = "Goal Information:\n";
+                TMainTextLabel.text  = "Goal Information:\n";
                 if( go.RecordType == ERecordType.TIME_TRIAL )
-                    MainTextLabel.text = "Time Trial Goal Information:\n\n";
+                    TMainTextLabel.text = "Time Trial Goal Information:\n\n";
 
-                MainTextLabel.text += "Goal Level: " + level;
-                if( level < 1 ) MainTextLabel.text = "Goal Locked!";
+                TMainTextLabel.text += "Goal Level: " + level;
+                if( level < 1 ) TMainTextLabel.text = "Goal Locked!";
 
-                MainTextLabel.text += "\nConquered: " + go.ConquestCount + " of " + 
+                TMainTextLabel.text += "\nConquered: " + go.ConquestCount + " of " + 
                 awa + " Available. (Bonus: " + go.BonusesGiven + ")";
 
                 int trial = ( int ) Item.GetNum( ItemType.Quest_Trial_Count );
                 if( go.ConquestCount > 0 )
                 {
-                    MainTextLabel.text += "\nFirst Conquered on Trial number " + ( go.ConquestTrial + 1 ) + " of a total of " +
+                    TMainTextLabel.text += "\nFirst Conquered on Trial number " + ( go.ConquestTrial + 1 ) + " of a total of " +
                     ( trial + 1 ) + " trials.";
-                    MainTextLabel.text += "\nTotal Time Taken: " + Util.ToSTime( ( int ) go.TimeTryingUntilConquest );
+                    TMainTextLabel.text += "\nTotal Time Taken: " + Util.ToSTime( ( int ) go.TimeTryingUntilConquest );
                 }
                 else
-                MainTextLabel.text += "\nTotal Time Trying: " + Util.ToSTime( ( int ) go.TimeTryingUntilConquest );
-                MainTextLabel.text += "\nWinning Streak: " +  go.CurrentWinnigStreak + " Best: " + go.BestWinnigStreak;    
+                TMainTextLabel.text += "\nTotal Time Trying: " + Util.ToSTime( ( int ) go.TimeTryingUntilConquest );
+                TMainTextLabel.text += "\nWinning Streak: " +  go.CurrentWinnigStreak + " Best: " + go.BestWinnigStreak;    
 
                 float time = Map.I.SessionTime - Map.I.FirstCubeDiscoveredTime;
                 if( Map.I.FirstCubeDiscoveredTime == 0 ) time = 0;
@@ -368,13 +369,13 @@ public class DungeonDialog : MonoBehaviour
                 if( go.RecordType == ERecordType.TIME_TRIAL )
                 {
                     if( time < go.TargetTime )
-                        MainTextLabel.text += "Current Time: " + Util.ToSTime( time, 3 ) + "\n";
+                        TMainTextLabel.text += "Current Time: " + Util.ToSTime( time, 3 ) + "\n";
                     else
-                        MainTextLabel.text += "Current Time: Time´s Up.\n";
+                        TMainTextLabel.text += "Current Time: Time´s Up.\n";
                 }
 
                 if( go.TargetTime > 0 )
-                    MainTextLabel.text += "Target Time: " + Util.ToSTime( go.TargetTime ) + "\n";
+                    TMainTextLabel.text += "Target Time: " + Util.ToSTime( go.TargetTime ) + "\n";
                 float ctime = go.TargetTime - go.ConquestTime;
 
                 if( go.ConquestTime != 0 )
@@ -382,11 +383,11 @@ public class DungeonDialog : MonoBehaviour
                     if( go.RecordType == ERecordType.TIME_TRIAL )
                     {
                         float cscore = ( int ) go.Trig.GetVarAmount( G.Hero );
-                        MainTextLabel.text += "Score Reached: " + cscore + "\n"; 
+                        TMainTextLabel.text += "Score Reached: " + cscore + "\n"; 
                     }
                     else                
                         if( go.ConquestCount >= 1 )
-                            MainTextLabel.text += "\nConquest Time: " + Util.ToSTime( ctime, 3 ) + "\n"; 
+                            TMainTextLabel.text += "\nConquest Time: " + Util.ToSTime( ctime, 3 ) + "\n"; 
                   
                 }
 
@@ -394,61 +395,61 @@ public class DungeonDialog : MonoBehaviour
                 {
                     float rem = go.UpdateRefresh();
                     if( go.RefreshBonusAmount == go.MaxRefreshBonus )
-                        MainTextLabel.text += "\nRefresh Goal Available: " + go.RefreshBonusAmount + " of " + 
+                        TMainTextLabel.text += "\nRefresh Goal Available: " + go.RefreshBonusAmount + " of " + 
                         go.MaxRefreshBonus + " - Total Refresh time: " + Util.ToSTime( go.RefreshTime ) + "\n"; 
                     else
-                        MainTextLabel.text += "\nRefresh Goal Available: " + go.RefreshBonusAmount + " of " + go.MaxRefreshBonus + 
+                        TMainTextLabel.text += "\nRefresh Goal Available: " + go.RefreshBonusAmount + " of " + go.MaxRefreshBonus + 
                         " +"  + go.RefreshBonusAdd + " in: " + Util.ToSTime( rem ) + "";
                 }
 
                 float chance = go.GetBonusChance();
                 if( chance < 100 )
                 {
-                    MainTextLabel.text += "Bonus Chance: " + chance + "%\n";
+                    TMainTextLabel.text += "Bonus Chance: " + chance + "%\n";
 
                     if( Map.I.RM.GameOver == false )
                     if( go.Conquered )
-                    if( go.BonusGiven ) MainTextLabel.text += "Success!\n"; 
-                    else MainTextLabel.text += "Bonus Failed!\n";                
+                    if( go.BonusGiven ) TMainTextLabel.text += "Success!\n"; 
+                    else TMainTextLabel.text += "Bonus Failed!\n";                
                 }
 
                 if( go.TargetBluePrint != null )
                 {
-                    MainTextLabel.text += "\nBonus BluePrint:\n" + go.TargetBluePrint;
+                    TMainTextLabel.text += "\nBonus BluePrint:\n" + go.TargetBluePrint;
                     float plants = go.GetStat( EGoalUpgradeType.BLUEPRINT_PLANTS );
-                    MainTextLabel.text += "\nBonus Plants: +" + plants + 
+                    TMainTextLabel.text += "\nBonus Plants: +" + plants + 
                     "   (Stock: " + go.TargetBluePrint.FreePlants + ")\n";
                     float uses = go.GetStat( EGoalUpgradeType.BLUEPRINT_USES );
-                    MainTextLabel.text += " Bonus Uses: +" + uses +
+                    TMainTextLabel.text += " Bonus Uses: +" + uses +
                     "   (Stock: " + go.TargetBluePrint.AvailableUses + ")"; ;
                 }
 
                 if( go.TargetRecipe != null )
                 {
                     float bonus = go.GetStat( EGoalUpgradeType.RECIPE_BONUS );
-                    MainTextLabel.text += "\nBonus Recipe:\n" + go.TargetRecipe;
+                    TMainTextLabel.text += "\nBonus Recipe:\n" + go.TargetRecipe;
                     if( bonus >= 1 )
-                        MainTextLabel.text += "\nBonus Amount: +" + bonus;
+                        TMainTextLabel.text += "\nBonus Amount: +" + bonus;
                     int tot = Recipe.GetRecipesAvailable( go.TargetRecipe );
-                    MainTextLabel.text += "   (Stock: " + tot + ")";
+                    TMainTextLabel.text += "   (Stock: " + tot + ")";
                 }
 
                 if( go.BonusItem != ItemType.NONE )
                 {
                     float bonus = go.GetStat( EGoalUpgradeType.ITEM );
-                    MainTextLabel.text += "\n\nBonus: " + Util.GetName( 
+                    TMainTextLabel.text += "\n\nBonus: " + Util.GetName( 
                     go.BonusItem.ToString() ) + " +" + bonus.ToString( "0.#" );
                 }
 
                 if( go.BonusItem2 != ItemType.NONE )
                 {
                     float bonus = go.GetStat( EGoalUpgradeType.ITEM2 );
-                    MainTextLabel.text += ", " + Util.GetName( 
+                    TMainTextLabel.text += ", " + Util.GetName( 
                     go.BonusItem2.ToString() ) + " +" + bonus.ToString( "0.#" );
                 }
 
                 if( go.ConditionItem != ItemType.NONE )                                                          // Required Item
-                    MainTextLabel.text += "\n Needs: " + go.ConditionItemAmount + " " +
+                    TMainTextLabel.text += "\n Needs: " + go.ConditionItemAmount + " " +
                     Item.GetName( go.ConditionItem );
 
                 string score = "Best Score:\n\n";
@@ -473,10 +474,10 @@ public class DungeonDialog : MonoBehaviour
                     DungeonNameLabel.text = score;
 
                 if( go.MinimumDifficulty > 0 )
-                    MainTextLabel.text += "\nMinimum Difficulty: " + go.MinimumDifficulty + "%";
+                    TMainTextLabel.text += "\nMinimum Difficulty: " + go.MinimumDifficulty + "%";
 
                 if( go.DifficultyUnlocked > 0 )
-                    MainTextLabel.text += "\nUnlocks Difficulty: " + go.DifficultyUnlocked + "%";
+                    TMainTextLabel.text += "\nUnlocks Difficulty: " + go.DifficultyUnlocked + "%";
                 goalhover = true;
 
                 if( Helper.I.DebugHotKey )                                                                                                     // Right Click Conquer Defor Debug
@@ -573,9 +574,9 @@ public class DungeonDialog : MonoBehaviour
     public void UpdateHelp()
     {
 		if( Input.GetKey( KeyCode.F1 ) == false ) return;
-        MainTextLabel.text = Language.Get( "HELPTEXT_DIALOG" );
-        MainTextLabel.text = MainTextLabel.text.Replace( "\\n", "\n" );
-        MainTextLabel.color = Color.green;
+        TMainTextLabel.text = Language.Get( "HELPTEXT_DIALOG" );
+        TMainTextLabel.text = TMainTextLabel.text.Replace( "\\n", "\n" );
+        TMainTextLabel.color = Color.green;
     }
 
     public bool AutoOpenGateCheck( bool updateobj = false )
@@ -612,7 +613,7 @@ public class DungeonDialog : MonoBehaviour
             AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_AVAILABLE_CUBES );
         }
         if( AvailableCubes > tot ) AvailableCubes = tot;                                                       // Clamp to total; Ensure available does not exceed max
-        AvailableCubesLabel.text = "Total Cubes: " + tot + " Available: " + AvailableCubes;                    // Update UI label; Show total and available cubes
+        TAvailableCubesLabel.text = "Total Cubes: " + tot + " Available: " + AvailableCubes;                   // Update UI label; Show total and available cubes
         int num = 1 + ( int ) Item.GetNum( ItemType.Starting_Cube,                                             // Get the number of starting cubes player owns; Current inventory count
         Inventory.IType.Inventory, Map.I.RM.CurrentAdventure );
         if( AvailableCubes < num ) num = AvailableCubes;                                                       // Clamp num to available; Prevent selecting more than allowed
@@ -709,7 +710,7 @@ public class DungeonDialog : MonoBehaviour
         BackButtonLabel.text = "No Quest Selected.";
         UnlockCostLabel1.transform.parent.gameObject.SetActive( false );
         if( NavigationMapButtonClick == false )
-            MainTextLabel.text = "No quest has been selected.";
+            TMainTextLabel.text = "No quest has been selected.";
         GoalInfoLabel.text = "";
         DungeonNumberLabel.text = "";
         PackmuleGO.gameObject.SetActive( false );
@@ -764,13 +765,13 @@ public class DungeonDialog : MonoBehaviour
             DecorFolder.SetActive( true );
         }
 
-        TrainningModeButtonLabel.text = "Training";                                              // Training button text mesh
-        TrainningModeButtonLabel.color = Color.white;
+        TrainingModeButtonLabel.text = "Training";                                              // Training button text mesh
+        TrainingModeButtonLabel.color = Color.white;
         if( RandomMapGoal.AvailableGoalUpgrades > 0 )
         {
-            TrainningModeButtonLabel.color = Color.green;
+            TrainingModeButtonLabel.color = Color.green;
             if( RandomMapGoal.GoalUpgradesPurchaseable > 0 )
-                TrainningModeButtonLabel.text += " +" + 
+                TrainingModeButtonLabel.text += " +" + 
                 RandomMapGoal.GoalUpgradesPurchaseable + "";
         }
         RandomMapGoal.GoalUpgradesPurchaseable = 0;
@@ -811,7 +812,7 @@ public class DungeonDialog : MonoBehaviour
         if( TechButton.TechsAvailable > 0 )
         {
             StudyModeButtonLabel.color = Color.green;
-            if( StudiesModeButton.state == UIButtonColor.State.Hover )
+            if( Util.IsHovered( StudiesModeButton ) )
             {
                 float perc = Util.GetPercent( TechButton.StudiesCompleted, TechButton.TotalStudies );
                 StudyModeButtonLabel.text += " " + perc.ToString( "0." ) + "%";
@@ -1146,7 +1147,7 @@ public class DungeonDialog : MonoBehaviour
         Bronze = 0; Silver = 0; Gold = 0;
         int diamond = 0; int adamantium = 0; int genius = 0;
         bool hover = false;
-        if( NavigationMapButton.state == UIButtonColor.State.Hover )
+        if( Util.IsHovered( NavigationMapButton ) )
             hover = true;
         bool adv = false;
         if( Input.GetKey( KeyCode.F1 ) )
@@ -1374,10 +1375,10 @@ public class DungeonDialog : MonoBehaviour
 
     public void SetMsg( string msg, Color color, float timer = 5, int size = 31 )
     {
-        MainTextLabel.text = msg;
-        MainTextLabel.color = color;
+        TMainTextLabel.text = msg;
+        TMainTextLabel.color = color;
         ErrorMessageTimer = timer;
-        MainTextLabel.fontSize = size;
+        TMainTextLabel.fontSize = size * 10;
     }
 
     public void CloseDialog()

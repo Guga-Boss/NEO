@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using PathologicalGames;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using PathologicalGames;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Util
 {
@@ -13,12 +15,12 @@ public class Util
 
     public Util()
     {
-        DirCord = new Vector2[] { new Vector2(0, 1),  new Vector2( 1, 1),   new Vector2( 1, 0),   new Vector2( 1,-1),  
-		  	                      new Vector2(0,-1),  new Vector2(-1,-1),   new Vector2(-1, 0),   new Vector2(-1, 1)};
-        InvDir = new int[] { 4, 5, 6, 7, 0, 1, 2, 3 };
+        DirCord = new Vector2[ ] { new Vector2(0, 1),  new Vector2( 1, 1),   new Vector2( 1, 0),   new Vector2( 1,-1),
+                                    new Vector2(0,-1),  new Vector2(-1,-1),   new Vector2(-1, 0),   new Vector2(-1, 1)};
+        InvDir = new int[ ] { 4, 5, 6, 7, 0, 1, 2, 3 };
 
-        DirCordI = new VI[] { new VI(0, 1),  new VI( 1, 1),   new VI( 1, 0),   new VI( 1,-1),  
-		  	                  new VI(0,-1),  new VI(-1,-1),   new VI(-1, 0),   new VI(-1, 1)};
+        DirCordI = new VI[ ] { new VI(0, 1),  new VI( 1, 1),   new VI( 1, 0),   new VI( 1,-1),
+                                new VI(0,-1),  new VI(-1,-1),   new VI(-1, 0),   new VI(-1, 1)};
     }
 
     public static GameObject FObj( string name )
@@ -106,7 +108,7 @@ public class Util
 
     //you can use as follows:
     //List<int> myValues = CreateList( 1, 2, 3 );
-    List<T> CreateList<T>( params T[] values )
+    List<T> CreateList<T>( params T[ ] values )
     {
         return new List<T>( values );
     }
@@ -228,8 +230,8 @@ public class Util
 
         string min = "M ";
         if( t.Minutes > 1 )
-        if( t.Seconds == 0 ) min = " Min";
-        else min = " Min ";
+            if( t.Seconds == 0 ) min = " Min";
+            else min = " Min ";
 
         if( t.Minutes <= 0 ) min = "";
 
@@ -287,7 +289,7 @@ public class Util
         }
         else
         {
-            return ( int ) Mathf.Pow( 2, Mathf.Ceil( Mathf.Log( n ) / Mathf.Log( 2 ) ) );
+            return (int) Mathf.Pow( 2, Mathf.Ceil( Mathf.Log( n ) / Mathf.Log( 2 ) ) );
         }
         return -1;
     }
@@ -312,7 +314,7 @@ public class Util
     public static int GetRandomDir( EDirection except = EDirection.NONE )
     {
         int dir = -1;
-        for( ; ; ) { dir = Random.Range( 0, 8 ); if( dir != ( int ) except ) break; }
+        for(; ; ) { dir = Random.Range( 0, 8 ); if( dir != (int) except ) break; }
         return dir;
     }
 
@@ -345,7 +347,7 @@ public class Util
     public static EDirection RotateDir( int dir, int val )
     {
         val *= -1;
-        for( ; ; )
+        for(; ; )
         {
             if( val > 0 ) dir--;
             if( val < 0 ) dir++;
@@ -353,7 +355,7 @@ public class Util
             if( dir > 7 ) dir = 0;
             if( val > 0 ) val--;
             if( val < 0 ) val++;
-            if( val == 0 ) return ( EDirection ) dir;
+            if( val == 0 ) return (EDirection) dir;
         }
     }
     public static void SetActiveRecursively( GameObject go, bool active )
@@ -413,8 +415,8 @@ public class Util
         List<Unit> ul = new List<Unit>();
         ELayerType l = Map.GetTileLayer( tile );
 
-        for( int y = ( int ) r.yMin; y < r.yMax; y++ )
-            for( int x = ( int ) r.xMin; x < r.xMax; x++ )
+        for( int y = (int) r.yMin; y < r.yMax; y++ )
+            for( int x = (int) r.xMin; x < r.xMax; x++ )
             {
                 Unit un = Map.I.Unit[ x, y ];
                 if( l == ELayerType.GAIA ) un = Map.I.Gaia[ x, y ];
@@ -503,7 +505,7 @@ public class Util
     public static float MakeSmallerThan( float num, float total, ref int times )
     {
         times = 0;
-        for( ; ; )
+        for(; ; )
         {
             if( num < total ) return num;
             times++;
@@ -549,17 +551,17 @@ public class Util
         if( tg.x < or.x && tg.y == or.y ) dr = EDirection.W;
         else
             if( tg.x > or.x && tg.y == or.y ) dr = EDirection.E;
-            else
+        else
                 if( tg.x > or.x && tg.y < or.y ) dr = EDirection.SE;
-                else
+        else
                     if( tg.x < or.x && tg.y > or.y ) dr = EDirection.NW;
-                    else
+        else
                         if( tg.x == or.x && tg.y < or.y ) dr = EDirection.S;
-                        else
+        else
                             if( tg.x == or.x && tg.y > or.y ) dr = EDirection.N;
-                            else
+        else
                                 if( tg.x > or.x && tg.y > or.y ) dr = EDirection.NE;
-                                else
+        else
                                     if( tg.x < or.x && tg.y < or.y ) dr = EDirection.SW;
         return dr;
     }
@@ -585,10 +587,10 @@ public class Util
         {
             Vector2 aux = tg + Manager.I.U.DirCord[ d ];
             if( Map.PtOnMap( Map.I.Tilemap, aux ) )
-                if( Map.I.FUnit[ ( int ) aux.x, ( int ) aux.y ] != null )
-                    for( int f = 0; f < Map.I.FUnit[ ( int ) aux.x, ( int ) aux.y ].Count; f++ )
-                        if( Map.I.FUnit[ ( int ) aux.x, ( int ) aux.y ][ f ].TileID == tile )
-                            nl.Add( Map.I.FUnit[ ( int ) aux.x, ( int ) aux.y ][ f ] );
+                if( Map.I.FUnit[ (int) aux.x, (int) aux.y ] != null )
+                    for( int f = 0; f < Map.I.FUnit[ (int) aux.x, (int) aux.y ].Count; f++ )
+                        if( Map.I.FUnit[ (int) aux.x, (int) aux.y ][ f ].TileID == tile )
+                            nl.Add( Map.I.FUnit[ (int) aux.x, (int) aux.y ][ f ] );
         }
         return nl;
     }
@@ -623,8 +625,8 @@ public class Util
     {
         Vector2 res = p1 - p2;
         res = new Vector2( Mathf.Abs( res.x ), Mathf.Abs( res.y ) );
-        if( res.x > res.y ) return ( int ) res.x;
-        else return ( int ) res.y;
+        if( res.x > res.y ) return (int) res.x;
+        else return (int) res.y;
     }
 
     public static Vector2 GetRandVector2( float dist )
@@ -652,7 +654,7 @@ public class Util
     public static EDirection GetInvDir( EDirection dr )
     {
         if( dr == EDirection.NONE ) Debug.LogError( "Bad Direction on InvDir" );
-        return ( EDirection ) Manager.I.U.InvDir[ ( int ) dr ];
+        return (EDirection) Manager.I.U.InvDir[ (int) dr ];
     }
 
     public static float GetDistanceToLine( Vector2 line1, Vector2 line2, Vector2 tg )
@@ -672,10 +674,10 @@ public class Util
         Vector3 lhs = vector2;
         if( magnitude > 1E-06f )
         {
-            lhs = ( Vector3 ) ( lhs / magnitude );
+            lhs = (Vector3) ( lhs / magnitude );
         }
         float num2 = Mathf.Clamp( Vector3.Dot( lhs, rhs ), 0f, magnitude );
-        return ( lineStart + ( ( Vector3 ) ( lhs * num2 ) ) );
+        return ( lineStart + ( (Vector3) ( lhs * num2 ) ) );
     }
     public static Vector2 GetRelativePosition( EDirection srcdir, EDirection tgdir )
     {
@@ -722,24 +724,24 @@ public class Util
         }
         else
             if( flipx )
-            {
-                if( dir == EDirection.E ) return EDirection.W;
-                if( dir == EDirection.W ) return EDirection.E;
-                if( dir == EDirection.NW ) return EDirection.NE;
-                if( dir == EDirection.NE ) return EDirection.NW;
-                if( dir == EDirection.SW ) return EDirection.SE;
-                if( dir == EDirection.SE ) return EDirection.SW;
-            }
-            else
+        {
+            if( dir == EDirection.E ) return EDirection.W;
+            if( dir == EDirection.W ) return EDirection.E;
+            if( dir == EDirection.NW ) return EDirection.NE;
+            if( dir == EDirection.NE ) return EDirection.NW;
+            if( dir == EDirection.SW ) return EDirection.SE;
+            if( dir == EDirection.SE ) return EDirection.SW;
+        }
+        else
                 if( flipy )
-                {
-                    if( dir == EDirection.N ) return EDirection.S;
-                    if( dir == EDirection.S ) return EDirection.N;
-                    if( dir == EDirection.NE ) return EDirection.SE;
-                    if( dir == EDirection.SE ) return EDirection.NE;
-                    if( dir == EDirection.NW ) return EDirection.SW;
-                    if( dir == EDirection.SW ) return EDirection.NW;
-                }
+        {
+            if( dir == EDirection.N ) return EDirection.S;
+            if( dir == EDirection.S ) return EDirection.N;
+            if( dir == EDirection.NE ) return EDirection.SE;
+            if( dir == EDirection.SE ) return EDirection.NE;
+            if( dir == EDirection.NW ) return EDirection.SW;
+            if( dir == EDirection.SW ) return EDirection.NW;
+        }
         return res;
     }
 
@@ -775,7 +777,7 @@ public class Util
         else
             return currentAngle >= min || currentAngle <= max;
     }
-    
+
     public static bool InsideAngleArc( EDirection angle, EDirection tgAng, int step )                         // essa funcao checa se um angulo esta dentro do leque: steps definem arco
     {
         int a = ( int ) angle;
@@ -989,14 +991,14 @@ public class Util
         Vector3 res = Vector3.zero;
         switch( dr )
         {
-            case EDirection.N: res = new Vector3( 0.0f, 0.0f, 0.0f ); break;
-            case EDirection.NE: res = new Vector3( 0.0f, 0.0f, 315.0f ); break;
-            case EDirection.E: res = new Vector3( 0.0f, 0.0f, 270.0f ); break;
-            case EDirection.SE: res = new Vector3( 0.0f, 0.0f, 225.0f ); break;
-            case EDirection.S: res = new Vector3( 0.0f, 0.0f, 180.0f ); break;
-            case EDirection.SW: res = new Vector3( 0.0f, 0.0f, 135.0f ); break;
-            case EDirection.W: res = new Vector3( 0.0f, 0.0f, 90.0f ); break;
-            case EDirection.NW: res = new Vector3( 0.0f, 0.0f, 45.0f ); break;
+        case EDirection.N: res = new Vector3( 0.0f, 0.0f, 0.0f ); break;
+        case EDirection.NE: res = new Vector3( 0.0f, 0.0f, 315.0f ); break;
+        case EDirection.E: res = new Vector3( 0.0f, 0.0f, 270.0f ); break;
+        case EDirection.SE: res = new Vector3( 0.0f, 0.0f, 225.0f ); break;
+        case EDirection.S: res = new Vector3( 0.0f, 0.0f, 180.0f ); break;
+        case EDirection.SW: res = new Vector3( 0.0f, 0.0f, 135.0f ); break;
+        case EDirection.W: res = new Vector3( 0.0f, 0.0f, 90.0f ); break;
+        case EDirection.NW: res = new Vector3( 0.0f, 0.0f, 45.0f ); break;
         }
         return res;
     }
@@ -1006,14 +1008,14 @@ public class Util
         float res = -1;
         switch( dr )
         {
-            case EDirection.N: res = 0.0f; break;
-            case EDirection.NE: res = 315.0f; break;
-            case EDirection.E: res = 270.0f; break;
-            case EDirection.SE: res = 225.0f; break;
-            case EDirection.S: res = 180.0f; break;
-            case EDirection.SW: res = 135.0f; break;
-            case EDirection.W: res = 90.0f; break;
-            case EDirection.NW: res = 45.0f; break;
+        case EDirection.N: res = 0.0f; break;
+        case EDirection.NE: res = 315.0f; break;
+        case EDirection.E: res = 270.0f; break;
+        case EDirection.SE: res = 225.0f; break;
+        case EDirection.S: res = 180.0f; break;
+        case EDirection.SW: res = 135.0f; break;
+        case EDirection.W: res = 90.0f; break;
+        case EDirection.NW: res = 45.0f; break;
         }
         return res;
     }
@@ -1034,11 +1036,11 @@ public class Util
             times = tm;
             int dr = ( int ) Util.RotateDir( ( int ) un.Dir, tm );
             Vector2 frontright = un.Pos + Manager.I.U.DirCord[ dr ];
-            dr = ( int ) Util.RotateDir( ( int ) un.Dir, -tm );
+            dr = (int) Util.RotateDir( (int) un.Dir, -tm );
             Vector2 frontleft = un.Pos + Manager.I.U.DirCord[ dr ];
             if( tg == frontright || tg == frontleft ) break;
         }
-        return ( EMoveType ) times;
+        return (EMoveType) times;
     }
     public static EMoveType GetMoveType( Vector2 from, Vector2 to )
     {
@@ -1051,11 +1053,11 @@ public class Util
             times = tm;
             int dr = ( int ) Util.RotateDir( ( int ) drr, tm );
             Vector2 frontright = from + Manager.I.U.DirCord[ dr ];
-            dr = ( int ) Util.RotateDir( ( int ) drr, -tm );
+            dr = (int) Util.RotateDir( (int) drr, -tm );
             Vector2 frontleft = from + Manager.I.U.DirCord[ dr ];
             if( to == frontright || to == frontleft ) break;
         }
-        return ( EMoveType ) times;
+        return (EMoveType) times;
     }
 
     public static bool EqualPos( Vector3 v1, Vector2 v2 )   // excludes Z
@@ -1075,30 +1077,30 @@ public class Util
             if( Map.IsWall( to, true ) ) return true;
 
         if( gaia )
-            if( Map.I.Gaia[ ( int ) to.x, ( int ) to.y ] != null )
-                if( Map.I.Gaia[ ( int ) to.x, ( int ) to.y ].BlockMovement )
+            if( Map.I.Gaia[ (int) to.x, (int) to.y ] != null )
+                if( Map.I.Gaia[ (int) to.x, (int) to.y ].BlockMovement )
                     if( except == null ||
-                        except.Contains( Map.I.Gaia[ ( int ) to.x, ( int ) to.y ].TileID ) == false )
+                        except.Contains( Map.I.Gaia[ (int) to.x, (int) to.y ].TileID ) == false )
                         return true;
 
         if( arrow )
             if( Map.I.CheckArrowBlockFromTo( from, to, un ) ) return true;
         if( monsterl )
-            if( Map.I.Unit[ ( int ) to.x, ( int ) to.y ] != null )
+            if( Map.I.Unit[ (int) to.x, (int) to.y ] != null )
                 if( except == null ||
-                    except.Contains( Map.I.Unit[ ( int ) to.x, ( int ) to.y ].TileID ) == false )
+                    except.Contains( Map.I.Unit[ (int) to.x, (int) to.y ].TileID ) == false )
                     return true;
         if( gaia2 )
-            if( Map.I.Gaia2[ ( int ) to.x, ( int ) to.y ] != null )
+            if( Map.I.Gaia2[ (int) to.x, (int) to.y ] != null )
                 if( except == null ||
-                    except.Contains( Map.I.Gaia2[ ( int ) to.x, ( int ) to.y ].TileID ) == false )
+                    except.Contains( Map.I.Gaia2[ (int) to.x, (int) to.y ].TileID ) == false )
                     return true;
 
         if( fly )
-            if( Map.I.FUnit[ ( int ) to.x, ( int ) to.y ] != null )
-                if( Map.I.FUnit[ ( int ) to.x, ( int ) to.y ].Count > 0 )
-                    for( int i = 0; i < Map.I.FUnit[ ( int ) to.x, ( int ) to.y ].Count; i++ )
-                        if( Map.I.FUnit[ ( int ) to.x, ( int ) to.y ][ i ].ValidMonster ) return true;
+            if( Map.I.FUnit[ (int) to.x, (int) to.y ] != null )
+                if( Map.I.FUnit[ (int) to.x, (int) to.y ].Count > 0 )
+                    for( int i = 0; i < Map.I.FUnit[ (int) to.x, (int) to.y ].Count; i++ )
+                        if( Map.I.FUnit[ (int) to.x, (int) to.y ][ i ].ValidMonster ) return true;
         return false;
     }
 
@@ -1109,7 +1111,7 @@ public class Util
         if( shift < 0 ) shift += 8;
         if( shift >= 8 ) shift -= 8;
         if( shift >= 8 ) shift -= 8;
-        return ( EDirection ) ( shift );
+        return (EDirection) ( shift );
     }
 
     public static List<Vector2> GetDirectionalSectorLoopCords( EDirection dir )
@@ -1117,26 +1119,26 @@ public class Util
         Sector s = Map.I.RM.HeroSector;
         List<Vector2> tgl = new List<Vector2>();
         if( dir == EDirection.S || dir == EDirection.SW || dir == EDirection.W )
-            for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )
-                for( int x = ( int ) s.Area.xMin; x < s.Area.xMax; x++ )
+            for( int y = (int) s.Area.yMin; y < s.Area.yMax; y++ )
+                for( int x = (int) s.Area.xMin; x < s.Area.xMax; x++ )
                     if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
                         tgl.Add( new Vector2( x, y ) );
 
         if( dir == EDirection.N || dir == EDirection.NW )
-            for( int y = ( int ) s.Area.yMax - 1; y >= ( int ) s.Area.yMin; y-- )
-                for( int x = ( int ) s.Area.xMin; x < s.Area.xMax; x++ )
+            for( int y = (int) s.Area.yMax - 1; y >= (int) s.Area.yMin; y-- )
+                for( int x = (int) s.Area.xMin; x < s.Area.xMax; x++ )
                     if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
                         tgl.Add( new Vector2( x, y ) );
 
         if( dir == EDirection.E || dir == EDirection.SE )
-            for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )
-                for( int x = ( int ) s.Area.xMax - 1; x >= ( int ) s.Area.xMin; x-- )
+            for( int y = (int) s.Area.yMin; y < s.Area.yMax; y++ )
+                for( int x = (int) s.Area.xMax - 1; x >= (int) s.Area.xMin; x-- )
                     if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
                         tgl.Add( new Vector2( x, y ) );
 
         if( dir == EDirection.NE )
-            for( int y = ( int ) s.Area.yMax - 1; y >= ( int ) s.Area.yMin; y-- )
-                for( int x = ( int ) s.Area.xMax - 1; x >= ( int ) s.Area.xMin; x-- )
+            for( int y = (int) s.Area.yMax - 1; y >= (int) s.Area.yMin; y-- )
+                for( int x = (int) s.Area.xMax - 1; x >= (int) s.Area.xMin; x-- )
                     if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
                         tgl.Add( new Vector2( x, y ) );
 
@@ -1147,14 +1149,14 @@ public class Util
     {
         List<Unit> ul = new List<Unit>();
         Sector hs = Map.I.RM.HeroSector;
-        for( int y = ( int ) hs.Area.yMin - 1; y < hs.Area.yMax + 1; y++ )
-        for( int x = ( int ) hs.Area.xMin - 1; x < hs.Area.xMax + 1; x++ )
+        for( int y = (int) hs.Area.yMin - 1; y < hs.Area.yMax + 1; y++ )
+            for( int x = (int) hs.Area.xMin - 1; x < hs.Area.xMax + 1; x++ )
             {
                 Unit un = Map.I.GetUnit( new Vector2( x, y ), layer );
-                if( un ) 
-                if( un.TileID == tl ) 
-                if( un.Control.Resting == false ||
-                    addresting == true ) ul.Add( un );
+                if( un )
+                    if( un.TileID == tl )
+                        if( un.Control.Resting == false ||
+                            addresting == true ) ul.Add( un );
             }
         return ul;
     }
@@ -1162,20 +1164,20 @@ public class Util
     {
         List<Unit> ul = new List<Unit>();
         Sector hs = Map.I.RM.HeroSector;
-        for( int y = ( int ) hs.Area.yMin - 1; y < hs.Area.yMax + 1; y++ )
-        for( int x = ( int ) hs.Area.xMin - 1; x < hs.Area.xMax + 1; x++ )
-        if( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
-        if ( Map.I.FUnit[ x, y ] != null )
-        {
-            for( int i = 0; i < Map.I.FUnit[ x, y ].Count; i++ )
-            {
-                Unit un = Map.I.FUnit[ x, y ][ i ];
-                if( un )
-                if( un.TileID == tl )
-                if( un.Control.Resting == false ||
-                    addresting == true ) ul.Add( un );
-            }
-        }
+        for( int y = (int) hs.Area.yMin - 1; y < hs.Area.yMax + 1; y++ )
+            for( int x = (int) hs.Area.xMin - 1; x < hs.Area.xMax + 1; x++ )
+                if( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+                    if( Map.I.FUnit[ x, y ] != null )
+                    {
+                        for( int i = 0; i < Map.I.FUnit[ x, y ].Count; i++ )
+                        {
+                            Unit un = Map.I.FUnit[ x, y ][ i ];
+                            if( un )
+                                if( un.TileID == tl )
+                                    if( un.Control.Resting == false ||
+                                        addresting == true ) ul.Add( un );
+                        }
+                    }
         return ul;
     }
 
@@ -1189,9 +1191,9 @@ public class Util
         for( int tm = 0; tm <= arc; tm++ )
         {
             int dr = ( int ) Util.RotateDir( ( int ) originalDir, tm );
-            if( dr == ( int ) tgAng ) return true;
-            dr = ( int ) Util.RotateDir( ( int ) originalDir, -tm );
-            if( dr == ( int ) tgAng ) return true;
+            if( dr == (int) tgAng ) return true;
+            dr = (int) Util.RotateDir( (int) originalDir, -tm );
+            if( dr == (int) tgAng ) return true;
         }
         return false;
     }
@@ -1277,10 +1279,10 @@ public class Util
 
         return new Vector2( correctedX, correctedY );
     }
-    
+
     public static int Animate( float time, int frames )  // animates using only time.delta time
     {
-       return Mathf.FloorToInt( Time.time / time ) % frames;
+        return Mathf.FloorToInt( Time.time / time ) % frames;
     }
     public static float RandSig( float val )
     {
@@ -1292,189 +1294,202 @@ public class Util
         if( dr < EDirection.N || dr > EDirection.NW ) return false;
         return true;
     }
-   public static int ReturnNeighborID( int currentId, int direction )
+    public static int ReturnNeighborID( int currentId, int direction )
     {
         return ( currentId + direction + 8 ) % 8;
     }
-   public static void RemoveDuplicates<T>( List<T> list )
-   {
-       HashSet<T> seen = new HashSet<T>();
-       int writeIndex = 0;
+    public static void RemoveDuplicates<T>( List<T> list )
+    {
+        HashSet<T> seen = new HashSet<T>();
+        int writeIndex = 0;
 
-       for( int readIndex = 0; readIndex < list.Count; readIndex++ )
-       {
-           T item = list[ readIndex ];
-           if( !seen.Contains( item ) )
-           {
-               seen.Add( item );
-               list[ writeIndex ] = item;
-               writeIndex++;
-           }
-       }
+        for( int readIndex = 0; readIndex < list.Count; readIndex++ )
+        {
+            T item = list[ readIndex ];
+            if( !seen.Contains( item ) )
+            {
+                seen.Add( item );
+                list[ writeIndex ] = item;
+                writeIndex++;
+            }
+        }
 
-       // Remove the extra elements at the end
-       if( writeIndex < list.Count )
-       {
-           list.RemoveRange( writeIndex, list.Count - writeIndex );
-       }
-   }
-   public static bool IsPosInFront( Vector2 from, Vector2 to, Vector2 target )  // target in front of movement?
-   {
-       Vector2 dir = from - to;
-       for( int i = 0; i < Sector.TSX; i++ )
-       {
-           Vector2 tg = from - dir * i;
-           if( Sector.GetPosSectorType( tg ) == Sector.ESectorType.GATES ) return false;
-           if( tg == target )
-               return true;
-       }
-       return false;
-   }
-   public static EDirection GetVectorDir( Vector2 vc )
-   {
-       if( vc.x == 0 && vc.y == 1 ) return EDirection.N;        // norte
-       if( vc.x == 0 && vc.y == -1 ) return EDirection.S;       // sul
-       if( vc.x == 1 && vc.y == 0 ) return EDirection.E;        // leste
-       if( vc.x == -1 && vc.y == 0 ) return EDirection.W;       // oeste
-       if( vc.x == 1 && vc.y == 1 ) return EDirection.NE;       // nordeste
-       if( vc.x == -1 && vc.y == 1 ) return EDirection.NW;      // noroeste
-       if( vc.x == 1 && vc.y == -1 ) return EDirection.SE;      // sudeste
-       if( vc.x == -1 && vc.y == -1 ) return EDirection.SW;     // sudoeste
-       return EDirection.NONE;                                  // caso não seja nenhuma direção válida
-   }
+        // Remove the extra elements at the end
+        if( writeIndex < list.Count )
+        {
+            list.RemoveRange( writeIndex, list.Count - writeIndex );
+        }
+    }
+    public static bool IsPosInFront( Vector2 from, Vector2 to, Vector2 target )  // target in front of movement?
+    {
+        Vector2 dir = from - to;
+        for( int i = 0; i < Sector.TSX; i++ )
+        {
+            Vector2 tg = from - dir * i;
+            if( Sector.GetPosSectorType( tg ) == Sector.ESectorType.GATES ) return false;
+            if( tg == target )
+                return true;
+        }
+        return false;
+    }
+    public static EDirection GetVectorDir( Vector2 vc )
+    {
+        if( vc.x == 0 && vc.y == 1 ) return EDirection.N;        // norte
+        if( vc.x == 0 && vc.y == -1 ) return EDirection.S;       // sul
+        if( vc.x == 1 && vc.y == 0 ) return EDirection.E;        // leste
+        if( vc.x == -1 && vc.y == 0 ) return EDirection.W;       // oeste
+        if( vc.x == 1 && vc.y == 1 ) return EDirection.NE;       // nordeste
+        if( vc.x == -1 && vc.y == 1 ) return EDirection.NW;      // noroeste
+        if( vc.x == 1 && vc.y == -1 ) return EDirection.SE;      // sudeste
+        if( vc.x == -1 && vc.y == -1 ) return EDirection.SW;     // sudoeste
+        return EDirection.NONE;                                  // caso não seja nenhuma direção válida
+    }
 
-   public static bool HasDada<T>( List<T> list )                 // list populated?
-   {
-       return list != null && list.Count > 0;
-   }
-   public static bool HasDataArray<T>( T[] array )                    // array populado?
-   {
-       return array != null && array.Length > 0;
-   }
-   internal static object GetFathers( GameObject gameObject )
-   {
-       Transform t = gameObject.transform;
-       string path = t.name;
-       while( t.parent != null ) { t = t.parent; path = t.name + "/" + path; }
-       return path;
-   }
-   public static bool VID<T>( List<T> list, int id )                // Valid ID on the list?
-   {
-       if( list == null || list.Count == 0 )
-           return false;
-       if( id < 0 || id > list.Count - 1 )
-           return false;
-       return true;
-   }
-   public static bool VID<T>( T[] array, int id )                  // Valid ID in the array?
-   {
-       if( array == null || array.Length == 0 )
-           return false;
-       if( id < 0 || id > array.Length - 1 )
-           return false;
-       return true;
-   }
-   public static void DebugList<T>( List<T> list, string label = "" )
-   {
-       if( list == null )
-       {
-           Debug.Log( label + " -> Lista nula" );
-           return;
-       }
+    public static bool HasDada<T>( List<T> list )                 // list populated?
+    {
+        return list != null && list.Count > 0;
+    }
+    public static bool HasDataArray<T>( T[ ] array )                    // array populado?
+    {
+        return array != null && array.Length > 0;
+    }
+    internal static object GetFathers( GameObject gameObject )
+    {
+        Transform t = gameObject.transform;
+        string path = t.name;
+        while( t.parent != null ) { t = t.parent; path = t.name + "/" + path; }
+        return path;
+    }
+    public static bool VID<T>( List<T> list, int id )                // Valid ID on the list?
+    {
+        if( list == null || list.Count == 0 )
+            return false;
+        if( id < 0 || id > list.Count - 1 )
+            return false;
+        return true;
+    }
+    public static bool VID<T>( T[ ] array, int id )                  // Valid ID in the array?
+    {
+        if( array == null || array.Length == 0 )
+            return false;
+        if( id < 0 || id > array.Length - 1 )
+            return false;
+        return true;
+    }
+    public static void DebugList<T>( List<T> list, string label = "" )
+    {
+        if( list == null )
+        {
+            Debug.Log( label + " -> Lista nula" );
+            return;
+        }
 
-       Debug.Log( label + " -> Lista contém " + list.Count + " itens:" );
-       for( int i = 0; i < list.Count; i++ )
-       {
-           T item = list[ i ];
-           if( item == null )
-           {
-               Debug.Log( "[" + i + "] -> null" );
-           }
-           else
-           {
-               // Usa ToString(), se for uma classe você pode sobrescrever ToString() para detalhar
-               Debug.Log( "[" + i + "] -> " + item );
-           }
-       }
-   }
-   public static void ShuffleList<T>( List<T> list )
-   {
-       for( int i = 0; i < list.Count; i++ )
-       {
-           int j = Random.Range( i, list.Count );
-           T tmp = list[ i ];
-           list[ i ] = list[ j ];
-           list[ j ] = tmp;
-       }
-   }
-   public static float GetCurveVal( float id, float totPoints, float startValue, float endValue, float curve, float afterEndCurveMult = 1 )
-   {
-       // return base value if id is zero; prevents invalid zero output
-       if( id <= 0f ) return startValue;
+        Debug.Log( label + " -> Lista contém " + list.Count + " itens:" );
+        for( int i = 0; i < list.Count; i++ )
+        {
+            T item = list[ i ];
+            if( item == null )
+            {
+                Debug.Log( "[" + i + "] -> null" );
+            }
+            else
+            {
+                // Usa ToString(), se for uma classe você pode sobrescrever ToString() para detalhar
+                Debug.Log( "[" + i + "] -> " + item );
+            }
+        }
+    }
+    public static void ShuffleList<T>( List<T> list )
+    {
+        for( int i = 0; i < list.Count; i++ )
+        {
+            int j = Random.Range( i, list.Count );
+            T tmp = list[ i ];
+            list[ i ] = list[ j ];
+            list[ j ] = tmp;
+        }
+    }
+    public static float GetCurveVal( float id, float totPoints, float startValue, float endValue, float curve, float afterEndCurveMult = 1 )
+    {
+        // return base value if id is zero; prevents invalid zero output
+        if( id <= 0f ) return startValue;
 
-       // protection for invalid division; if total points too low, just return start value
-       if( totPoints <= 1f ) return startValue;
+        // protection for invalid division; if total points too low, just return start value
+        if( totPoints <= 1f ) return startValue;
 
-       // handle curve multiplier when going beyond total points
-       if( id > totPoints )
-       {
-           curve *= afterEndCurveMult; // apply external curve multiplier after end
-           if( afterEndCurveMult == 0 ) return endValue; // if multiplier is zero, clamp to end
-       }
+        // handle curve multiplier when going beyond total points
+        if( id > totPoints )
+        {
+            curve *= afterEndCurveMult; // apply external curve multiplier after end
+            if( afterEndCurveMult == 0 ) return endValue; // if multiplier is zero, clamp to end
+        }
 
-       // safety: if curve is invalid (NaN or Infinity), reset to 1
-       if( float.IsNaN( curve ) || float.IsInfinity( curve ) ) curve = 1f;
+        // safety: if curve is invalid (NaN or Infinity), reset to 1
+        if( float.IsNaN( curve ) || float.IsInfinity( curve ) ) curve = 1f;
 
-       // normalize range; id = 0 → t = 0, id = totPoints → t = 1
-       float denom = totPoints; // use totPoints instead of totPoints - 1 to make level 1 already progress
-       float t = Mathf.Clamp01( id / denom ); // ensure value stays in 0..1 range
+        // normalize range; id = 0 → t = 0, id = totPoints → t = 1
+        float denom = totPoints; // use totPoints instead of totPoints - 1 to make level 1 already progress
+        float t = Mathf.Clamp01( id / denom ); // ensure value stays in 0..1 range
 
-       // apply curve; this makes the growth non-linear depending on curve exponent
-       float curvedT = Mathf.Pow( t, curve );
+        // apply curve; this makes the growth non-linear depending on curve exponent
+        float curvedT = Mathf.Pow( t, curve );
 
-       // interpolate between start and end values using curvedT
-       return startValue + ( endValue - startValue ) * curvedT;
-   }
+        // interpolate between start and end values using curvedT
+        return startValue + ( endValue - startValue ) * curvedT;
+    }
 
-   public static List<Vector2> CloneToVector2List( List<VI> source )
-   {
-       if( source == null ) return null;
-       List<Vector2> result = new List<Vector2>( source.Count );
-       for( int i = 0; i < source.Count; i++ )
-       {
-           result.Add( source[ i ].ToVector2() );
-       }
-       return result;
-   }
-   public static bool IsDiagonal( Vector2 from, Vector2 to )
-   {
-       int dx = Mathf.Abs( Mathf.RoundToInt( to.x - from.x ) );
-       int dy = Mathf.Abs( Mathf.RoundToInt( to.y - from.y ) );
-       return dx == 1 && dy == 1;
-   }
+    public static List<Vector2> CloneToVector2List( List<VI> source )
+    {
+        if( source == null ) return null;
+        List<Vector2> result = new List<Vector2>( source.Count );
+        for( int i = 0; i < source.Count; i++ )
+        {
+            result.Add( source[ i ].ToVector2() );
+        }
+        return result;
+    }
+    public static bool IsDiagonal( Vector2 from, Vector2 to )
+    {
+        int dx = Mathf.Abs( Mathf.RoundToInt( to.x - from.x ) );
+        int dy = Mathf.Abs( Mathf.RoundToInt( to.y - from.y ) );
+        return dx == 1 && dy == 1;
+    }
 
-   public static void CopyDirectory( string sourceDir, string targetDir )
-   {
-       if( !Directory.Exists( targetDir ) )
-           Directory.CreateDirectory( targetDir );
+    public static void CopyDirectory( string sourceDir, string targetDir )
+    {
+        if( !Directory.Exists( targetDir ) )
+            Directory.CreateDirectory( targetDir );
 
-       // Copy files
-       foreach( string file in Directory.GetFiles( sourceDir ) )
-       {
-           string destFile = targetDir + "\\" + Path.GetFileName( file );
-           File.Copy( file, destFile, true ); // overwrite
-       }
+        // Copy files
+        foreach( string file in Directory.GetFiles( sourceDir ) )
+        {
+            string destFile = targetDir + "\\" + Path.GetFileName( file );
+            File.Copy( file, destFile, true ); // overwrite
+        }
 
-       // Copy subdirectories recursively
-       foreach( string directory in Directory.GetDirectories( sourceDir ) )
-       {
-           string destSubDir = targetDir + "\\" + Path.GetFileName( directory );
-           CopyDirectory( directory, destSubDir );
-       }
-   }
+        // Copy subdirectories recursively
+        foreach( string directory in Directory.GetDirectories( sourceDir ) )
+        {
+            string destSubDir = targetDir + "\\" + Path.GetFileName( directory );
+            CopyDirectory( directory, destSubDir );
+        }
+    }
+    internal static bool IsHovered( UnityEngine.UI.Button button )
+    {
+        // Proteção contra o NullReference que apareceu no seu console
+        if( button == null || button.targetGraphic == null ) return false;
+
+        // Usamos o caminho completo (UnityEngine.UI e UnityEngine) para matar o erro "no definition"
+        return button.IsActive() && button.IsInteractable() &&
+               UnityEngine.RectTransformUtility.RectangleContainsScreenPoint(
+                   button.targetGraphic.rectTransform,
+                   UnityEngine.Input.mousePosition,
+                   null // Use null para Canvas em modo Overlay
+               );
+    }
 }
 
-[System.Serializable]
+    [System.Serializable]
 public class Timer {
 	
 	public float Target, Elapsed, Remaining;

@@ -48,10 +48,10 @@ namespace UnityEngine.UI
         public Color color { get; set; }
     }
 
-    public class Button: MonoBehaviour
-    {
-        public UnityEngine.Events.UnityEvent onClick = new UnityEngine.Events.UnityEvent();
-    }
+    //public class Button: MonoBehaviour
+    //{
+    //    public UnityEngine.Events.UnityEvent onClick = new UnityEngine.Events.UnityEvent();
+    //}
 }
 
 // === MOCK EVENT SYSTEM ===

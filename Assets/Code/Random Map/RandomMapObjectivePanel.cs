@@ -1,17 +1,20 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
 using System.Collections;
+using UnityEditor;
+using UnityEngine;
 
-public class RandomMapObjectivePanel : MonoBehaviour 
+
+public class RandomMapObjectivePanel: MonoBehaviour
 {
-    public UILabel DescriptionLabel, CurrentNumberLabel, Prize1Label, Prize2Label, 
-                   UpgradePriceAmountLabel, UpgradeBonusAmountLabel, UpgradeButtonLabel, 
+    public UILabel DescriptionLabel, CurrentNumberLabel, Prize1Label, Prize2Label,
+                   UpgradePriceAmountLabel, UpgradeBonusAmountLabel, UpgradeButtonLabel,
                    UpgradeBonusLabel, RequirementLabel;
-    public UI2DSprite Prize1Icon, Prize2Icon, Prize2BackIcon, TrophyIcon, UpgradePriceIcon, 
+    public UI2DSprite Prize1Icon, Prize2Icon, Prize2BackIcon, TrophyIcon, UpgradePriceIcon,
     UpgradeBonusIcon, RequirementIcon;
     public UISprite CheckBoxSprite, CheckBoxBackSprite;
     public UIButton Button, UpgradeButton;
     public RandomMapGoal Goal;
-    
+
     public void OnUpgradeObjectiveButtonPress()
     {
         Goal.Upgrade( true );
@@ -36,11 +39,18 @@ public class RandomMapObjectivePanel : MonoBehaviour
 
         bool ok2 = true;
         if( go.BonusItem2 == ItemType.NONE )
-        if( go.TargetBluePrint == null )
-        if( go.TargetRecipe == null )
-            ok2 = false;
+            if( go.TargetBluePrint == null )
+                if( go.TargetRecipe == null )
+                    ok2 = false;
 
         Prize1Label.transform.parent.gameObject.SetActive( ok1 );
         Prize2Label.transform.parent.gameObject.SetActive( ok2 );
+    }
+
+
+    [Button( "FINAL CONVERT (INSTANCE ONLY)" ), GUIColor( 0, 0.8f, 1f )]
+    public static void Finalize( tk2dSprite tkSprite )
+    {
+      
     }
 }

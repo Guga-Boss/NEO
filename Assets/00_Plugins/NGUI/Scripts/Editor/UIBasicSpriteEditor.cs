@@ -105,32 +105,32 @@ public class UIBasicSpriteEditor : UIWidgetInspector
         // Tenta pegar como Sprite ou Texture (ambos são UIBasicSprite)
         UIBasicSprite basicSpr = target as UIBasicSprite;
 
-        //if( basicSpr != null )
-        //{
-        //    if( GUILayout.Button( $"🔥 CONVERT {typeName.ToUpper()} 🔥", bigButton ) )
-        //    {
-        //        // Se for UISprite, chama sua ação atual
-        //        if( target is UISprite spr )
-        //        {
-        //            if( ConvertUISAction != null ) ConvertUISAction.Invoke( spr );
-        //            else Debug.LogError( "ConvertUISAction não configurada!" );
-        //        }
-        //        // Se for UITexture, o processo é levemente diferente (não tem Atlas)
-        //        else if( target is UITexture tex )
-        //        {
-        //            Debug.LogWarning( $"[Aviso] {tex.name} é um UITexture. O ConvertUISprite atual espera um Atlas. Deseja converter texturas também?" );
-        //            // Se quiser converter texturas, precisaremos de um NSprite.ConvertUITexture(tex)
-        //        }
-        //    }
+		if( basicSpr != null )
+		{
+			if( GUILayout.Button( $"🔥 CONVERT {typeName.ToUpper()} 🔥", bigButton ) )
+			{
+				// Se for UISprite, chama sua ação atual
+				if( target is UISprite spr )
+				{
+					if( ConvertUISAction != null ) ConvertUISAction.Invoke( spr );
+					else Debug.LogError( "ConvertUISAction não configurada!" );
+				}
+				// Se for UITexture, o processo é levemente diferente (não tem Atlas)
+				else if( target is UITexture tex )
+				{
+					Debug.LogWarning( $"[Aviso] {tex.name} é um UITexture. O ConvertUISprite atual espera um Atlas. Deseja converter texturas também?" );
+					// Se quiser converter texturas, precisaremos de um NSprite.ConvertUITexture(tex)
+				}
+			}
 
-        //    if( GUILayout.Button( "🔥 Finalize 🔥", bigButton ) )
-        //    {
-        //        if( FinalizeUISAction != null ) FinalizeUISAction.Invoke( target );
-        //        else Debug.LogError( "FinalizeUISAction não configurada!" );
-        //    }
-        //}
+			if( GUILayout.Button( "🔥 Finalize 🔥", bigButton ) )
+			{
+				if( FinalizeUISAction != null ) FinalizeUISAction.Invoke( target );
+				else Debug.LogError( "FinalizeUISAction não configurada!" );
+			}
+		}
 
-        GUILayout.Space( 6 );
+		GUILayout.Space( 6 );
         GUILayout.EndVertical();
         GUI.backgroundColor = oldColor;
 

@@ -117,4 +117,17 @@ public class IDM: SerializedMonoBehaviour
         }
         return null;
     }
+    public Sprite GetSpriteAnywhere( string spriteName )
+    {
+        // Primeiro, garante que o dicionário está pronto
+        if( CollectionsDic == null || CollectionsDic.Count == 0 ) Rebuild();
+
+        foreach( var col in Collections )
+        {
+            // Procura em cada coleção cadastrada no IDM
+            Sprite sp = col.Sprites.Find(s => s != null && s.name == spriteName);
+            if( sp != null ) return sp;
+        }
+        return null;
+    }
 }

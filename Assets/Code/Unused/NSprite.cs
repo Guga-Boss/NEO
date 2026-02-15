@@ -1,8 +1,9 @@
 ﻿using Sirenix.OdinInspector;
+using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
-using System.Collections.Generic;
-using System;
 
 public class NSprite: MonoBehaviour
 {
@@ -166,6 +167,18 @@ public class NSprite: MonoBehaviour
         {
             if( obj != null ) NSprite.FinalizeUISprite( obj );
         };
+        // --- NOVA ASSINATURA PARA LABELS ---
+        UILabelInspector.ConvertLabelAction = ( obj, isUI ) =>
+        {
+            var label = obj as UILabel;
+            if( label != null ) NSprite.ConvertUILabel( label, isUI );
+        };
+
+        UILabelInspector.FinalizeLabelAction = ( obj ) =>
+        {
+            var label = obj as UILabel;
+            if( label != null ) NSprite.FinalizeUILabel( label );
+        };
     }
 
     public static void FinalizeUISprite( object obj )
@@ -252,6 +265,7 @@ public class NSprite: MonoBehaviour
 
     public static void ConvertUISprite( object obj )
     {
+        Debug.Log("here");
         if( obj == null ) return;
         UIWidget widget = obj as UIWidget;
         if( widget == null ) return;
@@ -266,10 +280,71 @@ public class NSprite: MonoBehaviour
             if( spr.atlas != null )
             {
                 string colName = spr.atlas.name.Replace("Atlas", "").Trim();
-                targetEnum = GetCollectionFromTk2d( colName ); // Ajuste conforme seu helper
+                targetEnum = GetCollectionFromTk2d( colName );
                 sprName = spr.spriteName;
+
                 IDM.InitSingleton();
-                sp = IDM.I.GetSpriteFromIDMByName( targetEnum, sprName );
+                if( IDM.I != null )
+                {
+                    // 1. Tenta buscar na coleção sugerida pelo nome do Atlas
+                    sp = IDM.I.GetSpriteFromIDMByName( targetEnum, sprName );
+
+                    // 2. FALLBACK: Se não achou na coleção, varre o IDM inteiro pelo nome
+                    if( sp == null )
+                    {
+                        if( sp == null )
+                        {
+                            // t:Sprite -> Filtra apenas assets que são Sprites
+                            // O segundo parâmetro é um array de pastas onde a busca deve começar
+                            string[] searchFolders = new string[] { "Assets/Images" };
+                            string[] guids = AssetDatabase.FindAssets($"{sprName} t:Sprite", searchFolders);
+
+                            if( guids.Length > 0 )
+                            {
+                                // Pega o primeiro asset encontrado que tenha o nome exato
+                                foreach( var guid in guids )
+                                {
+                                    string foundPath = AssetDatabase.GUIDToAssetPath(guid);
+                                    string fileName = System.IO.Path.GetFileNameWithoutExtension(foundPath);
+
+                                    // Conferência de nome exato (FindAssets pode retornar nomes parecidos)
+                                    if( fileName == sprName )
+                                    {
+                                        sp = AssetDatabase.LoadAssetAtPath<Sprite>( foundPath );
+                                        if( sp != null )
+                                        {
+                                            Debug.Log( $"[NSprite] '{sprName}' encontrado em: {foundPath}" );
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // --- O MÍNIMO PARA FUNCIONAR SE O IDM FALHAR ---
+                        // Se ainda for nulo, busca direto nos sub-assets da textura do Atlas
+                        if( sp == null && spr.atlas.texture != null )
+                        {
+                            string path = AssetDatabase.GetAssetPath(spr.atlas.texture);
+
+                            // 1. Tenta carregar o Sprite principal do arquivo (se for "Single")
+                            sp = AssetDatabase.LoadAssetAtPath<Sprite>( path );
+
+                            // 2. Se ainda for nulo (porque a imagem está como tipo "Texture" e não "Sprite")
+                            // vamos criar um Sprite em tempo de execução para o seu Preview não ficar vazio
+                            if( sp == null )
+                            {
+                                Texture2D tex = (Texture2D)spr.atlas.texture;
+                                // Cria um sprite pegando a textura inteira
+                                sp = Sprite.Create( tex, new Rect( 0, 0, tex.width, tex.height ), new Vector2( 0.5f, 0.5f ) );
+                                sp.name = sprName + "_Generated";
+
+                                Debug.LogWarning( $"[NSprite] Sprite '{sprName}' criado em tempo de execução. " +
+                                                 "Para persistir, mude o 'Texture Type' para 'Sprite' no Inspector da imagem." );
+                            }
+                        }
+                    }
+                }
             }
         }
         else if( obj is UI2DSprite spr2d )
@@ -472,5 +547,146 @@ public class NSprite: MonoBehaviour
             Debug.Log( $"[NSprite] Deep Clean OK em: {mainGO.name}" );
         };
     }
+
+    public static void ConvertUILabel( UILabel label, bool isUI )
+    {
+        if( label == null ) return;
+
+        string childName = "TMP_Migration_Preview";
+        Transform childTransform = label.transform.Find(childName);
+        GameObject childGO = childTransform == null ? new GameObject(childName) : childTransform.gameObject;
+
+        childGO.transform.SetParent( label.transform );
+
+        // Zera posição para sobrepor exatamente ao centro/pivot do original
+        childGO.transform.localPosition = Vector3.zero;
+        childGO.transform.localRotation = Quaternion.identity;
+        childGO.transform.localScale = Vector3.one;
+        childGO.layer = 5;
+
+        TextMeshPro tmp = childGO.GetComponent<TextMeshPro>() ?? childGO.AddComponent<TextMeshPro>();
+
+        // 1. SINCRONIA DE TAMANHO (RectTransform)
+        // Ocupa exatamente a mesma área do widget NGUI
+        tmp.rectTransform.sizeDelta = new Vector2( label.width, label.height );
+
+        // 2. SINCRONIA DE ALINHAMENTO (Pivot e Alignment)
+        // Mapeamos o pivot do NGUI para o TMP não deslocar
+        var anchor = MapNGUIAnchorToTMP(label.pivot);
+        tmp.alignment = anchor.alignment;
+        tmp.rectTransform.pivot = anchor.pivot;
+
+        // 3. CONFIGURAÇÃO DE TEXTO
+        tmp.text = label.text;
+        // Multiplicador 10x é o padrão para TMP 3D em escala 1:1 com pixels NGUI
+        tmp.fontSize = label.fontSize * 10f;
+        tmp.color = label.color;
+        tmp.fontStyle = FontStyles.Bold;
+        tmp.enableWordWrapping = label.overflowMethod == UILabel.Overflow.ResizeHeight || label.overflowMethod == UILabel.Overflow.ShrinkContent;
+
+        // 4. RENDERIZAÇÃO (Sorting Layer Default)
+        MeshRenderer mr = childGO.GetComponent<MeshRenderer>();
+        if( mr != null )
+        {
+            mr.sortingLayerName = "Default";
+            mr.sortingOrder = label.depth;
+        }
+
+        label.enabled = false;
+        Debug.Log( $"[NSprite] Preview TMP sobreposto com sucesso em: {label.name}" );
+    }
+
+    // Helper para evitar que o texto "pule" de lugar ao converter
+    private static (TextAlignmentOptions alignment, Vector2 pivot) MapNGUIAnchorToTMP( UIWidget.Pivot pivot )
+    {
+        switch( pivot )
+        {
+        case UIWidget.Pivot.TopLeft: return (TextAlignmentOptions.TopLeft, new Vector2( 0, 1 ));
+        case UIWidget.Pivot.Top: return (TextAlignmentOptions.Top, new Vector2( 0.5f, 1 ));
+        case UIWidget.Pivot.TopRight: return (TextAlignmentOptions.TopRight, new Vector2( 1, 1 ));
+        case UIWidget.Pivot.Left: return (TextAlignmentOptions.Left, new Vector2( 0, 0.5f ));
+        case UIWidget.Pivot.Center: return (TextAlignmentOptions.Center, new Vector2( 0.5f, 0.5f ));
+        case UIWidget.Pivot.Right: return (TextAlignmentOptions.Right, new Vector2( 1, 0.5f ));
+        case UIWidget.Pivot.BottomLeft: return (TextAlignmentOptions.BottomLeft, new Vector2( 0, 0 ));
+        case UIWidget.Pivot.Bottom: return (TextAlignmentOptions.Bottom, new Vector2( 0.5f, 0 ));
+        case UIWidget.Pivot.BottomRight: return (TextAlignmentOptions.BottomRight, new Vector2( 1, 0 ));
+        default: return (TextAlignmentOptions.Center, new Vector2( 0.5f, 0.5f ));
+        }
+    }
+    public static void FinalizeUILabel( UILabel label )
+    {
+        if( label == null ) return;
+
+        GameObject root = label.gameObject;
+        Transform previewTransform = root.transform.Find("TMP_Migration_Preview");
+
+        // --- CACHE DE CONFIGURAÇÕES ---
+        string finalText = label.text;
+        Color finalColor = label.color;
+        int finalDepth = label.depth;
+
+        float finalFontSize = label.fontSize * 10f;
+        TextAlignmentOptions finalAlign = TextAlignmentOptions.Center;
+        FontStyles finalStyle = FontStyles.Normal;
+        TMP_FontAsset finalFont = null;
+
+        // Cache de Transform para sobreposição exata
+        Vector2 finalSize = new Vector2(label.width, label.height);
+        Vector2 finalPivot = new Vector2(0.5f, 0.5f);
+
+        if( previewTransform != null )
+        {
+            TextMeshPro previewTMP = previewTransform.GetComponent<TextMeshPro>();
+            if( previewTMP != null )
+            {
+                finalText = previewTMP.text;
+                finalColor = previewTMP.color;
+                finalFontSize = previewTMP.fontSize;
+                finalAlign = previewTMP.alignment;
+                finalStyle = previewTMP.fontStyle;
+                finalFont = previewTMP.font;
+
+                // COPIANDO WIDTH, HEIGHT E PIVOT DO PREVIEW
+                finalSize = previewTMP.rectTransform.sizeDelta;
+                finalPivot = previewTMP.rectTransform.pivot;
+            }
+            Undo.DestroyObjectImmediate( previewTransform.gameObject );
+        }
+
+        EditorApplication.delayCall += () =>
+        {
+            if( root == null ) return;
+
+            Undo.DestroyObjectImmediate( label );
+
+            TextMeshPro tmp = root.AddComponent<TextMeshPro>();
+
+            // --- APLICANDO DADOS COPIADOS ---
+            tmp.text = finalText;
+            tmp.color = finalColor;
+            tmp.fontSize = finalFontSize;
+            tmp.alignment = finalAlign;
+            tmp.fontStyle = finalStyle;
+            if( finalFont != null ) tmp.font = finalFont;
+
+            // Aplica Width e Height exatos
+            tmp.rectTransform.pivot = finalPivot;
+            tmp.rectTransform.sizeDelta = finalSize;
+
+            MeshRenderer mr = root.GetComponent<MeshRenderer>();
+            if( mr != null )
+            {
+                mr.sortingLayerName = "Default"; // Sua regra de ouro
+                mr.sortingOrder = finalDepth;
+                mr.gameObject.layer = 5;
+            }
+
+            EditorUtility.SetDirty( root );
+            Debug.Log( $"[NSprite] {root.name} Finalizado. Tamanho {finalSize.x}x{finalSize.y} e Pivot {finalPivot} copiados." );
+        };
+    }
+
+
+
 #endif
 }

@@ -2,13 +2,14 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
+using UnityEngine.UI;
 
 public class TechButton : MonoBehaviour
 {
     #region Variables
     public GameObject Graphic, Connections;
     public AdventureUpgradeInfo[] UpgradeList;
-    public UIButton ClickButton;
+    public Button ClickButton;
     public UILabel DescriptionLabel, UnlockCostLabel, RecurringLabel;
     public UI2DSprite DescriptionSprite, UnlockCostSprite;
     public UISprite BackSprite, LineUP, LineDOWN, LineLEFT, LineRIGHT;
@@ -300,7 +301,7 @@ public class TechButton : MonoBehaviour
         UpdateMatrix = false;
     }
 
-    public static void UpdateAdventureUpgrade( int techX, int techY, bool purchase, ref UILabel label, ref UILabel costlabel, ref UIButton btn, ref UI2DSprite spr )
+    public static void UpdateAdventureUpgrade( int techX, int techY, bool purchase, ref UILabel label, ref UILabel costlabel, ref Button btn, ref UI2DSprite spr )
     {
         DungeonDialog dd = Map.I.RM.DungeonDialog;
         costlabel.transform.parent.gameObject.SetActive( true );
@@ -423,7 +424,7 @@ public class TechButton : MonoBehaviour
         Color col = Color.red;
         bool trophy = dd.CheckTrophyRequirement();                                                                               // Check Trophy requirement
 
-        if( btn.state == UIButtonColor.State.Hover )
+        if( Util.IsHovered( btn ) )
         {
             float stock = Item.GetNum( Inventory.IType.Inventory, costItem );                                                    // items int stock
             if( au.TotalCollected ) stock = ( int ) Item.GetTotalGained( costItem );                                             // Total items int stock
@@ -503,7 +504,7 @@ public class TechButton : MonoBehaviour
         }
         else
         {
-            if( btn.state == UIButtonColor.State.Hover )
+            if( Util.IsHovered( btn ) )
                 dd.SetMsg( msg + "\nERROR: Not Enough Resources!", Color.yellow );                                       // no resource error message
         }
 
