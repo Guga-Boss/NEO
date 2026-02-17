@@ -705,15 +705,14 @@ public partial class Map : MonoBehaviour
         if ( HookList[ h ].gameObject.activeSelf )
              HookList[ h ].gameObject.SetActive( false );
         UI.I.RestartAreaButton.gameObject.SetActive( true );
-        UILabel lb = UI.I.RestartAreaButton.GetComponentInChildren<UILabel>();
         if( Manager.I.GameType == EGameType.CUBES )
-            lb.text = "Quest \nInfo...";
+            UI.I.RestartAreaButtonLabel.text = "Quest \nInfo...";
         else
         if( Manager.I.GameType == EGameType.NAVIGATION )
-            lb.text = "Exit Navigation Map...";
+            UI.I.RestartAreaButtonLabel.text = "Exit Navigation Map...";
         else
         if( Manager.I.GameType == EGameType.FARM )
-            lb.text = "Exit Farm...";
+            UI.I.RestartAreaButtonLabel.text = "Exit Farm...";
 
         NumOptionalRooms = 0;
         for( int i = 0; i < Quest.I.CurLevel.AreaList.Count; i++ )

@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class ResourceIndicator : MonoBehaviour 
 {
     public ItemType ItemType;
-    public UI2DSprite Sprite;
-    public UILabel Label;
+    public NSprite Sprite;
+    public TextMeshPro Label;
     public static bool UpdateGrid = false;
     public static int IndicatorCount = 0;
     public static int MonsterGatesCount = 0, FirepitPointsCount = 0;
@@ -132,8 +133,9 @@ public class ResourceIndicator : MonoBehaviour
                 //UI.I.ResourceIndicators[ IndicatorCount ].Label.text += " (G)";
                 UI.I.ResourceIndicators[ IndicatorCount ].Label.color = Color.green;
             }
-            UI.I.ResourceIndicators[ IndicatorCount ].Sprite.sprite2D =
-            G.GIT( itemType ).NSprite.sprite;
+
+            UI.I.ResourceIndicators[ IndicatorCount ].Sprite.spriteId =
+            G.GIT( itemType ).NSprite.TkSpriteId;
             IndicatorCount++;
 
             if( IndicatorCount > UI.I.ResourceIndicators.Count - 1 )

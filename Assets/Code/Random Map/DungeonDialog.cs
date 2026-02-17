@@ -24,11 +24,10 @@ public class DungeonDialog : MonoBehaviour
     public UI2DSprite[] Resources;
     public NSprite[] TrophiesSprite;
 
-    public UI2DSprite UnlockCost1Sprite, PackMuleEmptySlot, TechEditorFocus;
-    public UISprite AutoGotoCheckMark;
-    public UILabel DungeonNumberLabel, NewDungeonLabel, 
-                   DificultyLabel, BackButtonLabel, UnlockCostLabel1;
-    public TextMeshPro TMainTextLabel, TAvailableCubesLabel, DungeonNameLabel, GameCompletitionLabel, StudiesCompletedLabel, GoalInfoLabel;
+    public UI2DSprite PackMuleEmptySlot, TechEditorFocus;
+    public NSprite AutoGotoCheckMark, UnlockCost1Sprite;
+    public UILabel DungeonNumberLabel, DificultyLabel;
+    public TextMeshPro TMainTextLabel, TAvailableCubesLabel, DungeonNameLabel, GameCompletitionLabel, StudiesCompletedLabel, GoalInfoLabel, NewDungeonLabel, BackButtonLabel, UnlockCostLabel1;
     public TextMeshProUGUI TrainingModeButtonLabel, StudyModeButtonLabel;
 
     public TextMeshPro[] TrophiesAmountLabel;
@@ -88,8 +87,7 @@ public class DungeonDialog : MonoBehaviour
             AutogateLev = -2;
             AvailableCubes = -2;
             WindowType = EWindowType.Normal;
-            for( int i = 0; i < PanelList.Length; i++ )           
-                PanelList[ i ].gameObject.SetActive( false );
+            InitializeGoalPanels();
             UI.I.BackgroundUI.gameObject.SetActive( true );
             UI.I.UIFolder.gameObject.SetActive( true );
             if( Map.I.RM.GameOver )
@@ -131,17 +129,34 @@ public class DungeonDialog : MonoBehaviour
             UI.I.UIFolder.gameObject.SetActive( false );
         }
     }
-    public void UpdatePanels()
+    public void InitializeGoalPanels()
     {
-        PanelList = QuestList.gameObject.GetComponentsInChildren<RandomMapObjectivePanel>();
+        if( PanelList.Length > 1 ) return;
+        PanelList = QuestList.gameObject.GetComponentsInChildren<RandomMapObjectivePanel>( true );
 
-        //Debug.Log( PanelList.Length );
+        RandomMapObjectivePanel template = PanelList[0];
+        Transform parent = template.transform.parent;
 
-        //for( int i = 0; i < PanelList.Length; i++ )
-        //{
-        //    Debug.Log( PanelList[ i ] );
-        //}
+        // Garante que o template fique ativo para servir de base
+        template.gameObject.SetActive( true );
+
+        List<RandomMapObjectivePanel> newPanels = new List<RandomMapObjectivePanel>();
+        newPanels.Add( template );
+
+        for( int i = 0; i < 22; i++ )
+        {
+            RandomMapObjectivePanel copy = Instantiate(template, parent);
+            copy.gameObject.name = template.gameObject.name + "_" + ( i + 1 );
+            newPanels.Add( copy );
+        }
+
+        PanelList = newPanels.ToArray();
+
+        // Desativa todos
+        for( int i = 0; i < PanelList.Length; i++ )
+            PanelList[ i ].gameObject.SetActive( false );
     }
+
 
     public void Update()
     {
@@ -328,7 +343,7 @@ public class DungeonDialog : MonoBehaviour
                 }
             }
 
-            if( go.Panel.Button.state == UIButtonColor.State.Hover )                                               // Mouse over Goal
+            if( Util.IsHovered ( go.Panel.Button ) )                                                               // Mouse over Goal
             {
                 if( Map.I.RM.RMD.EnableAlternateStartingCube )
                 if( Input.GetMouseButtonDown( 0 ) )                                                                // Click Goal for popup choosing
@@ -1490,33 +1505,35 @@ public class DungeonDialog : MonoBehaviour
             go.Panel.TrophyIcon.gameObject.SetActive( true );
             go.Panel.TrophyIcon.color = Color.white;
             if( go.TrophyType == ETrophyType.BRONZE )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Bronze_Trophy ).NSprite.sprite;
+                go.Panel.TrophyIcon.sprite = G.GIT( ItemType.Bronze_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.SILVER )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Silver_Trophy ).NSprite.sprite;
+                go.Panel.TrophyIcon.sprite = G.GIT( ItemType.Silver_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.GOLD )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Gold_Trophy ).NSprite.sprite;
+                go.Panel.TrophyIcon.sprite = G.GIT( ItemType.Gold_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.DIAMOND )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Diamond_Trophy ).NSprite.sprite;
+                go.Panel.TrophyIcon.sprite = G.GIT( ItemType.Diamond_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.ADAMANTIUM )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Adamantium_Trophy ).NSprite.sprite;
+                go.Panel.TrophyIcon.sprite = G.GIT( ItemType.Adamantium_Trophy ).NSprite.sprite;
             else
             if( go.TrophyType == ETrophyType.GENIUS )
-                go.Panel.TrophyIcon.sprite2D = G.GIT( ItemType.Genius_Trophy ).NSprite.sprite;
+                go.Panel.TrophyIcon.sprite = G.GIT( ItemType.Genius_Trophy ).NSprite.sprite;
             else
             {
-                go.Panel.TrophyIcon.sprite2D = G.GIT( (int) ItemType.Bronze_Trophy ).NSprite.sprite;
+                go.Panel.TrophyIcon.sprite = G.GIT( (int) ItemType.Bronze_Trophy ).NSprite.sprite;
                 go.Panel.TrophyIcon.color = new Color( .001f, .001f, .001f, .001f );  // Invisible trophy to avoid the trophy disaligned bug
             }
 
             int id = ( int ) go.BonusItem - 1;                                                                          // Item 1
 
             if( go.BonusItem != ItemType.NONE )
-                go.Panel.Prize1Icon.sprite2D =
-                G.GIT( go.BonusItem ).NSprite.sprite;
+            {
+                go.Panel.Prize1Icon.collection = ESpriteCol.ITEM; // importante!
+                go.Panel.Prize1Icon.spriteId = G.GIT( go.BonusItem ).NSprite.TkSpriteId;
+            }
             float bonus = go.GetStat( EGoalUpgradeType.ITEM );
             go.Panel.Prize1Label.text = "x" + bonus;      
 
@@ -1527,7 +1544,7 @@ public class DungeonDialog : MonoBehaviour
             go.Panel.Prize1Label.gameObject.SetActive( icon );
                                                                                      
             if( go.BonusItem2 != ItemType.NONE )                                                                           // Item 2
-                go.Panel.Prize2Icon.sprite2D =
+                go.Panel.Prize2Icon.sprite =
                 G.GIT( go.BonusItem2 ).NSprite.sprite;
             bonus = go.GetStat( EGoalUpgradeType.ITEM2 );
             go.Panel.Prize2Label.text = "x" + bonus;
@@ -1543,12 +1560,12 @@ public class DungeonDialog : MonoBehaviour
             {
                 if( go.TargetBluePrint.AffectedItem != ItemType.NONE )
                 {
-                    go.Panel.Prize2BackIcon.sprite2D =
+                    go.Panel.Prize2BackIcon.sprite =
                     G.GIT( go.TargetBluePrint.AffectedItem ).NSprite.sprite;
                     go.Panel.Prize2BackIcon.gameObject.SetActive( true );
                 }
 
-                go.Panel.Prize2Icon.sprite2D =
+                go.Panel.Prize2Icon.sprite =
                 G.GIT( ItemType.BluePrint_Image_1 ).NSprite.sprite;
 
                 if( go.TargetBluePrint.GeneratedBuilding != BuildingType.NONE )
@@ -1573,11 +1590,11 @@ public class DungeonDialog : MonoBehaviour
 
             if( go.TargetRecipe != null )                                                                            // BluePrint Bonus
             {
-                go.Panel.Prize2BackIcon.sprite2D =
+                go.Panel.Prize2BackIcon.sprite =
                 G.GIT( go.TargetRecipe.Generated_Item_1 ).NSprite.sprite;
                 go.Panel.Prize2BackIcon.gameObject.SetActive( true );                
                 go.Panel.Prize2Icon.color = Color.white;
-                go.Panel.Prize2Icon.sprite2D =
+                go.Panel.Prize2Icon.sprite =
                 G.GIT( ItemType.Recipe_Image_1 ).NSprite.sprite;
                 bonus = go.GetStat( EGoalUpgradeType.RECIPE_BONUS );
                 go.Panel.Prize2Label.text = "x" + bonus;
@@ -1586,18 +1603,6 @@ public class DungeonDialog : MonoBehaviour
                 go.Panel.Prize2Icon.gameObject.SetActive( icon );
                 go.Panel.Prize2Label.gameObject.SetActive( icon );
             }
-
-            icon = false;
-            if( go.ConditionItem != ItemType.NONE )                                                                 // Item Requirement
-            {
-                icon = true;
-                go.Panel.RequirementIcon.sprite2D =
-                G.GIT( go.ConditionItem ).NSprite.sprite;
-                go.Panel.RequirementLabel.text = "x" + go.ConditionItemAmount;
-            }
-
-            go.Panel.RequirementIcon.gameObject.SetActive( icon );                                                  
-            go.Panel.RequirementLabel.gameObject.SetActive( icon );
 
             if( force && panelOk == false )                                                                        // UI panel goal update
             if( go.Conquered == false )
@@ -1748,6 +1753,9 @@ public class DungeonDialog : MonoBehaviour
         }
 
         Map.I.RM.RMD.GoalList = rl.ToArray();
+
+
+        InitializeGoalPanels();
 
         if( Map.I.RM.RMD.GoalList.Length > PanelList.Length)
             G.Error( "Map.I.RM.RMD.GoalList.Length > PanelList.Length - create more panels" );

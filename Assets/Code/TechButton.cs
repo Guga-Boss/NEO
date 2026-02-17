@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
 using UnityEngine.UI;
+using TMPro;
 
 public class TechButton : MonoBehaviour
 {
@@ -10,10 +11,9 @@ public class TechButton : MonoBehaviour
     public GameObject Graphic, Connections;
     public AdventureUpgradeInfo[] UpgradeList;
     public Button ClickButton;
-    public UILabel DescriptionLabel, UnlockCostLabel, RecurringLabel;
-    public UI2DSprite DescriptionSprite, UnlockCostSprite;
-    public UISprite BackSprite, LineUP, LineDOWN, LineLEFT, LineRIGHT;
-    public List<UISprite> TechArrowListUP, TechArrowListDOWN, TechArrowListLEFT, TechArrowListRIGHT;
+    public TextMeshPro DescriptionLabel, UnlockCostLabel, RecurringLabel;
+    public NSprite DescriptionSprite, UnlockCostSprite, BackSprite, LineUP, LineDOWN, LineLEFT, LineRIGHT;
+    public List<NSprite> TechArrowListUP, TechArrowListDOWN, TechArrowListLEFT, TechArrowListRIGHT;
     public static TechButton[ , ] Button;
     public static int SX = 6;
     public static int SY = 4;
@@ -233,6 +233,7 @@ public class TechButton : MonoBehaviour
         LineUP.gameObject.SetActive( up );
         TechArrowListUP[ 0 ].gameObject.transform.parent.gameObject.SetActive( up );
         LineDOWN.gameObject.SetActive( down );
+
         TechArrowListDOWN[ 0 ].gameObject.transform.parent.gameObject.SetActive( down );
         DescriptionLabel.text = "" + x + " " + y;
 
@@ -301,7 +302,7 @@ public class TechButton : MonoBehaviour
         UpdateMatrix = false;
     }
 
-    public static void UpdateAdventureUpgrade( int techX, int techY, bool purchase, ref UILabel label, ref UILabel costlabel, ref Button btn, ref UI2DSprite spr )
+    public static void UpdateAdventureUpgrade( int techX, int techY, bool purchase, ref TextMeshPro label, ref TextMeshPro costlabel, ref Button btn, ref NSprite spr )
     {
         DungeonDialog dd = Map.I.RM.DungeonDialog;
         costlabel.transform.parent.gameObject.SetActive( true );
@@ -636,16 +637,16 @@ public class TechButton : MonoBehaviour
 
             label.color = col;
 
-            spr.sprite2D = G.GIT( costItem ).NSprite.sprite;                                                            // Updates Cost Sprite        
+            spr.sprite = G.GIT( costItem ).NSprite.sprite;                                                            // Updates Cost Sprite        
 
             if( techX != -1 )
             {
-                bt.BackSprite.width = bt.BackSprite.height = 141;
+                // bt.BackSprite.sc = bt.BackSprite.height = 141;
                 bt.BackSprite.spriteName = "Perk Dark Background";                                                      // Tech Back Sprite type
                 if( au.TechScope == ETechScope.All_Quests )
                 {
                     bt.BackSprite.spriteName = "Global Tech";
-                    bt.BackSprite.width = bt.BackSprite.height = 155;
+                    //bt.BackSprite.width = bt.BackSprite.height = 155;
                 }
             }
 
@@ -706,11 +707,11 @@ public class TechButton : MonoBehaviour
     public static void UpgradeButtonIcon( AdventureUpgradeInfo au, TechButton bt )
     {
         DungeonDialog dd = Map.I.RM.DungeonDialog;
-        bt.DescriptionSprite.sprite2D = dd.SpriteList[ 0 ].sprite2D;
+        bt.DescriptionSprite.sprite = dd.SpriteList[ 0 ].sprite2D;
         switch( au.UpgradeType )
         {
             case EAdventureUpgradeType.UPGRADE_PACKMULE:
-            bt.DescriptionSprite.sprite2D = dd.SpriteList[ 1 ].sprite2D;
+            bt.DescriptionSprite.sprite = dd.SpriteList[ 1 ].sprite2D;
             break;
         }
         int icon = -1;
@@ -735,7 +736,7 @@ public class TechButton : MonoBehaviour
         if( au.UpgradeType == EAdventureUpgradeType.SPAWN_BUTCHER_CHANCE )
             icon = ( int ) ItemType.Butcher_Level;
         if( icon >= 0 ) 
-            bt.DescriptionSprite.sprite2D = G.GIT( icon ).NSprite.sprite;
+            bt.DescriptionSprite.sprite = G.GIT( icon ).NSprite.sprite;
     }
 
     public void OnTechButtonPress()

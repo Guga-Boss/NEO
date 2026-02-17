@@ -67,7 +67,8 @@ public class LevelIntro : MonoBehaviour
         Map.I.Farm.BuildingUI.gameObject.SetActive( false );
         UI.I.BackgroundUI.gameObject.SetActive( false );
         if( Input.GetKeyDown( KeyCode.F ) ) GoToTheFarm();                                     // Farm Shortcut
-        if( Input.GetKeyDown( KeyCode.C ) ) GoToTheCubes();                                    // Cubes Shortcut
+        if( Input.GetKeyDown( KeyCode.C ) ) GoToTheCubes(); else                               // Cubes Shortcut
+        if( Input.GetKeyDown( KeyCode.Return ) ) GoToTheCubes();                               // Cubes Shortcut
         if( Input.GetKeyDown( KeyCode.Escape ) )
             Manager.I.GoToMainMenu( true );                                                    // Main Menu Shortcut
 

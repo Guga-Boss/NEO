@@ -2198,7 +2198,7 @@ public class RandomMap : MonoBehaviour
         }
 
         if( Input.GetKeyDown( KeyCode.Return ) || QuickRestart ||          
-            UI.I.RestartAreaButton.state == UIButtonColor.State.Pressed ) 
+            Util.IsPressed( UI.I.RestartAreaButton ) )
         {
             if( ( GameOver || Map.I.Hero.Body.Hp <= 0 ) && DungeonDialog.gameObject.activeSelf )
             {
@@ -2213,8 +2213,8 @@ public class RandomMap : MonoBehaviour
                 UI.I.ScrollText.gameObject.SetActive( false );
                 UI.I.ScrollText.text = "";
             }
-            if( UI.I.RestartAreaButton.state == UIButtonColor.State.Pressed )
-                UI.I.RestartAreaButton.SetState( UIButtonColor.State.Normal, true );
+            //ggggif( UI.I.RestartAreaButton.state == UIButtonColor.State.Pressed )
+            //    UI.I.RestartAreaButton.SetState( UIButtonColor.State.Normal, true );
         }
         return DungeonDialog.gameObject.activeSelf;
     }

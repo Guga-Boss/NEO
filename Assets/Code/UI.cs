@@ -3,36 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using PathologicalGames;
 using System.IO;
+using TMPro;
+using UnityEngine.UI;
 
 public class UI : MonoBehaviour
 {
     #region Variables
     public static UI I;
-    public UILabel HeroHpText, LevelText, EnterAreaTxt, AreasText, ArtifactsText, GameLevelText, 
-        TurnInfoLabel, MapLabel, UseButtonLabel, LosttHPLabel, BigTextHelpLabel, BigMessageText, QuestCompletitionLabel,
-        ArtifactInfoLabel, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, NavigationMapText, NavigationMapText2;
+    public UILabel LevelText, EnterAreaTxt, 
+        TurnInfoLabel, MapLabel, UseButtonLabel, LosttHPLabel, BigTextHelpLabel, BigMessageText;
     public int TurnInfoLabelCount = 0;
-	public UISlider UnitHealthBar, QuestCompletitionBar;
-    public UI2DSprite PerkInfoIcon, HorseIcon, MessageBoxIcon, MessageBoxIcon2, OverlaySprite, BackgroundUI;
+
+    public TextMeshPro ArtifactsText, AreasText, HeroHpText, GameLevelText, PerkInfoLevelLabel, ArtifactInfoLabel, ScrollText,
+    NavigationMapText, NavigationMapText2, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, QuestCompletitionLabel, RestartAreaButtonLabel;
+
+    public UISlider UnitHealthBar, QuestCompletitionBar;
+    public UI2DSprite MessageBoxIcon, MessageBoxIcon2;
     public GameObject PerkInfoIconBack, UIFolder, GoalIcons;
-	public UI2DSprite[] Stars;
-    public UILabel PerkInfoTitleText, PerkInfoDescriptionText, PerkInfoTargetHeroText, ScrollText, FreeCamModeLabel, ErrorMessageLabel, 
-                   DebugLabel, MessageBoxTextLabel, MessageBoxTextLabel2, MessageBoxLevelLabel, PerkInfoLevelLabel;
+	public NSprite[] Stars;
+    public UILabel PerkInfoTitleText, PerkInfoDescriptionText, PerkInfoTargetHeroText, FreeCamModeLabel, ErrorMessageLabel, 
+                   DebugLabel, MessageBoxTextLabel, MessageBoxTextLabel2, MessageBoxLevelLabel;
     public UIButton RepeatButton, ZoomButton, FreeCamButton, ArtifactSeekButton, AreaSeekButton, GridButton, CompareHeroButton, 
-        KadeWaitButton, RestartAreaButton, BattleButton, UseAbilityButton, PerkInfoButton;
+        KadeWaitButton, BattleButton, UseAbilityButton, PerkInfoButton;
+    public Button RestartAreaButton;
     public List<Perk> PerkList;
     public GameObject PerkModel, PerkInfoPanel, PerksFolder, PerksListFolder, SkullImage, Menu, HpPanel, PerksPanel, MessageBox, FarmUI, InventoryTarget, NavigationMapUI;
     public int NumGamePerk, NumLevelPerk, NumAreaPerk, LevelFactor;
     public Perk MushroomPerk, DestroyBarricadePerk, MonsterPushPerk, MonsterPressurePerk;
 	public Unit SelUnit, CompareHero;
 	public UIGrid Grid, ResourcesGrid;
-    public UISprite ScrollBack, MidPanelSprite;
-	public UI2DSprite InfoIcon;
+    public UISprite ScrollBack;
+	public NSprite InfoIcon, PerkInfoIcon, MidPanelSprite, HorseIcon, BackgroundUI, OverlaySprite;
     public Camera UICamera;
     public float TempSelectedPerkTimer, RKeyPressTimeCount;
 	public EPerkType TempSelectedPerk, SelectedPerk;
 	public Vector2 LockedTile;
-	public UI2DSprite[] PortraitList;
+	public NSprite[] PortraitList;
 	public int ActiveCompareHeroID, ArtifactLevelDifference;
     public tk2dTextMesh LoadingLevelText;
     public string AttackDescription, AttackType, AmbushInfo, CorneringInfo, SurplusInfo, SprinterInfo;
@@ -168,17 +174,17 @@ public class UI : MonoBehaviour
 		for( int i = 0; i < PerkList.Count; i++ )
         if( PerkList[ i ] )
 		{
-            if( PerkList[ i ].Button.state == UIButtonColor.State.Pressed )
-			{
-				SelectedPerk = ( EPerkType ) i;
-                LastClickedPerk = SelectedPerk;
-                PerkInfoIconBack.gameObject.SetActive( true );
-                PerkInfoDescriptionText.transform.localPosition = new Vector3( -118, -113f, 0f );
-                PerkInfoDescriptionText.color = Color.white;
-                ArtifactLevelDifference = 0;
-			}
-
-			if( PerkList[ i ].Button.state == UIButtonColor.State.Hover   ) sel = i;
+   //gggg         if( PerkList[ i ].Button.state == UIButtonColor.State.Pressed )
+			//{
+			//	SelectedPerk = ( EPerkType ) i;
+   //             LastClickedPerk = SelectedPerk;
+   //             PerkInfoIconBack.gameObject.SetActive( true );
+   //             PerkInfoDescriptionText.transform.localPosition = new Vector3( -118, -113f, 0f );
+   //             PerkInfoDescriptionText.color = Color.white;
+   //             ArtifactLevelDifference = 0;
+			//}
+//
+		//	if( PerkList[ i ].Button.state == UIButtonColor.State.Hover   ) sel = i;
         }
         
 		if( sel == -1 ) sel = ( int ) SelectedPerk;
@@ -349,8 +355,8 @@ public class UI : MonoBehaviour
                 if( SelectedPerk == EPerkType.NONE ) PerkInfoIconBack.gameObject.SetActive( false );
                 int iconID = GetIconID( LevelFactor, SelectedPerk );
 
-                if( PerkList[ ( int ) SelectedPerk ].Sprite[ iconID ] != null )
-                    InfoIcon.sprite2D = PerkList[ ( int ) SelectedPerk ].Sprite[ iconID ].sprite2D;
+                //ggggif( PerkList[ ( int ) SelectedPerk ].Sprite[ iconID ] != null )
+                //    InfoIcon.sprite = PerkList[ ( int ) SelectedPerk ].Sprite[ iconID ].sprite;
 
                 if( PerkList[ ( int ) SelectedPerk ].Sprite[ iconID ] != null )
                 {
@@ -1022,7 +1028,7 @@ public class UI : MonoBehaviour
 
     public void UpdateAllTranslations()
     {
-        RestartAreaButton.GetComponentInChildren<UILabel>().text = Language.Get( "RESTART_BUTTON" );
+        RestartAreaButtonLabel.text = Language.Get( "RESTART_BUTTON" );
         FreeCamButton.GetComponentInChildren<UILabel>().text = Language.Get( "FREECAMERA_BUTTON" );
         GridButton.GetComponentInChildren<UILabel>().text = Language.Get( "GRID_BUTTON" );
         ArtifactSeekButton.GetComponentInChildren<UILabel>().text = Language.Get( "ARTIFACTSEEK_BUTTON" );

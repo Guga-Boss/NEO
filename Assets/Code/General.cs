@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Util
@@ -1474,7 +1475,14 @@ public class Util
             CopyDirectory( directory, destSubDir );
         }
     }
-    internal static bool IsHovered( UnityEngine.UI.Button button )
+    internal static bool IsPressed( UnityEngine.UI.Button button )
+    {
+        if( IsHovered( button ) )   
+        if( Mouse.current.leftButton.wasPressedThisFrame )       
+            return true;
+        return false;
+    }
+internal static bool IsHovered( UnityEngine.UI.Button button )
     {
         // Proteção contra o NullReference que apareceu no seu console
         if( button == null || button.targetGraphic == null ) return false;
@@ -1483,8 +1491,7 @@ public class Util
         return button.IsActive() && button.IsInteractable() &&
                UnityEngine.RectTransformUtility.RectangleContainsScreenPoint(
                    button.targetGraphic.rectTransform,
-                   UnityEngine.Input.mousePosition,
-                   null // Use null para Canvas em modo Overlay
+                   UnityEngine.Input.mousePosition, UI.I.UICamera
                );
     }
 }

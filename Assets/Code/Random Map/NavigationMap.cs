@@ -108,7 +108,7 @@ public class NavigationMap : MonoBehaviour
         }
 
         if( Input.GetKeyDown( KeyCode.M ) || 
-            UI.I.RestartAreaButton.state == UIButtonColor.State.Pressed )                                   // Exit Shortcut
+           Util.IsPressed( UI.I.RestartAreaButton ) )                                                       // Exit Shortcut
             ExitNavigationMap();
 
         UpdateDebug();

@@ -1,18 +1,19 @@
 ﻿using Sirenix.OdinInspector;
 using System.Collections;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class RandomMapObjectivePanel: MonoBehaviour
 {
-    public UILabel DescriptionLabel, CurrentNumberLabel, Prize1Label, Prize2Label,
+    public TextMeshPro DescriptionLabel, CurrentNumberLabel, Prize1Label, Prize2Label,
                    UpgradePriceAmountLabel, UpgradeBonusAmountLabel, UpgradeButtonLabel,
-                   UpgradeBonusLabel, RequirementLabel;
-    public UI2DSprite Prize1Icon, Prize2Icon, Prize2BackIcon, TrophyIcon, UpgradePriceIcon,
-    UpgradeBonusIcon, RequirementIcon;
-    public UISprite CheckBoxSprite, CheckBoxBackSprite;
-    public UIButton Button, UpgradeButton;
+                   UpgradeBonusLabel;
+    public NSprite Prize1Icon, Prize2Icon, Prize2BackIcon, TrophyIcon, UpgradePriceIcon,
+    UpgradeBonusIcon;
+    public NSprite CheckBoxSprite, CheckBoxBackSprite;
+    public Button Button, UpgradeButton;
     public RandomMapGoal Goal;
 
     public void OnUpgradeObjectiveButtonPress()
@@ -24,10 +25,10 @@ public class RandomMapObjectivePanel: MonoBehaviour
     {
         Prize1Label.text = pan.Prize1Label.text;
         Prize2Label.text = pan.Prize2Label.text;
-        Prize1Icon.sprite2D = pan.Prize1Icon.sprite2D;
-        Prize2Icon.sprite2D = pan.Prize2Icon.sprite2D;
+        Prize1Icon.sprite = pan.Prize1Icon.sprite;
+        Prize2Icon.sprite = pan.Prize2Icon.sprite;
         Prize2Icon.color = pan.Prize2Icon.color;
-        Prize2BackIcon.sprite2D = pan.Prize2BackIcon.sprite2D;
+        Prize2BackIcon.sprite = pan.Prize2BackIcon.sprite;
         Prize1Label.gameObject.SetActive( pan.Prize1Label.gameObject.activeSelf );
         Prize2Label.gameObject.SetActive( pan.Prize2Label.gameObject.activeSelf );
         Prize1Icon.gameObject.SetActive( pan.Prize1Icon.gameObject.activeSelf );
@@ -45,12 +46,5 @@ public class RandomMapObjectivePanel: MonoBehaviour
 
         Prize1Label.transform.parent.gameObject.SetActive( ok1 );
         Prize2Label.transform.parent.gameObject.SetActive( ok2 );
-    }
-
-
-    [Button( "FINAL CONVERT (INSTANCE ONLY)" ), GUIColor( 0, 0.8f, 1f )]
-    public static void Finalize( tk2dSprite tkSprite )
-    {
-      
     }
 }

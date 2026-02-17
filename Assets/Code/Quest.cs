@@ -180,7 +180,7 @@ public class Quest : MonoBehaviour
                 "\nAction: " + ar.ActionDescription + "\n\nLifetime: " + ar.LifeTime;                                                                  // Display Message
             if( ar.TargetUnitName ) UI.I.MessageBoxTextLabel.text += "\nTarget Hero: " + ar.TargetUnitName.text;
 
-            UI.I.MessageBoxIcon.sprite2D = UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ 0 ].sprite2D;
+            UI.I.MessageBoxIcon.sprite2D = UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ 0 ].sprite;
             UI.I.ScrollText.gameObject.SetActive( false );
             UI.I.ScrollText.text = "";
             
@@ -213,7 +213,7 @@ public class Quest : MonoBehaviour
             int iconID = UI.I.GetIconID( fact, ar.PerkType );
 
             if( UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ iconID ] != null )
-                UI.I.MessageBoxIcon2.sprite2D = UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ iconID ].sprite2D;
+                UI.I.MessageBoxIcon2.sprite2D = UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ iconID ].sprite;
 
             MasterAudio.PlaySound3DAtVector3( "Artifact collected", transform.position );
             UI.I.TurnInfoLabel.text = "Artifact Found: " + ar.ArtifactName + " " + UI.I.MessageBoxLevelLabel.text + "\nBonus Granted: " + UI.I.MessageBoxTextLabel2.text;

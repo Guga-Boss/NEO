@@ -837,8 +837,8 @@ public partial class Unit : MonoBehaviour
         if( UnitType == EUnitType.HERO )
         {
             Control.AnimationOrigin = new Vector3( Pos.x, Pos.y, 0 );
-            Spr.transform.localPosition = new Vector3( 0, 0, 
-            Spr.transform.localPosition.z );
+            NSpr.transform.localPosition = new Vector3( 0, 0, 
+            NSpr.transform.localPosition.z );
             RotateTo( Dir );
         }
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NSprite: MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class NSprite: MonoBehaviour
     public bool preserveAspect = true;
 
     public SpriteRenderer Render;
+    public Image Image;
 
 #if UNITY_EDITOR
     // Altere a linha 38 para:
@@ -50,8 +52,14 @@ public class NSprite: MonoBehaviour
 #endif
 
     [BoxGroup("Layout")]
-    [OnValueChanged("UpdateVisuals")]
+    [OnValueChanged("SyncSpriteFromId")] // Agora chama a função que busca o ID
     public int TkSpriteId = -1;
+
+    // Função nova adicionada:
+    private void SyncSpriteFromId()
+    {
+        spriteId = TkSpriteId; // Dispara a lógica da propriedade spriteId
+    }
 
     private void OnColChanged()
     {
@@ -80,14 +88,15 @@ public class NSprite: MonoBehaviour
         UpdateVisuals();
     }
 
-    private int _spriteId;
+    private int _spriteId = -2; // Valor impossível para garantir que o primeiro load ocorra
     public int spriteId
     {
         get => _spriteId;
         set
         {
-            if( _spriteId == value ) return;
+            if( value == _spriteId ) return; // Otimização
             _spriteId = value;
+            TkSpriteId = value; // Mantém o Inspector atualizado
 
             if( IDM.I == null || collection == ESpriteCol.NONE ) return;
 
@@ -98,14 +107,37 @@ public class NSprite: MonoBehaviour
                 spriteName = sp.name;
                 UpdateVisuals();
             }
+            else
+            {
+                Debug.LogWarning( $"[NSprite] Sprite ID {value} não encontrado na coleção {collection}" );
+            }
         }
     }
-
+    private void ValidateButtonSupport()
+    {
+        // Se tem Botão mas não tem alvo para o mouse...
+        var btn = GetComponent<Button>();
+        if( btn != null && btn.targetGraphic == null )
+        {
+            // ...cria ou busca uma Image
+            var img = GetComponent<Image>();
+            if( img == null )
+            {
+                img = gameObject.AddComponent<Image>();
+                img.color = new Color( 0, 0, 0, 0 ); // Transparente
+                img.raycastTarget = true;          // Detectável pelo Mouse
+            }
+            btn.targetGraphic = img; // Conecta ao botão
+        }
+    }
     public void UpdateVisuals()
     {
         if( this == null || Render == null ) return; // previne chamadas em objetos destruído
-        if( Render == null ) Render = GetComponent<SpriteRenderer>(); // bug aqui
+        if( Render == null ) Render = GetComponent<SpriteRenderer>();
         if( Render == null ) Render = gameObject.AddComponent<SpriteRenderer>();
+
+        // Chama a correção do botão logo em seguida
+        ValidateButtonSupport();
 
         if( sprite == null ) return;
 

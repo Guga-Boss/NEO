@@ -53,7 +53,7 @@ public class IDM: SerializedMonoBehaviour
     {
         EditorApplication.delayCall += () =>
         {
-            if( Application.isPlaying ) return;
+            //if( Application.isPlaying ) return;
             GameObject go = GameObject.Find("IDM");
             if( go != null ) I = go.GetComponent<IDM>();
         };

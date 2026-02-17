@@ -7,6 +7,8 @@ using System.IO;
 using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
 using System.Linq;
+using UnityEngine.UIElements;
+
 
 
 #if UNITY_EDITOR
@@ -72,7 +74,7 @@ public partial class Farm : MonoBehaviour
     [TabGroup( "Main" )]
     public EItemCategory CurrentToolbar = EItemCategory.Resource;
     [TabGroup( "Link" )]
-    public UIButton[] ToolbarButtons;
+    public UnityEngine.UI.Button[] ToolbarButtons;
     [TabGroup( "Link" )]
     public UILabel FreePlantButtonTxt, OldBlueprintButtonText;
     [TabGroup( "Main" )]
@@ -953,6 +955,28 @@ public partial class Farm : MonoBehaviour
 
     public void UpdateListsCallBack()
     {
+
+
+        Map.I.RM.DungeonDialog.StudiesGO.gameObject.SetActive( true );
+
+        Map.I.TB = Map.I.RM.DungeonDialog.TechButtonsGO
+            .GetComponentsInChildren<TechButton>( true );
+
+        int columns = 6;
+
+        for( int i = 0; i < Map.I.TB.Length; i++ )
+        {
+            int x = i / columns;   // linha
+            int y = i % columns;   // coluna
+
+            Map.I.TB[ i ].X = x;
+            Map.I.TB[ i ].Y = y;
+        }
+
+        Map.I.RM.DungeonDialog.StudiesGO.gameObject.SetActive( false );
+
+        return;
+
         //GameObject go = GameObject.Find( "BluePrint List" );        its being done manually now
         //Blueprint[] bp = go.GetComponentsInChildren<Blueprint>();
         //BluePrintList.Clear();
@@ -962,7 +986,6 @@ public partial class Farm : MonoBehaviour
         Map.I = GameObject.Find( "----------------Map" ).GetComponent<Map>();
         RandomMap rm = GameObject.Find( "----------------Random Map----------------" ).
         GetComponent<RandomMap>();
-        rm.DungeonDialog.UpdatePanels();
         Manager.I = GameObject.Find( "----------------Game Manager---------" ).GetComponent<Manager>();
         Map.I.RM = rm;
         GameObject go = GameObject.Find( "----------------Navigation Map" );
@@ -1140,9 +1163,7 @@ public partial class Farm : MonoBehaviour
             for( int u = 0; u < rmd.AdventureUpgradeInfoList.Length; u++ )                                                    // Updates Adventure upgrade obj name
                 rmd.AdventureUpgradeInfoList[ u ].UpdateGameObjectText();
 
-            Map.I.RM.DungeonDialog.StudiesGO.gameObject.SetActive( true );
-            Map.I.TB = Map.I.RM.DungeonDialog.TechButtonsGO.GetComponentsInChildren<TechButton>();
-            Map.I.RM.DungeonDialog.StudiesGO.gameObject.SetActive( false );
+
 
             #region Tech Button Adjust
             //for( int tt = 0; tt < Map.I.TB.Length; tt++ )    //use this to adjust tech button stuff

@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using System.IO;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Inventory : MonoBehaviour {
 
@@ -44,7 +45,7 @@ public class Inventory : MonoBehaviour {
 
         for( int i = 0; i < G.Farm.ToolbarButtons.Length; i++ )                                        // Toolbar Switching
         {
-            if( G.Farm.ToolbarButtons[ i ].state == UIButtonColor.State.Pressed )
+            if( Util.IsPressed( G.Farm.ToolbarButtons[ i ] ) )
             {
                 G.Farm.CurrentToolbar = ( EItemCategory ) i;
                 Map.I.InvalidateInputTimer = .5f;

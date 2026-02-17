@@ -261,7 +261,7 @@ private static void LoadProfile()
 #endif 
         //if( Input.GetKeyDown( KeyCode.Space ) ) UI.I.ToggleMenu();
         if( Input.GetKeyDown( KeyCode.F2 ) || 
-            UI.I.RestartAreaButton.state == UIButtonColor.State.Pressed )
+           Util.IsPressed( UI.I.RestartAreaButton ) )
         {
             if( GameType == EGameType.FARM )
             {
