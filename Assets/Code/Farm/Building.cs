@@ -939,7 +939,8 @@ public class Building : MonoBehaviour
                     SelItemSprite.transform.eulerAngles = new Vector3( 0, 0, rot );
                 }
                 else id = ( int ) Itm[ SelItemID ].ItemType;
-                SelItemSprite.spriteId = ( int ) G.GIT( id ).NSprite.spriteId;                 // set sprite ID
+                SelItemSprite.collection = ESpriteCol.ITEM;
+                SelItemSprite.spriteId = ( int ) G.GIT( id ).NSprite.TkSpriteId;                 // set sprite ID
             }
         }
 

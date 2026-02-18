@@ -25,7 +25,12 @@ public class NSprite: MonoBehaviour
     public Color color
     {
         get => baseColor;
-        set { baseColor = value; UpdateVisuals(); }
+        set
+        {
+            baseColor = value;
+            if( Image ) Image.color = baseColor;
+            if( Render ) Render.color = baseColor;
+        }
     }
 
     [BoxGroup("Layout")]
@@ -94,7 +99,7 @@ public class NSprite: MonoBehaviour
         get => _spriteId;
         set
         {
-            if( value == _spriteId ) return; // Otimização
+           // if( value == _spriteId ) return; // Otimização
             _spriteId = value;
             TkSpriteId = value; // Mantém o Inspector atualizado
 
@@ -132,6 +137,26 @@ public class NSprite: MonoBehaviour
     }
     public void UpdateVisuals()
     {
+        if( Image )
+        {
+            //Image.sprite = sprite;
+            //Image.color = baseColor;
+            //if( sprite == null ) return;
+            //spriteName = sprite.name;
+            //Image.type = Image.Type.Sliced;
+            //Vector2 nativeSize = sprite.bounds.size;
+            //if( preserveAspect && nativeSize.y != 0 )
+            //{
+            //    float ratio = nativeSize.x / nativeSize.y;
+            //    Image.rectTransform.sizeDelta = new Vector2( nativeSize.x * scale.x, ( nativeSize.x * scale.x ) / ratio );
+            //}
+            //else
+            //{
+            //    Image.rectTransform.sizeDelta = new Vector2( nativeSize.x * scale.x, nativeSize.y * scale.y );
+            //}
+            return;
+        }
+
         if( this == null || Render == null ) return; // previne chamadas em objetos destruído
         if( Render == null ) Render = GetComponent<SpriteRenderer>();
         if( Render == null ) Render = gameObject.AddComponent<SpriteRenderer>();
@@ -139,10 +164,9 @@ public class NSprite: MonoBehaviour
         // Chama a correção do botão logo em seguida
         ValidateButtonSupport();
 
-        if( sprite == null ) return;
-
         Render.sprite = sprite;
         Render.color = baseColor;
+        if( sprite == null ) return;
         spriteName = sprite.name;
 
         Render.drawMode = SpriteDrawMode.Sliced;

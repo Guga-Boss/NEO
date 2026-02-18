@@ -8,6 +8,8 @@ using DarkTonic.MasterAudio;
 using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine.UIElements;
+using TMPro;
+
 
 
 
@@ -42,7 +44,9 @@ public partial class Farm : MonoBehaviour
     [TabGroup( "Main" )]
     public ItemType NextMonsterType;
     [TabGroup( "Link" )]
-    public UILabel BluePrintLabel, BuildingLabel, BuildingDescription; 
+    public UILabel BluePrintLabel;
+    [TabGroup( "Link" )]
+    public TextMeshPro BuildingDescription, BuildingLabel;
     [TabGroup( "Main" )]
     public ItemType SelectedItem;
     [TabGroup( "Main" )]
@@ -76,8 +80,8 @@ public partial class Farm : MonoBehaviour
     [TabGroup( "Link" )]
     public UnityEngine.UI.Button[] ToolbarButtons;
     [TabGroup( "Link" )]
-    public UILabel FreePlantButtonTxt, OldBlueprintButtonText;
-    [TabGroup( "Main" )]
+    public TextMeshPro NewPlantButtonTxt, OldBlueprintButtonText;
+    [ TabGroup( "Main" )]
     public int FarmSize;
     [TabGroup( "Main" )]
     public Vector2 FarmLimit = new Vector2( 30, 30 );

@@ -753,16 +753,16 @@ public class MapSaver : MonoBehaviour
             UI.I.PerkInfoIconBack.gameObject.SetActive( false );
             UI.I.PerkInfoDescriptionText.color = Color.green;
             UI.I.PerkInfoDescriptionText.transform.localPosition = new Vector3( -160f, -113f, 0f );
-            UI.I.PerkInfoDescriptionText.width = 406;
-            UI.I.PerkInfoDescriptionText.height = 148;
+            //ggggUI.I.PerkInfoDescriptionText.width = 406;
+            //UI.I.PerkInfoDescriptionText.height = 148;
             UI.I.PerkInfoTitleText.text = title;
         }
         else
         {
             UI.I.SelectedPerk = EPerkType.MOVEMENTLEVEL;
             UI.I.PerkInfoDescriptionText.transform.localPosition = new Vector3( -118, -113f, 0f );
-            UI.I.PerkInfoDescriptionText.width = 314;
-            UI.I.PerkInfoDescriptionText.height = 148;
+            //UI.I.PerkInfoDescriptionText.width = 314;
+            //UI.I.PerkInfoDescriptionText.height = 148;
             UI.I.PerkInfoDescriptionText.text = msg;
             UI.I.PerkInfoTitleText.text = title;
             UI.I.ForceUpdateUI = true;

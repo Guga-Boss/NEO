@@ -15,14 +15,15 @@ public class UI : MonoBehaviour
     public int TurnInfoLabelCount = 0;
 
     public TextMeshPro ArtifactsText, AreasText, HeroHpText, GameLevelText, PerkInfoLevelLabel, ArtifactInfoLabel, ScrollText,
-    NavigationMapText, NavigationMapText2, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, QuestCompletitionLabel, RestartAreaButtonLabel;
+    NavigationMapText, NavigationMapText2, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, QuestCompletitionLabel, 
+    RestartAreaButtonLabel, PerkInfoDescriptionText, PerkInfoTitleText, DebugLabel;
 
     public UISlider UnitHealthBar, QuestCompletitionBar;
     public UI2DSprite MessageBoxIcon, MessageBoxIcon2;
     public GameObject PerkInfoIconBack, UIFolder, GoalIcons;
 	public NSprite[] Stars;
-    public UILabel PerkInfoTitleText, PerkInfoDescriptionText, PerkInfoTargetHeroText, FreeCamModeLabel, ErrorMessageLabel, 
-                   DebugLabel, MessageBoxTextLabel, MessageBoxTextLabel2, MessageBoxLevelLabel;
+    public UILabel PerkInfoTargetHeroText, FreeCamModeLabel, ErrorMessageLabel, 
+                    MessageBoxTextLabel, MessageBoxTextLabel2, MessageBoxLevelLabel;
     public UIButton RepeatButton, ZoomButton, FreeCamButton, ArtifactSeekButton, AreaSeekButton, GridButton, CompareHeroButton, 
         KadeWaitButton, BattleButton, UseAbilityButton, PerkInfoButton;
     public Button RestartAreaButton;

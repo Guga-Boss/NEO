@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class BluePrintWindow : MonoBehaviour 
 {
@@ -9,7 +10,7 @@ public class BluePrintWindow : MonoBehaviour
     public GameObject WindowFolder1, WindowFolder2, FarmFolder;
     public BluePrintPanel BPPanel1, BPPanel2, FarmPanel;
     public Vector3 OriginalPosition;
-    public UILabel TitleLabel;
+    public TextMeshPro TitleLabel;
     public static bool BothBlueprintsAreNew = false;
         
     public void Start()
@@ -91,7 +92,7 @@ public class BluePrintWindow : MonoBehaviour
     public void OnChoosePlant()
     {
         StartDialog( Blueprint.SelectedBluePrint );
-        G.Farm.FreePlantButtonTxt.transform.parent.gameObject.SetActive( false );
+        G.Farm.NewPlantButtonTxt.transform.parent.gameObject.SetActive( false );
         Map.I.InvalidateInputTimer = .6f;
     }
 

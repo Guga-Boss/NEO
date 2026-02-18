@@ -14,7 +14,6 @@ public enum EBPIconType
     Bld_Stone_Storage,
     Bld_Wood_Storage
 }
-
 public class Blueprint : MonoBehaviour
 {
     #region Variables
@@ -221,14 +220,14 @@ public class Blueprint : MonoBehaviour
                 -G.GIT( ItemType.BluePrint_Image_1 ).Count );
             }
 
-            G.Farm.FreePlantButtonTxt.transform.parent.gameObject.SetActive( false );                        // Update Choose Plant Button
+            G.Farm.NewPlantButtonTxt.transform.parent.gameObject.SetActive( false );                        // Update Choose Plant Button
 
             if( SelectedBluePrint.FreePlants >= 1 )
             {
                 int num = ( int ) SelectedBluePrint.FreePlants;
                 if( num > 99 ) num = 99;
-                G.Farm.FreePlantButtonTxt.transform.parent.gameObject.SetActive( true );
-                G.Farm.FreePlantButtonTxt.text = "+" + num;
+                G.Farm.NewPlantButtonTxt.transform.parent.gameObject.SetActive( true );
+                G.Farm.NewPlantButtonTxt.text = "+" + num;
             }
         }
         BluePrintWindow.UpdateIt();
