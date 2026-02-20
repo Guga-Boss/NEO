@@ -164,28 +164,32 @@ public class MyTilemap: SerializedMonoBehaviour
     {
         if( s == null ) return -1;
 
-        // 1. Extrair localID do nome: "Tiles 1_4095" -> 4095
-        string name = s.name;
-        int underscore = name.LastIndexOf('_');
-        if( underscore == -1 || !int.TryParse( name.Substring( underscore + 1 ), out int localID ) )
+        // 1. Extrair ID local do nome do sprite
+        string spriteName = s.name;
+        int underscore = spriteName.LastIndexOf('_');
+        if( underscore == -1 || !int.TryParse( spriteName.Substring( underscore + 1 ), out int localID ) )
             return -1;
 
-        // 2. Determinar Quadrante (p)
+        // 2. Determinar Quadrante (p) através da Textura
         int p = 0;
-        string texName = s.texture.name;
-        if( texName.Contains( "Tile 2" ) ) p = 1;      // Direita Cima
-        else if( texName.Contains( "Tile 3" ) ) p = 2; // Esquerda Baixo
-        else if( texName.Contains( "Tile 4" ) ) p = 3; // Direita Baixo
 
-        // 3. Coordenadas locais (64x64)
+        // Pegamos o nome da textura original (Ex: "Tiles 1")
+        string texName = s.texture != null ? s.texture.name : "";
+
+        // Checagem BLINDADA: Evita que o número do tile interfira
+        if( texName.Contains( "Tile 2" ) || texName.Contains( "Tiles 2" ) ) p = 1;
+        else if( texName.Contains( "Tile 3" ) || texName.Contains( "Tiles 3" ) ) p = 2;
+        else if( texName.Contains( "Tile 4" ) || texName.Contains( "Tiles 4" ) ) p = 3;
+        else p = 0; // Padrão é Quadrante 0 (Tiles 1)
+
+        // 3. Coordenadas Locais
         int lx = localID % 64;
         int ly = localID / 64;
 
-        // 4. Coordenadas globais (128x128)
+        // 4. Coordenadas Globais
         int gx = lx + (p % 2) * 64;
         int gy = ly + (p / 2) * 64;
 
-        // Fórmula: $ID = (gy \times 128) + gx$
         return ( gy * 128 ) + gx;
     }
 
@@ -212,7 +216,7 @@ public class MyTilemap: SerializedMonoBehaviour
     }
     public void ChangePalette( string paletteName )
     {
-        // 1. Procura o Asset da Paleta pelo nome
+        // 1. Procura o Asset da Paleta pelo nome 
         // Assume que suas paletas estão em uma pasta "Palettes" ou similar
         string[] guids = AssetDatabase.FindAssets(paletteName + " t:Prefab");
 
@@ -252,12 +256,10 @@ public class MyTilemap: SerializedMonoBehaviour
     public void BakeTileReference()
     {
         spriteToTileMap = new Dictionary<int, TileBase>();
+
+        // Filtro de pastas
         string[] paths = (FoldersToSearch != null && FoldersToSearch.Count > 0) ? FoldersToSearch.ToArray() : null;
         string[] guids = AssetDatabase.FindAssets("t:Tile", paths);
-
-        bool usequadrant = true;
-        if( gameObject.name.Contains( "Trans" ) )
-            usequadrant = false;
 
         foreach( string guid in guids )
         {
@@ -266,17 +268,8 @@ public class MyTilemap: SerializedMonoBehaviour
 
             if( t == null || t.sprite == null ) continue;
 
-            int id;
-            if( usequadrant == false )
-            {
-                // IDs sequenciais para TransTilemap
-                id = spriteToTileMap.Count;
-            }
-            else
-            {
-                // Lógica normal do Watcher
-                id = GetGlobalIDFromSprite( t.sprite );
-            }
+            // SEMPRE use a lógica de quadrantes para manter a compatibilidade 128x128
+            int id = GetGlobalIDFromSprite(t.sprite);
 
             if( id != -1 && !spriteToTileMap.ContainsKey( id ) )
             {
@@ -284,7 +277,7 @@ public class MyTilemap: SerializedMonoBehaviour
             }
         }
 
-        Debug.Log( $"<color=cyan><b>[BAKE]</b></color> Sucesso! {spriteToTileMap.Count} tiles mapeados." );
+        Debug.Log( $"<color=cyan><b>[BAKE]</b></color> Sucesso! {spriteToTileMap.Count} tiles mapeados. Tiles 1_0 agora é ID 0." );
         EditorUtility.SetDirty( this );
     }
 
