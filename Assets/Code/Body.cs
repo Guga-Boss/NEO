@@ -24,11 +24,13 @@ public class Body : MonoBehaviour
     [TabGroup( "Link" )]
     public Unit Unit;
     [TabGroup( "Link" )]
-    public tk2dSprite Shadow;
+    public NSprite Shadow;
     [TabGroup( "Link" )]
     public tk2dSprite ItemMiniDome;
     [TabGroup( "Link" )]
-    public tk2dSprite Sprite2, Sprite3, Sprite4, Sprite5, Sprite6, Sprite7, Sprite8, InfectedSprite, ImmunityDome;
+    public tk2dSprite Sprite3, Sprite4, Sprite5, Sprite6, Sprite7, Sprite8, InfectedSprite, ImmunityDome;
+    [TabGroup( "Link" )]
+    public NSprite Sprite2;
     [TabGroup( "Link" )]
     public tk2dTiledSprite PoleSprite;
     [TabGroup( "Link" )]
@@ -1681,7 +1683,7 @@ public class Body : MonoBehaviour
         float bonus = 0;
         if( attacker.UnitType == EUnitType.HERO && Unit.Control.IsFlyingUnit )                                   // Hero Attacks Dragon
         {
-            float perc = Map.I.GetAngleDamageInPercent( attacker.NSpr.transform.rotation.eulerAngles, 
+            float perc = Map.I.GetAngleDamageInPercent( attacker.Spr.transform.rotation.eulerAngles, 
                          Unit.Spr.transform.rotation.eulerAngles );
             bonus = Util.Percent( perc, 50 );
 
@@ -1710,7 +1712,7 @@ public class Body : MonoBehaviour
         if( attacker.TileID == ETileType.DRAGON1 )  
         if( attacker.Control.IsFlyingUnit && Unit.UnitType == EUnitType.HERO )                                  // Dragon Attacks Hero
         {
-            float perc = Map.I.GetAngleDamageInPercent( Unit.NSpr.transform.rotation.eulerAngles,
+            float perc = Map.I.GetAngleDamageInPercent( Unit.Spr.transform.rotation.eulerAngles,
             attacker.Spr.transform.rotation.eulerAngles );
             bonus = Util.Percent( perc, 50 );
         }
