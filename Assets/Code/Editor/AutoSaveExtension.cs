@@ -1,25 +1,26 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEditor.SceneManagement;
 
 namespace EckTechGames
 {
-    //ggini[InitializeOnLoad]
+    [InitializeOnLoad]
     public class AutoSaveExtension
-	{
-		// Static constructor that gets called when unity fires up.
-		static AutoSaveExtension()
-		{
-			EditorApplication.playmodeStateChanged += AutoSaveWhenPlaymodeStarts;
-		}
+    {
+        static AutoSaveExtension()
+        {
+            EditorApplication.playModeStateChanged += OnPlayModeChanged;
+        }
 
-		private static void AutoSaveWhenPlaymodeStarts()
-		{
-			// If we're about to run the scene...
-			if (EditorApplication.isPlayingOrWillChangePlaymode && !EditorApplication.isPlaying)
-			{
-				EditorApplication.SaveScene();
-				//ggAssetDatabase.SaveAssets();   
-			}
-		}
-	}
+        private static void OnPlayModeChanged( PlayModeStateChange state )
+        {
+            // Quando está prestes a entrar em Play Mode
+            if( state == PlayModeStateChange.ExitingEditMode )
+            {
+                Debug.Log( "Auto-saving scenes..." );
+                EditorSceneManager.SaveOpenScenes();
+                AssetDatabase.SaveAssets();
+            }
+        }
+    }
 }
