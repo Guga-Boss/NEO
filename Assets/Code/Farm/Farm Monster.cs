@@ -162,11 +162,11 @@ public partial class Farm : MonoBehaviour
         }
         else
         {
-            res.Body.Animator = res.Spr.GetComponent<tk2dSpriteAnimator>();
-            res.Body.Animator.Stop();
-            res.Body.Sprite2.gameObject.SetActive( false );
-            res.Spr.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];          // others like feather, chicken, etc
-            res.Spr.spriteId = G.GIT( res.Variation ).NSprite.spriteId;
+            //gganires.Body.Animator = res.NSpr.GetComponent<tk2dSpriteAnimator>();
+            //res.Body.Animator.Stop();
+            //res.Body.Sprite2.gameObject.SetActive( false );
+            //res.NSpr.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];          // others like feather, chicken, etc
+            //res.NSpr.spriteId = G.GIT( res.Variation ).NSprite.spriteId;
             if( res.Variation == ( int ) ItemType.Chicken )       
                 res.Body.StackAmount = 12;                                                       // Chicken initial timer
         }

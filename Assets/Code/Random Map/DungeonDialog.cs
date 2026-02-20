@@ -33,8 +33,8 @@ public class DungeonDialog : MonoBehaviour
     public TextMeshPro[] TrophiesAmountLabel;
     public UISlider DificultySlider;
     public UIToggle AutoBuyModeToggle, BlindModeToggle;
-    public UIPopupList PlayerType, StartingCubePopup;
-    public TMP_Dropdown SelectQuestDropdown;
+    public UIPopupList PlayerType;
+    public TMP_Dropdown SelectQuestDropdown, SelectCubeDropDown;
     public GameObject BluePrintUI, QuestList, InventoryGO, PackmuleGO, 
     GoalsGO, StudiesGO, TechButtonsGO, BambooFrame, InventoryBack, DarkPerkBack, DecorFolder;
     public UITable ObjectivesTable;
@@ -117,6 +117,7 @@ public class DungeonDialog : MonoBehaviour
             SelectQuestDropdown.value = 0;
             SelectQuestDropdown.RefreshShownValue();
             SelectQuestDropdown.onValueChanged.AddListener( OnQuestDropdownChanged );
+            SelectCubeDropDown.onValueChanged.AddListener( OnCubeDropdownChanged );
         }
     }
      public void OnDisable()
@@ -611,102 +612,100 @@ public class DungeonDialog : MonoBehaviour
 
     public void UpdateAlternateStartingCube( bool selectMax = false )
     {
-        if( Map.I.RM.RMD.EnableAlternateStartingCube )                                                         // Gameobj activation or not
-            StartingCubePopup.gameObject.SetActive( true );                                                    // Enable the popup UI; Activates alternate starting cube selection
+        // Alterado de GameObject para TMP_Dropdown nas referências externas
+        if( Map.I.RM.RMD.EnableAlternateStartingCube )                                                       // Gameobj activation or not
+            SelectCubeDropDown.gameObject.SetActive( true );                                               // Enable the popup UI; Activates alternate starting cube selection
         else
-            StartingCubePopup.gameObject.SetActive( false );                                                   // Disable the popup UI; Hides the selection if not enabled
-        StartingCubePopup.items = new List<string>();                                                          // Clear previous items; Reset the popup list
+            SelectCubeDropDown.gameObject.SetActive( false );                                              // Disable the popup UI; Hides the selection if not enabled
 
-                                                                                                               // Available cubes update
-        int tot = Map.I.RM.RMD.MaxCubes;                                                                       // Total number of cubes; Maximum cubes for this adventure
+        SelectCubeDropDown.ClearOptions();                                                                 // Clear previous items; Reset the popup list
+                                                                                                           // Available cubes update
+        int tot = Map.I.RM.RMD.MaxCubes;                                                                   // Total number of cubes; Maximum cubes for this adventure
         if( Map.I.RM.RMD.InitiallyAvailableCubes <= -1 )
-             AvailableCubes = tot;                                                                             // If no limit, all cubes are available; Default to total
+            AvailableCubes = tot;                                                                         // If no limit, all cubes are available; Default to total
         else
         {
             if( AvailableCubes == -2 )
-                AvailableCubes = Map.I.RM.RMD.InitiallyAvailableCubes + ( int )                                // Calculate available cubes with upgrades; Include player upgrades
-            AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_AVAILABLE_CUBES );
+                AvailableCubes = Map.I.RM.RMD.InitiallyAvailableCubes + (int)                             // Calculate available cubes with upgrades; Include player upgrades
+                AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INCREASE_AVAILABLE_CUBES );
         }
-        if( AvailableCubes > tot ) AvailableCubes = tot;                                                       // Clamp to total; Ensure available does not exceed max
-        TAvailableCubesLabel.text = "Total Cubes: " + tot + " Available: " + AvailableCubes;                   // Update UI label; Show total and available cubes
-        int num = 1 + ( int ) Item.GetNum( ItemType.Starting_Cube,                                             // Get the number of starting cubes player owns; Current inventory count
-        Inventory.IType.Inventory, Map.I.RM.CurrentAdventure );
-        if( AvailableCubes < num ) num = AvailableCubes;                                                       // Clamp num to available; Prevent selecting more than allowed
+        if( AvailableCubes > tot ) AvailableCubes = tot;                                                   // Clamp to total; Ensure available does not exceed max
+        TAvailableCubesLabel.text = "Total Cubes: " + tot + " Available: " + AvailableCubes;               // Update UI label; Show total and available cubes
+        int num = 1 + ( int ) Item.GetNum( ItemType.Starting_Cube,                                         // Get the number of starting cubes player owns; Current inventory count
+    Inventory.IType.Inventory, Map.I.RM.CurrentAdventure );
+        if( AvailableCubes < num ) num = AvailableCubes;                                                   // Clamp num to available; Prevent selecting more than allowed
 
         if( selectMax )
         {
-            int conquered = ( int ) Item.GetNum( ItemType.Starting_Cube,                                       // Re-fetch current owned cubes; Check against available
-            Inventory.IType.Inventory, Map.I.RM.CurrentAdventure );
+            int conquered = ( int ) Item.GetNum( ItemType.Starting_Cube,                                   // Re-fetch current owned cubes; Check against available
+        Inventory.IType.Inventory, Map.I.RM.CurrentAdventure );
             if( AvailableCubes <= conquered )
             {
-                num = AvailableCubes;                                                                          // Set to max if conquered >= available; Force max selection
+                num = AvailableCubes;                                                                      // Set to max if conquered >= available; Force max selection
                 if( AvailableCubes > conquered ) // new
                     Item.SetAmt( ItemType.Starting_Cube, AvailableCubes,
-                    Inventory.IType.Inventory, true, Map.I.RM.CurrentAdventure );                              // Update inventory if needed; Sync to max
+                    Inventory.IType.Inventory, true, Map.I.RM.CurrentAdventure );                          // Update inventory if needed; Sync to max
             }
         }
 
         if( Helper.I.FreePlay )
-            num = tot;                                                                                         // In FreePlay mode, allow all cubes; Ignore limits
+            num = tot;                                                                                     // In FreePlay mode, allow all cubes; Ignore limits
 
+        List<string> options = new List<string>();                                                         // Temporary list for TMP options
         for( int i = 0; i < num; i++ )
         {
-            StartingCubePopup.AddItem( "Start at Cube #" + ( i + 1 ) + " " );                                  // Populate popup list; Add entries for selection
+            options.Add( "Start at Cube #" + ( i + 1 ) + " " );                                            // Populate temporary list; Add entries for selection
         }
+        SelectCubeDropDown.AddOptions( options );                                                          // Populate popup list; Add entries to TMP_Dropdown
 
-        if( num == 0 )
-            StartingCubePopup.value = "Start at Cube #" + 1 + " ";                                             // Default value if no cubes; Ensure popup has valid text
+        int targetIndex = Map.I.RM.StartingCube - 1;                                                       // Default index (Cube #1)
 
-        if( UpdateStartingCube )                                                                               // Quest changed. choose max cube
+        if( UpdateStartingCube )                                                                           // Quest changed. choose max cube
         {
-            selectMax = true;                                                                                  // Force select max; Update only once
-            UpdateStartingCube = false;                                                                        // Reset flag; Prevent repeated update
+            selectMax = true;                                                                              // Force select max; Update only once
+            UpdateStartingCube = false;                                                                    // Reset flag; Prevent repeated update
         }
 
         int val = 0;
-        if( SelectedGoal != -1 ) val = SelectedGoal;                                                           // Check if a goal is selected; Use it as initial value
+        if( SelectedGoal != -1 ) val = SelectedGoal;                                                       // Check if a goal is selected; Use it as initial value
 
         if( val != 0 && num >= val )
-            StartingCubePopup.value = "Start at Cube #" + val + " ";                                           // Apply selected goal; Update popup value
+            targetIndex = val - 1;                                                                         // Apply selected goal; Index is val - 1
+
         if( selectMax )
-            StartingCubePopup.value = "Start at Cube #" + num + " ";                                           // Apply max selection; Update popup value
+            targetIndex = num - 1;                                                                         // Apply max selection; Index is num - 1
 
-        if( StartingCubePopup.items.Contains(                                                                  // if Itemlist does not contain selected item, chooses the last one
-           StartingCubePopup.value ) == false )
-        {
-            int last = StartingCubePopup.items.Count;
-            if( last < 1 ) last = 1;
-            StartingCubePopup.value = "Start at Cube #" + last + " ";                                          // Fallback to last item; Ensure valid selection exists
-        }
+        // Fallback/Clamp do index para garantir que está dentro da lista atualizada
+        if( targetIndex < 0 && num > 0 ) targetIndex = 0;
+        if( targetIndex >= SelectCubeDropDown.options.Count ) 
+            targetIndex = SelectCubeDropDown.options.Count - 1;
 
-        int current = 0;                                                                                       // Delta change based on input; Used for forced up/down adjustments
-        if( Input.GetKeyDown( KeyCode.UpArrow ) ) current++;                                                   // Increase by 1; Up arrow increments
-        if( Input.GetKeyDown( KeyCode.DownArrow ) ) current--;                                                 // Decrease by 1; Down arrow decrements
-        if( Input.GetKeyDown( KeyCode.RightArrow ) ) current += 10;                                            // Increase by 10; Right arrow large step
-        if( Input.GetKeyDown( KeyCode.LeftArrow ) ) current -= 10;                                             // Decrease by 10; Left arrow large step
+        SelectCubeDropDown.value = targetIndex;                                                            // Apply valid selection to TMP_Dropdown
 
-        if( current != 0 )                                                                                     // Apply change only if key pressed; Skip if no input
-        if( Map.I.RM.GameOver )
-        {
-            string valStr = StartingCubePopup.value;                                                           // Get current text; Extract number from it
-            if( !string.IsNullOrEmpty( valStr ) )
+        int currentDelta = 0;                                                                              // Delta change based on input; Used for forced up/down adjustments
+        if( Input.GetKeyDown( KeyCode.UpArrow ) ) currentDelta++;                                          // Increase by 1; Up arrow increments
+        if( Input.GetKeyDown( KeyCode.DownArrow ) ) currentDelta--;                                        // Decrease by 1; Down arrow decrements
+        if( Input.GetKeyDown( KeyCode.RightArrow ) ) currentDelta += 10;                                   // Increase by 10; Right arrow large step
+        if( Input.GetKeyDown( KeyCode.LeftArrow ) ) currentDelta -= 10;                                   // Decrease by 10; Left arrow large step
+
+        if( currentDelta != 0 )                                                                            // Apply change only if key pressed; Skip if no input
+            if( Map.I.RM.GameOver )
             {
-                int hashIndex = valStr.IndexOf( '#' );                                                         // Find '#' in string; Number follows this
-                if( hashIndex != -1 )
-                {
-                    int cur = 0;
-                    string numStr = valStr.Substring( hashIndex + 1 ).Trim();                                  // Extract number; After '#'
-                    int.TryParse( numStr, out cur );                                                           // Parse number; Convert string to int
-                    current = cur + current;                                                                   // Apply delta; Increment/decrement current
-                }
+                int nextIndex = SelectCubeDropDown.value + currentDelta;                                       // Calculate next index based on current selection
+
+                if( nextIndex < 0 ) nextIndex = 0;                                                             // Clamp minimum; Can't go below 1 (Index 0)
+                if( nextIndex >= SelectCubeDropDown.options.Count ) 
+                    nextIndex = SelectCubeDropDown.options.Count - 1;              // Clamp maximum; Can't exceed available options
+
+                SelectCubeDropDown.value = nextIndex;                                                          // Update popup value; Reflect new selection
+                SelectCubeDropDown.RefreshShownValue();                                                        // FORÇA A ATUALIZAÇÃO APÓS USAR AS SETAS
             }
-            if( current < 1 ) current = 1;                                                                     // Clamp minimum; Can't go below 1
-            if( current > num ) current = num;                                                                 // Clamp maximum; Can't exceed available cubes
-            StartingCubePopup.value = "Start at Cube #" + current + " ";                                       // Update popup text; Reflect new selection
-        }
     }
-
-
+    public void OnCubeDropdownChanged( int dropdownIndex )
+    {
+        Map.I.RM.StartingCube = dropdownIndex + 1;
+        Map.I.RM.ForcedStartingCube = false;
+    }
     public void UpdateEmptyAdventure()
     {
         for( int i = 0; i < PanelList.Length; i++ )
@@ -715,7 +714,7 @@ public class DungeonDialog : MonoBehaviour
         }
         DungeonNameLabel.text = "Click here to choose a Quest...\n(M Key)";
         PlayerType.gameObject.SetActive( false );
-        StartingCubePopup.gameObject.SetActive( false );
+        SelectCubeDropDown.gameObject.SetActive( false );
         DificultySlider.gameObject.SetActive( false );
         for( int i = 0; i < TrophiesAmountLabel.Length; i++ )
         {
@@ -1384,7 +1383,7 @@ public class DungeonDialog : MonoBehaviour
         NewIncursion = false;
         NewButtonClicked = false;
         Item.AddItem( ItemType.Quest_Trial_Count, +1 );
-        G.Hero.NSpr.spriteId = 256;
+        G.Hero.Spr.spriteId = 256;
         GetObjectivesList( Map.I.RM.CurrentAdventure, true );
     }
 

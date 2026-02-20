@@ -935,7 +935,8 @@ public class RandomMapData : MonoBehaviour
 
         if( adv.EnableAlternateStartingCube )                                                              // Alternate Starting Cube
         {
-            string str = Map.I.RM.DungeonDialog.StartingCubePopup.value + "   ";
+            int id = Map.I.RM.DungeonDialog.SelectCubeDropDown.value;
+            string str = Map.I.RM.DungeonDialog.SelectCubeDropDown.options[ id ].text + "   ";
             if( str == "Restart...   ")
             {
                 //Map.I.RM.StartingCube = 1;                                                               // Temporarilly disabled for safety (deletting data)
@@ -945,8 +946,7 @@ public class RandomMapData : MonoBehaviour
             }
             else
             {
-                str = str.Substring( 15, 3 );
-                Map.I.RM.StartingCube = int.Parse( str );
+                Map.I.RM.StartingCube = id + 1;
             }
         }
 
@@ -957,7 +957,7 @@ public class RandomMapData : MonoBehaviour
             string resultString = Regex.Match( MapSaver.I.CurrentCube, @"\d+" ).Value;
             Map.I.RM.StartingCube = int.Parse( resultString );
             Map.I.RM.DungeonDialog.UpdateAlternateStartingCube();
-            Map.I.RM.DungeonDialog.StartingCubePopup.value = "Start at Cube #" + Map.I.RM.StartingCube + " ";
+            Map.I.RM.DungeonDialog.SelectCubeDropDown.value = Map.I.RM.StartingCube - 1;
             PlayCount++;
         }
 

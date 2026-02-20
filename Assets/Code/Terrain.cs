@@ -369,7 +369,7 @@ public partial class Controller : MonoBehaviour
              else
              {
                  G.Hero.transform.position = new Vector3( G.Hero.Pos.x, G.Hero.Pos.y, G.Hero.transform.position.z );
-                 G.Hero.NSpr.transform.localPosition = new Vector3( 0, 0, G.Hero.NSpr.transform.localPosition.z );
+                 G.Hero.Spr.transform.localPosition = new Vector3( 0, 0, G.Hero.Spr.transform.localPosition.z );
                  G.Hero.Graphic.transform.localPosition = new Vector3( 0, 0, G.Hero.Graphic.transform.localPosition.z );
              }
          }
@@ -1109,9 +1109,9 @@ public partial class Controller : MonoBehaviour
         Map.I.StartCubeDeath( false, false, "Hero Death 2" );
         if( tile == ETileType.WATER )
             MasterAudio.PlaySound3DAtVector3( "Water Splash", transform.position );                  // Sound FX  
-        FallingAnimation.CreateAnim( G.Hero.NSpr.spriteId, 1, new
+        FallingAnimation.CreateAnim( G.Hero.Spr.spriteId, 1, new
         Vector3( G.Hero.Pos.x, G.Hero.Pos.y, -5 ), G.Hero.transform.eulerAngles, .4f, 1.1f );
-        G.Hero.NSpr.gameObject.SetActive( false );
+        G.Hero.Spr.gameObject.SetActive( false );
     }
     public bool UpdateSnowSliding()
     {
@@ -1335,7 +1335,7 @@ public partial class Controller : MonoBehaviour
         if( mn && mn.ValidMonster )
         {
             Map.I.StartCubeDeath();
-            G.Hero.NSpr.gameObject.SetActive( false );
+            G.Hero.Spr.gameObject.SetActive( false );
         }
     }
 

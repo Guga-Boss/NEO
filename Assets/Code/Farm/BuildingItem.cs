@@ -194,7 +194,7 @@ public class BuildingItem : MonoBehaviour
 
         if( WorkIsDone == false )
         {
-            bl.Unit.NSpr.transform.localScale = new Vector3( spriteFact, spriteFact, 0 );                         // Plant Grow Animation
+            bl.Unit.Spr.transform.localScale = new Vector3( spriteFact, spriteFact, 0 );                         // Plant Grow Animation
             //bl.Unit.HealthBar.SetValueMax( ( int ) prod );
             //bl.Unit.HealthBar.SetValueMin( 0 );
             float hits = ( float ) ProductionTimeCount;
@@ -204,7 +204,7 @@ public class BuildingItem : MonoBehaviour
             ShownAcessories = Mathf.Clamp( ShownAcessories, 0, max );
         }
         else
-            bl.Unit.NSpr.transform.localScale = new Vector3( 1, 1, 0 );
+            bl.Unit.Spr.transform.localScale = new Vector3( 1, 1, 0 );
 
         for( int i = 0; i < bl.AcessoryList.Count; i++ )                                                         // Acessories (fruits) Sprite Handling
         {

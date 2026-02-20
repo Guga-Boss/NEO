@@ -1231,14 +1231,14 @@ public partial class Map : MonoBehaviour
             else
             if( un.TileID == ETileType.FOG )
             {
-                un.Body.Animator = un.Spr.GetComponent<tk2dSpriteAnimator>();
-                var clip = un.Body.Animator.GetClipByName( "Fog Animation" );
-                if( clip != null && clip.frames.Length > 0 )
-                {
-                    int randomFrame = Random.Range( 0, clip.frames.Length );
-                    float clipStartTime = ( float ) randomFrame / clip.fps;
-                    un.Body.Animator.Play( clip, clipStartTime, 0f );
-                }
+                //ggggun.Body.Animator = un.Spr.GetComponent<tk2dSpriteAnimator>();
+                //var clip = un.Body.Animator.GetClipByName( "Fog Animation" );
+                //if( clip != null && clip.frames.Length > 0 )
+                //{
+                //    int randomFrame = Random.Range( 0, clip.frames.Length );
+                //    float clipStartTime = ( float ) randomFrame / clip.fps;
+                //    un.Body.Animator.Play( clip, clipStartTime, 0f );
+                //}
             }
             else
             if( un.TileID == ETileType.ORB )
@@ -2360,7 +2360,7 @@ public partial class Map : MonoBehaviour
         float sc = 1;
         if( TurnTime <= .5f || Controller.SnowSliding || Controller.SandSliding )
         {
-            Util.SmoothRotate( G.Hero.NSpr.transform, G.Hero.Dir, 30 );                               // Animate hero rotation
+            Util.SmoothRotate( G.Hero.Spr.transform, G.Hero.Dir, 30 );                               // Animate hero rotation
             Util.SmoothRotate( G.Hero.Body.Shadow.transform, G.Hero.Dir, 30 );
         }
 
@@ -2373,7 +2373,7 @@ public partial class Map : MonoBehaviour
             if( Hero.Control.Floor >= 2 && Map.GMine( EMineType.BRIDGE, Hero.Pos ) ) z= -2f;         // hero over bridge z pos                              
             if( Hero.Control.Floor == 1 && Map.GMine( EMineType.LADDER, Hero.Pos ) ) z = -2f;        // hero over ladder z pos               
             if( Hero.Control.Floor == 4 ) z = -2f;  
-            Hero.NSpr.transform.localPosition = new Vector3( 0, 0, z );               // hero below bridge z pos
+            Hero.Spr.transform.localPosition = new Vector3( 0, 0, z );               // hero below bridge z pos
         }
 
         int sprite = 0;
@@ -2388,33 +2388,33 @@ public partial class Map : MonoBehaviour
             int bs = 32;
             if( Hero.Control.LastMoveType != EMoveType.ROTATE )
             if( Util.IsEven( LevelTurnCount ) ) bs = 34;
-            G.Hero.NSpr.spriteId = 256 + bs;
+            G.Hero.Spr.spriteId = 256 + bs;
             G.Hero.Body.Shadow.spriteId = 256 + bs + 1;
         }
         else
         if( sprite == 1 )   // Bow and arrow  
         {
-            G.Hero.NSpr.spriteId = 256;
+            G.Hero.Spr.spriteId = 256;
             G.Hero.Body.Shadow.spriteId = 256 + 1;
             if( Map.Stepping() == false )
             if( G.Hero.RangedAttack.SpeedTimeCounter < Util.Percent( 75, tot ) )   // Bow shot
             {
-                G.Hero.NSpr.spriteId = 258;
+                G.Hero.Spr.spriteId = 258;
                 G.Hero.Body.Shadow.spriteId = 258 + 1;
             }
         }
         else
         if( sprite == 2 )    // Melee
         {
-            G.Hero.NSpr.spriteId = 256 + 64;
+            G.Hero.Spr.spriteId = 256 + 64;
             G.Hero.Body.Shadow.spriteId = 256 + 64 + 1;
         }
 
         if( KickTimer > 0 )                                                                                       // Kick Sprite
         {
-            G.Hero.NSpr.spriteId = 293;
+            G.Hero.Spr.spriteId = 293;
             EDirection mov = Util.GetTargetUnitDir( G.Hero.Control.OldPos, G.Hero.Pos );
-            G.Hero.NSpr.transform.eulerAngles = Util.GetRotationAngleVector( mov );
+            G.Hero.Spr.transform.eulerAngles = Util.GetRotationAngleVector( mov );
             G.Hero.Body.Shadow.gameObject.SetActive( false );
             sc = 1.4f;
         }
@@ -2426,14 +2426,14 @@ public partial class Map : MonoBehaviour
         if( Item.GetNum( ItemType.Res_Mining_Points ) >= 1 )
         if( GFU( ETileType.MINE, G.Hero.Pos ) == null )
         {
-            G.Hero.NSpr.spriteId = 258 + 64;
+            G.Hero.Spr.spriteId = 258 + 64;
             G.Hero.Body.Shadow.spriteId = 258 + 64 + 1;
             HeroPickaxeSprite.gameObject.SetActive( true );
         }
 
         if( FishingMode != EFishingPhase.NO_FISHING )                                                             // Hero fishing
         {
-            G.Hero.NSpr.spriteId = 258 + 64;
+            G.Hero.Spr.spriteId = 258 + 64;
             G.Hero.Body.Shadow.spriteId = 258 + 64 + 1;
             HeroFishingPoleSprite.gameObject.SetActive( true );
         }
@@ -2449,8 +2449,8 @@ public partial class Map : MonoBehaviour
         
         if( Map.I.CubeDeath )                                                                                      // Dead Sprite
         {
-            G.Hero.NSpr.spriteId = 294;
-            G.Hero.NSpr.transform.eulerAngles = new Vector3( 0, 0, 0 );
+            G.Hero.Spr.spriteId = 294;
+            G.Hero.Spr.transform.eulerAngles = new Vector3( 0, 0, 0 );
             G.Hero.Body.Shadow.gameObject.SetActive( false );
             sc = 1.2f;
             G.Hero.Graphic.transform.position = G.Hero.transform.position;
@@ -2461,7 +2461,7 @@ public partial class Map : MonoBehaviour
             G.Hero.RotateTo( G.Hero.Dir );
         }
 
-        Hero.NSpr.scale = new Vector2( sc, sc );                                                                   // sprite Scale
+        Hero.Spr.scale = new Vector2( sc, sc );                                                                   // sprite Scale
 
         //Unit pl = GetUnit( ETileType.TRAP, Hero.Pos );                                                            // Hero att speed bonus text info
         //if( pl == null )
@@ -2494,7 +2494,7 @@ public partial class Map : MonoBehaviour
             InvalidateInputTimer = .4f;
             if( sprite )
             {
-                G.Hero.NSpr.gameObject.SetActive( false );                                                             // disables sprite for better animation
+                G.Hero.Spr.gameObject.SetActive( false );                                                             // disables sprite for better animation
                 G.Hero.Body.Shadow.gameObject.SetActive( false );
             }
             return true;
@@ -2510,13 +2510,13 @@ public partial class Map : MonoBehaviour
         Controller.InputVector = Vector2.zero;
         Map.I.InvalidateInputTimer = .4f;
         Map.I.CubeDeath = true;
-        G.Hero.NSpr.spriteId = 294;
-        G.Hero.NSpr.transform.eulerAngles = Vector2.zero;
+        G.Hero.Spr.spriteId = 294;
+        G.Hero.Spr.transform.eulerAngles = Vector2.zero;
 
         if( fx != "" )
             MasterAudio.PlaySound3DAtVector3( fx, G.Hero.transform.position );
         UI.I.EnableOverlay( new Color( 1, 0, 0, .4f ), 1.5f );
-        Vector2 pt = G.Hero.NSpr.transform.position;
+        Vector2 pt = G.Hero.Spr.transform.position;
         if( showBloodOnSprPosition == false )
             pt = G.Hero.transform.position;
         if( bloodfx )
@@ -3355,13 +3355,13 @@ public partial class Map : MonoBehaviour
         if( pos.x == -1 ) Debug.LogError( "Hero Start Pos not Set on level: " +
                                            Quest.CurrentLevel );        
         if( init ) ChangeHero( hero, false );
-        Hero.NSpr.transform.localPosition = new Vector3( 0, 0, -1.9f );
+        Hero.Spr.transform.localPosition = new Vector3( 0, 0, -1.9f );
 		Hero.Control.ApplyMove( new Vector2( -1, -1 ), pos );
         Hero.Control.OldPos = new Vector2( pos.x, pos.y );
         Hero.Control.LastPos = new Vector2( pos.x, pos.y );
         Hero.Control.AnimationOrigin = new Vector2( pos.x, pos.y );
-        Hero.NSpr.gameObject.SetActive( true );
-        Hero.NSpr.gameObject.SetActive( true );
+        Hero.Spr.gameObject.SetActive( true );
+        Hero.Spr.gameObject.SetActive( true );
         Hero.Body.Shadow.gameObject.SetActive( true );
 		HeroIsDead = false;
         if( restartHP ) Hero.Body.Hp = Hero.Body.TotHp; 
@@ -4069,7 +4069,6 @@ public partial class Map : MonoBehaviour
 
         if( TransTilemapUpdateList.Count > 0 )
             UpdateTransLayerTilemap();                                                                               // updates trans tilemap if list is populated
-
     }
     public void AddTrans( VI v, bool force = true  )
     {
@@ -4433,7 +4432,7 @@ public partial class Map : MonoBehaviour
         int sort = Util.GetRandomDir();
         if( drl.Count > 0 ) sort = Random.Range( 0, drl.Count );
         G.Hero.RotateTo( ( EDirection ) drl[ sort ] );                                                                      // random dir       
-        G.Hero.NSpr.transform.eulerAngles = Util.GetRotationAngleVector( G.Hero.Dir );
+        G.Hero.Spr.transform.eulerAngles = Util.GetRotationAngleVector( G.Hero.Dir );
         G.Hero.Body.Shadow.transform.eulerAngles = Util.GetRotationAngleVector( G.Hero.Dir );
         MasterAudio.PlaySound3DAtVector3( "Hero Jump", G.Hero.Pos );                                                       // sound FX
     }

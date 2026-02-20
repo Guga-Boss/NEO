@@ -562,8 +562,8 @@ public class GS : MonoBehaviour
 
     public void UpdateReferencesAfterLoad()
     {
-        G.Hero.NSpr.gameObject.SetActive( true );
-        Util.SmoothRotate( G.Hero.NSpr.transform, G.Hero.Dir, 10000 );                                           // Init hero rotation
+        G.Hero.Spr.gameObject.SetActive( true );
+        Util.SmoothRotate( G.Hero.Spr.transform, G.Hero.Dir, 10000 );                                           // Init hero rotation
         Util.SmoothRotate( G.Hero.Body.Shadow.transform, G.Hero.Dir, 10000 );
 
         UpdateFatherSonConnection( G.Hero );                                                                    // hero father and son connection

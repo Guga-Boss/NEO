@@ -252,7 +252,7 @@ public partial class Map : MonoBehaviour
             if( un.Control.FishingLine )
                 {
                     un.Control.FishingLine.SetPosition( 0, PoleEndHelper.transform.position );
-                    un.Control.FishingLine.SetPosition( 1, un.NSpr.transform.position );
+                    un.Control.FishingLine.SetPosition( 1, un.Spr.transform.position );
                 }        
 
             if( un.Activated == false )
@@ -294,7 +294,7 @@ public partial class Map : MonoBehaviour
             UI.I.BigMessageTextTimeCounter = .1f;
                                 
             CurrentFishingPole.Activate( false );                                                         // Deactivate Pole
-            CurrentFishingPole.NSpr.gameObject.SetActive( true );            
+            CurrentFishingPole.Spr.gameObject.SetActive( true );            
             CurrentFishingPole.LevelTxt.gameObject.SetActive( true );
             MasterAudio.StopAllOfSound( "Water Flow" );
             UI.I.SelectedPerk = UI.I.LastClickedPerk;
@@ -1799,8 +1799,8 @@ public partial class Map : MonoBehaviour
         un.Control.MaxFishSpeed = 2f;
         un.Control.FlyingSpeed = Random.Range( .5f, 2f );
         FishActionStruct.ResetAll( un );
-        un.NSpr.transform.localPosition = new Vector3( 0, 0, un.NSpr.transform.localPosition.z );
-        un.NSpr.transform.localScale = new Vector3( 1, 1, 1 );
+        un.Spr.transform.localPosition = new Vector3( 0, 0, un.Spr.transform.localPosition.z );
+        un.Spr.transform.localScale = new Vector3( 1, 1, 1 );
         un.Body.Sprite3.gameObject.SetActive( false );
         InitFishGraphics( un );
     }
@@ -1847,7 +1847,7 @@ public partial class Map : MonoBehaviour
         un.LevelTxt.text = "";
         if( un.Water.GlowingFish )
             un.Body.Sprite3.gameObject.SetActive( true );
-        un.NSpr.transform.localScale = new Vector3( 1, 1, 1 );
+        un.Spr.transform.localScale = new Vector3( 1, 1, 1 );
         switch( un.Body.FishType )
         {
             //case EFishType.FISH_1:
@@ -1875,76 +1875,76 @@ public partial class Map : MonoBehaviour
             //un.Body.Animator.Play( "Frog Swimming" );
             //break;
             case EFishType.FAST_TILE:
-            un.NSpr.spriteId = 480;
+            un.Spr.spriteId = 480;
             //un.Body.Animator.Stop();
             break;
             case EFishType.BONUS_TIME:
             un.Body.Sprite2.spriteId = 481;
             un.Body.Sprite2.gameObject.SetActive( true );
             //un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
+            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.BONUS_HOOK_SMALL:
             un.Body.Sprite2.spriteId = 487;
             un.Body.Sprite2.gameObject.SetActive( true );
             //un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
+            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.BONUS_HOOK_MEDIUM:
             un.Body.Sprite2.spriteId = 488;
             un.Body.Sprite2.gameObject.SetActive( true );
             //un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
+            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.BONUS_HOOK_LARGE:
             un.Body.Sprite2.spriteId = 489;
             un.Body.Sprite2.gameObject.SetActive( true );
             //un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
+            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.CLOSED_WATER_TRAP:
-            un.NSpr.spriteId = 483;
+            un.Spr.spriteId = 483;
             //un.Body.Animator.Stop();
             break;
             case EFishType.OPEN_WATER_TRAP:
-            un.NSpr.spriteId = 484;
+            un.Spr.spriteId = 484;
             //un.Body.Animator.Stop();
             break;
             case EFishType.BAIT:
-            un.NSpr.spriteId = 485;
+            un.Spr.spriteId = 485;
             //un.Body.Animator.Stop();
             break;
             case EFishType.HOOK_PULL:
-            un.NSpr.spriteId = 486;
+            un.Spr.spriteId = 486;
             //un.Body.Animator.Stop();
             break;
             case EFishType.INT_TILE:
-            un.NSpr.spriteId = 482;
+            un.Spr.spriteId = 482;
             //un.Body.Animator.Stop();
             break;
             case EFishType.TIME_SKIP:
             un.Body.Sprite2.spriteId = 490;
             un.Body.Sprite2.gameObject.SetActive( true );
             //un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
+            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
             case EFishType.BONUS_FISHING_LEVEL:
             un.Body.Sprite2.spriteId = 491;
             un.Body.Sprite2.gameObject.SetActive( true );
             //un.Body.Animator.Play( "Black Manta Ray Swimming" );
-            un.NSpr.transform.localScale = new Vector3( 2, 2, 1 );
+            un.Spr.transform.localScale = new Vector3( 2, 2, 1 );
             break;
         }
         if( un.Body.IsFish )
         {
-            un.NSpr.transform.eulerAngles = new Vector3( 0, 0, Random.Range( 0, 360 ) );
+            un.Spr.transform.eulerAngles = new Vector3( 0, 0, Random.Range( 0, 360 ) );
             un.Body.EffectList[ 0 ].gameObject.SetActive( true );
         }
         else
         {
-            un.NSpr.transform.eulerAngles = new Vector3( 0, 0, 0 );
-            un.NSpr.transform.position = new Vector3( un.NSpr.transform.position.x, 
-            un.NSpr.transform.position.y, un.NSpr.transform.position.z + .01f );
+            un.Spr.transform.eulerAngles = new Vector3( 0, 0, 0 );
+            un.Spr.transform.position = new Vector3( un.Spr.transform.position.x, 
+            un.Spr.transform.position.y, un.Spr.transform.position.z + .01f );
             un.Body.EffectList[ 0 ].gameObject.SetActive( false );
         }
     }

@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using DarkTonic.MasterAudio;
+﻿using DarkTonic.MasterAudio;
+using DigitalRuby.LightningBolt;
 using PathologicalGames;
 using Sirenix.OdinInspector;
-using DigitalRuby.LightningBolt;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 #region Enums
 public enum EUnitType
@@ -108,10 +109,8 @@ public partial class Unit : MonoBehaviour
     public Controller Control;
     [TabGroup( "Link" )]
     public Building Building;
-    [TabGroup( "Link" )]
-    public tk2dSprite Spr;
-    [TabGroup( "Link" )]
-    public NSprite NSpr;
+    [TabGroup("Link")]
+    public NSprite Spr;
     [TabGroup( "Link" )]
     public GameObject Graphic;
     [TabGroup( "Link" )]
@@ -837,8 +836,8 @@ public partial class Unit : MonoBehaviour
         if( UnitType == EUnitType.HERO )
         {
             Control.AnimationOrigin = new Vector3( Pos.x, Pos.y, 0 );
-            NSpr.transform.localPosition = new Vector3( 0, 0, 
-            NSpr.transform.localPosition.z );
+            Spr.transform.localPosition = new Vector3( 0, 0, 
+            Spr.transform.localPosition.z );
             RotateTo( Dir );
         }
 
@@ -859,9 +858,9 @@ public partial class Unit : MonoBehaviour
 
         if( TileID == ETileType.DRAGON1 )
         {
-            Body.Animator = Spr.GetComponent<tk2dSpriteAnimator>();
-            if( Md.PlayAnimation != "" )
-                Body.Animator.Play( Md.PlayAnimation );            
+            //gganiBody.Animator = Spr.GetComponent<tk2dSpriteAnimator>();
+            //if( Md.PlayAnimation != "" )
+            //    Body.Animator.Play( Md.PlayAnimation );            
         }
 
         if( TileID == ETileType.SAVEGAME )
@@ -1512,7 +1511,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         }
 
       if( tgl.Count > 0 )
-          iTween.PunchRotation( G.Hero.NSpr.gameObject, new Vector3( 0, 0, Util.RandSig( 20 ) ), .25f );          // punch fx
+          iTween.PunchRotation( G.Hero.Spr.gameObject, new Vector3( 0, 0, Util.RandSig( 20 ) ), .25f );          // punch fx
 
         if( tgl.Count <= 0 ) return false;
 
@@ -1549,7 +1548,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                 int size = G.Hero.Body.Sp[ i ].BambooSize - breaksz[ i ];
                 G.Hero.Body.Sp[ i ].BambooSize -= size;                
                 Item.AddItem( ItemType.Res_Bamboo, -size );
-                iTween.PunchRotation( G.Hero.NSpr.gameObject, new Vector3( 0, 0, 30 ), .5f );                       // fx
+                iTween.PunchRotation( G.Hero.Spr.gameObject, new Vector3( 0, 0, 30 ), .5f );                       // fx
                 if( firefx )
                 {                    
                     MasterAudio.PlaySound3DAtVector3( "Fire Ignite", to );
@@ -2739,6 +2738,11 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         {
             SetVariation( ( int ) _dir );
             Dir = _dir; // new
+            if( TileID == ETileType.ARROW )
+            {
+                Spr.spriteId = 23;
+                Spr.transform.eulerAngles = Util.GetRotationAngleVector( Dir );
+            }
             return;
         }
 
@@ -2810,6 +2814,8 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         {
             EDirection dr = Map.I.RotateDir( Dir, val );
             SetVariation( ( int ) dr );
+            Spr.spriteId = 23;
+            Spr.transform.eulerAngles = Util.GetRotationAngleVector( Dir );
             return true;
         }
 
@@ -2819,7 +2825,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         //Spr.transform.Rotate( 0, 0, -( 45.0f * ( float ) ( int ) Dir ) );
 
         if( UnitType == EUnitType.HERO )
-            Body.Shadow.transform.rotation = NSpr.transform.rotation;
+            Body.Shadow.transform.rotation = Spr.transform.rotation;
 		return true;
 	}
         
@@ -3022,8 +3028,32 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             }
             MasterAudio.PlaySound3DAtVector3( "Orb Strike", transform.position );
         }
+
+        if( Map.OrbStruck )
+        {
+            for( int y = (int) G.HS.Area.yMin - 2; y < G.HS.Area.yMax + 2; y++ )
+            for( int x = (int) G.HS.Area.xMin - 2; x < G.HS.Area.xMax + 2; x++ )
+                {
+                    if( HasDoorNeighbor( x, y ) )
+                    if( Map.I.TransTilemapUpdateList.Contains( new VI( x, y ) ) == false )
+                        Map.I.AddTrans( new VI( x, y ), true );
+                }
+        }
 	}
-        
+
+    private bool HasDoorNeighbor( int x, int y )
+    {
+        for( int yy = -1; yy <= 1; yy++ )
+        for( int xx = -1; xx <= 1; xx++ )
+            {
+                Unit un = Map.I.GetUnit( new Vector2(x + xx, y + yy), ELayerType.GAIA);
+                if( un )
+                if( un.TileID == ETileType.CLOSEDDOOR || un.TileID == ETileType.OPENDOOR )
+                    return true;
+            }
+        return false;
+    }
+
     public void OpenDoor()
     {
         List<int> processedDoorId = new List<int>();
@@ -3142,7 +3172,6 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             int oldDoorId = Map.I.GateID[ x, y ];
             Map.I.Gaia[ x, y ].Copy( Map.I.SharedObjectsList[ ( int ) tgtl ], false, false, false );
             Map.I.Gaia[ x, y ].TileID = tgtl;
-            Map.I.AddTrans( new VI( x, y ), true );  
             Map.I.UpdateTilemap = true;
             Map.I.GateID[ x, ( int ) y ] = oldDoorId;
             ok = true;
@@ -3451,8 +3480,8 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         Vector2 diference = Pos - tg;
         float sign = ( vec2.y < tg.y ) ? -1.0f : 1.0f;
         float angle = Vector2.Angle( Vector2.right, diference ) * sign;
-        angle -= NSpr.transform.eulerAngles.z;
-        angle = AngleInDeg( vec2, tg ) - NSpr.transform.eulerAngles.z - 90;
+        angle -= Spr.transform.eulerAngles.z;
+        angle = AngleInDeg( vec2, tg ) - Spr.transform.eulerAngles.z - 90;
 
         if( customDir != EDirection.NONE )
         {
@@ -3541,7 +3570,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             return;
         }
         if( Spr ) Spr.gameObject.SetActive( _activated );
-        if( NSpr ) NSpr.gameObject.SetActive( _activated );
+        if( Spr ) Spr.gameObject.SetActive( _activated );
 
         if( LevelTxt )
             LevelTxt.gameObject.SetActive( _activated );
@@ -4202,7 +4231,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                    if( Body.InfectedSprite.scale.x <= 1.5f )
                        MasterAudio.PlaySound3DAtVector3( "Roach Glue", transform.position );
                    Vector3 tg = new Vector3( rad, rad, 1 );
-                   Body.InfectedSprite.scale = Vector3.MoveTowards( Body.InfectedSprite.scale, tg, Time.deltaTime * 50f );                  // expand infection sprite
+                   Body.InfectedSprite.scale = Vector3.MoveTowards( Body.InfectedSprite.scale, tg, Time.deltaTime * 50f );                  // expand infection NSprite
                }
                else
                {
@@ -4484,7 +4513,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                    eff4 = true;
                    sp3scale = .9f;                   
                    Vector3 hammerangle = Util.GetRotationAngleVector( G.Hero.Dir );
-                   Body.EffectList[ 4 ].gameObject.transform.localEulerAngles = G.Hero.NSpr.transform.eulerAngles;
+                   Body.EffectList[ 4 ].gameObject.transform.localEulerAngles = G.Hero.Spr.transform.eulerAngles;
                    Body.Sprite3.transform.position = new Vector3( mid.x, mid.y, Body.Sprite3.transform.localPosition.z );
                }
                else

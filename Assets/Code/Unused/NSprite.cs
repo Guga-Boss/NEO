@@ -488,9 +488,6 @@ public class NSprite: MonoBehaviour
 
         if( sp != null )
         {
-            Vector2 copiedScale = (Vector2)tkSprite.scale;
-            Color instanceColor = tkSprite.color;
-
             string childName = "Unity_Migration_Preview";
             Transform childTransform = tkSprite.transform.Find(childName);
             GameObject childGO;
@@ -499,28 +496,51 @@ public class NSprite: MonoBehaviour
             {
                 childGO = new GameObject( childName );
                 childGO.transform.SetParent( tkSprite.transform );
+                childGO.transform.localPosition = new Vector3( 0, 0, -0.01f );
                 childGO.transform.localRotation = Quaternion.identity;
                 childGO.transform.localScale = Vector3.one;
-                childGO.transform.localPosition = new Vector3( 0, 0, -0.01f );
             }
-            else { childGO = childTransform.gameObject; }
+            else
+            {
+                childGO = childTransform.gameObject;
+            }
 
-            NSprite nsComp = childGO.GetComponent<NSprite>() ?? childGO.AddComponent<NSprite>();
+            // --- GARANTINDO A CRIAÇÃO ---
 
+            // 1. NSprite
+            NSprite nsComp = childGO.GetComponent<NSprite>();
+            if( nsComp == null ) nsComp = childGO.AddComponent<NSprite>();
+
+            // 2. SpriteRenderer (O motor visual do Unity)
+            SpriteRenderer sr = childGO.GetComponent<SpriteRenderer>();
+            if( sr == null ) sr = childGO.AddComponent<SpriteRenderer>();
+
+            // Atribuição de dados
             nsComp.collection = targetEnum;
             nsComp._spriteId = targetId;
             nsComp.sprite = sp;
-            nsComp.baseColor = instanceColor;
+            nsComp.baseColor = tkSprite.color;
             nsComp.spriteName = sp.name;
-            nsComp.scale = copiedScale;
+            nsComp.scale = (Vector2) tkSprite.scale;
 
-            SpriteRenderer sr = childGO.GetComponent<SpriteRenderer>() ?? childGO.AddComponent<SpriteRenderer>();
+            sr.sprite = sp; // Essencial para o componente "existir" visualmente
             sr.sortingOrder = tkSprite.SortingOrder;
-            sr.sortingLayerName = "Default";
-            sr.color = instanceColor;
+            sr.sortingLayerName = "Default"; // Conforme sua preferência de projeto
+            sr.color = tkSprite.color;
 
             nsComp.UpdateVisuals();
-            tkSprite.enabled = true;
+
+            // Se estiver rodando isso via botão no Editor (Custom Inspector)
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty( childGO );
+#endif
+
+            tkSprite.enabled = false; // Desliga o antigo para ver o novo
+            Debug.Log( $"<color=green>Convertido com sucesso:</color> {childGO.name} em {tkSprite.name}" );
+        }
+        else
+        {
+            Debug.LogError( $"Sprite não encontrado no IDM para o ID: {targetId}" );
         }
     }
 

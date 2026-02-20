@@ -532,7 +532,7 @@ public class Sector : MonoBehaviour
         Quest.I.UpdateArtifactData( ref Map.I.Hero );
         Map.I.FreeCamAreaZoom = 0;
         Map.TrailTiles = null;
-        G.Hero.NSpr.gameObject.SetActive( true );
+        G.Hero.Spr.gameObject.SetActive( true );
         G.Hero.Body.Shadow.gameObject.SetActive( true );
         Secret.FlushSecretList = new List<Vector2>();
 
@@ -769,7 +769,7 @@ public class Sector : MonoBehaviour
                 if( sec > Item.GetNum( ItemType.Starting_Cube ) )                                     // Select next cube
                     Item.SetAmt( ItemType.Starting_Cube, sec,
                     Inventory.IType.Inventory, true, Map.I.RM.CurrentAdventure );
-                Map.I.RM.DungeonDialog.StartingCubePopup.value = "Start at Cube #" + ( sec + 1 ) + " ";
+                Map.I.RM.DungeonDialog.SelectCubeDropDown.value = sec;
             }
 
             Map.I.LevelStats.SectorsCleared++;                                                        // Sectors Cleared increment

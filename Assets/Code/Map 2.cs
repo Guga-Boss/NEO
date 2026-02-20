@@ -178,6 +178,18 @@ public partial class Map: MonoBehaviour
 
         if( !PtOnMap( Tilemap, new VI( tgX, tgY ) ) ) return;
 
+        int baseX = tgX * 2;
+        int baseY = tgY * 2;
+        ApplyShadow( baseX, baseY, -1, -1, -1, -1 );
+
+        // --- NOVO FILTRO: NÃO PROJETAR SOMBRA SOBRE FLORESTA ---
+        // Se o tile onde a sombra cairia já for uma Floresta, paramos por aqui.
+        ETileType targetTile = GetTileIDAt(tgX, tgY);
+        if( targetTile == ETileType.FOREST )
+            return;
+
+        if( Sector.GetPosSectorType( new Vector2( tgX, tgY ) ) == Sector.ESectorType.GATES ) return;  // hack to avoid shadow in gates sector
+
         // Checa projetores relativos ao ALVO da sombra
         bool hasNW = CastShadow(new VI(tgX - 1, tgY + 1));
         bool hasN  = CastShadow(new VI(tgX, tgY + 1));
@@ -188,9 +200,6 @@ public partial class Map: MonoBehaviour
         bool continuaEsquerda = CastShadow(new VI(tgX - 1, tgY + 1));
         // Se houver floresta ACIMA do que está projetando a sombra da direita
         bool continuaAcima = CastShadow(new VI(tgX - 1, tgY + 1));
-
-        int baseX = tgX * 2;
-        int baseY = tgY * 2;
 
         // --- APLICAR LÓGICA POR CASOS ---
 
@@ -245,10 +254,19 @@ public partial class Map: MonoBehaviour
     // Helper para não repetir código
     private void ApplyShadow( int bx, int by, int tl, int tr, int bl, int br )
     {
-        if( tl != -1 ) { TransTileMap.SetTile( bx + 0, by + 1, 1, tl ); TransT.SetTile( bx + 0, by + 1, 1, tl ); }
-        if( tr != -1 ) { TransTileMap.SetTile( bx + 1, by + 1, 1, tr ); TransT.SetTile( bx + 1, by + 1, 1, tr ); }
-        if( bl != -1 ) { TransTileMap.SetTile( bx + 0, by + 0, 1, bl ); TransT.SetTile( bx + 0, by + 0, 1, bl ); }
-        if( br != -1 ) { TransTileMap.SetTile( bx + 1, by + 0, 1, br ); TransT.SetTile( bx + 1, by + 0, 1, br ); }
+        // Remova os IFs. Deixe o -1 passar para o SetTile limpar o layer.
+        TransTileMap.SetTile( bx + 0, by + 1, 1, tl );
+        TransTileMap.SetTile( bx + 1, by + 1, 1, tr );
+        TransTileMap.SetTile( bx + 0, by + 0, 1, bl );
+        TransTileMap.SetTile( bx + 1, by + 0, 1, br );
+
+        if( TransT != null )
+        {
+            TransT.SetTile( bx + 0, by + 1, 1, tl );
+            TransT.SetTile( bx + 1, by + 1, 1, tr );
+            TransT.SetTile( bx + 0, by + 0, 1, bl );
+            TransT.SetTile( bx + 1, by + 0, 1, br );
+        }
     }
 
     public bool CastShadow( Vector2 tg )

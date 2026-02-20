@@ -26,7 +26,7 @@ public class RandomMap : MonoBehaviour
     public int LastSectorJumpID, AreaCont, NumAreaGatesOpened, NumLabGatesOpened, NumGateKeyNeeded;
     public float JumpKeyTimer, AreaGateCost, LabGateCost, AutoGotoEnergyCost;
     public bool GameOver;
-    public bool LockSectorJump, LastCubeReached, LockWayPointJump;
+    public bool LockSectorJump, LastCubeReached, LockWayPointJump, ForcedStartingCube = true;
     public Artifact TempArtifact;
     public TextAsset AreaNamesTextFile;
     public int PuzzleCount;    
@@ -828,6 +828,7 @@ public class RandomMap : MonoBehaviour
                 G.Hero.Pos, Color.green, true, true, 15, 0, -1 );
             }
 
+            if( ForcedStartingCube )
             if( Helper.I.StartingCube != -1 )                                                                         // pre defined starting cube
             {
                 s.Number = Helper.I.StartingCube;
@@ -945,7 +946,11 @@ public class RandomMap : MonoBehaviour
                         }
                         Map.I.Unit[ x, y ] = null;
                     }
-            }
+
+                    if( Map.I.Gaia2[ x, y ] != null )
+                    if( Map.I.Gaia2[ x, y ].TileID == ETileType.ARROW )
+                        Map.I.Gaia2[ x, y ].RotateTo( Map.I.Gaia2[ x, y ].Dir );
+                }
 
         List<Vector2> mList = new List<Vector2>(); 
         for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )                                                    // Create sector objects 

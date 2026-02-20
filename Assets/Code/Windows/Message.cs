@@ -7,7 +7,7 @@ public class Message : MonoBehaviour
     public bool MoveRight, MoveUp, ShowIcon;
     public float DurationTime, Delay;
     public tk2dTextMesh MessageTxt;
-    public tk2dSprite Icon;
+    public NSprite Icon;
     public float SpeedFactor, Size;
     // Use this for initialization
     void OnSpawn()
@@ -108,7 +108,7 @@ public class Message : MonoBehaviour
             msg = tr.gameObject.GetComponent<Message>();
             msg.Icon.gameObject.SetActive( true );
             msg.ShowIcon = true;
-            msg.Icon.spriteId = G.GIT( itemicon ).NSprite.spriteId;
+            msg.Icon.spriteId = G.GIT( itemicon ).NSprite.TkSpriteId;
             msg.transform.position += new Vector3( .5f, 0, 0 );
         }
         else

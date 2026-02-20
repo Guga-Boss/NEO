@@ -94,8 +94,8 @@ public class LightMaskGenerator : MonoBehaviour
         //if( Manager.I.GameType != EGameType.CUBES ) return;
         ShaderApplier.enabled = true;
 
-        Vector2 heroPos = G.Hero.NSpr.transform.position;
-        float angleRad = ( G.Hero.NSpr.transform.eulerAngles.z + 90f ) * Mathf.Deg2Rad;
+        Vector2 heroPos = G.Hero.Spr.transform.position;
+        float angleRad = ( G.Hero.Spr.transform.eulerAngles.z + 90f ) * Mathf.Deg2Rad;
         Vector2 dir = new Vector2( Mathf.Cos( angleRad ), Mathf.Sin( angleRad ) ).normalized;
         lights[ 0 ].Copy( CubeData.I.HeroBase );
         lights[ 0 ].worldPosition = heroPos + dir;      
