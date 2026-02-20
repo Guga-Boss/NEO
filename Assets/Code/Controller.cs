@@ -4193,7 +4193,7 @@ public partial class Controller : MonoBehaviour
             else
                 if( Unit.Variation == 2 )                                                  // Shoot towards Hero Direction, fly towards hero
                 {
-                    Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, G.Hero.NSpr.transform.position );
+                    Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, G.Hero.Spr.transform.position );
                     Unit.Spr.transform.rotation = Quaternion.RotateTowards(
                     Unit.Spr.transform.rotation, qn, FlyingRotationSpeed * Time.deltaTime );
                     add = Unit.Spr.transform.up * Time.deltaTime * FlyingSpeed;
@@ -4202,7 +4202,7 @@ public partial class Controller : MonoBehaviour
                 else
                     if( Unit.Variation == 3 )                                                  // Zig zag TBD
                     {
-                        Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, G.Hero.NSpr.transform.position );
+                        Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, G.Hero.Spr.transform.position );
                         Unit.Spr.transform.rotation = Quaternion.RotateTowards(
                         Unit.Spr.transform.rotation, qn, FlyingRotationSpeed * Time.deltaTime );
                         add = Unit.Spr.transform.up * Time.deltaTime * FlyingSpeed;
@@ -4511,7 +4511,7 @@ public partial class Controller : MonoBehaviour
     {
         if( G.HS.CubeTurnCount < 2 ) return false;                                                                             // to avoid initial quicktravel kill
         if( G.Hero.Body.InvulnerabilityFactor > 0 ) return false;
-        float dist = Vector2.Distance( G.Hero.NSpr.transform.position, Unit.transform.position );
+        float dist = Vector2.Distance( G.Hero.Spr.transform.position, Unit.transform.position );
         if( dist <= tgdist )                                                                                                   // Hero hit!
         {
             if( Unit.TileID == ETileType.BOUNCING_BALL )                                                                       // Round Pushing ball
@@ -4520,7 +4520,7 @@ public partial class Controller : MonoBehaviour
             G.Hero.Body.ReceiveDamage( att.BaseDamage, EDamageType.BLEEDING, Unit, att );                                      // Deduct damage        
             G.Hero.Body.InvulnerabilityFactor = .5f;
             if( death ) Map.I.StartCubeDeath();
-            Body.CreateDeathFXAt( G.Hero.NSpr.transform.position );                                                             // Fx
+            Body.CreateDeathFXAt( G.Hero.Spr.transform.position );                                                             // Fx
             if( snd != "" )
                 MasterAudio.PlaySound3DAtVector3( snd, G.Hero.Pos );                                                           // Sound FX
             return true;
