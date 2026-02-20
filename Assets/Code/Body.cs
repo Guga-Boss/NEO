@@ -783,11 +783,11 @@ public class Body : MonoBehaviour
         if( Manager.I.GameType == EGameType.CUBES )                                                       // Dungeon Damage Reduction
         {
             if( Unit.UnitType == EUnitType.HERO )
-                if( type != EDamageType.BLEEDING )
-                    damage = Util.Percent( Map.I.RM.RMD.MonsterDamageRate, damage );
+            if( type != EDamageType.BLEEDING )
+                damage = Util.Percent( Map.I.RM.RMD.MonsterDamageRate, damage );
 
             if( Unit.UnitType == EUnitType.HERO )
-                if( Helper.I.InvunerableHero ) damage = 0;
+            if( Helper.I.InvunerableHero ) damage = 0;
         }
 
         if( Manager.I.GameType == EGameType.CUBES )

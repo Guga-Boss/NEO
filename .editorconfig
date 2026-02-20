@@ -1,0 +1,19 @@
+root = true
+
+[*.cs]
+# Força espaços dentro de QUALQUER parêntese no C#
+csharp_space_within_expression_parentheses = true
+csharp_space_within_cast_parentheses = true
+csharp_space_within_other_parentheses = true
+
+# Mantém o if e o método colados
+csharp_space_after_keywords_in_control_flow_statements = false
+csharp_space_before_method_call_parentheses = false
+
+# Força o espaço após o fechamento do cast ) rect
+csharp_space_after_cast = true
+
+# Garante que o VS considere isso um erro de estilo se não for seguido
+dotnet_diagnostic.IDE0055.severity = warning
+
+indent_size = 4
