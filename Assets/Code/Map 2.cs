@@ -185,7 +185,7 @@ public partial class Map: MonoBehaviour
         // --- NOVO FILTRO: NÃO PROJETAR SOMBRA SOBRE FLORESTA ---
         // Se o tile onde a sombra cairia já for uma Floresta, paramos por aqui.
         ETileType targetTile = GetTileIDAt(tgX, tgY);
-        if( targetTile == ETileType.FOREST )
+        if( targetTile == ETileType.FOREST || targetTile == ETileType.ROOMDOOR )
             return;
 
         if( Sector.GetPosSectorType( new Vector2( tgX, tgY ) ) == Sector.ESectorType.GATES ) return;  // hack to avoid shadow in gates sector

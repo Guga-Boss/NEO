@@ -504,7 +504,7 @@ public class Spell : MonoBehaviour
                         mn.MeleeAttack.SpeedTimeCounter = 0;
                         ArcherArrowAnimation.SpriteID = ( int ) ItemType.Res_WebTrap;
                         ArcherArrowAnimation an = ArcherArrowAnimation.Create( G.Hero.Pos, mn.Pos, EBoltType.Spell, 5 );
-                        an.Sprite.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];
+                        an.Sprite.collection = ESpriteCol.ITEM;
                         an.Sprite.spriteId = G.GIT( ItemType.Res_WebTrap ).NSprite.spriteId;
                         an.Sprite.transform.localScale = new Vector3( .8f, .8f, 1 );
                         an.RandomFactor = Vector3.zero;

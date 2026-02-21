@@ -7,10 +7,6 @@ using System.Linq;
 using static tk2dTileMapData;
 using UnityEditor.Tilemaps;
 using UnityEngine.SocialPlatforms;
-
-
-
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -352,6 +348,22 @@ public class MyTilemap: SerializedMonoBehaviour
         Debug.Log( "<color=green>Load Concluído com Sincronia de Quadrantes!</color>" );
         Map.I.TransT.UpdateTrans();
         IgnoreUpdate = false;
+    }
+
+    [Button( "Rebuild Quest Cache" ), GUIColor( 0, 0.8f, 1 )]
+    public void RebuildQuestCache()
+    {
+        questDataCache = new Dictionary<Vector2Int, RandomMapData>();
+        foreach( var data in Map.I.RM.RMList )
+        {
+            Vector2Int key = new Vector2Int( ( int ) data.MapCord.x, ( int ) data.MapCord.y ); // ajuste se sua coord for diferente
+            if( !questDataCache.ContainsKey( key ) )
+                questDataCache.Add( key, data );
+        }
+#if UNITY_EDITOR
+        SceneView.RepaintAll();
+#endif
+        Debug.Log( $"<color=cyan>[QuestCache]</color> Rebuild completo: {questDataCache.Count} entradas." );
     }
 
     public static void ClearTilemap( MyTilemap mt )

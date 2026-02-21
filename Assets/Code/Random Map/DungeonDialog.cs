@@ -1424,7 +1424,8 @@ public class DungeonDialog : MonoBehaviour
     }
     
     public void ChooseAdventure( int adv = -1, bool btnClick = false )
-    { 
+    {
+        Debug.Log(adv);
         if( adv == -1 )
         {
             Map.I.RM.CurrentAdventure = adv; 
@@ -1460,7 +1461,7 @@ public class DungeonDialog : MonoBehaviour
         if( Map.I.RM.CurrentAdventure == -1 )
             UI.I.MapLabel.text = "";
         else
-            UI.I.MapLabel.text = Map.I.RM.RMList[ ( int ) Map.I.RM.CurrentAdventure ].name;
+            UI.I.MapLabel.text = Map.I.RM.RMList[ ( int ) Map.I.RM.CurrentAdventure ].QuestHelper.QuestName;          // Quest Name text mesh
     }
 
     public void UpdateObjectives( bool updatetimetrying = false )

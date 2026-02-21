@@ -1902,55 +1902,74 @@ public partial class Unit : MonoBehaviour
     }
     public void UpdateChainSizes( Vector2 tg )
     {
-        //ggrope//if( Body.Rope == null )                                                            // Creates the chain object if theres no one yet created
+        // 1. CRIAÇÃO / SPAWN
+        if( Body.Rope == null )
+        {
+            // O "id" passado aqui (ex: "CorrentePesada") deve existir no Inspector do seu RopeManager
+            Body.Rope = RopeManager.SpawnRope( RopeManager.Type.CHAIN, Spr.transform, Body.RopeConnectSon.transform );
+
+            //Body.Rope.transform.parent = Graphic.transform;
+            Body.Rope.name = "Rope";
+
+            // Mantém a sua lógica visual original (helpers, alavancas, etc)
+            ChainLinks cl = Body.Rope.GetComponentInChildren<ChainLinks>();
+            if( cl != null )
+            {
+                cl.transform.localPosition = Vector2.zero;
+                cl.gameObject.SetActive( true );
+                Body.RopeRotationHelper = cl.RotationHelper;
+            }
+
+            //ggggBody.RopeOrigin.transform.localPosition = Vector2.zero;
+            //Body.RopeOrigin.gameObject.SetActive( true );
+            //Body.RopeDestination.gameObject.SetActive( true );
+            //Body.RopeDestination.transform.localPosition = new Vector3( 1, 1 );
+
+            if( Body.RopeRotationHelper != null )
+            {
+                Body.RopeRotationHelper.gameObject.SetActive( Body.MineHasLever() );
+            }
+        }
+
+        // 2. ATUALIZAÇÃO DE POSIÇÕES (Helpers)
+        Body.Rope.gameObject.SetActive( true );
+        Vector3 add = Vector3.zero;
+        Vector3 dist = new Vector3(tg.x, tg.y, 0) - transform.position;
+
+        if( Body.RopeConnectSon && Body.RopeConnectSon.Body.MineType == EMineType.HOOK )
+            add = new Vector3( 0, -0.27f, 0 );
+
+        Body.Rope.transform.parent.transform.localScale = Vector3.one;
+        //Body.RopeDestination.transform.localPosition = dist + add;
+
+        float vl = Body.ClockwiseChainPush ? 0.4f : -0.4f;
+        if( Body.MineType == EMineType.SHACKLE ) vl = 0.2f;
+
+        //Quaternion qn = Util.GetRotationToPoint(Pos, Body.RopeDestination.transform.position);
+
+        //if( Body.RopeRotationHelper != null )
         //{
-        //    Transform tr = PoolManager.Pools[ "Pool" ].Spawn( "Chain" );
-        //    Body.Rope = tr.GetComponentInChildren<TackRope>();
-        //    tr.transform.parent = Graphic.transform;
-        //    tr.name = "Chain " + Random.Range(0,99);
-        //    Body.Rope.name = "Rope";
-        //    ChainLinks cl = tr.GetComponentInChildren<ChainLinks>();
-        //    cl.transform.localPosition = Vector2.zero;
-        //    cl.gameObject.SetActive( true );
-        //    Body.Rope.gameObject.SetActive( true );
-        //    Body.RopeOrigin = Body.Rope.ObjectA.GetComponent<Tack>();
-        //    Body.RopeDestination = Body.Rope.ObjectB.GetComponent<Tack>();
-        //    Body.RopeRotationHelper = cl.RotationHelper;
-        //    Body.RopeOrigin.transform.localPosition = Vector2.zero;
-        //    Body.RopeOrigin.gameObject.SetActive( true );
-        //    Body.RopeDestination.gameObject.SetActive( true );
-        //    Body.RopeDestination.transform.localPosition = new Vector3( 1, 1 );
-        //    Body.RopeRotationHelper.gameObject.SetActive( true );
-        //    Body.RopeRotationHelper.gameObject.SetActive( false );
-        //    if( Body.MineHasLever() )
-        //        Body.RopeRotationHelper.gameObject.SetActive( true );
+        //    Body.RopeRotationHelper.transform.rotation = Quaternion.RotateTowards( Body.RopeRotationHelper.transform.rotation, qn, 999f );
+        //    Body.RopeOrigin.transform.localPosition = Body.RopeRotationHelper.transform.right * vl;
         //}
 
-        ////if( Body.MineType == EMineType.SPIKE_BALL && Body.ShackleDistance >= 1 ) return;   // new
-        //Body.Rope.gameObject.SetActive( true );        
-        //Vector3 add = Vector3.zero;
-        //Vector3 dist = new Vector3( tg.x, tg.y, 0 ) - transform.position;
-        //if( Body.RopeConnectSon && Body.RopeConnectSon.Body.MineType == EMineType.HOOK )
-        //    add = new Vector3( 0, -0.27f, 0 );
-        //Body.Rope.transform.parent.transform.localScale = new Vector3( 1, 1, 1 );
-        //Body.RopeDestination.transform.localPosition = dist + add;
-        //float vl = -0.4f;
-        //if( Body.ClockwiseChainPush ) vl *= -1;
-        //Quaternion qn = Util.GetRotationToPoint( Pos, Body.RopeDestination.transform.position );
-        //Body.RopeRotationHelper.transform.rotation = Quaternion.RotateTowards(
-        //Body.RopeRotationHelper.transform.rotation, qn, 999f );
-        //if( Body.MineType == EMineType.SHACKLE ) vl = 0.2f;
-        //Body.RopeOrigin.transform.localPosition = Body.RopeRotationHelper.transform.right * vl;
-        //Body.Rope.AutoCalculateAmountOfNodes = true;
-        //if( Body.MineHasLever() )
-        //if( Util.Neighbor( G.Hero.Pos, Pos ) )
+        // 3. RECÁLCULO DINÂMICO DE ELOS (Verlet Stretch)
+        //float currentDistance = Vector2.Distance(Body.Rope.pointA.transform.position, Body.Rope.pointB.transform.position );
+        //int requiredNodes = Mathf.Max(2, Mathf.CeilToInt(currentDistance / Body.Rope.config.nodeDistance));
+
+        //// Se a corrente precisar de mais/menos elos para não esticar o sprite, refazemos o setup
+        //if( Body.Rope.nodes != null && Body.Rope.nodes.Length != requiredNodes )
         //{
-        //    Body.EffectList[ 2 ].gameObject.SetActive( true );
-        //    Body.EffectList[ 2 ].gameObject.transform.rotation = Quaternion.RotateTowards(
-        //    Body.RopeRotationHelper.transform.rotation, qn, 999f );
+        //    Body.Rope.Cleanup();
+        //    Body.Rope.Setup( Body.Rope.config, Body.Rope.pointA.transform, Body.Rope.pointB.transform, requiredNodes );
         //}
-        //Body.RopeOrigin.gameObject.SetActive( true );
-        //Body.RopeDestination.gameObject.SetActive( true );
+
+        // 4. EFEITOS
+        if( Body.MineHasLever() && Util.Neighbor( G.Hero.Pos, Pos ) )
+        {
+            Body.EffectList[ 2 ].gameObject.SetActive( true );
+            //Body.EffectList[ 2 ].gameObject.transform.rotation = Quaternion.RotateTowards( Body.RopeRotationHelper.transform.rotation, qn, 999f );
+        }
     }
 
     public void UpdateSpikedBallChainSizes()

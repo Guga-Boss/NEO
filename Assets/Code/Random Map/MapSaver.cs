@@ -47,6 +47,21 @@ public class MapSaver : MonoBehaviour
     public tk2dTileMap Tilemap;
     public static bool Converting = false;
 
+#if UNITY_EDITOR
+    [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton
+    static void InitSingleton()
+    {
+        EditorApplication.delayCall += () =>
+        {
+            if( !Application.isPlaying )
+            {
+                GameObject ms = GameObject.Find( "Areas Template Tilemap" );
+               if( ms ) I = ms.GetComponent<MapSaver>(); ;
+            }
+        };
+    }
+#endif
+
     [HorizontalGroup( "Split", 0.5f )]
     [Button( "Load", ButtonSizes.Large ), GUIColor( 0, 1f, 0 )]
     public void Button1()

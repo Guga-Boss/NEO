@@ -101,7 +101,22 @@ public class Helper : MonoBehaviour
     [TabGroup( "Debug" )]
     public ETileType DrawTile;
 
-	void Start () 
+#if UNITY_EDITOR
+    [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton
+    static void InitSingleton()
+    {
+        EditorApplication.delayCall += () =>
+        {
+            if( !Application.isPlaying )
+            {
+                GameObject go = GameObject.Find("Helper");
+                if( go != null ) I = go.GetComponent<Helper>();
+            }
+        };
+    }
+#endif
+
+    void Start () 
     {
         I = this;
 

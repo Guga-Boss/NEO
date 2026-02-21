@@ -14,17 +14,11 @@ public class TilePaletteWatcher: EditorWindow
     private Vector3Int lastGridPos = new Vector3Int(-999, -999, -999);
     private Type paintingStateType;
 
-    [SerializeField] private MyTilemap myTilemap;
-
     [MenuItem( "Tools/Tilemap Master Watcher" )]
     public static void ShowWindow() => GetWindow<TilePaletteWatcher>( "Tile Master" ).Show();
 
     private void OnEnable()
     {
-        // 1. Localiza o componente core
-        if( myTilemap == null )
-            myTilemap = FindFirstObjectByType<MyTilemap>();
-
         // 2. Reflexão para ler a Tile Palette (GridPaintingState)
         paintingStateType = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany( a => a.GetTypes() )
@@ -58,73 +52,69 @@ public class TilePaletteWatcher: EditorWindow
         if( focusedWindow == this ) Repaint();
     }
 
-    // ===================================================================================
-    // VISUALIZAÇÃO NA SCENE (OS BOTÕES)
-    // ===================================================================================
     private void OnSceneGUI( SceneView sceneView )
     {
-        // 1. Validação de segurança
-        if( myTilemap == null ) myTilemap = FindFirstObjectByType<MyTilemap>();
-        if( myTilemap == null || myTilemap.Tilemaps == null ) return;
+        Handles.BeginGUI(); // begin GUI drawing in SceneView
 
-        Handles.BeginGUI();
-
-        foreach( var tilemap in myTilemap.Tilemaps )
+        foreach( var tilemap in Map.I.TM.Tilemaps )
         {
-            if( tilemap == null ) continue;
+            if( tilemap == null )
+                continue; // skip null tilemaps
 
-            // Percorre os tiles existentes no mapa
             foreach( var pos in tilemap.cellBounds.allPositionsWithin )
             {
                 TileBase tile = tilemap.GetTile(pos);
-                if( tile == null ) continue;
+                if( tile == null )
+                    continue; // skip empty cells
 
-                // 2. Verifica se o tile é um alvo (ex: QuestTile)
-                if( tile.name.Contains( myTilemap.targetTileName ) )
-                {
-                    Vector3 worldPos = tilemap.GetCellCenterWorld(pos);
-                    Vector2 guiPos = HandleUtility.WorldToGUIPoint(worldPos);
+                if( !tile.name.Contains( Map.I.TM.targetTileName ) )
+                    continue; // only process target tiles
 
-                    Vector2Int coordKey = new Vector2Int(pos.x, pos.y);
-                    string label = "Quest";
-                    GameObject targetToSelect = null;
+                Vector2Int coordKey = new Vector2Int(pos.x, pos.y); // grid coordinate key
 
-                    // Busca os dados completos no novo dicionário
-                    if( myTilemap.questDataCache != null && myTilemap.questDataCache.TryGetValue( coordKey, out RandomMapData data ) )
-                    {
-                        label = data.QuestHelper.QuestName;
-                        targetToSelect = data.gameObject; // O Prefab/GameObject que você quer selecionar
-                    }
+                if( Map.I.TM.questDataCache == null )
+                    continue; // no cache available
 
-                    Rect rect = new Rect(guiPos.x - 40, guiPos.y - 12, 80, 25);
+                if( !Map.I.TM.questDataCache.TryGetValue( coordKey, out RandomMapData data ) )
+                    continue; // no quest assigned to this tile
 
-                    GUI.backgroundColor = targetToSelect != null ? Color.green : Color.red;
+                if( !data.Available )
+                    continue; // only show button if quest is available
 
-                    if( GUI.Button( rect, label ) )
-                    {
-                        if( targetToSelect != null )
-                        {
-                            // --- A MÁGICA ACONTECE AQUI ---
-                            Selection.activeGameObject = targetToSelect;
-                            EditorGUIUtility.PingObject( targetToSelect ); // Faz o objeto "piscar" no Project/Hierarchy
+                Vector3 worldPos = tilemap.GetCellCenterWorld(pos); // convert cell to world position
+                Vector2 guiPos = HandleUtility.WorldToGUIPoint(worldPos); // convert world to GUI space
 
-                            Debug.Log( $"<color=green>Selecionado:</color> {targetToSelect.name}" );
-                        }
-                        else
-                        {
-                            Debug.LogWarning( $"Quest '{label}' encontrada em {pos}, mas o campo 'gameobj' está nulo!" );
-                        }
-                    }
+                string label = data.QuestHelper.QuestName; // quest display name
+                GameObject targetToSelect = data.gameObject; // object to select on click
+
+                GUIStyle style = new GUIStyle(GUI.skin.button);
+                Vector2 size = style.CalcSize(new GUIContent(label));
+
+                float maxWidth = 190f;
+                style.fontSize = 10; 
+                float width = Mathf.Min(size.x + 20, maxWidth);
+                GUI.backgroundColor = Color.green; // available quest color
+                Rect rect = new Rect(guiPos.x - width * 0.5f, guiPos.y - 12, width, 25);
+                
+                if( GUI.Button( rect, label, style ) )
+                { 
+                    Selection.activeGameObject = targetToSelect; // select quest object
+                    EditorGUIUtility.PingObject( targetToSelect ); // highlight in hierarchy/project 
+                    MapSaver ms = MapSaver.Get( );
+                    ms.FolderName = data.QuestHelper.SubFolder + "/" + data.QuestHelper.Signature;
+                    ms.CurrentAdventure = data.QuestID;
+                    ms.CurrentAdventureName = data.QuestHelper.QuestName;
+                    Helper.I.StartingAdventure = data.QuestID;
+                    Debug.Log( $"<color=green>Selected:</color> {data.QuestHelper.QuestName}" ); // debug feedback 
                 }
             }
         }
 
-        GUI.backgroundColor = Color.white;
-        Handles.EndGUI();
+        GUI.backgroundColor = Color.white; // reset GUI color
+        Handles.EndGUI(); // finish GUI drawing
 
-        // Faz a SceneView atualizar ao mover o mouse (opcional, mas ajuda a UI a não 'engasgar')
         if( Event.current.type == EventType.MouseMove )
-            sceneView.Repaint();
+            sceneView.Repaint(); // smooth UI refresh
     }
 
     // ===================================================================================
@@ -141,9 +131,9 @@ public class TilePaletteWatcher: EditorWindow
             // Busca a Layer correta no seu Map.cs
             ELayerType layer = Map.GetTileLayer(tileType);
 
-            if( layer != ELayerType.NONE && myTilemap.Tilemaps.Count > (int) layer )
+            if( layer != ELayerType.NONE && Map.I.TM.Tilemaps.Count > (int) layer )
             {
-                GameObject targetLayer = myTilemap.Tilemaps[(int)layer].gameObject;
+                GameObject targetLayer = Map.I.TM.Tilemaps[(int)layer].gameObject;
 
                 // Força a Tile Palette a desenhar na layer correta
                 GridPaintingState.scenePaintTarget = targetLayer;

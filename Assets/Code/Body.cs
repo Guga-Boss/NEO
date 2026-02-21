@@ -59,12 +59,10 @@ public class Body : MonoBehaviour
     public Vector2 FireSourcePos = new Vector2( -1, -1 );
     [TabGroup( "Link" )]
     public Rigidbody2D RigidBody;
-    //ggrope[TabGroup( "Link" )]
-    //public TackRope Rope;
+    [TabGroup( "Link" )]
+    public Rope Rope;
     [TabGroup( "Link" )]
     public List<tk2dSprite> PoleSpriteList, PoleBackSpriteList;
-    //[TabGroup( "Link" )]
-    //ggropepublic Tack RopeOrigin, RopeDestination;
     [TabGroup( "Link" )]
     public GameObject RopeRotationHelper;
     [TabGroup( "Bool" )]
@@ -93,7 +91,6 @@ public class Body : MonoBehaviour
 
     [TabGroup( "Enum" )]
     public EResourceOperation ResourceOperation = EResourceOperation.NONE;
-
     [TabGroup( "List" )]
     public List<ItemType> BonusItemList = null;
     [TabGroup( "List" )]

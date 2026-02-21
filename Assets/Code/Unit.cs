@@ -3048,8 +3048,9 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             {
                 Unit un = Map.I.GetUnit( new Vector2(x + xx, y + yy), ELayerType.GAIA);
                 if( un )
-                if( un.TileID == ETileType.CLOSEDDOOR || un.TileID == ETileType.OPENDOOR )
-                    return true;
+                if( un.TileID == ETileType.CLOSEDDOOR || un.TileID == ETileType.OPENDOOR || 
+                    un.TileID == ETileType.ROOMDOOR || un.TileID == ETileType.OPENROOMDOOR )
+                        return true;
             }
         return false;
     }
@@ -4305,7 +4306,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                Spr.transform.localScale = new Vector3( val, val, 1 );
                
                //if( Map.I.TurnFrameCount == 1 )
-               //if( TileID == ETileType.DOOR_KNOB )                                                   // scales keys in a better way over doors
+               //if( TileID == ETileType.DOOR_KNOB )                                                  // scales keys in a better way over doors
                {
                    Spr.scale = new Vector3( 1, 1, 1 );
                    Spr.transform.localPosition = new Vector3( 0, 0, -0.8f );

@@ -17,7 +17,7 @@ public class ArcherArrowAnimation : MonoBehaviour {
     public Vector3 RandomFactor;
     public GameObject TargetObject;
 	public string MyName;
-    public tk2dSprite Sprite;
+    public NSprite Sprite;
 	Transform Trans;
     public EBoltType Type = EBoltType.Arrow;
     public float LastDistance, AnimationTime, StartDelay = 0, AfterReachTime = 0;
@@ -68,7 +68,7 @@ public class ArcherArrowAnimation : MonoBehaviour {
         FadeAnimation = true;
         Sprite.spriteId = 352;
         FrameCount = 0;
-        Sprite.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ];
+        Sprite.collection = ESpriteCol.MONSTER_ANIM;
         tr.localScale = new Vector3( 1, 1, 1 );
         SprCol = Color.white;
         string snd = "";
@@ -130,7 +130,7 @@ public class ArcherArrowAnimation : MonoBehaviour {
         }
         if( Type == EBoltType.Item )
         {
-            Sprite.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];
+            Sprite.collection = ESpriteCol.ITEM;
             Sprite.spriteId = G.GIT( SpriteID ).NSprite.spriteId;
             ArrowSpeed = 20f;
             tr.localScale = new Vector3( .5f, .5f, .5f );
@@ -138,7 +138,7 @@ public class ArcherArrowAnimation : MonoBehaviour {
         else
         if( Type == EBoltType.Spell )
         {
-            Sprite.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];
+            Sprite.collection = ESpriteCol.ITEM;
             Sprite.spriteId = G.GIT( SpriteID ).NSprite.spriteId;
             ArrowSpeed = 20f;
             tr.localScale = new Vector3( .5f, .5f, .5f );
@@ -156,8 +156,9 @@ public class ArcherArrowAnimation : MonoBehaviour {
         if( Type == EBoltType.Arrow )
         {
             ArrowSpeed = Random.Range( 14, 18 ) + ( Vector2.Distance( OrigPos, _unit.Pos ) * 2 ); // new
-            Sprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ], 351 ); // To avoid the green square instead of arrow bug
-            Sprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ], 352 );
+            //Sprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ], 351 ); // To avoid the green square instead of arrow bug
+            Sprite.collection = ESpriteCol.MONSTER_ANIM;
+            Sprite.spriteId = 3521;
         }
 
         transform.position = new Vector3( Pos.x, Pos.y, -4 );
@@ -327,10 +328,11 @@ public class ArcherArrowAnimation : MonoBehaviour {
     public void DestroyMe()
     {
         if( Type == EBoltType.Spell ) Spell.AttachSpell( TargetUnit, SpellPosition );
+
         if( PlayExplosion > 0 )
             Map.I.CreateExplosionFX( transform.position, "Fire Explosion", "" );                                   // Explosion FX
-        Sprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ], 351 ); // To avoid the green square instead of arrow bug
-        Sprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ], 352 );
+        //Sprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ], 351 ); // To avoid the green square instead of arrow bug
+        //Sprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ], 352 );
         Reset();
         PoolManager.Pools[ "Pool" ].Despawn( Trans );
     }

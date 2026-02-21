@@ -9,10 +9,6 @@ using Sirenix.OdinInspector;
 using System.Linq;
 using UnityEngine.UIElements;
 using TMPro;
-
-
-
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -959,28 +955,6 @@ public partial class Farm : MonoBehaviour
 
     public void UpdateListsCallBack()
     {
-
-
-        Map.I.RM.DungeonDialog.StudiesGO.gameObject.SetActive( true );
-
-        Map.I.TB = Map.I.RM.DungeonDialog.TechButtonsGO
-            .GetComponentsInChildren<TechButton>( true );
-
-        int columns = 6;
-
-        for( int i = 0; i < Map.I.TB.Length; i++ )
-        {
-            int x = i / columns;   // linha
-            int y = i % columns;   // coluna
-
-            Map.I.TB[ i ].X = x;
-            Map.I.TB[ i ].Y = y;
-        }
-
-        Map.I.RM.DungeonDialog.StudiesGO.gameObject.SetActive( false );
-
-        return;
-
         //GameObject go = GameObject.Find( "BluePrint List" );        its being done manually now
         //Blueprint[] bp = go.GetComponentsInChildren<Blueprint>();
         //BluePrintList.Clear();
@@ -1000,61 +974,102 @@ public partial class Farm : MonoBehaviour
         int[ , ] poscount = new int[ TechButton.SX, TechButton.SY ];
         Map.I.GlobalTechList = new List<AdventureUpgradeInfo>();
 
-        List<RandomMapData> temp = new List<RandomMapData>();                             // Code to update master list with new maps from resources
+        //List<RandomMapData> temp = new List<RandomMapData>();                             // Code to update master list with new maps from resources
+
+        //string rootFolder = "Assets/Resources/Map Templates";
+
+        //foreach( string guid in AssetDatabase.FindAssets(
+        //"t:Prefab", new[ ] { rootFolder } ) )
+        //{
+        //    string path = AssetDatabase.GUIDToAssetPath( guid );                          // get prefab path
+        //    string parentFolder = System.IO.Path.GetDirectoryName( path );                // get parent folder
+
+        //    if( parentFolder == rootFolder )                                              // skip prefabs directly in root folder
+        //        continue;
+
+        //    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>( path );               // load prefab
+        //    var maps = prefab.GetComponentsInChildren<RandomMapData>( true );             // collect all RandomMapData
+
+        //    foreach( var r in maps )
+        //    {
+        //        if( r.name == "Default Quest" )                                           // skip default quest templates
+        //            continue;
+
+        //        temp.Add( r );                                                            // add valid map
+        //        temp[ temp.Count - 1 ].name = r.QuestHelper.QuestName;                    // obj name from quest name
+        //    }
+        //}
+
+        //int nextID = 0;                                                                   // next available QuestID
+        //foreach( var r in rm.RMList )
+        //{
+        //    if( r.QuestID >= nextID )
+        //        nextID = r.QuestID + 1;                                                   // compute next id based on master list
+        //}
+
+        //foreach( var r in temp )
+        //{
+        //    bool exists = false;                                                          // assume new map
+
+        //    r.name = r.QuestHelper.QuestName;                                             // obj name from quest name
+        //    foreach( var old in rm.RMList )
+        //    {
+        //        if( old.QuestID == r.QuestID )
+        //        {
+        //            exists = true;                                                        // map already exists in master list
+        //            break;
+        //        }
+        //    }
+        //    if( exists )
+        //        continue;                                                                 // skip existing maps
+
+        //    r.QuestID = nextID++;                                                         // assign new id at the end
+        //    rm.RMList.Add( r );                                                           // append to master list
+
+        //    Debug.Log( "NEW MAP ADDED | ID: " + r.QuestID + " | Name: " +
+        //        r.name + " | Quest: " + r.QuestHelper.QuestName, r.gameObject );          // log new phase
+        //}
+
+        rm.RMList.Clear();
+
+        List<RandomMapData> temp = new List<RandomMapData>();
 
         string rootFolder = "Assets/Resources/Map Templates";
 
         foreach( string guid in AssetDatabase.FindAssets(
-        "t:Prefab", new[ ] { rootFolder } ) )
+            "t:Prefab", new[ ] { rootFolder } ) )
         {
-            string path = AssetDatabase.GUIDToAssetPath( guid );                          // get prefab path
-            string parentFolder = System.IO.Path.GetDirectoryName( path );                // get parent folder
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            string parentFolder = System.IO.Path.GetDirectoryName(path);
 
-            if( parentFolder == rootFolder )                                              // skip prefabs directly in root folder
+            if( parentFolder == rootFolder )
                 continue;
 
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>( path );               // load prefab
-            var maps = prefab.GetComponentsInChildren<RandomMapData>( true );             // collect all RandomMapData
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            var maps = prefab.GetComponentsInChildren<RandomMapData>(true);
 
             foreach( var r in maps )
             {
-                if( r.name == "Default Quest" )                                           // skip default quest templates
+                if( !r.Available )
                     continue;
 
-                temp.Add( r );                                                            // add valid map
-                temp[ temp.Count - 1 ].name = r.QuestHelper.QuestName;                    // obj name from quest name
+                if( r.tag != "Map Quest" )
+                    continue;
+
+                r.name = r.QuestHelper.QuestName;
+                r.QuestID = temp.Count;
+                temp.Add( r );
             }
         }
 
-        int nextID = 0;                                                                   // next available QuestID
-        foreach( var r in rm.RMList )
-        {
-            if( r.QuestID >= nextID )
-                nextID = r.QuestID + 1;                                                   // compute next id based on master list
-        }
+        //// 🔹 Ordena pelo QuestID existente
+        //temp = temp.OrderBy( x => x.QuestID ).ToList();
 
-        foreach( var r in temp )
-        {
-            bool exists = false;                                                          // assume new map
+        //// 🔹 Agora a lista final fica fiel ao ID
+        rm.RMList.AddRange( temp );
 
-            r.name = r.QuestHelper.QuestName;                                             // obj name from quest name
-            foreach( var old in rm.RMList )
-            {
-                if( old.QuestID == r.QuestID )
-                {
-                    exists = true;                                                        // map already exists in master list
-                    break;
-                }
-            }
-            if( exists )
-                continue;                                                                 // skip existing maps
+        return;
 
-            r.QuestID = nextID++;                                                         // assign new id at the end
-            rm.RMList.Add( r );                                                           // append to master list
-
-            Debug.Log( "NEW MAP ADDED | ID: " + r.QuestID + " | Name: " +
-                r.name + " | Quest: " + r.QuestHelper.QuestName, r.gameObject );          // log new phase
-        }
 
         Helper.I = GameObject.Find( "Helper" ).GetComponent<Helper>();
         Helper.I.StartingAdventure = ms.CurrentAdventure;

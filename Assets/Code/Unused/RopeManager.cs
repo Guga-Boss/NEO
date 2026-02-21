@@ -1,240 +1,162 @@
+using PathologicalGames;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
-using static ES2Settings;
 
-[RequireComponent( typeof( LineRenderer ) )]
 public class RopeManager: MonoBehaviour
 {
-    #region Variáveis de Configuração
-    [TabGroup("Config", "Ancoragem")]
-    [Required, SceneObjectsOnly] public Transform pontoA;
-    [TabGroup("Config", "Ancoragem")]
-    [Required, SceneObjectsOnly] public Transform pontoB;
+    public static RopeManager I;
 
-    [TabGroup("Config", "Ajustes Visuais")]
-    [Required, AssetsOnly] public GameObject nodePrefab;
-    public float zOffset = 0f;
-    [Range(0.01f, 1f)] public float larguraDaLinha = 0.1f;
-    public Color corDaCorda = Color.white;
-
-    [TabGroup("Config", "Corrente")]
-    public bool usarSpritesDeCorrente = false;
-    [ShowIf("usarSpritesDeCorrente")]
-    public bool intercalarRotacao = true;
-
-    [TabGroup("Config", "Controle de Tensão")]
-    public bool distanciaAutomatica = true;
-    [DisableIf("distanciaAutomatica")]
-    public float distanciaEntreNos = 0.5f;
-    [Range(2, 100)] public int quantidadeDeNos = 10;
-    public bool pontaFinalPresa = false;
-
-    [TabGroup("Config", "Física (Rigidez)")]
-    [InfoBox("O Distance Joint trava o estiramento perto do pino. 'Max Distance Only' permite que a corda dobre, mas não estique.")]
-    public bool usarDistanceJoint = true;
-    [ShowIf("usarDistanceJoint")] public float travaDistancia = 0.05f;
-    [ShowIf("usarDistanceJoint")] public bool apenasDistanciaMaxima = true;
-
-    [TabGroup("Config", "Física Geral")]
-    public bool colidirEntreNos = false;
-    public float massaDosNos = 0.5f;
-    public float arrastoLinear = 0.5f;
-    public float gravidadeEscala = 1f;
+    #region Rope Database
+    [Title("Rope Bank")]
+    [TableList]
+    public List<RopeConfig> ropeBank = new List<RopeConfig>(); // Configure your types here
+    public enum Type
+    {
+        NONE = -1, CHAIN, FISHING_LINE,
+    }
     #endregion
 
-    [SerializeField, HideInInspector]
-    private List<GameObject> nosGerados = new List<GameObject>();
-    private LineRenderer lineRenderer;
+    #region Global Wind Settings
+    [Title("Global Wind")]
+    public bool isWindActive = true;
+    public float windIntensity = 2f;
+    public float windFrequency = 0.5f;
+    public float ZPosition = -3f;
 
+    public static Vector2 globalWindDirection; // Public so instances can read it
+    #endregion
 
-    [TabGroup( "Config", "Física (Rigidez)" )]
-    [LabelText( "Modo de Rigidez" )]
-    public enum RigidityMode { ChainBending, RigidRod }
-    public RigidityMode modoRigidez = RigidityMode.ChainBending;
-
-    [Button( ButtonSizes.Gigantic ), GUIColor( 0, 1, 0 )]
-    public void GenerateRope()
+    private void Awake()
     {
-        ClearRope();
+        I = this;
+    }
+    [Title("Timed Wind Settings")]
+    public float changeInterval = 5f;
+    private float timer;
+    private float windOffset;
+    public float WindIntensityMin  = .1f;
+    public float WindIntensityMax  = 2f;
 
-        // Verificação de segurança básica
-        if( pontoA == null || pontoB == null || nodePrefab == null )
+    private void FixedUpdate()
+    {
+        if( !isWindActive )
         {
-            Debug.LogWarning( "RopeManager: Faltam referências (Ponto A, B ou Prefab)!" );
+            globalWindDirection = Vector2.zero;
             return;
         }
 
-        // 1. Configuração do LineRenderer (Regra: Sorting Layer "Default")
-        lineRenderer = GetComponent<LineRenderer>();
-        lineRenderer.sortingLayerName = "Default";
-        lineRenderer.startColor = corDaCorda;
-        lineRenderer.endColor = corDaCorda;
-        lineRenderer.startWidth = larguraDaLinha;
-        lineRenderer.endWidth = larguraDaLinha;
-
-        // 2. Cálculos de Distância
-        float distReal = Vector2.Distance(pontoA.position, pontoB.position);
-        float distFinal = distanciaAutomatica ? (distReal / (quantidadeDeNos - 1)) : distanciaEntreNos;
-        Vector3 direcao = (pontoB.position - pontoA.position).normalized;
-        Rigidbody2D ultimoRB = pontoA.GetComponent<Rigidbody2D>();
-
-        for( int i = 0; i < quantidadeDeNos; i++ )
+        // Timer para pular para uma nova posição no Noise
+        timer += Time.fixedDeltaTime;
+        if( timer >= changeInterval || Map.I.AdvanceTurn )
         {
-            Vector3 pos = pontoA.position + (direcao * (i * distFinal));
-            pos.z = zOffset;
+            timer = 0;
+            // O segredo está aqui: pulamos para um valor longe no Perlin
+            // Isso muda a direção "base", mas o ruído continua rodando a partir daí
+            windOffset = Random.Range( 0f, 1000f );
 
-            GameObject novoNo = Instantiate(nodePrefab, pos, Quaternion.identity, transform);
-            novoNo.name = $"No_{i}";
-            nosGerados.Add( novoNo );
-
-            // --- Configuração Rigidbody2D ---
-            Rigidbody2D rb = novoNo.GetComponent<Rigidbody2D>();
-            rb.mass = massaDosNos;
-            rb.linearDamping = arrastoLinear;
-            rb.gravityScale = gravidadeEscala;
-            rb.interpolation = RigidbodyInterpolation2D.Interpolate;
-            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-
-            // --- CONFIGURAÇÃO DOS JOINTS (A CHAVE PARA NÃO ESTICAR) ---
-
-            // 1. HingeJoint2D: Permite o balanço
-            HingeJoint2D hinge = novoNo.GetComponent<HingeJoint2D>() ?? novoNo.AddComponent<HingeJoint2D>();
-            hinge.connectedBody = ultimoRB;
-            hinge.autoConfigureConnectedAnchor = false; // CORREÇÃO DO PRINT: Forçamos false
-            hinge.connectedAnchor = Vector2.zero;        // Zera o erro de 164.202 do seu print
-            hinge.anchor = Vector2.zero;
-
-            // 2. FixedJoint2D: Trava a distância (Hard Lock)
-            FixedJoint2D fixedJ = novoNo.GetComponent<FixedJoint2D>() ?? novoNo.AddComponent<FixedJoint2D>();
-            fixedJ.connectedBody = ultimoRB;
-            fixedJ.autoConfigureConnectedAnchor = false;
-            fixedJ.connectedAnchor = Vector2.zero;
-            fixedJ.anchor = Vector2.zero;
-
-            // Frequência 0 e Damping 0 tornam a junta inquebrável e sem elasticidade
-            fixedJ.dampingRatio = 0;
-            fixedJ.frequency = 0;
-
-            ultimoRB = rb;
+            // Opcional: variar a intensidade a cada mudança brusca
+            windIntensity = Random.Range( WindIntensityMin, WindIntensityMax );
         }
 
-        // 4. Conectar opcionalmente ao Ponto B
-        if( pontaFinalPresa ) ConectarPontaFinalManual();
+        // Somamos o tempo atual com o offset aleatório
+        float time = (Time.time + windOffset) * windFrequency;
+
+        // O Noise continua funcionando, garantindo que a corda não fique estática
+        float windAngle = Mathf.PerlinNoise(time, 0f) * Mathf.PI * 2f;
+        float variableForce = Mathf.PerlinNoise(time, time) * windIntensity;
+
+        globalWindDirection = new Vector2( Mathf.Cos( windAngle ), Mathf.Sin( windAngle ) ) * variableForce;
     }
 
-    private void ConectarPontaFinalManual()
+    // --- STATIC SPAWNER ---
+    public static Rope SpawnRope( Type type, Transform origin, Transform destination )
     {
-        Rigidbody2D rbB = pontoB.GetComponent<Rigidbody2D>();
-        if( rbB != null && nosGerados.Count > 0 )
+        // Find config in list without dictionary
+        RopeConfig config = I.ropeBank[0];
+        for( int i = 0; i < I.ropeBank.Count; i++ )
         {
-            GameObject ultimoNo = nosGerados[nosGerados.Count - 1];
-
-            FixedJoint2D fJoint = ultimoNo.AddComponent<FixedJoint2D>();
-            fJoint.connectedBody = rbB;
-            fJoint.autoConfigureConnectedAnchor = false;
-            fJoint.connectedAnchor = Vector2.zero;
-            fJoint.dampingRatio = 0;
-            fJoint.frequency = 0;
-        }
-    }
-
-    private void ConectarPontaFinal()
-    {
-        Rigidbody2D rbB = pontoB.GetComponent<Rigidbody2D>();
-        if( rbB != null && nosGerados.Count > 0 )
-        {
-            GameObject lastNode = nosGerados[nosGerados.Count - 1];
-            HingeJoint2D finalHinge = lastNode.AddComponent<HingeJoint2D>();
-            finalHinge.connectedBody = rbB;
-            finalHinge.autoConfigureConnectedAnchor = false;
-            finalHinge.connectedAnchor = Vector2.zero;
-
-            if( usarDistanceJoint )
+            if( I.ropeBank[ i ].type == type )
             {
-                DistanceJoint2D finalDist = lastNode.AddComponent<DistanceJoint2D>();
-                finalDist.connectedBody = rbB;
-                finalDist.autoConfigureDistance = false;
-                finalDist.distance = travaDistancia;
-                finalDist.maxDistanceOnly = apenasDistanciaMaxima;
+                config = I.ropeBank[ i ];
+                break;
             }
         }
+
+        // 1. Get from your PoolManager
+        Transform tr = PoolManager.Pools["Pool"].Spawn("Rope");
+
+        // 2. Calculate required nodes based on distance (Protegido contra divisão por zero)
+        float dist = Vector2.Distance(origin.position, destination.position);
+        float safeNodeDist = config.nodeDistance > 0f ? config.nodeDistance : 0.25f;
+        int calcNodes = Mathf.Max(2, Mathf.CeilToInt(dist / safeNodeDist));
+
+
+        calcNodes = 20;
+
+
+        // 3. Setup the instance data
+        Rope rope = tr.GetComponent<Rope>();
+        if( rope == null ) rope = tr.gameObject.AddComponent<Rope>();
+
+        // Usamos calcNodes novamente, garantindo que o número de elos seja perfeito 
+        rope.Setup( config, origin, destination, calcNodes );
+
+        return rope;
     }
 
-    [Button, GUIColor( 1, 0, 0 )]
-    public void ClearRope()
+    // Call this before returning to pool 
+    public static void DespawnRope( Rope rope )
     {
-        foreach( var no in nosGerados ) { if( no != null ) DestroyImmediate( no ); }
-        nosGerados.Clear();
+        if( rope == null ) return;
+        rope.Cleanup();
+        PoolManager.Pools[ "Pool" ].Despawn( rope.transform );
     }
 
-    private void Update()
+    [System.Serializable]
+    public class RopeConfig
     {
-        if( nosGerados.Count > 0 )
-        {
-            RenderRope();
-            if( usarSpritesDeCorrente ) UpdateChainRotation();
-        }
+        [HorizontalGroup("Split", 0.5f)]
+        [BoxGroup("Split/General")]
+        [EnumPaging, HideLabel]
+        public Type type;
+
+        [BoxGroup("Split/General")]
+        [LabelWidth(50)]
+        public string id; // Used to identify the config
+
+        [TabGroup("Settings", "Visuals", Icon = SdfIconType.Brush)]
+        [AssetsOnly]
+        public GameObject linkPrefab;
+
+        [TabGroup("Settings", "Visuals")]
+        public Vector3 linkScale = new Vector3(1, 1, 1);
+
+        [TabGroup("Settings", "Visuals")]
+        public Color ropeColor = Color.white;
+
+        [TabGroup("Settings", "Visuals")]
+        [MinValue(0)]
+        public float lineWidth;
+
+        [TabGroup("Settings", "Physics", Icon = SdfIconType.Activity)]
+        public Vector2 gravity;
+
+        [TabGroup("Settings", "Physics")]
+        [Range(5, 100)]
+        public int stiffness = 20;
+
+        [TabGroup("Settings", "Physics")]
+        [Range(0f, 1f)]
+        public float damping = 0.95f;
+
+        [TabGroup("Settings", "Dynamic", Icon = SdfIconType.Layers)]
+        [InfoBox("Multiplicador de distância para o cálculo automático de nodes.")]
+        [Range(0f, 10f)]
+        public float AutoLengthMultiplier = 1;
+
+        [TabGroup("Settings", "Dynamic")]
+        [MinValue(0.01f)]
+        public float nodeDistance = 0.25f;
     }
-
-    private void UpdateChainRotation()
-    {
-        for( int i = 0; i < nosGerados.Count - 1; i++ )
-        {
-            if( nosGerados[ i ] == null || nosGerados[ i + 1 ] == null ) continue;
-            Vector3 dir = nosGerados[i + 1].transform.position - nosGerados[i].transform.position;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-            nosGerados[ i ].transform.rotation = Quaternion.Euler( 0, 0, angle );
-        }
-    }
-
-    private void RenderRope()
-    {
-        if( lineRenderer == null || !lineRenderer.enabled ) return;
-        lineRenderer.positionCount = nosGerados.Count + 1;
-        lineRenderer.SetPosition( 0, pontoA.position );
-        for( int i = 0; i < nosGerados.Count; i++ )
-        {
-            if( nosGerados[ i ] != null ) lineRenderer.SetPosition( i + 1, nosGerados[ i ].transform.position );
-        }
-    }
-
-    #region Interações
-    [TabGroup( "Config", "Interação" )]
-    [Button]
-    public void ShakeRope( float forca = 5f )
-    {
-        foreach( GameObject no in nosGerados )
-        {
-            Rigidbody2D rb = no.GetComponent<Rigidbody2D>();
-            if( rb != null ) rb.AddForce( new Vector2( Random.Range( -1f, 1f ), Random.Range( -0.5f, 0.5f ) ) * forca, ForceMode2D.Impulse );
-        }
-    }
-
-    [TabGroup( "Config", "Interação" )]
-    [Button( ButtonSizes.Medium ), GUIColor( 1, 0.5f, 0 )]
-    public void CutLastNodeAndApplyForce( Vector2 forcaDeCorte )
-    {
-        if( nosGerados.Count == 0 ) return;
-
-        int ultimoIndex = nosGerados.Count - 1;
-        GameObject ultimoNo = nosGerados[ultimoIndex];
-
-        if( ultimoNo != null )
-        {
-            // Remove TODOS os joints (Hinge e Distance) para um corte real 
-            Joint2D[] joints = ultimoNo.GetComponents<Joint2D>();
-            foreach( var j in joints ) DestroyImmediate( j );
-
-            Rigidbody2D rb = ultimoNo.GetComponent<Rigidbody2D>();
-            if( rb != null ) rb.AddForce( forcaDeCorte, ForceMode2D.Impulse );
-
-            nosGerados.RemoveAt( ultimoIndex ); // Remove da lista para parar o LineRenderer
-        }
-    }
-
-    [TabGroup( "Config", "Interação" )]
-    [Button]
-    public void QuickCutLeft() => CutLastNodeAndApplyForce( new Vector2( -10, 5 ) );
-    #endregion
 }

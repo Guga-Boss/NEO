@@ -209,7 +209,9 @@ public partial class Map : MonoBehaviour
     [TabGroup( "List" )]
     public EActionType[] InvertActionList;
     [TabGroup( "Link" )]
-    public tk2dSprite MouseRotationIndicator, PlatformExitIndicator, TicTacVisualIndicator, HeroFishingPoleSprite, HeroPickaxeSprite, HeroShieldSprite;
+    public tk2dSprite MouseRotationIndicator, PlatformExitIndicator, TicTacVisualIndicator, HeroFishingPoleSprite, HeroShieldSprite;
+    [TabGroup( "Link" )]
+    public NSprite HeroPickaxeSprite;
     [TabGroup( "bool" )]
     public bool MouseRotationIndicatorState, CubeDeath, PlatformDeath, 
         ForceUpdateLOSFire, BarricadeDestroyedInTheTurn, LabRevealed, CountRecordTime;

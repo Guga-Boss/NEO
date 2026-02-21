@@ -1854,7 +1854,10 @@ public partial class Controller : MonoBehaviour
                         ar.AuxUnit = null;
                         for( int j = 0; j < Unit.Body.RopeConnectFather.Count; j++ )
                             if( Unit.Body.RopeConnectFather[ j ].Body.RopeConnectSon == Unit )
+                            {
                                 ar.AuxUnit = Unit.Body.RopeConnectFather[ j ];
+                                ar.AuxUnit.Body.Rope.pointB = destmine.Graphic.transform;                            // Connect rope to the flying hook animation
+                            }
                         ar.Create( Unit.Pos, null, tr, tg, EBoltType.Hook );
                         MasterAudio.PlaySound3DAtVector3( "Herb Move", G.Hero.Pos );                                 // fx
                         MasterAudio.PlaySound3DAtVector3( "Chain Rattling", G.Hero.Pos );                            // Sound FX
@@ -1993,9 +1996,11 @@ public partial class Controller : MonoBehaviour
         for( int i = 0; i < destmine.Body.RopeConnectFather.Count; i++ )
         {
             destmine.Body.RopeConnectFather[ i ].Body.RopeConnectSon = destmine;
-            //ggropedestmine.Body.RopeConnectFather[ i ].Body.Rope.gameObject.SetActive( true );
             if( updchain )
-                destmine.Body.RopeConnectFather[ i ].UpdateChainSizes( destmine.Pos );
+            {
+                destmine.Body.RopeConnectFather[ i ].Body.Rope .pointB = destmine.Graphic.transform;                            // Connect rope to the new hook position
+                //destmine.Body.RopeConnectFather[ i ].UpdateChainSizes( destmine.Pos );
+            }
         }
         if( fx ) MasterAudio.PlaySound3DAtVector3( "Raft Merge", G.Hero.Pos );
         return true;

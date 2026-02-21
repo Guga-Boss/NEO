@@ -1,9 +1,10 @@
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 using DarkTonic.MasterAudio;
 using PathologicalGames;
 using Sirenix.OdinInspector;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
 //using System.Linq;
 
 [System.Serializable]
@@ -813,33 +814,37 @@ public partial class Map : MonoBehaviour
         Water.CheckCn( EPoleBonusCnType.SIMULTANEOUS_FISH_ATTACKED, null );                                   // Simultaneous attacked fish condition
     }
 
-    public bool GetKey( string key, bool down )
-    {
-        return true; //ggg
-        //if( down )
-        //    return cInput.GetKeyDown( key );
-        //else
-        //    return cInput.GetKey( key );
-    }
     public Vector3 GetInputVector( bool down )
     {
         float fact = 1f;
-        Vector3 vec = new Vector3( 0, 0, 0 ); 
-        if( GetKey( "Move NE", down ) ) vec += new Vector3(  fact, fact,  0 ); else                  // Keyboard input for hook movement
-        if( GetKey( "Move SE", down ) ) vec += new Vector3( +fact, -fact, 0 ); else
-        if( GetKey( "Move SW", down ) ) vec += new Vector3( -fact, -fact, 0 ); else
-        if( GetKey( "Move NW", down ) ) vec += new Vector3( -fact, +fact, 0 );
-        if( vec == Vector3.zero )
+        Vector3 vec = Vector3.zero;
+
+        // Helper inline para checar tecla de acordo com down
+        bool Check( InputActionProperty action )
         {
-            if( GetKey( "Move N", down ) ) vec += new Vector3( 0, fact,  0 );
-            if( GetKey( "Move S", down ) ) vec += new Vector3( 0, -fact, 0 );
-            if( GetKey( "Move E", down ) ) vec += new Vector3( +fact, 0, 0 );
-            if( GetKey( "Move W", down ) ) vec += new Vector3( -fact, 0, 0 );
+            if( action == null || action.action == null ) return false;
+            return down ? action.action.WasPressedThisFrame() : action.action.IsPressed();
         }
 
-        if( down )
-        if( vec != Vector3.zero )
+        // 1️⃣ Diagonais (prioridade máxima)
+        if( Check( INP.I.MoveNE ) ) vec += new Vector3( +fact, +fact, 0 );
+        else if( Check( INP.I.MoveSE ) ) vec += new Vector3( +fact, -fact, 0 );
+        else if( Check( INP.I.MoveSW ) ) vec += new Vector3( -fact, -fact, 0 );
+        else if( Check( INP.I.MoveNW ) ) vec += new Vector3( -fact, +fact, 0 );
+
+        // 2️⃣ Cardinais (só se nenhuma diagonal)
+        if( vec == Vector3.zero )
+        {
+            if( Check( INP.I.MoveN ) ) vec += new Vector3( 0, +fact, 0 );
+            if( Check( INP.I.MoveS ) ) vec += new Vector3( 0, -fact, 0 );
+            if( Check( INP.I.MoveE ) ) vec += new Vector3( +fact, 0, 0 );
+            if( Check( INP.I.MoveW ) ) vec += new Vector3( -fact, 0, 0 );
+        }
+
+        // 3️⃣ Armazena no InputVectorList apenas se down == true
+        if( down && vec != Vector3.zero )
             Controller.InputVectorList.Add( vec );
+
         return vec;
     }
     private void UpdateMarkedFish()
@@ -1680,6 +1685,14 @@ public partial class Map : MonoBehaviour
         MasterAudio.PlaySound3DAtVector3( "Fishing Reel", G.Hero.transform.position );
         //ggrope FishingLine.transform.parent.gameObject.SetActive( true );
         //ggropeFishingLine.AutoCalculateAmountOfNodes = true;
+
+
+        Rope r = RopeManager.SpawnRope( RopeManager.Type.FISHING_LINE, PoleEndHelper.transform, HookList[ 0 ].transform );
+
+        //Body.Rope.transform.parent = Graphic.transform;
+        r.name = "Fishing Line";
+
+
         MinHook = MaxHook = Vector2.zero;
         UI.I.SelectedPerk = EPerkType.FISHING;
         UI.I.UpdateInfoPanel();
