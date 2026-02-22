@@ -665,7 +665,7 @@ public partial class Controller : MonoBehaviour
     }
     public void DropTrap( Unit tg, int id, ETileType type, bool fx = true )
     {
-        Map.I.Tilemap.SetTile( ( int ) tg.Pos.x, ( int ) tg.Pos.y,                                                           // set tile
+        Map.I.TM.SetTile( ( int ) tg.Pos.x, ( int ) tg.Pos.y,                                                           // set tile
         ( int ) ELayerType.GAIA, ( int ) ETileType.NONE );
 
         Map.I.UpdateTilemap = true;

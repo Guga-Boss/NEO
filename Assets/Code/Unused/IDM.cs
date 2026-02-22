@@ -2,6 +2,7 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEngine.Tilemaps;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -99,15 +100,42 @@ public class IDM: SerializedMonoBehaviour
     }
 #endif
 
-    public Sprite GetSpriteById( ESpriteCol colType, int id )
+   public Sprite GetSpriteById(ESpriteCol colType, int id)
+{
+    // --- LÓGICA PARA QUADRANTES (MAP_PLAY) ---
+    if (colType == ESpriteCol.MAP_PLAY)
     {
-        if( CollectionsDic.TryGetValue( colType, out var col ) )
+        // 1. Verifica se o Singleton do Mapa e o MyTilemap existem
+        if ( Map.I != null && Map.I.TM != null )
         {
-            if( col.SpritesDicById.TryGetValue( id, out var sp ) )
-                return sp;
+            // 2. Tenta pegar o TileBase usando o ID global de quadrante
+            if ( Map.I.TM.spriteToTileMap.TryGetValue(id, out var tileBase))
+            {
+                // 3. Converte TileBase para Tile para extrair o Sprite
+                Tile t = tileBase as Tile;
+                if ( t != null && t.sprite != null )
+                {
+                    return t.sprite;
+                }
+            }            
+            // Log de erro caso o Bake não tenha esse ID
+            Debug.Log($"[IDM] ID de quadrante {id} não encontrado no Bake do MyTilemap!");
         }
-        return null;
+        else
+        {
+            Debug.LogError("[IDM] Tentando acessar MAP_PLAY mas Map.I ou MyTilemap está nulo!");
+        }
+        return null; 
     }
+
+    // --- LÓGICA PADRÃO PARA OUTRAS COLEÇÕES (ITEM, MONSTER, etc) ---
+    if (CollectionsDic.TryGetValue(colType, out var col))
+    {
+        if (col.SpritesDicById.TryGetValue(id, out var sp))
+            return sp;
+    }
+    return null;
+}
     public Sprite GetSpriteFromIDMByName( ESpriteCol colType, string spriteName )
     {
         if( CollectionsDic.TryGetValue( colType, out var col ) )

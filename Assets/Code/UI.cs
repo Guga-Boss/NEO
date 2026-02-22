@@ -11,12 +11,12 @@ public class UI : MonoBehaviour
     #region Variables
     public static UI I;
     public UILabel LevelText, EnterAreaTxt, 
-        TurnInfoLabel, MapLabel, UseButtonLabel, LosttHPLabel, BigTextHelpLabel, BigMessageText;
+        TurnInfoLabel, UseButtonLabel, LosttHPLabel, BigTextHelpLabel, BigMessageText;
     public int TurnInfoLabelCount = 0;
 
     public TextMeshPro ArtifactsText, AreasText, HeroHpText, GameLevelText, PerkInfoLevelLabel, ArtifactInfoLabel, ScrollText,
     NavigationMapText, NavigationMapText2, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, QuestCompletitionLabel, 
-    RestartAreaButtonLabel, PerkInfoDescriptionText, PerkInfoTitleText, DebugLabel;
+    RestartAreaButtonLabel, PerkInfoDescriptionText, PerkInfoTitleText, DebugLabel, MapLabel;
 
     public UISlider UnitHealthBar, QuestCompletitionBar;
     public UI2DSprite MessageBoxIcon, MessageBoxIcon2;

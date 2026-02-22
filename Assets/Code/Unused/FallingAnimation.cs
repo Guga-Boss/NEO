@@ -4,7 +4,7 @@ using PathologicalGames;
 
 public class FallingAnimation : MonoBehaviour
 {    
-    public tk2dSprite Sprite;
+    public NSprite Sprite;
     public float Size = 1;
     public float Speed = .5f;
     public float SpeedIncrease = .5f;
@@ -38,7 +38,8 @@ public class FallingAnimation : MonoBehaviour
         an.OnSpawn();
         an.Speed = spd;
         an.Sprite.spriteId = ( int ) tile;
-        an.Sprite.SetSprite( Map.I.SpriteCollectionList[ col ], tile );
+        an.Sprite.collection = (ESpriteCol) col;
+        an.Sprite.spriteId = tile;
         an.transform.localScale = new Vector3( 1, 1, 1 );
         an.transform.position = new Vector3( position.x, position.y, position.z );
         an.transform.eulerAngles = rot;

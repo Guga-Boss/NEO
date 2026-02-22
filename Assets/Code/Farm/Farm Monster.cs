@@ -728,7 +728,7 @@ public partial class Farm : MonoBehaviour
         return true;
     }
 
-    public void ActivateIndicator( bool active, ref tk2dSprite spr, ref Vector2 ind, Unit un, bool dead = false )
+    public void ActivateIndicator( bool active, ref NSprite spr, ref Vector2 ind, Unit un, bool dead = false )
     {
         if( dead && spr.gameObject.activeSelf )
         if( un == null || Util.EqualPos( ind, un.Pos ) == false ) return;

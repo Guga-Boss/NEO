@@ -1,27 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications: []
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1542403581235100}
-  m_IsPrefabParent: 1
 --- !u!1 &1046637164539122
 GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4905887684563302}
-  - component: {fileID: 33928072406608272}
-  - component: {fileID: 23903404189453906}
-  - component: {fileID: 114897362055618338}
+  - component: {fileID: 7362448689320553879}
+  - component: {fileID: 5413480700481890844}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -29,12 +18,109 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4905887684563302
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046637164539122}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4672096064108672}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &7362448689320553879
+SpriteRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046637164539122}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_Sprite: {fileID: 8226260772836442498, guid: f962d1f2ccf04fa459fbfec4ccbc1cd1,
+    type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 1
+  m_Size: {x: 1.2, y: 1.2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_SpriteSortPoint: 0
+--- !u!114 &5413480700481890844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046637164539122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931dbdbd6ba82dd4281e24eb5d852e99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Code::NSprite
+  collection: 0
+  sprite: {fileID: 8226260772836442498, guid: f962d1f2ccf04fa459fbfec4ccbc1cd1, type: 3}
+  spriteName: Tiles 1_206
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  scale: {x: 1.2, y: 1.2}
+  preserveAspect: 1
+  Render: {fileID: 7362448689320553879}
+  Image: {fileID: 0}
+  TkSpriteId: -1
 --- !u!1 &1317761559039462
 GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4615461671690700}
   - component: {fileID: 23745181203699262}
@@ -47,12 +133,130 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!4 &4615461671690700
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317761559039462}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.31110382, y: -0.37174225, z: -3}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4672096064108672}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23745181203699262
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317761559039462}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4f7adb5944587434eb05c98ae8cf0936, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 7
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &33546612367439990
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317761559039462}
+  m_Mesh: {fileID: 0}
+--- !u!114 &114303008132709814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1317761559039462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 994457055a9434b4aa7b65ad37262d67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _font: {fileID: 0}
+  _text: 
+  _color: {r: 1, g: 1, b: 1, a: 1}
+  _color2: {r: 1, g: 1, b: 1, a: 1}
+  _useGradient: 0
+  _textureGradient: 0
+  _anchor: 6
+  _scale: {x: 1, y: 1, z: 1}
+  _kerning: 0
+  _maxChars: 16
+  _inlineStyling: 0
+  _formatting: 0
+  _wordWrapWidth: 0
+  spacing: 0
+  lineSpacing: 0
+  data:
+    version: 1
+    font: {fileID: 11400000, guid: e7a6b09a73c6b2b4f8060096ddbd3b5e, type: 3}
+    text: 90%
+    color: {r: 1, g: 1, b: 1, a: 1}
+    color2: {r: 1, g: 1, b: 1, a: 1}
+    useGradient: 0
+    textureGradient: 3
+    anchor: 7
+    renderLayer: 7
+    scale: {x: 1, y: 1, z: 1}
+    kerning: 0
+    maxChars: 16
+    inlineStyling: 0
+    formatting: 0
+    wordWrapWidth: 0
+    spacing: 0
+    lineSpacing: 0
 --- !u!1 &1542403581235100
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 4637466318711998}
   - component: {fileID: 114510723494314492}
@@ -65,159 +269,371 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1865311322325500
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 4672096064108672}
-  m_Layer: 0
-  m_Name: Graphic
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4615461671690700
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1317761559039462}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.31110382, y: -0.37174225, z: -3}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4672096064108672}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4637466318711998
 Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542403581235100}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -42.257175, y: 13.354181, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4672096064108672}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4672096064108672
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1865311322325500}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 4905887684563302}
-  - {fileID: 4615461671690700}
-  m_Father: {fileID: 4637466318711998}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4905887684563302
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1046637164539122}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.8}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4672096064108672}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23745181203699262
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1317761559039462}
+--- !u!114 &114510723494314492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542403581235100}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: 4f7adb5944587434eb05c98ae8cf0936, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 7
---- !u!23 &23903404189453906
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1046637164539122}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a26a8579ff5adb247917499b283a5c77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Activated: 1
+  PrefabName: Thorns
+  MeleeAttack: {fileID: 0}
+  RangedAttack: {fileID: 0}
+  MagicAttack: {fileID: 0}
+  BeeHiveAttack: {fileID: 0}
+  InfectionAttack: {fileID: 0}
+  Attacks: []
+  Body: {fileID: 114497186680166800}
+  Water: {fileID: 0}
+  Mine: {fileID: 0}
+  Altar: {fileID: 0}
+  HealthBar: {fileID: 0}
+  Control: {fileID: 114280219239669676}
+  Building: {fileID: 0}
+  Spr: {fileID: 5413480700481890844}
+  Graphic: {fileID: 1865311322325500}
+  LevelTxt: {fileID: 0}
+  RightText: {fileID: 114303008132709814}
+  PriceTag: {fileID: 0}
+  Collider: {fileID: 0}
+  CircleCollider: {fileID: 0}
+  UnitType: 4
+  TileID: 398
+  CanBeRotated: 0
+  Dir: 0
+  Pos: {x: 0, y: 0}
+  IniPos: {x: 0, y: 0}
+  BlockMovement: 0
+  CanBeWalkedIfSuspended: 0
+  BlockMissile: 0
+  BlockSight: 0
+  ValidMonster: 0
+  Slippery: 0
+  UseTransTile: 0
+  SaveData: 0
+  SharedObject: 0
+  Variation: 0
+  Md: {fileID: 0}
+  ModID: -1
+  TriggerList: []
+  SpawnedCollider: 0
+--- !u!114 &114497186680166800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542403581235100}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 0
-  m_ReflectionProbeUsage: 1
-  m_Materials:
-  - {fileID: 2100000, guid: 1bd3173554ca70a4f8ebd5a3e1d16f93, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
---- !u!33 &33546612367439990
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1317761559039462}
-  m_Mesh: {fileID: 0}
---- !u!33 &33928072406608272
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1046637164539122}
-  m_Mesh: {fileID: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6cebdd459289fd418a62cee4c922132, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Unit: {fileID: 114510723494314492}
+  Shadow: {fileID: 0}
+  ItemMiniDome: {fileID: 0}
+  Sprite3: {fileID: 0}
+  Sprite4: {fileID: 0}
+  Sprite5: {fileID: 0}
+  Sprite6: {fileID: 0}
+  Sprite7: {fileID: 0}
+  Sprite8: {fileID: 0}
+  InfectedSprite: {fileID: 0}
+  ImmunityDome: {fileID: 0}
+  Sprite2: {fileID: 0}
+  PoleSprite: {fileID: 0}
+  Animator: {fileID: 0}
+  NAnimator: {fileID: 0}
+  AuxText: {fileID: 0}
+  Particle: {fileID: 0}
+  EffectList: []
+  ArrowList: []
+  WoodList: []
+  TextList: []
+  ChildList: []
+  ShacklePullList: []
+  RopeConnectSon: {fileID: 0}
+  RopeConnectSonPos: {x: 0, y: 0}
+  RopeConnectFather: []
+  RopeConnectFatherPosList: []
+  HealthStatus: 0
+  FireSourcePos: {x: -1, y: -1}
+  RigidBody: {fileID: 0}
+  Rope: {fileID: 0}
+  PoleSpriteList: []
+  PoleBackSpriteList: []
+  RopeRotationHelper: {fileID: 0}
+  BigMonster: 0
+  ShowShieldInfo: 0
+  ShowLevelInfo: 0
+  FireIsOn: 0
+  OriginalFireIsOn: 0
+  IsTiny: 0
+  IsMarked: 0
+  OriginalIsMarked: 0
+  PoisonBite: 0
+  IsEternalToken: 0
+  HasSeenTheHero: 0
+  OriginalHasSeenTheHero: 0
+  IsBoss: 0
+  SpawnBlocker: 0
+  LeverMine: 0
+  ClockwiseChainPush: 0
+  ShieldedWasp: 0
+  RaftResource: 0
+  EnragedWasp: 0
+  CocoonWasp: 0
+  Crippled: 0
+  SpikedBoulder: 0
+  TrailCoil: 0
+  TrailRotator: 0
+  TowerProjectileTrailFX: 1
+  HookIsStuck: 0
+  CreatedVine: 0
+  GraphicsInitialized: 0
+  Level: 1
+  BaseLevel: 1
+  Stars: 0
+  TotHp: 0
+  Hp: 0
+  BaseTotHP: 0
+  HitsTaken: 0
+  OriginalHitsTaken: 0
+  TotalMeleeShield: 0
+  BaseMeleeShield: 0
+  BonusMeleeShield: 0
+  MeleeShieldPerLevel: 0
+  MeleeShieldPerStar: 0
+  TotalMissileShield: 0
+  BaseMissileShield: 0
+  BonusMissileShield: 0
+  MissileShieldPerLevel: 0
+  MissileShieldPerStar: 0
+  TotalMagicShield: 0
+  BaseMagicShield: 0
+  BonusMagicShield: 0
+  MagicShieldPerLevel: 0
+  MagicShieldPerStar: 0
+  Lives: 0
+  InitialLives: 1
+  NumMushroom: 0
+  HpPerMushroom: 0
+  PressureAttackBonus: 0
+  InvulnerabilityFactor: 0
+  MeleeAttackLevel: 0
+  RangedAttackLevel: 0
+  DexterityLevel: 0
+  AgilityLevel: 0
+  OrbStrikerLevel: 0
+  CooperationLevel: 0
+  PsychicLevel: 0
+  DamageSurplusLevel: 0
+  MeleeShieldLevel: 0
+  MissileShieldLevel: 0
+  MagicShieldLevel: 0
+  DestroyBarricadeLevel: 0
+  AmbusherLevel: 0
+  HpPerLevel: 0
+  HpPerStar: 0
+  DamageTaken: 0
+  MemoryLevel: 0
+  ToolBoxLevel: 0
+  FireMasterLevel: 0
+  BerserkLevel: 0
+  BeeHiveThrowerLevel: 0
+  WallDestroyerLevel: 0
+  NumFreeAttacks: 0
+  LooterLevel: 0
+  ProspectorLevel: 0
+  FreshAttackLevel: 0
+  RiskyAttackLevel: 0
+  MortalJumpLevel: 0
+  OpenFieldAtttackLevel: 0
+  ThreatLevel: 0
+  BaseFreeExitHPLimit: 0
+  FirePowerLevel: 0
+  FireSpreadLevel: 0
+  FireWoodNeeded: 0
+  OutsideFireWoodAllowed: 0
+  FreePlatformExit: 0
+  OutAreaBurningBarricadeDestroyBonus: 0
+  BarricadeForRune: 0
+  ScaryLevel: 0
+  HeroNeighborTouchAdder: 0
+  FireStarBonus: 0
+  CollectorLevel: 0
+  ResourcePersistance: 0
+  EconomyLevel: 0
+  RealtimeMeleeAttSpeed: 0
+  RealtimeRangedAttSpeed: 0
+  MiningLevel: 0
+  FishingLevel: 0
+  QQMissHeroDamage: 0
+  QQMinDamage: 5
+  QQMaxDamage: 10
+  Fishing_1: 0
+  Fishing_2: 0
+  Fishing_3: 0
+  Fishing_4: 0
+  TweenTime: 0
+  RotationSpeed: 0
+  KillTimer: -1
+  ResourceOperation: 0
+  BonusItemList: 
+  BonusItemAmountList: []
+  BonusItemChanceList: []
+  BonusItemChestLevelList: 
+  FishType: -1
+  HerbColor: -1
+  HerbType: 0
+  OriginalHerbType: 0
+  OptionalMonster: 0
+  FishCaught: 0
+  IsFish: 1
+  ResourcePersistTotalSteps: 1
+  ResourcePersistStepCount: 0
+  isWorking: 1
+  IsDead: 0
+  MudPushable: 0
+  PerformPreMoveAttack: 0
+  PerformPostMoveAttack: 0
+  IsLoot: 0
+  OrbFogStopEnabled: 0
+  KillOnFlightEnd: 0
+  SpikeDamageApplied: 0
+  TurnsToDie: 0
+  OriginalTurnsToDie: 0
+  DeathCountFactor: 1
+  HitPointsRatio: 100
+  OriginalVariation: -1
+  FrontalAttacks: 0
+  FrontSideAttacks: 0
+  SideAttacks: 0
+  BackSideAttacks: 0
+  BackAttacks: 0
+  OriginalFrontalAttacks: 0
+  OriginalFrontSideAttacks: 0
+  OriginalSideAttacks: 0
+  OriginalBackSideAttacks: 0
+  OriginalBackAttacks: 0
+  MakePeaceful: 0
+  MakeImovable: 0
+  OriginalArrowHitCount: 0
+  ArrowHitCount: 0
+  OriginalRiskyAttacks: 0
+  RiskyAttacks: 0
+  OriginalThreatLevel: 0
+  BaseThreatDuration: 0
+  WoodAddedTurnCount: 0
+  ChiselSlideCount: 0
+  VineFireSpreadID: -1
+  ResourceSlot: 1
+  HookID: {fileID: 0}
+  MortalJumpBonusAttack: 0
+  OutAreaMortalJumpBonusAttack: 0
+  OriginalMortalJumpBonusAttack: 0
+  OriginalOpenFieldAttacks: 0
+  OpenFieldAttacks: 0
+  FirstAttackTime: 0
+  ShieldedWaspChance: 0
+  MaxShieldedWasps: 0
+  BumpTimer: 0
+  VineBurnTime: 0.5
+  OverFireTimeCount: 0
+  ImmunityShieldTime: 0
+  PoleBonusAvailableAngle: -1
+  HPLostInTheTurn: 0
+  EnemyAttackBonus: 0
+  BaseMiningChance: 0
+  ExtraMiningChance: 0
+  AnimationTimeCounter: 0
+  MiningBonusAmount: 0
+  MineType: 0
+  UPMineType: -1
+  ResTriggerType: -1
+  ProtectionLevel: 0
+  BaseMonsterLootTurns: 0
+  TouchCount: 0
+  OriginalTouchCount: 0
+  AnimationFrame: 0
+  AnimationSignal: 0
+  ChestLevel: 1
+  StackAmount: 0
+  AuxStackAmount: -98.9
+  MineLeverDir: 0
+  UPMineDir: 0
+  AutoRotatingMineType: 0
+  MineGreenCrystalAmount: 0
+  MineRedCrystalAmount: 0
+  MineLeverActivePuller: {fileID: 0}
+  MineLeverActivePullerPos: {x: 0, y: 0}
+  AuxTransform: {fileID: 0}
+  MinePushSteps: 0
+  MiningPrize: 0
+  HerbBonusAmount: 1
+  AvailableFireHits: -1
+  ExclusiveToAdventure: 0
+  HeroAttackPositionHistory: []
+  HeroAttackDirectionHistory: 
+  WoodAdded: 
+  BabySprite: []
+  BabyBackSprite: []
+  NBabySprite: []
+  NBabyBackSprite: []
+  BabySpriteFolder: {fileID: 0}
+  HasBaby: 
+  BabyDataList: []
+  Sp: []
+  BabyVariation: 
+  MineSideHitCount: 
+  CreatedVineList: 
+  HerbMatchChecked: 0
+  RandomizableHerb: 0
+  HerbKillTimer: -1
+  MiniDomeTimerCounter: -1
+  MiniDomeTotalTime: -1
+  ResourceWasteTimeCounter: -1
+  ResourceWasteTotalTime: -1
+  VsRoachAttDecreasePerBaby: 20
+  VsHeroRoachAttackIncreasePerBaby: 50
+  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
+  FrameDamageTaken: 0
+  InflictedDamageRate: 100
+  ShackleDistance: -1
+  OriginalHookType: -1
+  AddedLivesCount: 0
+  Animation1: {fileID: 0}
+  Animation2: {fileID: 0}
+  InfectedRadius: 1
+  IsInfected: 0
 --- !u!114 &114280219239669676
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542403581235100}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -234,6 +650,7 @@ MonoBehaviour:
   LastPos: {x: 0, y: 0}
   JumpTarget: {x: 0, y: 0}
   AnimationOrigin: {x: 0, y: 0}
+  MotherPos: {x: -1, y: -1}
   MoveOrderID: 0
   RamStraightMoveCount: 0
   PlatformWalkingCounter: 0
@@ -397,7 +814,6 @@ MonoBehaviour:
   WaitTimeCounter: -1
   WakeupTimeCounter: -1
   WakeupTotalTime: -1
-  EggsDestroyed: 0
   SpiderAttackBlockPhase: 0
   FishActionWaiting: 0
   MergingID: -1
@@ -456,406 +872,36 @@ MonoBehaviour:
   EndingFishSwimType: 0
   FishCatchPosition: {x: 0, y: 0, z: 0}
   WaspLongFlight: 0
---- !u!114 &114303008132709814
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1317761559039462}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 994457055a9434b4aa7b65ad37262d67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _font: {fileID: 0}
-  _text: 
-  _color: {r: 1, g: 1, b: 1, a: 1}
-  _color2: {r: 1, g: 1, b: 1, a: 1}
-  _useGradient: 0
-  _textureGradient: 0
-  _anchor: 6
-  _scale: {x: 1, y: 1, z: 1}
-  _kerning: 0
-  _maxChars: 16
-  _inlineStyling: 0
-  _formatting: 0
-  _wordWrapWidth: 0
-  spacing: 0
-  lineSpacing: 0
-  data:
-    version: 1
-    font: {fileID: 11400000, guid: e7a6b09a73c6b2b4f8060096ddbd3b5e, type: 2}
-    text: 90%
-    color: {r: 1, g: 1, b: 1, a: 1}
-    color2: {r: 1, g: 1, b: 1, a: 1}
-    useGradient: 0
-    textureGradient: 3
-    anchor: 7
-    renderLayer: 7
-    scale: {x: 1, y: 1, z: 1}
-    kerning: 0
-    maxChars: 16
-    inlineStyling: 0
-    formatting: 0
-    wordWrapWidth: 0
-    spacing: 0
-    lineSpacing: 0
---- !u!114 &114497186680166800
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1542403581235100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6cebdd459289fd418a62cee4c922132, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Unit: {fileID: 114510723494314492}
-  Shadow: {fileID: 0}
-  ItemMiniDome: {fileID: 0}
-  Sprite2: {fileID: 0}
-  Sprite3: {fileID: 0}
-  Sprite4: {fileID: 0}
-  Sprite5: {fileID: 0}
-  Sprite6: {fileID: 0}
-  Sprite7: {fileID: 0}
-  Sprite8: {fileID: 0}
-  InfectedSprite: {fileID: 0}
-  ImmunityDome: {fileID: 0}
-  PoleSprite: {fileID: 0}
-  Animator: {fileID: 0}
-  AuxText: {fileID: 0}
-  Particle: {fileID: 0}
-  EffectList: []
-  ArrowList: []
-  WoodList: []
-  TextList: []
-  ChildList: []
-  ShacklePullList: []
-  RopeConnectSon: {fileID: 0}
-  RopeConnectSonPos: {x: 0, y: 0}
-  RopeConnectFather: []
-  RopeConnectFatherPosList: []
-  HealthStatus: 0
-  FireSourcePos: {x: -1, y: -1}
-  RigidBody: {fileID: 0}
-  Rope: {fileID: 0}
-  PoleSpriteList: []
-  PoleBackSpriteList: []
-  RopeOrigin: {fileID: 0}
-  RopeDestination: {fileID: 0}
-  RopeRotationHelper: {fileID: 0}
-  BigMonster: 0
-  ShowShieldInfo: 0
-  ShowLevelInfo: 0
-  FireIsOn: 0
-  OriginalFireIsOn: 0
-  IsTiny: 0
-  IsMarked: 0
-  OriginalIsMarked: 0
-  PoisonBite: 0
-  IsEternalToken: 0
-  HasSeenTheHero: 0
-  OriginalHasSeenTheHero: 0
-  IsBoss: 0
-  SpawnBlocker: 0
-  LeverMine: 0
-  ClockwiseChainPush: 0
-  ShieldedWasp: 0
-  RaftResource: 0
-  EnragedWasp: 0
-  CocoonWasp: 0
-  Crippled: 0
-  SpikedBoulder: 0
-  TrailCoil: 0
-  TrailRotator: 0
-  HookIsStuck: 0
-  CreatedVine: 0
-  GraphicsInitialized: 0
-  Level: 1
-  BaseLevel: 1
-  Stars: 0
-  TotHp: 0
-  Hp: 0
-  BaseTotHP: 0
-  HitsTaken: 0
-  OriginalHitsTaken: 0
-  TotalMeleeShield: 0
-  BaseMeleeShield: 0
-  BonusMeleeShield: 0
-  MeleeShieldPerLevel: 0
-  MeleeShieldPerStar: 0
-  TotalMissileShield: 0
-  BaseMissileShield: 0
-  BonusMissileShield: 0
-  MissileShieldPerLevel: 0
-  MissileShieldPerStar: 0
-  TotalMagicShield: 0
-  BaseMagicShield: 0
-  BonusMagicShield: 0
-  MagicShieldPerLevel: 0
-  MagicShieldPerStar: 0
-  Lives: 0
-  NumMushroom: 0
-  HpPerMushroom: 0
-  PressureAttackBonus: 0
-  InvulnerabilityFactor: 0
-  MeleeAttackLevel: 0
-  RangedAttackLevel: 0
-  DexterityLevel: 0
-  AgilityLevel: 0
-  OrbStrikerLevel: 0
-  CooperationLevel: 0
-  PsychicLevel: 0
-  DamageSurplusLevel: 0
-  MeleeShieldLevel: 0
-  MissileShieldLevel: 0
-  MagicShieldLevel: 0
-  DestroyBarricadeLevel: 0
-  AmbusherLevel: 0
-  HpPerLevel: 0
-  HpPerStar: 0
-  DamageTaken: 0
-  MemoryLevel: 0
-  ToolBoxLevel: 0
-  FireMasterLevel: 0
-  BerserkLevel: 0
-  BeeHiveThrowerLevel: 0
-  WallDestroyerLevel: 0
-  NumFreeAttacks: 0
-  LooterLevel: 0
-  ProspectorLevel: 0
-  FreshAttackLevel: 0
-  RiskyAttackLevel: 0
-  MortalJumpLevel: 0
-  OpenFieldAtttackLevel: 0
-  ThreatLevel: 0
-  BaseFreeExitHPLimit: 0
-  FirePowerLevel: 0
-  FireSpreadLevel: 0
-  FireWoodNeeded: 0
-  OutsideFireWoodAllowed: 0
-  FirepitsNeededForDiscount: 0
-  FreePlatformExit: 0
-  OutAreaBurningBarricadeDestroyBonus: 0
-  BarricadeForRune: 0
-  ScaryLevel: 0
-  HeroNeighborTouchAdder: 0
-  FireStarBonus: 0
-  CollectorLevel: 0
-  ResourcePersistance: 0
-  EconomyLevel: 0
-  RealtimeMeleeAttSpeed: 0
-  RealtimeRangedAttSpeed: 0
-  MiningLevel: 0
-  FishingLevel: 0
-  Fishing_1: 0
-  Fishing_2: 0
-  Fishing_3: 0
-  Fishing_4: 0
-  TweenTime: 0
-  RotationSpeed: 0
-  KillTimer: -1
-  ResourceOperation: 0
-  BonusItemList: 
-  BonusItemAmountList: []
-  BonusItemChanceList: []
-  BonusItemChestLevelList: 
-  FishType: -1
-  HerbColor: -1
-  HerbType: 0
-  OriginalHerbType: 0
-  OptionalMonster: 0
-  FishCaught: 0
-  IsFish: 1
-  ResourcePersistTotalSteps: 1
-  ResourcePersistStepCount: 0
-  isWorking: 1
-  IsDead: 0
-  MudPushable: 0
-  PerformPreMoveAttack: 0
-  PerformPostMoveAttack: 0
-  IsLoot: 0
-  OrbFogStopEnabled: 0
-  KillOnFlightEnd: 0
-  SpikeDamageApplied: 0
-  TurnsToDie: 0
-  OriginalTurnsToDie: 0
-  DeathCountFactor: 1
-  HitPointsRatio: 100
-  OriginalVariation: -1
-  FrontalAttacks: 0
-  FrontSideAttacks: 0
-  SideAttacks: 0
-  BackSideAttacks: 0
-  BackAttacks: 0
-  OriginalFrontalAttacks: 0
-  OriginalFrontSideAttacks: 0
-  OriginalSideAttacks: 0
-  OriginalBackSideAttacks: 0
-  OriginalBackAttacks: 0
-  MakePeaceful: 0
-  MakeImovable: 0
-  OriginalArrowHitCount: 0
-  ArrowHitCount: 0
-  OriginalRiskyAttacks: 0
-  RiskyAttacks: 0
-  OriginalThreatLevel: 0
-  BaseThreatDuration: 0
-  WoodAddedTurnCount: 0
-  ChiselSlideCount: 0
-  VineFireSpreadID: -1
-  ResourceSlot: 1
-  HookID: {fileID: 0}
-  MortalJumpBonusAttack: 0
-  OutAreaMortalJumpBonusAttack: 0
-  OriginalMortalJumpBonusAttack: 0
-  OriginalOpenFieldAttacks: 0
-  OpenFieldAttacks: 0
-  FirstAttackTime: 0
-  ShieldedWaspChance: 0
-  MaxShieldedWasps: 0
-  BumpTimer: 0
-  VineBurnTime: 0.5
-  OverFireTimeCount: 0
-  ImmunityShieldTime: 0
-  PoleBonusAvailableAngle: -1
-  HPLostInTheTurn: 0
-  EnemyAttackBonus: 0
-  BaseMiningChance: 0
-  ExtraMiningChance: 0
-  AnimationTimeCounter: 0
-  MiningBonusAmount: 0
-  MineType: 0
-  UPMineType: -1
-  ResTriggerType: -1
-  ProtectionLevel: 0
-  BaseMonsterLootTurns: 0
-  TouchCount: 0
-  OriginalTouchCount: 0
-  AnimationFrame: 0
-  AnimationSignal: 0
-  ChestLevel: 1
-  StackAmount: 0
-  AuxStackAmount: -98.9
-  MineLeverDir: 0
-  UPMineDir: 0
-  AutoRotatingMineType: 0
-  MineGreenCrystalAmount: 0
-  MineRedCrystalAmount: 0
-  MineLeverActivePuller: {fileID: 0}
-  MineLeverActivePullerPos: {x: 0, y: 0}
-  AuxTransform: {fileID: 0}
-  MinePushSteps: 0
-  MiningPrize: 0
-  HerbBonusAmount: 1
-  AvailableFireHits: -1
-  ExclusiveToAdventure: 0
-  HeroAttackPositionHistory: []
-  HeroAttackDirectionHistory: 
-  WoodAdded: 
-  BabySprite: []
-  BabyBackSprite: []
-  BabySpriteFolder: {fileID: 0}
-  HasBaby: 
-  BabyDataList: []
-  Sp: []
-  BabyVariation: 
-  MineSideHitCount: 
-  CreatedVineList: 
-  HerbMatchChecked: 0
-  RandomizableHerb: 0
-  HerbKillTimer: -1
-  MiniDomeTimerCounter: -1
-  MiniDomeTotalTime: -1
-  ResourceWasteTimeCounter: -1
-  ResourceWasteTotalTime: -1
-  VsRoachAttDecreasePerBaby: 20
-  VsHeroRoachAttackIncreasePerBaby: 50
-  SpriteColor: {r: 0, g: 0, b: 0, a: 0}
-  FrameDamageTaken: 0
-  InflictedDamageRate: 100
-  ShackleDistance: -1
-  OriginalHookType: -1
-  AddedLivesCount: 0
-  Animation1: {fileID: 0}
-  Animation2: {fileID: 0}
-  InfectedRadius: 1
-  IsInfected: 0
---- !u!114 &114510723494314492
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1542403581235100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a26a8579ff5adb247917499b283a5c77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Activated: 1
-  PrefabName: Thorns
-  MeleeAttack: {fileID: 0}
-  RangedAttack: {fileID: 0}
-  MagicAttack: {fileID: 0}
-  BeeHiveAttack: {fileID: 0}
-  InfectionAttack: {fileID: 0}
-  Attacks: []
-  Body: {fileID: 114497186680166800}
-  Water: {fileID: 0}
-  Mine: {fileID: 0}
-  Altar: {fileID: 0}
-  HealthBar: {fileID: 0}
-  Control: {fileID: 114280219239669676}
-  Building: {fileID: 0}
-  Spr: {fileID: 114897362055618338}
-  Graphic: {fileID: 1865311322325500}
-  LevelTxt: {fileID: 0}
-  RightText: {fileID: 114303008132709814}
-  PriceTag: {fileID: 0}
-  Collider: {fileID: 0}
-  CircleCollider: {fileID: 0}
-  UnitType: 4
-  TileID: 398
-  CanBeRotated: 0
-  Dir: 0
-  Pos: {x: 0, y: 0}
-  IniPos: {x: 0, y: 0}
-  BlockMovement: 0
-  CanBeWalkedIfSuspended: 0
-  BlockMissile: 0
-  BlockSight: 0
-  ValidMonster: 0
-  Slippery: 0
-  UseTransTile: 0
-  SaveData: 0
-  SharedObject: 0
-  Variation: 0
-  Md: {fileID: 0}
-  ModID: -1
-  TriggerList: []
-  SpawnedCollider: 0
---- !u!114 &114897362055618338
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1046637164539122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fac570381f34f647b768dc5a5aa1364, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collection: {fileID: 11400000, guid: 2953b4407cc0a214fbdf2cdb73bda75c, type: 2}
-  _color: {r: 1, g: 1, b: 1, a: 1}
-  _scale: {x: 1.2, y: 1.2, z: 1}
-  _spriteId: 398
-  boxCollider2D: {fileID: 0}
-  polygonCollider2D: []
-  edgeCollider2D: []
-  boxCollider: {fileID: 0}
-  meshCollider: {fileID: 0}
-  meshColliderPositions: []
-  meshColliderMesh: {fileID: 0}
-  renderLayer: 0
+--- !u!1 &1865311322325500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4672096064108672}
+  m_Layer: 0
+  m_Name: Graphic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4672096064108672
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865311322325500}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 4905887684563302}
+  - {fileID: 4615461671690700}
+  m_Father: {fileID: 4637466318711998}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

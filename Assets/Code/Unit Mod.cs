@@ -93,9 +93,9 @@ public partial class Unit : MonoBehaviour
         {
             case EV.PlayAnimation:
             if( Body )
-            {
-                Body.Animator = Spr.GetComponent<tk2dSpriteAnimator>();
-                Body.Animator.Play( val );
+            if( Body.NAnimator ) 
+            {          
+                Body.NAnimator.Play( val );
                 Spr.transform.Rotate( 0.0f, 0.0f, Random.Range( 0.0f, 360.0f ) );
             }
             break;

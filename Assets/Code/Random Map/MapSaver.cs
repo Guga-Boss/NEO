@@ -67,22 +67,15 @@ public class MapSaver : MonoBehaviour
     public void Button1()
     {
         Load();
-        MapQuestHelper hp = GetRM().RMList[ CurrentAdventure ].GetComponent<MapQuestHelper>();
-        CurrentCube = MapName;
-#if UNITY_EDITOR
-        hp.UpdateExternaEditorInfo();
-#endif
+        SetStartingCube();
     }
 
     [HorizontalGroup( "Split", 0.5f )]
     [Button( "Save", ButtonSizes.Large ), GUIColor( 1, 0.2f, 0 )]
     public void Button2()
     {
-        Save();
-        MapQuestHelper hp = GetRM().RMList[ CurrentAdventure ].GetComponent<MapQuestHelper>();
-#if UNITY_EDITOR
-        hp.UpdateExternaEditorInfo();
-#endif
+        Save(); 
+        SetStartingCube();
     }
     
     [Button( "World Map...", ButtonSizes.Large ), GUIColor( 1f, 0.52f, 0.1f )]
@@ -542,15 +535,10 @@ public class MapSaver : MonoBehaviour
                                                                                                                 // ensure CurrentAdventure is valid
         if( CurrentAdventure < 0 || CurrentAdventure >= GetRM().RMList.Count )
             CurrentAdventure = 0;
-
-        CurrentAdventureName = GetRM().RMList[ (int) CurrentAdventure ].name;
-
-        MapQuestHelper hp = GetRM().RMList[CurrentAdventure].GetComponent<MapQuestHelper>();
-        FolderName = hp.SubFolder + "/" + hp.Signature;
+        
         Load();
-        hp.UpdateExternaEditorInfo();
+        SetStartingCube();
     }
-
 
     public void NextMapCallBack()
     {
@@ -573,16 +561,23 @@ public class MapSaver : MonoBehaviour
         else
             CurrentCube = "Cube 1";                                                                               // default
         MapName = CurrentCube;
-
                                                                                                                   // make sure CurrentAdventure is within bounds
         if( CurrentAdventure < 0 || CurrentAdventure >= GetRM().RMList.Count )
             CurrentAdventure = 0;
+ 
+        Load();
+        SetStartingCube();
+    }
 
-        CurrentAdventureName = GetRM().RMList[ (int) CurrentAdventure ].name;
-
+    public void SetStartingCube()
+    {
+        string resultString = Regex.Match( CurrentCube, @"\d+" ).Value;
+        if( Helper.I.StartingCube != -1 )
+            Helper.I.StartingCube = int.Parse( resultString ); 
+        Helper.I.StartingAdventure = CurrentAdventure;
+        CurrentAdventureName = GetRM().RMList[ (int) CurrentAdventure ].QuestHelper.QuestName;
         MapQuestHelper hp = GetRM().RMList[CurrentAdventure].GetComponent<MapQuestHelper>();
         FolderName = hp.SubFolder + "/" + hp.Signature;
-        Load();
         hp.UpdateExternaEditorInfo();
     }
 
@@ -618,10 +613,7 @@ public class MapSaver : MonoBehaviour
     public void TestQuestCallBack()
     {
         #if UNITY_EDITOR
-        Helper.I = GameObject.Find( "Helper" ).GetComponent<Helper>();
-        Helper.I.StartingAdventure = CurrentAdventure;
-        string resultString = Regex.Match( CurrentCube, @"\d+" ).Value;
-        if( Helper.I.StartingCube != -1 ) Helper.I.StartingCube = int.Parse( resultString );
+        SetStartingCube();
         EditorApplication.ExecuteMenuItem( "Edit/Play" );
         RandomMapData rm = GetRM().RMList[ CurrentAdventure ];
         rm.QuestHelper.UpdateExternaEditorInfo();

@@ -2513,7 +2513,8 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         if( TileID == ETileType.DOOR_OPENER || TileID == ETileType.DECOR_TALL ||
             TileID == ETileType.DOOR_SWITCHER || TileID == ETileType.DOOR_CLOSER || TileID == ETileType.DOOR_KNOB ) 
         {
-            if( Spr ) Spr.spriteId = ( int ) ( TileID + Variation );
+            if( Spr ) 
+                Spr.spriteId = ( int ) ( TileID + Variation );
         }
         return true;
     }

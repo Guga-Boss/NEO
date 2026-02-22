@@ -105,7 +105,9 @@ public class TilePaletteWatcher: EditorWindow
                     ms.CurrentAdventure = data.QuestID;
                     ms.CurrentAdventureName = data.QuestHelper.QuestName;
                     Helper.I.StartingAdventure = data.QuestID;
-                    Debug.Log( $"<color=green>Selected:</color> {data.QuestHelper.QuestName}" ); // debug feedback 
+                    MapSaver.I.SetStartingCube();
+                    MapSaver.I.Load();
+                    Debug.Log( $"<color=blue>Selected:</color> {data.QuestHelper.QuestName}" ); // debug feedback 
                 }
             }
         }

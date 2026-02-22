@@ -114,7 +114,7 @@ public class NSprite: MonoBehaviour
             }
             else
             {
-                Debug.LogWarning( $"[NSprite] Sprite ID {value} não encontrado na coleção {collection}" );
+                Debug.Log( $"[NSprite] Sprite ID {value} não encontrado na coleção {collection}" );
             }
         }
     }

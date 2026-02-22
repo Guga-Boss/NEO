@@ -57,7 +57,7 @@ public partial class Map : MonoBehaviour
     [TabGroup( "Link" )]
     public tk2dSpriteCollectionData[] SpriteCollectionList;
     [TabGroup( "Link" )]
-    public tk2dSprite TileSelection, WindRose, HeadShotGhost, HeroTargetSprite, HeroGrabWallSprite;
+    public tk2dSprite TileSelection, WindRose;
     [TabGroup( "Link" )]
     public List<AdventureUpgradeInfo> GlobalTechList;
     [TabGroup( "Link" )]
@@ -209,9 +209,9 @@ public partial class Map : MonoBehaviour
     [TabGroup( "List" )]
     public EActionType[] InvertActionList;
     [TabGroup( "Link" )]
-    public tk2dSprite MouseRotationIndicator, PlatformExitIndicator, TicTacVisualIndicator, HeroFishingPoleSprite, HeroShieldSprite;
+    public tk2dSprite MouseRotationIndicator, HeroFishingPoleSprite, HeroShieldSprite;
     [TabGroup( "Link" )]
-    public NSprite HeroPickaxeSprite;
+    public NSprite HeroPickaxeSprite, HeroTargetSprite, HeadShotGhost, HeroGrabWallSprite, PlatformExitIndicator, TicTacVisualIndicator;
     [TabGroup( "bool" )]
     public bool MouseRotationIndicatorState, CubeDeath, PlatformDeath, 
         ForceUpdateLOSFire, BarricadeDestroyedInTheTurn, LabRevealed, CountRecordTime;
@@ -1209,8 +1209,7 @@ public partial class Map : MonoBehaviour
             else
             if( un.TileID == ETileType.DRAGON1 )
             {
-                un.Body.Animator = un.Spr.GetComponent<tk2dSpriteAnimator>();
-                un.Body.Animator.Play( "Seagul Fly" );
+                un.Body.NAnimator.Play( "Seagul Fly" );
                 un.Spr.transform.Rotate( 0.0f, 0.0f, Random.Range( 0.0f, 360.0f ) );
                 un.Control.CastProjectileList = new List<float>();
             }
@@ -1283,9 +1282,9 @@ public partial class Map : MonoBehaviour
             if( Manager.I.GameType == EGameType.CUBES )
                 if( un.TileID == ETileType.DOME )
                 {
-                    un.Spr.transform.localScale = new Vector3( .1f, .1f, 0 );
-                    un.Spr.gameObject.GetComponent<tk2dAnimationAdapter>().color = new Color( 1, 1, 1, .3f );
                     un.PriceTag.gameObject.SetActive( false );
+                    un.Spr.spriteId = 332;
+                    un.Spr.color = new Color( 1, 1, 1, .75f );
                 }
 
             un.Control.OldPos = tg;
@@ -3713,13 +3712,13 @@ public partial class Map : MonoBehaviour
 		{
             Unit[ ( int ) pos.x, ( int ) pos.y ].Spr.color = col;
 
-            if( Unit[ ( int ) pos.x, ( int ) pos.y ].TileID == ETileType.DOME )
-            {
-                if( Manager.I.GameType == EGameType.CUBES )
-                    Unit[ ( int ) pos.x, ( int ) pos.y ].Spr.gameObject.GetComponent<tk2dAnimationAdapter>().color = new Color( col.r , col.g, col.b, .5f );
-                else
-                    Unit[ ( int ) pos.x, ( int ) pos.y ].Spr.gameObject.GetComponent<tk2dAnimationAdapter>().color = col;
-            }
+            //if( Unit[ ( int ) pos.x, ( int ) pos.y ].TileID == ETileType.DOME )
+            //{
+            //    if( Manager.I.GameType == EGameType.CUBES )
+            //        Unit[ ( int ) pos.x, ( int ) pos.y ].Spr.gameObject.GetComponent<tk2dAnimationAdapter>().color = new Color( col.r , col.g, col.b, .5f );
+            //    else
+            //        Unit[ ( int ) pos.x, ( int ) pos.y ].Spr.gameObject.GetComponent<tk2dAnimationAdapter>().color = col;
+            //}
         }
 
 		if( Gaia [ ( int ) pos.x, ( int ) pos.y ] && Gaia [ ( int ) pos.x, ( int ) pos.y ].LevelTxt ) Gaia [ ( int ) pos.x, ( int ) pos.y ].LevelTxt.color = col;

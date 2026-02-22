@@ -6,7 +6,7 @@ using DarkTonic.MasterAudio;
 public class FishingObject : MonoBehaviour
 {
     #region Variables
-    public tk2dSprite Sprite, Sprite2;
+    public NSprite Sprite, Sprite2;
     public tk2dTextMesh Text;
     public Vector2 TilePos = new Vector2( -1, -1 );
     public Vector2 OldTilePos = new Vector2( -1, -1 );

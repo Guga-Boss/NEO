@@ -19,7 +19,7 @@ public partial class Farm : MonoBehaviour
     [TabGroup( "Lists" )]
     public tk2dSprite[] ItemSprite;
     [TabGroup( "Lists" )]
-    public tk2dSprite NextPlagueIndicator, GrabPlagueIndicator, GlowPlagueMonsterIndicator;
+    public NSprite NextPlagueIndicator, GrabPlagueIndicator, GlowPlagueMonsterIndicator;
     
     [TabGroup( "Fire" )]
     public int FireLevel = 0;
