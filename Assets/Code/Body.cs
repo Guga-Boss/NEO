@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DarkTonic.MasterAudio;
 using PathologicalGames;
 using Sirenix.OdinInspector;
+using TMPro;
 public enum EUnitHealthStatus
 {
 	NONE = -1, HEALTHY, DAMAGED, DYING
@@ -26,11 +27,9 @@ public class Body : MonoBehaviour
     [TabGroup( "Link" )]
     public NSprite Shadow;
     [TabGroup( "Link" )]
-    public tk2dSprite ItemMiniDome;
+    public tk2dSprite   ImmunityDome;
     [TabGroup( "Link" )]
-    public tk2dSprite Sprite3, Sprite4, Sprite5, Sprite6, Sprite7, Sprite8, InfectedSprite, ImmunityDome;
-    [TabGroup( "Link" )]
-    public NSprite Sprite2;
+    public NSprite Sprite2, Sprite3, Sprite4, Sprite5, Sprite6, Sprite7, Sprite8, InfectedSprite, ItemMiniDome;
     [TabGroup( "Link" )]
     public tk2dTiledSprite PoleSprite;
     [TabGroup( "Link" )]
@@ -44,7 +43,7 @@ public class Body : MonoBehaviour
     [TabGroup( "Link" )]
     public GameObject[] EffectList, ArrowList, WoodList;
     [TabGroup( "Link" )]
-    public List<tk2dTextMesh> TextList;
+    public List<TextMeshPro> TextList;
     [TabGroup( "Link" )]
     public List<Unit> ChildList, ShacklePullList;
     [TabGroup( "Link" )]
@@ -64,7 +63,7 @@ public class Body : MonoBehaviour
     [TabGroup( "Link" )]
     public Rope Rope;
     [TabGroup( "Link" )]
-    public List<tk2dSprite> PoleSpriteList, PoleBackSpriteList;
+    public List<NSprite> PoleBackSpriteList, PoleSpriteList;
     [TabGroup( "Link" )]
     public GameObject RopeRotationHelper;
     [TabGroup( "Bool" )]
@@ -183,8 +182,6 @@ public class Body : MonoBehaviour
     public List<EDirection> HeroAttackDirectionHistory;
     [TabGroup( "List" )]
     public List<bool> WoodAdded;
-    [TabGroup( "List" )]
-    public List<tk2dSprite> BabySprite, BabyBackSprite;
     [TabGroup( "List" )]
     public List<NSprite> NBabySprite, NBabyBackSprite;
     [TabGroup( "Link" )]
@@ -1628,23 +1625,23 @@ public class Body : MonoBehaviour
             {
                 int bc = 0;
                 for( int i = 0; i < 8; i++ )
-                if( BabySprite[ i ].gameObject.activeSelf ) bc++;
+                if( NBabySprite[ i ].gameObject.activeSelf ) bc++;
                 if( bc >= 2 ) killbaby = false;
             }
 
-            if( BabySprite[ ( int ) dir ].gameObject.activeSelf )
+            if( NBabySprite[ ( int ) dir ].gameObject.activeSelf )
                 Message.CreateMessage( ETileType.NONE, "Roach Att: -" + VsHeroRoachAttackIncreasePerBaby + "%\nHero Att: + "
                 + VsRoachAttDecreasePerBaby + "%", Unit.Pos + new Vector2( 0, -1 ), Color.green );
 
             if( killbaby )
             {
-                BabySprite[ ( int ) dir ].gameObject.SetActive( false );                                             // Deactivate sprite
+                NBabySprite[ ( int ) dir ].gameObject.SetActive( false );                                             // Deactivate sprite
                 HasBaby[ ( int ) dir ] = false; 
             }
 
             int babies = 0;
             for( int i = 0; i < 8; i++ )
-            if( BabySprite[ i ].gameObject.activeSelf ) babies++;                                                    // Count babies
+            if( NBabySprite[ i ].gameObject.activeSelf ) babies++;                                                    // Count babies
 
             float per = 100 - ( babies * VsRoachAttDecreasePerBaby );
             damage = Util.Percent( per, damage );
@@ -1654,7 +1651,7 @@ public class Body : MonoBehaviour
             if ( Unit.Control.RedRoachBabyList != null )                                                             // Spawn Red RoachBaby  blocker after attack
             if ( Unit.Control.RedRoachBabyList.Count >= 1 )
             for( int i = 0; i < 8; i++ )
-            if ( BabySprite[ i ].gameObject.activeSelf )
+            if ( NBabySprite[ i ].gameObject.activeSelf )
             if ( Unit.Control.RedRoachBabyList.Contains( ( EDirection ) i ) )
                 {
                     int dr = ( int ) Unit.Dir + i;
@@ -1670,7 +1667,7 @@ public class Body : MonoBehaviour
             {
                 int babies = 0;
                 for( int i = 0; i < 8; i++ )
-                if( attacker.Body.BabySprite[ i ].gameObject.activeSelf ) babies++;
+                if( attacker.Body.NBabySprite[ i ].gameObject.activeSelf ) babies++;
                 bonus = babies * VsHeroRoachAttackIncreasePerBaby;
             }
         return bonus;

@@ -20,7 +20,7 @@ public class Perk : MonoBehaviour
 {
 	public EPerkType Type;
     public Artifact.ECategory Category;
-    public tk2dSprite UIIconSprite, UIIconBackSprite;
+    public NSprite UIIconSprite, UIIconBackSprite;
     public string TitleText, MainText;
     public int UiPanelPerkID;
     public tk2dUIItem UIButton;

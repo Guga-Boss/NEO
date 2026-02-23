@@ -260,7 +260,7 @@ public class Altar : MonoBehaviour
     [TabGroup( "Link" )]
     public List<AltarBonusStruct> PoleObjList;
     [TabGroup( "Link" )]
-    public List<tk2dSprite> ScopeObjList;
+    public List<NSprite> ScopeObjList;
     [TabGroup( "List" )]
     public List<AltarBonusStruct> AltarBonusList;
     public static List<AltarBonusStruct> Bnl = new List<AltarBonusStruct>();
@@ -458,34 +458,34 @@ public class Altar : MonoBehaviour
             if( al.Altar == null ) al.Altar = this;
             if( AltarBonusStruct.BumpTimeCount <= 0 )
             {
-                Body.BabySprite[ i ].transform.eulerAngles = new Vector3( 0, 0, 0 );
+                Body.NBabySprite[ i ].transform.eulerAngles = new Vector3( 0, 0, 0 );
                 if( al.AltarBonusType == EAltarBonusType.Rotate_CW  ||                                   // Rotation icon rotates acording to its position
                     al.AltarBonusType == EAltarBonusType.Rotate_CCW ||                                   // Rotation icon rotates acording to its position
                     al.AltarBonusType == EAltarBonusType.Invert_Bonus )
                 {
                     Vector3 rot = Util.GetRotationAngleVector( ( EDirection ) i );
-                    Body.BabySprite[ i ].transform.eulerAngles = rot;
+                    Body.NBabySprite[ i ].transform.eulerAngles = rot;
                 }
 
-                Body.BabySprite[ i ].spriteId = 647 + ( int ) al.AltarBonusType;                          // main sprite id
+                Body.NBabySprite[ i ].spriteId = 647 + ( int ) al.AltarBonusType;                          // main sprite id
 
-                Body.BabySprite[ i ].color = Color.white;
-                Body.BabyBackSprite[ i ].color = Color.white;
+                Body.NBabySprite[ i ].color = Color.white;
+                Body.NBabyBackSprite[ i ].color = Color.white;
                 Body.TextList[ i ].color = Color.white; 
                 if( al.Activated == false )
                 {
                     float a = .4f;
-                    Body.BabySprite[ i ].color = new Color( 1, 1, 1, a );                                 // sprite color
-                    Body.BabyBackSprite[ i ].color = new Color( 1, 1, 1, a );
+                    Body.NBabySprite[ i ].color = new Color( 1, 1, 1, a );                                 // sprite color
+                    Body.NBabyBackSprite[ i ].color = new Color( 1, 1, 1, a );
                     Body.TextList[ i ].color = new Color( 1, 1, 1, a );
                 }
 
-                Body.BabyBackSprite[ i ].gameObject.SetActive( false );                                   // Item sprite update
+                Body.NBabyBackSprite[ i ].gameObject.SetActive( false );                                   // Item sprite update
                 if( al.AltarBonusItem != ItemType.NONE )
                 {
-                    Body.BabyBackSprite[ i ].spriteId =
+                    Body.NBabyBackSprite[ i ].spriteId =
                     G.GIT( al.AltarBonusItem ).NSprite.spriteId;
-                    Body.BabyBackSprite[ i ].gameObject.SetActive( true );
+                    Body.NBabyBackSprite[ i ].gameObject.SetActive( true );
                 }
                 Unit.Altar.ScopeObjList[ i ].gameObject.SetActive( false );                               
                 if( al.Scope != EAltarBonusScope.NONE )                                                   // Scope Item sprite update
@@ -501,23 +501,23 @@ public class Altar : MonoBehaviour
             {
                 float amplitude = 0.07f; float val = .85f;
                 val += Mathf.Sin( Time.fixedTime * Mathf.PI * 2 ) * amplitude;                            // scale cube Scope sprite animation
-                Body.BabySprite[ i ].transform.localScale = new Vector3( val, val, 1 );
+                Body.NBabySprite[ i ].transform.localScale = new Vector3( val, val, 1 );
             }
             else
             {
                 if( Map.I.AdvanceTurn )
-                    Body.BabySprite[ i ].transform.localScale = new Vector3( .5f, .5f, 1 );
+                    Body.NBabySprite[ i ].transform.localScale = new Vector3( .5f, .5f, 1 );
             }
 
             Body.HasBaby[ i ] = false;
-            Body.BabySprite[ i ].gameObject.SetActive( false );
+            Body.NBabySprite[ i ].gameObject.SetActive( false );
             Body.TextList[ i ].gameObject.SetActive( false );
 
             if( AltarBonusList[ i ].AltarBonusType != EAltarBonusType.NONE )                              // Baby sprite
             {
                 Body.HasBaby[ i ] = true;
                 if( AltarBonusList[ i ].AltarBonusType != EAltarBonusType.Give_Bonus )
-                Body.BabySprite[ i ].gameObject.SetActive( true );
+                Body.NBabySprite[ i ].gameObject.SetActive( true );
                 haschild = true;
                 string sym = "";
                 string post = "";
@@ -590,7 +590,7 @@ public class Altar : MonoBehaviour
             if( al.AltarBonusType != EAltarBonusType.NONE )
             {
                 if( i > 2 ) sz = i + 1;
-                tk2dSprite spr = Body.PoleSpriteList[ i ];
+                NSprite spr = Body.PoleSpriteList[ i ];
                 spr.gameObject.SetActive( true );
                 if( al.ShieldTimer > 0 )
                     Body.PoleBackSpriteList[ i ].gameObject.SetActive( true );                                       // Shield timer
@@ -616,12 +616,11 @@ public class Altar : MonoBehaviour
 
                 if( al.AltarBonusItem != ItemType.NONE )
                 {
-                    spr.spriteId = G.GIT( al.AltarBonusItem ).NSprite.spriteId;                        // Hanged item sprite                    
-                    spr.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];
+                    spr.SetSprite( ESpriteCol.ITEM, G.GIT( al.AltarBonusItem ).NSprite.spriteId );     // Hanged item sprite      
                 }
                 else
                 {
-                    spr.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ];    // Other hanged non item object
+                    spr.collection = ESpriteCol.MONSTER_ANIM;                                          // Other hanged non item object
                 }
                 spr.scale = new Vector3( 1, 1, 1 );
                 if( al.AltarBonusType == EAltarBonusType.Axe )                                         // sprite rotation
@@ -664,7 +663,7 @@ public class Altar : MonoBehaviour
         if( sz > 2 ) h = ( 64 * sz );
         Body.PoleSprite.dimensions = new Vector2( 64, h );                                             // Pole sprite size
     }
-    private void UpdateAltarAttack( AltarBonusStruct al, tk2dSprite spr, Unit un, int id )
+    private void UpdateAltarAttack( AltarBonusStruct al, NSprite spr, Unit un, int id )
     {
         if( Body.PoleBackSpriteList[ id ].gameObject.activeSelf ) return;
         if( al.UsageAvailableTimer > 0 ) return;
@@ -887,12 +886,12 @@ public class Altar : MonoBehaviour
 
         if( bumpBn.AltarBonusType == EAltarBonusType.NONE )                                                               // Sends the centered bonus to the periphery
         {
-            ArcherArrowAnimation.Create( altar.Pos, altar.Body.BabySprite[ id ].transform.position,                       // anim
+            ArcherArrowAnimation.Create( altar.Pos, altar.Body.NBabySprite[ id ].transform.position,                       // anim
             EBoltType.Altar, altar.Body.Sprite2.spriteId, 30 );
             bumpBn.Copy( altar.Altar.NextAltarBonus );
             altar.Altar.NextAltarBonus.Reset();
             MasterAudio.PlaySound3DAtVector3( "Eletric Shock", G.Hero.Pos );                                              // Sound fx
-            Map.I.LineEffect( altar.Pos, altar.Body.BabySprite[ id ].
+            Map.I.LineEffect( altar.Pos, altar.Body.NBabySprite[ id ].
             transform.position, 2.5f, .5f, Color.blue, Color.blue );                                                      // Travel Line FX
             return;
         }
@@ -1233,7 +1232,7 @@ public class Altar : MonoBehaviour
             {
                 Vector3 tgg = altar.Pos + Manager.I.U.DirCord[ ( int ) G.Hero.Dir ];
                 ArcherArrowAnimation.Create( tgg, altar.Pos, EBoltType.Altar,
-                altar.Body.BabySprite[ ( int ) G.Hero.Dir ].spriteId, 6 );
+                altar.Body.NBabySprite[ ( int ) G.Hero.Dir ].spriteId, 6 );
                 altar.Altar.NextAltarBonus.Copy( bn );                                                                    // sends hero indicated bonus to the center
                 bn.Reset();
                 bumpBn.Reset();

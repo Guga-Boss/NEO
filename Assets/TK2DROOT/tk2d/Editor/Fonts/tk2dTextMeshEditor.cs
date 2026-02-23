@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 [CanEditMultipleObjects]
 [CustomEditor(typeof(tk2dTextMesh))]
-class tk2dTextMeshEditor : Editor
+public class tk2dTextMeshEditor : Editor
 {
 	tk2dGenericIndexItem[] allFonts = null;	// all generators
 	string[] allFontNames = null;
@@ -506,7 +506,8 @@ class tk2dTextMeshEditor : Editor
 					EditorUtility.SetDirty(tm);
 				}
 			}
-		}
+            DrawNeoTextConvertButton();
+        }
 	}
 
     [MenuItem(tk2dMenu.createBase + "TextMesh", false, 13905)]
@@ -550,4 +551,41 @@ class tk2dTextMeshEditor : Editor
 		Selection.activeGameObject = go;
 		Undo.RegisterCreatedObjectUndo(go, "Create TextMesh");
     }
+
+    // --- ADICIONE ISTO ---
+    public static System.Action<object> ConvertTextAction;
+    public static System.Action<object> FinalizeTextAction;
+
+    void DrawNeoTextConvertButton()
+    {
+        GUILayout.Space( 12 );
+
+        Color oldColor = GUI.backgroundColor;
+        GUI.backgroundColor = new Color( 1f, 0.5f, 0f ); // Laranja para diferenciar de Sprite
+
+        GUILayout.BeginVertical( "box" );
+        GUILayout.Space( 6 );
+
+        GUIStyle bigButton = new GUIStyle(GUI.skin.button);
+        bigButton.fontSize = 14;
+        bigButton.fixedHeight = 40;
+        bigButton.fontStyle = FontStyle.Bold;
+
+        if( GUILayout.Button( "📝 CONVERT TK TEXT TO TMP 📝", bigButton ) )
+        {
+            // Como esse editor é para tk2dTextMesh, o target é ele
+            ConvertTextAction?.Invoke( target );
+        }
+
+        if( GUILayout.Button( "📝 Finalize Text 📝", bigButton ) )
+        {
+            FinalizeTextAction?.Invoke( target );
+        }
+
+        GUILayout.Space( 6 );
+        GUILayout.EndVertical();
+
+        GUI.backgroundColor = oldColor;
+    }
+    // ----------------------
 }

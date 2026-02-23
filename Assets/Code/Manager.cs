@@ -546,7 +546,7 @@ private static void LoadProfile()
 				if( Map.I.CurrentArea == -1 )
 				{
 					Map.I.LastFileSavedName = "Level Entrance - L" + Quest.CurrentLevel + ".wq";
-					LoadGame( Map.I.LastFileSavedName );
+					//LoadGame( Map.I.LastFileSavedName );
 				}
                 goto End;
 			}
@@ -567,8 +567,8 @@ private static void LoadProfile()
 				else
 					if( Map.I.CurrentArea == -1 )
 					{
-                        if( Map.I.LastFileSavedName != "" )
-                            LoadGame( Map.I.LastFileSavedName );
+                        //if( Map.I.LastFileSavedName != "" )
+                        //    LoadGame( Map.I.LastFileSavedName );
                         goto End;
 					}
 			}
@@ -604,19 +604,6 @@ private static void LoadProfile()
         return folder;
     }
 
-
-    public void SaveGame( string file )
-    {
-        return; /// old 
-    }
-
-    //_____________________________________________________________________________________________________________________ Update Load game 
-
-
-    public void LoadGame( string file )
-    {
-    }
-
 	//_____________________________________________________________________________________________________________________ Exit Level
 
 	public void ExitLevel()
@@ -633,6 +620,7 @@ private static void LoadProfile()
     public GameObject CreateObjInstance( string str, string iname, EDirection dir, Vector3 pos )
     {
         GameObject prefab = ( GameObject ) Resources.Load( str );
+        if( prefab == null ) Debug.LogError( "Bad Prefab: " + str );
         GameObject instance = ( GameObject ) GameObject.Instantiate( prefab );
         instance.transform.position = pos;
         instance.name = iname;

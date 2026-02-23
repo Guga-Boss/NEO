@@ -422,7 +422,7 @@ public class UI : MonoBehaviour
 		{
 			LockedTile = tg;
 			GameObject obj =  Manager.I.CreateObjInstance( "Tile Selection", "Tile Selection", EDirection.NONE, new Vector3( tg.x, tg.y, -4 ) );
-			Map.I.TileSelection = obj.GetComponent<tk2dSprite>();
+			Map.I.TileSelection = obj.GetComponent<NSprite>();
 			obj.transform.parent = Map.I.Unit[ ( int ) tg.x, ( int ) tg.y ].Graphic.transform;
 			SelectedPerk = EPerkType.NONE;  
 		}

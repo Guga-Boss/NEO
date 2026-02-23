@@ -41,7 +41,7 @@ public class BabyData : MonoBehaviour
     {
         un.transform.position = new Vector3( un.transform.position.x, un.transform.position.y, -2 );
         un.Control.NotAnimatedPosition = un.Graphic.transform.position;
-        for( int i = 0; i < un.Body.BabySprite.Count; i++ )
+        for( int i = 0; i < un.Body.NBabySprite.Count; i++ )
         {
             BabyData bd = un.Body.BabyDataList[ i ];            
             BabyData.CreateAlgaeBrick( bd, true );
@@ -76,7 +76,7 @@ public class BabyData : MonoBehaviour
     }
     public static void Save( Unit un )
     {
-        for( int i = 0; i < un.Body.BabySprite.Count; i++ )
+        for( int i = 0; i < un.Body.NBabySprite.Count; i++ )
         {
             BabyData bd = un.Body.BabyDataList[ i ];
             GS.W.Write( bd.gameObject.activeSelf );
@@ -105,7 +105,7 @@ public class BabyData : MonoBehaviour
     }
     public static void Load( Unit un )
     {
-        for( int i = 0; i < un.Body.BabySprite.Count; i++ )
+        for( int i = 0; i < un.Body.NBabySprite.Count; i++ )
         {
             BabyData bd = un.Body.BabyDataList[ i ];
             bd.gameObject.SetActive( GS.R.ReadBoolean() );

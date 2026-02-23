@@ -4927,8 +4927,8 @@ MonoBehaviour:
   Unit: {fileID: 114128566648096210}
   Mother: {fileID: 0}
   Nest: {fileID: 0}
-  RestingRadiusSprite: {fileID: 0}
   RoachGlueSprite: {fileID: 0}
+  RestingRadiusSprite: {fileID: 0}
   ControlType: 21
   OldPos: {x: 0, y: 0}
   LastPos: {x: 0, y: 0}
@@ -5170,7 +5170,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Unit: {fileID: 114128566648096210}
   Shadow: {fileID: 0}
-  ItemMiniDome: {fileID: 0}
+  ImmunityDome: {fileID: 0}
+  Sprite2: {fileID: 0}
   Sprite3: {fileID: 0}
   Sprite4: {fileID: 0}
   Sprite5: {fileID: 0}
@@ -5178,8 +5179,7 @@ MonoBehaviour:
   Sprite7: {fileID: 0}
   Sprite8: {fileID: 0}
   InfectedSprite: {fileID: 0}
-  ImmunityDome: {fileID: 0}
-  Sprite2: {fileID: 0}
+  ItemMiniDome: {fileID: 0}
   PoleSprite: {fileID: 0}
   Animator: {fileID: 0}
   NAnimator: {fileID: 0}
@@ -5199,8 +5199,8 @@ MonoBehaviour:
   FireSourcePos: {x: -1, y: -1}
   RigidBody: {fileID: 0}
   Rope: {fileID: 0}
-  PoleSpriteList: []
   PoleBackSpriteList: []
+  PoleSpriteList: []
   RopeRotationHelper: {fileID: 0}
   BigMonster: 0
   ShowShieldInfo: 1
@@ -5415,8 +5415,6 @@ MonoBehaviour:
   HeroAttackPositionHistory: []
   HeroAttackDirectionHistory: 
   WoodAdded: 
-  BabySprite: []
-  BabyBackSprite: []
   NBabySprite: []
   NBabyBackSprite: []
   BabySpriteFolder: {fileID: 0}
@@ -15314,9 +15312,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4331555951029468}
-  - component: {fileID: 33554351576055252}
-  - component: {fileID: 23092840819519208}
-  - component: {fileID: 114875226670349488}
+  - component: {fileID: 985634291786650143}
+  - component: {fileID: 747544729936342895}
   m_Layer: 0
   m_Name: Side Indicator
   m_TagString: Untagged
@@ -15333,7 +15330,7 @@ Transform:
   m_GameObject: {fileID: 1870038378449514}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0.16}
+  m_LocalPosition: {x: 0.315, y: -0.024, z: 0.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -15342,30 +15339,23 @@ Transform:
   - {fileID: 4162418108830546}
   m_Father: {fileID: 4592030796157634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &33554351576055252
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1870038378449514}
-  m_Mesh: {fileID: 0}
---- !u!23 &23092840819519208
-MeshRenderer:
+--- !u!212 &985634291786650143
+SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870038378449514}
   m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
-  m_LightProbeUsage: 0
+  m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
+  m_RayTracingMode: 0
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
@@ -15375,7 +15365,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fb35d940d10ac6e4687b0747721045c6, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15388,7 +15378,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
+  m_SelectedEditorRenderState: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -15398,8 +15388,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &114875226670349488
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 1
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &747544729936342895
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15408,19 +15407,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1870038378449514}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fac570381f34f647b768dc5a5aa1364, type: 3}
+  m_Script: {fileID: 11500000, guid: 931dbdbd6ba82dd4281e24eb5d852e99, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  collection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
-    type: 3}
-  _color: {r: 1, g: 1, b: 1, a: 1}
-  _scale: {x: -1, y: 1, z: 1}
-  _spriteId: 52
-  boxCollider2D: {fileID: 0}
-  polygonCollider2D: []
-  edgeCollider2D: []
-  boxCollider: {fileID: 0}
-  meshCollider: {fileID: 0}
-  meshColliderPositions: []
-  meshColliderMesh: {fileID: 0}
-  renderLayer: 0
+  m_EditorClassIdentifier: Code::NSprite
+  collection: 1
+  sprite: {fileID: 0}
+  spriteName: 
+  baseColor: {r: 1, g: 1, b: 1, a: 1}
+  scale: {x: -1, y: 1}
+  preserveAspect: 1
+  Render: {fileID: 985634291786650143}
+  Image: {fileID: 0}
+  TkSpriteId: -1

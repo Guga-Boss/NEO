@@ -36,7 +36,7 @@ public partial class Controller : MonoBehaviour
     [TabGroup( "Links" )]
     public Unit Unit, Mother, Nest;
     [TabGroup( "Links" )]
-    public tk2dSprite RestingRadiusSprite, RoachGlueSprite;
+    public NSprite RoachGlueSprite, RestingRadiusSprite;
     [TabGroup( "Main" )]
     public EControlType ControlType;
     [TabGroup( "Main" )]
@@ -205,7 +205,7 @@ public partial class Controller : MonoBehaviour
     [TabGroup( "Dynamic" )]
     public int DynamicStepCount = 0;
     [TabGroup( "Dynamic" )]
-    public List<tk2dSprite> RaftJointList;
+    public List<NSprite> RaftJointList;
     [TabGroup( "Fly" )]
     public float BaseWaspTotSpawnTimer = 30;
     [TabGroup( "Fly" )]

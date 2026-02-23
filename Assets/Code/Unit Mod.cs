@@ -495,10 +495,10 @@ public partial class Unit : MonoBehaviour
                 for( int i = 0; i < Body.Sp.Count; i++ )
                     Body.Sp[ i ].Type = ESpiderBabyType.NONE;
 
-                for( int i = 0; i < Body.BabySprite.Count; i++ )
-                if( Body.BabySprite[ i ] )
+                for( int i = 0; i < Body.NBabySprite.Count; i++ )
+                if( Body.NBabySprite[ i ] )
                 {
-                    Body.BabySprite[ i ].gameObject.SetActive( false );
+                    Body.NBabySprite[ i ].gameObject.SetActive( false );
                     if( i < 8 )
                         Body.HasBaby[ i ] = false;                    
                 }
@@ -646,7 +646,7 @@ public partial class Unit : MonoBehaviour
                     }
                 }
 
-                for( int i = 0; i < Body.BabySprite.Count; i++ )                   // Algae obj activation
+                for( int i = 0; i < Body.NBabySprite.Count; i++ )                   // Algae obj activation
                 {
                     BabyData b = Body.BabyDataList[ i ];
                     b.Collider.isTrigger = true;

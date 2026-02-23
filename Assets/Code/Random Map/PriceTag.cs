@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class PriceTag : MonoBehaviour {
 
-    public tk2dTextMesh Price_1Text;
-    public tk2dSprite Price_1Resource;
+    public TextMeshPro Price_1Text;
+    public NSprite Price_1Resource;
     //public EResourceType CostResource_1;
     public float CostValue_1;
     //public EResourceType CostResource_2;

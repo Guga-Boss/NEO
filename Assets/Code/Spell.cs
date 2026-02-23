@@ -8,7 +8,7 @@ public class Spell : MonoBehaviour
 {
     public Attack Attack;
     public ESpiderBabyType Type = ESpiderBabyType.NONE;
-    public tk2dSprite SpellSprite;
+    public NSprite SpellSprite;
     public Transform sptr;  
     public EBoltType BoltType = EBoltType.NONE;
     public ItemType ItemType = ItemType.NONE;
@@ -577,7 +577,7 @@ public class Spell : MonoBehaviour
                 {
                     s.SpellSprite.spriteId = id;                                                            // Spell Sprite set
                     s.SpellSprite.gameObject.SetActive( true );
-                    s.SpellSprite.SetSprite( Map.I.SpriteCollectionList[ ( int ) col ], id );
+                    s.SpellSprite.SetSprite( col, id );
                 }
 
                 if( rot )

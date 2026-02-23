@@ -57,7 +57,7 @@ public partial class Map : MonoBehaviour
     [TabGroup( "Link" )]
     public tk2dSpriteCollectionData[] SpriteCollectionList;
     [TabGroup( "Link" )]
-    public tk2dSprite TileSelection, WindRose;
+    public NSprite TileSelection, WindRose;
     [TabGroup( "Link" )]
     public List<AdventureUpgradeInfo> GlobalTechList;
     [TabGroup( "Link" )]
@@ -209,9 +209,8 @@ public partial class Map : MonoBehaviour
     [TabGroup( "List" )]
     public EActionType[] InvertActionList;
     [TabGroup( "Link" )]
-    public tk2dSprite MouseRotationIndicator, HeroFishingPoleSprite, HeroShieldSprite;
-    [TabGroup( "Link" )]
-    public NSprite HeroPickaxeSprite, HeroTargetSprite, HeadShotGhost, HeroGrabWallSprite, PlatformExitIndicator, TicTacVisualIndicator;
+    public NSprite HeroPickaxeSprite, HeroTargetSprite, HeadShotGhost, HeroGrabWallSprite, PlatformExitIndicator, 
+        TicTacVisualIndicator, HeroFishingPoleSprite, HeroShieldSprite, MouseRotationIndicator;
     [TabGroup( "bool" )]
     public bool MouseRotationIndicatorState, CubeDeath, PlatformDeath, 
         ForceUpdateLOSFire, BarricadeDestroyedInTheTurn, LabRevealed, CountRecordTime;
@@ -232,7 +231,7 @@ public partial class Map : MonoBehaviour
     [TabGroup( "List" )]
     public List<int> ElectrifiedFogList, DirtyFogList;
     [TabGroup( "List" )]
-    public List<tk2dSprite> HeroShieldSpriteList;
+    public List<NSprite> HeroShieldSpriteList;
     [TabGroup( "List" )]
     public List<tk2dTiledSprite> HeroBambooSpriteList;
     [TabGroup( "List" )]

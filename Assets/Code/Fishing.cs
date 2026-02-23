@@ -130,7 +130,7 @@ public partial class Map : MonoBehaviour
     [TabGroup( "Fish" )]
     public Unit CurrentFishingPole = null;
     [TabGroup( "Fish" )]
-    public tk2dSprite PoleEndHelper;  // pole ending position to connect to the line
+    public NSprite PoleEndHelper;  // pole ending position to connect to the line
     [TabGroup( "Fish" )]
     public LineRenderer FishingLineChunk;
     //ggrope[TabGroup( "Fish" )]

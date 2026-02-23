@@ -81,14 +81,18 @@ public class Rope: MonoBehaviour
         float dist = Vector2.Distance(pointA.position, pointB.position);
         float safeNodeDist = config.nodeDistance > 0f ? config.nodeDistance : 0.25f;
 
+        int old =  nodes.Length;
         // Calcula quantos nodes deveriam existir agora
-        int targetNodeCount = Mathf.Max(2, Mathf.CeilToInt((dist / safeNodeDist) * config.AutoLengthMultiplier ) );
-        if( targetNodeCount < 3 ) targetNodeCount = 3;
+        int nc = Mathf.Max(2, Mathf.CeilToInt((dist / safeNodeDist) * config.AutoLengthMultiplier ) );
+        if( nc < 3 ) nc = 3;
+
+        if( config.type == RopeManager.Type.FISHING_LINE )
+        if( nc < old ) nc = old;
 
         // Reconstrói se for a primeira vez OU se a diferença de tamanho for maior que 1 para QUALQUER tipo de corda
-        if( nodes == null || Mathf.Abs( nodes.Length - targetNodeCount ) > 1 )
+        if( nodes == null || Mathf.Abs( nodes.Length - nc ) > 1 )
         {
-            Setup( config, pointA, pointB, targetNodeCount );
+            Setup( config, pointA, pointB, nc );
             // Sem o 'return' aqui, a física roda no mesmo frame e evita o chacoalhão!
         }
 

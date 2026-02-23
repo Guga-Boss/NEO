@@ -13,7 +13,7 @@ public class RecipePanel : MonoBehaviour
     public UIButton UpgradeRecipeButton;
     public UISlider ProductionBar;
     public static bool IsUpgradeButtonHovered = false;
-    public tk2dSprite CogSprite;
+    public NSprite CogSprite;
 
     public void UpdateIt( Recipe r, int id, Building bl )
     {

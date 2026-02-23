@@ -17,7 +17,7 @@ public partial class Farm : MonoBehaviour
 {
     #region Variables
     [TabGroup( "Lists" )]
-    public tk2dSprite[] ItemSprite;
+    public NSprite[] ItemSprite;
     [TabGroup( "Lists" )]
     public NSprite NextPlagueIndicator, GrabPlagueIndicator, GlowPlagueMonsterIndicator;
     

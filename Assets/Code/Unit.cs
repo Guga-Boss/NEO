@@ -4,6 +4,7 @@ using PathologicalGames;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -114,7 +115,7 @@ public partial class Unit : MonoBehaviour
     [TabGroup( "Link" )]
     public GameObject Graphic;
     [TabGroup( "Link" )]
-    public tk2dTextMesh LevelTxt, RightText;
+    public TextMeshPro LevelTxt, RightText;
     [TabGroup( "Link" )]
     public PriceTag PriceTag;
     [TabGroup( "Link" )]
@@ -4111,12 +4112,12 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                     if( TileID == ETileType.ROACH )
                     {
                         for( int i = 0; i < 8; i++ )
-                        if ( Body.BabySprite[ i ].gameObject.activeSelf )
+                        if ( Body.NBabySprite[ i ].gameObject.activeSelf )
                         {
-                             Body.BabySprite[ i ].color = new Color( .3f, .8f, .8f, 1f );
+                             Body.NBabySprite[ i ].color = new Color( .3f, .8f, .8f, 1f );
                              if( Control.RedRoachBabyList != null )                                      // Red Roach Baby color
                              if( Control.RedRoachBabyList.Contains( ( EDirection ) i ) )
-                                 Body.BabySprite[ i ].color = new Color32( 200, 75, 75, 255 );
+                                 Body.NBabySprite[ i ].color = new Color32( 200, 75, 75, 255 );
                         }
                     }
                 }
@@ -4127,12 +4128,12 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                     if( TileID == ETileType.ROACH )
                     {
                         for( int i = 0; i < 8; i++ )
-                        if ( Body.BabySprite[ i ].gameObject.activeSelf )
+                        if ( Body.NBabySprite[ i ].gameObject.activeSelf )
                         {
-                             Body.BabySprite[ i ].color = new Color( 1f, 1f, 1f, 1f );
+                             Body.NBabySprite[ i ].color = new Color( 1f, 1f, 1f, 1f );
                              if( Control.RedRoachBabyList != null )                                       // Red Roach Baby color
                              if( Control.RedRoachBabyList.Contains( ( EDirection ) i ) )
-                                 Body.BabySprite[ i ].color = new Color32( 255, 75, 75, 255 );
+                                 Body.NBabySprite[ i ].color = new Color32( 255, 75, 75, 255 );
                         }
                     }
                     if( Control.ForcedFrontalMovementFactor > 0 )                                         // Enraged red color fo slime or mushroom affected monster
@@ -4397,9 +4398,9 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 
            for( int i = 0; i < 8; i++ )                                          // Roach babies
            {
-               Body.BabySprite[ i ].gameObject.SetActive( false );
+               Body.NBabySprite[ i ].gameObject.SetActive( false );
                if( Body.HasBaby[ i ] )
-                   Body.BabySprite[ i ].gameObject.SetActive( true );
+                   Body.NBabySprite[ i ].gameObject.SetActive( true );
            }
            break;
 

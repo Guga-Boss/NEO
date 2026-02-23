@@ -5046,8 +5046,8 @@ MonoBehaviour:
   Unit: {fileID: 114345634251111490}
   Mother: {fileID: 0}
   Nest: {fileID: 0}
-  RestingRadiusSprite: {fileID: 0}
   RoachGlueSprite: {fileID: 0}
+  RestingRadiusSprite: {fileID: 0}
   ControlType: 22
   OldPos: {x: -1, y: -1}
   LastPos: {x: -1, y: -1}
@@ -5289,7 +5289,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Unit: {fileID: 114345634251111490}
   Shadow: {fileID: 0}
-  ItemMiniDome: {fileID: 0}
+  ImmunityDome: {fileID: 0}
+  Sprite2: {fileID: 0}
   Sprite3: {fileID: 0}
   Sprite4: {fileID: 0}
   Sprite5: {fileID: 0}
@@ -5297,8 +5298,7 @@ MonoBehaviour:
   Sprite7: {fileID: 0}
   Sprite8: {fileID: 0}
   InfectedSprite: {fileID: 0}
-  ImmunityDome: {fileID: 0}
-  Sprite2: {fileID: 0}
+  ItemMiniDome: {fileID: 0}
   PoleSprite: {fileID: 0}
   Animator: {fileID: 0}
   NAnimator: {fileID: 0}
@@ -5318,8 +5318,8 @@ MonoBehaviour:
   FireSourcePos: {x: -1, y: -1}
   RigidBody: {fileID: 0}
   Rope: {fileID: 0}
-  PoleSpriteList: []
   PoleBackSpriteList: []
+  PoleSpriteList: []
   RopeRotationHelper: {fileID: 0}
   BigMonster: 0
   ShowShieldInfo: 1
@@ -5534,8 +5534,6 @@ MonoBehaviour:
   HeroAttackPositionHistory: []
   HeroAttackDirectionHistory: 
   WoodAdded: 
-  BabySprite: []
-  BabyBackSprite: []
   NBabySprite: []
   NBabyBackSprite: []
   BabySpriteFolder: {fileID: 0}
