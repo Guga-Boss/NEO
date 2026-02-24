@@ -9,7 +9,8 @@ public class Sector : MonoBehaviour
 {
     public enum ESectorType
     {
-        NONE, NORMAL, LAB, GATES, FARM
+        NONE, NORMAL, LAB, GATES, FARM,
+        NAVIGATION
     };
     [TabGroup( "Lists" )]
     public List<Unit> MoveOrder, Fly, DynamicObjects;
@@ -422,13 +423,14 @@ public class Sector : MonoBehaviour
     public static ESectorType GetPosSectorType( Vector2 pos )
     {
         if( Manager.I.GameType == EGameType.FARM ) return ESectorType.FARM;
+        if( Manager.I.GameType == EGameType.NAVIGATION ) return ESectorType.NAVIGATION;
         Rect lab = new Rect( Map.I.RM.LabArea.position, new Vector2( 31, 31 ) );
         if( lab.Contains( pos ) ) return ESectorType.LAB;
 
         for( int y = 0; y < NY; y++ )
         for( int x = 0; x < NX; x++ )
             {
-                Rect r = Map.I.RM.RMSector[ x, y ].Area;
+                Rect r = Map.I.RM.RMSector[ x, y ].Area; 
                 if( r.Contains( pos ) ) return Map.I.RM.RMSector[ x, y ].Type;
             }
 

@@ -19,7 +19,7 @@ public class Inventory : MonoBehaviour {
     public Dictionary<ItemType, int> Dic = new Dictionary<ItemType, int>();
     public List<Item> EmptySlotList;
     public static Item HoverIcon;
-    public UIGrid Grid;
+    public MyGrid Grid;
     
 	// Use this for initialization
 	void Start () 
@@ -149,7 +149,7 @@ public class Inventory : MonoBehaviour {
         }
 
         RecipePanel.IsUpgradeButtonHovered = false;                                                                       // it only works here due to script processing order
-        if( Map.I.Farm.RecipePanel.UpgradeRecipeButton.state == UIButtonColor.State.Hover )
+        if( Util.IsHovered( Map.I.Farm.RecipePanel.UpgradeRecipeButton ) )
             RecipePanel.IsUpgradeButtonHovered = true;
 
         Grid.enabled = true;

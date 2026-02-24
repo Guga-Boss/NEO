@@ -5,7 +5,6 @@ using DarkTonic.MasterAudio;
 using UnityEngine.UI;
 using TMPro;
 
-
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -23,11 +22,12 @@ public class DungeonDialog : MonoBehaviour
     public UI2DSprite[] SpriteList;
     public UI2DSprite[] Resources;
     public NSprite[] TrophiesSprite;
-
+    public MyGrid GoalsGrid;
     public UI2DSprite PackMuleEmptySlot, TechEditorFocus;
     public NSprite AutoGotoCheckMark, UnlockCost1Sprite;
     public UILabel DungeonNumberLabel, DificultyLabel;
-    public TextMeshPro TMainTextLabel, TAvailableCubesLabel, DungeonNameLabel, GameCompletitionLabel, StudiesCompletedLabel, GoalInfoLabel, NewDungeonLabel, BackButtonLabel, UnlockCostLabel1;
+    public TextMeshPro TMainTextLabel, TAvailableCubesLabel, DungeonNameLabel, GameCompletitionLabel, 
+                       StudiesCompletedLabel, GoalInfoLabel, NewDungeonLabel, BackButtonLabel, UnlockCostLabel1;
     public TextMeshProUGUI TrainingModeButtonLabel, StudyModeButtonLabel;
 
     public TextMeshPro[] TrophiesAmountLabel;
@@ -201,7 +201,7 @@ public class DungeonDialog : MonoBehaviour
 
         UpdatePackMule();
 
-        DungeonNameLabel.text = Map.I.RM.ORMD.gameObject.name;
+        DungeonNameLabel.text = Map.I.GetAdv().QuestHelper.QuestName;
 
         UpdateStudies();
 
@@ -1425,7 +1425,6 @@ public class DungeonDialog : MonoBehaviour
     
     public void ChooseAdventure( int adv = -1, bool btnClick = false )
     {
-        Debug.Log(adv);
         if( adv == -1 )
         {
             Map.I.RM.CurrentAdventure = adv; 
@@ -1444,9 +1443,6 @@ public class DungeonDialog : MonoBehaviour
         ShowEndgameStats = false;
         Map.I.RM.CurrentAdventure = adv;
 
-        //Map.I.RM.CurrentAdventure = 0; // gggg added to fix bug , remove after migration
-
-
         Map.I.RM.ORMD = Map.I.RM.RMList[ ( int ) Map.I.RM.CurrentAdventure ];
 
         Map.I.RM.RMD.Copy( Map.I.RM.RMList[ ( int ) Map.I.RM.CurrentAdventure ] );
@@ -1462,6 +1458,7 @@ public class DungeonDialog : MonoBehaviour
             UI.I.MapLabel.text = "";
         else
             UI.I.MapLabel.text = Map.I.RM.RMList[ ( int ) Map.I.RM.CurrentAdventure ].QuestHelper.QuestName;          // Quest Name text mesh
+        GoalsGrid.Reposition();
     }
 
     public void UpdateObjectives( bool updatetimetrying = false )

@@ -11,7 +11,7 @@ public class UI : MonoBehaviour
     #region Variables
     public static UI I;
     public UILabel LevelText, EnterAreaTxt, 
-        TurnInfoLabel, UseButtonLabel, LosttHPLabel, BigTextHelpLabel, BigMessageText;
+        TurnInfoLabel, UseButtonLabel, LosttHPLabel, BigTextHelpLabel, BigMessageText; 
     public int TurnInfoLabelCount = 0;
 
     public TextMeshPro ArtifactsText, AreasText, HeroHpText, GameLevelText, PerkInfoLevelLabel, ArtifactInfoLabel, ScrollText,
@@ -32,7 +32,7 @@ public class UI : MonoBehaviour
     public int NumGamePerk, NumLevelPerk, NumAreaPerk, LevelFactor;
     public Perk MushroomPerk, DestroyBarricadePerk, MonsterPushPerk, MonsterPressurePerk;
 	public Unit SelUnit, CompareHero;
-	public UIGrid Grid, ResourcesGrid;
+	public MyGrid Grid, ResourcesGrid;
     public UISprite ScrollBack;
 	public NSprite InfoIcon, PerkInfoIcon, MidPanelSprite, HorseIcon, BackgroundUI, OverlaySprite;
     public Camera UICamera;
@@ -1051,9 +1051,9 @@ public class UI : MonoBehaviour
         if( id == -1 ) return;
 
         Grid.transform.localPosition = GridHelper.Position[ id ];
-        Grid.cellWidth = GridHelper.CellWidth[ id ];
-        Grid.cellHeight = GridHelper.CellHeight[ id ];
-        Grid.maxPerLine = GridHelper.ColumnLimit[ id ];
+        Grid.CellWidth = GridHelper.CellWidth[ id ];
+        Grid.CellHeight = GridHelper.CellHeight[ id ];
+        Grid.ColumnLimit = GridHelper.ColumnLimit[ id ];
         for( int i = 0; i < PerkList.Count; i++ )
         if( PerkList[ i ] )
         if ( PerkList[ i ].gameObject.activeSelf )

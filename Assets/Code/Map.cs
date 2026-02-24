@@ -59,6 +59,8 @@ public partial class Map : MonoBehaviour
     [TabGroup( "Link" )]
     public NSprite TileSelection, WindRose;
     [TabGroup( "Link" )]
+    public Sprite FireIcon;
+    [TabGroup( "Link" )]
     public List<AdventureUpgradeInfo> GlobalTechList;
     [TabGroup( "Link" )]
     public Droplets Droplets;

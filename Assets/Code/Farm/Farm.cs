@@ -170,6 +170,7 @@ public partial class Farm : MonoBehaviour
         UI.I.GoalPanel.gameObject.SetActive( false );
         UI.I.GoalIcons.gameObject.SetActive( false );
         UI.I.PerksListFolder.SetActive( false );
+        UI.I.ResourcesGrid.Reposition();
         AddStoneResources();
         Manager.I.Inventory.gameObject.SetActive( true );
         Map.I.Tilemap.Layers[ ( int ) ELayerType.GAIA ].gameObject.SetActive( false ); 

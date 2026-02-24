@@ -1,9 +1,11 @@
-using UnityEngine;
+using DarkTonic.MasterAudio;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
-using DarkTonic.MasterAudio;
-using UnityEngine.UI;
 using TMPro;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class TechButton : MonoBehaviour
 {
@@ -40,6 +42,70 @@ public class TechButton : MonoBehaviour
     public static bool TechEditorActive = false;
     #endregion
 
+    [Button( "Create all Buttons based on the first of the list", ButtonSizes.Gigantic ), GUIColor( 0, 1f, 0 )]
+    public void UpdateEditorIDS()
+    {
+        // 🔎 1️⃣ Achar Tech Button Panel
+        var panel = GameObject.Find("Tech Button Panel");
+        if( panel == null )
+        {
+            Debug.LogError( "Tech Button Panel não encontrado" );
+            return;
+        }
+
+        // 🔎 2️⃣ Pegar primeiro filho com TechButton
+        TechButton original = panel.GetComponentInChildren<TechButton>();
+        if( original == null )
+        {
+            Debug.LogError( "TechButton não encontrado" );
+            return;
+        }
+
+        TechButton[] allButtons = panel.GetComponentsInChildren<TechButton>(true);
+        for( int i = 0; i < allButtons.Length; i++ )
+        {
+            if( allButtons[ i ] != original )
+            {
+                DestroyImmediate( allButtons[ i ].gameObject );
+            }
+        }
+
+        // 🔁 3️⃣ Criar até ter 24 filhos
+        int targetCount = 24;
+
+        while( panel.transform.childCount < targetCount )
+        {
+            int id = panel.transform.childCount + 1; // +1 se quiser começar em 1
+            var newObj = Instantiate(original.gameObject, panel.transform);
+            newObj.transform.SetParent( panel.transform, false );
+            newObj.transform.localScale = Vector3.one;
+            newObj.name = "Tech Button (" + id + ")";
+        }
+
+        // 🔢 4️⃣ Distribuir em grade
+        int columns = 6;
+        int rows = 4;
+
+        for( int i = 0; i < panel.transform.childCount; i++ )
+        {
+            int x = i % columns;
+            int y = i / columns;
+
+            var button = panel.transform.GetChild(i).GetComponent<TechButton>();
+            if( button != null )
+            {
+                button.X = x;
+                button.Y = y;
+
+#if UNITY_EDITOR
+                EditorUtility.SetDirty( button );
+#endif
+            }
+        }
+        Map.I.TB = panel.GetComponentsInChildren<TechButton>( true );
+        panel.GetComponent<MyGrid>().Reposition();
+        Debug.Log( "UpdateEditorIDS concluído" );
+    }
     public static void StartIt()
     {
         PurchasingAvailable = true;
@@ -637,7 +703,7 @@ public class TechButton : MonoBehaviour
 
             label.color = col;
 
-            spr.sprite = G.GIT( costItem ).NSprite.sprite;                                                            // Updates Cost Sprite        
+            spr.spriteId = G.GIT( costItem ).NSprite.TkSpriteId;                                                        // Updates Cost Sprite        
 
             if( techX != -1 )
             {

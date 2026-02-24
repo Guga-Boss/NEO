@@ -93,7 +93,7 @@ public class ResourceIndicator : MonoBehaviour
             UI.I.ResourcesGrid.transform.localPosition = new Vector3( -715.8f, -103.1f, 0 );
         else
             UI.I.ResourcesGrid.transform.localPosition = new Vector3( -715.8f, -61.38f, 0 );
-        UI.I.ResourcesGrid.repositionNow = true;
+        UI.I.ResourcesGrid.Reposition();
     }
 
     public static void UpdateIndicator( ItemType itemType )

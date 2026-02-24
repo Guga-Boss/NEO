@@ -979,7 +979,7 @@ public class NSprite: MonoBehaviour
                 if( unitScript != null )
                 {
                     // 3. ATRIBUIÇÃO (Substitua 'seuCampoDeTexto' pelo nome da variável na classe Unit)
-                    unitScript.RightText = finalTmp;
+                    unitScript.LevelTxt = finalTmp;
 
                     // 4. Avisa o Unity que houve mudança para salvar no Prefab/Cena
                     EditorUtility.SetDirty( unitScript );

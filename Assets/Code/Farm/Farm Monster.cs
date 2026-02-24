@@ -5,6 +5,8 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
 using DarkTonic.MasterAudio;
+using System.Security.Cryptography;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -158,17 +160,14 @@ public partial class Farm : MonoBehaviour
         res.Graphic.transform.position = pt;
         if( Item.IsPlagueMonster( res.Variation, false ) )
         {
-            res.InitPlagueMonster();                                                             // plague monster
+            res.InitPlagueMonster();                                                                          // plague monster
         }
         else
         {
-            //gganires.Body.Animator = res.NSpr.GetComponent<tk2dSpriteAnimator>();
-            //res.Body.Animator.Stop();
-            //res.Body.Sprite2.gameObject.SetActive( false );
-            //res.NSpr.Collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.ITEM ];          // others like feather, chicken, etc
-            //res.NSpr.spriteId = G.GIT( res.Variation ).NSprite.spriteId;
+            res.Body.NAnimator.enabled = false;
+            res.Spr.SetSprite( ESpriteCol.ITEM, G.GIT( res.Variation ).NSprite.TkSpriteId );                  // others like feather, chicken, etc
             if( res.Variation == ( int ) ItemType.Chicken )       
-                res.Body.StackAmount = 12;                                                       // Chicken initial timer
+                res.Body.StackAmount = 12;                                                                    // Chicken initial timer
         }
         return res;
     }
@@ -842,26 +841,30 @@ public partial class Farm : MonoBehaviour
 
     public void UpdatePlagueMonster( Unit un )
     {
-        UpdateChicken( un );                                                                    // Update Chicken
+        UpdateChicken( un );                                                                             // Update Chicken
 
         un.Body.Sprite2.gameObject.SetActive( true );
         int neigh = GetNeighborCount( un );
+        if( Item.IsPlagueMonster( un.Variation, false ) )  
         if( neigh == 0 )
         {
-            un.Spr.transform.localScale = new Vector3( .65f, .65f, .65f );                 // No neighbor for this monster
+            un.Spr.transform.localScale = new Vector3( .65f, .65f, .65f );                               // No neighbor for this monster
             float a = un.Body.Sprite2.color.a - Time.deltaTime;
             if( a < 0 ) a = 0;
             un.Body.Sprite2.color = new Color( 1, 1, 1, a );
         }
         else
         {
-            un.Spr.transform.localScale = new Vector3( .65f, .65f, .65f );                // Grouped monster
+            un.Spr.transform.localScale = new Vector3( .65f, .65f, .65f );                               // Grouped monster
             float a = un.Body.Sprite2.color.a + Time.deltaTime;
             if( a > 1 ) a = 1;
             un.Body.Sprite2.color = new Color( 1, 1, 1, a );
             if( Map.I.GetMud( un.Pos ) )
                 un.Body.Sprite2.color = new Color( 1, .6f, .6f, a );
         }
+
+        if( Item.IsPlagueMonster( un.Variation, false ) == false )
+            un.Spr.SetSprite( ESpriteCol.ITEM, G.GIT( un.Variation ).NSprite.TkSpriteId );               // others like feather, chicken, etc (optimize not every turn)
     }
 
     private void UpdateChicken( Unit un )

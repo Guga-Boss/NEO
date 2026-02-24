@@ -134,7 +134,7 @@ public class tk2dSpriteAnimator : MonoBehaviour
 			if (_sprite == null) {
 				_sprite = GetComponent<tk2dBaseSprite>();
 				if (_sprite == null) {
-					Debug.LogError("Sprite not found attached to tk2dSpriteAnimator.");
+					Debug.LogError("Sprite not found attached to tk2dSpriteAnimator." + gameObject.transform.root );  
 				}
 			}
 			return _sprite;

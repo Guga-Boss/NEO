@@ -10,7 +10,6 @@ public class BluePrintPanel : MonoBehaviour
     public UIButton[,] Buttons;
     public NSprite[] BackSpritesAux;
     public TextMeshPro[ , ] Labels;
-    public UILabel Cost2Label, Cost3Label;
     public TextMeshPro BluePrintLabel,UsesLabel, Cost1Label, PowerLabel, BuyBPLabel, AutoApplyCostLabel;
     public UI2DSprite Cost2Item, Cost3Item;
     public NSprite Cost1Item, BuyBPItem, AutoApplyItem;
@@ -74,11 +73,10 @@ public class BluePrintPanel : MonoBehaviour
                 ( bp.UsesList.Count + bp.AvailableUses ) + mx;    
         }
 
-        Cost1Item.sprite = G.GIT( bp.CostItem ).NSprite.sprite;                                      // Attrib Sprite
+        Cost1Item.spriteId = G.GIT( bp.CostItem ).NSprite.TkSpriteId;                                // Attrib Sprite
 
         Cost1Label.text = "x" + bp.Cost.ToString("0.#");
         float suc = bp.BaseSuccessRate + bp.SuccessRate;
-        Cost2Label.text = "" + suc.ToString( "0.#" ) + "%";
 
         for( int y = 0; y < 5; y++ )
         for( int x = 0; x < 5; x++ )
@@ -164,7 +162,7 @@ public class BluePrintPanel : MonoBehaviour
         {
             AutoApplyButton.gameObject.SetActive( true );
             AutoApplyCostLabel.text = "x" + bp.AutoApplyCost;
-            AutoApplyItem.sprite = G.GIT( bp.AutoApplyCostItem ).NSprite.sprite;
+            AutoApplyItem.spriteId = G.GIT( bp.AutoApplyCostItem ).NSprite.TkSpriteId;
             bool res = bp.AutoApply( true );
             if( res ) AutoApplyCostLabel.color = Color.white;
             else AutoApplyCostLabel.color = Color.red;

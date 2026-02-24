@@ -560,7 +560,9 @@ public class FPow : MonoBehaviour
         UI.I.NavigationMapText2.color = Color.red;
         UI.I.NavigationMapText.text = "";
         UI.I.NavigationMapText2.text = "";
-        UI.I.MidPanelSprite.spriteName = "Fire Icon";
+        UI.I.MidPanelSprite.sprite = Map.I.FireIcon;
+        UI.I.MidPanelSprite.UpdateVisuals();
+
         int lev = ( int ) Item.GetNum( ItemType.Fire_Level );
         float upchc = UpgradeBaseChance + TrialCount * LuckyStreakStep;
         UI.I.ArtifactInfoLabel.text = "Fire Level: " + lev + " UP: " + 

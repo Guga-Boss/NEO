@@ -123,14 +123,15 @@ public class NavigationMap : MonoBehaviour
 
     public void UpdateQuestPanel( int id )
     {
-        RandomMapData rm = Map.I.RM.RMList[ id ];
+        RandomMapData rm = Map.I.RM.RMList[ id ];                                                      // init vars
+        if( rm.Available == false ) return;
+        if( rm.MapCord.x < 0 ) return;
         DungeonDialog dd = Map.I.RM.DungeonDialog;
         QuestPanel qp = rm.QuestHelper.QuestPanel;
         qp.gameObject.SetActive( false );
         BackgroundSprite[ id ].gameObject.SetActive( true );
 
-        Map.I.Revealed[ ( int ) rm.MapCord.x,                                                       // new 
-                            ( int ) rm.MapCord.y ] = true;
+        Map.I.Revealed[ ( int ) rm.MapCord.x, ( int ) rm.MapCord.y ] = true;                            // new 
 
         float alpha = 0;
         if( Map.I.Revealed[ ( int ) rm.MapCord.x,                                                       // Updates Back alpha color

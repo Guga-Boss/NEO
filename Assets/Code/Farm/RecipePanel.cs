@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 using DarkTonic.MasterAudio;
+using TMPro;
+using UnityEngine.UI;
 
 public class RecipePanel : MonoBehaviour
 {
-    public UI2DSprite[] ReqSprites, GenSprites;
-    public UI2DSprite UpgradeItemType;
-    public UILabel TitleLabel, TimeLabel, LevelLabel, UpgradeItemCostLabel,
+    public NSprite[] ReqSprites, GenSprites;
+    public NSprite UpgradeItemType;
+    public TextMeshPro TitleLabel, TimeLabel, LevelLabel, UpgradeItemCostLabel,
            UpgradeButtonLabel, ActivateButtonLabel, AvailableRecipesLabel, 
            ProductionBarLabel, QueueLabel;
-    public UILabel[] ReqLabel, GenLabel, UpgradeHintLabel; 
-    public UIButton UpgradeRecipeButton;
+    public TextMeshPro[] ReqLabel, GenLabel, UpgradeHintLabel; 
+    public Button UpgradeRecipeButton;
     public UISlider ProductionBar;
     public static bool IsUpgradeButtonHovered = false;
     public NSprite CogSprite;
@@ -114,7 +116,7 @@ public class RecipePanel : MonoBehaviour
         }
 
         RecipeUpgradeInfo ui = bl.RecipeList[ ( int ) bl.SelectedRecipeID ].RecipeUpgradeInfoList[ lev ];
-        UpgradeItemType.sprite2D = G.GIT( ui.UpgradeItemCostType ).NSprite.sprite;
+        UpgradeItemType.spriteId = G.GIT( ui.UpgradeItemCostType ).NSprite.TkSpriteId;
         UpgradeItemCostLabel.text = "x" + ui.UpgradeItemCostAmount;
         bool res = bl.RecipeList[ ( int ) bl.SelectedRecipeID ].UpgradeRecipe( false, bl );
 
@@ -172,7 +174,7 @@ public class RecipePanel : MonoBehaviour
         {
             if( gen == false )
             {
-                ReqSprites[ arrayId ].sprite2D = G.GIT( itt ).NSprite.sprite;
+                ReqSprites[ arrayId ].spriteId = G.GIT( itt ).NSprite.TkSpriteId;
                 ReqLabel[ arrayId ].text = "x" + amt;
                 ReqSprites[ arrayId ].transform.parent.gameObject.SetActive( true );
                 ReqLabel[ arrayId ].color = Color.white;
@@ -182,7 +184,7 @@ public class RecipePanel : MonoBehaviour
             }
             else
             {
-                GenSprites[ arrayId ].sprite2D = G.GIT( itt ).NSprite.sprite;
+                GenSprites[ arrayId ].spriteId = G.GIT( itt ).NSprite.TkSpriteId;
                 GenLabel[ arrayId ].text = "x" + amt;
                 GenSprites[ arrayId ].transform.parent.gameObject.SetActive( true );
 

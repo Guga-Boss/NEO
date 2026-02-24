@@ -247,32 +247,24 @@ public partial class Unit : MonoBehaviour
 
     public void InitPlagueMonster()
     {
-       //ggani NSpr.collection = Map.I.SpriteCollectionList[ ( int ) ESpriteCol.MONSTER_ANIM ];
-       // Body.Animator = NSpr.GetComponent<tk2dSpriteAnimator>();
-       // var animMap = new Dictionary<int, string>
-       // {
-       // {(int)ItemType.Plague_Monster_Kickable, "Plague Monster 2"},
-       // {(int)ItemType.Plague_Monster_Slayer,   "Plague Monster 4"},
-       // {(int)ItemType.Plague_Monster_Grabber,  "Plague Monster 3"},
-       // {(int)ItemType.Plague_Monster_Blocker,  "Plague Monster 6"},
-       // {(int)ItemType.Plague_Monster_Cloner,   "Plague Monster 7"},
-       // {(int)ItemType.Plague_Monster_Spawner,  "Plague Monster 5"},
-       // {(int)ItemType.Plague_Monster_Swap,     "Plague Monster 1"}
-       //};
-
-       // string animName;
-       // if( animMap.TryGetValue( Variation, out animName ) )
-       // {
-       //     var clip = Body.Animator.GetClipByName( animName );
-       //     if( clip != null && clip.frames.Length > 0 )
-       //     {
-       //         int frame = Random.Range( 0, clip.frames.Length ); // random frame start
-       //         float startTime = ( float ) frame / clip.fps;
-       //         Body.Animator.Play( clip, startTime, 0f );  
-       //     }
-       // }
-       // else Body.Animator.Stop();
-       // Body.GraphicsInitialized = true;
+        var animMap = new Dictionary<int, string>
+    {
+        {(int)ItemType.Plague_Monster_Kickable, "Kickable Idle"},
+        {(int)ItemType.Plague_Monster_Slayer,   "Slayer Idle"},
+        {(int)ItemType.Plague_Monster_Grabber,  "Grabber Idle"},
+        {(int)ItemType.Plague_Monster_Blocker,  "Blocker Idle"},
+        {(int)ItemType.Plague_Monster_Cloner,   "Cloner Idle"},
+        {(int)ItemType.Plague_Monster_Spawner,  "Spawner Idle"},
+        {(int)ItemType.Plague_Monster_Swap,     "Swapper Idle"}
+    };
+        Body.NAnimator.enabled = false;
+        if( animMap.TryGetValue( Variation, out string animName ) )
+        {
+            Body.NAnimator.enabled = true;
+            float randomStart = Random.value; // 0–1 normalized time
+            Body.NAnimator.Play( animName, 0, randomStart );
+        }
+        Body.GraphicsInitialized = true;
     }
 
     public void Init( EV vartype, MyBool val )
