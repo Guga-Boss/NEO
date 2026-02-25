@@ -10,8 +10,8 @@ public class UI : MonoBehaviour
 {
     #region Variables
     public static UI I;
-    public UILabel LevelText, EnterAreaTxt, 
-        TurnInfoLabel, UseButtonLabel, LosttHPLabel, BigTextHelpLabel, BigMessageText; 
+    public UILabel LevelText, EnterAreaTxt, UseButtonLabel, LosttHPLabel, BigTextHelpLabel;
+    public TextMeshPro BigMessageText, TurnInfoLabel;
     public int TurnInfoLabelCount = 0;
 
     public TextMeshPro ArtifactsText, AreasText, HeroHpText, GameLevelText, PerkInfoLevelLabel, ArtifactInfoLabel, ScrollText,

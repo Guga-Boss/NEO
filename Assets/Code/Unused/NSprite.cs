@@ -13,6 +13,7 @@ public class NSprite: MonoBehaviour
     public ESpriteCol collection;
 
     [BoxGroup("Configurações"), Required, OnValueChanged("UpdateVisuals")]
+    [SerializeField]
     [ValueDropdown("GetSpritesFromCol")]
     public Sprite sprite;
 
@@ -67,8 +68,25 @@ public class NSprite: MonoBehaviour
 
     private void OnColChanged()
     {
+        if( collection == ESpriteCol.NONE ) return;
         sprite = null;
         spriteName = "";
+        UpdateVisuals();
+    }
+
+
+    [BoxGroup("Configurações")]
+    //[ShowIf("collection", ESpriteCol.NONE)] // Só aparece se a coleção for NONE
+    [OnValueChanged("OnManualSpriteChanged")]
+    public Sprite ManualSprite;
+
+    private void OnManualSpriteChanged()
+    {
+        // 1. Atualiza a variável 'sprite' original (a que está bloqueada pelo Odin)
+        sprite = ManualSprite;
+        // 2. Atualiza o nome do sprite
+        spriteName = ManualSprite != null ? ManualSprite.name : "";
+        // 3. Força o Sprite Renderer a atualizar instantaneamente e salva na Prefab
         UpdateVisuals();
     }
 
@@ -98,9 +116,8 @@ public class NSprite: MonoBehaviour
         get => _spriteId;
         set
         {
-           // if( value == _spriteId ) return; // Otimização
             _spriteId = value;
-            TkSpriteId = value; // Mantém o Inspector atualizado
+            TkSpriteId = value;
 
             if( IDM.I == null || collection == ESpriteCol.NONE ) return;
 
@@ -110,10 +127,6 @@ public class NSprite: MonoBehaviour
                 sprite = sp;
                 spriteName = sp.name;
                 UpdateVisuals();
-            }
-            else
-            {
-                Debug.Log( $"[NSprite] Sprite ID {value} não encontrado na coleção {collection}" );
             }
         }
     }
@@ -163,6 +176,14 @@ public class NSprite: MonoBehaviour
         // Chama a correção do botão logo em seguida
         ValidateButtonSupport();
 
+        // 🟢 ADICIONE ESTAS 4 LINHAS AQUI:
+        // Se o NSprite estiver bloqueado/nulo, mas o SpriteRenderer tiver uma imagem,
+        // o script vai "adotar" essa imagem em vez de apagá-la.
+        if( sprite == null && Render.sprite != null )
+        {
+            sprite = Render.sprite;
+        }
+
         Render.sprite = sprite;
         Render.color = baseColor;
         if( sprite == null ) return;
@@ -180,6 +201,21 @@ public class NSprite: MonoBehaviour
         {
             Render.size = new Vector2( nativeSize.x * scale.x, nativeSize.y * scale.y );
         }
+
+
+
+
+
+#if UNITY_EDITOR
+        // MÁGICA AQUI: Informa ao Unity que o componente mudou e deve ser salvo na Prefab!
+        if( !Application.isPlaying )
+        {
+            UnityEditor.EditorUtility.SetDirty( this );
+            if( Render != null ) UnityEditor.EditorUtility.SetDirty( Render );
+        }
+#endif
+
+
     }
 
 #if UNITY_EDITOR
@@ -1018,13 +1054,10 @@ public class NSprite: MonoBehaviour
         default: return (TextAlignmentOptions.Center, new Vector2( 0.5f, 0.5f ));
         }
     }
-
     public void SetSprite( ESpriteCol col, int id )
     {
         collection = col;
         spriteId = id;
     }
-
-
 #endif
 }

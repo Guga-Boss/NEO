@@ -114,6 +114,7 @@ MonoBehaviour:
   Render: {fileID: 1749877541766945898}
   Image: {fileID: 0}
   TkSpriteId: -1
+  ManualSprite: {fileID: 0}
 --- !u!1 &128296
 GameObject:
   m_ObjectHideFlags: 0
@@ -1141,8 +1142,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010658246618}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0.25881907, w: 0.9659259}
-  m_LocalPosition: {x: 0.321, y: 1.033, z: 0.02}
+  m_LocalRotation: {x: 0, y: 0, z: 0.3937815, w: 0.9192041}
+  m_LocalPosition: {x: -0.1, y: 0.209, z: 0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1219,12 +1220,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1648499097, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
+  m_Sprite: {fileID: -1845217369, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: -1, y: -1}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1242,14 +1243,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Code::NSprite
   collection: 1
-  sprite: {fileID: -1648499097, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
-  spriteName: Monster Animation_233
+  sprite: {fileID: -1845217369, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
+  spriteName: Monster Animation_174
   baseColor: {r: 1, g: 1, b: 1, a: 1}
-  scale: {x: -1, y: 1}
+  scale: {x: 1, y: 1}
   preserveAspect: 1
   Render: {fileID: 9131828329439464468}
   Image: {fileID: 0}
-  TkSpriteId: -1
+  TkSpriteId: 174
+  ManualSprite: {fileID: -1845217369, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
 --- !u!1 &1000010691533082
 GameObject:
   m_ObjectHideFlags: 0
@@ -1277,8 +1279,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010691533082}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.25881907, w: 0.9659259}
-  m_LocalPosition: {x: -0.037292477, y: 0.287672, z: 0.021}
+  m_LocalRotation: {x: 0, y: 0, z: -0.39073113, w: 0.92050487}
+  m_LocalPosition: {x: 0.04, y: 0.209, z: 0.021}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1355,7 +1357,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -1648499097, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
+  m_Sprite: {fileID: 223812865, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1378,14 +1380,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Code::NSprite
   collection: 1
-  sprite: {fileID: -1648499097, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
-  spriteName: Monster Animation_233
+  sprite: {fileID: 223812865, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
+  spriteName: Monster Animation_175
   baseColor: {r: 1, g: 1, b: 1, a: 1}
   scale: {x: 1, y: 1}
   preserveAspect: 1
   Render: {fileID: 3304657291354690089}
   Image: {fileID: 0}
-  TkSpriteId: -1
+  TkSpriteId: 175
+  ManualSprite: {fileID: 223812865, guid: eb1148ce02f6e814aa9fc6a72a4c76d1, type: 3}
 --- !u!1 &1000011690177300
 GameObject:
   m_ObjectHideFlags: 0
@@ -1499,6 +1502,7 @@ MonoBehaviour:
   Render: {fileID: 8680868650492342619}
   Image: {fileID: 0}
   TkSpriteId: -1
+  ManualSprite: {fileID: 0}
 --- !u!1 &1000011951570828
 GameObject:
   m_ObjectHideFlags: 0
@@ -1826,6 +1830,7 @@ MonoBehaviour:
   Render: {fileID: 4529841080041390671}
   Image: {fileID: 0}
   TkSpriteId: -1
+  ManualSprite: {fileID: 0}
 --- !u!1 &1000013705119926
 GameObject:
   m_ObjectHideFlags: 0

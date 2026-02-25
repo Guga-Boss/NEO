@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
 using System.IO;
+using UnityEngine.UI;
+using TMPro;
 
 public class NavigationMap : MonoBehaviour
 {
@@ -13,10 +15,10 @@ public class NavigationMap : MonoBehaviour
     public GameObject MapQuestPrefab, MapBonusPrefab, QuestPanelPrefab, FirePrefab;
     public GameObject PrefabFolder, MapBonusFolder;
     public GameObject AreasTilemap;
-    public List<tk2dSprite> MonsterSprite, NestSprite;
-    public List<tk2dTextMesh> DirtyQuestName;
+    public List<NSprite> MonsterSprite, NestSprite;
+    public List<TextMeshPro> DirtyQuestName;
     public List<Vector2> BonusStepList;
-    public List<tk2dSlicedSprite> BackgroundSprite;
+    public List<NSprite> BackgroundSprite;
     public List<NavigationMapBonus> MapBonusList, SpawnedMapBonusList;
     public NavigationMapBonus[ , ] BonusList;
     public Vector2 HeroInititialPosition;
@@ -213,11 +215,8 @@ public class NavigationMap : MonoBehaviour
                 DirtyQuestName[ id ].color = Color.red;
             }
         }
-        Vector2 block = rm.BlockArea;                                                                   // Background Size scale
-        Vector2 dim = new Vector2( 20, 20 );
-        if( block.x > 1 ) dim.x += 40 * ( block.x - 1 );
-        if( block.y > 1 ) dim.y += 40 * ( block.y - 1 );
-        BackgroundSprite[ id ].dimensions = dim;
+        var ns = BackgroundSprite[id];
+        ns.Render.size = rm.BlockArea + new Vector2( .8f, .8f );                                         // Adjust Blocking area
 
         if( trophy < 1 )
             BackgroundSprite[ id ].color = new Color( 1, 0, 0, alpha );                                  // Dirty Quest: red
@@ -231,7 +230,9 @@ public class NavigationMap : MonoBehaviour
     public void UpdateMonsterSprite( RandomMapData rm, int id )
     {
         float rotationSpeed = 575f;
-        tk2dSprite sp = MonsterSprite[ id ];
+        NSprite sp = MonsterSprite[ id ];
+        sp.gameObject.SetActive( false );
+        return;
         Quaternion qn = Util.GetRotationToPoint( rm.MapCord, G.Hero.Pos );                           // Rotates monsters towards hero
         sp.spriteId = ( int ) rm.QuestHelper.NavigationMapIcon;                                      // Navigation map icon
         bool rot = true;
@@ -290,10 +291,10 @@ public class NavigationMap : MonoBehaviour
     public void CreateMapQuests()
     {
         if( MapQuestObjectsCreated ) return;                           // Initializes all quests
-        MonsterSprite = new List<tk2dSprite>();
-        NestSprite = new List<tk2dSprite>();       
-        BackgroundSprite = new List<tk2dSlicedSprite>();
-        DirtyQuestName = new List<tk2dTextMesh>();
+        MonsterSprite = new List<NSprite>();
+        NestSprite = new List<NSprite>();       
+        BackgroundSprite = new List<NSprite>();
+        DirtyQuestName = new List<TextMeshPro>();
 
         for( int i = 0; i < Map.I.RM.RMList.Count; i++ )
         {
@@ -331,7 +332,7 @@ public class NavigationMap : MonoBehaviour
     {
         GameObject instance = ( GameObject ) GameObject.Instantiate( MapQuestPrefab );
         instance.transform.position = new Vector3( rm.MapCord.x, rm.MapCord.y, 0 );
-        instance.name = rm.name;
+        instance.name = rm.QuestHelper.QuestName;
         instance.gameObject.SetActive( true );
         instance.transform.parent = PrefabFolder.transform;
         RandomMapData newrm = instance.GetComponent<RandomMapData>();

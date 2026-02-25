@@ -3770,7 +3770,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                         {
                             string snd = ""; string txt = "Chest Contents:\n";
                             Chests.GetChestText( this, ref txt, ref snd, this, false );
-                            UI.I.SetBigMessage( txt, Color.green, 2f, -1, -1, 60, .1f, 1 );
+                            UI.I.SetBigMessage( txt, Color.green, 2f, -1, -1, 500, .1f, 1 );
                         }
                         if( Body.ChestLevel == 2 )
                             Spr.spriteId = 90;

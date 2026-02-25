@@ -1232,15 +1232,9 @@ public partial class Map : MonoBehaviour
             }           
             else
             if( un.TileID == ETileType.FOG )
-            {
-                //ggggun.Body.Animator = un.Spr.GetComponent<tk2dSpriteAnimator>();
-                //var clip = un.Body.Animator.GetClipByName( "Fog Animation" );
-                //if( clip != null && clip.frames.Length > 0 )
-                //{
-                //    int randomFrame = Random.Range( 0, clip.frames.Length );
-                //    float clipStartTime = ( float ) randomFrame / clip.fps;
-                //    un.Body.Animator.Play( clip, clipStartTime, 0f );
-                //}
+            {              
+                un.Body.NAnimator.speed = 1;
+                un.Body.NAnimator.Play( "Fog Animation", 0, Random.value );
             }
             else
             if( un.TileID == ETileType.ORB )

@@ -156,6 +156,32 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1102 &-2096553434378396443
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Fog Animation
+  m_Speed: -1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 7400000, guid: 0df9055c61a4d684f8e065170c440e3b, type: 2}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-1604631994608691612
 AnimatorState:
   serializedVersion: 6
@@ -249,31 +275,34 @@ AnimatorStateMachine:
     m_Position: {x: 420, y: 400, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8845209953720585821}
-    m_Position: {x: 200, y: 460, z: 0}
+    m_Position: {x: 200, y: 450, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 274868372318920492}
-    m_Position: {x: 420, y: 460, z: 0}
+    m_Position: {x: 420, y: 450, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3808727530834737001}
-    m_Position: {x: 455, y: 525, z: 0}
+    m_Position: {x: 200, y: 500, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6988526257358578411}
-    m_Position: {x: 490, y: 590, z: 0}
+    m_Position: {x: 420, y: 500, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -329060936146852033}
-    m_Position: {x: 525, y: 655, z: 0}
+    m_Position: {x: 200, y: 550, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2673552225393928217}
-    m_Position: {x: 560, y: 720, z: 0}
+    m_Position: {x: 420, y: 550, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5632636848520388982}
-    m_Position: {x: 595, y: 785, z: 0}
+    m_Position: {x: 640, y: 550, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4171709708794835555}
-    m_Position: {x: 630, y: 850, z: 0}
+    m_Position: {x: 640, y: 500, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 690402206864150421}
-    m_Position: {x: 665, y: 915, z: 0}
+    m_Position: {x: 640, y: 450, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -2096553434378396443}
+    m_Position: {x: 640, y: 400, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

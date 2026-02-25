@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using System.Runtime.InteropServices.ComTypes;
+using UnityEngine.UI;
+using TMPro;
+
+
 //using Sirenix.OdinInspector.Demos;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -280,15 +284,15 @@ public class MapQuestHelper: MonoBehaviour
     }
 #endif
 
-    [HideInInspector]
+    //[HideInInspector]
     public RandomMapData MapData;
-    [HideInInspector]
-    public tk2dSprite MonsterSprite, NestSprite;
-    [HideInInspector]
-    public tk2dSlicedSprite BackgroundSprite;
-    [HideInInspector]
-    public tk2dTextMesh QuestNameMesh;
-    [HideInInspector]
+    //[HideInInspector]
+    public NSprite MonsterSprite, NestSprite;
+    //[HideInInspector]
+    public NSprite BackgroundSprite;
+    //[HideInInspector]
+    public TextMeshPro QuestNameMesh;
+    //[HideInInspector]
     public QuestPanel QuestPanel;
     public string QuestName;
     public string Signature = "";

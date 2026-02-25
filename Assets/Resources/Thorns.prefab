@@ -88,7 +88,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 1.2, y: 1.2}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -114,6 +114,7 @@ MonoBehaviour:
   Render: {fileID: 7362448689320553879}
   Image: {fileID: 0}
   TkSpriteId: -1
+  ManualSprite: {fileID: 0}
 --- !u!1 &1542403581235100
 GameObject:
   m_ObjectHideFlags: 0

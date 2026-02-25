@@ -104,6 +104,7 @@ public class TilePaletteWatcher: EditorWindow
                     ms.FolderName = data.QuestHelper.SubFolder + "/" + data.QuestHelper.Signature;
                     ms.CurrentAdventure = data.QuestID;
                     ms.CurrentAdventureName = data.QuestHelper.QuestName;
+                    ms.CurrentCube = "Cube 1";
                     Helper.I.StartingAdventure = data.QuestID;
                     MapSaver.I.SetStartingCube();
                     MapSaver.I.Load();

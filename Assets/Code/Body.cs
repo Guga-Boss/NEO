@@ -37,7 +37,7 @@ public class Body : MonoBehaviour
     [TabGroup( "Link" )]
     public Animator NAnimator;
     [TabGroup( "Link" )]
-    public tk2dTextMesh AuxText;
+    public TextMeshPro AuxText;
     [TabGroup( "Link" )]
     public ParticleSystem Particle;
     [TabGroup( "Link" )]

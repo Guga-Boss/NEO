@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4000013160987096}
   - component: {fileID: 309443903348132059}
   - component: {fileID: 2649294789650223378}
+  - component: {fileID: 7626249428337466141}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -145,6 +146,29 @@ MonoBehaviour:
   Render: {fileID: 309443903348132059}
   Image: {fileID: 0}
   TkSpriteId: -1
+  ManualSprite: {fileID: 0}
+--- !u!95 &7626249428337466141
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011766888470}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1679ff99d230aab4497d0b6df303310b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1000013761910524
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,7 +536,7 @@ MonoBehaviour:
   ItemMiniDome: {fileID: 0}
   PoleSprite: {fileID: 0}
   Animator: {fileID: 0}
-  NAnimator: {fileID: 0}
+  NAnimator: {fileID: 7626249428337466141}
   AuxText: {fileID: 0}
   Particle: {fileID: 0}
   EffectList: []
