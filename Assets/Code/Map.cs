@@ -827,7 +827,6 @@ public partial class Map : MonoBehaviour
         PlatformUpdated = false;
         TechButton.UpdateTimedTech();
         if( UpdateOverlayAnimation() ) return;
-        if( UI.I.UpdateMessageBox() ) return;
         if( RM.UpdateIt() ) return;
         Farm.UpdateIt();
 

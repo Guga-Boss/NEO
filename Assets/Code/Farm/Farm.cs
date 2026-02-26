@@ -94,7 +94,7 @@ public partial class Farm : MonoBehaviour
     [TabGroup( "Link" )]
     public UISprite BluePrintItemBackSprite, BluePrintItemBackSpriteActive;
     [TabGroup( "Link" )]
-    public List<UI2DSprite> BluePrintCustomSprite;
+    public List<NSprite> BluePrintCustomSprite;
     [TabGroup( "Lists" )]
     public List<Vector2> ChooserMonsterList, PushMonsterList, KillerMonsterList,
     KickableMonsterList, SwapMonsterList, GrabMonsterList, BlockerMonsterList, HoneyCombList;

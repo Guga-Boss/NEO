@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public enum EPerkType
 {
@@ -26,7 +27,7 @@ public class Perk : MonoBehaviour
     public tk2dUIItem UIButton;
     public Artifact Artifact;
 	public tk2dTextMesh AmountText;
-	public UILabel Label;
+	public TextMeshPro Label;
 	public UIButton Button;
 	public NSprite[] Sprite;
     public bool ActivateIcon = true;

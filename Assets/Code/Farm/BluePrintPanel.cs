@@ -14,7 +14,6 @@ public class BluePrintPanel : MonoBehaviour
     public UI2DSprite Cost2Item, Cost3Item;
     public NSprite Cost1Item, BuyBPItem, AutoApplyItem;
     public bool Initialized = false;
-    public GameObject Selection;
     public int PanelNumber;
     public Button AutoApplyButton, BuyPlantsButton;
 
@@ -97,8 +96,8 @@ public class BluePrintPanel : MonoBehaviour
                     }
 
                     //Buttons[ x, y ].enabled = false;
-                    BackSprites[ x, y ].spriteName = Map.I.Farm.BluePrintItemBackSpriteActive.spriteName;
-                    BackSprites[ x, y ].color = Map.I.Farm.BluePrintItemBackSpriteActive.color;
+                    //BackSprites[ x, y ].spriteName = Map.I.Farm.BluePrintItemBackSpriteActive.spriteName;
+                    //BackSprites[ x, y ].color = Map.I.Farm.BluePrintItemBackSpriteActive.color;
                     //ggggBackSprites[ x, y ].width = Map.I.Farm.BluePrintItemBackSpriteActive.width;
                     //BackSprites[ x, y ].height = Map.I.Farm.BluePrintItemBackSpriteActive.height;
                     //Buttons[ x, y ].hover = Color.black;
@@ -135,7 +134,7 @@ public class BluePrintPanel : MonoBehaviour
                     if( bp.ItemMatrix[ x, y ] == ItemType.Tl_Blueprint_Icon_1 )                                                // Custom type 1, like forest or buildings
                     if( sd.BPCustomIconType1 != EBPIconType.NONE )
                         {
-                            Sprites[ x, y ].sprite = Map.I.Farm.BluePrintCustomSprite[ (int) sd.BPCustomIconType1 ].sprite2D;
+                            Sprites[ x, y ].sprite = Map.I.Farm.BluePrintCustomSprite[ (int) sd.BPCustomIconType1 ].sprite;
                             Sprites[ x, y ].UpdateVisuals(); // ADICIONE ESTA LINHA
                         }
                         else
@@ -144,7 +143,7 @@ public class BluePrintPanel : MonoBehaviour
                     if( bp.ItemMatrix[ x, y ] == ItemType.Tl_Blueprint_Icon_2 )                                                // Custom type 2, like forest or buildings
                     if( sd.BPCustomIconType2 != EBPIconType.NONE )
                         {
-                            Sprites[ x, y ].sprite = Map.I.Farm.BluePrintCustomSprite[ (int) sd.BPCustomIconType2 ].sprite2D;
+                            Sprites[ x, y ].sprite = Map.I.Farm.BluePrintCustomSprite[ (int) sd.BPCustomIconType2 ].sprite;
                             Sprites[ x, y ].UpdateVisuals(); // ADICIONE ESTA LINHA
                         }
                         else
@@ -192,8 +191,8 @@ public class BluePrintPanel : MonoBehaviour
     {
         //Sprites[ x, y ].depth = 4;
         label.text = "";
-        BackSprites[ x, y ].spriteName = Map.I.Farm.BluePrintItemBackSprite.spriteName;
-        BackSprites[ x, y ].color = Map.I.Farm.BluePrintItemBackSprite.color;
+        //BackSprites[ x, y ].spriteName = Map.I.Farm.BluePrintItemBackSprite.spriteName;
+        //BackSprites[ x, y ].color = Map.I.Farm.BluePrintItemBackSprite.color;
         //Buttons[ x, y ].enabled = false;
         //Buttons[ x, y ].hoverSprite = BackSprites[ x, y ].spriteName;
         //Buttons[ x, y ].pressedSprite = BackSprites[ x, y ].spriteName;
@@ -204,8 +203,11 @@ public class BluePrintPanel : MonoBehaviour
 
         BackSprites[ x, y ].color = new Color32( 51, 89, 14, 246 );
         Sprites[ x, y ].sprite = null;
-        Sprites[ x, y ].spriteId = -1;      // ADICIONE ESTA LINHA (Reseta o cache do componente)
-        Sprites[ x, y ].UpdateVisuals();    // ADICIONE ESTA LINHA (Limpa visualmente o slot)
+        Sprites[ x, y ].spriteId = -1;       
+        Sprites[ x, y ].TkSpriteId = -1;
+        if( Sprites[ x, y ].Image )
+            Sprites[ x, y ].Image.sprite = null;
+        Sprites[ x, y ].UpdateVisuals();     
     }
 
     public static string GetEffectPowerText( Blueprint bp )

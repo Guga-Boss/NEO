@@ -179,6 +179,7 @@ public class NSprite: MonoBehaviour
         // 🟢 ADICIONE ESTAS 4 LINHAS AQUI:
         // Se o NSprite estiver bloqueado/nulo, mas o SpriteRenderer tiver uma imagem,
         // o script vai "adotar" essa imagem em vez de apagá-la.
+        if( Application.isPlaying == false )
         if( sprite == null && Render.sprite != null )
         {
             sprite = Render.sprite;

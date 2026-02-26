@@ -133,13 +133,8 @@ public class BluePrintWindow : MonoBehaviour
     public void SetSelection( int id )
     {
         SelectionID = id;
-        BPPanel1.Selection.SetActive( false );
-        BPPanel2.Selection.SetActive( false );
         if( id == -1 ) return;
         Map.I.InvalidateInputTimer = .5f;
-        if( id == 1 ) BPPanel1.Selection.SetActive( true );
-        if( id == 2 ) BPPanel2.Selection.SetActive( true );
-
         Manager.I.Tutorial.NewBluePrintChosen = true;
         OnOKButton();
     }

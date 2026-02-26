@@ -10,19 +10,19 @@ public class UI : MonoBehaviour
 {
     #region Variables
     public static UI I;
-    public UILabel LevelText, EnterAreaTxt, UseButtonLabel, LosttHPLabel, BigTextHelpLabel;
-    public TextMeshPro BigMessageText, TurnInfoLabel;
+    public UILabel LevelText, EnterAreaTxt, UseButtonLabel;
+    public TextMeshPro BigMessageText, TurnInfoLabel, BigTextHelpLabel;
     public int TurnInfoLabelCount = 0;
 
     public TextMeshPro ArtifactsText, AreasText, HeroHpText, GameLevelText, PerkInfoLevelLabel, ArtifactInfoLabel, ScrollText,
     NavigationMapText, NavigationMapText2, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, QuestCompletitionLabel, 
-    RestartAreaButtonLabel, PerkInfoDescriptionText, PerkInfoTitleText, DebugLabel, MapLabel;
+    RestartAreaButtonLabel, PerkInfoDescriptionText, PerkInfoTitleText, DebugLabel, MapLabel,FreeCamModeLabel, ErrorMessageLabel;
 
-    public UISlider UnitHealthBar, QuestCompletitionBar;
+    public MyHealthBar UnitHealthBar, QuestCompletitionBar;
     public UI2DSprite MessageBoxIcon, MessageBoxIcon2;
     public GameObject PerkInfoIconBack, UIFolder, GoalIcons;
 	public NSprite[] Stars;
-    public UILabel PerkInfoTargetHeroText, FreeCamModeLabel, ErrorMessageLabel, 
+    public UILabel PerkInfoTargetHeroText,  
                     MessageBoxTextLabel, MessageBoxTextLabel2, MessageBoxLevelLabel;
     public UIButton RepeatButton, ZoomButton, FreeCamButton, ArtifactSeekButton, AreaSeekButton, GridButton, CompareHeroButton, 
         KadeWaitButton, BattleButton, UseAbilityButton, PerkInfoButton;
@@ -163,10 +163,7 @@ public class UI : MonoBehaviour
         //    return;
 
         if( Map.I == null ) return;
-        if( MessageBox.activeSelf )
-            if( Input.GetKey( KeyCode.Return ) || Input.GetKey( KeyCode.X ) )
-                MessageBox.SetActive( false );
-
+       
         Unit un = Map.I.Hero;
 		if( SelUnit != null ) un = SelUnit;
 
@@ -380,9 +377,6 @@ public class UI : MonoBehaviour
                state = true;
                UseButtonLabel.text = "Scream!";
            }
-
-            if( UseAbilityButton.gameObject.activeSelf != state ) 
-                UseAbilityButton.gameObject.SetActive( state );
         }
     }
 
@@ -485,43 +479,14 @@ public class UI : MonoBehaviour
         //if( SelUnit.ValidMonster )
         //    MonstersHpText.text = "" + SelUnit.Body.Hp.ToString( "0." ) + "/" + 
         //        SelUnit.Body.TotHp.ToString( "0." );
+       
+  //      int stars = ( int ) ( SelUnit.Body.Stars - ( ( SelUnit.Body.Level - 1 ) * 5 ) );
 
-        if( LosttHPLabel.gameObject.activeSelf )
-            LosttHPLabel.gameObject.SetActive( false );
-
-        if( Map.I.CurrentArea != -1 )                                                                                             // Lost HERO HP information
-        {
-            float hp = Map.I.HeroEnterAreaHP - G.Hero.Body.Hp;
-            LosttHPLabel.text = "";
-            if( hp > 0 )
-            {
-                LosttHPLabel.gameObject.SetActive( true );
-                LosttHPLabel.text += "H " + hp.ToString( "0.#" ) + " HP";            
-            }
-             if( Map.I.CurArea.MonsterDamage > 0 )                                                                                 // Lost Monster HP information
-            {
-                LosttHPLabel.gameObject.SetActive( true );
-                LosttHPLabel.text += "\nM " + Map.I.CurArea.MonsterDamage.ToString( "0.#" ) + " HP";
-            }
-
-            if( Map.I.CurArea.MonsterDamage > 0 )                                                                                 // HP ratio Information
-            if( hp > 0 )
-                {
-                    float ratio = ( Map.I.CurArea.MonsterDamage / hp ) * 100;
-                    LosttHPLabel.text += "\nR " + ratio.ToString( "0." ) + "%";
-                }
-        }
-        
-        int stars = ( int ) ( SelUnit.Body.Stars - ( ( SelUnit.Body.Level - 1 ) * 5 ) );
-
-		for( int i = 0; i < 5; i++ )                       // Update Stars Sprites
-		if( stars > i )
-			Stars[ i ].gameObject.SetActive( true );
-		else Stars[ i ].gameObject.SetActive( false );
-
-		float perc = 100 * Map.I.Hero.Body.Hp / Map.I.Hero.Body.TotHp;
-		UnitHealthBar.value = perc / 100;
-		float perc2 = 100 * Map.I.MonstersHpSum / Map.I.MonstersTotHpSum;
+		//for( int i = 0; i < 5; i++ )                       // Update Stars Sprites
+		//if( stars > i )
+		//	Stars[ i ].gameObject.SetActive( true );
+		//else Stars[ i ].gameObject.SetActive( false );
+        UnitHealthBar.SetHealth( Map.I.Hero.Body.Hp, Map.I.Hero.Body.TotHp );
     }
     public void UpdateUI()
 	{
@@ -626,26 +591,6 @@ public class UI : MonoBehaviour
         //    Manager.I.ForceRestartFromBeginning = true;
         //    RKeyPressTimeCount = 0;
         //}
-
-        if( Map.I.Hero.Body.ToolBoxLevel < 2 ) GridButton.gameObject.SetActive( false );
-        else GridButton.gameObject.SetActive( true );
-
-        if( Map.I.Hero.Body.ToolBoxLevel < 3 ) BattleButton.gameObject.SetActive( false );
-        else BattleButton.gameObject.SetActive( true );
-
-        if( Map.I.Hero.Body.ToolBoxLevel < 4 )
-        {
-            ArtifactSeekButton.gameObject.SetActive( false );
-            AreaSeekButton.gameObject.SetActive( false );
-        }
-        else
-        {
-            ArtifactSeekButton.gameObject.SetActive( true );
-            AreaSeekButton.gameObject.SetActive( true );
-        }
-
-        if( Map.I.Hero.Body.ToolBoxLevel < 5 ) CompareHeroButton.gameObject.SetActive( false );
-        else CompareHeroButton.gameObject.SetActive( true );   
 	}
 
     public void UpdateBigMessage()
@@ -767,20 +712,7 @@ public class UI : MonoBehaviour
         if( Map.I.RM.GameOver ) return;
         if( Manager.I.GameType == EGameType.FARM ) return;
         Map.I.Hero.Control.ForceMove = EActionType.BATTLE;
-    }
-
-    public bool UpdateMessageBox()
-    {
-        if( MessageBox.activeSelf )
-        {
-            Quest.I.UpdateArtifactMouseOverInfo( new Vector2( -1, -1 ) );
-            Map.I.UpdateWorldMapUnitsData();
-            Map.I.UpdateCamera();
-            return true;
-        }
-        return false;
-    }
-    
+    }    
     public void UpdateCompareHeroFunction( bool force = false )
 	{
         return;
@@ -1030,12 +962,6 @@ public class UI : MonoBehaviour
     public void UpdateAllTranslations()
     {
         RestartAreaButtonLabel.text = Language.Get( "RESTART_BUTTON" );
-        FreeCamButton.GetComponentInChildren<UILabel>().text = Language.Get( "FREECAMERA_BUTTON" );
-        GridButton.GetComponentInChildren<UILabel>().text = Language.Get( "GRID_BUTTON" );
-        ArtifactSeekButton.GetComponentInChildren<UILabel>().text = Language.Get( "ARTIFACTSEEK_BUTTON" );
-        AreaSeekButton.GetComponentInChildren<UILabel>().text = Language.Get( "AREASEEK_BUTTON" );
-        CompareHeroButton.GetComponentInChildren<UILabel>().text = Language.Get( "COMPAREHERO_BUTTON" );
-        BattleButton.GetComponentInChildren<UILabel>().text = Language.Get( "BATTLEKEY_BUTTON" );
     }
     public void AdaptPerkIconSize()
     {

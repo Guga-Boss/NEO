@@ -291,13 +291,6 @@ public class Quest : MonoBehaviour
         if( Map.I.RM.GameOver ) return false;
 		if( Map.I == null ) return false;
 
-        if( UI.I.MessageBox.activeSelf )
-        {
-            UI.I.ScrollText.gameObject.SetActive( false );
-            UI.I.ScrollText.text = "";
-            return false;
-        }
-
         if( Map.I.RM.DungeonDialog.gameObject.activeSelf )
         {
             UI.I.ScrollText.gameObject.SetActive( false );

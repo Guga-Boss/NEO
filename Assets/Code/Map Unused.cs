@@ -974,19 +974,6 @@ public partial class Map : MonoBehaviour
             if( HeroIsDead && AdvanceTurn )
                 Map.I.TDCol.TurnData[ CurArea.AreaTurnCount - 1 ].HeroDie = true;
 
-        //ggggif( cInput.GetKey( "Advance VCR" ) )
-        //{
-        //    RepeatButton();
-        //    return;
-        //}
-
-        if( UI.I.RepeatButton.state == UIButtonColor.State.Pressed )
-            if( ButtonPressingTimeCount > 1 )
-            {
-                RepeatButton();
-                return;
-            }
-
         if( RepeatToLast )
         {
             RepeatButton();

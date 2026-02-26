@@ -262,96 +262,96 @@ public class FPow : MonoBehaviour
         string txt = "";
         if( page == 1 )
         {
-            txt += "[FFFF66]Mouse Hover:[-] Shows This page\n";
-            txt += "[FFFF66]Hold Left Button:[-] Shows Powers Description.\n";
-            txt += "[FFFF66]Hold Right Button:[-] Shows Fire Power Tutorial.\n\n";
+            txt += "<color=#FFFF66>Mouse Hover:</color> Shows This page\n";
+            txt += "<color=#FFFF66>Hold Left Button:</color> Shows Powers Description.\n";
+            txt += "<color=#FFFF66>Hold Right Button:</color> Shows Fire Power Tutorial.\n\n";
 
-            txt += "[FFD966]----Current Stats----[-]\n\n";
+            txt += "<color=#FFD966>----Current Stats----</color>\n\n";
 
             float v;                                                                                             // default value helper
             string valColor;                                                                                     // value color helper
 
-            v = DefaultValues [ Stat.Upgrade_Base_Chance ];                                                      // get default
-            valColor = ( UpgradeBaseChance == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "1) Upgrade Base Chance 'UP': " + UpgradeBaseChance + "%[-] (" + v + "%): ";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_UPGRADE_BASE_CHANCE", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Upgrade_Base_Chance ];                                                       // get default
+            valColor = ( UpgradeBaseChance == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "1) Upgrade Base Chance 'UP': " + UpgradeBaseChance + "%</color> (" + v + "%):\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_UPGRADE_BASE_CHANCE", "Main" ) + "</color>\n\n";
 
-            v = DefaultValues [ Stat.Lucky_Streak_Step ];                                                        // get default
-            valColor = ( LuckyStreakStep == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "2) Lucky Streak: " + LuckyStreakStep + "%[-] (" + v + "%): ";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_LUCKY_STREAK", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Lucky_Streak_Step ];                                                        // get default
+            valColor = ( LuckyStreakStep == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "2) Lucky Streak: " + LuckyStreakStep + "%</color> (" + v + "%):\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_LUCKY_STREAK", "Main" ) + "</color>\n\n";
 
-            v = DefaultValues [ Stat.Downgrade_Chance ];                                                         // get default
-            valColor = ( DowngradeChance == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "3) Downgrade Chance 'DN': " + DowngradeChance + "%[-] (" + v + "%): ";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_DOWNGRADE_CHANCE", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Downgrade_Chance ];                                                         // get default
+            valColor = ( DowngradeChance == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "3) Downgrade Chance 'DN': " + DowngradeChance + "%</color> (" + v + "%):\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_DOWNGRADE_CHANCE", "Main" ) + "</color>\n\n";
 
-            v = DefaultValues [ Stat.Sort_Candidates ];                                                          // get default
-            valColor = ( SortCandidates == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "4) Sort Candidates: +" + SortCandidates + "[-] (" + ( int ) v + ")\n";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_TOTAL_SORT_TARGETS", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Sort_Candidates ];                                                          // get default
+            valColor = ( SortCandidates == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "4) Sort Candidates: +" + SortCandidates + "</color> (" + (int) v + ")\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_TOTAL_SORT_TARGETS", "Main" ) + "</color>\n\n";
 
-            v = DefaultValues [ Stat.Extra_Powers_Shown ];                                                       // get default
-            valColor = ( ExtraPowersShown == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "5) Extra Powers Shown: +" + ExtraPowersShown + "[-] (" + ( int ) v + ")\n";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_EXTRA_POWERS_SHOWN", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Extra_Powers_Shown ];                                                       // get default
+            valColor = ( ExtraPowersShown == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "5) Extra Powers Shown: +" + ExtraPowersShown + "</color> (" + (int) v + ")\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_EXTRA_POWERS_SHOWN", "Main" ) + "</color>\n\n";
 
-            v = DefaultValues [ Stat.Stat_Carryover ];                                                           // get default
-            valColor = ( StatCarryover == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "6) Stat Carryover: +" + StatCarryover + "[-] (" + ( int ) v + ")\n";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_CARRYOVER", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Stat_Carryover ];                                                           // get default
+            valColor = ( StatCarryover == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "6) Stat Carryover: +" + StatCarryover + "</color> (" + (int) v + ")\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_CARRYOVER", "Main" ) + "</color>\n\n";
 
-            v = DefaultValues [ Stat.Kill_Worn_Chance ];                                                         // get default
-            valColor = ( KillWornChance == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "7) Kill Worn Chance: +" + KillWornChance + "%[-] (" + v + "%)\n";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_KILL_WORN_CHANCE", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Kill_Worn_Chance ];                                                         // get default
+            valColor = ( KillWornChance == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "7) Kill Worn Chance: +" + KillWornChance + "%</color> (" + v + "%)\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_KILL_WORN_CHANCE", "Main" ) + "</color>\n\n";
 
-            v = DefaultValues [ Stat.Bonus_Uses ];                                                               // get default
-            valColor = ( BonusUses == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "8) Bonus Uses: +" + BonusUses + "%[-] (" + v + "%)\n";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_BONUS_USES", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Bonus_Uses ];                                                               // get default
+            valColor = ( BonusUses == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "8) Bonus Uses: +" + BonusUses + "%</color> (" + v + "%)\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_BONUS_USES", "Main" ) + "</color>\n\n";
 
-            v = DefaultValues [ Stat.Tag_Level ];                                                                // get default
-            valColor = ( TagLevel == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "9) Tag Level: +" + TagLevel + "[-] (" + v + ")\n";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_TAG_LEVEL", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Tag_Level ];                                                                // get default
+            valColor = ( TagLevel == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "9) Tag Level: +" + TagLevel + "</color> (" + v + ")\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_TAG_LEVEL", "Main" ) + "</color>\n\n";
 
-            v = DefaultValues [ Stat.Tag_Bubbles ];                                                              // get default
-            valColor = ( TagBubbles == v ) ? "[FFFF66]" : "[66FF66]";
-            txt += valColor + "10) Tag Bubbles: +" + TagBubbles + "[-] (" + v + ")\n";
-            txt += "[FFFFFF]" + Language.Get( "FIRE_STAT_TAG_BUBBLES", "Main" ) + "[-]\n\n";
+            v = DefaultValues[ Stat.Tag_Bubbles ];                                                              // get default
+            valColor = ( TagBubbles == v ) ? "<color=#FFFF66>" : "<color=#66FF66>";
+            txt += valColor + "10) Tag Bubbles: +" + TagBubbles + "</color> (" + v + ")\n";
+            txt += "<color=#FFFFFF>" + Language.Get( "FIRE_STAT_TAG_BUBBLES", "Main" ) + "</color>\n\n";
 
-            txt += "[999999]PS: Values reset to (default) when the timer reaches zero.[-]";
+            txt += "<color=#999999>PS: Values reset to (default) when the timer reaches zero.</color>";
         }
 
         else
-        if( page == 2 )
-        {
-            // Intro line in Yellow
-            txt += "[FFFF00]" + Language.Get( "FIRE_HELP_INTRO_POWERS", "Main" ) + "[-]\n\n";
-
-            int lev = ( int ) Item.GetNum( ItemType.Fire_Level );
-            int max = lev + ExtraPowersShown;                                                               // Get max visible
-
-            for( int i = 0; i < G.Farm.FirePow.Count; i++ )
+            if( page == 2 )
             {
-                if( i < max )
+                // Intro line in Yellow
+                txt += "<color=#FFFF00>" + Language.Get( "FIRE_HELP_INTRO_POWERS", "Main" ) + "</color>\n\n";
+
+                int lev = ( int ) Item.GetNum( ItemType.Fire_Level );
+                int max = lev + ExtraPowersShown;                                                               // Get max visible
+
+                for( int i = 0; i < G.Farm.FirePow.Count; i++ )
                 {
-                    FPow p = G.Farm.FirePow[ i ];
-                    txt += "[FFFF00]L" + p.GetName() + ":[-]\n";                                            // Tech name 
-                    txt += "[FFFFFF]" + Language.Get( "FIRE_" + 
-                    p.Type.ToString().ToUpper(), "Main" ) + "[-]\n\n";                                      // Tech description
+                    if( i < max )
+                    {
+                        FPow p = G.Farm.FirePow[ i ];
+                        txt += "<color=#FFFF00>L" + p.GetName() + ":</color>\n";                               // Tech name 
+                        txt += "<color=#FFFFFF>" + Language.Get( "FIRE_" +
+                        p.Type.ToString().ToUpper(), "Main" ) + "</color>\n\n";                                // Tech description
+                    }
                 }
             }
-        }
-        else
-        if( page == 3 )
-        {
-            txt += Language.Get( "FIRE_HELP_INTRO", "Main" ) + "\n\n";                                      // intro 
-        }
+            else
+                if( page == 3 )
+                {
+                    txt += Language.Get( "FIRE_HELP_INTRO", "Main" ) + "\n\n";                                // intro 
+                }
 
         UI.I.BigTextHelpLabel.gameObject.SetActive( true );
-        UI.I.BigTextHelpLabel.text = txt;                                                                   // update text mesh                              
+        UI.I.BigTextHelpLabel.text = txt;                                                                     // update text mesh                             
     }
     private static void UpdateFirePowers()
     {

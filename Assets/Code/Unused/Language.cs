@@ -10,15 +10,15 @@ using UnityEditor;
 using Sirenix.OdinInspector;
 #endif
 
-public class Language : MonoBehaviour
+public class Language: MonoBehaviour
 {
-    [Tooltip( "Lista de URLs CSV do Google Sheets (uma por aba publicada)" )]
+    [Tooltip("List of Google Sheets CSV URLs (one per published tab)")]
     public List<string> csvUrls = new List<string>();
 
-    [Tooltip( "Nome de cada aba correspondente à URL acima" )]
+    [Tooltip("Name of each tab corresponding to the URL above")]
     public List<string> TabNames = new List<string>();
 
-    [Tooltip( "Código do idioma que deseja carregar, ex: EN, PT, ES" )]
+    [Tooltip("Language code to load, e.g., EN, PT, ES")]
     public string languageCode = "EN";
 
     public Dictionary<string, Dictionary<string, string>> localizedSheets = new Dictionary<string, Dictionary<string, string>>();
@@ -29,28 +29,30 @@ public class Language : MonoBehaviour
 
     void Awake()
     {
-        I = this;
+        I = this; // Sets the singleton instance
 
 #if UNITY_EDITOR
         if( !Application.isPlaying )
             return;
 #endif
 
-        LoadFromJson();
+        LoadFromJson(); // Loads data on awake
     }
+
 #if UNITY_EDITOR
     [MenuItem( "Tools/Update Language" )]
     private static void UpdateLanguageCacheMenu()
     {
-        Language lang = GameObject.FindObjectOfType<Language>();
+        Language lang = GameObject.FindObjectOfType<Language>(); // Finds the Language object in scene
         if( lang == null )
         {
-            Debug.LogError( "Não encontrou objeto com o script Language na cena." );
+            Debug.LogError( "Could not find object with the Language script in the scene." ); // Error if script is missing
             return;
         }
-        lang.UpdateLanguage();
+        lang.UpdateLanguage(); // Triggers the update
     }
 #endif
+
 #if UNITY_EDITOR
     [Button( "Update Language", ButtonSizes.Gigantic ), GUIColor( 0, 0.7f, 1f )]
 #endif
@@ -59,242 +61,163 @@ public class Language : MonoBehaviour
 #if UNITY_EDITOR
         if( !Application.isPlaying )
         {
-            // Editor: download síncrono e salva no Assets/Resources
-            DownloadAllCSVsEditorSync();
-            SaveToJson(); // Salva no SavePath original
-            Debug.Log( "Language cache salvo em: " + SavePath );
+            DownloadAllCSVsEditorSync(); // Editor: synchronous download
+            SaveToJson();
+            Debug.Log( "Language cache saved at: " + SavePath ); // Logs save path
             return;
         }
 #endif
-
-        // PlayMode ou Build PC
-        StartCoroutine( DownloadCSVsRuntimeForBuild() );
+        StartCoroutine( DownloadCSVsRuntimeForBuild() ); // Runtime: asynchronous download
     }
 
     private IEnumerator DownloadCSVsRuntimeForBuild()
     {
-        localizedSheets.Clear();
+        localizedSheets.Clear(); // Clears current data
 
-        // Caminho do JSON no build ou editor
-        string folderPath = Path.Combine( Application.dataPath, "Resources/Language" );
+        string folderPath = Path.Combine(Application.dataPath, "Resources/Language");
         if( !Directory.Exists( folderPath ) )
-            Directory.CreateDirectory( folderPath );
+            Directory.CreateDirectory( folderPath ); // Ensures directory exists
 
-        string buildSavePath = Path.Combine( folderPath, "LanguageCache.json" );
+        string buildSavePath = Path.Combine(folderPath, "LanguageCache.json");
 
-        // 🗑 Apaga cache antigo antes de baixar
         if( File.Exists( buildSavePath ) )
         {
-            File.Delete( buildSavePath );
-            Debug.Log( "Cache antigo apagado: " + buildSavePath );
+            File.Delete( buildSavePath ); // Deletes old cache
+            Debug.Log( "Old cache deleted: " + buildSavePath ); // Logs deletion
         }
 
         if( csvUrls.Count != TabNames.Count )
         {
-            Debug.LogError( "A quantidade de URLs e nomes de abas é diferente. Corrija no inspector." );
+            Debug.LogError( "URLs and TabNames count mismatch." ); // Error on count mismatch
             yield break;
         }
 
         int loadedCount = 0;
-
         for( int i = 0; i < csvUrls.Count; i++ )
         {
-            string url = csvUrls[ i ];
-            string abaNome = TabNames[ i ].Trim();
+            string url = csvUrls[i];
+            string abaNome = TabNames[i].Trim();
 
-            // gg   //WWW www = new WWW( url );
-            //while( !www.isDone )
-            //    yield return null;
+            using( UnityWebRequest www = UnityWebRequest.Get( url ) )
+            {
+                yield return www.SendWebRequest(); // Downloads the CSV
 
-            //if( !string.IsNullOrEmpty( www.error ) )
-            //{
-            //    Debug.LogError( "Erro ao baixar CSV da aba '" + abaNome + "': " + www.error );
-            //    continue;
-            //}
+                if( www.result != UnityWebRequest.Result.Success )
+                {
+                    Debug.LogError( "Error downloading CSV '" + abaNome + "': " + www.error ); // Logs web error
+                    continue;
+                }
 
-            // gg    string text = System.Text.Encoding.UTF8.GetString( www.bytes );
+                string text = www.downloadHandler.text; // Gets text from download
 
-            // gg   //if( text.Length > 0 && text[ 0 ] == '\uFEFF' )
-            //    text = text.Substring( 1 );
+                if( text.Length > 0 && text[ 0 ] == '\uFEFF' )
+                    text = text.Substring( 1 ); // Removes BOM character
 
-            //if( string.IsNullOrEmpty( text ) )
-            //{
-            //    Debug.LogWarning( "CSV vazio para a aba '" + abaNome + "'." );
-            //    continue;
-            //}
-
-            // gg  ParseCSV( text, abaNome );
-            loadedCount++;
-            Debug.Log( "Aba carregada (PlayMode / PC Build): " + abaNome );
+                ParseCSV( text, abaNome ); // Parses data
+                loadedCount++;
+                Debug.Log( "Tab loaded (Runtime): " + abaNome ); // Logs success
+            }
         }
 
-        Debug.Log( "PlayMode / PC Build: " + loadedCount + "/" + csvUrls.Count + " abas carregadas com sucesso." );
+        var wrapper = new LanguageWrapper(localizedSheets);
+        File.WriteAllText( buildSavePath, JsonUtility.ToJson( wrapper, true ) ); // Saves JSON
 
-        // Salva o JSON atualizado
-        var wrapper = new LanguageWrapper( localizedSheets );
-        File.WriteAllText( buildSavePath, JsonUtility.ToJson( wrapper, true ) );
-        Debug.Log( "Language cache salvo em: " + buildSavePath );
-        string editorFile = "C:/Users/alien/Desktop/NEO/Assets/Resources/Language/LanguageCache.json"; 
-        File.Copy( buildSavePath, editorFile, true );                                                                 // copy to editor, too
-        LoadFromJson();
-        Debug.Log( "Language cache atualizado e carregado." );
+        string editorFile = "C:/Users/alien/Desktop/NEO/Assets/Resources/Language/LanguageCache.json";
+        if( Directory.Exists( Path.GetDirectoryName( editorFile ) ) )
+            File.Copy( buildSavePath, editorFile, true ); // Copies to absolute editor path
+
+        LoadFromJson(); // Reloads data
     }
-       
+
     public void DownloadAllCSVsEditorSync()
     {
-        localizedSheets.Clear();
+        localizedSheets.Clear(); // Clears data
 
         if( csvUrls.Count != TabNames.Count )
         {
-            Debug.LogError( "A quantidade de URLs e nomes de abas é diferente. Corrija no inspector." );
+            Debug.LogError( "URLs and TabNames count mismatch." ); // Error on count mismatch
             return;
         }
 
         int loadedCount = 0;
-
         for( int i = 0; i < csvUrls.Count; i++ )
         {
-            string url = csvUrls[ i ];
-            string abaNome = TabNames[ i ].Trim();
+            string url = csvUrls[i];
+            string abaNome = TabNames[i].Trim();
 
-            // gg   //WWW www = new WWW( url );
-            //while( !www.isDone ) { }
+            UnityWebRequest www = UnityWebRequest.Get(url);
+            www.SendWebRequest(); // Starts request
 
-            //if( !string.IsNullOrEmpty( www.error ) )
-            //{
-            //    Debug.LogError( "Erro ao baixar CSV da aba '" + abaNome + "': " + www.error );
-            //    continue;
-            //}
+            while( !www.isDone ) { } // Synchronous wait for editor
 
-            // converte bytes para UTF-8, ignorando Content-Type
-            // gg  string text = System.Text.Encoding.UTF8.GetString( www.bytes );
-
-            // remove BOM se existir
-            //if( text.Length > 0 && text[ 0 ] == '\uFEFF' )
-            //    text = text.Substring( 1 );
-
-            //if( string.IsNullOrEmpty( text ) )
-            //{
-            //    Debug.LogWarning( "CSV vazio para a aba '" + abaNome + "'." );
-            //    continue;
-            //}
-
-            //ParseCSV( text, abaNome );
-            //loadedCount++;
-            //Debug.Log( "Aba carregada (Editor): " + abaNome );
-        }
-
-        Debug.Log( "Editor: " + loadedCount + "/" + csvUrls.Count + " abas carregadas com sucesso." );
-        SaveToJson();
-        LoadFromJson();
-    }
-
-    private IEnumerator DownloadCSVsRuntime()
-    {
-        localizedSheets.Clear();
-
-        if( csvUrls.Count != TabNames.Count )
-        {
-            Debug.LogError( "A quantidade de URLs e nomes de abas é diferente. Corrija no inspector." );
-            yield break;
-        }
-
-        int loadedCount = 0;
-
-        for( int i = 0; i < csvUrls.Count; i++ )
-        {
-            string url = csvUrls[ i ];
-            string abaNome = TabNames[ i ].Trim();
-
-            WWW www = new WWW( url );
-            yield return www;
-
-            // gg    //if( !string.IsNullOrEmpty( www.error ) )
-            //{
-            //    Debug.LogError( "Erro ao baixar CSV da aba '" + abaNome + "' no PlayMode: " + www.error );
-            //    continue;
-            //}
-
-            // converte bytes para UTF-8, ignorando Content-Type
-            string text = System.Text.Encoding.UTF8.GetString( www.bytes );
-
-            // remove BOM se existir
-            if( text.Length > 0 && text[ 0 ] == '\uFEFF' )
-                text = text.Substring( 1 );
-
-            if( string.IsNullOrEmpty( text ) )
+            if( www.result != UnityWebRequest.Result.Success )
             {
-                Debug.LogWarning( "CSV vazio para a aba '" + abaNome + "' no PlayMode." );
+                Debug.LogError( "Error downloading CSV '" + abaNome + "': " + www.error ); // Logs error
                 continue;
             }
 
+            string text = www.downloadHandler.text;
+            if( text.Length > 0 && text[ 0 ] == '\uFEFF' ) text = text.Substring( 1 ); // Removes BOM
+
             ParseCSV( text, abaNome );
             loadedCount++;
-            Debug.Log( "Aba carregada (PlayMode): " + abaNome );
+            Debug.Log( "Tab loaded (Editor): " + abaNome ); // Logs editor load
+            www.Dispose();
         }
 
-        Debug.Log( "PlayMode: " + loadedCount + "/" + csvUrls.Count + " abas carregadas com sucesso." );
-        SaveToJson();
-        LoadFromJson();
-
-        Debug.Log( "Language cache atualizado e salvo no PlayMode." );
+        SaveToJson(); // Saves data
+        LoadFromJson(); // Reloads data
     }
 
     void LoadFromJson()
     {
         if( !File.Exists( SavePath ) )
         {
-            Debug.LogError( "Arquivo de cache não encontrado: " + SavePath );
+            Debug.LogError( "Cache file not found: " + SavePath ); // Logs missing file
             return;
         }
 
-        string json = File.ReadAllText( SavePath );
-        var wrapper = JsonUtility.FromJson<LanguageWrapper>( json );
-        localizedSheets = wrapper.ToDictionary();
-        //Debug.Log( "Language cache carregado com " + localizedSheets.Count + " abas." );
+        string json = File.ReadAllText(SavePath);
+        var wrapper = JsonUtility.FromJson<LanguageWrapper>(json); // Deserializes
+        localizedSheets = wrapper.ToDictionary(); // Converts to dictionary
     }
 
     void SaveToJson()
     {
-        var wrapper = new LanguageWrapper( localizedSheets );
-        string json = JsonUtility.ToJson( wrapper, true );
-        File.WriteAllText( SavePath, json );
+        var wrapper = new LanguageWrapper(localizedSheets);
+        string json = JsonUtility.ToJson(wrapper, true);
+        File.WriteAllText( SavePath, json ); // Writes JSON to disk
     }
 
     void ParseCSV( string csvText, string abaKey )
     {
-        List<string> linesList = ReadCSVLines( csvText );
+        List<string> linesList = ReadCSVLines(csvText); // Reads CSV lines
         string[] lines = linesList.ToArray();
 
-        if( lines.Length < 2 )
-            return;
+        if( lines.Length < 2 ) return;
 
-        string[] headers = ParseCSVLine( lines[ 0 ] );
-        int langIndex = Array.IndexOf( headers, languageCode );
+        string[] headers = ParseCSVLine(lines[0]); // Parses headers
+        int langIndex = Array.IndexOf(headers, languageCode);
         if( langIndex == -1 )
         {
-            Debug.LogError( "Idioma não encontrado: " + languageCode );
+            Debug.LogError( "Language not found: " + languageCode ); // Error if language is missing
             return;
         }
 
         Dictionary<string, string> dict = new Dictionary<string, string>();
-
         for( int i = 1; i < lines.Length; i++ )
         {
-            string[] cols = ParseCSVLine( lines[ i ] );
+            string[] cols = ParseCSVLine(lines[i]); // Parses columns
             if( cols.Length > langIndex )
             {
-                string key = cols[ 0 ].Trim();
-                string value = cols[ langIndex ].Trim().Replace( "\\n", "\n" );
+                string key = cols[0].Trim();
+                string value = cols[langIndex].Trim().Replace("\\n", "\n"); // Formats new lines
 
-                if( !dict.ContainsKey( key ) )
-                    dict.Add( key, value );
-                else
-                    Debug.LogWarning( "Chave duplicada na aba '" + abaKey + "': " + key );
+                if( !dict.ContainsKey( key ) ) dict.Add( key, value ); // Adds unique keys
+                else Debug.LogWarning( "Duplicate key in '" + abaKey + "': " + key ); // Warning on duplicates
             }
         }
-
-        localizedSheets[ abaKey ] = dict;
+        localizedSheets[ abaKey ] = dict; // Stores dictionary
     }
 
     List<string> ReadCSVLines( string csvText )
@@ -305,34 +228,23 @@ public class Language : MonoBehaviour
 
         for( int i = 0; i < csvText.Length; i++ )
         {
-            char c = csvText[ i ];
+            char c = csvText[i];
             if( c == '"' )
             {
-                if( i + 1 < csvText.Length && csvText[ i + 1 ] == '"' )
-                {
-                    i++; // pula aspas dupla
-                }
-                else
-                {
-                    inQuotes = !inQuotes;
-                }
+                if( i + 1 < csvText.Length && csvText[ i + 1 ] == '"' ) i++; // Skips escaped quotes
+                else inQuotes = !inQuotes;
             }
             else if( c == '\n' && !inQuotes )
             {
-                string line = csvText.Substring( start, i - start );
-                lines.Add( line.Trim( '\r' ) );
+                lines.Add( csvText.Substring( start, i - start ).Trim( '\r' ) ); // Adds line
                 start = i + 1;
             }
         }
-        if( start < csvText.Length )
-        {
-            string line = csvText.Substring( start );
-            lines.Add( line.Trim( '\r' ) );
-        }
+        if( start < csvText.Length ) lines.Add( csvText.Substring( start ).Trim( '\r' ) ); // Adds final line
         return lines;
     }
 
-    string[] ParseCSVLine( string line )
+    string[ ] ParseCSVLine( string line )
     {
         List<string> result = new List<string>();
         bool inQuotes = false;
@@ -340,39 +252,22 @@ public class Language : MonoBehaviour
 
         for( int i = 0; i < line.Length; i++ )
         {
-            char c = line[ i ];
-
+            char c = line[i];
             if( c == '"' )
             {
-                if( inQuotes && i + 1 < line.Length && line[ i + 1 ] == '"' )
-                {
-                    current += '"';
-                    i++;
-                }
-                else
-                {
-                    inQuotes = !inQuotes;
-                }
+                if( inQuotes && i + 1 < line.Length && line[ i + 1 ] == '"' ) { current += '"'; i++; } // Escaped quote
+                else inQuotes = !inQuotes;
             }
-            else if( c == ',' && !inQuotes )
-            {
-                result.Add( current );
-                current = "";
-            }
-            else
-            {
-                current += c;
-            }
+            else if( c == ',' && !inQuotes ) { result.Add( current ); current = ""; } // Column separator
+            else current += c;
         }
-
-        result.Add( current );
+        result.Add( current ); // Adds last column
         return result.ToArray();
     }
 
     public static string Get( string key, string aba = "" )
     {
-        if( I == null || I.localizedSheets == null )
-            return key;
+        if( I == null || I.localizedSheets == null ) return key; // Returns key if not initialized
 
         if( !string.IsNullOrEmpty( aba ) )
         {
@@ -380,44 +275,33 @@ public class Language : MonoBehaviour
             if( I.localizedSheets.TryGetValue( aba, out sheet ) && sheet != null )
             {
                 string value;
-                if( sheet.TryGetValue( key, out value ) )
-                    return value;
+                if( sheet.TryGetValue( key, out value ) ) return value; // Returns sheet specific value
             }
-            return "## Invalid Key! ##\n##" + key + "##"; // fallback se não achar a chave na aba ou aba null
+            return "## Invalid Key! ##\n##" + key + "##"; // Key not found error
         }
 
         foreach( var sheet in I.localizedSheets.Values )
         {
-            if( sheet == null )
-                continue;
-
+            if( sheet == null ) continue;
             string value;
-            if( sheet.TryGetValue( key, out value ) )
-                return value;
+            if( sheet.TryGetValue( key, out value ) ) return value; // Searches all sheets
         }
-
-        return key;
+        return key; // Fallback to key
     }
 
     [Serializable]
     class LanguageWrapper
     {
         public List<SheetEntry> sheets = new List<SheetEntry>();
-
-        public LanguageWrapper() { sheets = new List<SheetEntry>(); }
-
+        public LanguageWrapper() { }
         public LanguageWrapper( Dictionary<string, Dictionary<string, string>> dict )
         {
-            sheets = new List<SheetEntry>();
-            foreach( var kv in dict )
-                sheets.Add( new SheetEntry( kv.Key, kv.Value ) );
+            foreach( var kv in dict ) sheets.Add( new SheetEntry( kv.Key, kv.Value ) ); // Wraps dictionary
         }
-
         public Dictionary<string, Dictionary<string, string>> ToDictionary()
         {
             var result = new Dictionary<string, Dictionary<string, string>>();
-            foreach( var sheet in sheets )
-                result[ sheet.name ] = sheet.ToDictionary();
+            foreach( var sheet in sheets ) result[ sheet.name ] = sheet.ToDictionary(); // Unwraps to dictionary
             return result;
         }
     }
@@ -427,35 +311,21 @@ public class Language : MonoBehaviour
     {
         public string name;
         public List<Entry> entriesList = new List<Entry>();
-
         public SheetEntry() { }
-
         public SheetEntry( string name, Dictionary<string, string> dict )
         {
             this.name = name;
-            entriesList = new List<Entry>();
-            foreach( var kv in dict )
-                entriesList.Add( new Entry() { key = kv.Key, value = kv.Value } );
+            foreach( var kv in dict ) entriesList.Add( new Entry() { key = kv.Key, value = kv.Value } ); // Wraps entries
         }
-
         public Dictionary<string, string> ToDictionary()
         {
             var dict = new Dictionary<string, string>();
-            foreach( var e in entriesList )
-                dict[ e.key ] = e.value;
+            foreach( var e in entriesList ) dict[ e.key ] = e.value; // Unwraps entries
             return dict;
         }
     }
 
-    [Serializable]
-    class Entry
-    {
-        public string key;
-        public string value;
-    }
+    [Serializable] class Entry { public string key; public string value; }
 
-    internal static void SwitchLanguage( string newLangCode )
-    {
-        //Debug.Log( "SwitchLanguage ainda não implementado: " + newLangCode );
-    }
+    internal static void SwitchLanguage( string newLangCode ) { } // Placeholder for language switching
 }

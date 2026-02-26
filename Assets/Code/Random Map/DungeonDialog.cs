@@ -23,8 +23,8 @@ public class DungeonDialog : MonoBehaviour
     public UI2DSprite[] Resources;
     public NSprite[] TrophiesSprite;
     public MyGrid GoalsGrid;
-    public UI2DSprite PackMuleEmptySlot, TechEditorFocus;
-    public NSprite AutoGotoCheckMark, UnlockCost1Sprite;
+    public UI2DSprite PackMuleEmptySlot;
+    public NSprite AutoGotoCheckMark, UnlockCost1Sprite,TechEditorFocus;
     public UILabel DungeonNumberLabel, DificultyLabel;
     public TextMeshPro TMainTextLabel, TAvailableCubesLabel, DungeonNameLabel, GameCompletitionLabel, 
                        StudiesCompletedLabel, GoalInfoLabel, NewDungeonLabel, BackButtonLabel, UnlockCostLabel1;
@@ -36,7 +36,7 @@ public class DungeonDialog : MonoBehaviour
     public UIPopupList PlayerType;
     public TMP_Dropdown SelectQuestDropdown, SelectCubeDropDown;
     public GameObject BluePrintUI, QuestList, InventoryGO, PackmuleGO, 
-    GoalsGO, StudiesGO, TechButtonsGO, BambooFrame, InventoryBack, DarkPerkBack, DecorFolder;
+    GoalsGO, StudiesGO, TechButtonsGO, InventoryBack, DarkPerkBack, DecorFolder;
     public UITable ObjectivesTable;
     public Button BackButton, ProvisionsModeButton, StudiesModeButton, TrainingModeButton, NavigationMapButton, AutoGotoPuzzleButton;
     public float Dificulty = 100;
@@ -80,6 +80,7 @@ public class DungeonDialog : MonoBehaviour
             UI.I.NavigationMapText.color = Color.white;
             UI.I.MidPanelSprite.gameObject.SetActive( false );
             Manager.I.Inventory.transform.localPosition = new Vector3( -160, 243, 0 );
+            UI.I.ResourcesGrid.transform.localPosition = new Vector3( -72.2f, 77.3f, 0 );
             UI.I.FarmUI.gameObject.SetActive( false );           
             ErrorMessageTimer = 0;
             FarmButtonClicked = false;
@@ -120,7 +121,7 @@ public class DungeonDialog : MonoBehaviour
             SelectCubeDropDown.onValueChanged.AddListener( OnCubeDropdownChanged );
         }
     }
-     public void OnDisable()
+    public void OnDisable()
     {
         Manager.I.Inventory.gameObject.SetActive( false );
         Map.I.InvalidateInputTimer = .5f;
@@ -157,8 +158,6 @@ public class DungeonDialog : MonoBehaviour
         for( int i = 0; i < PanelList.Length; i++ )
             PanelList[ i ].gameObject.SetActive( false );
     }
-
-
     public void Update()
     {
         UpdateIt();
@@ -233,10 +232,6 @@ public class DungeonDialog : MonoBehaviour
         }
         SelectedGoal = -1;
         DungeonNameLabel.color = Color.white;
-
-        //BambooFrame.gameObject.SetActive( true );
-        //if( Map.I.RM.GameOver )
-            BambooFrame.gameObject.SetActive( false );
 
         UI.I.DebugLabel.text = "";
         bool goalhover = false;
@@ -543,7 +538,7 @@ public class DungeonDialog : MonoBehaviour
             GoalInfoLabel.text = "Quest: " + AdventureCompletion.ToString( "0." ) + "% Complete.";
 
             NewDungeonLabel.text = "New Incursion\n";
-            DificultySlider.enabled = true;
+            //DificultySlider.enabled = true;
         }
         else
         if( Map.I.RM.RMD.GoalList.Length > 0 )
@@ -555,7 +550,7 @@ public class DungeonDialog : MonoBehaviour
 
             if( Map.I.RM.LastCubeReached || G.Hero.Body.Hp <= 0 )
                 NewDungeonLabel.text = "Finalize!\n";
-            DificultySlider.enabled = false;
+            //DificultySlider.enabled = false;
         }
 
         Map.I.LevelStats.ConqueredGoals = ConqueredGoals;                                                   // Conquered Goals Number for goal trigger
@@ -1135,6 +1130,11 @@ public class DungeonDialog : MonoBehaviour
 
     public void OnFarmButtonClickedCallBack()
     {
+        if( Manager.I.GugaVersion )
+        {
+            FinalizeQuest();
+        }
+        else
         if( Map.I.RM.GameOver == false )
         {
             SetMsg( "ERROR: Finalize Current Quest First!", Color.red, 5, 48 );
@@ -1413,6 +1413,11 @@ public class DungeonDialog : MonoBehaviour
     public void ChooseAdventureButton()
     {
         if( TechButton.TechEditorActive ) return;
+        if( Manager.I.GugaVersion )
+        {
+            FinalizeQuest();
+        }
+        else
         if( Map.I.RM.GameOver == false )
         {
             SetMsg( "ERROR: Finalize Current Quest First!", Color.red );

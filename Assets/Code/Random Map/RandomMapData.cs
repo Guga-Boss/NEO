@@ -137,16 +137,6 @@ public class RandomMapData : MonoBehaviour
     public float MaximumDifficulty = 200;
     [TabGroup( "3", "Difficulty" )]
     public float StartingDifficultyLimit = 0;
-    [TabGroup( "3", "Difficulty" )]
-    public float NewbieDifficultyFactor = -30;
-    [TabGroup( "3", "Difficulty" )]
-    public float CasualDifficultyFactor = -20;
-    [TabGroup( "3", "Difficulty" )]
-    public float NormalDifficultyFactor = -10;
-    [TabGroup( "3", "Difficulty" )]
-    public float VeteranDifficultyFactor = 0;
-    [TabGroup( "3", "Difficulty" )]
-    public float HellDifficultyFactor = 15;
     [TabGroup( "Gate" )]
     public bool ShowGate = false;
     [TabGroup( "Gate" )]
@@ -791,11 +781,6 @@ public class RandomMapData : MonoBehaviour
         RescueEnabled = rm.RescueEnabled;
         DefaultMineType = rm.DefaultMineType;
         FishingBonusPerFlower = rm.FishingBonusPerFlower;
-        NewbieDifficultyFactor = rm.NewbieDifficultyFactor;
-        CasualDifficultyFactor = rm.CasualDifficultyFactor;
-        NormalDifficultyFactor = rm.NormalDifficultyFactor;
-        VeteranDifficultyFactor = rm.VeteranDifficultyFactor;
-        HellDifficultyFactor = rm.HellDifficultyFactor;
         BaseFirePower = rm.BaseFirePower;
         FirePowerInflationPerBonfire = rm.FirePowerInflationPerBonfire;
         FireAttackBonusFactor = rm.FireAttackBonusFactor;
@@ -971,9 +956,6 @@ public class RandomMapData : MonoBehaviour
         HeroData.I.AreaPoints = 0;
         Quest.CurrentDungeon = ( int ) LabType;                   
         DungeonDialog dd = Map.I.RM. DungeonDialog.GetComponent<DungeonDialog>();
-          
-       RevealLabFog = !Map.I.RM.DungeonDialog.BlindModeToggle.value;
-       AutoBuyMode = Map.I.RM.DungeonDialog.AutoBuyModeToggle.value;
 
        Map.I.ExtraHeroHP = AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.INITIAL_HP );
 
@@ -1001,26 +983,10 @@ public class RandomMapData : MonoBehaviour
            G.GIT( Map.I.RM.RMD.GlobalResourcesList[ i ] ).IsGlobalGameplayResource = true;
        }
 
-       float fact = 0;
-       string type = Map.I.RM.DungeonDialog.PlayerType.value;                                                       // Player type Difficulty factor
-       if( type.Substring( 0, 1 ) == "1" ) fact = adv.NewbieDifficultyFactor;
-       if( type.Substring( 0, 1 ) == "2" ) fact = adv.CasualDifficultyFactor;
-       if( type.Substring( 0, 1 ) == "3" ) fact = adv.NormalDifficultyFactor;
-       if( type.Substring( 0, 1 ) == "4" ) fact = adv.VeteranDifficultyFactor;
-       if( type.Substring( 0, 1 ) == "5" ) fact = adv.HellDifficultyFactor;
-
-       if( ShowPopup )
-           Map.I.RM.DungeonDialog.PlayerType.gameObject.SetActive( true );
-       else
-           Map.I.RM.DungeonDialog.PlayerType.gameObject.SetActive( false );
-
-       if( ShowDificultySlider )
-           Map.I.RM.DungeonDialog.DificultySlider.gameObject.SetActive( true );
-       else
-           Map.I.RM.DungeonDialog.DificultySlider.gameObject.SetActive( false );
-
-       float finalDif = dd.Dificulty + fact;
-       MonsterDamageRate = Util.Percent( adv.MonsterDamageRate, finalDif );                                                 // Apply dificulty      
+       //if( ShowDificultySlider )
+       //    Map.I.RM.DungeonDialog.DificultySlider.gameObject.SetActive( true );
+       //else
+       //    Map.I.RM.DungeonDialog.DificultySlider.gameObject.SetActive( false ); 
 
        //Debug.Log( "Game Started at Difficulty: " + finalDif + "% " + "Damage Rate: " + MonsterDamageRate );
 
