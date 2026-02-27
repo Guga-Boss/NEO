@@ -13,7 +13,7 @@ public class RecipePanel : MonoBehaviour
            ProductionBarLabel, QueueLabel;
     public TextMeshPro[] ReqLabel, GenLabel, UpgradeHintLabel; 
     public Button UpgradeRecipeButton;
-    public UISlider ProductionBar;
+    public MyHealthBar ProductionBar;
     public static bool IsUpgradeButtonHovered = false;
     public NSprite CogSprite;
 
@@ -58,9 +58,9 @@ public class RecipePanel : MonoBehaviour
         QueueLabel.text = "+" + r.QueueLenght + " (" + max + ")";                                         // Queue info
 
         UpdateUpgrade( bl );                                                                              // Updates upgrade stuff
+        ProductionBar.SetHealth( r.TimeCount , tot );                                                     // Production Bar update
 
-        float per = ( int ) Util.GetPercent( r.TimeCount, tot );                                          // Production Bar update
-        ProductionBar.value = ( per / 100f );
+        float per = ( int ) Util.GetPercent( r.TimeCount, tot );                                          
         ProductionBarLabel.text = "" + per + "%";
         float chc = 1;
         if( cicles < 1 )

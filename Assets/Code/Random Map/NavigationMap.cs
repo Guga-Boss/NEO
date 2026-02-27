@@ -555,16 +555,16 @@ public class NavigationMap : MonoBehaviour
             dd.UpdateTrophiesPanel();
 
             // using Plethora ID for the calculation. Careful if you change id
-         //gggg   //int id = 2;
-            //UI.I.NaviBronzeLabel.text = "" + dd.Bronze + "/" + Map.I.RM.RMList[ id ].RequiredBronzeTrophies;
-            //UI.I.NaviSilverLabel.text = "" + dd.Silver + "/" + Map.I.RM.RMList[ id ].RequiredSilverTrophies;
-            //UI.I.NaviGoldLabel.text = "" + dd.Gold + "/" + Map.I.RM.RMList[ id ].RequiredGoldTrophies;
-            //int tot = Map.I.RM.RMList[ id ].RequiredBronzeTrophies + Map.I.RM.RMList[ id ].RequiredSilverTrophies +
-            //    Map.I.RM.RMList[ id ].RequiredGoldTrophies;
-            //int num = dd.Bronze + dd.Silver + dd.Gold;
-            //float per = Util.GetPercent( num, tot );
-            //UI.I.QuestCompletitionBar.value = per;
-            //UI.I.QuestCompletitionLabel.text = "Trophy Goal to Beat the Demo: " + per.ToString("0.") + "%";
+            int id = 29;
+            UI.I.NaviBronzeLabel.text = "" + dd.Bronze + "/" + Map.I.RM.RMList[ id ].RequiredBronzeTrophies;
+            UI.I.NaviSilverLabel.text = "" + dd.Silver + "/" + Map.I.RM.RMList[ id ].RequiredSilverTrophies;
+            UI.I.NaviGoldLabel.text = "" + dd.Gold + "/" + Map.I.RM.RMList[ id ].RequiredGoldTrophies;
+            int tot = Map.I.RM.RMList[ id ].RequiredBronzeTrophies + Map.I.RM.RMList[ id ].RequiredSilverTrophies +
+                Map.I.RM.RMList[ id ].RequiredGoldTrophies;
+            int num = dd.Bronze + dd.Silver + dd.Gold;
+            float per = Util.GetPercent( num, tot );
+            UI.I.QuestCompletitionBar.SetHealth( per, 100 );
+            UI.I.GameCompletionLabel.text = "Trophy Goal to Beat the Demo: " + per.ToString( "0." ) + "%";
         }
     }
 }

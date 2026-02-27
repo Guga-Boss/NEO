@@ -15,7 +15,7 @@ public class UI : MonoBehaviour
     public int TurnInfoLabelCount = 0;
 
     public TextMeshPro ArtifactsText, AreasText, HeroHpText, GameLevelText, PerkInfoLevelLabel, ArtifactInfoLabel, ScrollText,
-    NavigationMapText, NavigationMapText2, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, QuestCompletitionLabel, 
+    NavigationMapText, NavigationMapText2, NaviBronzeLabel, NaviSilverLabel, NaviGoldLabel, GameCompletionLabel, 
     RestartAreaButtonLabel, PerkInfoDescriptionText, PerkInfoTitleText, DebugLabel, MapLabel,FreeCamModeLabel, ErrorMessageLabel;
 
     public MyHealthBar UnitHealthBar, QuestCompletitionBar;
