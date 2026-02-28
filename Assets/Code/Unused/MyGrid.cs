@@ -157,7 +157,7 @@ public class MyGrid: MonoBehaviour
             switch( Sorting )
             {
             case ESorting.Alphabetic:
-            list.Sort( ( a, b ) => string.Compare( a.name, b.name, StringComparison.Ordinal ) );
+            list.Sort( ( a, b ) => string.Compare( a.name, b.name, StringComparison.Ordinal ) ); 
             break;
 
             case ESorting.Horizontal:

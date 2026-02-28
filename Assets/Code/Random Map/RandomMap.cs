@@ -603,7 +603,7 @@ public class RandomMap : MonoBehaviour
 
         int range = 2;
         if ( RMD.AutoPickupNeighborArtifacts )
-        for( int y = ( int ) Map.I.Hero.Pos.y - range; y <= Map.I.Hero.Pos.y + range; y++ )                                      // Auto Pickup starting neighbors artifacts
+        for( int y = ( int ) Map.I.Hero.Pos.y - range; y <= Map.I.Hero.Pos.y + range; y++ )                                         // Auto Pickup starting neighbors artifacts
         for( int x = ( int ) Map.I.Hero.Pos.x - range; x <= Map.I.Hero.Pos.x + range; x++ )
             {
                 Quest.I.UpdateArtifactStepping( new Vector2( x, y ) );
@@ -627,7 +627,7 @@ public class RandomMap : MonoBehaviour
         int id = Random.Range( 0, SD.SourcePos.Count );
 
         int ts = ( Sector.TSX - 1 );
-        //Vector2 cord = SD.SourcePos[ id ] * ts;
+        //Vector2 cord = SD.SourcePos[ id ] * ts;   
         Vector2 cord = new Vector2( 0, 0 );      
 
         MapSaver.I.CurrentSector = s;

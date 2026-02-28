@@ -289,7 +289,6 @@ public partial class Map : MonoBehaviour
     [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton
     public static void InitSingleton()
     {
-        Debug.Log( I );
         if( I ) return;
         EditorApplication.delayCall += () =>
         {
