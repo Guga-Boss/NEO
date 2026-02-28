@@ -346,7 +346,7 @@ public class MyTilemap: SerializedMonoBehaviour
             }
         }
         Debug.Log( "<color=green>Load Concluído com Sincronia de Quadrantes!</color>" );
-        Map.I.TransT.UpdateTrans();
+        //Map.I.TransT.UpdateTrans();
         IgnoreUpdate = false;
     }
 

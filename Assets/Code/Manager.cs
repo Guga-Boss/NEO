@@ -92,7 +92,7 @@ public class Manager : MonoBehaviour
 #if UNITY_EDITOR
 
     [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton
-    static void InitEditor()
+    public static void InitSingleton()
     {
         EditorApplication.delayCall += () =>
         {
@@ -109,25 +109,25 @@ public class Manager : MonoBehaviour
         };
     }
 
-    [MenuItem( "Tools/Select Cube Data _F8" )]
+    //[MenuItem( "Tools/Select Cube Data _F8" )]
     private static void SelectInitialObject()
     {
-        Selection.activeGameObject = I.InitialObject;
-        EditorApplication.delayCall += () =>
-        {
-            Selection.activeGameObject = I.InitialObject;
-            EditorGUIUtility.PingObject( I.InitialObject );
-            Helper.I = GameObject.Find( "Helper" ).GetComponent<Helper>();
-            SceneView sv = SceneView.lastActiveSceneView;
-            if( sv != null )
-            {
-                sv.LookAt( I.InitialObject.transform.position + new Vector3( 15, 14, 0 ), sv.rotation, 30 );
-                sv.Repaint();
-            }
-        };
-       ForceInitEditor = true;
-       // Isso força o Inspector a acordar e rodar o OnInspectorGUI imediatamente
-       UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
+       // Selection.activeGameObject = I.InitialObject;
+       // EditorApplication.delayCall += () =>
+       // {
+       //     Selection.activeGameObject = I.InitialObject;
+       //     EditorGUIUtility.PingObject( I.InitialObject );
+       //     Helper.I = GameObject.Find( "Helper" ).GetComponent<Helper>();
+       //     SceneView sv = SceneView.lastActiveSceneView;
+       //     if( sv != null )
+       //     {
+       //         sv.LookAt( I.InitialObject.transform.position + new Vector3( 15, 14, 0 ), sv.rotation, 30 );
+       //         sv.Repaint();
+       //     }
+       // };
+       //ForceInitEditor = true;
+       //// Isso força o Inspector a acordar e rodar o OnInspectorGUI imediatamente
+       //UnityEditorInternal.InternalEditorUtility.RepaintAllViews();
     }
 
 [MenuItem( "Tools/Select Hero _F9" )]
@@ -300,6 +300,7 @@ private static void LoadProfile()
            NiobiumStudios.CloudClockBuilder.State.Initialized ) return;
         if( IdleInitialized == true ) return;
         Idle.StartIt();
+        Manager.InitSingleton();
         Inventory.UpdateInventoryProduction( Manager.I.Idle.OffSeconds );
         PackMule.UpdateInventoryProduction( Manager.I.Idle.OffSeconds );
         Manager.I.Idle.OffSeconds = 0;

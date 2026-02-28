@@ -98,7 +98,6 @@ public class TilePaletteWatcher: EditorWindow
                 
                 if( GUI.Button( rect, label, style ) )
                 { 
-                    Selection.activeGameObject = targetToSelect; // select quest object
                     EditorGUIUtility.PingObject( targetToSelect ); // highlight in hierarchy/project 
                     MapSaver ms = MapSaver.Get( );
                     ms.FolderName = data.QuestHelper.SubFolder + "/" + data.QuestHelper.Signature;
@@ -106,8 +105,9 @@ public class TilePaletteWatcher: EditorWindow
                     ms.CurrentAdventureName = data.QuestHelper.QuestName;
                     ms.CurrentCube = "Cube 1";
                     Helper.I.StartingAdventure = data.QuestID;
-                    MapSaver.I.SetStartingCube();
-                    MapSaver.I.Load();
+                    //MapSaver.I.SetStartingCube();
+                    MapSaver.EditQuestDataCallBack();
+                    Selection.activeGameObject = targetToSelect; // select quest object
                     Debug.Log( $"<color=blue>Selected:</color> {data.QuestHelper.QuestName}" ); // debug feedback 
                 }
             }

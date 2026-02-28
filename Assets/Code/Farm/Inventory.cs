@@ -254,10 +254,6 @@ public class Inventory : MonoBehaviour {
         {
             ItemList[ i ].UpdateProduction( addSec );            
         }
-
-        if( InventoryType == IType.Packmule )                                 // Updates Packmule Obj Lifetime
-        for( int i = 0; i < ItemList.Count; i++ )
-            ItemList[ i ].UpdateLifeTime( addSec );
     }
 
     public ItemType GetHoverItem()

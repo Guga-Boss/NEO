@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -8,6 +9,7 @@ using UnityEditor;
 public class MainMenu : MonoBehaviour 
 {
 	public static MainMenu I;
+    public GameObject UIFolder;
 	public tk2dTextMesh PlayButton, ProfileButton, QuestButton, SettingsButton, ExitButton, VersionText;
 	public ProfileWindow ProfileWindow;
     public QuestWindow QuestWindow;
@@ -30,7 +32,7 @@ public class MainMenu : MonoBehaviour
         ProfileWindow.Start();                // to avoid object order init bug
         QuestWindow.Start();
         SettingsWindow.Start();
-
+        UIFolder.gameObject.SetActive( true );
         ProfileWindow.I.LoadProfileWindowData();
         QuestWindow.I.LoadQuestWindowData( Manager.I.ProfileNumber );
         SettingsWindow.I.LoadSettingsWindowData( Manager.I.ProfileNumber );

@@ -626,18 +626,40 @@ public class MapSaver : MonoBehaviour
         GetComponent<RandomMap>();
     }
 
-    public void EditQuestDataCallBack()
+    [MenuItem( "Tools/Select Cube Data _F8" )]
+    static public void EditQuestDataCallBack()
     {
-        #if UNITY_EDITOR
-        MapQuestHelper hp = GetRM().RMList[ CurrentAdventure ].GetComponent<MapQuestHelper>();
-        Selection.activeGameObject = hp.gameObject;
-        var scene_view = UnityEditor.SceneView.lastActiveSceneView;
-        scene_view.pivot = hp.transform.position;
-        GameObject ob = GameObject.Find( "Farm" );
-        Farm f = ob.GetComponent<Farm>();
-        //f.UpdateListsCallBack();
-        hp.UpdateExternaEditorInfo();
-        #endif
+        //#if UNITY_EDITOR
+        //MapQuestHelper hp = GetRM().RMList[ CurrentAdventure ].GetComponent<MapQuestHelper>();
+        //Selection.activeGameObject = hp.gameObject;
+        //var scene_view = UnityEditor.SceneView.lastActiveSceneView;
+        //scene_view.pivot = hp.transform.position;
+        //GameObject ob = GameObject.Find( "Farm" );
+        //Farm f = ob.GetComponent<Farm>();
+        ////f.UpdateListsCallBack();
+        //hp.UpdateExternaEditorInfo();
+        //#endif
+#if UNITY_EDITOR
+        UnityEditor.SceneView sceneView = UnityEditor.SceneView.lastActiveSceneView;
+
+        if( sceneView.pivot.x == 73 )
+        {
+            MapSaver.I.Load();
+            MapSaver.I.SetStartingCube();
+            sceneView.pivot = new Vector3( 15f, 14f, 0.08f );
+            sceneView.size = 17f;
+            if( Map.I.RM.AreasTM )
+                Selection.activeGameObject = Map.I.RM.AreasTM.gameObject;
+        }
+        else
+        if( sceneView != null )
+        {
+            sceneView.pivot = new Vector3( 73f, 14.70f, 0.08f );
+            sceneView.size = 14.74234f;
+            sceneView.Repaint();
+            Map.I.TM.LoadNavigatioMap();
+        }
+#endif
     }
 
     public void DeleteMapCallBack()

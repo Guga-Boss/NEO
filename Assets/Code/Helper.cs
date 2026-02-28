@@ -82,7 +82,7 @@ public class Helper : MonoBehaviour
     [Range( 0, 10 )]
     public float RealtimeSpeedFactor = 1;
     [TabGroup( "Debug" )]
-    public tk2dSprite HelperMark1, HelperMark2, HelperMark3;
+    public NSprite HelperMark1, HelperMark2, HelperMark3;
     [TabGroup( "Debug" )]
     public string TileMapCord;
     [TabGroup( "Debug" )]
@@ -424,9 +424,8 @@ public class Helper : MonoBehaviour
     // [HorizontalGroup( "Split", 0.5f )]
     [Button( "Edit Quest", ButtonSizes.Large ), GUIColor( 1f, 0.52f, 0.1f )]
     public void EditQuestCallBack()
-    {
-        MapSaver ms = GameObject.Find( "Areas Template Tilemap" ).GetComponent<MapSaver>();
-        ms.EditQuestDataCallBack();
+    {       
+        MapSaver.EditQuestDataCallBack();
     }
 
     [ButtonGroup( "2", 2 )]

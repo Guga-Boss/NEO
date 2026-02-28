@@ -35,7 +35,7 @@ public class UI : MonoBehaviour
 	public Vector2 LockedTile;
 	public NSprite[] PortraitList;
 	public int ActiveCompareHeroID, ArtifactLevelDifference;
-    public tk2dTextMesh LoadingLevelText;
+    public TextMeshPro LoadingLevelText;
     public string AttackDescription, AttackType, AmbushInfo, CorneringInfo, SurplusInfo, SprinterInfo;
     public float ShieldReduction, Shield, AmbushBonus, SurplusBonus, ConeringBonus, SprinterBonus;
     public int MessageTurn, OriginalLevel, MouseArtifactMult;

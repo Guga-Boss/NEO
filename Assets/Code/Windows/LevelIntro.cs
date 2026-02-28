@@ -9,6 +9,7 @@ using UnityEngine;
 public class LevelIntro : MonoBehaviour
 {
     public static LevelIntro I;
+    public GameObject UIFolder;
     public int SelectedLevel;
     public List<GameObject> ButtonObjList;
     public List<tk2dSprite> ButtonSpriteList;
@@ -24,6 +25,7 @@ public class LevelIntro : MonoBehaviour
     void Start()
     {
         I = this;
+        UIFolder.gameObject.SetActive( true );
         gameObject.SetActive( false );
         ExitLevelTimer = -1;
         Back.color = new Color( 1, 1, 1, 0 );
@@ -37,7 +39,7 @@ public class LevelIntro : MonoBehaviour
         {
             if( !Application.isPlaying )
             {
-                GameObject go = GameObject.Find("Level Intro");
+                GameObject go = GameObject.Find("Level Intro"); 
                 if( go != null )
                     I = go.GetComponent<LevelIntro>();
             }

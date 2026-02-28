@@ -149,8 +149,7 @@ public class Mod : SerializedMonoBehaviour
     [Button( "Edit Quest", ButtonSizes.Large ), GUIColor( 1f, 0.52f, 0.1f )]
     public void Button9()
     {
-        MapSaver ms = GameObject.Find( "Areas Template Tilemap" ).GetComponent<MapSaver>();
-        ms.EditQuestDataCallBack();
+        MapSaver.EditQuestDataCallBack();
     }
 
     [HorizontalGroup( "Split", 0.5f )]

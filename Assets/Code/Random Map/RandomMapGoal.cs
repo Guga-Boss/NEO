@@ -249,8 +249,7 @@ public class RandomMapGoal : MonoBehaviour
     [Button( "Edit Tilemap...", ButtonSizes.Large ), GUIColor( 1f, 0.52f, 0.1f )]
     public void EditQuestButton()
     {
-        MapSaver ms = GameObject.Find( "Areas Template Tilemap" ).GetComponent<MapSaver>();
-        ms.EditQuestDataCallBack();
+        MapSaver.EditQuestDataCallBack();
     }
     
     [HorizontalGroup( "Split", 0.5f )]
