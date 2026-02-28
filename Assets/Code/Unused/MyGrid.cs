@@ -174,35 +174,6 @@ public class MyGrid: MonoBehaviour
             break;
             }
         }
-
         return list;
     }
-
-
-    [Button( "Migrate ALL", ButtonSizes.Gigantic ), GUIColor( 1, 1f, 0 )]
-    static void MigrateAll()
-    {
-        UIGrid[] grids = UnityEngine.Object.FindObjectsOfType<UIGrid>(true);
-
-        foreach( var old in grids )
-        {
-            GameObject go = old.gameObject;
-
-            MyGrid neo = go.AddComponent<MyGrid>();
-
-            neo.arrangement = (MyGrid.Arrangement) old.arrangement;
-            neo.Sorting = (MyGrid.ESorting) old.sorting;
-            neo.ColumnLimit = old.maxPerLine;
-            neo.CellWidth = old.cellWidth;
-            neo.CellHeight = old.cellHeight;
-            neo.HideInactive = old.hideInactive;
-            neo.Pivot = (MyGrid.EPivot) old.pivot;
-            DestroyImmediate( old, true );
-
-            EditorUtility.SetDirty( go );
-        }
-
-        Debug.Log( "Migration complete." );
-    }
-
 }

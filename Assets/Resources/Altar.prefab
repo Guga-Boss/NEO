@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000010594160482}
-  - component: {fileID: 114000010000781616}
+  - component: {fileID: 6142695669797454731}
   m_Layer: 0
   m_Name: Pole Obj Back
   m_TagString: Untagged
@@ -155,28 +155,25 @@ Transform:
   - {fileID: 4000014199245614}
   m_Father: {fileID: 4000011220720062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114000010000781616
+--- !u!114 &6142695669797454731
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010205828708}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07c4de3b4b6fe9045b059ee627c100df, type: 3}
+  m_Script: {fileID: 11500000, guid: cfc89d9d7391e1c44bf7fe88d0f61a13, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Code::MyGrid
   arrangement: 1
-  sorting: 4
-  pivot: 1
-  maxPerLine: 0
-  cellWidth: 1
-  cellHeight: 1
-  animateSmoothly: 0
-  hideInactive: 0
-  keepWithinPanel: 0
-  sorted: 0
+  CellWidth: 1
+  CellHeight: 1
+  ColumnLimit: 0
+  Sorting: 4
+  Pivot: 1
+  HideInactive: 0
 --- !u!1 &1000010316459704
 GameObject:
   m_ObjectHideFlags: 0
@@ -7527,7 +7524,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4737100103308208}
-  - component: {fileID: 114599380242531582}
+  - component: {fileID: 8068146331846141122}
   m_Layer: 0
   m_Name: Pole Objects
   m_TagString: Untagged
@@ -7559,28 +7556,25 @@ Transform:
   - {fileID: 4745585028437380}
   m_Father: {fileID: 4000011220720062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114599380242531582
+--- !u!114 &8068146331846141122
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1600558800187716}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07c4de3b4b6fe9045b059ee627c100df, type: 3}
+  m_Script: {fileID: 11500000, guid: cfc89d9d7391e1c44bf7fe88d0f61a13, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Code::MyGrid
   arrangement: 1
-  sorting: 4
-  pivot: 1
-  maxPerLine: 0
-  cellWidth: 1
-  cellHeight: 1
-  animateSmoothly: 0
-  hideInactive: 0
-  keepWithinPanel: 0
-  sorted: 0
+  CellWidth: 1
+  CellHeight: 1
+  ColumnLimit: 0
+  Sorting: 4
+  Pivot: 1
+  HideInactive: 0
 --- !u!1 &1600658065516410
 GameObject:
   m_ObjectHideFlags: 0

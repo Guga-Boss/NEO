@@ -287,8 +287,10 @@ public partial class Map : MonoBehaviour
 
 #if UNITY_EDITOR
     [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton
-    static void InitSingleton()
+    public static void InitSingleton()
     {
+        Debug.Log( I );
+        if( I ) return;
         EditorApplication.delayCall += () =>
         {
             if( !Application.isPlaying )

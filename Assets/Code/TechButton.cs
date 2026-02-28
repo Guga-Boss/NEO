@@ -21,7 +21,6 @@ public class TechButton : MonoBehaviour
     public static int SY = 4;
     public int X = -1, Y = -1;
     public int LeftNeighb, RightNeighb, UpNeighb, DownNeighb;
-    public UIGrid UpGrid, DownGrid, LeftGrid, RightGrid;
     public bool Available = false;
     public bool NeighborsOK = false;
     public bool MaxLevelReached = false;
@@ -105,6 +104,13 @@ public class TechButton : MonoBehaviour
         Map.I.TB = panel.GetComponentsInChildren<TechButton>( true );
         panel.GetComponent<MyGrid>().Reposition();
         Debug.Log( "UpdateEditorIDS concluído" );
+    }
+
+    [Button( "Update List", ButtonSizes.Gigantic ), GUIColor( 0, 1f, 0 )]
+    public void UpdateEditorIDSList()
+    {
+        var panel = GameObject.Find("Tech Button Panel");
+        Map.I.TB = panel.GetComponentsInChildren<TechButton>( true );
     }
     public static void StartIt()
     {
@@ -773,36 +779,41 @@ public class TechButton : MonoBehaviour
     public static void UpgradeButtonIcon( AdventureUpgradeInfo au, TechButton bt )
     {
         DungeonDialog dd = Map.I.RM.DungeonDialog;
-        bt.DescriptionSprite.sprite = dd.SpriteList[ 0 ].sprite2D;
+        bt.DescriptionSprite.ManualSprite = dd.SpriteList[ 0 ].sprite;
+
+        bt.DescriptionSprite.scale = new Vector2( 144, 144 );
+        int icon = -1;
         switch( au.UpgradeType )
         {
-            case EAdventureUpgradeType.UPGRADE_PACKMULE:
-            bt.DescriptionSprite.sprite = dd.SpriteList[ 1 ].sprite2D;
-            break;
+        case EAdventureUpgradeType.UPGRADE_PACKMULE:
+        bt.DescriptionSprite.ManualSprite = dd.SpriteList[ 1 ].sprite;
+        return;
         }
-        int icon = -1;
         if( au.ItemAffected != ItemType.NONE )
-            icon = ( int ) au.ItemAffected;
+            icon = (int) au.ItemAffected;
         if( au.UpgradeType == EAdventureUpgradeType.RECEIVE_GIFT )
-            icon = ( int ) au.UpgradeItem1Type;
+            icon = (int) au.UpgradeItem1Type;
         if( au.UpgradeType == EAdventureUpgradeType.INITIAL_HP )
-            icon = ( int ) ItemType.Res_HP;
+            icon = (int) ItemType.Res_HP;
         if( au.UpgradeType == EAdventureUpgradeType.CLOVER_CHANCE )
-            icon = ( int ) ItemType.Clover;
+            icon = (int) ItemType.Clover;
         if( au.UpgradeType == EAdventureUpgradeType.UPGRADE_STUDIES )
-            icon = ( int ) ItemType.Cog;
-        if( au.UpgradeType == EAdventureUpgradeType.INITIAL_UPGRADE_CHEST_CHANCE ||
-            au.UpgradeType == EAdventureUpgradeType.CLOVER_UPGRADE_CHEST_CHANCE  ||
+            icon = (int) ItemType.Cog;
+        if(
+            au.UpgradeType == EAdventureUpgradeType.INITIAL_UPGRADE_CHEST_CHANCE ||
+            au.UpgradeType == EAdventureUpgradeType.CLOVER_UPGRADE_CHEST_CHANCE ||
             au.UpgradeType == EAdventureUpgradeType.CHEST_BASE_BONUS_CHANCE ||
             au.UpgradeType == EAdventureUpgradeType.CUBE_CLEAR_UPGRADE_CHEST_CHANCE ||
             au.UpgradeType == EAdventureUpgradeType.CHEST_PERSIST_CHANCE ||
             au.UpgradeType == EAdventureUpgradeType.CHEST_FIND_TOOL_CHANCE ||
-            au.UpgradeType == EAdventureUpgradeType.CHEST_ITEM_CHANCE_INFLATION )
-            icon = ( int ) ItemType.Chest_Points;
+            au.UpgradeType == EAdventureUpgradeType.CHEST_ITEM_CHANCE_INFLATION
+        )
+            icon = (int) ItemType.Chest_Points;
+
         if( au.UpgradeType == EAdventureUpgradeType.SPAWN_BUTCHER_CHANCE )
-            icon = ( int ) ItemType.Butcher_Level;
-        if( icon >= 0 ) 
-            bt.DescriptionSprite.sprite = G.GIT( icon ).NSprite.sprite;
+            icon = (int) ItemType.Butcher_Level;
+        if( icon >= 0 )
+            bt.DescriptionSprite.SetSprite( ESpriteCol.ITEM, G.GIT( icon ).NSprite.TkSpriteId );
     }
 
     public void OnTechButtonPress()

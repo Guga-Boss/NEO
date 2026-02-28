@@ -7,11 +7,9 @@ public class BluePrintPanel : MonoBehaviour
 {
     public NSprite[ , ] Sprites;
     public NSprite  [ , ] BackSprites;
-    public UIButton[,] Buttons;
     public NSprite[] BackSpritesAux;
     public TextMeshPro[ , ] Labels;
     public TextMeshPro BluePrintLabel,UsesLabel, Cost1Label, PowerLabel, BuyBPLabel, AutoApplyCostLabel;
-    public UI2DSprite Cost2Item, Cost3Item;
     public NSprite Cost1Item, BuyBPItem, AutoApplyItem;
     public bool Initialized = false;
     public int PanelNumber;

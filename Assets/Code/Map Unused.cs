@@ -752,19 +752,13 @@ public partial class Map : MonoBehaviour
 
     public bool CheckWait()
     {
-        if( UI.I.KadeWaitButton.state == UIButtonColor.State.Pressed )
-            if( ButtonPressingTimeCount > SettingsWindow.I.KeyHoldDelay )
-            {
-                return true;
-            }
-
         if( Mtx != -1 )
-            if( new Vector2( Mtx, Mty ) == Hero.Pos )
-                if( Input.GetMouseButtonDown( 0 ) || ( ButtonPressingTimeCount > SettingsWindow.I.KeyHoldDelay && Input.GetMouseButton( 0 ) ) )
-                {
-                    WaitButton();
-                    return true;
-                }
+        if( new Vector2( Mtx, Mty ) == Hero.Pos )
+        if( Input.GetMouseButtonDown( 0 ) || ( ButtonPressingTimeCount > SettingsWindow.I.KeyHoldDelay && Input.GetMouseButton( 0 ) ) )
+           {
+             WaitButton();
+             return true;
+           }
 
         //if( Input.GetMouseButtonDown( 1 ) || ButtonPressingTimeCount > SettingsWindow.I.KeyHoldDelay && Input.GetMouseButton( 1 ) )
         //{

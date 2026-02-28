@@ -28,7 +28,6 @@ public class Perk : MonoBehaviour
     public Artifact Artifact;
 	public tk2dTextMesh AmountText;
 	public TextMeshPro Label;
-	public UIButton Button;
 	public NSprite[] Sprite;
     public bool ActivateIcon = true;
     public bool ResizeIcon = true;

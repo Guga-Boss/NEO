@@ -12,8 +12,6 @@ public class RandomMap : MonoBehaviour
     public int AreaPopulateTrialCount, PreferedWaypoint;
     public Vector2 MapCenter, LastDungeonHeroPos, LastLabHeroPos, LastGateTileStepped;
     public DungeonDialog DungeonDialog;
-    public UIButton OKButton;
-    public UIPopupList DungeonNumberPopup;
     public RandomMapData RMD, ORMD;
     public Vector2 LabCordOrigin, AreasTMOrigin;
     public Rect LabArea;
@@ -618,12 +616,6 @@ public class RandomMap : MonoBehaviour
         
         RandomMapGoal.InitAlternateStartingCube();
     }
-
-    public void ChooseDungeonNumber()
-    {
-        Quest.CurrentDungeon = UIPopupList.current.items.IndexOf( UIPopupList.current.value );
-    }
-
     public void StartCubes()
     {
         DungeonDialog.gameObject.SetActive( false );

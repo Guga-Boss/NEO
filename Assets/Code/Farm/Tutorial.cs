@@ -445,7 +445,6 @@ public class Tutorial : MonoBehaviour
     public bool Click()
     {
         if( ScrollChecked == false ) return false;
-        if( UI.I.KadeWaitButton.state == UIButtonColor.State.Pressed ) return true;
         if( Input.GetKey( KeyCode.Return ) ) return true;
         return false;
     }

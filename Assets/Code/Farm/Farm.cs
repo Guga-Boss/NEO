@@ -40,8 +40,6 @@ public partial class Farm : MonoBehaviour
     [TabGroup( "Main" )]
     public ItemType NextMonsterType;
     [TabGroup( "Link" )]
-    public UILabel BluePrintLabel;
-    [TabGroup( "Link" )]
     public TextMeshPro BuildingDescription, BuildingLabel;
     [TabGroup( "Main" )]
     public ItemType SelectedItem;
@@ -91,8 +89,6 @@ public partial class Farm : MonoBehaviour
     public int WaterTiles = 0;
     [TabGroup( "Link" )]
     public RandomMapData FarmData;
-    [TabGroup( "Link" )]
-    public UISprite BluePrintItemBackSprite, BluePrintItemBackSpriteActive;
     [TabGroup( "Link" )]
     public List<NSprite> BluePrintCustomSprite;
     [TabGroup( "Lists" )]

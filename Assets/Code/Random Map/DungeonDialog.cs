@@ -19,25 +19,18 @@ public class DungeonDialog : MonoBehaviour
 {
     #region Variables
     public Unit Unit;
-    public UI2DSprite[] SpriteList;
-    public UI2DSprite[] Resources;
+    public SpriteRenderer[] SpriteList;
     public NSprite[] TrophiesSprite;
     public MyGrid GoalsGrid;
-    public UI2DSprite PackMuleEmptySlot;
     public NSprite AutoGotoCheckMark, UnlockCost1Sprite,TechEditorFocus;
-    public UILabel DungeonNumberLabel, DificultyLabel;
     public TextMeshPro TMainTextLabel, TAvailableCubesLabel, DungeonNameLabel, GameCompletitionLabel, 
                        StudiesCompletedLabel, GoalInfoLabel, NewDungeonLabel, BackButtonLabel, UnlockCostLabel1;
     public TextMeshProUGUI TrainingModeButtonLabel, StudyModeButtonLabel;
 
     public TextMeshPro[] TrophiesAmountLabel;
-    public UISlider DificultySlider;
-    public UIToggle AutoBuyModeToggle, BlindModeToggle;
-    public UIPopupList PlayerType;
     public TMP_Dropdown SelectQuestDropdown, SelectCubeDropDown;
     public GameObject BluePrintUI, QuestList, InventoryGO, PackmuleGO, 
     GoalsGO, StudiesGO, TechButtonsGO, InventoryBack, DarkPerkBack, DecorFolder;
-    public UITable ObjectivesTable;
     public Button BackButton, ProvisionsModeButton, StudiesModeButton, TrainingModeButton, NavigationMapButton, AutoGotoPuzzleButton;
     public float Dificulty = 100;
     public float DificultyLimit = 0;
@@ -708,9 +701,7 @@ public class DungeonDialog : MonoBehaviour
             PanelList[ i ].gameObject.SetActive( false );
         }
         DungeonNameLabel.text = "Click here to choose a Quest...\n(M Key)";
-        PlayerType.gameObject.SetActive( false );
         SelectCubeDropDown.gameObject.SetActive( false );
-        DificultySlider.gameObject.SetActive( false );
         for( int i = 0; i < TrophiesAmountLabel.Length; i++ )
         {
             TrophiesAmountLabel[ i ].text = "";
@@ -721,7 +712,6 @@ public class DungeonDialog : MonoBehaviour
         if( NavigationMapButtonClick == false )
             TMainTextLabel.text = "No quest has been selected.";
         GoalInfoLabel.text = "";
-        DungeonNumberLabel.text = "";
         PackmuleGO.gameObject.SetActive( false );
         StudiesModeButton.gameObject.SetActive( false );
         TrainingModeButton.gameObject.SetActive( false );
@@ -1464,6 +1454,8 @@ public class DungeonDialog : MonoBehaviour
         else
             UI.I.MapLabel.text = Map.I.RM.RMList[ ( int ) Map.I.RM.CurrentAdventure ].QuestHelper.QuestName;          // Quest Name text mesh
         GoalsGrid.Reposition();
+        AdventureUpgradeInfo.statCache = null;
+        AdventureUpgradeInfo.InitCache();
     }
 
     public void UpdateObjectives( bool updatetimetrying = false )
@@ -1654,8 +1646,8 @@ public class DungeonDialog : MonoBehaviour
     {
         return;
         float dif = force;
-        if( force == -1 ) dif = DificultySlider.value;
-        else DificultySlider.value = force;
+        //if( force == -1 ) dif = DificultySlider.value;
+        //else DificultySlider.value = force;
 
         Dificulty = ( int ) ( Map.I.RM.RMD.MinimumDifficulty + Util.Percent( dif * 100, 
                               Map.I.RM.RMD.MaximumDifficulty - Map.I.RM.RMD.MinimumDifficulty ) );
@@ -1676,7 +1668,7 @@ public class DungeonDialog : MonoBehaviour
 
         Map.I.RM.RMD.Init();
         GetObjectivesList( Map.I.RM.CurrentAdventure );
-        DificultyLabel.text = "Dificulty: " + DificultyNames[ Mathf.RoundToInt( id ) ] + " (" + Dificulty + "%)" + "   Max: " + DificultyLimit + "%";
+        //DificultyLabel.text = "Dificulty: " + DificultyNames[ Mathf.RoundToInt( id ) ] + " (" + Dificulty + "%)" + "   Max: " + DificultyLimit + "%";
     }
     public void GetObjectivesList( int adv, bool starting = false )
     {

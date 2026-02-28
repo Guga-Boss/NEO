@@ -588,7 +588,7 @@ public class FPow : MonoBehaviour
             if( i < max )
             {
                 FPow p = G.Farm.FirePow[ i ];                                                            // Get current power
-                string nm = NGUIText.StripSymbols(p.GetName( i + 1 ));                                   // Clean existing color tags
+                string nm = p.GetName( i + 1 );                                                          // Clean existing color tags
                 bool asterisk = nm.Contains( "*" );                                                      // Check if special item
 
                 if( i < lev )

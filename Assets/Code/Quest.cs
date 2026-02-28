@@ -154,7 +154,7 @@ public class Quest : MonoBehaviour
         {
             if( Map.I.Hero.CheckLevelLimits( ar.PerkType ) )
             {
-                UI.I.MessageBoxTextLabel2.text = "Level Limit Reached!";
+                //UI.I.MessageBoxTextLabel2.text = "Level Limit Reached!";
                 return false;
             }
             HeroData.I.AddCollectedArtifact( pos, ar.LifeTime );
@@ -176,11 +176,11 @@ public class Quest : MonoBehaviour
             UI.I.MessageBox.SetActive( true );
             if( Manager.I.GameType == EGameType.CUBES ) UI.I.MessageBox.SetActive( false );
 
-            UI.I.MessageBoxTextLabel.text = "" + ar.ArtifactName +
-                "\nAction: " + ar.ActionDescription + "\n\nLifetime: " + ar.LifeTime;                                                                  // Display Message
-            if( ar.TargetUnitName ) UI.I.MessageBoxTextLabel.text += "\nTarget Hero: " + ar.TargetUnitName.text;
+            //UI.I.MessageBoxTextLabel.text = "" + ar.ArtifactName +
+            //    "\nAction: " + ar.ActionDescription + "\n\nLifetime: " + ar.LifeTime;                                                                  // Display Message
+            //if( ar.TargetUnitName ) UI.I.MessageBoxTextLabel.text += "\nTarget Hero: " + ar.TargetUnitName.text;
 
-            UI.I.MessageBoxIcon.sprite2D = UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ 0 ].sprite;
+            //UI.I.MessageBoxIcon.sprite2D = UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ 0 ].sprite;
             UI.I.ScrollText.gameObject.SetActive( false );
             UI.I.ScrollText.text = "";
             
@@ -199,24 +199,24 @@ public class Quest : MonoBehaviour
 
             UI.I.GetPerkInfo( ar.PerkType, ref levelFactor, ref basename, ref addDesc, un, ref iconText, false );
 
-            UI.I.MessageBoxTextLabel2.text  = "" + Manager.I.Translate( "&" + basename + "_" + levelFactor + "_TITLE", "Perks" ) + "\n\n";
-            UI.I.MessageBoxTextLabel2.text += "" + Manager.I.Translate( "&" + basename + "_" + levelFactor + "_DESCRIPTION", "Perks" );
-            UI.I.MessageBoxTextLabel2.text += "\n" + addDesc;
-            UI.I.MessageBoxLevelLabel.text = "Level " + levelFactor;
-            if( ar.PerkType == EPerkType.STAR )
-                UI.I.MessageBoxLevelLabel.text = "Level " + Map.I.Hero.Body.Level;
-            if( ar.PerkType == EPerkType.SCOUT )
-                UI.I.MessageBoxLevelLabel.text = "Level " + Map.I.Hero.Control.ScoutLevel;
+            //UI.I.MessageBoxTextLabel2.text  = "" + Manager.I.Translate( "&" + basename + "_" + levelFactor + "_TITLE", "Perks" ) + "\n\n";
+            //UI.I.MessageBoxTextLabel2.text += "" + Manager.I.Translate( "&" + basename + "_" + levelFactor + "_DESCRIPTION", "Perks" );
+            //UI.I.MessageBoxTextLabel2.text += "\n" + addDesc;
+            //UI.I.MessageBoxLevelLabel.text = "Level " + levelFactor;
+            //if( ar.PerkType == EPerkType.STAR )
+            //    UI.I.MessageBoxLevelLabel.text = "Level " + Map.I.Hero.Body.Level;
+            //if( ar.PerkType == EPerkType.SCOUT )
+            //    UI.I.MessageBoxLevelLabel.text = "Level " + Map.I.Hero.Control.ScoutLevel;
 
             int fact = levelFactor;
             if( fact < 0 ) fact = 0;
             int iconID = UI.I.GetIconID( fact, ar.PerkType );
 
-            if( UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ iconID ] != null )
-                UI.I.MessageBoxIcon2.sprite2D = UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ iconID ].sprite;
+            //if( UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ iconID ] != null )
+            //    UI.I.MessageBoxIcon2.sprite2D = UI.I.PerkList[ ( int ) ar.PerkType ].Sprite[ iconID ].sprite;
 
             MasterAudio.PlaySound3DAtVector3( "Artifact collected", transform.position );
-            UI.I.TurnInfoLabel.text = "Artifact Found: " + ar.ArtifactName + " " + UI.I.MessageBoxLevelLabel.text + "\nBonus Granted: " + UI.I.MessageBoxTextLabel2.text;
+            //UI.I.TurnInfoLabel.text = "Artifact Found: " + ar.ArtifactName + " " + UI.I.MessageBoxLevelLabel.text + "\nBonus Granted: " + UI.I.MessageBoxTextLabel2.text;
             Map.I.RM.UpdateSectorHint();
             Controller.CreateMagicEffect( pos );
             Map.I.InvalidateInputTimer = .18f;  // To avoid double step bug

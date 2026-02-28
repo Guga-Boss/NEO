@@ -10,7 +10,7 @@ public class UI : MonoBehaviour
 {
     #region Variables
     public static UI I;
-    public UILabel LevelText, EnterAreaTxt, UseButtonLabel;
+
     public TextMeshPro BigMessageText, TurnInfoLabel, BigTextHelpLabel;
     public int TurnInfoLabelCount = 0;
 
@@ -19,13 +19,8 @@ public class UI : MonoBehaviour
     RestartAreaButtonLabel, PerkInfoDescriptionText, PerkInfoTitleText, DebugLabel, MapLabel,FreeCamModeLabel, ErrorMessageLabel;
 
     public MyHealthBar UnitHealthBar, QuestCompletitionBar;
-    public UI2DSprite MessageBoxIcon, MessageBoxIcon2;
     public GameObject PerkInfoIconBack, UIFolder, GoalIcons;
 	public NSprite[] Stars;
-    public UILabel PerkInfoTargetHeroText,  
-                    MessageBoxTextLabel, MessageBoxTextLabel2, MessageBoxLevelLabel;
-    public UIButton RepeatButton, ZoomButton, FreeCamButton, ArtifactSeekButton, AreaSeekButton, GridButton, CompareHeroButton, 
-        KadeWaitButton, BattleButton, UseAbilityButton, PerkInfoButton;
     public Button RestartAreaButton;
     public List<Perk> PerkList;
     public GameObject PerkModel, PerkInfoPanel, PerksFolder, PerksListFolder, SkullImage, Menu, HpPanel, PerksPanel, MessageBox, FarmUI, InventoryTarget, NavigationMapUI;
@@ -33,8 +28,7 @@ public class UI : MonoBehaviour
     public Perk MushroomPerk, DestroyBarricadePerk, MonsterPushPerk, MonsterPressurePerk;
 	public Unit SelUnit, CompareHero;
 	public MyGrid Grid, ResourcesGrid;
-    public UISprite ScrollBack;
-	public NSprite InfoIcon, PerkInfoIcon, MidPanelSprite, HorseIcon, BackgroundUI, OverlaySprite;
+    public NSprite InfoIcon, PerkInfoIcon, MidPanelSprite, HorseIcon, BackgroundUI, OverlaySprite;
     public Camera UICamera;
     public float TempSelectedPerkTimer, RKeyPressTimeCount;
 	public EPerkType TempSelectedPerk, SelectedPerk;
@@ -365,18 +359,6 @@ public class UI : MonoBehaviour
             if( PerkList[ ( int ) SelectedPerk ].gameObject.activeSelf )                                                       // icon level
                 if( PerkList[ ( int ) SelectedPerk ].Label.text == "" )
                     PerkList[ ( int ) SelectedPerk ].Label.text = "L" + LevelFactor;
-
-            bool state = false;
-            if( SelectedPerk == EPerkType.WALLDESTROYER )
-            {
-                state = true;
-                UseButtonLabel.text = "Destroy!";
-            } else
-           if(  SelectedPerk == EPerkType.SNEAKINGLEVEL )
-           {
-               state = true;
-               UseButtonLabel.text = "Scream!";
-           }
         }
     }
 
@@ -389,7 +371,7 @@ public class UI : MonoBehaviour
         if( Map.I.RM.GameOver ) return;
 
         if( BigTextHelpLabel.gameObject.activeSelf ) BigTextHelpLabel.gameObject.SetActive( false );
-        if( PerkInfoButton.state != UIButtonColor.State.Hover ) return;
+        //if( PerkInfoButton.state != UIButtonColor.State.Hover ) return;
 
         BigTextHelpLabel.gameObject.SetActive( true );
         BigTextHelpLabel.text = Manager.I.Translate( "&" + basename , "Big Help" );                     
@@ -574,12 +556,6 @@ public class UI : MonoBehaviour
             ArtifactsText.text = "";
             AreasText.text = "";
         }
-    
-		if( EnterAreaTxt )
-		{
-			EnterAreaTxt.color = new Color( 1, 1, 1, EnterAreaTxt.color.a - Time.deltaTime * .5f );
-			if( EnterAreaTxt.color.a <= 0 ) EnterAreaTxt.gameObject.SetActive( false );
-		}
         
         //if( RestartAreaButton.state == UIButtonColor.State.Pressed ||
         //    Input.GetKey( KeyCode.R ) ) RKeyPressTimeCount += Time.deltaTime;
@@ -633,24 +609,6 @@ public class UI : MonoBehaviour
     {
         TempSelectedPerk = type;
         TempSelectedPerkTimer = time;
-    }
-
-    public void ShowAreaEnterMessage()
-    {
-        string opt = "";
-        if( Map.I.CurArea.Optional ) opt = "\n(Optional Area)";
-        EnterAreaTxt.gameObject.SetActive( true );
-        EnterAreaTxt.text = "Entering:\n" + '"' + Map.I.CurArea.AreaName + '"' + opt;
-        EnterAreaTxt.color = new Color( 1, 1, 1, 1 );
-    }
-
-    public void ShowAreaClearMessage( int area )
-    { 
-        EnterAreaTxt.gameObject.SetActive( true );
-        string perf = "";
-        if( Manager.I.GameType == EGameType.CUBES && Map.I.CurArea.Perfect ) perf = "\nPerfect!";
-        EnterAreaTxt.text = Quest.I.CurLevel.AreaList[ area ].AreaName + " Cleared!" + perf;
-        EnterAreaTxt.color = new Color( 1, 1, 1, 1 );
     }
     public int AddPerk( ref Artifact art )
     {
@@ -760,8 +718,7 @@ public class UI : MonoBehaviour
         Menu.SetActive( !state );
         PerkInfoPanel.gameObject.SetActive( state );
         HpPanel.gameObject.SetActive( state );
-        //PerksPanel.gameObject.SetActive( state );
-        ZoomButton.gameObject.SetActive( state );
+        //PerksPanel.gameObject.SetActive( state );       
     }
 
     public void ToggleFreeCamera()

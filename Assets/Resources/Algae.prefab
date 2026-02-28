@@ -3298,7 +3298,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6271440392689004915}
-  - component: {fileID: 3930391273209369108}
+  - component: {fileID: 6723993273094047469}
   m_Layer: 0
   m_Name: Effects
   m_TagString: Untagged
@@ -3330,7 +3330,7 @@ Transform:
   - {fileID: 9081426517914576856}
   m_Father: {fileID: 3434637227249416735}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3930391273209369108
+--- !u!114 &6723993273094047469
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3339,16 +3339,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8723883142229648488}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07c4de3b4b6fe9045b059ee627c100df, type: 3}
+  m_Script: {fileID: 11500000, guid: cfc89d9d7391e1c44bf7fe88d0f61a13, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Code::MyGrid
   arrangement: 0
-  sorting: 0
-  pivot: 4
-  maxPerLine: 3
-  cellWidth: 0.33
-  cellHeight: 0.33
-  animateSmoothly: 0
-  hideInactive: 0
-  keepWithinPanel: 0
-  sorted: 0
+  CellWidth: 0.33
+  CellHeight: 0.33
+  ColumnLimit: 3
+  Sorting: 0
+  Pivot: 4
+  HideInactive: 0
