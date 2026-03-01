@@ -403,6 +403,7 @@ public partial class Map : MonoBehaviour
             {
                 int tile = ( int ) ETileType.NONE;
                 Sector s = RM.HeroSector;
+                TM.InitBatch();                                                                                             // Init tilemap Batch
                 if( s && s.Type == Sector.ESectorType.NORMAL )
                 for( int y = ( int ) s.Area.yMin - 1; y < s.Area.yMax + 1; y++ )
                 for( int x = ( int ) s.Area.xMin - 1; x < s.Area.xMax + 1; x++ )
@@ -411,8 +412,7 @@ public partial class Map : MonoBehaviour
                     if( y % 2 == 0 ) tile = ( int ) ETileType.NONE;
                     else tile = ( int ) ETileType.GRID;
 
-                    Tilemap.SetTile( x, y, ( int ) ELayerType.GRID, tile );
-                    TM.SetTile( x, y, (int) ELayerType.GRID, tile );
+                    TM.SetTile( x, y, ( int ) ELayerType.GRID, tile, true );
                     if( Helper.I.ShowGaiaGrid == false )
                     {
                         ETileType tl = ( ETileType ) Quest.I.CurLevel.Tilemap.GetTile( x, y, ( int ) ELayerType.GAIA ); // old test it
@@ -421,8 +421,7 @@ public partial class Map : MonoBehaviour
                             tl == ETileType.ROOMDOOR ||
                             tl == ETileType.WATER )
                             {
-                                Tilemap.SetTile( x, y, (int) ELayerType.GRID, -1 );
-                                TM.SetTile( x, y, (int) ELayerType.GRID, -1 );
+                                TM.SetTile( x, y, (int) ELayerType.GRID, -1, true );
                             }
                     }
 
@@ -431,12 +430,13 @@ public partial class Map : MonoBehaviour
                 }
                 UpdateTilemap = true;
                 RM.HeroSector.GridInitialized = true;
+                TM.FlushTiles();                                                                                            // Flush tilemaps to graphics
             }
 
             if( show )
-                Tilemap.Layers[ ( int ) ELayerType.GRID ].gameObject.SetActive( true );                       // Updates Grid Tilemap
+                TM.Tilemaps[ ( int ) ELayerType.GRID ].gameObject.SetActive( true );                                        // Updates Grid Tilemap
             else
-                Tilemap.Layers[ ( int ) ELayerType.GRID ].gameObject.SetActive( false );
+                TM.Tilemaps[ ( int ) ELayerType.GRID ].gameObject.SetActive( false );
         }
     }
 

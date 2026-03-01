@@ -10,6 +10,8 @@ public partial class Map: MonoBehaviour
 
         TM.gameObject.SetActive(false);
 
+        TransT.InitBatch();                                                                    // Initializes Batch 
+
         if( Application.isPlaying == false )
         {
             TransTilemapUpdateList = new List<VI>();
@@ -53,7 +55,10 @@ public partial class Map: MonoBehaviour
             UpdateTileShadow( TransTilemapUpdateList[ i ] );
         }
 
-        tm.Build();
+        //tm.Build();
+
+        TransT.FlushTiles();                                                                                   // Build tiles mesh just once
+
         TransTilemapUpdateList.Clear();
         TM.gameObject.SetActive( true );
     }
@@ -155,7 +160,7 @@ public partial class Map: MonoBehaviour
     public void SetTTile( int x, int y, int l, int t )
     {
         if( TransTileMap != null ) TransTileMap.SetTile( x, y, l, t );
-        if( TransT != null ) TransT.SetTile( x, y, l, t );
+        if( TransT != null ) TransT.SetTile( x, y, l, t, true );
     }
 
     private int GetOffset( bool[ ] np, EDirection d1, EDirection d2, EDirection diag, int cExt, int full, int cInt, int bH, int bV )
@@ -248,7 +253,7 @@ public partial class Map: MonoBehaviour
     private void SetTileShadowPair( int x, int y, int id )
     {
         TransTileMap.SetTile( x, y, 1, id );
-        if( TransT != null ) TransT.SetTile( x, y, 1, id );
+        TransT.SetTile( x, y, 1, id, true );
     }
 
     // Helper para não repetir código
@@ -262,10 +267,10 @@ public partial class Map: MonoBehaviour
 
         if( TransT != null )
         {
-            TransT.SetTile( bx + 0, by + 1, 1, tl );
-            TransT.SetTile( bx + 1, by + 1, 1, tr );
-            TransT.SetTile( bx + 0, by + 0, 1, bl );
-            TransT.SetTile( bx + 1, by + 0, 1, br );
+            TransT.SetTile( bx + 0, by + 1, 1, tl, true );
+            TransT.SetTile( bx + 1, by + 1, 1, tr, true );
+            TransT.SetTile( bx + 0, by + 0, 1, bl, true );
+            TransT.SetTile( bx + 1, by + 0, 1, br, true );
         }
     }
 
@@ -330,10 +335,10 @@ public partial class Map: MonoBehaviour
         TransTileMap.SetTile( ( int ) ( x * 2 ) + 0, ( int ) ( y * 2 ) + 0, layer, tile );
         TransTileMap.SetTile( ( int ) ( x * 2 ) + 1, ( int ) ( y * 2 ) + 0, layer, tile );
 
-        TransT.SetTile( (int) ( x * 2 ) + 0, (int) ( y * 2 ) + 1, layer, tile );
-        TransT.SetTile( (int) ( x * 2 ) + 1, (int) ( y * 2 ) + 1, layer, tile );
-        TransT.SetTile( (int) ( x * 2 ) + 0, (int) ( y * 2 ) + 0, layer, tile );
-        TransT.SetTile( (int) ( x * 2 ) + 1, (int) ( y * 2 ) + 0, layer, tile );
+        TransT.SetTile( (int) ( x * 2 ) + 0, (int) ( y * 2 ) + 1, layer, tile, true );
+        TransT.SetTile( (int) ( x * 2 ) + 1, (int) ( y * 2 ) + 1, layer, tile, true );
+        TransT.SetTile( (int) ( x * 2 ) + 0, (int) ( y * 2 ) + 0, layer, tile, true );
+        TransT.SetTile( (int) ( x * 2 ) + 1, (int) ( y * 2 ) + 0, layer, tile, true );
     }
 
     public static void AddNeighborTransToList( VI to )

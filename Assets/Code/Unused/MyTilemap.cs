@@ -277,19 +277,64 @@ public class MyTilemap: SerializedMonoBehaviour
         EditorUtility.SetDirty( this );
     }
 
-    internal void SetTile( int x, int y, int layer, int id )
+    public List<Vector3Int>[] BatchPositions;
+    public List<TileBase>[] BatchTiles;
+
+    public void InitBatch()
+    {
+        if( BatchPositions == null || BatchPositions.Length != Tilemaps.Count )
+        {
+            BatchPositions = new List<Vector3Int>[ Tilemaps.Count ];
+            BatchTiles = new List<TileBase>[ Tilemaps.Count ];
+
+            for( int i = 0; i < Tilemaps.Count; i++ )
+            {
+                BatchPositions[ i ] = new List<Vector3Int>();                         // Initialize position buffer for each layer ;
+                BatchTiles[ i ] = new List<TileBase>();                               // Initialize tile buffer for each layer ;
+            }
+        }
+        else
+        {
+            for( int i = 0; i < Tilemaps.Count; i++ )
+            {
+                BatchPositions[ i ].Clear();                                // Clear lists to reuse existing capacity ;
+                BatchTiles[ i ].Clear();                                    // Prevent reallocation by clearing data ;
+            }
+        }
+    }
+    public void FlushTiles()
+    {
+        if( BatchPositions == null ) return;                                // Early exit if buffers are null ;
+
+        for( int i = 0; i < Tilemaps.Count; i++ )
+        {
+            if( Tilemaps[ i ] != null && BatchPositions[ i ].Count > 0 )
+            {
+                // Core Optimization: Rebuilds mesh once per layer ;
+                Tilemaps[ i ].SetTiles( BatchPositions[ i ].ToArray(), 
+                BatchTiles[ i ].ToArray() );
+
+                BatchPositions[ i ].Clear();                                // Reset buffers after execution ;
+                BatchTiles[ i ].Clear();                                    // Reset buffers after execution ;
+            }
+        }
+    }
+
+    internal void SetTile( int x, int y, int layer, int id, bool useBatch = false )
     {
         if( layer < 0 || layer >= Tilemaps.Count ) return;
-        Tilemap tilemap = Tilemaps[layer];
-        if( tilemap == null ) return;
-        TileBase tile = EnumToTile(id);
-        tilemap.SetTile( new Vector3Int( x, y, 0 ), tile );
-        // ISSO AQUI força a Unity a redesenhar o que o script acabou de fazer
-        //if( !Application.isPlaying )
-        //{
-        //    tilemap.RefreshTile( new Vector3Int( x, y, 0 ) );
-        //    EditorUtility.SetDirty( tilemap );
-        //}
+        if( useBatch )
+        {           
+            BatchPositions[ layer ].Add( new Vector3Int( x, y, 0 ) );                    // Guarda a posição           
+            BatchTiles[ layer ].Add( id == -1 ? null : EnumToTile( id ) );               // Guarda o Tile (se for -1, salva null para apagar o tile na Unity)
+        }
+        else
+        {
+            Tilemap tilemap = Tilemaps[layer];
+            if( tilemap == null ) return;
+            TileBase tile = EnumToTile(id);
+            tilemap.SetTile( new Vector3Int( x, y, 0 ), tile );
+        }
     }
 
     public static void Load( tk2dTileMap tm, MyTilemap myTilemap )

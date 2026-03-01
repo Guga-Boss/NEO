@@ -806,7 +806,7 @@ public partial class Map : MonoBehaviour
 
     CopyTilemap( false, tm, ref Tilemap, new Vector2( 0, 0 ), new Vector2( 0, 0 ), tm.width, tm.height, false, false );
 
-        //Tilemap.Build();  //new opt
+    //Tilemap.Build();  //new opt
     Tilemap.gameObject.SetActive( false );
     TM.gameObject.SetActive( true );
 

@@ -109,6 +109,7 @@ public class RandomMap : MonoBehaviour
 
     public void StartCubeSession( bool play = true )
     {
+        Map.I.TM.InitBatch();                                                                   // Init tilemap Batch system
         Manager.I.GameType = EGameType.CUBES;
         AreaDefinition.RM = this;
         Quest.CurrentLevel = -1;        
@@ -615,6 +616,7 @@ public class RandomMap : MonoBehaviour
         UpdateBriarCreation( RMSector[ ( int ) LabCordOrigin.x + 1, ( int ) LabCordOrigin.y - 1 ], false, true,  true,  false );
         
         RandomMapGoal.InitAlternateStartingCube();
+        Map.I.TM.FlushTiles();                                                                                                      // flush tilemap batch system
     }
     public void StartCubes()
     {
@@ -802,6 +804,7 @@ public class RandomMap : MonoBehaviour
         Map.I.RestID = new List<int>();
         s.GridInitialized = false;
         Map.I.ForceUpdateTrans = true;
+        Map.I.TM.InitBatch();                                                                                          // Inits Tilemap Batch System
         //Map.I.ProcessedTransCount = 0;
 
         Map.I.LevelStats.SectorsDiscovered++;                                                                          // Updates Sector Discovered stats 
@@ -1081,8 +1084,8 @@ public class RandomMap : MonoBehaviour
 
             if( Sector.GetPosSectorType( new Vector2( xx, yy ) ) == Sector.ESectorType.GATES )
                {
-                  Map.I.Tilemap.SetTile( xx, yy, (int) ELayerType.TERRAIN, 1536 );                                         // creates grass tile behind gate tiles 
-                  Map.I.TM.SetTile( xx, yy, 0, 1536 );
+                  //Map.I.Tilemap.SetTile( xx, yy, (int) ELayerType.TERRAIN, 1536 );                                         // creates grass tile behind gate tiles 
+                  Map.I.TM.SetTile( xx, yy, 0, 1536, true );
                }
 
             if( Map.I.Unit[ xx, yy ] )
@@ -1130,8 +1133,8 @@ public class RandomMap : MonoBehaviour
             ETileType ga = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( xx, yy, 1 );                                   // clears gaia Back tiles so only traps will be shown
             if( InvisibleGaia( ga ) )
                {
-                 Map.I.Tilemap.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1 );
-                 Map.I.TM.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1 );
+                 //Map.I.Tilemap.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1 );
+                 Map.I.TM.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1, true );
                }
         }
 
@@ -1184,9 +1187,11 @@ public class RandomMap : MonoBehaviour
         if( herbcount > 0 )
             Map.I.ShuffleAllHerbs( s );
 
-        FirstInitialization = false; 
+        FirstInitialization = false;
 
-        Map.I.Tilemap.Build();
+        //Map.I.Tilemap.Build();
+
+        Map.I.TM.FlushTiles();                                                                                                               // flush tilemap batch system 
 
         Debug.Log( "Sector Created: "+ SD.name + " " + "Flip X " + s.FlipX + " Flip Y " + s.FlipY );        
     }
@@ -1270,11 +1275,11 @@ public class RandomMap : MonoBehaviour
     {
         ETileType tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.DECOR );                  // copies decor tiles 
         Map.I.Tilemap.SetTile( x, y, (int) (int) ELayerType.DECOR, (int) tl );
-        Map.I.TM.SetTile( x, y, ( int ) ELayerType.DECOR, ( int ) tl );
+        Map.I.TM.SetTile( x, y, ( int ) ELayerType.DECOR, ( int ) tl, true );
 
         tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.DECOR2 );
         Map.I.Tilemap.SetTile( x, y, ( int ) ( int ) ELayerType.DECOR2, ( int ) tl );
-        Map.I.TM.SetTile( x, y, ( int ) ELayerType.DECOR2, ( int ) tl );
+        Map.I.TM.SetTile( x, y, ( int ) ELayerType.DECOR2, ( int ) tl, true );
 
         tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.GAIA );                             // copy decor gaia
         if( tl >= 0 && ( int ) tl < Map.I.Tilemap.data.tileInfo.Length )
@@ -1347,7 +1352,7 @@ public class RandomMap : MonoBehaviour
                 {
                     Map.I.Tilemap.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR, ( int ) tl );
                     Quest.I.Dungeon.Tilemap.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR, ( int ) tl );
-                    Map.I.TM.SetTile( ( int ) tg.x, ( int ) tg.y, (int) ELayerType.DECOR, ( int ) tl );
+                    Map.I.TM.SetTile( ( int ) tg.x, ( int ) tg.y, (int) ELayerType.DECOR, ( int ) tl, true );
                 }
             }
     }
@@ -1515,6 +1520,7 @@ public class RandomMap : MonoBehaviour
 
     public void UpdateSectorHint()
     {
+        return;
         if( Quest.CurrentLevel != -1 ) return;
         if( SHList.Length <= 0 ) return;
         int lev = ( int ) Map.I.Hero.Body.PsychicLevel;

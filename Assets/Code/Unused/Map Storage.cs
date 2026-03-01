@@ -705,12 +705,12 @@ public partial class Map : MonoBehaviour
 
                 for( int l = 0; l < 10; l++ )
                 if( tile && l == 0 || gaia && l == 1 || gaia2 && l == 2 || monster && l == 3 || 
-                    mod && l == 4 || dec && l == 6 || areas && l == 7 || dec2 && l == 8 || raft && l == 9 )
+                     mod && l == 4 || dec && l == 6  || areas && l == 7 || dec2 && l == 8    || raft && l == 9 )
                     {
                         if( justadd == false )
                         {
                             to.SetTile( (int) tg.x, (int) tg.y, l, (int) ETileType.NONE );
-                            Map.I.TM.SetTile( x, y, l, (int) ETileType.NONE );
+                            Map.I.TM.SetTile( x, y, l, (int) ETileType.NONE, true );
                         }
                         int tl = from.GetTile( ( int ) fromOrigin.x + x, ( int ) fromOrigin.y + y, l );
 
@@ -721,10 +721,10 @@ public partial class Map : MonoBehaviour
                                 to.SetTile( (int) tg.x, (int) tg.y, l, tl );
 
                                 if( l == (int) ELayerType.GAIA == false || Map.I.RM.InvisibleGaia( (ETileType) tl ) == false )
-                                    Map.I.TM.SetTile( (int) tg.x, (int) tg.y, l, tl );
+                                    Map.I.TM.SetTile( (int) tg.x, (int) tg.y, l, tl, true );
                             }
                         }
-                        FlipTile( to, ( ETileType ) tl, tg, l, flipx, flipy );
+                        //FlipTile( to, ( ETileType ) tl, tg, l, flipx, flipy );
                     }
             }
     }
