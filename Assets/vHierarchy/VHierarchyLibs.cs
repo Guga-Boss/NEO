@@ -108,18 +108,40 @@ namespace VHierarchy.Libs
 
         }
 
-        public static object InvokeMethod( this object o, string methodName, params object[ ] parameters ) // todo handle null params (can't get their type)
+        public static object InvokeMethod( this object o, string methodName, params object[ ] parameters )
         {
             var type = o as Type ?? o.GetType();
             var target = o is Type ? null : o;
 
-
-            if( type.GetMethodInfo( methodName, parameters.Select( r => r.GetType() ).ToArray() ) is MethodInfo methodInfo )
+            // 1. Tenta buscar pela assinatura exata (comportamento original)
+            if( type.GetMethodInfo( methodName, parameters.Select( r => r?.GetType() ?? typeof( object ) ).ToArray() ) is MethodInfo methodInfo )
                 return methodInfo.Invoke( target, parameters );
 
+            // 2. Se falhar, tenta achar QUALQUER método com o nome fornecido e tenta forçar a execução (Plano B para Unity 6+)
+            try
+            {
+                var fallbackMethod = type.GetMethods((BindingFlags)0x34) // BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static
+                                         .FirstOrDefault(m => m.Name == methodName);
 
-            throw new System.Exception( $"Method '{methodName}' not found in type '{type.Name}', its parent types and interfaces" );
+                if( fallbackMethod != null )
+                {
+                    // Prepara os parâmetros (se a Unity mudou a quantidade, evita estourar erro)
+                    var methodParams = fallbackMethod.GetParameters();
+                    var safeParams = new object[methodParams.Length];
+                    for( int i = 0; i < safeParams.Length; i++ )
+                    {
+                        if( i < parameters.Length ) safeParams[ i ] = parameters[ i ];
+                        else if( methodParams[ i ].HasDefaultValue ) safeParams[ i ] = methodParams[ i ].DefaultValue;
+                        else safeParams[ i ] = null;
+                    }
+                    return fallbackMethod.Invoke( target, safeParams );
+                }
+            }
+            catch { }
 
+            // 3. Em vez de lançar o throw e travar a GUI do Unity, apenas logamos e retornamos nulo.
+            UnityEngine.Debug.Log( $"[vHierarchy] Method '{methodName}' not found in type '{type.Name}'. This feature might not work in this Unity version." );
+            return null;
         }
 
 
@@ -161,10 +183,18 @@ namespace VHierarchy.Libs
             }
             catch { return default( T ); }
         }
-        public static T InvokeMethod<T>( this object o, string methodName, params object[ ] parameters ) => (T) o.InvokeMethod( methodName, parameters );
-
-
-
+        public static T InvokeMethod<T>( this object o, string methodName, params object[ ] parameters )
+        {
+            try
+            {
+                var val = o.InvokeMethod(methodName, parameters);
+                if( val == null ) return default( T );
+                if( val is T t ) return t;
+                if( val is System.IConvertible ) { try { return (T) System.Convert.ChangeType( val, typeof( T ) ); } catch { } }
+                return (T) val;
+            }
+            catch { return default( T ); }
+        }
 
         public static FieldInfo GetFieldInfo( this Type type, string fieldName )
         {

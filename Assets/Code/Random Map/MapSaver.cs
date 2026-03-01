@@ -13,7 +13,9 @@ using System;
 
 public enum EMapTemplate
 {
-    __CHOOSE__ = -1, Empty, Temp, The_Pond_1, New_1, New_2, Template_1, Template_2, Template_3, Template_4, Template_5
+    __CHOOSE__ = -1, Empty, Temp, Template_1, Template_2, Template_3, Template_4, Template_5,
+    _FARM_, _NAVIGATION_, _LAB_
+     
 }
 
 public enum EOri2Template
@@ -180,7 +182,7 @@ public class MapSaver : MonoBehaviour
     [BoxGroup( "5", false, false, 5 )]
     public bool AutoDecorLayer = false;
 
-    [HideInInspector]
+    //[HideInInspector]
     public EMapTemplate MapTemplate = EMapTemplate.__CHOOSE__;
 
     [ButtonGroup( "6", 6 )]

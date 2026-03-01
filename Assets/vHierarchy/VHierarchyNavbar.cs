@@ -603,27 +603,34 @@ namespace VHierarchy
                 }
                 void click()
                 {
-                    if (!bookmarkRect.IsHovered()) return;
-                    if (!curEvent.isMouseUp) return;
+                    if( !bookmarkRect.IsHovered() ) return;
+                    if( !curEvent.isMouseUp ) return;
 
                     curEvent.Use();
 
+                    if( draggingBookmark ) return;
+                    if( ( curEvent.mousePosition - mouseDownPosiion ).magnitude > 2 ) return;
+                    if( !bookmark.isLoadable ) return;
 
-                    if (draggingBookmark) return;
-                    if ((curEvent.mousePosition - mouseDownPosiion).magnitude > 2) return;
-                    if (!bookmark.isLoadable) return;
+                    // 1. Seleciona o objeto
+                    Selection.activeGameObject = bookmark.go;
 
-                    controller.RevealObject(bookmark.go, expand: true, highlight: true, snapToTopMargin: true);
+                    // 2. Expande os FILHOS do objeto selecionado
+                    // Usamos o método SetExpanded do controlador para o ID do objeto
+                    controller.SetExpanded_withoutAnimation( bookmark.go.GetInstanceID(), true );
+
+                    // 3. Revela e Centraliza
+                    // snapToTopMargin: false -> Crucial para CENTRALIZAR em vez de jogar no topo
+                    controller.RevealObject( bookmark.go, expand: true, highlight: true, snapToTopMargin: false );
+
+                    // 4. Reforço visual e de foco
+                    EditorGUIUtility.PingObject( bookmark.go );
 
                     lastClickedBookmark = bookmark;
-
                     hideTooltip = true;
 
-
-
-                    if (curEvent.mouseButton == 2 && VHierarchyMenu.setDefaultParentEnabled)
-                        EditorUtility.SetDefaultParentObject(bookmark.go);
-
+                    if( curEvent.mouseButton == 2 && VHierarchyMenu.setDefaultParentEnabled )
+                        EditorUtility.SetDefaultParentObject( bookmark.go );
                 }
 
 
