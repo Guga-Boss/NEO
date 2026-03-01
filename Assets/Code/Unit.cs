@@ -3036,26 +3036,12 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             for( int y = (int) G.HS.Area.yMin - 2; y < G.HS.Area.yMax + 2; y++ )
             for( int x = (int) G.HS.Area.xMin - 2; x < G.HS.Area.xMax + 2; x++ )
                 {
-                    if( HasDoorNeighbor( x, y ) )
+                    if( Map.HasDoorNeighbor( x, y ) )
                     if( Map.I.TransTilemapUpdateList.Contains( new VI( x, y ) ) == false )
                         Map.I.AddTrans( new VI( x, y ), true );
                 }
         }
-	}
-
-    private bool HasDoorNeighbor( int x, int y )
-    {
-        for( int yy = -1; yy <= 1; yy++ )
-        for( int xx = -1; xx <= 1; xx++ )
-            {
-                Unit un = Map.I.GetUnit( new Vector2(x + xx, y + yy), ELayerType.GAIA);
-                if( un )
-                if( un.TileID == ETileType.CLOSEDDOOR || un.TileID == ETileType.OPENDOOR || 
-                    un.TileID == ETileType.ROOMDOOR || un.TileID == ETileType.OPENROOMDOOR )
-                        return true;
-            }
-        return false;
-    }
+	}  
 
     public void OpenDoor()
     {

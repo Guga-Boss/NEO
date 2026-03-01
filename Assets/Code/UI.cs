@@ -93,16 +93,16 @@ public class UI : MonoBehaviour
         ResourceIndicator.UpdateIt();
 
         if( Manager.I.Status != EGameStatus.PLAYING ) return;
-        if( Map.I.Unit == null ) return;
+        if( Map.I.Unit                == null ) return;
 
         UpdateBigMessage();                                                                               // Big message update   
         UpdateMessages();
 
-        if( ForceUpdateUI == false )
+        if( ForceUpdateUI             == false )
         if( Input.GetMouseButton( 0 ) == false ) 
-        if( G.HS == null || G.HS.CubeFrameCount >= 3 )
+        if( G.HS                      == null || G.HS.CubeFrameCount >= 3 )
         if( Map.I.TurnFrameCount != 3 ) return;                                     // Optimization Done: called once per turn, in the beginning or if forced or mouse clicked
-        ForceUpdateUI = false;
+        ForceUpdateUI                 = false;
 
         UpdateUnitUI();
         UpdateUI();

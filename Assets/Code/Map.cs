@@ -10,20 +10,6 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-//Todo List before next release
-
-// Check false areas bug
-// remove guga version 
-// Check for cheats
-
-// food fish
-// VCR points
-// credit: pbmojART for runestone
-// artisticdude for fire noise
-// StumpyStrust for wodden perk back
-// Muska666 for cashier soundfx
-
-
 [System.Serializable]
 public partial class Map : MonoBehaviour
 {
@@ -3189,7 +3175,7 @@ public partial class Map : MonoBehaviour
                  int group = GateID[ x, y ];
                  SetTile( x, y, ELayerType.GAIA, ETileType.OPENROOMDOOR, true );                              // clears room door
                  GateID[ x, y ] = group;
-                 AddTrans( new VI( x, y ) );
+                 //AddTrans( new VI( x, y ) );
                  Map.I.CreateExplosionFX( new Vector2( x, y ), "Fire Explosion", "" );                        // Smoke Cloud FX
              }
 
@@ -3197,10 +3183,32 @@ public partial class Map : MonoBehaviour
              if( tgvn && tgvn.Body.FireIsOn )
                  tgvn.Kill();
             }
+        
+            for( int y = ( int ) G.HS.Area.yMin - 2; y < G.HS.Area.yMax + 2; y++ )
+            for( int x = ( int ) G.HS.Area.xMin - 2; x < G.HS.Area.xMax + 2; x++ )
+                {
+                    if( HasDoorNeighbor( x, y ) )
+                    if( Map.I.TransTilemapUpdateList.Contains( new VI( x, y ) ) == false )
+                        Map.I.AddTrans( new VI( x, y ), true );
+                } 
 	}
 
+    public static bool HasDoorNeighbor( int x, int y )
+    {
+        for( int yy = -1; yy <= 1; yy++ )
+        for( int xx = -1; xx <= 1; xx++ )
+            {
+                Unit un = Map.I.GetUnit( new Vector2(x + xx, y + yy), ELayerType.GAIA);
+                if( un )
+                if( un.TileID == ETileType.CLOSEDDOOR || un.TileID == ETileType.OPENDOOR ||
+                    un.TileID == ETileType.ROOMDOOR || un.TileID == ETileType.OPENROOMDOOR )
+                    return true;
+            }
+        return false;
+    }
 
-	//____________________________________________________________________________________________________________ Set Tile
+
+    //____________________________________________________________________________________________________________ Set Tile
 
     public void SetTile( int x, int y, ELayerType layer, ETileType tile, bool usetrans, bool updateTilemap = false )
     {
