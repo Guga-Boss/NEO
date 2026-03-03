@@ -1,39 +1,13 @@
 using Sirenix.OdinInspector;
 using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class MyGrid: MonoBehaviour
 {
-    public enum Arrangement
-    {
-        Horizontal,
-        Vertical,
-        CellSnap
-    }
-
-    public enum ESorting
-    {
-        None,
-        Alphabetic,
-        Horizontal,
-        Vertical,
-        Custom
-    }
-
-    public enum EPivot
-    {
-        TopLeft,
-        Top,
-        TopRight,
-        Left,
-        Center,
-        Right,
-        BottomLeft,
-        Bottom,
-        BottomRight
-    }
+    public enum Arrangement { Horizontal, Vertical, CellSnap }
+    public enum ESorting { None, Alphabetic, Horizontal, Vertical, Custom }
+    public enum EPivot { TopLeft, Top, TopRight, Left, Center, Right, BottomLeft, Bottom, BottomRight }
 
     public Arrangement arrangement = Arrangement.Horizontal;
     public float CellWidth = 200f;
@@ -45,46 +19,52 @@ public class MyGrid: MonoBehaviour
     public Action onReposition;
     public Comparison<Transform> CustomSort;
 
+    // Cache list to avoid GC Alloc every reposition;
+    private List<Transform> _cachedList = new List<Transform>(64);       // Pre-allocated capacity;
+
     [Button( "Reposition", ButtonSizes.Gigantic ), GUIColor( 1, 1f, 0 )]
     public void Reposition()
     {
-        List<Transform> list = GetChildList();
+        FillChildList();                                                 // Reuse cached list;
 
-        if( list.Count == 0 )
-            return;
+        int count = _cachedList.Count;                                   // Cache list count;
+        if( count == 0 ) return;                                          // Early exit;
 
         int x = 0;
         int y = 0;
-
         int maxX = 0;
         int maxY = 0;
 
-        for( int i = 0; i < list.Count; i++ )
+        for( int i = 0; i < count; i++ )
         {
-            Transform t = list[i];
-            float depth = t.localPosition.z;
-
-            Vector3 pos;
+            Transform t = _cachedList[i];                                // Local reference;
+            Vector3 pos = t.localPosition;                               // Current pos;
+            float depth = pos.z;                                         // Keep Z depth;
 
             if( arrangement == Arrangement.CellSnap )
             {
-                pos = t.localPosition;
-                if( CellWidth > 0 )
-                    pos.x = Mathf.Round( pos.x / CellWidth ) * CellWidth;
-                if( CellHeight > 0 )
-                    pos.y = Mathf.Round( pos.y / CellHeight ) * CellHeight;
+                if( CellWidth > 0 ) pos.x = Mathf.Round( pos.x / CellWidth ) * CellWidth;
+                if( CellHeight > 0 ) pos.y = Mathf.Round( pos.y / CellHeight ) * CellHeight;
             }
             else
             {
-                pos = ( arrangement == Arrangement.Horizontal )
-                    ? new Vector3( CellWidth * x, -CellHeight * y, depth )
-                    : new Vector3( CellWidth * y, -CellHeight * x, depth );
+                // Optimized ternary for position calculation;
+                if( arrangement == Arrangement.Horizontal )
+                {
+                    pos.x = CellWidth * x;
+                    pos.y = -CellHeight * y;
+                }
+                else
+                {
+                    pos.x = CellWidth * y;
+                    pos.y = -CellHeight * x;
+                }
             }
 
-            t.localPosition = pos;
+            t.localPosition = pos;                                       // Apply new pos;
 
-            maxX = Mathf.Max( maxX, x );
-            maxY = Mathf.Max( maxY, y );
+            if( x > maxX ) maxX = x;                                      // Manual Max for speed;
+            if( y > maxY ) maxY = y;
 
             if( ++x >= ColumnLimit && ColumnLimit > 0 )
             {
@@ -93,31 +73,27 @@ public class MyGrid: MonoBehaviour
             }
         }
 
-        ApplyPivotOffset( list, maxX, maxY );
-
-        onReposition?.Invoke();
+        ApplyPivotOffset( _cachedList, maxX, maxY );                       // Pass the cached list;
+        onReposition?.Invoke();                                          // Trigger event;
     }
 
     void ApplyPivotOffset( List<Transform> list, int maxX, int maxY )
     {
-        if( Pivot == EPivot.TopLeft )
-            return;
+        if( Pivot == EPivot.TopLeft ) return;                             // Default pivot, no work;
 
         Vector2 pivotOffset = GetPivotOffset(Pivot);
+        bool isHorizontal = (arrangement == Arrangement.Horizontal);
 
-        float width = (arrangement == Arrangement.Horizontal)
-            ? maxX * CellWidth
-            : maxY * CellWidth;
-
-        float height = (arrangement == Arrangement.Horizontal)
-            ? maxY * CellHeight
-            : maxX * CellHeight;
+        float width = isHorizontal ? maxX * CellWidth : maxY * CellWidth;
+        float height = isHorizontal ? maxY * CellHeight : maxX * CellHeight;
 
         float offsetX = Mathf.Lerp(0f, width, pivotOffset.x);
         float offsetY = Mathf.Lerp(-height, 0f, pivotOffset.y);
 
-        foreach( var t in list )
+        int count = list.Count;                                          // Cache list count;
+        for( int i = 0; i < count; i++ )
         {
+            Transform t = list[i];
             Vector3 pos = t.localPosition;
             pos.x -= offsetX;
             pos.y -= offsetY;
@@ -138,18 +114,21 @@ public class MyGrid: MonoBehaviour
         case EPivot.BottomLeft: return new Vector2( 0f, 0f );
         case EPivot.Bottom: return new Vector2( 0.5f, 0f );
         case EPivot.BottomRight: return new Vector2( 1f, 0f );
+        default: return Vector2.zero;
         }
-        return Vector2.zero;
     }
 
-    List<Transform> GetChildList()
+    void FillChildList()
     {
-        List<Transform> list = new List<Transform>();
+        _cachedList.Clear();                                             // Reset without deallocating;
+        var trans = transform;                                           // Cache transform reference;
 
-        foreach( Transform t in transform )
+        int childCount = trans.childCount;                               // Get total children;
+        for( int i = 0; i < childCount; i++ )
         {
+            Transform t = trans.GetChild(i);                             // Faster than foreach on transform;
             if( !HideInactive || t.gameObject.activeSelf )
-                list.Add( t );
+                _cachedList.Add( t );
         }
 
         if( Sorting != ESorting.None && arrangement != Arrangement.CellSnap )
@@ -157,23 +136,22 @@ public class MyGrid: MonoBehaviour
             switch( Sorting )
             {
             case ESorting.Alphabetic:
-            list.Sort( ( a, b ) => string.Compare( a.name, b.name, StringComparison.Ordinal ) ); 
+            // Ordinal comparison is faster than culture-aware;
+            _cachedList.Sort( ( a, b ) => string.Compare( a.name, b.name, StringComparison.Ordinal ) );
             break;
 
             case ESorting.Horizontal:
-            list.Sort( ( a, b ) => a.localPosition.x.CompareTo( b.localPosition.x ) );
+            _cachedList.Sort( ( a, b ) => a.localPosition.x.CompareTo( b.localPosition.x ) );
             break;
 
             case ESorting.Vertical:
-            list.Sort( ( a, b ) => b.localPosition.y.CompareTo( a.localPosition.y ) );
+            _cachedList.Sort( ( a, b ) => b.localPosition.y.CompareTo( a.localPosition.y ) );
             break;
 
             case ESorting.Custom:
-            if( CustomSort != null )
-                list.Sort( CustomSort );
+            if( CustomSort != null ) _cachedList.Sort( CustomSort );
             break;
             }
         }
-        return list;
     }
 }

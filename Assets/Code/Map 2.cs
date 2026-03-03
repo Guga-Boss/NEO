@@ -2309,86 +2309,147 @@ public partial class Map: MonoBehaviour
     {
         if( FUnit[ x, y ] == null ) return 0;
         return FUnit[ x, y ].Count;
-    }
+    }                                                                    // Cached lists with pre-allocated capacity to eliminate GC;
+    private List<Unit> unl = new List<Unit>(64);                         // General filter cache;
+    private List<Unit> unlArea = new List<Unit>(128);                    // Area search cache;
+
     public List<Unit> GetFUnit( Vector2 tg, ETileType tl = ETileType.NONE )
     {
-        if( FUnit[ ( int ) tg.x, ( int ) tg.y ] == null ) return null;
-        if( tl != null )
+        int x = ( int ) tg.x;                                            // Single cast for X;
+        int y = ( int ) tg.y;                                            // Single cast for Y;
+
+        var cell = FUnit[ x, y ];                                        // Local reference for speed;
+        if( cell == null ) return null;                                  // Early exit if null;
+
+        if( tl != ETileType.NONE )
         {
-            List<Unit> ul = new List<Unit>();
-            for( int i = 0; i < FUnit[ ( int ) tg.x, ( int ) tg.y ].Count; i++ )
-            if( tl == ETileType.NONE || 
-                tl == FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ].TileID )
-                 ul.Add( FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ] );
-            if( ul != null  && ul.Count < 1 ) ul = null;
-            return ul;
+            unl.Clear();                                                 // Reset cache without deallocating;
+            int c = cell.Count;                                          // Cache count for loop;
+            for( int i = 0; i < c; i++ )
+            {
+                var u = cell[ i ];                                       // Local unit reference;
+                if( u.TileID == tl ) unl.Add( u );                       // Filter by type;
+            }
+            return ( unl.Count == 0 ) ? null : unl;                      // Return null if empty;
         }
-        if( FUnit[ ( int ) tg.x, ( int ) tg.y ] != null && 
-            FUnit[ ( int ) tg.x, ( int ) tg.y ].Count < 1 ) return null;
-        return FUnit[ ( int ) tg.x, ( int ) tg.y ];
+
+        return ( cell.Count == 0 ) ? null : cell;                        // Return original list if no filter;
     }
-    
+
     public List<Unit> GetFlyingInArea( Vector2 pt, Vector2 rad )
     {
-        List<Unit> l = new List<Unit>();
-        for( int y = ( int ) ( pt.y - rad.y ); y < pt.y + rad.y; y++ )
-        for( int x = ( int ) ( pt.x - rad.x ); x < pt.x + rad.x; x++ )
-        if ( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+        unlArea.Clear();                                                 // Clear area cache;
+
+        int xMin = ( int ) ( pt.x - rad.x );                             // Calculate bounds;
+        int xMax = ( int ) ( pt.x + rad.x );
+        int yMin = ( int ) ( pt.y - rad.y );
+        int yMax = ( int ) ( pt.y + rad.y );
+
+        var grid = FUnit;                                                // Cache array reference;
+        uint h = ( uint ) Map.I.Tilemap.height;                          // Use Tilemap height;
+        uint w = ( uint ) Map.I.Tilemap.width;                           // Use Tilemap width;
+
+        for( int y = yMin; y < yMax; y++ )
+        {
+            for( int x = xMin; x < xMax; x++ )
             {
-                if( FUnit[ x, y ] != null && FUnit[ x, y ].Count > 0 ) l.AddRange( FUnit[ x, y ] );
+                if( (uint) x < w && (uint) y < h )                       // Fast bitwise bounds check;
+                {
+                    var cell = grid[ x, y ];                             // Access grid cell;
+                    if( cell != null && cell.Count > 0 )
+                        unlArea.AddRange( cell );                        // Batch add references;
+                }
             }
-        return l;
+        }
+        return unlArea;                                                  // Return populated cache;
     }
 
     public List<Unit> GF( Vector2 tg, ETileType type )
     {
-        if ( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ] == null ) return null;
-        List<Unit> l = new List<Unit>();
-        for( int i = 0; i < Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ].Count; i++ )
-        if ( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ].TileID == type )
-             l.Add( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ] );
-        if( l == null || l.Count < 1 ) return null;
-        return l;
+        unl.Clear();                                                     // Reset cache;
+        var cell = FUnit[ ( int ) tg.x, ( int ) tg.y ];                  // Access cell;
+
+        if( cell == null ) return null;                                  // Safety check;
+
+        int c = cell.Count;                                              // Cache list count;
+        for( int i = 0; i < c; i++ )
+        {
+            var u = cell[ i ];                                           // Get unit;
+            if( u.TileID == type ) unl.Add( u );                         // Add if matches;
+        }
+
+        return ( unl.Count == 0 ) ? null : unl;                          // Return result;
     }
 
-    public List<Unit> GProj( Vector2 tg, EProjectileType type )            // Returns a flying projectile list of type
+    public List<Unit> GProj( Vector2 tg, EProjectileType type )
     {
-        if( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ] == null ) return null;
-        List<Unit> l = new List<Unit>();
-        for( int i = 0; i < Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ].Count; i++ )
-        if ( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ].TileID ==  ETileType.PROJECTILE )
-        if ( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ].Control.ProjectileType == type )
-             l.Add( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ] );
-        if( l == null || l.Count < 1 ) return null;
-        return l;
+        var cell = FUnit[ ( int ) tg.x, ( int ) tg.y ];                  // Get target cell;
+        if( cell == null ) return null;                                  // Exit if null;
+
+        unl.Clear();                                                     // Clear cache;
+        int c = cell.Count;                                              // Loop count;
+        for( int i = 0; i < c; i++ )
+        {
+            var u = cell[ i ];                                           // Cache unit ref;
+            if( u.TileID == ETileType.PROJECTILE &&
+                 u.Control.ProjectileType == type )                      // Deep check;
+                unl.Add( u );                                            // Add to cache;
+        }
+
+        return ( unl.Count == 0 ) ? null : unl;                          // Return cache;
     }
 
     public static Unit GFU( ETileType type, Vector2 tg )
     {
-        if ( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return null;
-        if ( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ] == null ) return null;
-        for( int i = 0; i < Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ].Count; i++ )
-        if ( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ].TileID == type )
-             return Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ];
-        return null;
+        int x = ( int ) tg.x;                                            // Cast X;
+        int y = ( int ) tg.y;                                            // Cast Y;
+
+        if( (uint) x >= (uint) Map.I.Tilemap.width   ||
+             (uint) y >= (uint) Map.I.Tilemap.height ) return null;      // Quick bounds exit;
+
+        var cell = Map.I.FUnit[ x, y ];                                  // Access map cell;
+        if( cell == null ) return null;                                  // Exit if null;
+
+        int c = cell.Count;                                              // Loop optimization;
+        for( int i = 0; i < c; i++ )
+        {
+            var u = cell[ i ];                                           // Reference unit;
+            if( u.TileID == type ) return u;                             // Return first match;
+        }
+        return null;                                                     // Found nothing;
     }
-    public static Unit GTM( Vector2 mtg )                // This returns only mines that can be used with tools:  Get Tool mine
+
+    public static Unit GTM( Vector2 mtg )
     {
-        Unit m = Map.GFU( ETileType.MINE, mtg );
-        if( m == null ) return null;
-        if( m.Body.MineType == EMineType.VAULT ) return null;
-        if( Controller.TypeCanBeMined( m ) == false ) return null;
-        return m;
+        Unit m = GFU( ETileType.MINE, mtg );                             // Call optimized GFU;
+        if( m == null ) return null;                                     // Exit if null;
+
+        var body = m.Body;                                               // Cache body;
+        if( body.MineType == EMineType.VAULT ) return null;              // Skip vaults;
+        if( Controller.TypeCanBeMined( m ) == false ) return null;       // Controller check;
+
+        return m;                                                        // Return valid mine;
     }
+
     public static Unit GMine( EMineType type, Vector2 tg )
     {
-        if ( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return null;
-        if ( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ] == null ) return null;
-        for( int i = 0; i < Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ].Count; i++ )
-        if ( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ].TileID == ETileType.MINE )
-        if ( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ].Body.MineType == type )
-             return Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ][ i ];
-        return null;
+        int x = ( int ) tg.x;                                            // Cast X;
+        int y = ( int ) tg.y;                                            // Cast Y;
+
+        if( (uint) x >= (uint) Map.I.Tilemap.width   ||
+             (uint) y >= (uint) Map.I.Tilemap.height ) return null;      // Boundary check;
+
+        var cell = Map.I.FUnit[ x, y ];                                  // Cell reference;
+        if( cell == null ) return null;                                  // Safety exit;
+
+        int c = cell.Count;                                              // Count cache;
+        for( int i = 0; i < c; i++ )
+        {
+            var u = cell[ i ];                                           // Unit reference;
+            if( u.TileID == ETileType.MINE &&
+                 u.Body.MineType == type ) return u;                     // Return match;
+        }
+        return null;                                                     // Default return;
     }
     public static bool CheckLeverCrossingBlock( Vector2 from, Vector2 to )
     {

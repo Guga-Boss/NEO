@@ -444,13 +444,15 @@ public class Spell : MonoBehaviour
         if( type == ESpiderBabyType.HOOK_CW || type == ESpiderBabyType.HOOK_CCW ) return true;
         return false;
     }
+
+    private static List<Unit> firelist = new List<Unit>();
     public static void UpdateSprites( Unit un )
     {
         Sector hs = Map.I.RM.HeroSector;
         un.Body.Crippled = false;
         bool updID = false;
         int torchCount = 0;
-        List<Unit> firelist = new List<Unit>();
+        firelist.Clear();
         if( hs && hs.ActiveHeroShield != null && hs.Type == Sector.ESectorType.NORMAL )
         for( int i = un.Body.Sp.Count - 1; i >= 0; i-- )
             {

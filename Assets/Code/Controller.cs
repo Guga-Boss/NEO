@@ -2,10 +2,11 @@ using DarkTonic.MasterAudio;
 using DigitalRuby.LightningBolt;
 using PathologicalGames;
 using Sirenix.OdinInspector;
-using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Windows;
 
 #region Enums
@@ -843,8 +844,8 @@ public partial class Controller : MonoBehaviour
         UnitHasBeenKilledWhileMoving = false;
         PlayBumpSound = true;
         IsBeingPushed = false;
-        Unit.Body.ShacklePullList = new List<Unit>();
-       
+        Unit.Body.ShacklePullList.Clear();
+
         if( Unit.UnitType != EUnitType.HERO )                                // Oxygen restriction
         if( Map.I.IsPaused() ) return;
 

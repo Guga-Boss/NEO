@@ -1814,35 +1814,78 @@ public partial class Controller : MonoBehaviour
             }
         }
     }
+
+    private static Stack<List<Unit>> _listPool = new Stack<List<Unit>>();
     public void UpdateFlyingTile()
     {
+        var mapI = Map.I;                                                // Cache Map instance;
+        var unitTrans = Unit.transform;                                  // Cache Transform component;
+        Vector3 currentPos = unitTrans.position;                         // Cache position (avoids double C++ interop call);
+
         int posx = 0, posy = 0;
-        Map.I.Tilemap.GetTileAtPosition( Unit.transform.position, out posx, out posy );
+        mapI.Tilemap.GetTileAtPosition( currentPos, out posx, out posy );
+
+        Vector2 newPos = new Vector2( posx, posy );                      // Stack allocation (Zero GC);
         TileChanged = false;
-        if( Unit.Pos != new Vector2( posx, posy ) )
+
+        if( Unit.Pos != newPos )
         {
             TileChanged = true;
             OldPos = Unit.Pos;
-            AnimationOrigin = Unit.Pos; 
+            AnimationOrigin = Unit.Pos;
             UpdatePassiveAttack( posx, posy );
         }
-        Unit.Pos = new Vector2( ( int ) posx, ( int ) posy );
-        if( Unit.Pos != FlyingTarget )
-            LastFlownOverTile = Unit.Pos;
 
-        if( Map.PtOnMap( Map.I.Tilemap, new Vector2( posx, posy ) ) )
-        if( TileChanged )
+        Unit.Pos = newPos;
+
+        if( Unit.Pos != FlyingTarget )
         {
-            if( Map.I.FUnit[ posx, posy ] == null )
-                Map.I.FUnit[ posx, posy ] = new List<Unit>();
-            Map.I.FUnit[ posx, posy ].Add( Unit );
-            Map.I.FUnit[ ( int ) OldPos.x, ( int ) OldPos.y ].Remove( Unit );
-            FireMarkAvailable = true;
+            LastFlownOverTile = Unit.Pos;
         }
 
-        if ( Unit.Body.RopeConnectFather != null )
-        for( int f = 0; f < Unit.Body.RopeConnectFather.Count; f++ )
-             Unit.Body.RopeConnectFather[ f ].UpdateChainSizes( Unit.transform.position );                      // Update chain if connected
+        if( TileChanged )                                                                    // Check TileChanged before PtOnMap to save CPU;
+        {
+            if( Map.PtOnMap( mapI.Tilemap, newPos ) )                                        // Use the cached Vector2 newPos
+            {
+                var targetCell = mapI.FUnit[ posx, posy ];                                   // Cache 2D array access
+
+                if( targetCell == null )
+                {
+                    targetCell = _listPool.Count > 0 ? 
+                    _listPool.Pop() : new List<Unit>( 4 );                                   // Zero GC: Recycle list if available
+                    mapI.FUnit[ posx, posy ] = targetCell;
+                }
+
+                targetCell.Add( Unit );
+
+                int oldX = ( int ) OldPos.x;                                                 // Single cast
+                int oldY = ( int ) OldPos.y;
+                var oldCell = mapI.FUnit[ oldX, oldY ];                                      // Cache old cell access
+
+                if( oldCell != null )
+                {
+                    oldCell.Remove( Unit );                                                  // Linear search removal
+
+                    if( oldCell.Count == 0 )
+                    {
+                        mapI.FUnit[ oldX, oldY ] = null;                                     // Free array slot
+                        _listPool.Push( oldCell );                                           // Zero GC: Save empty list for reuse
+                    }
+                }
+
+                FireMarkAvailable = true;
+            }
+        }
+
+        var ropeFathers = Unit.Body.RopeConnectFather;                   // Cache list reference;
+        if( ropeFathers != null )
+        {
+            int ropeCount = ropeFathers.Count;                           // Cache list count;
+            for( int f = 0; f < ropeCount; f++ )
+            {
+                ropeFathers[ f ].UpdateChainSizes( currentPos );        // Use the cached Vector3 position;
+            }
+        }
     }
 
     public void UpdatePassiveAttack( int posx, int posy )
@@ -2966,266 +3009,299 @@ public partial class Controller : MonoBehaviour
                             rl.Add( tgFog );
                 }
         return rl;
-    }  
-    
-    #endregion    
+    }
+
+    #endregion
 
     #region Fish
+    // Cache for strings to avoid GC;
+    private static System.Text.StringBuilder sbFish = new System.Text.StringBuilder(32);
+    private static readonly string strSplash = "Water Splash";           // Cached string;
+
     public void UpdateFishMovement()
     {
-        if( Map.I.TurnFrameCount == 1 )
+        var mapI = Map.I;                                                // Cache Map instance;
+        var hero = G.Hero;                                               // Cache Hero;
+        var body = Unit.Body;                                            // Cache Body;
+        float dt = Time.deltaTime;                                       // Cache DeltaTime;
+
+        if( mapI.TurnFrameCount == 1 )
         {
-            if( Unit.Body.StackAmount > 0 )
+            if( body.StackAmount > 0 )
             {
-                Water.SpawnFishByMod( null, ( int ) Unit.Body.StackAmount - 1,
-                Unit.ModID, Unit.Pos );                                                                    // resource amount spawns the number of extra fish in the tile
-                Unit.Body.StackAmount = 0;
+                Water.SpawnFishByMod( null, (int) body.StackAmount - 1, Unit.ModID, Unit.Pos );
+                body.StackAmount = 0;
             }
         }
 
-        if( Time.timeScale > Map.I.RM.RMD.HurryUpTimeScaleFactor ) return;
-        if( G.Hero.Control.PathFinding.Path != null &&
-            G.Hero.Control.PathFinding.Path.Count > 0 ) return;
+        if( Time.timeScale > mapI.RM.RMD.HurryUpTimeScaleFactor ) return;
+        var path = hero.Control.PathFinding.Path;
+        if( path != null && path.Count > 0 ) return;                     // Early exit if hero moving;
 
-        Map.I.UpdateFishBehaviour( Unit );
+        mapI.UpdateFishBehaviour( Unit );
 
-        Vector3[ ] plist = new[ ] { Unit.Spr.transform.position, G.Hero.Spr.transform.position };
+        // --- OPTIMIZATION: Removed Vector3[] plist = new[] {...} ---   // Deleted unused array allocation;
+
         if( Unit.Activated == false ) return;
-        if( SwimmingDepht == 0 ) 
-            Unit.Spr.color = new Color( 1, 1, 1, 1 );
+
+        // --- OPTIMIZATION: Sprite Color Cache ---
+        var spr = Unit.Spr;                                              // Cache Sprite reference;
+        if( SwimmingDepht == 0 )
+        {
+            if( spr.color.a != 1f ) spr.color = Color.white;             // Only update if changed;
+        }
         else
         {
-            float alpha = 1 - SwimmingDepht;
-            Unit.Spr.color = new Color( 1, 1, 1, Mathf.Lerp( Unit.Spr.color.a, alpha, Time.deltaTime * .01f ) );
-            Unit.Spr.color = new Color( 1, 1, 1, alpha );
+            float alpha = 1f - SwimmingDepht;
+            // Direct assignment is faster than double new Color;
+            spr.color = new Color( 1f, 1f, 1f, alpha );
         }
 
-        if( FishSwimType != EFishSwimType.NORMAL ) 
-        if( FishSwimType != EFishSwimType.FLEE_TO_FARTHEST )
-        if( FishSwimType != EFishSwimType.FLEE_TO_RANDOM )
-            return;
-       // Unit.NSpr.color = new Color( 1, 1, 1, Helper.I.FloatVal );
-        CheckFishTargetReached();
-        SortFishTarget();
-        //UpdateAttackRate();
+        if( FishSwimType == EFishSwimType.NORMAL ||
+            FishSwimType == EFishSwimType.FLEE_TO_FARTHEST ||
+            FishSwimType == EFishSwimType.FLEE_TO_RANDOM )
+        {
+            CheckFishTargetReached();
+            SortFishTarget();
+        }
 
-        Unit.RightText.gameObject.SetActive( false );
-        Unit.RightText.color = Color.white;
-        //if( Unit.Body.FishCaught == false )
+        // --- OPTIMIZATION: StringBuilder for UI Text (ZERO GC) ---
+        var rText = Unit.RightText;                                      // Cache Text reference;
+        sbFish.Length = 0;                                               // Clear builder;
 
-        Unit.RightText.gameObject.SetActive( true );
         string add = "";
         if( Unit.Control.OverFishSecondsNeededPerUnit > 0 )
-        if( Unit.Water.MarkedFish == 1 ) add = "-";                                     // Marked fish sign
-        else
-            if( Unit.Water.MarkedFish == 2 ) add = "+";
+        {
+            if( Unit.Water.MarkedFish == 1 ) add = "-";
+            else if( Unit.Water.MarkedFish == 2 ) add = "+";
+        }
+
         if( Unit.Md && Unit.Md.FishCatchType == EFishCatchType.ABSOLUTE )
         {
-            Unit.RightText.color = new Color32( 255, 0, 255, 255 );
-            if( Unit.Body.Hp >= 100 )
-            {
-                Unit.RightText.color = Color.green;
-                Unit.RightText.text = "Catch!";
-            }
-            else
-                Unit.RightText.text = "" + ( 100 - Unit.Body.Hp ).ToString( "0." ) + add;
+            rText.color = ( body.Hp >= 100 ) ? Color.green : new Color32( 255, 0, 255, 255 );
+            if( body.Hp >= 100 ) sbFish.Append( "Catch!" );
+            else sbFish.Append( 100 - (int) body.Hp ).Append( add );
         }
-        else
-            if( Unit.Body.Hp > 0 )
-                Unit.RightText.text = "" + ( int ) Unit.Body.Hp + "%" + add;
+        else if( body.Hp > 0 )
+        {
+            sbFish.Append( (int) body.Hp ).Append( "%" ).Append( add );
+        }
+
+        // Update text only if string changed to save UI batching;
+        string finalString = sbFish.ToString();
+        if( rText.text != finalString ) rText.text = finalString;
+
         if( Unit.Md && Unit.Md.FishCatchType == EFishCatchType.RANDOM )
         {
-            Unit.RightText.color = Color.yellow;
-            if( Unit.Body.Hp > FishRedLimit ) Unit.RightText.color = Color.red;                             // Red Limit     
-            if( Unit.Body.Hp < FishGreenLimit ) Unit.RightText.color = Color.green;                           // Green Limit   
+            if( body.Hp > FishRedLimit ) rText.color = Color.red;
+            else if( body.Hp < FishGreenLimit ) rText.color = Color.green;
+            else rText.color = Color.yellow;
         }
 
-        FlightTime += Time.deltaTime;
-        FlightTargetTime += Time.deltaTime;
+        FlightTime += dt;
+        FlightTargetTime += dt;
 
-        float rotationSpeed = 700;
-        if( FlightTargetTime > 5 )
-            rotationSpeed += FlightTargetTime * 2;
+        float rotationSpeed = ( FlightTargetTime > 5 ) ? 700 + ( FlightTargetTime * 2 ) : 700;
 
-        Quaternion qn = Util.GetRotationToPoint( Unit.Spr.transform.position, FlyingTarget );
-        Unit.Spr.transform.rotation = Quaternion.RotateTowards( 
-        Unit.Spr.transform.rotation, qn, Time.deltaTime * rotationSpeed );
+        // Rotation optimization;
+        var sprTrans = spr.transform;
+        Quaternion qn = Util.GetRotationToPoint( sprTrans.position, FlyingTarget );
+        sprTrans.rotation = Quaternion.RotateTowards( sprTrans.rotation, qn, dt * rotationSpeed );
 
-        //if( Unit.Body.IsFish == false )
-        //    Unit.NSpr.transform.eulerAngles = new Vector3( 0, 0, 0 );
-
-        if( Unit.Body.FishCaught )                                                                        // Fish being caught animation
+        var thisTrans = Unit.transform;                                  // Cache Transform;
+        if( body.FishCaught )
         {
-            float fact = 1 - ( Map.I.FishingTimerCount / Map.I.FishFinishingTotalTime );
+            float totalTime = mapI.FishFinishingTotalTime;
+            float fact = 1f - ( mapI.FishingTimerCount / totalTime );
 
             if( FishCaughtTimeCount != -1 )
             {
-                FishCaughtTimeCount += Time.deltaTime;
-                fact = ( FishCaughtTimeCount / Map.I.FishFinishingTotalTime );
+                FishCaughtTimeCount += dt;
+                fact = ( FishCaughtTimeCount / totalTime );
             }
 
-            fact = Mathf.Clamp( fact, 0, 1 );
-            Vector3 lp = Vector3.Lerp( Unit.Control.FishCatchPosition, G.Hero.Pos, fact );
-            lp = new Vector3( lp.x, lp.y, Unit.transform.position.z );
-            Unit.transform.position = lp;
+            fact = ( fact < 0 ) ? 0 : ( fact > 1 ) ? 1 : fact;               // Faster Manual Clamp;
+            thisTrans.position = Vector3.Lerp( Unit.Control.FishCatchPosition, hero.Pos, fact );
         }
-        else
-        if( FlyingTarget.x != -1 )
+        else if( FlyingTarget.x != -1 )
         {
             float spd = FlyingSpeed;
-            if( FishSwimType == EFishSwimType.FLEE_TO_FARTHEST ||                                                    // fleeing speed defined by Effectval
-                FishSwimType == EFishSwimType.FLEE_TO_RANDOM ) 
-                spd = FishAction[ CurFA ].EffectVal;
-            if( OverFishTimeCount > 0 )
-            if( FlightTargetTime < .5f ) spd = .3f;
-            Unit.transform.position += Unit.Spr.transform.up * Time.deltaTime * spd;                                 // Updates fish position
+            if( FishSwimType != EFishSwimType.NORMAL )
+                spd = FishAction[ CurFA ].EffectVal;                     // Flee speed;
+
+            if( OverFishTimeCount > 0 && FlightTargetTime < .5f ) spd = .3f;
+            thisTrans.position += sprTrans.up * ( dt * spd );              // Move fish;
         }
 
-        if( Unit.Body.FishCaught && Util.Chance( 5 ) )                                                               // Fish Caught animation
+        if( body.FishCaught && Util.Chance( 5 ) )
         {
-            float amt = .1f;
-            Unit.transform.position += new Vector3( Random.Range( -amt, amt ), Random.Range( -amt, amt ), 0 );
+            float amt = .1f;                                             // Shake amount;
+            thisTrans.position += new Vector3( Random.Range( -amt, amt ), Random.Range( -amt, amt ), 0 );
         }
 
         UpdateFlyingTile();
 
-        if( TileChanged )
-        if( Unit.Body.FishCaught  ||                                                                                 // Caught fish and fast manta water splash fx
-            FishSwimType == EFishSwimType.FLEE_TO_FARTHEST )
-            Util.PlayParticleFX( "Water Splash", transform.position ); 
+        if( TileChanged && ( body.FishCaught || FishSwimType == EFishSwimType.FLEE_TO_FARTHEST ) )
+        {
+            Util.PlayParticleFX( strSplash, thisTrans.position );        // Use cached string;
+        }
     }
+
+    // Caches to avoid GC spikes in SortFishTarget;
+    private List<Vector2> tlist = new List<Vector2>(128);                // Master target list;
+    private List<int> goodList = new List<int>(64);                      // Lure filter cache;
+    private List<float> distlist = new List<float>(128);                 // Distance calculation cache;
 
     public void SortFishTarget()
     {
-        if( FlyingTarget.x != -1 ) return;
+        if( FlyingTarget.x != -1 ) return;                               // Already has a target;
 
-        Vector2 np = Unit.Pos;
-        int maxrange = 5;
+        Vector2 np = Unit.Pos;                                           // Current unit position;
+        int maxrange = 5;                                                // Default range;
+        bool line = true;                                                // Default swim mode;
 
-        bool line = true;
         if( Util.Chance( 80 ) )
         {
-            line = false;
-            maxrange = 2;                                                                                 // diving mode
-        }
-        List<Vector2> tlist = new List<Vector2>();
-        bool removeoriginal = false;
-        if( Map.I.FishingMode == EFishingPhase.NO_FISHING )
-        if( Map.I.IsInTheSameLine( G.Hero.Pos, Unit.Pos ) )
-        {
-            maxrange = Sector.TSX;
-            line = true;
+            line = false;                                                // Diving mode;
+            maxrange = 2;                                                // Reduced range for diving;
         }
 
-        if( FishSwimType == EFishSwimType.FLEE_TO_FARTHEST || 
+        tlist.Clear();                                                   // Reuse master list;
+        bool removeoriginal = false;                                     // Flag to clean start pos;
+
+        var mapI = Map.I;                                                // Cache Map singleton;
+        if( mapI.FishingMode == EFishingPhase.NO_FISHING )
+            if( mapI.IsInTheSameLine( G.Hero.Pos, np ) )
+            {
+                maxrange = Sector.TSX;                                   // Full sector range;
+                line = true;                                             // Straight line swimming;
+            }
+
+        if( FishSwimType == EFishSwimType.FLEE_TO_FARTHEST ||
             FishSwimType == EFishSwimType.FLEE_TO_RANDOM )
         {
-            int dist = ( int ) FishAction[ CurFA ].EffectVal2;
-            if( dist <= 0 ) dist -= Sector.TSX;
-            maxrange = dist;                                                                            // Flee max distance defined by effval2
+            int dist = ( int ) FishAction[ CurFA ].EffectVal2;           // Get flee distance;
+            if( dist <= 0 ) dist -= Sector.TSX;                          // Default flee distance;
+            maxrange = dist;                                             // Set flee range;
         }
 
         for( int dr = 0; dr < 8; dr++ )
         {
             List<Vector2> tl = Util.GetTileLine( np, ( EDirection ) dr, ETileType.WATER, maxrange );
-            int maxID = maxrange;
-            for( int j = 0; j < tl.Count - 1; j++ )
-                if( Map.I.CanSwimFromTo( tl[ j ], tl[ j + 1 ] ) == false )                               // remove no continuous water tiles
-                {
-                    int cut = ( tl.Count - ( j + 1 ) );
-                    if( cut < 0 ) cut = 0;
-                    tl.RemoveRange( j + 1, cut );
-                }
+            if( tl == null ) continue;                                  // Safety check;
 
-            if( tl.Count > 1 ) 
-                removeoriginal = true;                                                                   // Remove original unit pos from list since theres more possibilities;
-
-            if( tl != null )
+            int tlCount = tl.Count;                                      // Cache count;
+            for( int j = 0; j < tlCount - 1; j++ )
             {
-                if( tl.Count > 0 ) tlist.AddRange( tl );                                                 // Add direction to the master list
+                if( mapI.CanSwimFromTo( tl[ j ], tl[ j + 1 ] ) == false )
+                {
+                    int cut = ( tlCount - ( j + 1 ) );                   // Calculate range to remove;
+                    if( cut > 0 ) tl.RemoveRange( j + 1, cut );          // Trim list;
+                    break;                                               // Exit inner loop after cut;
+                }
             }
+
+            if( tl.Count > 1 ) removeoriginal = true;                    // More than 1 means we can move;
+            if( tl.Count > 0 ) tlist.AddRange( tl );                     // Batch add to master list;
         }
 
         if( removeoriginal )
-            tlist.RemoveAll( item => item == Unit.Pos );                                                 // remove original position
-
-        if( tlist.Count <= 0 ) tlist.Add( Unit.Pos );
-        int id = Random.Range( 0, tlist.Count );
-
-        Vector2 tg = G.Hero.Pos + Manager.I.U.DirCord[ ( int ) G.Hero.Dir ] *
-        Map.I.RM.RMD.FishCornTargetRadius;
-        if( Map.I.FishingMode == EFishingPhase.NO_FISHING )
-        if( Item.GetNum( ItemType.Res_BirdCorn ) > 0 )                                                   // Fish Lure
-        if( Map.I.GetUnit( ETileType.WATER, tg ) )
         {
-            List<int> good = new List<int>();
-            for( int i = 0; i < tlist.Count; i++ )
-            for( int y = ( int ) tg.y - 1; y <= tg.y + 1; y++ )
-            for( int x = ( int ) tg.x - 1; x <= tg.x + 1; x++ )
-            if ( Map.I.IsInTheSameLine( new Vector2( x, y ), Unit.Pos ) )
-            if ( new Vector2( x, y ) == tlist[ i ] )
-                 good.Add( i );
-
-            if( good != null && good.Count > 0 )
+            Vector2 origin = Unit.Pos;                                   // Cache position for lambda;
+            for( int i = tlist.Count - 1; i >= 0; i-- )
             {
-                int sort = Random.Range( 0, good.Count );
-                id = good[ sort ];
+                if( tlist[ i ] == origin )
+                    tlist.RemoveAt( i );
             }
         }
 
-        if( FishSwimType == EFishSwimType.FLEE_TO_FARTHEST )                                                         // Chooses farthest tile for fleeing fish
-        {
-            List<float> distlist = new List<float>();
-            for( int i = 0; i < tlist.Count; i++ )
-            {
-                float dist = Vector2.Distance( Map.I.MainHook.TilePos, tlist[ i ] );
-                distlist.Add( dist );
-            }
-            id = Util.GetBiggestValID( distlist );
-        }
+        if( tlist.Count <= 0 ) tlist.Add( np );                          // Fail-safe to stay put;
+        int id = Random.Range( 0, tlist.Count );                         // Default random target;
 
-        if( FishSwimType == EFishSwimType.FLEE_TO_RANDOM )                                                         // Chooses random tile for fleeing fish
+        // Fish Lure Logic;
+        Vector2 tg = G.Hero.Pos + Manager.I.U.DirCord[ ( int ) G.Hero.Dir ] * mapI.RM.RMD.FishCornTargetRadius;
+        if( mapI.FishingMode == EFishingPhase.NO_FISHING && Item.GetNum( ItemType.Res_BirdCorn ) > 0 )
         {
-            List<float> factl = new List<float>();
-            for( int i = 0; i < tlist.Count; i++ )
+            if( mapI.GetUnit( ETileType.WATER, tg ) )
             {
-                float dist = Util.Manhattan( Map.I.MainHook.TilePos, tlist[ i ] );
-                factl.Add( dist * 10 );
-            }
-            //id = Util.GetBiggestValID( factl );
-            id = Util.Sort( factl );
-        }
-
-        Unit water = Map.I.GetUnit( ETileType.WATER, tlist[ id ] );                                                // this is to avoid fish stuck on land bug after beig spawned
-        if( water == null )
-        {
-            for( int dr = 0; dr < 8; dr++ )
-            {
-                Vector2 pt = tlist[ id ] + ( Manager.I.U.DirCord[ dr ] );
-                if( Map.PtOnMap( Map.I.Tilemap, pt ) )
+                goodList.Clear();                                            // Reuse lure cache;
+                int tlCount = tlist.Count;                                   // Cache count;
+                for( int i = 0; i < tlCount; i++ )
                 {
-                    int pid = Map.I.ContinuousPondID[ ( int ) pt.x, ( int ) pt.y ];                // fish over non water terrain crashes here - make an error check
-                    water = Map.I.GetUnit( ETileType.WATER, pt );
-                    if( water != null )
-                        if( pid == Map.I.CurrentContinuousPondId )
+                    Vector2 item = tlist[ i ];                               // Target from list;
+                    for( int y = (int) tg.y - 1; y <= tg.y + 1; y++ )
+                        for( int x = (int) tg.x - 1; x <= tg.x + 1; x++ )
                         {
-                            FlyingTarget = pt;
-                            return;
+                            Vector2 checkPos = new Vector2( x, y );          // Create pos for check;
+                            if( mapI.IsInTheSameLine( checkPos, np ) )
+                                if( checkPos == item ) goodList.Add( i );    // Add index to good targets;
                         }
                 }
+
+                if( goodList.Count > 0 )
+                {
+                    id = goodList[ Random.Range( 0, goodList.Count ) ];  // Pick from lure targets;
+                }
             }
-            return;
         }
 
-        FlightTargetTime = 0;                                                                                      // target chosen
-        float rad = .2f;
-        Vector2 rand = new Vector2( Random.Range( -rad, +rad ), Random.Range( -rad, +rad ) );
-        FlyingTarget = tlist[ id ] + rand;
-        SwimmingDepht = 0;
-        //if( line == false )
-        SwimmingDepht = Random.Range( .3f, .6f );        
-    }
+        // Fleeing Logic;
+        if( FishSwimType == EFishSwimType.FLEE_TO_FARTHEST )
+        {
+            distlist.Clear();                                            // Reuse float cache;
+            Vector2 hookPos = mapI.MainHook.TilePos;                     // Cache hook pos;
+            int tlCount = tlist.Count;
+            for( int i = 0; i < tlCount; i++ )
+                distlist.Add( Vector2.Distance( hookPos, tlist[ i ] ) ); // Calculate distance;
 
+            id = Util.GetBiggestValID( distlist );                       // Find farthest index;
+        }
+        else if( FishSwimType == EFishSwimType.FLEE_TO_RANDOM )
+        {
+            distlist.Clear();                                            // Reuse float cache;
+            Vector2 hookPos = mapI.MainHook.TilePos;
+            int tlCount = tlist.Count;
+            for( int i = 0; i < tlCount; i++ )
+                distlist.Add( Util.Manhattan( hookPos, tlist[ i ] ) * 10 );
+
+            id = Util.Sort( distlist );                                  // Weighted random selection;
+        }
+
+        // Final target validation;
+        Vector2 finalPos = tlist[ id ];                                  // Cache chosen position;
+        Unit water = mapI.GetUnit( ETileType.WATER, finalPos );          // Land bug prevention;
+
+        if( water == null )
+        {
+            var dirCords = Manager.I.U.DirCord;                          // Cache direction array;
+            uint h = ( uint ) mapI.Tilemap.height;                       // Cache map height;
+            uint w = ( uint ) mapI.Tilemap.width;                        // Cache map width;
+
+            for( int dr = 0; dr < 8; dr++ )
+            {
+                Vector2 pt = finalPos + dirCords[ dr ];                  // Neighbor check;
+                int px = ( int ) pt.x;
+                int py = ( int ) pt.y;
+
+                if( (uint) px < w && (uint) py < h )                     // Bounds check;
+                {
+                    int pid = mapI.ContinuousPondID[ px, py ];           // Access pond ID;
+                    water = mapI.GetUnit( ETileType.WATER, pt );         // Check for water;
+                    if( water != null && pid == mapI.CurrentContinuousPondId )
+                    {
+                        FlyingTarget = pt;                               // Escape to neighbor water;
+                        return;
+                    }
+                }
+            }
+            return;                                                      // Stuck;
+        }
+
+        FlightTargetTime = 0;                                            // Reset timer;
+        float r = 0.2f;                                                  // Random radius offset;
+        FlyingTarget = finalPos + new Vector2( Random.Range( -r, r ), Random.Range( -r, r ) );
+        SwimmingDepht = Random.Range( 0.3f, 0.6f );                      // Set depth;
+    }
     public bool CheckFishTargetReached()
     {
         float distance = Vector2.Distance( FlyingTarget, Unit.transform.position );                                // Fish Has reached the target

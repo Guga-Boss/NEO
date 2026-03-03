@@ -494,6 +494,8 @@ public partial class Map : MonoBehaviour
         LabRevealed = false;
         OldSteppingMode = false;
         PondList = new List<PondInfo>();
+        Attack.AxeAttackList = new List<int>();
+        Attack.DuplicatorAttackList = new List<int>(); 
         GS.IsLoading = false;
         GS.IsSaving = false;
         CloverResortTimer = 2;
@@ -1428,109 +1430,140 @@ public partial class Map : MonoBehaviour
 
     public void UpdateRealtimeMonstersMovement()
     {
-        if( Manager.I.GameType == EGameType.FARM ) return;
-        if( RM.HeroSector == null ) return;
-        if( RM.HeroSector.Type != Sector.ESectorType.NORMAL ) return;
-        if( Map.I.Gaia2 == null ) return;
+        if( Manager.I.GameType == EGameType.FARM ) return;                       // Abort if game mode is FARM
+        if( RM.HeroSector == null ) return;                                      // Abort if hero sector is null
+        if( RM.HeroSector.Type != Sector.ESectorType.NORMAL ) return;            // Abort if sector is not normal type
+        if( Map.I.Gaia2 == null ) return;                                        // Abort if Gaia map is not loaded
+        if( CurrentArea != -1 ) return;                                          // Abort if not in real-time area
 
-        if( CurrentArea == -1 )                                                                                    // Flying Units Movement Update
+        Controller.JumperCount = 0;                                              // Reset dynamic counter for Jumpers
+        Controller.HerbCount = 0;                                                // Reset dynamic counter for Herbs
+        Controller.FinishedJumperCount = 0;                                      // Reset dynamic counter for finished Jumpers
+        Controller.WaspCount = 0;                                                // Reset dynamic counter for Wasps
+        Controller.MotherWaspCount = 0;                                          // Reset dynamic counter for Mother Wasps
+        Controller.UpdateTickTimer();                                            // Advance global tick timer
+
+        for( int i = RM.HeroSector.DynamicObjects.Count - 1; i >= 0; i-- )
         {
-            Controller.JumperCount = 0;
-            Controller.HerbCount = 0;
-            Controller.FinishedJumperCount = 0;
-            Controller.WaspCount = 0;
-            Controller.MotherWaspCount = 0;
-            Controller.UpdateTickTimer();
+            RM.HeroSector.DynamicObjects[ i ].UpdateRightText();                 // Update UI text for dynamic objects
+        }
 
-            for( int i = RM.HeroSector.DynamicObjects.Count - 1; i >= 0; i-- )
+        // --- PHASE 1: Reset States and Timers ---
+        for( int i = G.HS.Fly.Count - 1; i >= 0; i-- )
+        {
+            var flyUnit = G.HS.Fly[ i ];                                         // Cache unit reference for performance
+            var flyCtrl = flyUnit.Control;                                       // Cache control reference for performance
+
+            flyCtrl.SpawnCount = 0;                                              // Reset spawn counter
+            flyCtrl.ShieldedWaspCount = 0;                                       // Reset shielded wasp counter
+            flyCtrl.CocoonWaspCount = 0;                                         // Reset cocoon wasp counter
+            flyCtrl.EnragedWaspCount = 0;                                        // Reset enraged wasp counter
+            flyCtrl.BeingMudPushed = false;                                      // Reset mud push state flag
+            flyCtrl.FlightPhaseTimer += Time.deltaTime;                          // Increment flight phase timer
+            flyCtrl.FlightStepPhaseTimer += Time.deltaTime;                      // Increment step phase timer
+
+            flyUnit.UpdateColor();                                               // Refresh visual color
+            flyUnit.UpdateRightText();                                           // Refresh visual UI text
+            flyUnit.UpdateDirection();                                           // Refresh facing direction
+
+            if( flyUnit.TileID == ETileType.MOTHERWASP )
             {
-                RM.HeroSector.DynamicObjects[ i ].UpdateRightText();
+                if( flyCtrl.WaspOccupiedTiles == null )                          // Initialization safeguard
+                    flyCtrl.WaspOccupiedTiles = new List<Vector2>();             // Create list if null
+                else
+                    flyCtrl.WaspOccupiedTiles.Clear();                           // ZERO GC OPTIMIZATION: Clear instead of allocating new memory!
+
+                Controller.MotherWaspCount++;                                    // Increment global mother count
             }
+        }
 
-            for( int i = G.HS.Fly.Count - 1; i >= 0; i-- )
+        // --- PHASE 2: Aggregate Data and Collect Occupied Tiles ---
+        for( int i = G.HS.Fly.Count - 1; i >= 0; i-- )
+        {
+            var flyUnit = G.HS.Fly[ i ];                                         // Cache unit reference for performance
+            var flyCtrl = flyUnit.Control;                                       // Cache control reference for performance
+
+            if( flyUnit.TileID == ETileType.JUMPER || flyUnit.TileID == ETileType.WASP )
             {
-                G.HS.Fly[ i ].Control.SpawnCount = 0;
-                G.HS.Fly[ i ].Control.ShieldedWaspCount = 0;                                           // optmize
-                G.HS.Fly[ i ].Control.CocoonWaspCount = 0;
-                G.HS.Fly[ i ].Control.EnragedWaspCount = 0;
-                G.HS.Fly[ i ].Control.BeingMudPushed = false;
-                G.HS.Fly[ i ].Control.FlightPhaseTimer += Time.deltaTime;
-                G.HS.Fly[ i ].Control.FlightStepPhaseTimer += Time.deltaTime;
-                G.HS.Fly[ i ].UpdateColor();
-                G.HS.Fly[ i ].UpdateRightText();
-                G.HS.Fly[ i ].UpdateDirection();
-
-                if( G.HS.Fly[i].TileID == ETileType.MOTHERWASP )
+                if( flyCtrl.Mother != null )                                     // Null check safeguard
                 {
-                    G.HS.Fly[ i ].Control.WaspOccupiedTiles = new List<Vector2>();
-                    Controller.MotherWaspCount++;
-                }                  
-            }
+                    var motherCtrl = flyCtrl.Mother.Control;                     // Cache mother control reference
+                    motherCtrl.SpawnCount++;                                     // Increment mother's spawn count
 
-            for( int i = G.HS.Fly.Count - 1; i >= 0; i-- )
-            {
-                if( G.HS.Fly[ i ].TileID == ETileType.JUMPER ||                                          // Counts Spawn
-                    G.HS.Fly[ i ].TileID == ETileType.WASP )
-                if( G.HS.Fly[ i ].Control.Mother )
-                {
-                    G.HS.Fly[ i ].Control.Mother.Control.SpawnCount++;
-                    if( G.HS.Fly[ i ].Body.ShieldedWasp )
-                        G.HS.Fly[ i ].Control.Mother.Control.ShieldedWaspCount++;
-                    if( G.HS.Fly[ i ].Body.Sprite3.gameObject.activeSelf )
-                        G.HS.Fly[ i ].Control.Mother.Control.CocoonWaspCount++;
-                    if( G.HS.Fly[ i ].Body.EnragedWasp )
-                        G.HS.Fly[ i ].Control.Mother.Control.EnragedWaspCount++;
-                }
+                    if( flyUnit.Body.ShieldedWasp )                              // Check for shield status
+                        motherCtrl.ShieldedWaspCount++;                          // Increment mother's shielded count
 
-                if( G.HS.Fly[ i ].TileID == ETileType.HERB ) 
-                    Controller.HerbCount++;  
+                    if( flyUnit.Body.Sprite3.gameObject.activeSelf )             // Check for cocoon status via visual sprite
+                        motherCtrl.CocoonWaspCount++;                            // Increment mother's cocoon count
 
-                if( G.HS.Fly[ i ].TileID == ETileType.WASP )                                             // Counts tiles occupied by wasps
-                {
-                    Unit un = G.HS.Fly[ i ];
-                    if( un.Control.Mother.Control.WaspOccupiedTiles.Contains( un.Pos ) == false ) 
-                    if( un.Control.Mother.Pos != un.Pos  )
-                        un.Control.Mother.Control.WaspOccupiedTiles.Add( un.Pos );
-                }
-
-                if( AdvanceTurn )
-                if( G.HS.Fly[ i ].TileID == ETileType.MINE )
-                {
-                    G.HS.Fly[ i ].Body.EffectList[ 4 ].SetActive( false );
-                    //if( Util.IsNeighbor( G.HS.Fly[ i ].Pos, G.Hero.Pos ) == false )
-                    //    G.HS.Fly[ i ].Body.EffectList[ 2 ].SetActive( false );
+                    if( flyUnit.Body.EnragedWasp )                               // Check for enraged status
+                        motherCtrl.EnragedWaspCount++;                           // Increment mother's enraged count
                 }
             }
 
-            Controller.UpdateAllMotherWasps();                                                                 // Updates all Mother Wasp Stuff
-            Controller.FogKillList = new List<Unit>();
-            for( int i = G.HS.Fly.Count - 1; i >= 0; i-- )                                                // Flying Move and Attack Update
-            if( G.HS.Fly[ i ].ValidMonster                      ||                      // new
-                G.HS.Fly[ i ].TileID == ETileType.FOG           ||        // optimize fog: only if electrified            
-                G.HS.Fly[ i ].TileID == ETileType.FISH          ||        // Make a new list of only the ones that need to be moved, remove unused fog
-                G.HS.Fly[ i ].TileID == ETileType.MINE          ||
-                G.HS.Fly[ i ].TileID == ETileType.PROJECTILE    ||
-                G.HS.Fly[ i ].TileID == ETileType.RAFT          ||                    
-                G.HS.Fly[ i ].TileID == ETileType.SPIKES        ||       
-                G.HS.Fly[ i ].TileID == ETileType.FISHING_POLE  ||
-                G.HS.Fly[ i ].TileID == ETileType.BOUNCING_BALL ||
-                G.HS.Fly[ i ].TileID == ETileType.IRON_BALL     ||
-                G.HS.Fly[ i ].TileID == ETileType.TRAIL )
+            if( flyUnit.TileID == ETileType.HERB )
+                Controller.HerbCount++;                                          // Increment global herb count
+
+            if( flyUnit.TileID == ETileType.WASP )
             {
-                G.HS.Fly[ i ].Control.UpdateIt();
+                if( flyCtrl.Mother != null )                                     // Null check safeguard
+                {
+                    var mTiles = flyCtrl.Mother.Control.WaspOccupiedTiles;       // Cache mother's occupied tiles list
+                    if( mTiles != null && !mTiles.Contains( flyUnit.Pos ) )      // Prevent duplicates
+                    {
+                        if( flyCtrl.Mother.Pos != flyUnit.Pos )                 // Exclude mother's own position
+                            mTiles.Add( flyUnit.Pos );                           // Register tile as occupied by wasp
+                    }
+                }
+            }
+
+            if( AdvanceTurn && flyUnit.TileID == ETileType.MINE )
+            {
+                flyUnit.Body.EffectList[ 4 ].SetActive( false );                 // Disable specific mine visual effect
+            }
+        }
+
+        Controller.UpdateAllMotherWasps();                                       // Execute aggregated logic for all Mother Wasps
+
+        if( Controller.FogKillList == null )                                     // Initialization safeguard
+            Controller.FogKillList = new List<Unit>();                           // Create list if null
+        else
+            Controller.FogKillList.Clear();                                      // ZERO GC OPTIMIZATION: Clear instead of allocating new memory!
+
+        // --- PHASE 3: Execute Movement and Attack Logic ---
+        for( int i = G.HS.Fly.Count - 1; i >= 0; i-- )
+        {
+            var flyUnit = G.HS.Fly[ i ];                                         // Cache unit reference for performance
+            var tID = flyUnit.TileID;                                            // Cache tile ID for performance
+
+            bool needsUpdate = flyUnit.ValidMonster       ||                     // Valid monsters flag
+                               tID == ETileType.FOG       ||                     // Fog execution logic
+                               tID == ETileType.FISH      ||                     // Fish execution logic
+                               tID == ETileType.MINE      ||                     // Mine execution logic
+                               tID == ETileType.PROJECTILE||                     // Projectile execution logic
+                               tID == ETileType.RAFT      ||                     // Raft execution logic
+                               tID == ETileType.SPIKES    ||                     // Spikes execution logic
+                               tID == ETileType.FISHING_POLE ||                  // Fishing pole execution logic
+                               tID == ETileType.BOUNCING_BALL||                  // Bouncing ball execution logic
+                               tID == ETileType.IRON_BALL ||                     // Iron ball execution logic
+                               tID == ETileType.TRAIL;                           // Trail execution logic
+
+            if( needsUpdate )
+            {
+                flyUnit.Control.UpdateIt();                                      // Execute core unit logic
                 if( Controller.UnitHasBeenKilledWhileMoving == false )
                 {
-                    G.HS.Fly[ i ].UpdateAllAttacks( false );
-                    if( G.HS.Fly[ i ].TileID == ETileType.MINE )
-                        G.HS.Fly[ i ].CheckFireDamage();
+                    flyUnit.UpdateAllAttacks( false );                           // Execute attacks if unit survived movement
+                    if( tID == ETileType.MINE )
+                        flyUnit.CheckFireDamage();                               // Process fire damage specifically for mines
                 }
             }
-            for( int i = Controller.FogKillList.Count - 1; i >= 0; i-- )
-                Controller.FogKillList[ i ].Kill();
-
-            Sector.UpdateOutAreaMovement();
-            return;
         }
+
+        for( int i = Controller.FogKillList.Count - 1; i >= 0; i-- )
+            Controller.FogKillList[ i ].Kill();                                  // Process delayed kills for fog units
+
+        Sector.UpdateOutAreaMovement();                                          // Finalize sector movement updates
     }
     public void UpdateRealtimeHeroMovement()
     {
@@ -2329,141 +2362,147 @@ public partial class Map : MonoBehaviour
     }
     public void UpdateHeroSprite()
     {
+        Unit hero = G.Hero;
+        var body = hero.Body;
+        var control = hero.Control;
+        var spr = hero.Spr;
+        var shadow = body.Shadow;
+        var mapI = Map.I;
+
         int melee = 0;
         if( IsHeroMeleeAvailable() ) melee = 1;
+
         int ranged = ( int ) Item.GetNum( ItemType.Res_Bow_Arrow );
-        if( Map.I.RM.RMD.LimitedArrowPerCube == -1 ) ranged = 1;
-        if( G.Hero.Body.RangedAttackLevel < 1 ) ranged = 0;
-        HeroFishingPoleSprite.gameObject.SetActive( false );
-        HeroPickaxeSprite.gameObject.SetActive( false );
-        HeroShieldSprite.gameObject.SetActive( false );
-        G.Hero.Body.Shadow.gameObject.SetActive( true );
+        if( mapI.RM.RMD.LimitedArrowPerCube == -1 ) ranged = 1;
+        if( body.RangedAttackLevel < 1 ) ranged = 0;
+
+        // --- OTIMIZAÇÃO: Só chama SetActive se o estado estiver diferente ---
+        if( HeroFishingPoleSprite.gameObject.activeSelf ) HeroFishingPoleSprite.gameObject.SetActive( false );
+        if( HeroPickaxeSprite.gameObject.activeSelf ) HeroPickaxeSprite.gameObject.SetActive( false );
+        if( HeroShieldSprite.gameObject.activeSelf ) HeroShieldSprite.gameObject.SetActive( false );
+        if( !shadow.gameObject.activeSelf ) shadow.gameObject.SetActive( true );
 
         float sc = 1;
         if( TurnTime <= .5f || Controller.SnowSliding || Controller.SandSliding )
         {
-            Util.SmoothRotate( G.Hero.Spr.transform, G.Hero.Dir, 30 );                               // Animate hero rotation
-            Util.SmoothRotate( G.Hero.Body.Shadow.transform, G.Hero.Dir, 30 );
+            Util.SmoothRotate( spr.transform, hero.Dir, 30 );                                // Animate hero rotation
+            Util.SmoothRotate( shadow.transform, hero.Dir, 30 );
         }
 
         if( Manager.I.GameType == EGameType.FARM )
-            G.Farm.UpdateCarriedItemRotation();                                                      // Farm carried item rotation
+            G.Farm.UpdateCarriedItemRotation();                                              // Farm carried item rotation
 
         if( AdvanceTurn )
         {
             float z = -1.9f;
-            if( Hero.Control.Floor >= 2 && Map.GMine( EMineType.BRIDGE, Hero.Pos ) ) z= -2f;         // hero over bridge z pos                              
-            if( Hero.Control.Floor == 1 && Map.GMine( EMineType.LADDER, Hero.Pos ) ) z = -2f;        // hero over ladder z pos               
-            if( Hero.Control.Floor == 4 ) z = -2f;  
-            Hero.Spr.transform.localPosition = new Vector3( 0, 0, z );               // hero below bridge z pos
+            if( control.Floor >= 2 && Map.GMine( EMineType.BRIDGE, hero.Pos ) ) z = -2f;     // hero over bridge z pos                              
+            if( control.Floor == 1 && Map.GMine( EMineType.LADDER, hero.Pos ) ) z = -2f;     // hero over ladder z pos                
+            if( control.Floor == 4 ) z = -2f;
+
+            // --- OTIMIZAÇÃO: Só altera a posição Z se houver mudança ---
+            if( spr.transform.localPosition.z != z )
+                spr.transform.localPosition = new Vector3( 0, 0, z );                        // hero below bridge z pos
         }
 
         int sprite = 0;
-        if( melee > 0 ) sprite = 2; else
-        if( ranged > 0 ) sprite = 1;
+        if( melee > 0 ) sprite = 2;
+        else if( ranged > 0 ) sprite = 1;
+
         if( ranged <= 0 && melee <= 0 )
             sprite = 0;
-        float tot = G.Hero.RangedAttack.GetRealtimeSpeedTime();
 
-        if( sprite == 0 || RM.HeroSector.Type != Sector.ESectorType.NORMAL )       // no weapon 
+        float tot = hero.RangedAttack.GetRealtimeSpeedTime();
+
+        if( sprite == 0 || RM.HeroSector.Type != Sector.ESectorType.NORMAL )                 // no weapon 
         {
             int bs = 32;
-            if( Hero.Control.LastMoveType != EMoveType.ROTATE )
-            if( Util.IsEven( LevelTurnCount ) ) bs = 34;
-            G.Hero.Spr.spriteId = 256 + bs;
-            G.Hero.Body.Shadow.spriteId = 256 + bs + 1;
+            if( control.LastMoveType != EMoveType.ROTATE )
+                if( Util.IsEven( LevelTurnCount ) ) bs = 34;
+
+            spr.spriteId = 256 + bs;
+            shadow.spriteId = 256 + bs + 1;
         }
-        else
-        if( sprite == 1 )   // Bow and arrow  
+        else if( sprite == 1 )                                                               // Bow and arrow  
         {
-            G.Hero.Spr.spriteId = 256;
-            G.Hero.Body.Shadow.spriteId = 256 + 1;
+            spr.spriteId = 256;
+            shadow.spriteId = 256 + 1;
+
             if( Map.Stepping() == false )
-            if( G.Hero.RangedAttack.SpeedTimeCounter < Util.Percent( 75, tot ) )   // Bow shot
-            {
-                G.Hero.Spr.spriteId = 258;
-                G.Hero.Body.Shadow.spriteId = 258 + 1;
-            }
+                if( hero.RangedAttack.SpeedTimeCounter < Util.Percent( 75, tot ) )           // Bow shot
+                {
+                    spr.spriteId = 258;
+                    shadow.spriteId = 258 + 1;
+                }
         }
-        else
-        if( sprite == 2 )    // Melee
+        else if( sprite == 2 )                                                               // Melee
         {
-            G.Hero.Spr.spriteId = 256 + 64;
-            G.Hero.Body.Shadow.spriteId = 256 + 64 + 1;
+            spr.spriteId = 256 + 64;
+            shadow.spriteId = 256 + 64 + 1;
         }
 
-        if( KickTimer > 0 )                                                                                       // Kick Sprite
+        if( KickTimer > 0 )                                                                  // Kick Sprite
         {
-            G.Hero.Spr.spriteId = 293;
-            EDirection mov = Util.GetTargetUnitDir( G.Hero.Control.OldPos, G.Hero.Pos );
-            G.Hero.Spr.transform.eulerAngles = Util.GetRotationAngleVector( mov );
-            G.Hero.Body.Shadow.gameObject.SetActive( false );
+            spr.spriteId = 293;
+            EDirection mov = Util.GetTargetUnitDir( control.OldPos, hero.Pos );
+            spr.transform.eulerAngles = Util.GetRotationAngleVector( mov );
+
+            if( shadow.gameObject.activeSelf ) shadow.gameObject.SetActive( false );
             sc = 1.4f;
         }
         KickTimer -= Time.deltaTime;
 
+        // ---------------------------------------------------------------------------------
+        // ALERTA DE GC ALLOC: Se Util.GetFlyingNeighbors cria uma nova List<Unit> todo frame,
+        // isso é um vazamento GIGANTE de memória. Verifique esse método depois!
+        // ---------------------------------------------------------------------------------
+        List<Unit> ml = Util.GetFlyingNeighbors( hero.Pos, ETileType.MINE );
+        if( ml.Count > 0 )                                                                   // Hero pickaxe
+            if( Item.GetNum( ItemType.Res_Mining_Points ) >= 1 )
+                if( GFU( ETileType.MINE, hero.Pos ) == null )
+                {
+                    spr.spriteId = 258 + 64;
+                    shadow.spriteId = 258 + 64 + 1;
+                    if( !HeroPickaxeSprite.gameObject.activeSelf ) HeroPickaxeSprite.gameObject.SetActive( true );
+                }
 
-        List<Unit> ml = Util.GetFlyingNeighbors( G.Hero.Pos, ETileType.MINE );
-        if( ml.Count > 0 )                                                                                         // Hero pickaxe
-        if( Item.GetNum( ItemType.Res_Mining_Points ) >= 1 )
-        if( GFU( ETileType.MINE, G.Hero.Pos ) == null )
+        if( FishingMode != EFishingPhase.NO_FISHING )                                        // Hero fishing
         {
-            G.Hero.Spr.spriteId = 258 + 64;
-            G.Hero.Body.Shadow.spriteId = 258 + 64 + 1;
-            HeroPickaxeSprite.gameObject.SetActive( true );
+            spr.spriteId = 258 + 64;
+            shadow.spriteId = 258 + 64 + 1;
+            if( !HeroFishingPoleSprite.gameObject.activeSelf ) HeroFishingPoleSprite.gameObject.SetActive( true );
         }
 
-        if( FishingMode != EFishingPhase.NO_FISHING )                                                             // Hero fishing
+        if( body.InvulnerabilityFactor > 0 )                                                 // Invulnerability shield
         {
-            G.Hero.Spr.spriteId = 258 + 64;
-            G.Hero.Body.Shadow.spriteId = 258 + 64 + 1;
-            HeroFishingPoleSprite.gameObject.SetActive( true );
-        }
+            body.InvulnerabilityFactor -= Time.deltaTime;
 
-        if( G.Hero.Body.InvulnerabilityFactor > 0 )                                                               // Invulnerability shield
-        {
-            G.Hero.Body.InvulnerabilityFactor -= Time.deltaTime;
-            HeroShieldSprite.gameObject.SetActive( true );
+            if( !HeroShieldSprite.gameObject.activeSelf ) HeroShieldSprite.gameObject.SetActive( true );
             HeroShieldSprite.transform.Rotate( new Vector3( 0, 0, 30 * Time.deltaTime ) );
-            if( G.Hero.Body.InvulnerabilityFactor <= 0 )
+
+            if( body.InvulnerabilityFactor <= 0 )
                 MasterAudio.StopAllOfSound( "Electric Orb" );
         }
-        
-        if( Map.I.CubeDeath )                                                                                      // Dead Sprite
+
+        if( mapI.CubeDeath )                                                                 // Dead Sprite
         {
-            G.Hero.Spr.spriteId = 294;
-            G.Hero.Spr.transform.eulerAngles = new Vector3( 0, 0, 0 );
-            G.Hero.Body.Shadow.gameObject.SetActive( false );
+            spr.spriteId = 294;
+            spr.transform.eulerAngles = Vector3.zero;                                        // Optimization: Vector3.zero
+
+            if( shadow.gameObject.activeSelf ) shadow.gameObject.SetActive( false );
             sc = 1.2f;
-            G.Hero.Graphic.transform.position = G.Hero.transform.position;
+            hero.Graphic.transform.position = hero.transform.position;
         }
 
-        if( AdvanceTurn )                                                                                         // to avoid puch rotation bugs
+        if( AdvanceTurn )                                                                    // to avoid puch rotation bugs
         {
-            G.Hero.RotateTo( G.Hero.Dir );
+            hero.RotateTo( hero.Dir );
         }
 
-        Hero.Spr.scale = new Vector2( sc, sc );                                                                   // sprite Scale
+        // --- OTIMIZAÇÃO: Só atribui a escala nova (struct) se ela realmente mudou ---
+        if( spr.scale.x != sc )
+            spr.scale = new Vector2( sc, sc );                                               // sprite Scale
 
-        //Unit pl = GetUnit( ETileType.TRAP, Hero.Pos );                                                            // Hero att speed bonus text info
-        //if( pl == null )
-        //{
-        //    if( Map.I.HeroAttackSpeedBonus > 0 )
-        //    {
-        //        G.Hero.LevelTxt.gameObject.SetActive( true );
-        //        if( Map.I.HeroAttackSpeedBonus > 0 )
-        //        {
-
-        //            G.Hero.LevelTxt.text = "" + Map.I.HeroAttackSpeedBonus.ToString( "0." ) + "%";
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if( GetUnit( ETileType.SNOW, Hero.Pos ) == null )
-        //            G.Hero.LevelTxt.text = "";
-        //    }
-        //}
-        Spell.UpdateSprites( G.Hero );                                                             // Update Spell Sprites
+        Spell.UpdateSprites( hero );                                                         // Update Spell Sprites
     }
     public bool SetHeroDeathTimer( float time, bool sprite = true )
     {
@@ -2653,26 +2692,35 @@ public partial class Map : MonoBehaviour
         else
             ScrollAnimationTimer = 0;
     }
-    
-	//_____________________________________________________________________________________________________________________ Updates Numbers
+
+    //_____________________________________________________________________________________________________________________ Updates Numbers
 
     public void UpdateNumbersData()
-	{
+    {
         if( Unit == null ) return;
-        SessionTime += Time.unscaledDeltaTime;
-        if( CountRecordTime && Map.I.IsPaused() == false )                                                                 // record time increment
-            RecordTime += Time.deltaTime;
 
-        Controller.BarricadeBumpTimeCount += Time.deltaTime;
+        var mapI = Map.I;                                                // Cache Singleton
+        var managerI = Manager.I;
+        float dt = Time.deltaTime;                                       // Cache DeltaTime
+        float uDt = Time.unscaledDeltaTime;
+
+        SessionTime += uDt;
+        if( CountRecordTime && mapI.IsPaused() == false )                // record time increment
+            RecordTime += dt;
+
+        Controller.BarricadeBumpTimeCount += dt;
         if( SessionFrameCount == 0 ) SessionTime = 0;
         SessionFrameCount++;
-        if( Manager.I.GameType == EGameType.CUBES )
-        Manager.I.CubesTotalTime += Time.unscaledDeltaTime;
-        if( LevelStats.NormalSectorsDiscovered <= 0 )
-            Map.I.FirstCubeDiscoveredTime += Time.deltaTime;
 
-        FPS = ( int ) ( 1f / Time.deltaTime );
-        InvalidateInputTimer -= Time.deltaTime;
+        if( managerI.GameType == EGameType.CUBES )
+            managerI.CubesTotalTime += uDt;
+
+        if( LevelStats.NormalSectorsDiscovered <= 0 )
+            mapI.FirstCubeDiscoveredTime += dt;
+
+        FPS = (int) ( 1f / dt );
+        InvalidateInputTimer -= dt;
+
         int oldvalid = NumValidMonsters;
         NumValidMonsters = 0;
         NumNonGlueyMonsters = 0;
@@ -2680,12 +2728,16 @@ public partial class Map : MonoBehaviour
         NumSteppingMonsters = 0;
         NumBrains = 0;
         int snow = 0, lava = 0;
-        Map.I.HeadShotGhost.color = new Color( Map.I.HeadShotGhost.color.r,                                                        // Head Shot Ghost sprite alpha fade
-        Map.I.HeadShotGhost.color.g, Map.I.HeadShotGhost.color.b, 
-        Map.I.HeadShotGhost.color.a - ( Time.deltaTime * .12f ) );
+
+        // --- OTIMIZAÇÃO: Cache de Cor (Evita múltiplos acessos à propriedade) ---
+        Color ghostColor = mapI.HeadShotGhost.color;
+        ghostColor.a -= ( dt * .12f );
+        mapI.HeadShotGhost.color = ghostColor;                           // Head Shot Ghost sprite alpha fade
+
         ResourceIndicator.MonsterGatesCount = 0;
         ResourceIndicator.FirepitPointsCount = 0;
-        if( Map.I.CurrentArea != -1 )
+
+        if( mapI.CurrentArea != -1 )
         {
             if( CurArea.AreaTurnCount == 0 ) MonstersTotHpSum = 0;
             CurArea.BonfiresLit = 0;
@@ -2700,271 +2752,303 @@ public partial class Map : MonoBehaviour
         Area.TotalValidAreas = 0;
         SpiderCount = MineCount = FireBallCount = FanCount = 0;
 
-        if( Manager.I.GameType == EGameType.CUBES )
-        if( G.HS.Type == Sector.ESectorType.NORMAL )
-        if( G.HS.CubeFrameCount == 5 )
+        var hs = G.HS;
+        if( managerI.GameType == EGameType.CUBES && hs.Type == Sector.ESectorType.NORMAL && hs.CubeFrameCount == 5 )
         {
-            for( int i = 0; i < CustomSpeedRaftPos.Count; i++ )                                             // Initializes custom raft speed
+            for( int i = 0; i < CustomSpeedRaftPos.Count; i++ )          // Initializes custom raft speed
             {
-                Vector2 tg = CustomSpeedRaftPos[ i ];
-                Unit raft = Controller.GetRaft( tg );
+                Unit raft = Controller.GetRaft( CustomSpeedRaftPos[ i ] );
                 List<Unit> ral = Controller.GetRaftList( raft.Control.RaftGroupID );
                 for( int j = 0; j < ral.Count; j++ )
                     ral[ j ].Control.RealtimeSpeed = raft.Control.RealtimeSpeed;
             }
-            CustomSpeedRaftPos = new List<Vector2>();
+            CustomSpeedRaftPos.Clear();                                  // ZERO GC: Limpa em vez de criar 'new List'
 
-            for( int i = 0; i < CustomSpeedFogPos.Count; i++ )                                             // Initializes custom fog speed
+            for( int i = 0; i < CustomSpeedFogPos.Count; i++ )           // Initializes custom fog speed
             {
-                Vector2 tg = CustomSpeedFogPos[ i ];
-                Unit fog = Controller.GetFog( tg );
+                Unit fog = Controller.GetFog( CustomSpeedFogPos[ i ] );
                 List<Unit> ral = Controller.GetFogList( fog.Control.RaftGroupID );
                 for( int j = 0; j < ral.Count; j++ )
                     ral[ j ].Control.RealtimeSpeed = fog.Control.RealtimeSpeed;
             }
-            CustomSpeedFogPos = new List<Vector2>();
-        }
- 
-        Sector s = Map.I.RM.HeroSector;
-        if( s && s.MoveOrder != null )
-        for( int i = 0; i < s.MoveOrder.Count; i++ )                                                   // move other stuf to here fo optimization
-        {
-            if( s.MoveOrder[ i ].TileID == ETileType.SPIDER )
-                SpiderCount++;
+            CustomSpeedFogPos.Clear();                                   // ZERO GC: Limpa em vez de criar 'new List'
         }
 
-        for( int a = 0; a < Quest.I.CurLevel.AreaList.Count; a++ )
+        Sector s = mapI.RM.HeroSector;
+        if( s && s.MoveOrder != null )
         {
-            Area ar = Quest.I.CurLevel.AreaList[ a ];
+            int moveCount = s.MoveOrder.Count;
+            for( int i = 0; i < moveCount; i++ )                         // move other stuf to here fo optimization
+            {
+                if( s.MoveOrder[ i ].TileID == ETileType.SPIDER )
+                    SpiderCount++;
+            }
+        }
+
+        var areaList = Quest.I.CurLevel.AreaList;
+        int areaCount = areaList.Count;
+        for( int a = 0; a < areaCount; a++ )
+        {
+            Area ar = areaList[ a ];
             if( ar.IsFake == false ) Area.TotalValidAreas++;
             ar.BonfiresLit = 0;
             ar.BonfireCount = 0;
         }
 
-        if ( s && s.Type == Sector.ESectorType.NORMAL )
-        for( int y = ( int ) s.Area.yMin - 1; y < s.Area.yMax + 1; y++ )
-        for( int x = ( int ) s.Area.xMin - 1; x < s.Area.xMax + 1; x++ )
+        if( s && s.Type == Sector.ESectorType.NORMAL )
+        {
+            int yMin = ( int ) s.Area.yMin - 1;
+            int yMax = ( int ) s.Area.yMax + 1;
+            int xMin = ( int ) s.Area.xMin - 1;
+            int xMax = ( int ) s.Area.xMax + 1;
+
+            float lavaChance = (float)( CubeData.I.LavaParticleForce * .1 ) * dt; // Cache calculation outside loop
+
+            for( int y = yMin; y < yMax; y++ )
             {
-                if( Gaia[ x, y ] )
+                for( int x = xMin; x < xMax; x++ )
                 {
-                    if( Gaia[ x, y ].TileID == ETileType.SNOW ) snow++;
-                    if( Gaia[ x, y ].TileID == ETileType.LAVA )
+                    // --- OTIMIZAÇÃO CRÍTICA: Array Lookup Cache ---
+                    // Isso salva milhares de ciclos de CPU por frame!
+                    var g1 = Gaia[ x, y ];
+                    var g2 = Gaia2[ x, y ];
+                    var u = Unit[ x, y ];
+                    var fuList = FUnit[ x, y ];
+                    Vector2 pos = new Vector2( x, y );
+
+                    if( g1 )
                     {
-                        if( Random.value < ( CubeData.I.LavaParticleForce * .1 ) * Time.deltaTime )
+                        if( g1.TileID == ETileType.SNOW ) snow++;
+                        else if( g1.TileID == ETileType.LAVA )
                         {
-                            if( Map.I.LavaParticle.gameObject.activeSelf == false )
-                                Map.I.LavaParticle.gameObject.SetActive( true );
-                            ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
-                            float randX = Random.Range( -0.5f, 0.5f );
-                            float randY = Random.Range( -0.5f, 0.5f );
-                            Vector3 worldPos = new Vector3( x + randX, y + randY, 0f );
-                            emitParams.position = worldPos;
-                            emitParams.velocity = new Vector3( Random.Range( -0.9f, 0.9f ), Random.Range( -0.5f, 2.5f ), 0f );                   // lava particle emmision
-                            Map.I.LavaParticle.Emit( emitParams, 1 );
-                        }
-                    }
-                }
-
-                if( Gaia2[ x, y ] != null )
-                {
-                    if( Gaia2[ x, y ].TileID == ETileType.ITEM )
-                    {
-                        if( Gaia2[ x, y ].Variation == ( int ) ItemType.Res_Monster_Kill )
-                            ResourceIndicator.MonsterGatesCount++;
-                        if( Gaia2[ x, y ].Variation == ( int ) ItemType.Res_Fire_Lits )
-                            ResourceIndicator.FirepitPointsCount++;
-                    }
-
-                    if( Gaia2[ x, y ].TileID == ETileType.FIRE )
-                    {
-                        int a = GetPosArea( new Vector2( x, y ) );
-
-                        if( Gaia2[ x, y ].Body.FireIsOn )
-                        {
-                            if( a != -1 )
-                                Quest.I.CurLevel.AreaList[ a ].BonfiresLit++;
-                        }
-                        if( a != -1 ) Quest.I.CurLevel.AreaList[ a ].BonfireCount++;
-
-                        for( int d = 0; d < Gaia2[ x, y ].Body.WoodList.Length; d++ )                                                               // show fire logs
-                        {
-                            Gaia2[ x, y ].Body.WoodList[ d ].gameObject.SetActive( false );
-                            if( Gaia2[ x, y ].Body.FireIsOn == false )
-                                if( Gaia2[ x, y ].Body.WoodAdded[ d ] )
-                                    Gaia2[ x, y ].Body.WoodList[ d ].gameObject.SetActive( true );
-
-                            if( Gaia2[ x, y ].Body.AvailableFireHits != -1 )
-                            if( Gaia2[ x, y ].Body.FireIsOn == true )
+                            if( Random.value < lavaChance )
                             {
-                                Gaia2[ x, y ].Body.WoodList[ d ].gameObject.SetActive( false );
-                                if( Gaia2[ x, y ].Body.AvailableFireHits > d )
-                                    Gaia2[ x, y ].Body.WoodList[ d ].gameObject.SetActive( true );
+                                if( !mapI.LavaParticle.gameObject.activeSelf )
+                                    mapI.LavaParticle.gameObject.SetActive( true );
+
+                                ParticleSystem.EmitParams emitParams = new ParticleSystem.EmitParams();
+                                emitParams.position = new Vector3( x + Random.Range( -0.5f, 0.5f ), y + Random.Range( -0.5f, 0.5f ), 0f );
+                                emitParams.velocity = new Vector3( Random.Range( -0.9f, 0.9f ), Random.Range( -0.5f, 2.5f ), 0f ); // lava particle emmision
+                                mapI.LavaParticle.Emit( emitParams, 1 );
                             }
                         }
                     }
-                }
 
-                if( Unit[ x, y ] != null )
-                {
-                    Unit[ x, y ].UpdateColor();
-                    Unit[ x, y ].UpdateAnimation();
-                }
-
-                if ( FUnit[ x, y ] != null )
-                if ( FUnit[ x, y ].Count > 0 )
-                for( int i = 0; i < Map.I.FUnit[ x, y ].Count; i++ )
-                {
-                    if(  Map.I.FUnit[ x, y ][ i ].TileID == ETileType.RAFT              ||
-                         Map.I.FUnit[ x, y ][ i ].TileID == ETileType.ALGAE             ||
-                         Map.I.FUnit[ x, y ][ i ].ProjType( EProjectileType.BOOMERANG ) ||
-                         Map.I.FUnit[ x, y ][ i ].ProjType( EProjectileType.FIREBALL )  ||
-                         Map.I.FUnit[ x, y ][ i ].TileID == ETileType.VINES             ||
-                         Map.I.FUnit[ x, y ][ i ].TileID == ETileType.SPIKES            ||
-                         Map.I.FUnit[ x, y ][ i ].TileID == ETileType.FISHING_POLE      )
-                         Map.I.FUnit[ x, y ][ i ].UpdateAnimation();
-
-
-                    //if( Map.I.FUnit[ x, y ][ i ].TileID == ETileType.MINE )
-                    //{
-                    //    Map.I.FUnit[ x, y ][ i ].Control.UpdateLadderDirection();
-                    //    Map.I.FUnit[ x, y ][ i ].Control.UpdateBridgeDestruction();
-                    //}
-
-                    if( Map.I.FUnit[ x, y ][ i ].Control.WakeupTimeCounter > 0 )
+                    if( g2 != null )
                     {
-                        Map.I.FUnit[ x, y ][ i ].Control.WakeupTimeCounter -= Time.deltaTime;
-                        if( Map.I.FUnit[ x, y ][ i ].Control.WakeupTimeCounter <= 0 )
-                            Map.I.FUnit[ x, y ][ i ].WakeMeUp();
-                    }
-                    if( Map.I.FUnit[ x, y ][ i ].TileID == ETileType.ALGAE )
-                        BabyData.UpdateAlgae( Map.I.FUnit[ x, y ][ i ] );
-                }
-
-                if( Map.I.CurrentArea != -1 )
-                if( Gaia2[ x, y ] != null )
-                {
-                    if( Gaia2[ x, y ].TileID == ETileType.FIRE )
-                    {
-                        if( Gaia2[ x, y ].Body.FireIsOn ) CurArea.BonfiresLit++;
-                        CurArea.BonfireCount++;
-                    }
-                }
-
-                if( Gaia2[ x, y ] != null )
-                {
-                    Gaia2[ x, y ].UpdateRightText();
-                    Gaia2[ x, y ].UpdateText();
-                    Gaia2[ x, y ].UpdateColor();                    // optimize to update only cube objs
-                    Gaia2[ x, y ].UpdateAnimation();
-                }
-
-                if( Unit[ x, y ] != null )
-                {
-                    if( Unit[ x, y ].TileID == ETileType.BRAIN )
-                        NumBrains++;
-
-                    if( Unit[ x, y ].TileID == ETileType.ALTAR )
-                        Unit[ x, y ].Altar.UpdateAltar();
-
-                    if( Unit[ x, y ].Control.WakeupTimeCounter > 0 )
-                    {
-                        Unit[ x, y ].Control.WakeupTimeCounter -= Time.deltaTime;
-                        if( Unit[ x, y ].Control.WakeupTimeCounter <= 0 )
-                            Unit[ x, y ].WakeMeUp();
-                    }
-
-                    if( Map.I.CurrentArea != -1 )
-                    if( Unit[ x, y ].TileID == ETileType.BARRICADE )
-                        if( Unit[ x, y ].Body.TouchCount > 0 )
-                            CurArea.TouchedBarricadeCount++;
-
-                    Unit[ x, y ].UpdateRightText();
-
-                    if( Unit[ x, y ].ValidMonster )
-                    {
-                        if( Unit[ x, y ].Body.Hp != Unit[ x, y ].Body.TotHp ) NumWoundedMonsters++;
-
-                        if( Gaia2[ x, y ] != null )
-                            if( Gaia2[ x, y ].TileID == ETileType.ARROW ) NumMonstersOverArrows++;
-                        Unit[ x, y ].Control.IsBeingPushedByHero = false;
-
-                        if( Unit[ x, y ].Body.IsTiny )                                                                                    // Tiny monster sprite FX
+                        if( g2.TileID == ETileType.ITEM )
                         {
-                            Unit forest = GetUnit( ETileType.FOREST, new Vector2( x, y ) );
-                            Unit[ x, y ].Spr.transform.localScale = new Vector3( .75f, .75f, 1f );
-                            if( forest )
-                                Unit[ x, y ].Spr.color = new Color( 1, 1, 1, .3f );
+                            if( g2.Variation == (int) ItemType.Res_Monster_Kill ) ResourceIndicator.MonsterGatesCount++;
+                            if( g2.Variation == (int) ItemType.Res_Fire_Lits ) ResourceIndicator.FirepitPointsCount++;
+                        }
+
+                        if( g2.TileID == ETileType.FIRE )
+                        {
+                            int a = GetPosArea( pos );
+                            var g2Body = g2.Body;
+
+                            if( g2Body.FireIsOn )
+                            {
+                                if( a != -1 ) areaList[ a ].BonfiresLit++;
+                            }
+                            if( a != -1 ) areaList[ a ].BonfireCount++;
+
+                            for( int d = 0; d < g2Body.WoodList.Length; d++ )          // show fire logs
+                            {
+                                var woodObj = g2Body.WoodList[ d ].gameObject;
+                                if( woodObj.activeSelf ) woodObj.SetActive( false );
+
+                                if( g2Body.FireIsOn == false )
+                                {
+                                    if( g2Body.WoodAdded[ d ] && !woodObj.activeSelf )
+                                        woodObj.SetActive( true );
+                                }
+                                else if( g2Body.AvailableFireHits != -1 )
+                                {
+                                    if( g2Body.AvailableFireHits > d && !woodObj.activeSelf )
+                                        woodObj.SetActive( true );
+                                }
+                            }
+                        }
+
+                        g2.UpdateRightText();
+                        g2.UpdateText();
+                        g2.UpdateColor();                   // optimize to update only cube objs
+                        g2.UpdateAnimation();
+
+                        if( mapI.CurrentArea != -1 && g2.TileID == ETileType.FIRE )
+                        {
+                            if( g2.Body.FireIsOn ) CurArea.BonfiresLit++;
+                            CurArea.BonfireCount++;
+                        }
+                    }
+
+                    if( u != null )
+                    {
+                        u.UpdateColor();
+                        u.UpdateAnimation();
+                        u.UpdateRightText();
+
+                        var uTile = u.TileID;
+                        var uControl = u.Control;
+                        var uBody = u.Body;
+
+                        if( uTile == ETileType.BRAIN ) NumBrains++;
+                        if( uTile == ETileType.ALTAR ) u.Altar.UpdateAltar();
+
+                        if( uControl.WakeupTimeCounter > 0 )
+                        {
+                            uControl.WakeupTimeCounter -= dt;
+                            if( uControl.WakeupTimeCounter <= 0 )
+                                u.WakeMeUp();
+                        }
+
+                        if( mapI.CurrentArea != -1 && uTile == ETileType.BARRICADE )
+                            if( uBody.TouchCount > 0 )
+                                CurArea.TouchedBarricadeCount++;
+
+                        if( u.ValidMonster )
+                        {
+                            if( uBody.Hp != uBody.TotHp ) NumWoundedMonsters++;
+
+                            if( g2 != null && g2.TileID == ETileType.ARROW ) NumMonstersOverArrows++;
+
+                            uControl.IsBeingPushedByHero = false;
+
+                            if( uBody.IsTiny )                                              // Tiny monster sprite FX
+                            {
+                                Unit forest = GetUnit( ETileType.FOREST, pos );
+                                u.Spr.transform.localScale = new Vector3( .75f, .75f, 1f );
+                                u.Spr.color = forest ? new Color( 1, 1, 1, .3f ) : Color.white;
+                            }
                             else
-                                Unit[ x, y ].Spr.color = new Color( 1, 1, 1, 1 );
-                        }
-                        else
-                            Unit[ x, y ].Spr.transform.localScale = new Vector3( 1, 1, 1 );
+                            {
+                                if( u.Spr.transform.localScale.x != 1f )
+                                    u.Spr.transform.localScale = Vector3.one;
+                            }
 
-                        if( GetPosArea( new Vector2( x, y ) ) == CurrentArea )
+                            if( GetPosArea( pos ) == CurrentArea )
+                            {
+                                if( uBody.IsDead == false )
+                                {
+                                    NumValidMonsters++;
+                                    if( uControl.RealtimeSpeedFactor > 0 ) NumRealtimeMonsters++;
+                                    else NumSteppingMonsters++;
+                                }
+
+                                if( mapI.CurrentArea != -1 )                               // Mosters tot hp
+                                {
+                                    MonstersHpSum += uBody.Hp;
+                                    MonstersTotHpSum += uBody.TotHp;
+                                }
+                            }
+
+                            if( uTile != ETileType.GLUEY ) NumNonGlueyMonsters++;
+                        }
+                    }
+
+                    if( fuList != null && fuList.Count > 0 )
+                    {
+                        int fuCount = fuList.Count;
+                        for( int i = 0; i < fuCount; i++ )
                         {
-                            if( Unit[ x, y ].Body.IsDead == false )
-                            {
-                                NumValidMonsters++;
+                            var fuUnit = fuList[ i ];
+                            var fuTile = fuUnit.TileID;
 
-                                if( Unit[ x, y ].Control.RealtimeSpeedFactor > 0 )
-                                    NumRealtimeMonsters++;
-                                else
-                                    NumSteppingMonsters++;
+                            if( fuTile == ETileType.RAFT || fuTile == ETileType.ALGAE ||
+                                fuUnit.ProjType( EProjectileType.BOOMERANG ) || fuUnit.ProjType( EProjectileType.FIREBALL ) ||
+                                fuTile == ETileType.VINES || fuTile == ETileType.SPIKES || fuTile == ETileType.FISHING_POLE )
+                            {
+                                fuUnit.UpdateAnimation();
                             }
 
-                            if( Map.I.CurrentArea != -1 )                                               // Mosters tot hp
+                            if( fuUnit.Control.WakeupTimeCounter > 0 )
                             {
-                                MonstersHpSum += Unit[ x, y ].Body.Hp;
-                                MonstersTotHpSum += Unit[ x, y ].Body.TotHp;
+                                fuUnit.Control.WakeupTimeCounter -= dt;
+                                if( fuUnit.Control.WakeupTimeCounter <= 0 )
+                                    fuUnit.WakeMeUp();
                             }
+
+                            if( fuTile == ETileType.ALGAE )
+                                BabyData.UpdateAlgae( fuUnit );
                         }
-
-                        if( Unit[ x, y ].TileID != ETileType.GLUEY ) NumNonGlueyMonsters++;
                     }
                 }
             }
-        Mine.UpdateAllMinesText = false;
-        if( NumScorpions > 0 )                                                                        // This is a hack to fix the bug that keeps disabling hero bamboo sprite
-            Map.I.UpdateHeroSprite();
+        }
 
-        UpdateWeatherFX( snow );                                                                      // weather effects
+        Mine.UpdateAllMinesText = false;
+        if( NumScorpions > 0 )                                                      // This is a hack to fix the bug that keeps disabling hero bamboo sprite
+            mapI.UpdateHeroSprite();
+
+        UpdateWeatherFX( snow );                                                    // weather effects
     }
-    
-    private int oldZoom = -1; 
+
+    private int oldZoom = -1;
     private float snowTimer = 0f;
-    private float snowStart = 0f;  // valor inicial da neve
-    private float snowTarget = 0f; // valor alvo atual
-    public static string[] rainMusic = {
-            "forest_1", "water flowing", "Rain Strong",
-            "forest stream", "River birds", "monkey",
-            "bamboo creaking", "Early Rain"
-             };
+    private float snowStart = 0f;                                            // Initial snow value;
+    private float snowTarget = 0f;                                           // Current target value;
+
+    // Use HashSet for O(1) lookup: System.Array.Exists with lambda allocates memory;
+    private static readonly System.Collections.Generic.HashSet<string> rainMusicSet =
+    new System.Collections.Generic.HashSet<string> {
+        "forest_1", "water flowing", "Rain Strong", "forest stream",
+        "River birds", "monkey", "bamboo creaking", "Early Rain"
+    };
+
+    // --- CACHES PARA EVITAR GC ALLOC ---
+    private AudioClip lastMusicClip;
+    private string lastMusicName;
+    private float lastFogAlpha = -1f;
+    private Color lastFogColor = Color.clear;
+
     private void UpdateWeatherFX( int snow )
     {
-        if( Manager.I.GameType != EGameType.CUBES ) return;
-        // Ajusta alpha dependendo do zoom
-        if( oldZoom != ZoomMode )
+        var manager = Manager.I;                                         // Cache Manager instance;
+        if( manager.GameType != EGameType.CUBES ) return;
+
+        var mapI = Map.I;                                                // Cache Map instance;
+        int currentZoom = mapI.ZoomMode;
+
+        // --- ZOOM ALPHA OPTIMIZATION ---
+        if( oldZoom != currentZoom )
         {
             if( RainRenderer == null )
                 RainRenderer = RainParticle.GetComponent<ParticleSystemRenderer>();
 
             float val = 0.5f;
-            if( Map.I.ZoomMode == 3 ) val = 0f;
-            else if( Map.I.ZoomMode == 2 ) val = 0.3f;
-            else if( Map.I.ZoomMode == 1 ) val = 0.4f;
+            if( currentZoom == 3 ) val = 0f;
+            else if( currentZoom == 2 ) val = 0.3f;
+            else if( currentZoom == 1 ) val = 0.4f;
 
-            Color col = new Color( 1f, 1f, 1f, val );
-            RainRenderer.material.SetColor( "_TintColor", col );
-            oldZoom = ZoomMode;
+            RainRenderer.material.SetColor( "_TintColor", new Color( 1f, 1f, 1f, val ) );
+            oldZoom = currentZoom;
         }
 
         CubeData.UpdateParticles = false;
-        ParticleSystem rainPS = Map.I.RainParticle;
-        ParticleSystem snowPS = Map.I.SnowParticle;
-        ParticleSystem windPS = Map.I.WindParticle;
-        AudioClip music = Manager.I.PlaylistController.CurrentPlaylistClip;
+        var rainPS = mapI.RainParticle;
+        var snowPS = mapI.SnowParticle;
+        var windPS = mapI.WindParticle;
 
-        // Ativa partículas principais
+        // --- OTIMIZAÇÃO CRÍTICA: CACHE DO NOME DA MÚSICA (Zero GC) ---
+        AudioClip music = manager.PlaylistController.CurrentPlaylistClip;
+        string currentMusicName = null;
+
+        if( music != null )
+        {
+            if( music != lastMusicClip )                                 // A música trocou?
+            {
+                lastMusicClip = music;
+                lastMusicName = music.name;                              // Aloca string APENAS uma vez por música!
+            }
+            currentMusicName = lastMusicName;
+        }
+        else
+        {
+            lastMusicClip = null;
+            lastMusicName = null;
+        }
+
         if( G.HS.CubeFrameCount == 12 )
         {
             snowPS.gameObject.SetActive( true );
@@ -2974,31 +3058,36 @@ public partial class Map : MonoBehaviour
             FogParticle.gameObject.SetActive( true );
         }
 
-        // ================= CHUVA =================
-        float rainSpeed = 100f;
-        var rainMain = rainPS.main;
-        var rainLimit = rainPS.limitVelocityOverLifetime;
+        // ================= RAIN (CHUVA) =================
         var rainEm = rainPS.emission;
         var rainRate = rainEm.rateOverTime;
+        var rainLimit = rainPS.limitVelocityOverLifetime;
+        var rainMain = rainPS.main;
+        float dt = Time.deltaTime;
 
         float timeLeft = 0;
-        AudioSource audioSrc = Manager.I.PlaylistController.ActiveAudioSource;
+        AudioSource audioSrc = manager.PlaylistController.ActiveAudioSource;
         if( audioSrc != null && music != null )
         {
-            float musicTime = audioSrc.time;   // tempo atual em segundos
-            float musicLength = music.length;  // duração total
-            timeLeft = musicLength - musicTime;  // tempo restante
+            timeLeft = music.length - audioSrc.time;
         }
 
-        if( music != null && System.Array.Exists( rainMusic, name => name == music.name ) && timeLeft > 10 )
+        // Usa a string cacheada em vez de music.name!
+        if( currentMusicName != null && rainMusicSet.Contains( currentMusicName ) && timeLeft > 10 )
         {
             rainLimit.enabled = true;
-            float targetRate = ( music.name == "Rain Strong" ) ? 1000f : 300f;
+            bool isStrong = currentMusicName == "Rain Strong";
+            float targetRate = isStrong ? 1000f : 300f;
 
-            rainRate.constant = Mathf.MoveTowards( rainRate.constant, targetRate, rainSpeed * Time.deltaTime );
-            rainEm.rateOverTime = rainRate;
+            float nextRate = Mathf.MoveTowards( rainRate.constant, targetRate, 100f * dt );
 
-            if( music.name == "Rain Strong" )
+            if( Mathf.Abs( rainRate.constant - nextRate ) > 0.1f )
+            {
+                rainRate.constant = nextRate;
+                rainEm.rateOverTime = rainRate;
+            }
+
+            if( isStrong )
             {
                 rainLimit.limit = new ParticleSystem.MinMaxCurve( 55f, 88f );
                 rainMain.startLifetime = new ParticleSystem.MinMaxCurve( 2f, 6f );
@@ -3011,92 +3100,89 @@ public partial class Map : MonoBehaviour
         }
         else
         {
-            rainRate.constant = Mathf.MoveTowards( rainRate.constant, 0f, rainSpeed * Time.deltaTime );
-            rainEm.rateOverTime = rainRate;
+            if( rainRate.constant > 0.1f )
+            {
+                rainRate.constant = Mathf.MoveTowards( rainRate.constant, 0f, 100f * dt );
+                rainEm.rateOverTime = rainRate;
+            }
         }
 
-        // ================= NEVE =================
+        // ================= SNOW (NEVE) =================
         var snowEm = snowPS.emission;
-        var rate = snowEm.rateOverTime;
-
+        var snowRate = snowEm.rateOverTime;
         float newTarget = ( snow > 20 ) ? CubeData.I.SnowStrenght : 0f;
 
-        // Se o target mudou, reinicia o timer
         if( Mathf.Abs( newTarget - snowTarget ) > 0.01f )
         {
-            snowStart = rate.constant;  // valor atual como início
+            snowStart = snowRate.constant;
             snowTarget = newTarget;
             snowTimer = 0f;
         }
 
-        // duração da transição em segundos
-        float snowDuration = 10f;
-        snowTimer += Time.deltaTime;
-        float t = Mathf.Clamp01( snowTimer / snowDuration );
+        snowTimer += dt;
+        float tSnow = Mathf.Clamp01( snowTimer / 10f );
+        snowRate.constant = Mathf.Lerp( snowStart, snowTarget, tSnow );
+        snowEm.rateOverTime = snowRate;
 
-        // interpola suavemente
-        rate.constant = Mathf.Lerp( snowStart, snowTarget, t );
-        snowEm.rateOverTime = rate;
-
-        // ================= VENTO =================
-        float windSpeed = 15f;
+        // ================= WIND (VENTO) =================
         var windEm = windPS.emission;
         var windRate = windEm.rateOverTime;
         var windMain = windPS.main;
         var windLimit = windPS.limitVelocityOverLifetime;
 
-        if( music != null && music.name == "Scary Ambient Wind" )
+        if( currentMusicName != null && currentMusicName == "Scary Ambient Wind" )
         {
             windLimit.enabled = true;
-            float windTarget = 100f;
-
-            windRate.constant = Mathf.MoveTowards( windRate.constant, windTarget, windSpeed * Time.deltaTime );
+            windRate.constant = Mathf.MoveTowards( windRate.constant, 100f, 15f * dt );
             windEm.rateOverTime = windRate;
-
             windLimit.limit = new ParticleSystem.MinMaxCurve( 20f, 40f );
             windMain.startLifetime = new ParticleSystem.MinMaxCurve( 2f, 5f );
         }
         else
         {
-            windRate.constant = Mathf.MoveTowards( windRate.constant, 0f, windSpeed * Time.deltaTime );
-            windEm.rateOverTime = windRate;
+            if( windRate.constant > 0.1f )
+            {
+                windRate.constant = Mathf.MoveTowards( windRate.constant, 0f, 15f * dt );
+                windEm.rateOverTime = windRate;
+            }
         }
-
-        // ================= LUZES/OUTRAS PARTICULAS =================
-        var firefliesEm = FireFliesParticle.emission;
-        ParticleSystem.MinMaxCurve firefliesRate = firefliesEm.rateOverTime;
-        float firefliesSpeed = 200;
-
-        if( music != null &&
-           ( music.name == "frogcave" || music.name == "Spooky Island" || music.name == "Night" || music.name == "Realm of Fantasy" || CubeData.I.ForceFireflies ) )
-        {
-            float firefliesTarget = CubeData.I.FirefliesAmount;
-            firefliesRate.constant = Mathf.MoveTowards( firefliesRate.constant, firefliesTarget, firefliesSpeed * Time.deltaTime );
-        }
-        else
-        {
-            float firefliesTarget = 0f;
-            firefliesRate.constant = Mathf.MoveTowards( firefliesRate.constant, firefliesTarget, firefliesSpeed * Time.deltaTime );
-        }
-        firefliesEm.rateOverTime = firefliesRate;
 
         // ================= FOG =================
-        var fogEm = Map.I.FogParticle.emission;
+        var fogPS = mapI.FogParticle;
+        var fogEm = fogPS.emission;
         var fogRate = fogEm.rateOverTime;
-        float fogSpeed = 200f;
-        float fogTarget = 0f;
-        if( CubeData.I.FogIntensity > 0 )
-            fogTarget = Util.GetPercent( CubeData.I.FogIntensity, 1, 3000 );
-        fogRate.constant = Mathf.MoveTowards( fogRate.constant, fogTarget, fogSpeed * Time.deltaTime );
-        fogEm.rateOverTime = fogRate;
-        var fcol = Map.I.FogParticle.colorOverLifetime;
-        var g = fcol.color.gradient;
-        var colorKeys = g.colorKeys;
-        var alphaKeys = g.alphaKeys;
-        alphaKeys[ 1 ].alpha = CubeData.I.FogAlpha / 300f;
-        colorKeys[ 1 ].color = CubeData.I.FogColor;
-        g.SetKeys( colorKeys, alphaKeys );
-        fcol.color = new ParticleSystem.MinMaxGradient( g );
+
+        float fogTarget = ( CubeData.I.FogIntensity > 0 ) ? Util.GetPercent( CubeData.I.FogIntensity, 1, 3000 ) : 0f;
+        float nextFog = Mathf.MoveTowards( fogRate.constant, fogTarget, 200f * dt );
+
+        if( Mathf.Abs( fogRate.constant - nextFog ) > 0.1f )
+        {
+            fogRate.constant = nextFog;
+            fogEm.rateOverTime = fogRate;
+        }
+
+        // --- OTIMIZAÇÃO CRÍTICA: EVITAR RECONSTRUIR O GRADIENTE ---
+        float currentFogAlpha = CubeData.I.FogAlpha;
+        Color currentFogColor = CubeData.I.FogColor;
+
+        // Só acessa as chaves (o que cria arrays no heap) se os valores mudaram!
+        if( currentFogAlpha != lastFogAlpha || currentFogColor != lastFogColor )
+        {
+            var fcol = fogPS.colorOverLifetime;
+            var g = fcol.color.gradient;
+            var alphaKeys = g.alphaKeys;                                 // Array Allocation here;
+            var colorKeys = g.colorKeys;                                 // Array Allocation here;
+
+            alphaKeys[ 1 ].alpha = currentFogAlpha / 300f;
+            colorKeys[ 1 ].color = currentFogColor;
+
+            g.SetKeys( colorKeys, alphaKeys );
+            fcol.color = new ParticleSystem.MinMaxGradient( g );
+
+            // Atualiza o cache para travar o IF no próximo frame;
+            lastFogAlpha = currentFogAlpha;
+            lastFogColor = currentFogColor;
+        }
     }
 
     public bool IsPaused()
@@ -4009,7 +4095,7 @@ public partial class Map : MonoBehaviour
         {
             KillList[ i ].Kill();
         }
-        KillList = new List<Unit>();
+        KillList.Clear();
 
         if( G.HS ) G.HS.CubeFrameCount++;                                                                            // Increment cube frame counter       
     }

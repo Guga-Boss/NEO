@@ -207,34 +207,37 @@ private static void LoadProfile()
     }
     IEnumerator InventoryProductionLoop()
     {
-        float lastTime = Time.unscaledTime;                                                // Store initial real-world time
-        float accumulator = 0f;                                                            // Buffer to store elapsed time slices
+        float lastTime = Time.unscaledTime;                                              // Store initial real-world time
+        float accumulator = 0f;                                                          // Buffer to store elapsed time slices
+        var wait = new WaitForSecondsRealtime( 0.05f );                                  // ZERO GC CACHE: Prevent allocation in loop
 
         while( true )
         {
             // 1. Calculate real time passed since last check
-            float frameTime = Time.unscaledTime - lastTime;                                // Calculate delta since last loop
-            lastTime = Time.unscaledTime;                                                  // Sync anchor with current time
+            float frameTime = Time.unscaledTime - lastTime;                              // Calculate delta since last loop
+            lastTime = Time.unscaledTime;                                                // Sync anchor with current time
 
             // 2. Add to buffer
-            accumulator += frameTime;                                                      // Accumulate time to be processed
+            accumulator += frameTime;                                                    // Accumulate time to be processed
+
+            var mapI = Map.I;                                                            // Cache Map instance to save CPU
 
             // 3. Determine current tick rate
-            float step = ( Map.I.RM.GameOver || 
-            Map.I.RM.DungeonDialog.gameObject.activeSelf )
-                         ? 0.1f : 1.0f;                                                    // Adjust step based on UI or Game State
+            float step = ( mapI.RM.GameOver ||
+            mapI.RM.DungeonDialog.gameObject.activeSelf )
+                         ? 0.1f : 1.0f;                                                  // Adjust step based on UI or Game State
 
             // 4. Process production in fixed steps
             // This ensures production never exceeds real-world elapsed time.
             while( accumulator >= step )
             {
-                Inventory.UpdateInventoryProduction( step );                              // Process one discrete time step
-                accumulator -= step;                                                      // Consume the processed time from buffer
+                Inventory.UpdateInventoryProduction( step );                             // Process one discrete time step
+                accumulator -= step;                                                     // Consume the processed time from buffer
             }
 
             // 5. CPU Throttle
             // Short wait to prevent high CPU usage while maintaining precision.
-            yield return new WaitForSecondsRealtime( 0.05f );                             // Poll clock every 50ms
+            yield return wait;                                                           // ZERO GC: Yield cached object
         }
     }
 

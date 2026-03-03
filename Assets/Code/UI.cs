@@ -379,7 +379,7 @@ public class UI : MonoBehaviour
 
     void FixedUpdate()
     {
-       Grid.Reposition();
+       //Grid.Reposition();
        AdaptPerkIconSize();
     }
 

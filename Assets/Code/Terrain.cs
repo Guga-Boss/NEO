@@ -1101,7 +1101,7 @@ public partial class Controller : MonoBehaviour
         Unit.Body.RigidBody.linearVelocity = Vector2.zero;
         G.Hero.CircleCollider.enabled = false;
         SnowSliding = false;
-        Controller.InputVectorList = new List<Vector3>();
+        InputVectorList.Clear();
     }
     public void FallingDeath( ETileType tile )
     {
@@ -1554,7 +1554,7 @@ public partial class Controller : MonoBehaviour
         Map.I.HeroSwordCollider.enabled = false;
         G.Hero.CircleCollider.enabled = false;
         SandSliding = false;
-        Controller.InputVectorList = new List<Vector3>();
+        InputVectorList.Clear();
     }
 
     public bool UpdateSandSliding()

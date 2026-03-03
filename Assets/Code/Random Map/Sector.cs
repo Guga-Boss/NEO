@@ -584,7 +584,7 @@ public class Sector : MonoBehaviour
 
         //Map.I.UpdateTransLayerTilemap( true );  // new to optimize
         
-        Map.I.DirtyFogList = new List<int>();
+        Map.I.DirtyFogList.Clear();
         s.AliveNormalMonsters = 0;
         Map.I.TicTacMonsterCount = 0;
         AwakenNormalMonsters = 0;
@@ -1009,7 +1009,7 @@ public class Sector : MonoBehaviour
     }
     public void InitClovers()
     {
-        CloverPosList = new List<Vector2>();                                                     // Init clover positions
+        CloverPosList.Clear();                                                                   // Init clover positions
         if( Manager.I.GameType != EGameType.CUBES ) return;
 
         if( G.HS.TotalClovers == -1 )                    

@@ -922,821 +922,716 @@ public class Attack : MonoBehaviour
         ar.Create( AttackOrigin, enemy, tr, target, type );
         return ar;
     }
-	
-	public List<Vector2> GetAttackTargets()
-	{
-        List<Vector2> tg = new List<Vector2>();
+
+    // --- ZERO GC CACHE LISTS ---
+    private static List<Vector2> _tgCache = new List<Vector2>( 64 );      // Global cache to prevent GC Alloc
+    private static List<Unit> _dragonUnitCache = new List<Unit>( 64 );    // Cache for dragon unit targets
+    private static List<int> _dragonRangeCache = new List<int>( 64 );     // Cache for dragon distances
+
+    public List<Vector2> GetAttackTargets()
+    {
+        _tgCache.Clear();                                                          // Clear cache instead of allocating new memory
+        List<Vector2> tg = _tgCache;                                               // Point local reference to the global cache
+
         //if( Map.I.CurrentArea == -1 ) return null;
         if( Sector.GetPosSectorType( Unit.Pos ) == Sector.ESectorType.GATES ) return null;
 
         if( Unit.UnitType == EUnitType.MONSTER )
-        if( Unit.ProjType( EProjectileType.FIREBALL ) == false )
-        if( Map.Stepping() )                                                                       // Stepping based attack not advancing turn
-        if( Map.I.AdvanceTurn == false ) return null;
+            if( Unit.ProjType( EProjectileType.FIREBALL ) == false )
+                if( Map.Stepping() )                                                       // Stepping based attack not advancing turn
+                    if( Map.I.AdvanceTurn == false ) return null;
 
         switch( TargettingType )
         {
-            case ETargettingType.FRONTFANCING:
-            {                
-                AddTg( ref tg, Unit.Pos + Manager.I.U.DirCord[ ( int ) Unit.Dir ] );
+        case ETargettingType.FRONTFANCING:
+            {
+                AddTg( ref tg, Unit.Pos + Manager.I.U.DirCord[ (int) Unit.Dir ] ); // Add front tile to target list
 
                 if( Unit.UnitType == EUnitType.HERO )
                 {
-                    if( Map.I.GetUnit( ETileType.ARROW, Unit.Pos ) ||                              // Hero over arrow or facing: Block
+                    if( Map.I.GetUnit( ETileType.ARROW, Unit.Pos ) ||              // Hero over arrow or facing: Block
                         Map.I.GetUnit( ETileType.ARROW, Unit.GetFront() ) )
                     {
-                        tg = null;
-                        break;
+                        return null;                                               // Early exit to save CPU cycles
                     }
 
-                    if( Map.I.RM.RMD.LimitedMeleeAttacksPerCube != -1 )                            // Not enough Melee Attacks
-                    if( Item.GetNum( ItemType.Res_Melee_Attacks ) < 1 ) return null;
+                    if( Map.I.RM.RMD.LimitedMeleeAttacksPerCube != -1 )            // Not enough Melee Attacks
+                        if( Item.GetNum( ItemType.Res_Melee_Attacks ) < 1 ) return null;
                 }
             }
             break;
-            case ETargettingType.HUGGER:
+
+        case ETargettingType.HUGGER:
             {
-                if( TotalAttackTime == 0 ) return null;                                                // No attack
-                if( TotalRange == 0 ) return null; 
-                tg = new List<Vector2>();
+                if( TotalAttackTime == 0 ) return null;                            // No attack
+                if( TotalRange == 0 ) return null;                                 // Validate range bounds
+
                 bool res = Map.I.HasLOS( Unit.Pos, G.Hero.Pos, true, null, true, true, "", ( int ) TotalRange );
                 int dist = Util.Manhattan( Unit.Pos, G.Hero.Pos );
                 if( dist > 1 )
-                    CreateArrowAnimation( null, Map.I.LastLOSPos, EBoltType.Hugger );
-                SpeedTimeCounter = 0;
+                    CreateArrowAnimation( null, Map.I.LastLOSPos, EBoltType.Hugger ); // Trigger animation fx
+                SpeedTimeCounter = 0;                                              // Reset speed counter
+
                 if( dist > 1 && dist <= TotalRange )
-                if( res )
-                {
-                    tg.Add( G.Hero.Pos );
-                    return tg;
-                }
+                    if( res )
+                    {
+                        tg.Add( G.Hero.Pos );                                          // Add hero position to targets
+                        return tg;                                                     // Return early with valid target
+                    }
             }
             break;
-            case ETargettingType.INFECTION:
+
+        case ETargettingType.INFECTION:
             {
                 if( Unit.Body.IsInfected )
-                if( Util.Manhattan( Unit.Pos, G.Hero.Pos ) <= Unit.Body.InfectedRadius )
+                    if( Util.Manhattan( Unit.Pos, G.Hero.Pos ) <= Unit.Body.InfectedRadius )
                     {
                         bool res = Map.I.HasLOS( Unit.Pos, G.Hero.Pos, true );
-                        //if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) == false )
-                        {
-                            Unit mudf = Map.I.GetMud( G.Hero.Pos );
-                            if( mudf ) res = false;
-                            mudf = Map.I.GetMud( Unit.Pos );                                // mud x infected
-                            if( mudf ) res = false;
-                        }
+                        Unit mudf = Map.I.GetMud( G.Hero.Pos );
+                        if( mudf ) res = false;                                        // Cancel LOS if mud found on hero
+
+                        mudf = Map.I.GetMud( Unit.Pos );                               // mud x infected
+                        if( mudf ) res = false;                                        // Cancel LOS if mud found on self
+
                         if( res )
                         {
-                            tg.Add( G.Hero.Pos );
-                            return tg;
+                            tg.Add( G.Hero.Pos );                                      // Append target to cache
+                            return tg;                                                 // Return successful infection target
                         }
                     }
                 return null;
             }
             break;
-            case ETargettingType.ROACHBASIC:
+
+        case ETargettingType.ROACHBASIC:
             {
-                Unit.UpdateDirection();
-                Vector2 tar = Unit.Pos + Manager.I.U.DirCord[ ( int ) Unit.Dir ];
-                tg = new List<Vector2>();
+                Unit.UpdateDirection();                                            // Refresh unit orientation
+                Vector2 tar = Unit.Pos + Manager.I.U.DirCord[ ( int ) Unit.Dir ];  // Calculate forward target
 
                 if( Unit.TileID == ETileType.HUGGER )
-                    return null;
-                
-                if( Unit.TileID == ETileType.ROACH ||                                                    // these can side attack
+                    return null;                                                   // Huggers handled elsewhere
+
+                if( Unit.TileID == ETileType.ROACH ||                              // these can side attack
                     Unit.TileID == ETileType.SCARAB )
-                if( Unit.Control.ForcedFrontalMovementDir == EDirection.NONE )
-                if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) ) tar = G.Hero.Pos;
-                tg.Add( tar );
+                    if( Unit.Control.ForcedFrontalMovementDir == EDirection.NONE )
+                        if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) ) tar = G.Hero.Pos;    // Snap to hero if adjacent
+                tg.Add( tar );                                                     // Register calculated target
 
                 if( Map.I.GetPosArea( tar ) == Map.I.GetPosArea( Unit.Pos ) )
                 {
                     if( Map.I.Hero.Pos == tar )
                     {
-                        //EDirection dr = Util.GetRotationToTarget( Unit.Pos, tg[ 0 ] );
-                        //Unit.RotateTo( dr );
+                        return tg;                                                 // Hero is exactly at target
+                    }
+
+                    if( Map.I.Unit[ (int) tar.x, (int) tar.y ] != null )
+                        if( Map.I.Unit[ (int) tar.x, (int) tar.y ].TileID == ETileType.INACTIVE_HERO )
+                        {
+                            return tg;                                                 // Target is an inactive hero
+                        }
+                }
+                return null;
+            }
+            break;
+
+        case ETargettingType.MISSILE:
+        case ETargettingType.SPELL:
+            {
+                if( TargettingType == ETargettingType.SPELL )
+                {
+                    if( ID >= 8 )                                                  // Fixed Spell slot origin
+                        AttackOrigin = Unit.Pos + G.Hero.Body.Sp[ ID ].Delta;
+                    else
+                        AttackOrigin = Unit.Pos + Util.GetRelativePosition( Unit.Dir, (EDirection) ID ); // moving spell slot origin
+
+                    if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.TORCH ) return null;
+                    if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.DOUBLE_ATTACK ) return null;
+                    if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.WEBTRAP ) return null;
+                    if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.ATTACK_BONUS ) return null;
+                }
+
+                if( TargettingType == ETargettingType.SPELL )
+                    if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.THROWING_AXE )
+                    {
+                        if( Map.I.AdvanceTurn == false ) return null;                  // Only attack during advance
+                        if( Map.I.CurrentMoveTrial == EActionType.BATTLE ) return null;
+                        if( Map.I.CurrentMoveTrial == EActionType.WAIT ) return null;
+
+                        for( int i = 0; i < 8; i++ )
+                        {
+                            Vector2 tgg = AttackOrigin + Map.I.KnightTG[ i ];          // Get Knight pattern coordinate
+                            if( Map.IsWall( AttackOrigin ) == false )
+                            {
+                                tg.Add( tgg );                                         // Throwing axe knight tg
+                                for( int s = 0; s < G.Hero.Body.Sp.Count; s++ )        // Counts duplicators in the way  
+                                    Spell.CheckDuplicator( tgg, s );
+                            }
+                        }
+                        ShotPassThroughCount = DuplicatorCount;                        // Apply duplicator factor
+                        return tg;                                                     // Return all 8 possible targets
+                    }
+
+                if( TargettingType == ETargettingType.SPELL )                      // Hook attack
+                    if( Spell.IsHook( G.Hero.Body.Sp[ ID ].Type ) )
+                    {
+                        int dr = 0;                                                    // Direction delta
+                        if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.HOOK_CW )     // Hook rotation attack
+                            if( G.Hero.Control.LastAction == EActionType.ROTATE_CW ) dr = -1;
+
+                        if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.HOOK_CCW )
+                            if( G.Hero.Control.LastAction == EActionType.ROTATE_CCW ) dr = +1;
+
+                        if( dr == 0 )
+                        {
+                            int id2 = ( int ) Util.RotateDir( ( int ) G.Hero.Dir, ID );
+                            Vector2 pt = G.Hero.Pos + Manager.I.U.DirCord[ id2 ];
+                            Spell.UpdateHookDestruction( pt );                         // Wrong direction, Destroy hook
+                            return null;
+                        }
+                        AddTg( ref tg, Unit.Pos + Util.GetRelativePosition( Unit.Dir, (EDirection) ID ) );
+                        dr = (int) Util.RotateDir( (int) Unit.Dir, dr );
+                        AttackOrigin = Unit.Pos + Util.GetRelativePosition( (EDirection) dr, (EDirection) ID ); // Attack is OK
                         return tg;
                     }
 
-                    if( Map.I.Unit[ ( int ) tar.x, ( int ) tar.y ] != null )
-                    if( Map.I.Unit[ ( int ) tar.x, ( int ) tar.y ].TileID == ETileType.INACTIVE_HERO )
+                int _range = ( int ) TotalRange;                                   // Cache total range
+                if( Unit.UnitType == EUnitType.HERO )
+                    _range += Map.I.RM.RMD.BaseHeroRangedAttackRange;              // Add hero bonus range
+                if( TargettingType == ETargettingType.SPELL )
+                    _range = Sector.TSX;                                           // Spells use sector width
+
+                int range = 0;
+                int hitmonsterdist = -1;
+                bool canshoot = GetEffectiveShootingRange( ref tg, ref range, ref hitmonsterdist, false ); // Gets effective shooting range
+                if( canshoot == false ) return null;
+
+                EDirection dir = AttackOriginalDirection;
+                float bestdist = 999;                                              // High default for min search
+
+                if( Unit.UnitType == EUnitType.HERO )
+                    if( Map.I.CurrentArea == -1 )                                      // Flying Units as Target
+                    {
+                        List<Unit> ul = _dragonUnitCache;                              // Use cached zero GC list
+                        List<int> rr = _dragonRangeCache;                              // Use cached zero GC list
+                        ul.Clear();                                                    // Prepare cache for frame
+                        rr.Clear();                                                    // Prepare cache for frame
+
+                        int temprange = range;
+                        if( hitmonsterdist != -1 ) temprange = hitmonsterdist;
+
+                        for( int r = 1; r <= temprange; r++ )                          // Make a list of all flying monsters in the target radius
                         {
-                            return tg;
+                            Vector2 rel = AttackOrigin + ( Manager.I.U.DirCord[ ( int ) dir ] * r );
+                            int rad = 1;
+                            for( int y = (int) rel.y - rad; y <= rel.y + rad; y++ )
+                                for( int x = (int) rel.x - rad; x <= rel.x + rad; x++ )
+                                    if( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+                                    {
+                                        var cellList = Map.I.FUnit[ x, y ];                    // Cached grid access
+                                        if( cellList != null )
+                                            for( int i = 0; i < cellList.Count; i++ )
+                                                if( ul.Contains( cellList[ i ] ) == false )
+                                                {
+                                                    Unit fu = cellList[ i ];
+                                                    if( fu.TileID == ETileType.WASP ||                 // Just add these ones if in the same shooting line as the hero
+                                                        fu.TileID == ETileType.MOTHERWASP )
+                                                        if( tg.Contains( fu.Pos ) == false ) fu = null;
+
+                                                    if( fu )
+                                                        if( fu.ProjType( EProjectileType.BOOMERANG ) ||
+                                                            fu.TileID == ETileType.RAFT ||
+                                                            fu.TileID == ETileType.FOG )
+                                                            fu = null;                                     // Discard invalid flying entities
+
+                                                    if( fu )
+                                                    {
+                                                        ul.Add( cellList[ i ] );                       // Add valid target to list
+                                                        rr.Add( Util.Manhattan( new Vector2( x, y ), AttackOrigin ) );
+                                                    }
+                                                }
+                                    }
                         }
-                }
-                return null;
-            } 
-		break;
-		case ETargettingType.MISSILE:
-        case ETargettingType.SPELL:
-        {
-            if( TargettingType == ETargettingType.SPELL )
-            {
-                if( ID >= 8 )                                                                                                           // Fixed Spell slot origin
-                    AttackOrigin = Unit.Pos + G.Hero.Body.Sp[ ID ].Delta;
-                else
-                    AttackOrigin = Unit.Pos + Util.GetRelativePosition( Unit.Dir, ( EDirection ) ID );                                  // moving spell slot origin
 
-                if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.TORCH ) return null;
-                if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.DOUBLE_ATTACK ) return null;
-                if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.WEBTRAP ) return null;
-                if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.ATTACK_BONUS ) return null;
-            }
-
-            if( TargettingType == ETargettingType.SPELL )
-            if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.THROWING_AXE )
-            {
-                if( Map.I.AdvanceTurn == false ) return null;
-                if( Map.I.CurrentMoveTrial == EActionType.BATTLE ) return null;
-                if( Map.I.CurrentMoveTrial == EActionType.WAIT ) return null;
-
-                for( int i = 0; i < 8; i++ )
-                {
-                    Vector2 tgg = AttackOrigin + Map.I.KnightTG[ i ];
-                    if( Map.IsWall( AttackOrigin ) == false )
-                    {
-                        tg.Add( tgg );                                                                                                 // Throwing axe knight tg
-                        for( int s = 0; s < G.Hero.Body.Sp.Count; s++ )                                                                // Counts duplicators in the way  
-                            Spell.CheckDuplicator( tgg, s );
-                    }
-                }
-                ShotPassThroughCount = DuplicatorCount;
-                return tg;
-            }
-
-            if( TargettingType == ETargettingType.SPELL )                                                                               // Hook attack
-            if( Spell.IsHook( G.Hero.Body.Sp[ ID ].Type ) )
-            {
-                int dr = 0;
-                if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.HOOK_CW )                                                              // Hook rotation attack
-                if( G.Hero.Control.LastAction == EActionType.ROTATE_CW ) dr = -1;
-                if( G.Hero.Body.Sp[ ID ].Type == ESpiderBabyType.HOOK_CCW )
-                if( G.Hero.Control.LastAction == EActionType.ROTATE_CCW ) dr = +1;
-                if( dr == 0 )
-                {
-                    int id2 = ( int ) Util.RotateDir( ( int ) G.Hero.Dir, ID );
-                    Vector2 pt = G.Hero.Pos + Manager.I.U.DirCord[ id2 ];
-                    Spell.UpdateHookDestruction( pt );                                                                                  // Wrong direction, Destroy hook
-                    return null;
-                }
-                AddTg( ref tg, Unit.Pos + Util.GetRelativePosition( Unit.Dir, ( EDirection ) ID ) );
-                dr = ( int ) Util.RotateDir( ( int ) Unit.Dir, dr );
-                AttackOrigin = Unit.Pos + Util.GetRelativePosition( ( EDirection ) dr, ( EDirection ) ID );                             // Attack is OK
-                return tg;
-            }
-
-            int _range = ( int ) TotalRange;
-            if( Unit.UnitType == EUnitType.HERO )
-                _range += Map.I.RM.RMD.BaseHeroRangedAttackRange;
-            if( TargettingType == ETargettingType.SPELL )
-                _range = Sector.TSX;
-
-            int range = 0;
-            int hitmonsterdist = -1;
-            bool canshoot = GetEffectiveShootingRange( ref tg, ref range, ref hitmonsterdist, false );                    // Gets effective shooting range
-            if( canshoot == false ) return null;
-
-            EDirection dir = AttackOriginalDirection;
-            float bestdist = 999;
-            if( Unit.UnitType == EUnitType.HERO )
-            if( Map.I.CurrentArea == -1 )                                                                                 // Flying Units as Target
-                {
-                    List<Unit> ul = new List<Unit>();
-                    List<int> rr = new List<int>();
-                    int temprange = range;
-                    if( hitmonsterdist != -1 ) temprange = hitmonsterdist;
-
-                    for( int r = 1; r <= temprange; r++ )                                                                // Make a list of all flying monsters in the target radius
-                    {
-                        Vector2 rel = AttackOrigin + ( Manager.I.U.DirCord[ ( int ) dir ] * r );
-                        int rad = 1;
-                        for( int y = ( int ) rel.y - rad; y <= rel.y + rad; y++ )
-                        for( int x = ( int ) rel.x - rad; x <= rel.x + rad; x++ )
-                        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
-                        {
-                            if( Map.I.FUnit[ x, y ] != null )                                       
-                            for( int i = 0; i < Map.I.FUnit[ x, y ].Count; i++ )
-                            if( ul.Contains( Map.I.FUnit[ x, y ][ i ] ) == false )
-                            {
-                                Unit fu = Map.I.FUnit[ x, y ][ i ];
-                                if( fu.TileID == ETileType.WASP ||                           // Just add these ones if in the same shooting line as the hero
-                                    fu.TileID == ETileType.MOTHERWASP )
-                                if( tg.Contains( fu.Pos ) == false ) fu = null;
-                                if( fu )
-                                if( fu.ProjType( EProjectileType.BOOMERANG ) ||
-                                    fu.TileID == ETileType.RAFT ||
-                                    fu.TileID == ETileType.FOG )
-                                    fu = null;
-
-                                if( fu )
+                        for( int k = 1; k < ul.Count; k++ )                            // Sorts score list        
+                            for( int j = 0; j < ul.Count - k; j++ )
+                                if( ( rr[ j ] > rr[ j + 1 ] ) )
                                 {
-                                    ul.Add( Map.I.FUnit[ x, y ][ i ] );
-                                    rr.Add( Util.Manhattan( new Vector2( x, y ), AttackOrigin ) );
+                                    int temp = rr[ j ];                                        // Swap ranges
+                                    rr[ j ] = rr[ j + 1 ];
+                                    rr[ j + 1 ] = temp;
+                                    Unit tempun = ul[ j ];                                     // Swap units
+                                    ul[ j ] = ul[ j + 1 ];
+                                    ul[ j + 1 ] = tempun;
                                 }
-                            }
-                        }
-                        #region old
-                        //if( Util.IsDiagonal( dir ) )                                                                       // Get Diagonal tiles
-                        //{
-                        //    center = AttackOrigin + G.Hero.GetRelativePosition( EDirection.N, r );
-                        //    left = center + Util.GetRelativePosition( dir, EDirection.SW );
-                        //    right = center + Util.GetRelativePosition( dir, EDirection.SE );
-                        //}
-                        //else
-                        //{
-                        //    center = AttackOrigin + G.Hero.GetRelativePosition( EDirection.N, r );                          // Get Ortho tiles
-                        //    left = center + Util.GetRelativePosition( dir, EDirection.W );
-                        //    right = center + Util.GetRelativePosition( dir, EDirection.E );
-                        //}
 
-                        //if( Map.I.FUnit[ ( int ) center.x, ( int ) center.y ] != null )                                        // Optimize: add all at once
-                        //{
-                        //    ul.AddRange( Map.I.FUnit[ ( int ) center.x, ( int ) center.y ] );
-                        //    for( int i = 0; i < Map.I.FUnit[ ( int ) center.x, ( int ) center.y ].Count; i++ ) rr.Add( r );
-                        //}
-                        //if( Map.I.FUnit[ ( int ) left.x, ( int ) left.y ] != null )                                           // Optimize: add all at once
-                        //{
-                        //    ul.AddRange( Map.I.FUnit[ ( int ) left.x, ( int ) left.y ] );
-                        //    for( int i = 0; i < Map.I.FUnit[ ( int ) left.x, ( int ) left.y ].Count; i++ ) rr.Add( r );
-                        //}
-                        //if( Map.I.FUnit[ ( int ) right.x, ( int ) right.y ] != null )                                         // Optimize: add all at once
-                        //{
-                        //    ul.AddRange( Map.I.FUnit[ ( int ) right.x, ( int ) right.y ] );
-                        //    for( int i = 0; i < Map.I.FUnit[ ( int ) right.x, ( int ) right.y ].Count; i++ ) rr.Add( r );
-                        //}*/
-                        #endregion
-                    }
+                        for( int i = 0; i < ul.Count; i++ )
+                            if( ul[ i ].Body.IsDead == false )
+                                if( ul[ i ].Control.Resting == false )
+                                {
+                                    Unit fl = ul[ i ];
+                                    int r = rr[ i ];
+                                    Vector2 l1 = AttackOrigin + ( Manager.I.U.DirCord[ ( int ) dir ] * .5f );
+                                    Vector2 l2 = l1 + ( Manager.I.U.DirCord[ ( int ) dir ] * range );
+                                    float linedist = Util.GetDistanceToLine( l1, l2, fl.transform.position ); // Calculates Distance to shot line
+                                    bool ok = false;
+                                    float minrange = Vector2.Distance( AttackOrigin, fl.transform.position );
+                                    float herodist = minrange;
 
-                    for( int k = 1; k < ul.Count; k++ )        // reorder targets by range                                                                            // Sorts score list        
-                    for( int j = 0; j < ul.Count - k; j++ )
-                    if ( ( rr[ j ] > rr[ j + 1 ] ) )
-                    {
-                        int temp = rr[ j ];
-                        rr[ j ] = rr[ j + 1 ];
-                        rr[ j + 1 ] = temp;
-                        Unit tempun = ul[ j ];
-                        ul[ j ] = ul[ j + 1 ];
-                        ul[ j + 1 ] = tempun;
-                    }
-
-                    for( int i = 0; i < ul.Count; i++ )
-                    if ( ul[ i ].Body.IsDead == false )
-                    if ( ul[ i ].Control.Resting == false )
-                        {
-                            Unit fl = ul[ i ];
-                            int r = rr[ i ];
-                            Vector2 l1 = AttackOrigin + ( Manager.I.U.DirCord[ ( int ) dir ] * .5f );
-                            Vector2 l2 = l1 + ( Manager.I.U.DirCord[ ( int ) dir ] * range );
-                            float linedist = Util.GetDistanceToLine( l1, l2, fl.transform.position );                                 // Calculates Distance to shot line
-                            bool ok = false;
-                            float minrange = Vector2.Distance( AttackOrigin, fl.transform.position );
-                            float herodist = minrange;
-                        
-                            if( fl.TileID == ETileType.DRAGON1 )
-                            {
-                                float maxlinedist = Map.I.RM.RMD.BaseMonsterTargetRadius + (
-                                G.Hero.Control.FlyingTargetting * Map.I.RM.RMD.ExtraMonsterTargetRadiusPerLevel );
-                                maxlinedist = Util.Percent( fl.Control.TargettingRadiusFactor, maxlinedist );
-
-                                if( linedist <= maxlinedist ) ok = true;
-
-                                float maxrange = Util.Manhattan( fl.Pos, AttackOrigin );
-
-                                if( maxrange > _range ) ok = false;                                                               // Min and Max ranges
-                                if( minrange < .5f ) ok = false;
-
-                                if( AttackOrigin == fl.Pos ) ok = false;
-                                if( Map.IsWall( fl.Pos ) ) ok = false;
-                                if( !ok && Map.I.HasLOS( AttackOrigin, fl.Pos, true,
-                                    G.Hero, true, true ) == false ) ok = false;
-                            }
-                            else
-                            if( fl.TileID == ETileType.QUEROQUERO )
-                            {
-                                float maxlinedist = Map.I.RM.RMD.BaseMonsterTargetRadius + (
-                                G.Hero.Control.FlyingTargetting * Map.I.RM.RMD.ExtraMonsterTargetRadiusPerLevel );
-
-                                if( linedist <= maxlinedist ) ok = true;
-                                //Vector2 rel = AttackOrigin + ( Manager.I.U.DirCord[ ( int ) dir ] * range ); 
-                                float maxrange = Util.Manhattan( fl.Pos, AttackOrigin );
-  
-                                if( maxrange > _range ) ok = false;                                                               // Min and Max ranges
-                                if( minrange < .5f ) ok = false;
-
-                                if( AttackOrigin == fl.Pos ) ok = false;
-                                if( Map.IsWall( fl.Pos ) ) ok = false;
-                                if( !ok && Map.I.HasLOS( AttackOrigin, fl.Pos, true,
-                                    G.Hero, true, true ) == false ) ok = false;
-                            }
-                            else
-                            if( fl.TileID == ETileType.WASP )                                                          // Wasps always hit if inside the taget tile (no distance check)
-                            {
-                                if( fl.Control.Mother )
-                                if( fl.Control.Mother.Control.Resting )                                                // Awakes mother only with frontal att
-                                if( ForcedEnemy == null )
+                                    if( fl.TileID == ETileType.DRAGON1 )
                                     {
-                                        return null;
+                                        float maxlinedist = Map.I.RM.RMD.BaseMonsterTargetRadius + (
+                        G.Hero.Control.FlyingTargetting * Map.I.RM.RMD.ExtraMonsterTargetRadiusPerLevel );
+                                        maxlinedist = Util.Percent( fl.Control.TargettingRadiusFactor, maxlinedist );
+
+                                        if( linedist <= maxlinedist ) ok = true;
+
+                                        float maxrange = Util.Manhattan( fl.Pos, AttackOrigin );
+
+                                        if( maxrange > _range ) ok = false;                    // Min and Max ranges
+                                        if( minrange < .5f ) ok = false;
+
+                                        if( AttackOrigin == fl.Pos ) ok = false;
+                                        if( Map.IsWall( fl.Pos ) ) ok = false;
+                                        if( !ok && Map.I.HasLOS( AttackOrigin, fl.Pos, true, G.Hero, true, true ) == false ) ok = false;
+                                    }
+                                    else if( fl.TileID == ETileType.QUEROQUERO )
+                                    {
+                                        float maxlinedist = Map.I.RM.RMD.BaseMonsterTargetRadius + (
+                        G.Hero.Control.FlyingTargetting * Map.I.RM.RMD.ExtraMonsterTargetRadiusPerLevel );
+
+                                        if( linedist <= maxlinedist ) ok = true;
+                                        float maxrange = Util.Manhattan( fl.Pos, AttackOrigin );
+
+                                        if( maxrange > _range ) ok = false;                    // Min and Max ranges
+                                        if( minrange < .5f ) ok = false;
+
+                                        if( AttackOrigin == fl.Pos ) ok = false;
+                                        if( Map.IsWall( fl.Pos ) ) ok = false;
+                                        if( !ok && Map.I.HasLOS( AttackOrigin, fl.Pos, true, G.Hero, true, true ) == false ) ok = false;
+                                    }
+                                    else if( fl.TileID == ETileType.WASP )                     // Wasps always hit if inside the taget tile (no distance check)
+                                    {
+                                        if( fl.Control.Mother )
+                                            if( fl.Control.Mother.Control.Resting )                // Awakes mother only with frontal att
+                                                if( ForcedEnemy == null )
+                                                {
+                                                    return null;
+                                                }
+
+                                        Vector2 tar = AttackOrigin + ( Manager.I.U.DirCord[ ( int ) dir ] * r );
+                                        if( tg.Contains( fl.Pos ) )
+                                            if( tar == fl.Pos ) ok = true;
+
+                                        List<Unit> wl = Map.I.GF( fl.Pos, ETileType.WASP );
+                                        for( int w = 0; w < wl.Count; w++ )
+                                            if( wl[ w ].Control.Mother )
+                                                if( wl[ w ].Control.Mother.Control.Resting )          // resting wasp in the tile voids attack
+                                                    return null;
+
+                                        int shield = 0, fire = 0, enr = 0; Unit normal = null;
+                                        List<Unit> cl = Map.I.GF( tar, ETileType.WASP );
+                                        if( cl != null )
+                                            for( int c = 0; c < cl.Count; c++ )
+                                            {
+                                                if( cl[ c ].Body.EnragedWasp ) enr++;
+                                                if( cl[ c ].Body.ShieldedWasp ||
+                                                    cl[ c ].Body.CocoonWasp ) shield++;
+                                                if( cl[ c ].Control.FireMarkedWaspFactor > 0 )
+                                                    fire++;
+                                                else
+                                                    normal = cl[ c ];
+                                            }
+
+                                        if( shield <= 0 )
+                                            if( fl.Body.ShieldedWasp == false )
+                                                if( tg.Contains( fl.Pos ) )                            // Force no shielded wasp as tg
+                                                    if( Map.I.IsInTheSameLine( AttackOrigin, fl.Pos ) )
+                                                    {
+                                                        ForcedEnemy = fl;
+                                                        return tg;
+                                                    }
+
+                                        if( shield >= 1 && r > 1 ) return null;                // Shielded Wasp no far shooting                 
+
+                                        if( shield >= 1 && r == 1 )
+                                            if( tg.Contains( fl.Pos ) )
+                                            {
+                                                if( fl.Body.ShieldedWasp )                         // force shielded as tg
+                                                {
+                                                    ForcedEnemy = fl;
+                                                    return tg;
+                                                }
+                                            }
+                                        if( normal )
+                                            if( fire > 0 || enr > 0 )                              // force att to non firemarked if crowded
+                                            {
+                                                ForcedEnemy = normal;
+                                                return tg;
+                                            }
+                                    }
+                                    else if( fl.TileID == ETileType.MOTHERWASP )               // Mother wasp invulnerable while having children
+                                    {
+                                        Vector2 tar = AttackOrigin + ( Manager.I.U.DirCord[ ( int ) dir ] * r );
+                                        if( tg.Contains( fl.Pos ) )
+                                            if( tar == fl.Pos ) ok = true;
+                                        if( fl.Body.ChildList.Count > 0 )
+                                            if( Map.I.IsInTheSameLine( AttackOrigin, fl.Pos ) )
+                                                ok = false;                                        // Block LOS if children present
                                     }
 
-                                Vector2 tar = AttackOrigin + ( Manager.I.U.DirCord[ ( int ) dir ] * r );
-                                if( tg.Contains( fl.Pos ) )
-                                if( tar == fl.Pos ) ok = true;
-
-                                List<Unit> wl = Map.I.GF( fl.Pos, ETileType.WASP );
-                                for( int w = 0; w < wl.Count; w++ )
-                                if ( wl[ w ].Control.Mother )
-                                if ( wl[ w ].Control.Mother.Control.Resting )                                          // resting wasp in the tile voids attack
-                                    return null;
-
-                                int shield = 0, fire = 0, enr = 0; Unit normal = null;                                 
-                                List<Unit> cl = Map.I.GF( tar, ETileType.WASP );                        
-                                if ( cl != null )
-                                for( int c = 0; c < cl.Count; c++ )
+                                    if( fl.TileID == ETileType.QUEROQUERO )                    // Dragon 3 Only hit by move Shot                                                                                                                              
                                     {
-                                        if( cl[ c ].Body.EnragedWasp ) enr++;
-                                        if( cl[ c ].Body.ShieldedWasp ||
-                                            cl[ c ].Body.CocoonWasp ) shield++;
-                                        if( cl[ c ].Control.FireMarkedWaspFactor > 0 )
-                                            fire++;
-                                        else 
-                                            normal = cl[ c ];
-                                    }
+                                        if( Attack.IsMoveShot == false ) return tg;
+                                        if( linedist > Map.I.RM.RMD.BaseHeadShotRadius ) ok = false;
 
-                                if( shield <= 0 )
-                                if( fl.Body.ShieldedWasp == false )
-                                if( tg.Contains( fl.Pos ) )                                                   // Force no shielded wasp as tg
-                                if( Map.I.IsInTheSameLine( AttackOrigin, fl.Pos ) ) /// new
-                                {
-                                    ForcedEnemy = fl;
-                                    return tg;
-                                }
+                                        if( fl.Control.FlightDir == AttackOriginalDirection || // No Same Angle Shot
+                                            fl.Control.FlightDir == Util.GetInvDir( AttackOriginalDirection ) ) ok = false;
 
-                                if( shield >= 1 && r > 1 ) return null;                                       // Shielded Wasp no far shooting                 
-
-                                if( shield >= 1 && r == 1 )
-                                if( tg.Contains( fl.Pos ) )
-                                {
-                                    if( fl.Body.ShieldedWasp )                                                // force shielded as tg
-                                    {
-                                        ForcedEnemy = fl;
-                                        return tg;
-                                    }
-                                }
-                                if( normal )
-                                if( fire > 0 || enr > 0 )                                                    // force att to non firemarked if crowded
-                                {
-                                    ForcedEnemy = normal;
-                                    return tg;
-                                }
-                            }
-                            else
-                            if( fl.TileID == ETileType.MOTHERWASP )                                                               // Mother wasp invulnerable while having children
-                            {            
-                                Vector2 tar = AttackOrigin + ( Manager.I.U.DirCord[ ( int ) dir ] * r );
-                                if( tg.Contains( fl.Pos ) )
-                                if( tar == fl.Pos ) ok = true;
-                                if( fl.Body.ChildList.Count > 0 )
-                                if( Map.I.IsInTheSameLine( AttackOrigin, fl.Pos ) )
-                                    ok = false;    
-                            }
-
-                            #region Test Precision
-
-                            //int posx = 0, posy = 0;
-                            //Map.I.Tilemap.GetTileAtPosition( fl.transform.position, out posx, out posy );                        // REVERT TO UNIT POS
-                            //fl.Pos = new Vector2( posx, posy );
-
-                            //float amt = .01f;
-                            //Vector3 amtv = new Vector3( 0, 0, 0 );
-                            //if( Input.GetKey( KeyCode.E ) ) amtv.y += amt;
-                            //if( Input.GetKey( KeyCode.D ) ) amtv.y -= amt;
-                            //if( Input.GetKey( KeyCode.S ) ) amtv.x -= amt;
-                            //if( Input.GetKey( KeyCode.F ) ) amtv.x += amt;
-                            //fl.transform.position = fl.transform.position + amtv;
-
-                        //    Unit arrow = Map.I.GetUnit( ETileType.ARROW, fl.Pos );
-                        //    if( arrow )
-                        //        for( int i = 0; i <= range; i++ )
-                        //        {
-                        //            Vector2 tgg = G.Hero.Pos + G.Hero.GetRelativePosition( EDirection.N, i + 1 );
-                        //            if( tgg == fl.Pos ) if( tg[ i ] == new Vector2( -1, -1 ) ) ok = false;
-                        //        }
-
-                        //    if( fl.TileID == ETileType.DRAGON3 )                           
-                        //    {
-                        //        if( dist > Map.I.RM.RMD.BaseHeadShotRadius ) ok = false;
-
-                        //        if( fl.Control.FlightDir == G.Hero.Dir ||                                                        // No Same Angle Shot
-                        //            fl.Control.FlightDir == Util.GetInvDir( G.Hero.Dir ) ) ok = false;
-
-                        //        if( Attack.IsRealtime ) ok = false;
-                        //        if( Attack.IsMoveShot == false ) ok = false;                                                     // Dragon 3 Only hit by move Shot
-
-                        //        if( ok )                                                                                           // Headshot!
-                        //        {
-                        //            Message.GreenMessage( "Headshot! " + ( dist * 100 ).ToString( "0.0" ) + " cm!" );     
-
-                        //            Map.I.Deb = "Headshot! " + ( dist * 100 ).ToString( "0.0" ) + " cm!";
-                        //        }
-                        //        else
-                        //        {
-                        //            float needed = ( dist - Map.I.RM.RMD.BaseHeadShotRadius ) * 100;
-                        //            if( needed > 0 && dist < .5f )                                                                // Bad Shot Attampted
-                        //            {
-                        //                    Message.RedMessage( "Missed for " + needed.ToString( "0.0" ) + " cm!" );
-
-                        //                Map.I.Deb = "Missed for " + needed.ToString( "0.0" ) + " cm!";
-
-                        //                    G.Hero.Body.ReceiveDamage( 10, EDamageType.MISSILE, Unit, this );
-                        //            }
-                        //            else
-                        //                Map.I.Deb = "";
-                        //        }
-                        //    }
-
-                        //    if( ok )
-                        //    {
-                        //        ForcedEnemy = fl;
-                        //        return tg;
-                        //    }
-                        //}
-
-                            #endregion
-
-                            if( fl.TileID == ETileType.QUEROQUERO )                                                                   // Dragon 3 Only hit by move Shot                                                                              
-                            {
-                                if( Attack.IsMoveShot == false ) return tg; 
-                                if( linedist > Map.I.RM.RMD.BaseHeadShotRadius ) ok = false;
-
-                                if( fl.Control.FlightDir == AttackOriginalDirection ||                                                // No Same Angle Shot
-                                    fl.Control.FlightDir == Util.GetInvDir( AttackOriginalDirection ) ) ok = false;
-
-                                bool ghost = false;
-                                if( ok )                                                                                              // Headshot!
-                                {
-                                    float mind = fl.Body.QQMinDamage;
-                                    float maxd = fl.Body.QQMaxDamage;
-                                    float accuracy = ( 1f - ( linedist / Map.I.RM.RMD.BaseHeadShotRadius ) ) * 100f;
-                                    accuracy = Mathf.Clamp( accuracy, 0f, 100f );  
-                                    QQHPDamage = Util.GetCurveVal( accuracy, 100, mind, maxd, fl.Md.QQDamageCurve );
-                                    bool eyeshot = linedist <= Map.I.RM.RMD.BaseEyeShotRadius;
-                                    if( eyeshot )
-                                    {
-                                        Message.GreenMessage( "Eye Shot! " + ( linedist * 100 ).ToString( "0.0" ) + " cm!" );         // eye shot
-                                        QQHPDamage += Util.Percent( 20, QQHPDamage );
-                                    }
-                                    else
-                                        Message.GreenMessage( "Headshot! " + ( linedist * 100 ).ToString( "0.0" ) + " cm!" );
-                                    ghost = true;
-                                }
-                                else
-                                {                                   
-                                    float needed = ( linedist - Map.I.RM.RMD.BaseHeadShotRadius ) * 100;
-                                    if( Attack.IsMoveShot )
-                                    if( needed > 0 && linedist < .5f )                                                               // Bad Shot Attampted
-                                    {
-                                        Message.RedMessage( "Missed for " + needed.ToString( "0.0" ) + " cm!" );
-                                        Vector2 stg = G.Hero.Pos + G.Hero.GetRelativePosition( EDirection.N, range );
-                                        CreateArrowAnimation( null, stg, EBoltType.Arrow );
-
-                                        if( fl.Body.QQMissHeroDamage > 0 )                                                           // hero miss self damage
+                                        bool ghost = false;                                    // Trigger ghost feedback flag
+                                        if( ok )                                               // Headshot!
                                         {
-                                            G.Hero.Body.ReceiveDamage( fl.Body.QQMissHeroDamage, EDamageType.BLEEDING, Unit, null );
-                                            ArcherArrowAnimation ar = G.Hero.RangedAttack.CreateArrowAnimation( 
-                                            null, G.Hero.Pos, EBoltType.Rock );                                                      // FX
-                                            ar.transform.position = fl.Pos;
-                                            Body.CreateDamageAnimation( Unit.Pos, fl.Body.QQMissHeroDamage, G.Hero );
-                                            Body.CreateDeathFXAt( G.Hero.Pos, "Monster Hit" );                                       // Fx
+                                            float mind = fl.Body.QQMinDamage;
+                                            float maxd = fl.Body.QQMaxDamage;
+                                            float accuracy = ( 1f - ( linedist / Map.I.RM.RMD.BaseHeadShotRadius ) ) * 100f;
+                                            accuracy = Mathf.Clamp( accuracy, 0f, 100f );
+                                            QQHPDamage = Util.GetCurveVal( accuracy, 100, mind, maxd, fl.Md.QQDamageCurve );
+                                            bool eyeshot = linedist <= Map.I.RM.RMD.BaseEyeShotRadius;
+
+                                            if( eyeshot )
+                                            {
+                                                Message.GreenMessage( "Eye Shot! " + ( linedist * 100 ).ToString( "0.0" ) + " cm!" ); // eye shot
+                                                QQHPDamage += Util.Percent( 20, QQHPDamage );
+                                            }
+                                            else
+                                                Message.GreenMessage( "Headshot! " + ( linedist * 100 ).ToString( "0.0" ) + " cm!" );
+
+                                            ghost = true;                                      // Setup ghost tracking
                                         }
-                                        ghost = true;
+                                        else
+                                        {
+                                            float needed = ( linedist - Map.I.RM.RMD.BaseHeadShotRadius ) * 100;
+                                            if( Attack.IsMoveShot )
+                                                if( needed > 0 && linedist < .5f )                 // Bad Shot Attampted
+                                                {
+                                                    Message.RedMessage( "Missed for " + needed.ToString( "0.0" ) + " cm!" );
+                                                    Vector2 stg = G.Hero.Pos + G.Hero.GetRelativePosition( EDirection.N, range );
+                                                    CreateArrowAnimation( null, stg, EBoltType.Arrow );
+
+                                                    if( fl.Body.QQMissHeroDamage > 0 )             // hero miss self damage
+                                                    {
+                                                        G.Hero.Body.ReceiveDamage( fl.Body.QQMissHeroDamage, EDamageType.BLEEDING, Unit, null );
+                                                        ArcherArrowAnimation ar = G.Hero.RangedAttack.CreateArrowAnimation( null, G.Hero.Pos, EBoltType.Rock ); // FX
+                                                        ar.transform.position = fl.Pos;
+                                                        Body.CreateDamageAnimation( Unit.Pos, fl.Body.QQMissHeroDamage, G.Hero );
+                                                        Body.CreateDeathFXAt( G.Hero.Pos, "Monster Hit" );                               // Fx
+                                                    }
+                                                    ghost = true;
+                                                }
+                                        }
+
+                                        if( ghost )                                            // Place Ghost
+                                        {
+                                            Map.I.HeadShotGhost.gameObject.SetActive( true );
+                                            Map.I.HeadShotGhost.transform.position = fl.Spr.transform.position;
+                                            Map.I.HeadShotGhost.transform.rotation = fl.Spr.transform.rotation;
+                                            Map.I.HeadShotGhost.color = new Color( Map.I.HeadShotGhost.color.r,
+                                            Map.I.HeadShotGhost.color.g, Map.I.HeadShotGhost.color.b, .5f );
+                                        }
                                     }
-                                }
 
-                                if( ghost )                                                                                          // Place Ghost
-                                {
-                                    Map.I.HeadShotGhost.gameObject.SetActive( true );
-                                    Map.I.HeadShotGhost.transform.position = fl.Spr.transform.position;
-                                    Map.I.HeadShotGhost.transform.rotation = fl.Spr.transform.rotation;
-                                    Map.I.HeadShotGhost.color = new Color( Map.I.HeadShotGhost.color.r, 
-                                    Map.I.HeadShotGhost.color.g, Map.I.HeadShotGhost.color.b, .5f );
-                                }
-                            }
+                                    if( ok )
+                                    {
+                                        if( herodist < bestdist )
+                                        {
+                                            ForcedEnemy = fl;
+                                            bestdist = herodist;                               // Update closest distance
+                                        }
+                                    }
 
-                            if( ok )
-                            {
-                                if( herodist < bestdist )
-                                {
-                                    ForcedEnemy = fl;
-                                    bestdist = herodist;
+                                    if( i + 1 < rr.Count )                                     // no need to proceed cheching if enemy already found and range++
+                                        if( rr[ i + 1 ] > rr[ i ] ) break;
                                 }
-                            }
-
-                            if( i + 1 < rr.Count )                 // no need to proceed cheching if enemy already found and range++
-                            if( rr[ i + 1 ] > rr[ i ] ) break;
-                        }
-                    return tg;
-                }
-		} 
-		break;
+                        return tg;
+                    }
+            }
+            break;
 
         case ETargettingType.BOOMERANG:
-        {          
-            tg.Add( Unit.Pos );
-            if( Controller.PassiveBoomerangAttackTg != null ) 
-                ForcedEnemy = Controller.PassiveBoomerangAttackTg;
-            List<Unit> fl = Map.I.GetFUnit( Unit.Pos );                         // Boomerang kill all wasps in the tile
-            if( fl != null )
-            for( int i = 0; i < fl.Count; i++ )
             {
-                if( fl[ i ].TileID == ETileType.WASP )
-                    ForcedEnemy = fl[ i ];
-                if( fl[ i ].TileID == ETileType.MOTHERWASP )
-                    if( fl[ i ].Body.ChildList.Count <= 0 )
-                        ForcedEnemy = fl[ i ];
+                tg.Add( Unit.Pos );
+                if( Controller.PassiveBoomerangAttackTg != null )
+                    ForcedEnemy = Controller.PassiveBoomerangAttackTg;
+                List<Unit> fl = Map.I.GetFUnit( Unit.Pos );                        // Boomerang kill all wasps in the tile
+                if( fl != null )
+                    for( int i = 0; i < fl.Count; i++ )
+                    {
+                        if( fl[ i ].TileID == ETileType.WASP )
+                            ForcedEnemy = fl[ i ];
+                        if( fl[ i ].TileID == ETileType.MOTHERWASP )
+                            if( fl[ i ].Body.ChildList.Count <= 0 )
+                                ForcedEnemy = fl[ i ];
+                    }
+                return tg;
             }
-            return tg;
-        }
 
         case ETargettingType.FIREBALL:
-        {
-            tg.Add( Unit.Control.FlyingTarget );                                // idea: make fireball destroy all wasps in the tile like boomerang
-            return tg;
-        }
+            {
+                tg.Add( Unit.Control.FlyingTarget );                               // idea: make fireball destroy all wasps in the tile like boomerang
+                return tg;
+            }
 
         case ETargettingType.FROG:
-        {
-            Unit.UpdateDirection();
-            Unit water = Map.I.GetUnit( ETileType.WATER, Unit.Pos );
-            if( water )                                                              // Swimming Frog Attack Disabled
-                return null;
-
-            Unit waterfr = Map.I.GetUnit( ETileType.WATER, Unit.Control.OldPos );
-            if( waterfr )                                                            // leaving water Frog Attack Disabled
-                return null;
-
-            if( Map.Stepping() )                                                     // STEPPING mode
             {
-                if( Unit.Control.SpeedTimeCounter >= 1 )
+                Unit.UpdateDirection();
+                Unit water = Map.I.GetUnit( ETileType.WATER, Unit.Pos );
+                if( water )                                                        // Swimming Frog Attack Disabled
                     return null;
-            }
 
-            tg = new List<Vector2>();                                             
-            if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) )
-            {
-                tg.Add( G.Hero.Pos );
-                if( G.Hero.GetFront() == Unit.Pos )
+                Unit waterfr = Map.I.GetUnit( ETileType.WATER, Unit.Control.OldPos );
+                if( waterfr )                                                      // leaving water Frog Attack Disabled
+                    return null;
+
+                if( Map.Stepping() )                                               // STEPPING mode
                 {
-                    Message.GreenMessage( "Block!" );
-                    return null;
+                    if( Unit.Control.SpeedTimeCounter >= 1 )
+                        return null;
                 }
-                return tg;
+
+                if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) )
+                {
+                    tg.Add( G.Hero.Pos );
+                    if( G.Hero.GetFront() == Unit.Pos )
+                    {
+                        Message.GreenMessage( "Block!" );
+                        return null;
+                    }
+                    return tg;
+                }
+                return null;
             }
-            
-            return null;
-        }
-        break;
+            break;
 
         case ETargettingType.STEPPER:
-        {
-            Unit.UpdateDirection();
-            if( Map.I.AdvanceTurn == false ) return null;
-            tg = new List<Vector2>();
-            if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) )
+            {
+                Unit.UpdateDirection();
+                if( Map.I.AdvanceTurn == false ) return null;
+                if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) )
+                {
+                    tg.Add( G.Hero.Pos );
+                    if( Unit.Control.ForcedFrontalMovementFactor > 0 )             // Mushroom target: Only Frontal Tile
+                        if( Unit.GetFront() != G.Hero.Pos ) return null;
+                    return tg;
+                }
+                return null;
+            }
+            break;
+
+        case ETargettingType.DRAGON:
             {
                 tg.Add( G.Hero.Pos );
-                if( Unit.Control.ForcedFrontalMovementFactor > 0 )          // Mushroom target: Only Frontal Tile
-                if( Unit.GetFront() != G.Hero.Pos ) return null;
+                float dist = Vector2.Distance( G.Hero.transform.position, Unit.transform.position );
+                if( dist > Map.I.RM.RMD.HeroTargetRadius ) return null;            // Restrict by radius configuration
                 return tg;
             }
-            return null;
-        }
-        break;
-        case ETargettingType.DRAGON:
-        {
-            tg = new List<Vector2>( 1 );
-            tg.Add( G.Hero.Pos );
-            #region Slayer
-            //if( Unit.Body.HasFullHealth() )
-            //    if( Unit.Control.FlightTime < 4 ) return null;
-
-            //Vector3 directionToTarget = Unit.Spr.transform.position - G.Hero.transform.position;           // slayer angle
-            //float angle = Vector3.Angle( Unit.Spr.transform.up, directionToTarget );
-            //float maxangle = Map.I.RM.RMD.BaseDragonSlayerAngle + G.Hero.Control.SlayerAngle;
-            //float maxdragonhp = Map.I.RM.RMD.BaseDragonSlayerMaxHP - G.Hero.Control.SlayerMaxHP;              // slayer max hp
-            //float perc = Unit.Body.GetHealthPercent();
-
-            //Unit.RightText.text = "" + angle.ToString( "0." ) + " " + perc.ToString( "0." );
-            //Unit.RightText.gameObject.SetActive( true );
-
-            //if( angle <= maxangle / 2 )
-            //    if( perc > maxdragonhp ) return null;
-
-            //if( Map.I.HasLOS( Unit.Pos, G.Hero.Pos, true, Unit, true, true, "Dragon Shot" ) == false ) return null; 
-            #endregion
-            float dist = Vector2.Distance( G.Hero.transform.position, Unit.transform.position );
-            if( dist > Map.I.RM.RMD.HeroTargetRadius ) return null;
-            return tg;
-        }
-        break;
+            break;
 
         case ETargettingType.JUMPER:
-        {
-            if( Unit.Control.FlightJumpPhase == 0 )
-                Unit.Control.FlightJumpPhase = 1;
-            else return null;
+            {
+                if( Unit.Control.FlightJumpPhase == 0 )
+                    Unit.Control.FlightJumpPhase = 1;                              // Advance jump phase logic
+                else return null;
 
-            //if( Unit.Control.JumperPhaseTimer != 0 ) return null;
-            if( Util.IsInBox( G.Hero.Pos, Unit.Pos, 3 ) == false ) return null;
+                if( Util.IsInBox( G.Hero.Pos, Unit.Pos, 3 ) == false ) return null;
 
-            tg = new List<Vector2>();
-            tg.Add( G.Hero.Pos );
+                tg.Add( G.Hero.Pos );
 
-            Vector3 directionToTarget = Unit.Spr.transform.position - G.Hero.transform.position;                           // slayer angle
-            float angle = Vector3.Angle( Unit.Spr.transform.up, directionToTarget );
-            float maxangle = Map.I.RM.RMD.BaseDragonSlayerAngle + G.Hero.Control.SlayerAngle;
-            float maxdragonhp = Map.I.RM.RMD.BaseDragonSlayerMaxHP - G.Hero.Control.SlayerMaxHP;                           // slayer max hp
-            float perc = Unit.Body.GetHealthPercent();
+                Vector3 directionToTarget = Unit.Spr.transform.position - G.Hero.transform.position; // slayer angle
+                float angle = Vector3.Angle( Unit.Spr.transform.up, directionToTarget );
+                float maxangle = Map.I.RM.RMD.BaseDragonSlayerAngle + G.Hero.Control.SlayerAngle;
+                float maxdragonhp = Map.I.RM.RMD.BaseDragonSlayerMaxHP - G.Hero.Control.SlayerMaxHP; // slayer max hp
+                float perc = Unit.Body.GetHealthPercent();
 
-            Unit.RightText.text = "" + angle.ToString( "0." ) + " " + perc.ToString( "0." );
-            Unit.RightText.gameObject.SetActive( true );
+                Unit.RightText.text = "" + angle.ToString( "0." ) + " " + perc.ToString( "0." );
+                Unit.RightText.gameObject.SetActive( true );
 
-            if( angle <= maxangle / 2 )
-                if( perc > maxdragonhp ) return null;
+                if( angle <= maxangle / 2 )
+                    if( perc > maxdragonhp ) return null;                          // Abort based on hp and angle
 
-            if( Map.I.HasLOS( Unit.Pos, G.Hero.Pos, true, Unit, true, true, "Dragon Shot" ) == false ) return null;
-            return tg;
-        }
-        break;
+                if( Map.I.HasLOS( Unit.Pos, G.Hero.Pos, true, Unit, true, true, "Dragon Shot" ) == false ) return null;
+                return tg;
+            }
+            break;
 
         case ETargettingType.WASP:
         case ETargettingType.MOTHERWASP:
-        {
-            if( Unit.TileID == ETileType.WASP )
-            if( Unit.Control.Mother.Control.Resting )
-                return null;
-            if( Unit.TileID == ETileType.MOTHERWASP )
-            if( Unit.Control.Resting ) return null;
-            if( Unit.Control.Mother && Unit.Pos == Unit.Control.Mother.Pos ) return null;
+            {
+                if( Unit.TileID == ETileType.WASP )
+                    if( Unit.Control.Mother.Control.Resting )
+                        return null;                                                   // Prevent action while mother sleeps
+                if( Unit.TileID == ETileType.MOTHERWASP )
+                    if( Unit.Control.Resting ) return null;
+                if( Unit.Control.Mother && Unit.Pos == Unit.Control.Mother.Pos ) return null;
 
-            tg = new List<Vector2>();
-            tg.Add( G.Hero.Pos );
-            if( Controller.MoveTickDone == false ) return null;
-            if( Unit.TileID == ETileType.MOTHERWASP )
-            if( Unit.Control.TickMoveList.Contains( G.HS.CurrentTickNumber ) == false ) return null;
-            if( Unit.TileID == ETileType.WASP )
-            if( G.HS.CurrentTickNumber != 1 ) return null;
-            if( Util.Neighbor( G.Hero.Pos, Unit.Pos ) == false ) return null;
-            if( Map.I.CheckArrowBlockFromTo( Unit.Pos, G.Hero.Pos, Unit ) ) return null;
-            List<Unit> firel = Util.GetNeighbors( Unit.Pos, ETileType.FIRE );
-            if( Unit.Control.FireMarkedWaspFactor > 0 )                                         // firemarked neighbor to fire do no attack
-            for( int f = 0; f < firel.Count; f++ )
-                if( firel[ f ].Body.FireIsOn ) return null;
-            if( CheckBarricadeBlockForRangedAttack( Unit.Pos ) ) return null;
-            Vector3 pun = Util.GetTargetUnitVector( Unit.Pos, G.Hero.Control.OldPos );
-            iTween.PunchPosition( Unit.Graphic.gameObject, -pun * .7f, 0.5f );
-            Unit.Body.CreateBloodSpilling( G.Hero.Pos );
-            G.Hero.Body.ReceiveDamage( Unit.MeleeAttack.BaseDamage, EDamageType.MELEE, Unit, Unit.MeleeAttack );
-            Map.I.StartCubeDeath();
-            return null;
-        }
-        break;
+                tg.Add( G.Hero.Pos );
+                if( Controller.MoveTickDone == false ) return null;
+                if( Unit.TileID == ETileType.MOTHERWASP )
+                    if( Unit.Control.TickMoveList.Contains( G.HS.CurrentTickNumber ) == false ) return null;
+                if( Unit.TileID == ETileType.WASP )
+                    if( G.HS.CurrentTickNumber != 1 ) return null;
+                if( Util.Neighbor( G.Hero.Pos, Unit.Pos ) == false ) return null;
+                if( Map.I.CheckArrowBlockFromTo( Unit.Pos, G.Hero.Pos, Unit ) ) return null;
+
+                List<Unit> firel = Util.GetNeighbors( Unit.Pos, ETileType.FIRE );
+                if( Unit.Control.FireMarkedWaspFactor > 0 )                        // firemarked neighbor to fire do no attack
+                    for( int f = 0; f < firel.Count; f++ )
+                        if( firel[ f ].Body.FireIsOn ) return null;
+
+                if( CheckBarricadeBlockForRangedAttack( Unit.Pos ) ) return null;
+                Vector3 pun = Util.GetTargetUnitVector( Unit.Pos, G.Hero.Control.OldPos );
+                iTween.PunchPosition( Unit.Graphic.gameObject, -pun * .7f, 0.5f );
+                Unit.Body.CreateBloodSpilling( G.Hero.Pos );                       // Trigger visual blood fx
+                G.Hero.Body.ReceiveDamage( Unit.MeleeAttack.BaseDamage, EDamageType.MELEE, Unit, Unit.MeleeAttack );
+                Map.I.StartCubeDeath();
+                return null;
+            }
+            break;
 
         case ETargettingType.DRAGON3:
-        {
-            tg = new List<Vector2>();
-            tg.Add( G.Hero.Pos );
-            if( Map.I.CubeDeath ) return null;
-            if( Map.I.IsInTheSameLine( Map.I.Hero.Pos, Unit.Pos ) == false ) return null;  
-            float r = 0;
-            EZone zone = Unit.GetPositionZone( G.Hero.Pos, ref r );
-            if( zone != EZone.Front ) return null;
-            if( Map.I.HasLOS( Unit.Pos, G.Hero.Pos, true, Unit, false, true, "Dragon Shot" ) ==  false ) return null;
-            Map.I.StartCubeDeath();
-            return tg;
-        }
-        break;
+            {
+                tg.Add( G.Hero.Pos );
+                if( Map.I.CubeDeath ) return null;                                 // Block if dying
+                if( Map.I.IsInTheSameLine( Map.I.Hero.Pos, Unit.Pos ) == false ) return null;
+                float r = 0;
+                EZone zone = Unit.GetPositionZone( G.Hero.Pos, ref r );
+                if( zone != EZone.Front ) return null;
+                if( Map.I.HasLOS( Unit.Pos, G.Hero.Pos, true, Unit, false, true, "Dragon Shot" ) == false ) return null;
+                Map.I.StartCubeDeath();                                            // Validated dragon3 hit
+                return tg;
+            }
+            break;
 
         case ETargettingType.SLIME:
-        {
-            tg = new List<Vector2>();
-            tg.Add( G.Hero.Pos );
-
-            if( ForceAttack == false )
             {
-                if( Unit.Control.JumpTarget != new Vector2( -1, -1 ) ) return null;
-                if( Unit.Control.FlightJumpPhase == 0 ) return null;
-                if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) == false ) return null;
+                tg.Add( G.Hero.Pos );
+
+                if( ForceAttack == false )
+                {
+                    if( Unit.Control.JumpTarget != new Vector2( -1, -1 ) ) return null;
+                    if( Unit.Control.FlightJumpPhase == 0 ) return null;
+                    if( Util.IsNeighbor( Unit.Pos, G.Hero.Pos ) == false ) return null;
+                }
+                ForceAttack = false;                                               // Consume flag
+                if( Unit.Pos + Unit.GetRelativePosition( EDirection.N, 1 ) == G.Hero.Pos ||
+                    Unit.Pos + Unit.GetRelativePosition( EDirection.NE, 1 ) == G.Hero.Pos ||
+                    Unit.Pos + Unit.GetRelativePosition( EDirection.NW, 1 ) == G.Hero.Pos )
+                    return tg;
+                return null;
             }
-            ForceAttack = false;
-            if( Unit.Pos + Unit.GetRelativePosition( EDirection.N,  1 ) == G.Hero.Pos ||
-                Unit.Pos + Unit.GetRelativePosition( EDirection.NE, 1 ) == G.Hero.Pos ||
-                Unit.Pos + Unit.GetRelativePosition( EDirection.NW, 1 ) == G.Hero.Pos )
-                return tg;
-            return null;
-        }
-        break;
+            break;
 
         case ETargettingType.TOWER:
-        {
-            Unit b = Map.I.SpawnFlyingUnit( Unit.Pos, ELayerType.MONSTER, ETileType.PROJECTILE, null );
-            Unit.Control.UpdateTowerRotation( true );
-            b.Control.ProjectileType = EProjectileType.MISSILE;
-            b.Control.ControlType = EControlType.PROJECTILE;
-            b.Body.EffectList[ 1 ].gameObject.SetActive( Unit.Body.TowerProjectileTrailFX );
-            b.Body.EffectList[ 1 ].transform.localPosition = new Vector3( 0, -0.35f, -2.8f );
-            b.Spr.spriteId = 210;
-            //b.Spr.spriteId = 193;
-            b.Control.Mother = Unit;
-            b.Variation = Unit.Variation;
-            b.Spr.transform.rotation = Unit.Spr.transform.rotation;
-            b.Spr.transform.localPosition = new Vector3( 0, 0, b.Spr.transform.localPosition.z );
-            b.RangedAttack.TargettingType = ETargettingType.TOWER;
-            b.Control.FlyingSpeed = Unit.Control.FlyingSpeed;
-            b.Control.FlyingRotationSpeed = Unit.Control.FlyingRotationSpeed;
-            b.Spr.color = Color.white;
-            AttackMade = true;
-            MasterAudio.PlaySound3DAtTransform( "Explosion 2", G.Hero.transform );
-            if( iTween.Count( Unit.Spr.gameObject ) <= 0 )                                                               // Punch FX                                       
-                iTween.PunchPosition( Unit.Spr.gameObject, iTween.Hash( "y", -0.5f, "delay", 0.1f, "time", .3f ) );
-            return null;
+            {
+                Unit b = Map.I.SpawnFlyingUnit( Unit.Pos, ELayerType.MONSTER, ETileType.PROJECTILE, null );
+                Unit.Control.UpdateTowerRotation( true );
+                b.Control.ProjectileType = EProjectileType.MISSILE;
+                b.Control.ControlType = EControlType.PROJECTILE;
+                b.Body.EffectList[ 1 ].gameObject.SetActive( Unit.Body.TowerProjectileTrailFX );
+                b.Body.EffectList[ 1 ].transform.localPosition = new Vector3( 0, -0.35f, -2.8f );
+                b.Spr.spriteId = 210;                                              // Update to specific projectile sprite
+                b.Control.Mother = Unit;
+                b.Variation = Unit.Variation;
+                b.Spr.transform.rotation = Unit.Spr.transform.rotation;
+                b.Spr.transform.localPosition = new Vector3( 0, 0, b.Spr.transform.localPosition.z );
+                b.RangedAttack.TargettingType = ETargettingType.TOWER;
+                b.Control.FlyingSpeed = Unit.Control.FlyingSpeed;
+                b.Control.FlyingRotationSpeed = Unit.Control.FlyingRotationSpeed;
+                b.Spr.color = Color.white;
+                AttackMade = true;
+                MasterAudio.PlaySound3DAtTransform( "Explosion 2", G.Hero.transform );
+                if( iTween.Count( Unit.Spr.gameObject ) <= 0 )                     // Punch FX                                      
+                    iTween.PunchPosition( Unit.Spr.gameObject, iTween.Hash( "y", -0.5f, "delay", 0.1f, "time", .3f ) );
+                return null;
+            }
+            break;
         }
-        break;
-        }
-	return tg;
-	}
+        return tg;
+    }
 
     public void AddTg( ref List<Vector2> tgl, Vector2 tg )
     {
         if( tgl == null )
-            tgl = new List<Vector2>();
-        Unit mn = Map.I.GetUnit( tg, ELayerType.MONSTER );                           // Land units
+            tgl = _tgCache;                                                        // Fallback to cache instead of allocating new List
+
+        Unit mn = Map.I.GetUnit( tg, ELayerType.MONSTER );                         // Land units
         if( mn && mn.ValidMonster )
         {
-            tgl.Add( tg );
+            tgl.Add( tg );                                                         // Add target safely
             return;
         }
 
-        List<Unit> fl = Map.I.GetFUnit( tg );                                        // Flying units
+        List<Unit> fl = Map.I.GetFUnit( tg );                                      // Flying units
         if( Map.I.AdvanceTurn )
-        if( fl != null )
-        for( int i = 0; i < fl.Count; i++ )
-        {
-            if( fl[ i ].ValidMonster )
-            {
-                tgl.Add( tg );
-                ForcedEnemy = fl[ i ];
-                return;
-            }
-        }
+            if( fl != null )
+                for( int i = 0; i < fl.Count; i++ )
+                {
+                    if( fl[ i ].ValidMonster )
+                    {
+                        tgl.Add( tg );
+                        ForcedEnemy = fl[ i ];                                             // Set explicit enemy target
+                        return;
+                    }
+                }
     }
 
     public int GetEffectiveShootingRange( bool penetrateMonsters )
     {
         int range = 0;
-        List<Vector2> tg = new List<Vector2>();
+        _tgCache.Clear();                                                          // Flush the global cache for reuse
         int hitmonsterdist = -1;
-        bool ok = GetEffectiveShootingRange( ref tg, ref range, ref hitmonsterdist, penetrateMonsters );
+        bool ok = GetEffectiveShootingRange( ref _tgCache, ref range, ref hitmonsterdist, penetrateMonsters );
         if( ok == false ) return 0;
-        return range;
+        return range;                                                              // Output effective integer distance
     }
+
     public bool GetEffectiveShootingRange( ref List<Vector2> tg, ref int range, ref int hitmonsterdist, bool penetrateMonsters )
     {
         int _range = ( int ) TotalRange;
         if( Unit.UnitType == EUnitType.HERO )
             _range += Map.I.RM.RMD.BaseHeroRangedAttackRange;
-        tg = new List<Vector2>();
+
+        tg.Clear();                                                                // CRITICAL: Clean instead of new List
         Vector2 from = Unit.Pos;
         Vector2 to = Unit.GetFront();
         int start = 1;
         int dir = ( int ) Unit.Dir;
+
         if( TargettingType == ETargettingType.SPELL )
         {
             _range = Sector.TSX;
             int dr = ( int ) Unit.Dir + ID;
             if( dr >= 8 ) dr -= 8;
             from = AttackOrigin;
-            dir = ( int ) Util.GetTargetUnitDir( G.Hero.Control.OldPos, G.Hero.Pos );
+            dir = (int) Util.GetTargetUnitDir( G.Hero.Control.OldPos, G.Hero.Pos );
             to = from + Manager.I.U.DirCord[ dir ];
-            if( Map.IsWall( AttackOrigin ) == true ) return false;                                                          // this is new: now only attack origin must be clear for spell to be cast if you want to change it, look for old code
-            if( Unit.Body.Sp[ ID ].Type == ESpiderBabyType.MUSHROOM_POTION )                                                // includes the first tile which is the tile the weapon or spell moves to
-               start = 0;
+            if( Map.IsWall( AttackOrigin ) == true ) return false;                 // Only attack origin must be clear for spell
+            if( Unit.Body.Sp[ ID ].Type == ESpiderBabyType.MUSHROOM_POTION )       // includes the first tile which is the tile the weapon or spell moves to
+                start = 0;
         }
         else
         {
             if( Map.I.RM.RMD.LimitedArrowPerCube != -1 )
-            if( Item.GetNum( ItemType.Res_Bow_Arrow ) < 1 ) return false;                                                     // Limited Arrows
+                if( Item.GetNum( ItemType.Res_Bow_Arrow ) < 1 ) return false;          // Limited Arrows
         }
 
         AttackOrigin = from;
-        AttackOriginalDirection = ( EDirection ) dir;
+        AttackOriginalDirection = (EDirection) dir;                              // Save reference direction
 
         if( Map.I.CheckArrowBlockFromTo( from, to, Unit ) ) return false;
         if( Unit.CheckLeverBlock( false, from, to, false ) ) return false;
 
-        for( int i = 0; i < _range; i++ ) tg.Add( new Vector2( -1, -1 ) );
-        for( int i = 0; i < _range; i++ )                                                                                      // Tests Targets
+        for( int i = 0; i < _range; i++ )                                          // Tests Targets
         {
-            tg[ i ] = from + Manager.I.U.DirCord[ dir ] * ( i + start );
+            tg.Add( from + Manager.I.U.DirCord[ dir ] * ( i + start ) );           // Zero GC vector addition 
             bool ok = CanShoot( ref tg, i, ref hitmonsterdist, penetrateMonsters );
             if( ok == false ) break;
             range++;

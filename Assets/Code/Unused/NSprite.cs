@@ -2,9 +2,12 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+
+#if UNITY_EDITOR
+using UnityEditor;                                                                       // CORREÇÃO: Impede erro de compilação na Build Final
+#endif
 
 public class NSprite: MonoBehaviour
 {
@@ -104,13 +107,13 @@ public class NSprite: MonoBehaviour
 
     public void ApplyToRenderer( SpriteRenderer renderer )
     {
-        if( renderer == null ) return;
-        renderer.sprite = sprite;
-        renderer.color = baseColor;
-        UpdateVisuals();
+        if( renderer == null ) return;                                                   // Prevent null reference
+        renderer.sprite = sprite;                                                        // Apply sprite
+        renderer.color = baseColor;                                                      // Apply color
+        UpdateVisuals();                                                                 // Update bounds
     }
 
-    private int _spriteId = -2; // Valor impossível para garantir que o primeiro load ocorra
+    private int _spriteId = -2;                                                          // Valor impossível para garantir que o primeiro load ocorra
     public int spriteId
     {
         get => _spriteId;
@@ -119,34 +122,53 @@ public class NSprite: MonoBehaviour
             _spriteId = value;
             TkSpriteId = value;
 
-            if( IDM.I == null || collection == ESpriteCol.NONE ) return;
+            if( IDM.I == null || collection == ESpriteCol.NONE ) return;                 // Skip if no manager or collection
 
-            Sprite sp = IDM.I.GetSpriteById(collection, _spriteId);
+            Sprite sp = IDM.I.GetSpriteById( collection, _spriteId );
             if( sp != null )
             {
                 sprite = sp;
-                spriteName = sp.name;
+#if UNITY_EDITOR
+                // 🟢 SOLUÇÃO DOS 128 BYTES NO PROFILER:
+                // Bloqueamos a leitura da string durante o Play Mode do Editor.
+                if( Application.isPlaying == false )
+                {
+                    spriteName = sp.name;
+                }
+#endif
                 UpdateVisuals();
             }
         }
     }
+
+    // --- ZERO GC CACHE ---
+    private Button _cachedButton;
+    private Image _cachedImage;
+    private bool _buttonChecked = false;
+
     private void ValidateButtonSupport()
     {
+        if( !_buttonChecked )                                                            // OTIMIZAÇÃO: Só busca os componentes uma única vez!
+        {
+            _cachedButton = GetComponent<Button>();
+            _cachedImage = GetComponent<Image>();
+            _buttonChecked = true;
+        }
+
         // Se tem Botão mas não tem alvo para o mouse...
-        var btn = GetComponent<Button>();
-        if( btn != null && btn.targetGraphic == null )
+        if( _cachedButton != null && _cachedButton.targetGraphic == null )
         {
             // ...cria ou busca uma Image
-            var img = GetComponent<Image>();
-            if( img == null )
+            if( _cachedImage == null )
             {
-                img = gameObject.AddComponent<Image>();
-                img.color = new Color( 0, 0, 0, 0 ); // Transparente
-                img.raycastTarget = true;          // Detectável pelo Mouse
+                _cachedImage = gameObject.AddComponent<Image>();
+                _cachedImage.color = new Color( 0, 0, 0, 0 );                            // Transparente
+                _cachedImage.raycastTarget = true;                                       // Detectável pelo Mouse
             }
-            btn.targetGraphic = img; // Conecta ao botão
+            _cachedButton.targetGraphic = _cachedImage;                                  // Conecta ao botão
         }
     }
+
     public void UpdateVisuals()
     {
         if( Image )
@@ -169,7 +191,7 @@ public class NSprite: MonoBehaviour
             return;
         }
 
-        if( this == null || Render == null ) return; // previne chamadas em objetos destruído
+        if( this == null || Render == null ) return;                                     // previne chamadas em objetos destruído
 
         // Chama a correção do botão logo em seguida
         ValidateButtonSupport();
@@ -178,32 +200,35 @@ public class NSprite: MonoBehaviour
         // Se o NSprite estiver bloqueado/nulo, mas o SpriteRenderer tiver uma imagem,
         // o script vai "adotar" essa imagem em vez de apagá-la.
         if( Application.isPlaying == false )
-        if( sprite == null && Render.sprite != null )
-        {
-            sprite = Render.sprite;
-        }
+            if( sprite == null && Render.sprite != null )
+            {
+                sprite = Render.sprite;
+            }
 
-        Render.sprite = sprite;
-        Render.color = baseColor;
-        if( sprite == null ) return;
-        spriteName = sprite.name;
+        if( Render.sprite != sprite ) Render.sprite = sprite;                            // OTIMIZAÇÃO: Só atribui se for diferente
+        if( Render.color != baseColor ) Render.color = baseColor;                        // OTIMIZAÇÃO: Só atribui se for diferente
 
-        Render.drawMode = SpriteDrawMode.Sliced;
+        if( sprite == null ) return;                                                     // Stop if no sprite
+
+        // spriteName = sprite.name;                                                     // ALERTA DE GC ALLOC: Descomente só se precisar muito dessa string
+
+        if( Render.drawMode != SpriteDrawMode.Sliced )                                   // OTIMIZAÇÃO: Só altera drawmode se diferente
+            Render.drawMode = SpriteDrawMode.Sliced;
+
         Vector2 nativeSize = sprite.bounds.size;
 
+        Vector2 targetSize;
         if( preserveAspect && nativeSize.y != 0 )
         {
             float ratio = nativeSize.x / nativeSize.y;
-            Render.size = new Vector2( nativeSize.x * scale.x, ( nativeSize.x * scale.x ) / ratio );
+            targetSize = new Vector2( nativeSize.x * scale.x, ( nativeSize.x * scale.x ) / ratio );
         }
         else
         {
-            Render.size = new Vector2( nativeSize.x * scale.x, nativeSize.y * scale.y );
+            targetSize = new Vector2( nativeSize.x * scale.x, nativeSize.y * scale.y );
         }
 
-
-
-
+        if( Render.size != targetSize ) Render.size = targetSize;                        // OTIMIZAÇÃO: Só altera o size se for diferente
 
 #if UNITY_EDITOR
         // MÁGICA AQUI: Informa ao Unity que o componente mudou e deve ser salvo na Prefab!
@@ -213,8 +238,6 @@ public class NSprite: MonoBehaviour
             if( Render != null ) UnityEditor.EditorUtility.SetDirty( Render );
         }
 #endif
-
-
     }
 
 #if UNITY_EDITOR
@@ -258,7 +281,7 @@ public class NSprite: MonoBehaviour
             var text = obj as tk2dTextMesh;
             if( text != null ) NSprite.FinalizeTk2dText( text );
         };
-    }   
+    }
 
     public static void Convert( tk2dSprite tkSprite )
     {
@@ -634,7 +657,7 @@ public class NSprite: MonoBehaviour
             }
 
 
-                EditorUtility.SetDirty( root );
+            EditorUtility.SetDirty( root );
             Debug.Log( $"[NSprite] {root.name} finalizado com Escala de Mundo preservada ({worldScaleGoal})!" );
         };
     }
@@ -656,10 +679,12 @@ public class NSprite: MonoBehaviour
         default: return (TextAlignmentOptions.Center, new Vector2( 0.5f, 0.5f ));
         }
     }
+#endif
+
+    // CORREÇÃO: Função liberada do Editor-Only para ser acessada pelas lógicas do jogo compilado
     public void SetSprite( ESpriteCol col, int id )
     {
         collection = col;
         spriteId = id;
     }
-#endif
 }

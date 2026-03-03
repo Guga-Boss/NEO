@@ -38,6 +38,7 @@ public class TilePaletteWatcher: EditorWindow
     private void EditorUpdate()
     {
         if( paintingStateType == null ) return;
+        if( Map.I == null ) return;
 
         ExtractBrushData( out TileBase selectedTile, out Vector3Int gridPos );
 
@@ -46,7 +47,8 @@ public class TilePaletteWatcher: EditorWindow
         {
             lastSelectedTile = selectedTile;
             lastGridPos = gridPos;
-            if( selectedTile != null ) ProcessSelectedTile( selectedTile );
+            if( selectedTile != null ) 
+                ProcessSelectedTile( selectedTile );
         }
 
         if( focusedWindow == this ) Repaint();
@@ -56,6 +58,7 @@ public class TilePaletteWatcher: EditorWindow
     {
         Handles.BeginGUI(); // begin GUI drawing in SceneView
 
+        if( Map.I )
         foreach( var tilemap in Map.I.TM.Tilemaps )
         {
             if( tilemap == null )

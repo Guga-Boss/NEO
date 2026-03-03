@@ -163,101 +163,105 @@ public class Util
         return percent * num / 100;
     }
 
+    // Shared buffer for time formatting to prevent intermediate GC Alloc;
+    private static readonly System.Text.StringBuilder sbTime = new System.Text.StringBuilder(64);
+
     public static string ToTime( double sec )
     {
-        string res = "";
-        string signal = "";
+        sbTime.Length = 0;                                               // Clear buffer without allocation;
 
         if( sec < 0 )
         {
-            signal = "-";
-            sec *= -1;
+            sbTime.Append( "-" );                                        // Add negative sign;
+            sec *= -1;                                                   // Make positive;
         }
 
-        System.TimeSpan t = System.TimeSpan.FromSeconds( sec );
-        string day = " Day ";
-        if( t.Days > 1 ) day = " Days ";
-        if( t.Days <= 0 ) day = "";
+        if( sec < 10 )
+        {
+            sbTime.Append( sec.ToString( "0.0" ) ).Append( "s" );        // Format small seconds;
+            return sbTime.ToString();                                    // Early return;
+        }
 
-        string hour = " Hour ";
-        if( t.Hours > 1 ) hour = " Hours ";
-        if( t.Hours <= 0 ) hour = "";
+        System.TimeSpan t = System.TimeSpan.FromSeconds( sec );          // Get time components;
+        int d = t.Days;
+        int h = t.Hours;
+        int m = t.Minutes;
+        int s = t.Seconds;
 
-        string min = " Minute ";
-        if( t.Minutes > 1 ) min = " Minutes ";
-        if( t.Minutes <= 0 ) min = "";
+        if( d > 0 )
+        {
+            sbTime.Append( d ).Append( d > 1 ? " Days " : " Day " );     // Append days;
+        }
+        if( h > 0 )
+        {
+            sbTime.Append( h ).Append( h > 1 ? " Hours " : " Hour " );   // Append hours;
+        }
+        if( m > 0 )
+        {
+            sbTime.Append( m ).Append( m > 1 ? " Minutes " : " Minute " ); // Append minutes;
+        }
+        if( s > 0 )
+        {
+            sbTime.Append( s ).Append( s > 1 ? " Seconds " : " Second " ); // Append seconds;
+        }
 
-        string secs = " Second ";
-        if( t.Seconds > 1 ) secs = " Seconds ";
-        if( t.Seconds <= 0 ) secs = "";
-
-        string xsec = "" + t.Seconds;
-        if( t.Seconds < 1 ) xsec = "";
-
-        string xmin = "" + t.Minutes;
-        if( t.Minutes < 1 ) xmin = "";
-
-        string xhour = "" + t.Hours;
-        if( t.Hours < 1 ) xhour = "";
-
-        string xday = "" + t.Days;
-        if( t.Days < 1 ) xday = "";
-
-        res = xday + day + xhour + hour + xmin + min + xsec + secs;
-        if( sec < 10 ) res = sec.ToString( "0.0" ) + "s";
-
-        return signal + res;
+        return sbTime.ToString();                                        // Return final formatted string;
     }
 
     public static string ToSTime( double sec, int dec = -1 )
     {
-        string res = "";
-        string signal = "";
+        sbTime.Length = 0;                                               // Reuse the same buffer;
 
         if( sec < 0 )
         {
-            signal = "-";
-            sec *= -1;
+            sbTime.Append( "-" );                                        // Add negative sign;
+            sec *= -1;                                                   // Make positive;
         }
 
-        System.TimeSpan t = System.TimeSpan.FromSeconds( sec );
-        string day = "D ";
-        if( t.Days >= 1 ) day = " Day ";
-        if( t.Days < 1 ) day = "";
+        if( dec != 3 && sec < 10 )
+        {
+            sbTime.Append( sec.ToString( "0.#" ) ).Append( " sec" );     // Format small seconds;
+            return sbTime.ToString();                                    // Early return;
+        }
 
-        string hour = "H ";
-        if( t.Hours > 1 ) hour = " Hr ";
-        if( t.Hours <= 0 ) hour = "";
+        System.TimeSpan t = System.TimeSpan.FromSeconds( sec );          // Get time components;
+        int d = t.Days;
+        int h = t.Hours;
+        int m = t.Minutes;
+        int s = t.Seconds;
+        int ms = t.Milliseconds;
 
-        string min = "M ";
-        if( t.Minutes > 1 )
-            if( t.Seconds == 0 ) min = " Min";
-            else min = " Min ";
+        if( d > 0 )
+        {
+            sbTime.Append( d ).Append( " Day " );                        // Append days;
+        }
+        if( h > 0 )
+        {
+            sbTime.Append( h ).Append( h > 1 ? " Hr " : "H " );          // Append hours;
+        }
+        if( m > 0 )
+        {
+            sbTime.Append( m );                                          // Append minutes digits;
+            if( m > 1 )
+                sbTime.Append( s == 0 ? " Min" : " Min " );              // Minute formatting;
+            else
+                sbTime.Append( "M " );                                   // Single minute;
+        }
 
-        if( t.Minutes <= 0 ) min = "";
+        if( s > 0 || dec == 3 )
+        {
+            if( dec == 3 )
+            {
+                // Format with milliseconds without heavy string concat;
+                sbTime.Append( s ).Append( "." ).Append( ms.ToString( "000" ) ).Append( " Sec" );
+            }
+            else if( s > 0 )
+            {
+                sbTime.Append( s ).Append( " Sec" );                     // Append seconds;
+            }
+        }
 
-        string secs = " Sec";
-        if( t.Seconds > 1 ) secs = " Sec";
-        if( t.Seconds <= 0 ) secs = "";
-
-        string xsec = "" + t.Seconds;
-        if( t.Seconds < 1 ) xsec = "";
-        else
-            if( dec == 3 ) xsec = t.Seconds.ToString( "0." ) + "." + t.Milliseconds.ToString( "000." );
-
-        string xmin = "" + t.Minutes;
-        if( t.Minutes < 1 ) xmin = "";
-
-        string xhour = "" + t.Hours;
-        if( t.Hours < 1 ) xhour = "";
-
-        string xday = "" + t.Days;
-        if( t.Days < 1 ) xday = "";
-
-        res = xday + day + xhour + hour + xmin + min + xsec + secs;
-        if( dec != 3 )
-            if( sec < 10 ) res = sec.ToString( "0.#" ) + " sec";
-        return signal + res;
+        return sbTime.ToString();                                        // Return final formatted string;
     }
 
     public static List<string> GetWords( string txt )
@@ -581,37 +585,85 @@ public class Util
         return nl;
     }
 
+    private static int _lastSecond = -1;
+    public static bool SecondChanged()
+    {
+        // Time.time = seconds since the application started (affected by timeScale)
+        // Use Time.realtimeSinceStartup if you want it unaffected by timeScale
+        int currentSecond = (int)Time.time;
+
+        // If the second value changed, we crossed into a new second
+        if( currentSecond != _lastSecond )
+        {
+            _lastSecond = currentSecond;
+            return true;
+        }
+        return false;
+    }
+
+    // Caches to avoid GC in utility functions;
+    private static List<Unit> nlNeighbors = new List<Unit>(16);           // Neighbor search cache;
+    private static List<Vector2> nlTileLine = new List<Vector2>(32);      // Tile line search cache;
+
     public static List<Unit> GetFlyingNeighbors( Vector2 tg, ETileType tile )
     {
-        List<Unit> nl = new List<Unit>();
+        nlNeighbors.Clear();                                              // Reset cache without deallocating;
+        var mapI = Map.I;                                                 // Cache Map instance locally;
+        var dirCords = Manager.I.U.DirCord;                               // Cache directions array;
+        uint w = ( uint ) mapI.Tilemap.width;                             // Cache width;
+        uint h = ( uint ) mapI.Tilemap.height;                            // Cache height;
+
         for( int d = 0; d < 8; d++ )
         {
-            Vector2 aux = tg + Manager.I.U.DirCord[ d ];
-            if( Map.PtOnMap( Map.I.Tilemap, aux ) )
-                if( Map.I.FUnit[ (int) aux.x, (int) aux.y ] != null )
-                    for( int f = 0; f < Map.I.FUnit[ (int) aux.x, (int) aux.y ].Count; f++ )
-                        if( Map.I.FUnit[ (int) aux.x, (int) aux.y ][ f ].TileID == tile )
-                            nl.Add( Map.I.FUnit[ (int) aux.x, (int) aux.y ][ f ] );
+            Vector2 dir = dirCords[ d ];                                  // Get direction;
+            int ax = ( int ) ( tg.x + dir.x );                            // Single cast for X;
+            int ay = ( int ) ( tg.y + dir.y );                            // Single cast for Y;
+
+            if( (uint) ax < w && (uint) ay < h )                          // Fast bounds check;
+            {
+                var cell = mapI.FUnit[ ax, ay ];                          // Access map cell;
+                if( cell != null )
+                {
+                    int cellCount = cell.Count;                           // Cache list count;
+                    for( int f = 0; f < cellCount; f++ )
+                    {
+                        var unit = cell[ f ];                             // Local unit reference;
+                        if( unit.TileID == tile )
+                            nlNeighbors.Add( unit );                      // Add to static cache;
+                    }
+                }
+            }
         }
-        return nl;
+        return nlNeighbors;                                               // Return the reusable list;
     }
 
     public static List<Vector2> GetTileLine( Vector2 tg, EDirection dir, ETileType tile, int max = -1 )
     {
-        if( max == -1 ) max = Sector.TSX;
-        List<Vector2> nl = new List<Vector2>();
+        if( max == -1 ) max = Sector.TSX;                                 // Default to sector size;
+
+        nlTileLine.Clear();                                               // Reset tile line cache;
+        var mapI = Map.I;                                                 // Local Map reference;
+        Vector2 dirVec = Manager.I.U.DirCord[ ( int ) dir ];              // Cache direction vector;
+        uint w = ( uint ) mapI.Tilemap.width;                             // Map width;
+        uint h = ( uint ) mapI.Tilemap.height;                            // Map height;
+
         for( int d = 0; d < max; d++ )
         {
-            Vector2 aux = tg + Manager.I.U.DirCord[ ( int ) dir ] * d;
-            if( Map.PtOnMap( Map.I.Tilemap, aux ) )
+            float ax = tg.x + ( dirVec.x * d );                           // Calculate X;
+            float ay = tg.y + ( dirVec.y * d );                           // Calculate Y;
+            int ix = ( int ) ax;                                          // Integer X;
+            int iy = ( int ) ay;                                          // Integer Y;
+
+            if( (uint) ix < w && (uint) iy < h )                          // Fast bounds check;
             {
-                Unit un = Map.I.GetUnit( tile, aux );
-                if( un != null ) nl.Add( aux );
-                else return nl;
+                Vector2 aux = new Vector2( ax, ay );                      // Pos for GetUnit;
+                Unit un = mapI.GetUnit( tile, aux );                      // Check tile type;
+                if( un != null ) nlTileLine.Add( aux );                   // Add position if match;
+                else return nlTileLine;                                   // Break line on mismatch;
             }
-            else return nl;
+            else return nlTileLine;                                       // Break line on map edge;
         }
-        return nl;
+        return nlTileLine;                                                // Return line result;
     }
 
     public static string GetListText( List<Vector2> list )

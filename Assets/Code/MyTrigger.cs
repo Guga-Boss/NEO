@@ -1,12 +1,17 @@
-﻿using UnityEngine;
-using System.Collections;
-using Sirenix.OdinInspector;
-//using System.Single;
+﻿using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using System;
+using Unity.Collections;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
+
+// --- ENUMS SECTION ---
 
 public enum ETriggerEffOperator
 {
     NONE = 0, EQUALS, PLUS, MINUS, MULTIPLY, DIVIDE
 }
+
 public enum ETriggerCondOperator
 {
     NONE = 0, EQUALS, MINOR, MAJOR, MINOR_OR_EQUAL, MAJOR_OR_EQUAL
@@ -34,51 +39,35 @@ public enum ETriggerVarID
     UNIT_SLAYERMAXHP, UNIT_DRAGONDISGUISE, UNIT_DRAGONBONUSDROP, UNIT_DRAGONBARRICADEPROTECTION, UNIT_PLATFORMSTEPS, UNIT_RESOURCECOLLECTED, UNIT_MININGLEVEL,
     UNIT_FISHING_LEVEL, UNIT_FISHING_1, UNIT_FISHING_2, UNIT_FISHING_3, UNIT_FISHING_4,
     UNIT_FISHINGBONUSREACHED, UNIT_CONQUEREDGOALS, TOTAL_VALS
-
 }
 
+// --- CLASS SECTION ---
 
-public class MyTrigger : MonoBehaviour
+public class MyTrigger: MonoBehaviour
 {
     #region Variables
-    [Space( 10 )]
-    [TabGroup( "Condition" )]
-    public ETriggerVarID ConditionVarID;
-    [Space( 10 )]
-    [TabGroup( "Condition" )]
-    public ETriggerCondOperator ConditionOperator;
-    [Space( 10 )]
-    [TabGroup( "Condition" )]
-    public float ConditionVal1;
-    [TabGroup( "Effect" )]
-    public ETriggerVarID EffectVarID;
-    [TabGroup( "Effect" )]
-    public ETriggerEffOperator EffectOperator;
-    [TabGroup( "Effect" )]
-    public ETriggerVarID EffectVarID1;
-    [TabGroup( "Effect" )]
-    public float EffectVal1;
-    [TabGroup( "Effect" )]
-    public ETriggerEffOperator EffectOperator2;
-    [TabGroup( "Effect" )]
-    public ETriggerVarID EffectVarID2;
-    [TabGroup( "Effect" )]
-    public float EffectVal2;
-    [TabGroup( "Effect" )]
-    public ETriggerEffOperator EffectOperator3;
-    [TabGroup( "Effect" )]
-    public ETriggerVarID EffectVarID3;
-    [TabGroup( "Effect" )]
-    public float EffectVal3;
-    [TabGroup( "Link" )]
-    public Unit Unit;
-    [TabGroup( "Link" )]
-    public float[ ] VariableList;
+    [TabGroup( "Condition" )] public ETriggerVarID ConditionVarID;
+    [TabGroup( "Condition" )] public ETriggerCondOperator ConditionOperator;
+    [TabGroup( "Condition" )] public float ConditionVal1;
+
+    [TabGroup( "Effect" )] public ETriggerVarID EffectVarID;
+    [TabGroup( "Effect" )] public ETriggerEffOperator EffectOperator;
+    [TabGroup( "Effect" )] public ETriggerVarID EffectVarID1;
+    [TabGroup( "Effect" )] public float EffectVal1;
+    [TabGroup( "Effect" )] public ETriggerEffOperator EffectOperator2;
+    [TabGroup( "Effect" )] public ETriggerVarID EffectVarID2;
+    [TabGroup( "Effect" )] public float EffectVal2;
+    [TabGroup( "Effect" )] public ETriggerEffOperator EffectOperator3;
+    [TabGroup( "Effect" )] public ETriggerVarID EffectVarID3;
+    [TabGroup( "Effect" )] public float EffectVal3;
+
+    [TabGroup( "Link" )] public Unit Unit;
+    [TabGroup( "Link" )] public float[] VariableList;                    // Local buffer pre-allocated;
     #endregion
 
     public void Copy( MyTrigger tr )
     {
-        ConditionVarID = tr.ConditionVarID;
+        ConditionVarID = tr.ConditionVarID;                              // Copy logic;
         ConditionOperator = tr.ConditionOperator;
         ConditionVal1 = tr.ConditionVal1;
         EffectVarID = tr.EffectVarID;
@@ -93,332 +82,303 @@ public class MyTrigger : MonoBehaviour
         EffectVal3 = tr.EffectVal3;
     }
 
+    public bool UpdateIt( bool force = false )
+    {
+        if( Unit == null ) return false;                                  // Safety check;
+
+        EnsureBufferExists();                                            // Pre-allocate VariableList once;
+        SyncData( Unit, true );                                          // Pull data from unit;
+
+        bool success = false;
+        if( CheckConditionOperation( force ) )
+        {
+            success = true;
+            DoEffectOperation();                                         // Run calculations;
+            SyncData( Unit, false );                                     // Push data back to unit;
+        }
+        return success;
+    }
+    public float GetVarAmount( Unit un )
+    {
+        if( un == null ) return 0;                                       // Safety check;
+        EnsureBufferExists();                                            // Pre - allocate buffer;
+        SyncData( un, true );                                            // Pull data from unit;
+        return VariableList[ (int) ConditionVarID ];                     // Return requested value;
+    }
+
+    private void EnsureBufferExists()
+    {
+        int size = (int)ETriggerVarID.TOTAL_VALS;                        // Get total enum count;
+        if( VariableList == null || VariableList.Length != size )
+            VariableList = new float[ size ];                              // Initial allocation only;
+    }
+
     public bool CheckConditionOperation( bool force = false )
     {
-        float vval = VariableList[ ( int ) ConditionVarID ];
+        if( G.HS == null ) return false;                                 // Global safety;
 
-        if( G.HS == null ) return false;
-        if( force == false )
-        if( Map.I.RM.HeroSector.Type != Sector.ESectorType.GATES )                             // Hero needs to leave cube to win goal prizes
-        if( Map.I.TurnFrameCount != 2 )                                                        // verifies only once per turn if inside cube                
-            return false;
+        var mapI = Map.I;                                                // Cache Map instance;
+        if( !force )
+        {
+            if( mapI.RM.HeroSector.Type != Sector.ESectorType.GATES ||
+                mapI.TurnFrameCount != 2 ) return false;                 // Gate condition;
+        }
 
-        if( ConditionOperator == ETriggerCondOperator.NONE )
-            return true;
-        if( ConditionOperator == ETriggerCondOperator.EQUALS && vval == ConditionVal1 )
-            return true;
-        if( ConditionOperator == ETriggerCondOperator.MAJOR && vval > ConditionVal1 )
-            return true;
-        if( ConditionOperator == ETriggerCondOperator.MINOR && vval < ConditionVal1 )
-            return true;
-        if( ConditionOperator == ETriggerCondOperator.MAJOR_OR_EQUAL && vval >= ConditionVal1 )
-            return true;
-        if( ConditionOperator == ETriggerCondOperator.MINOR_OR_EQUAL && vval <= ConditionVal1 ) 
-            return true;
-        return false;
+        float vval = VariableList[ ( int ) ConditionVarID ];             // Get current var value;
+
+        switch( ConditionOperator )                                     // Optimized branch logic;
+        {
+        case ETriggerCondOperator.NONE: return true;
+        case ETriggerCondOperator.EQUALS: return vval == ConditionVal1;
+        case ETriggerCondOperator.MAJOR: return vval > ConditionVal1;
+        case ETriggerCondOperator.MINOR: return vval < ConditionVal1;
+        case ETriggerCondOperator.MAJOR_OR_EQUAL: return vval >= ConditionVal1;
+        case ETriggerCondOperator.MINOR_OR_EQUAL: return vval <= ConditionVal1;
+        default: return false;
+        }
     }
 
     bool DoEffectOperation()
     {
-        float val1 = EffectVal1;
-        float val2 = EffectVal2;
-        float val3 = EffectVal3;
+        float v1 = (EffectVarID1 != ETriggerVarID.NONE) ? VariableList[(int)EffectVarID1] : EffectVal1;
+        float v2 = (EffectVarID2 != ETriggerVarID.NONE) ? VariableList[(int)EffectVarID2] : EffectVal2;
+        float v3 = (EffectVarID3 != ETriggerVarID.NONE) ? VariableList[(int)EffectVarID3] : EffectVal3;
 
-        if( EffectVarID1 != ETriggerVarID.NONE ) val1 = VariableList[ ( int ) EffectVarID1 ];
-        if( EffectVarID2 != ETriggerVarID.NONE ) val2 = VariableList[ ( int ) EffectVarID2 ];
-        if( EffectVarID3 != ETriggerVarID.NONE ) val3 = VariableList[ ( int ) EffectVarID3 ];
+        float res = v1;                                                  // Base start;
 
-        float res = 0;
-        if( EffectOperator2 == ETriggerEffOperator.NONE ) res = val1;
+        if( EffectOperator2 != ETriggerEffOperator.NONE )
+        {
+            switch( EffectOperator2 )                                     // First calculation;
+            {
+            case ETriggerEffOperator.PLUS: res = v1 + v2; break;
+            case ETriggerEffOperator.MINUS: res = v1 - v2; break;
+            case ETriggerEffOperator.MULTIPLY: res = v1 * v2; break;
+            case ETriggerEffOperator.DIVIDE: res = ( v2 != 0 ) ? v1 / v2 : v1; break;
+            }
+        }
+
+        if( EffectOperator3 != ETriggerEffOperator.NONE )
+        {
+            switch( EffectOperator3 )                                     // Second calculation;
+            {
+            case ETriggerEffOperator.PLUS: res += v3; break;
+            case ETriggerEffOperator.MINUS: res -= v3; break;
+            case ETriggerEffOperator.MULTIPLY: res *= v3; break;
+            case ETriggerEffOperator.DIVIDE: if( v3 != 0 ) res /= v3; break;
+            }
+        }
+
+        int targetID = (int)EffectVarID;                                 // Final target index;
+        switch( EffectOperator )
+        {
+        case ETriggerEffOperator.EQUALS: VariableList[ targetID ] = res; return true;
+        case ETriggerEffOperator.PLUS: VariableList[ targetID ] += res; return true;
+        case ETriggerEffOperator.MINUS: VariableList[ targetID ] -= res; return true;
+        case ETriggerEffOperator.MULTIPLY: VariableList[ targetID ] *= res; return true;
+        case ETriggerEffOperator.DIVIDE: if( res != 0 ) VariableList[ targetID ] /= res; return true;
+        default: return false;
+        }
+    }
+
+    public void SyncData( Unit un, bool pull )
+    {
+        var b = un.Body;                                                 // Local component cache;
+        var c = un.Control;                                              // Local component cache;
+        var m = un.MeleeAttack;                                          // Local component cache;
+        var r = un.RangedAttack;                                         // Local component cache;
+        var s = Map.I.LevelStats;                                        // Local component cache;
+
+        if( pull )
+        {
+            // PULL DATA FROM UNIT TO BUFFER;
+            VariableList[ (int) ETriggerVarID.UNIT_TOTALHP ] = b.TotHp;
+            VariableList[ (int) ETriggerVarID.UNIT_HP ] = b.Hp;
+            VariableList[ (int) ETriggerVarID.UNIT_STARS ] = b.Stars;
+            VariableList[ (int) ETriggerVarID.UNIT_LIVES ] = b.Lives;
+            VariableList[ (int) ETriggerVarID.UNIT_BONUSMELEEATTACK ] = m.BonusDamage;
+            VariableList[ (int) ETriggerVarID.UNIT_BONUSRANGEDATTACK ] = r.BonusDamage;
+            VariableList[ (int) ETriggerVarID.UNIT_RANGEDRANGE ] = r.BaseRange;
+            VariableList[ (int) ETriggerVarID.UNIT_MELEE_SHIELD ] = b.BonusMeleeShield;
+            VariableList[ (int) ETriggerVarID.UNIT_RANGED_SHIELD ] = b.BonusMissileShield;
+            VariableList[ (int) ETriggerVarID.UNIT_MAGIC_SHIELD ] = b.BonusMagicShield;
+            VariableList[ (int) ETriggerVarID.UNIT_MELEEATTACKLEVEL ] = b.MeleeAttackLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_RANGEDATTACKLEVEL ] = b.RangedAttackLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_MOVEMENTLEVEL ] = c.MovementLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_ARROWWALKINGLEVEL ] = c.ArrowWalkingLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_DEXTERITYLEVEL ] = b.DexterityLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_ORBSTRIKERLEVEL ] = b.OrbStrikerLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_MONSTERCORNERINGLEVEL ] = c.MonsterCorneringLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_COOPERATIONLEVEL ] = b.CooperationLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_DAMAGESURPLUSLEVEL ] = b.DamageSurplusLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_MELEESHIELDLEVEL ] = b.MeleeShieldLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_MISSILESHIELDLEVEL ] = b.MissileShieldLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_MAGICSHIELDLEVEL ] = b.MagicShieldLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_MONSTERPUSHLEVEL ] = c.MonsterPushLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_SCOUTLEVEL ] = c.ScoutLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_PLATFORMWALKINGLEVEL ] = c.PlatformWalkingLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_PLATFORMSTEPS ] = c.PlatformSteps;
+            VariableList[ (int) ETriggerVarID.UNIT_WALLDESTROYERLEVEL ] = b.WallDestroyerLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_AMBUSHERLEVEL ] = b.AmbusherLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_MEMORYLEVEL ] = b.MemoryLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_TOOLBOXLEVEL ] = b.ToolBoxLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_SPRINTERLEVEL ] = c.SprinterLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_FIREMASTERLEVEL ] = b.FireMasterLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_BERSERKLEVEL ] = b.BerserkLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_RICOCHETLEVEL ] = r.RicochetLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_BEEHIVETHROWERLEVEL ] = b.BeeHiveThrowerLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_PSYCHICLEVEL ] = b.PsychicLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_SNEAKINGLEVEL ] = c.SneakingLevel;
+            VariableList[ (int) ETriggerVarID.MAXBONUSREACHED ] = s.MaxBonusReached;
+            VariableList[ (int) ETriggerVarID.ACCUMULATEDBONUS ] = s.AccumulatedBonuses;
+            VariableList[ (int) ETriggerVarID.AREASCLEARED ] = s.AreasCleared;
+            VariableList[ (int) ETriggerVarID.NORMALSECTORSDISCOVERED ] = s.NormalSectorsDiscovered;
+            VariableList[ (int) ETriggerVarID.SECTORSCLEARED ] = s.SectorsCleared;
+            VariableList[ (int) ETriggerVarID.PERFECTAREAS ] = s.NumPerfectAreas;
+            VariableList[ (int) ETriggerVarID.PERFECTSECTORS ] = s.NumPerfectSectors;
+            VariableList[ (int) ETriggerVarID.ACCUMULATEDPOINTS ] = s.AccumulatedPoints;
+            VariableList[ (int) ETriggerVarID.BONFIRESLIT ] = s.BonfiresLit;
+            VariableList[ (int) ETriggerVarID.DIRTYBONFIRESLIT ] = s.DirtyBonfiresLit;
+            VariableList[ (int) ETriggerVarID.UNIT_LOOTERLEVEL ] = b.LooterLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_PROSPECTORLEVEL ] = b.ProspectorLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_BARRICADE_FIGHTER_LEVEL ] = c.BarricadeFighterLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_EVASIONLEVEL ] = c.EvasionLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_PERFECTIONISTLEVEL ] = c.PerfectionistLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_SCAVENGERLEVEL ] = c.ScavengerLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_AGILITYLEVEL ] = b.AgilityLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_ARROWFIGHTERLEVEL ] = c.ArrowFighterLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_ARROWINLEVEL ] = c.ArrowInLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_ARROWOUTLEVEL ] = c.ArrowOutLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_FRESHATTACKLEVEL ] = b.FreshAttackLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_RISKYATTACKLEVEL ] = b.RiskyAttackLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_MORTALJUMPLEVEL ] = b.MortalJumpLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_OPENFIELDATTACKLEVEL ] = b.OpenFieldAtttackLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_BASETHREATDURATION ] = b.BaseThreatDuration;
+            VariableList[ (int) ETriggerVarID.UNIT_BASEFREEEXITHPLIMIT ] = b.BaseFreeExitHPLimit;
+            VariableList[ (int) ETriggerVarID.UNIT_FIREPOWERLEVEL ] = b.FirePowerLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_FIRESPREADLEVEL ] = b.FireSpreadLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_FIREWOODNEEDED ] = b.FireWoodNeeded;
+            VariableList[ (int) ETriggerVarID.UNIT_OUTSIDEFIREWOODALLOWED ] = b.OutsideFireWoodAllowed;
+            VariableList[ (int) ETriggerVarID.UNIT_BARRICADEDESTROYLEVEL ] = b.DestroyBarricadeLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_FREEPLATFORMEXIT ] = b.FreePlatformExit;
+            VariableList[ (int) ETriggerVarID.UNIT_OUTAREABURNINGBARRICADEDESTROYBONUS ] = b.OutAreaBurningBarricadeDestroyBonus;
+            VariableList[ (int) ETriggerVarID.UNIT_OVERBARRICADESCOUT ] = c.OverBarricadeScoutLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_SHOWRESOURCECHANCE ] = c.ShowResourceChance;
+            VariableList[ (int) ETriggerVarID.UNIT_SHOWRESOURCENEIGHBORSCHANCE ] = c.ShowResourceNeighborsChance;
+            VariableList[ (int) ETriggerVarID.UNIT_BARRICADEFORRUNE ] = b.BarricadeForRune;
+            VariableList[ (int) ETriggerVarID.UNIT_SCARYLEVEL ] = b.ScaryLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_HERONEIGHBORTOUCHADDER ] = b.HeroNeighborTouchAdder;
+            VariableList[ (int) ETriggerVarID.UNIT_FIRESTARBONNUS ] = b.FireStarBonus;
+            VariableList[ (int) ETriggerVarID.UNIT_COLLECTORLEVEL ] = b.CollectorLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_RESOURCEPERSISTANCE ] = b.ResourcePersistance;
+            VariableList[ (int) ETriggerVarID.UNIT_RTMELEEATTACKSPEED ] = b.RealtimeMeleeAttSpeed;
+            VariableList[ (int) ETriggerVarID.UNIT_RTRANGEDATTACKSPEED ] = b.RealtimeRangedAttSpeed;
+            VariableList[ (int) ETriggerVarID.UNIT_MIRELEVEL ] = c.MireLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_RESTDISTANCE ] = c.RestingLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_SLAYERLEVEL ] = c.SlayerLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_DRAGONTARGETTING ] = c.FlyingTargetting;
+            VariableList[ (int) ETriggerVarID.UNIT_SLAYERANGLE ] = c.SlayerAngle;
+            VariableList[ (int) ETriggerVarID.UNIT_SLAYERMAXHP ] = c.SlayerMaxHP;
+            VariableList[ (int) ETriggerVarID.UNIT_DRAGONDISGUISE ] = c.DragonDisguiseLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_DRAGONBONUSDROP ] = c.DragonBonusDropLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_DRAGONBARRICADEPROTECTION ] = c.DragonBarricadeProtection;
+            VariableList[ (int) ETriggerVarID.UNIT_MININGLEVEL ] = b.MiningLevel;
+            VariableList[ (int) ETriggerVarID.UNIT_FISHING_LEVEL ] = b.FishingLevel;
+        }
         else
-            if( EffectOperator2 == ETriggerEffOperator.PLUS ) res = val1 + val2;
-            else
-                if( EffectOperator2 == ETriggerEffOperator.MINUS ) res = val1 - val2;
-                else
-                    if( EffectOperator2 == ETriggerEffOperator.MULTIPLY ) res = val1 * val2;
-                    else
-                        if( EffectOperator2 == ETriggerEffOperator.DIVIDE ) res = val1 / val2;
-
-        if( EffectOperator3 == ETriggerEffOperator.NONE )
         {
+            // PUSH CHANGES FROM BUFFER TO UNIT COMPONENTS;
+            b.TotHp = VariableList[ (int) ETriggerVarID.UNIT_TOTALHP ];
+            b.Hp = VariableList[ (int) ETriggerVarID.UNIT_HP ];
+            b.Stars = VariableList[ (int) ETriggerVarID.UNIT_STARS ];
+            b.Lives = VariableList[ (int) ETriggerVarID.UNIT_LIVES ];
+            m.BonusDamage = VariableList[ (int) ETriggerVarID.UNIT_BONUSMELEEATTACK ];
+            r.BonusDamage = VariableList[ (int) ETriggerVarID.UNIT_BONUSRANGEDATTACK ];
+            r.BaseRange = VariableList[ (int) ETriggerVarID.UNIT_RANGEDRANGE ];
+            b.BonusMeleeShield = VariableList[ (int) ETriggerVarID.UNIT_MELEE_SHIELD ];
+            b.BonusMissileShield = VariableList[ (int) ETriggerVarID.UNIT_RANGED_SHIELD ];
+            b.BonusMagicShield = VariableList[ (int) ETriggerVarID.UNIT_MAGIC_SHIELD ];
+            b.MeleeAttackLevel = VariableList[ (int) ETriggerVarID.UNIT_MELEEATTACKLEVEL ];
+            b.RangedAttackLevel = VariableList[ (int) ETriggerVarID.UNIT_RANGEDATTACKLEVEL ];
+            c.MovementLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_MOVEMENTLEVEL ];
+            c.ArrowWalkingLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_ARROWWALKINGLEVEL ];
+            b.DexterityLevel = VariableList[ (int) ETriggerVarID.UNIT_DEXTERITYLEVEL ];
+            b.OrbStrikerLevel = VariableList[ (int) ETriggerVarID.UNIT_ORBSTRIKERLEVEL ];
+            c.MonsterCorneringLevel = VariableList[ (int) ETriggerVarID.UNIT_MONSTERCORNERINGLEVEL ];
+            b.CooperationLevel = VariableList[ (int) ETriggerVarID.UNIT_COOPERATIONLEVEL ];
+            b.DamageSurplusLevel = VariableList[ (int) ETriggerVarID.UNIT_DAMAGESURPLUSLEVEL ];
+            b.MeleeShieldLevel = VariableList[ (int) ETriggerVarID.UNIT_MELEESHIELDLEVEL ];
+            b.MissileShieldLevel = VariableList[ (int) ETriggerVarID.UNIT_MISSILESHIELDLEVEL ];
+            b.MagicShieldLevel = VariableList[ (int) ETriggerVarID.UNIT_MAGICSHIELDLEVEL ];
+            c.MonsterPushLevel = VariableList[ (int) ETriggerVarID.UNIT_MONSTERPUSHLEVEL ];
+            c.ScoutLevel = VariableList[ (int) ETriggerVarID.UNIT_SCOUTLEVEL ];
+            c.PlatformWalkingLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_PLATFORMWALKINGLEVEL ];
+            c.PlatformSteps = (int) VariableList[ (int) ETriggerVarID.UNIT_PLATFORMSTEPS ];
+            b.WallDestroyerLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_WALLDESTROYERLEVEL ];
+            b.AmbusherLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_AMBUSHERLEVEL ];
+            b.MemoryLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_MEMORYLEVEL ];
+            b.ToolBoxLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_TOOLBOXLEVEL ];
+            c.SprinterLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_SPRINTERLEVEL ];
+            b.FireMasterLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_FIREMASTERLEVEL ];
+            b.BerserkLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_BERSERKLEVEL ];
+            r.RicochetLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_RICOCHETLEVEL ];
+            b.BeeHiveThrowerLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_BEEHIVETHROWERLEVEL ];
+            b.PsychicLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_PSYCHICLEVEL ];
+            c.SneakingLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_SNEAKINGLEVEL ];
+            s.MaxBonusReached = (int) VariableList[ (int) ETriggerVarID.MAXBONUSREACHED ];
+            s.AccumulatedBonuses = (int) VariableList[ (int) ETriggerVarID.ACCUMULATEDBONUS ];
+            s.AreasCleared = (int) VariableList[ (int) ETriggerVarID.AREASCLEARED ];
+            s.NormalSectorsDiscovered = (int) VariableList[ (int) ETriggerVarID.NORMALSECTORSDISCOVERED ];
+            s.SectorsCleared = (int) VariableList[ (int) ETriggerVarID.SECTORSCLEARED ];
+            s.NumPerfectAreas = (int) VariableList[ (int) ETriggerVarID.PERFECTAREAS ];
+            s.NumPerfectSectors = (int) VariableList[ (int) ETriggerVarID.PERFECTSECTORS ];
+            s.AccumulatedPoints = (int) VariableList[ (int) ETriggerVarID.ACCUMULATEDPOINTS ];
+            s.BonfiresLit = (int) VariableList[ (int) ETriggerVarID.BONFIRESLIT ];
+            s.DirtyBonfiresLit = (int) VariableList[ (int) ETriggerVarID.DIRTYBONFIRESLIT ];
+            b.LooterLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_LOOTERLEVEL ];
+            b.ProspectorLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_PROSPECTORLEVEL ];
+            c.BarricadeFighterLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_BARRICADE_FIGHTER_LEVEL ];
+            c.EvasionLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_EVASIONLEVEL ];
+            c.ScavengerLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_SCAVENGERLEVEL ];
+            c.PerfectionistLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_PERFECTIONISTLEVEL ];
+            b.AgilityLevel = VariableList[ (int) ETriggerVarID.UNIT_AGILITYLEVEL ];
+            c.ArrowFighterLevel = VariableList[ (int) ETriggerVarID.UNIT_ARROWFIGHTERLEVEL ];
+            c.ArrowInLevel = VariableList[ (int) ETriggerVarID.UNIT_ARROWINLEVEL ];
+            c.ArrowOutLevel = VariableList[ (int) ETriggerVarID.UNIT_ARROWOUTLEVEL ];
+            b.FreshAttackLevel = VariableList[ (int) ETriggerVarID.UNIT_FRESHATTACKLEVEL ];
+            b.RiskyAttackLevel = VariableList[ (int) ETriggerVarID.UNIT_RISKYATTACKLEVEL ];
+            b.MortalJumpLevel = VariableList[ (int) ETriggerVarID.UNIT_MORTALJUMPLEVEL ];
+            b.OpenFieldAtttackLevel = VariableList[ (int) ETriggerVarID.UNIT_OPENFIELDATTACKLEVEL ];
+            b.BaseThreatDuration = (int) VariableList[ (int) ETriggerVarID.UNIT_BASETHREATDURATION ];
+            b.BaseFreeExitHPLimit = (int) VariableList[ (int) ETriggerVarID.UNIT_BASEFREEEXITHPLIMIT ];
+            b.FirePowerLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_FIREPOWERLEVEL ];
+            b.FireSpreadLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_FIRESPREADLEVEL ];
+            b.FireWoodNeeded = (int) VariableList[ (int) ETriggerVarID.UNIT_FIREWOODNEEDED ];
+            b.OutsideFireWoodAllowed = (int) VariableList[ (int) ETriggerVarID.UNIT_OUTSIDEFIREWOODALLOWED ];
+            b.DestroyBarricadeLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_BARRICADEDESTROYLEVEL ];
+            b.FreePlatformExit = (int) VariableList[ (int) ETriggerVarID.UNIT_FREEPLATFORMEXIT ];
+            b.OutAreaBurningBarricadeDestroyBonus = (int) VariableList[ (int) ETriggerVarID.UNIT_OUTAREABURNINGBARRICADEDESTROYBONUS ];
+            c.OverBarricadeScoutLevel = VariableList[ (int) ETriggerVarID.UNIT_OVERBARRICADESCOUT ];
+            c.ShowResourceChance = VariableList[ (int) ETriggerVarID.UNIT_SHOWRESOURCECHANCE ];
+            c.ShowResourceNeighborsChance = VariableList[ (int) ETriggerVarID.UNIT_SHOWRESOURCENEIGHBORSCHANCE ];
+            b.BarricadeForRune = (int) VariableList[ (int) ETriggerVarID.UNIT_BARRICADEFORRUNE ];
+            b.ScaryLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_SCARYLEVEL ];
+            b.HeroNeighborTouchAdder = (int) VariableList[ (int) ETriggerVarID.UNIT_HERONEIGHBORTOUCHADDER ];
+            b.FireStarBonus = (int) VariableList[ (int) ETriggerVarID.UNIT_FIRESTARBONNUS ];
+            b.CollectorLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_COLLECTORLEVEL ];
+            b.ResourcePersistance = (int) VariableList[ (int) ETriggerVarID.UNIT_RESOURCEPERSISTANCE ];
+            b.RealtimeMeleeAttSpeed = (int) VariableList[ (int) ETriggerVarID.UNIT_RTMELEEATTACKSPEED ];
+            b.RealtimeRangedAttSpeed = (int) VariableList[ (int) ETriggerVarID.UNIT_RTRANGEDATTACKSPEED ];
+            c.MireLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_MIRELEVEL ];
+            c.RestingLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_RESTDISTANCE ];
+            c.SlayerLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_SLAYERLEVEL ];
+            c.FlyingTargetting = (int) VariableList[ (int) ETriggerVarID.UNIT_DRAGONTARGETTING ];
+            c.SlayerAngle = (int) VariableList[ (int) ETriggerVarID.UNIT_SLAYERANGLE ];
+            c.SlayerMaxHP = (int) VariableList[ (int) ETriggerVarID.UNIT_SLAYERMAXHP ];
+            c.DragonDisguiseLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_DRAGONDISGUISE ];
+            c.DragonBonusDropLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_DRAGONBONUSDROP ];
+            c.DragonBarricadeProtection = (int) VariableList[ (int) ETriggerVarID.UNIT_DRAGONBARRICADEPROTECTION ];
+            b.MiningLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_MININGLEVEL ];
+            b.FishingLevel = (int) VariableList[ (int) ETriggerVarID.UNIT_FISHING_LEVEL ];
         }
-        else
-            if( EffectOperator3 == ETriggerEffOperator.PLUS ) res += val3;
-            else
-                if( EffectOperator3 == ETriggerEffOperator.MINUS ) res -= val3;
-                else
-                    if( EffectOperator3 == ETriggerEffOperator.MULTIPLY ) res *= val3;
-                    else
-                        if( EffectOperator3 == ETriggerEffOperator.DIVIDE ) res /= val3;
-
-        //Debug.Log("EffectOperator: " + EffectOperator +       " EffectVarID: " + EffectVarID + "  val1 " + val1 + "  val1 " + val2 );      
-
-        if( EffectOperator == ETriggerEffOperator.EQUALS )
-        {
-            VariableList[ ( int ) EffectVarID ] = res; return true;
-        }
-        if( EffectOperator == ETriggerEffOperator.PLUS )
-        {
-            VariableList[ ( int ) EffectVarID ] += res; return true;
-        }
-        if( EffectOperator == ETriggerEffOperator.MINUS )
-        {
-            VariableList[ ( int ) EffectVarID ] -= res; return true;
-        }
-        if( EffectOperator == ETriggerEffOperator.MULTIPLY )
-        {
-            VariableList[ ( int ) EffectVarID ] *= res; return true;
-        }
-        if( EffectOperator == ETriggerEffOperator.DIVIDE )
-        {
-            VariableList[ ( int ) EffectVarID ] /= res; return true;
-        }
-
-        return false;
-    }
-
-    public bool UpdateIt( bool force = false )
-    {
-        bool res = false;
-        CreateVarList( Unit );
-        if( CheckConditionOperation( force ) )
-        {
-            res = true;
-            DoEffectOperation();
-        }
-
-        UpdateVarListValues( ref Unit );
-        return res;
-    }
-
-    public float GetVarAmount( Unit un )
-    {
-        CreateVarList( un );
-        return VariableList[ ( int ) ConditionVarID ];
-    }
-
-    public void CreateVarList( Unit un )
-    {
-        VariableList = new float[ ( int ) ETriggerVarID.TOTAL_VALS ];
-        VariableList[ ( int ) ETriggerVarID.UNIT_TOTALHP ] = un.Body.TotHp;
-        VariableList[ ( int ) ETriggerVarID.UNIT_HP ] = un.Body.Hp;
-        VariableList[ ( int ) ETriggerVarID.UNIT_STARS ] = un.Body.Stars;
-        VariableList[ ( int ) ETriggerVarID.UNIT_LIVES ] = un.Body.Lives;
-
-        VariableList[ ( int ) ETriggerVarID.UNIT_BONUSMELEEATTACK ] = un.MeleeAttack.BonusDamage;
-
-        VariableList[ ( int ) ETriggerVarID.UNIT_BONUSRANGEDATTACK ] = un.RangedAttack.BonusDamage;
-        VariableList[ ( int ) ETriggerVarID.UNIT_RANGEDRANGE ] = un.RangedAttack.BaseRange;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MELEE_SHIELD ] = un.Body.BonusMeleeShield;
-        VariableList[ ( int ) ETriggerVarID.UNIT_RANGED_SHIELD ] = un.Body.BonusMissileShield;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MAGIC_SHIELD ] = un.Body.BonusMagicShield;
-
-        VariableList[ ( int ) ETriggerVarID.UNIT_MELEEATTACKLEVEL ] = un.Body.MeleeAttackLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_RANGEDATTACKLEVEL ] = un.Body.RangedAttackLevel;
-        //		VariableList[ ( int ) ETriggerVarID.UNIT_MAGICATTACKENABLED ] = System.Convert.ToSingle( un.MagicAttack.enabled );
-        VariableList[ ( int ) ETriggerVarID.UNIT_MOVEMENTLEVEL ] = un.Control.MovementLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_ARROWWALKINGLEVEL ] = un.Control.ArrowWalkingLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_DEXTERITYLEVEL ] = un.Body.DexterityLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_ORBSTRIKERLEVEL ] = un.Body.OrbStrikerLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MONSTERCORNERINGLEVEL ] = un.Control.MonsterCorneringLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_COOPERATIONLEVEL ] = un.Body.CooperationLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_DAMAGESURPLUSLEVEL ] = un.Body.DamageSurplusLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MELEESHIELDLEVEL ] = un.Body.MeleeShieldLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MISSILESHIELDLEVEL ] = un.Body.MissileShieldLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MAGICSHIELDLEVEL ] = un.Body.MagicShieldLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MONSTERPUSHLEVEL ] = un.Control.MonsterPushLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_SCOUTLEVEL ] = un.Control.ScoutLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_PLATFORMWALKINGLEVEL ] = un.Control.PlatformWalkingLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_PLATFORMSTEPS ] = un.Control.PlatformSteps;
-        VariableList[ ( int ) ETriggerVarID.UNIT_WALLDESTROYERLEVEL ] = un.Body.WallDestroyerLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_AMBUSHERLEVEL ] = un.Body.AmbusherLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MEMORYLEVEL ] = un.Body.MemoryLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_TOOLBOXLEVEL ] = un.Body.ToolBoxLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_SPRINTERLEVEL ] = un.Control.SprinterLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_FIREMASTERLEVEL ] = un.Body.FireMasterLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_BERSERKLEVEL ] = un.Body.BerserkLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_RICOCHETLEVEL ] = un.RangedAttack.RicochetLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_BEEHIVETHROWERLEVEL ] = un.Body.BeeHiveThrowerLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_PSYCHICLEVEL ] = un.Body.PsychicLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_SNEAKINGLEVEL ] = un.Control.SneakingLevel;
-        VariableList[ ( int ) ETriggerVarID.ROACHDEATHCOUNT ] = Map.I.LevelStats.RoachDeathCount;
-        VariableList[ ( int ) ETriggerVarID.MONSTERSDEATHCOUNT ] = Map.I.LevelStats.MonstersDeathCount;
-        VariableList[ ( int ) ETriggerVarID.SCARABDEATHCOUNT ] = Map.I.LevelStats.ScarabDeathCount;
-        VariableList[ ( int ) ETriggerVarID.POISONERDEATHCOUNT ] = Map.I.LevelStats.PoisonerDeathCount;
-        VariableList[ ( int ) ETriggerVarID.UNIT_RESOURCECOLLECTED ] = Map.I.LevelStats.ResourceCollected;
-        VariableList[ ( int ) ETriggerVarID.UNIT_FISHINGBONUSREACHED ] = Map.I.LevelStats.FishingBonusReached;
-        VariableList[ ( int ) ETriggerVarID.UNIT_CONQUEREDGOALS ] = Map.I.LevelStats.ConqueredGoals;
-        VariableList[ ( int ) ETriggerVarID.MAXBONUSREACHED ] = Map.I.LevelStats.MaxBonusReached;
-        VariableList[ ( int ) ETriggerVarID.ACCUMULATEDBONUS ] = Map.I.LevelStats.AccumulatedBonuses;
-        VariableList[ ( int ) ETriggerVarID.AREASCLEARED ] = Map.I.LevelStats.AreasCleared;
-        VariableList[ ( int ) ETriggerVarID.NORMALSECTORSDISCOVERED ] = Map.I.LevelStats.NormalSectorsDiscovered;
-        VariableList[ ( int ) ETriggerVarID.SECTORSCLEARED ] = Map.I.LevelStats.SectorsCleared;
-        VariableList[ ( int ) ETriggerVarID.PERFECTAREAS ] = Map.I.LevelStats.NumPerfectAreas;
-        VariableList[ ( int ) ETriggerVarID.PERFECTSECTORS ] = Map.I.LevelStats.NumPerfectSectors;
-        VariableList[ ( int ) ETriggerVarID.ACCUMULATEDPOINTS ] = Map.I.LevelStats.AccumulatedPoints;
-        VariableList[ ( int ) ETriggerVarID.BONFIRESLIT ] = Map.I.LevelStats.BonfiresLit;
-        VariableList[ ( int ) ETriggerVarID.DIRTYBONFIRESLIT ] = Map.I.LevelStats.DirtyBonfiresLit;
-        VariableList[ ( int ) ETriggerVarID.UNIT_LOOTERLEVEL ] = un.Body.LooterLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_PROSPECTORLEVEL ] = un.Body.ProspectorLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_BARRICADE_FIGHTER_LEVEL ] = un.Control.BarricadeFighterLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_EVASIONLEVEL ] = un.Control.EvasionLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_PERFECTIONISTLEVEL ] = un.Control.PerfectionistLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_SCAVENGERLEVEL ] = un.Control.ScavengerLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_AGILITYLEVEL ] = un.Body.AgilityLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_ARROWFIGHTERLEVEL ] = un.Control.ArrowFighterLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_ARROWINLEVEL ] = un.Control.ArrowInLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_ARROWOUTLEVEL ] = un.Control.ArrowOutLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_FRESHATTACKLEVEL ] = un.Body.FreshAttackLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_RISKYATTACKLEVEL ] = un.Body.RiskyAttackLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MORTALJUMPLEVEL ] = un.Body.MortalJumpLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_OPENFIELDATTACKLEVEL ] = un.Body.OpenFieldAtttackLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_BASETHREATDURATION ] = un.Body.BaseThreatDuration;
-        VariableList[ ( int ) ETriggerVarID.UNIT_BASEFREEEXITHPLIMIT ] = un.Body.BaseFreeExitHPLimit;
-        VariableList[ ( int ) ETriggerVarID.UNIT_FIREPOWERLEVEL ] = un.Body.FirePowerLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_FIRESPREADLEVEL ] = un.Body.FireSpreadLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_FIREWOODNEEDED ] = un.Body.FireWoodNeeded;
-        VariableList[ ( int ) ETriggerVarID.UNIT_OUTSIDEFIREWOODALLOWED ] = un.Body.OutsideFireWoodAllowed;
-        VariableList[ ( int ) ETriggerVarID.UNIT_BARRICADEDESTROYLEVEL ] = un.Body.DestroyBarricadeLevel;
-
-        VariableList[ ( int ) ETriggerVarID.UNIT_FREEPLATFORMEXIT ] = un.Body.FreePlatformExit;
-        VariableList[ ( int ) ETriggerVarID.UNIT_OUTAREABURNINGBARRICADEDESTROYBONUS ] = un.Body.OutAreaBurningBarricadeDestroyBonus;
-        VariableList[ ( int ) ETriggerVarID.UNIT_OVERBARRICADESCOUT ] = un.Control.OverBarricadeScoutLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_SHOWRESOURCECHANCE ] = un.Control.ShowResourceChance;
-        VariableList[ ( int ) ETriggerVarID.UNIT_SHOWRESOURCENEIGHBORSCHANCE ] = un.Control.ShowResourceNeighborsChance;
-        VariableList[ ( int ) ETriggerVarID.UNIT_BARRICADEFORRUNE ] = un.Body.BarricadeForRune;
-        VariableList[ ( int ) ETriggerVarID.UNIT_SCARYLEVEL ] = un.Body.ScaryLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_HERONEIGHBORTOUCHADDER ] = un.Body.HeroNeighborTouchAdder;
-        VariableList[ ( int ) ETriggerVarID.UNIT_FIRESTARBONNUS ] = un.Body.FireStarBonus;
-        VariableList[ ( int ) ETriggerVarID.UNIT_COLLECTORLEVEL ] = un.Body.CollectorLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_RESOURCEPERSISTANCE ] = un.Body.ResourcePersistance;
-
-        VariableList[ ( int ) ETriggerVarID.UNIT_RTMELEEATTACKSPEED ] = un.Body.RealtimeMeleeAttSpeed;
-        VariableList[ ( int ) ETriggerVarID.UNIT_RTRANGEDATTACKSPEED ] = un.Body.RealtimeRangedAttSpeed;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MIRELEVEL ] = un.Control.MireLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_RESTDISTANCE ] = un.Control.RestingLevel;
-
-        VariableList[ ( int ) ETriggerVarID.UNIT_SLAYERLEVEL ] = un.Control.SlayerLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_DRAGONTARGETTING ] = un.Control.FlyingTargetting;
-        VariableList[ ( int ) ETriggerVarID.UNIT_SLAYERANGLE ] = un.Control.SlayerAngle;
-        VariableList[ ( int ) ETriggerVarID.UNIT_SLAYERMAXHP ] = un.Control.SlayerMaxHP;
-        VariableList[ ( int ) ETriggerVarID.UNIT_DRAGONDISGUISE ] = un.Control.DragonDisguiseLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_DRAGONBONUSDROP ] = un.Control.DragonBonusDropLevel;
-        VariableList[ ( int ) ETriggerVarID.UNIT_DRAGONBARRICADEPROTECTION ] = un.Control.DragonBarricadeProtection;
-        VariableList[ ( int ) ETriggerVarID.UNIT_MININGLEVEL ] = un.Body.MiningLevel;
-
-        VariableList[ ( int ) ETriggerVarID.UNIT_FISHING_LEVEL ] = un.Body.FishingLevel;
-    }
-
-    public void UpdateVarListValues( ref Unit un )
-    {
-        un.Body.TotHp = VariableList[ ( int ) ETriggerVarID.UNIT_TOTALHP ];
-        un.Body.Hp = VariableList[ ( int ) ETriggerVarID.UNIT_HP ];
-        un.Body.TotHp = VariableList[ ( int ) ETriggerVarID.UNIT_TOTALHP ];
-        un.Body.Stars = VariableList[ ( int ) ETriggerVarID.UNIT_STARS ];
-        un.Body.Lives = VariableList[ ( int ) ETriggerVarID.UNIT_LIVES ];
-
-        un.MeleeAttack.BonusDamage = VariableList[ ( int ) ETriggerVarID.UNIT_BONUSMELEEATTACK ];
-
-        un.RangedAttack.BonusDamage = VariableList[ ( int ) ETriggerVarID.UNIT_BONUSRANGEDATTACK ];
-        un.RangedAttack.BaseRange = VariableList[ ( int ) ETriggerVarID.UNIT_RANGEDRANGE ];
-
-        un.Body.BonusMeleeShield = VariableList[ ( int ) ETriggerVarID.UNIT_MELEE_SHIELD ];
-        un.Body.BonusMissileShield = VariableList[ ( int ) ETriggerVarID.UNIT_RANGED_SHIELD ];
-        un.Body.BonusMagicShield = VariableList[ ( int ) ETriggerVarID.UNIT_MAGIC_SHIELD ];
-
-        un.Body.MeleeAttackLevel = VariableList[ ( int ) ETriggerVarID.UNIT_MELEEATTACKLEVEL ];
-        un.Body.RangedAttackLevel = VariableList[ ( int ) ETriggerVarID.UNIT_RANGEDATTACKLEVEL ];
-        //un.MagicAttack.enabled  = System.Convert.ToBoolean( VariableList[ ( int ) ETriggerVarID.UNIT_MAGICATTACKENABLED ] );
-        un.Control.MovementLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_MOVEMENTLEVEL ];
-        un.Control.ArrowWalkingLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_ARROWWALKINGLEVEL ];
-        un.Body.DexterityLevel = VariableList[ ( int ) ETriggerVarID.UNIT_DEXTERITYLEVEL ];
-        un.Body.OrbStrikerLevel = VariableList[ ( int ) ETriggerVarID.UNIT_ORBSTRIKERLEVEL ];
-        un.Control.MonsterCorneringLevel = VariableList[ ( int ) ETriggerVarID.UNIT_MONSTERCORNERINGLEVEL ];
-        un.Body.CooperationLevel = VariableList[ ( int ) ETriggerVarID.UNIT_COOPERATIONLEVEL ];
-        un.Body.DamageSurplusLevel = VariableList[ ( int ) ETriggerVarID.UNIT_DAMAGESURPLUSLEVEL ];
-        un.Body.MeleeShieldLevel = VariableList[ ( int ) ETriggerVarID.UNIT_MELEESHIELDLEVEL ];
-        un.Body.MissileShieldLevel = VariableList[ ( int ) ETriggerVarID.UNIT_MISSILESHIELDLEVEL ];
-        un.Body.MagicShieldLevel = VariableList[ ( int ) ETriggerVarID.UNIT_MAGICSHIELDLEVEL ];
-        un.Control.MonsterPushLevel = VariableList[ ( int ) ETriggerVarID.UNIT_MONSTERPUSHLEVEL ];
-        un.Control.ScoutLevel = VariableList[ ( int ) ETriggerVarID.UNIT_SCOUTLEVEL ];
-        un.Control.PlatformWalkingLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_PLATFORMWALKINGLEVEL ];
-        un.Control.PlatformSteps = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_PLATFORMSTEPS ];
-        un.Body.WallDestroyerLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_WALLDESTROYERLEVEL ];
-        un.Body.AmbusherLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_AMBUSHERLEVEL ];
-        un.Body.MemoryLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_MEMORYLEVEL ];
-        un.Body.ToolBoxLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_TOOLBOXLEVEL ];
-
-        un.Control.SprinterLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_SPRINTERLEVEL ];
-        un.Body.FireMasterLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_FIREMASTERLEVEL ];
-        un.Body.BerserkLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_BERSERKLEVEL ];
-        un.RangedAttack.RicochetLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_RICOCHETLEVEL ];
-        un.Body.BeeHiveThrowerLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_BEEHIVETHROWERLEVEL ];
-        un.Body.PsychicLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_PSYCHICLEVEL ];
-        un.Control.SneakingLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_SNEAKINGLEVEL ];
-
-        //Map.I.LevelStats.RoachDeathCount = ( int ) VariableList[ ( int ) ETriggerVarID.ROACHDEATHCOUNT ];
-        //Map.I.LevelStats.ScarabDeathCount = ( int ) VariableList[ ( int ) ETriggerVarID.SCARABDEATHCOUNT ];
-        //Map.I.LevelStats.MonstersDeathCount = VariableList[ ( int ) ETriggerVarID.MONSTERSDEATHCOUNT ];            // No need to update these since there are no artifacts that upgrades this
-        //Map.I.LevelStats.PoisonerDeathCount = ( int ) VariableList[ ( int ) ETriggerVarID.POISONERDEATHCOUNT ];
-        //Map.I.LevelStats.ResourceCollected = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_RESOURCECOLLECTED ];
-        //FishingBonus, conquered goals,   included more in the list
-        Map.I.LevelStats.MaxBonusReached = ( int ) VariableList[ ( int ) ETriggerVarID.MAXBONUSREACHED ];
-        Map.I.LevelStats.AccumulatedBonuses = ( int ) VariableList[ ( int ) ETriggerVarID.ACCUMULATEDBONUS ];
-        Map.I.LevelStats.AreasCleared = ( int ) VariableList[ ( int ) ETriggerVarID.AREASCLEARED ];
-        Map.I.LevelStats.NormalSectorsDiscovered = ( int ) VariableList[ ( int ) ETriggerVarID.NORMALSECTORSDISCOVERED ];
-        Map.I.LevelStats.SectorsCleared = ( int ) VariableList[ ( int ) ETriggerVarID.SECTORSCLEARED ];
-        Map.I.LevelStats.NumPerfectAreas = ( int ) VariableList[ ( int ) ETriggerVarID.PERFECTAREAS ];
-        Map.I.LevelStats.NumPerfectSectors = ( int ) VariableList[ ( int ) ETriggerVarID.PERFECTSECTORS ];
-        Map.I.LevelStats.AccumulatedPoints = ( int ) VariableList[ ( int ) ETriggerVarID.ACCUMULATEDPOINTS ];
-        Map.I.LevelStats.BonfiresLit = ( int ) VariableList[ ( int ) ETriggerVarID.BONFIRESLIT ];
-        Map.I.LevelStats.DirtyBonfiresLit = ( int ) VariableList[ ( int ) ETriggerVarID.DIRTYBONFIRESLIT ];
-        un.Body.LooterLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_LOOTERLEVEL ];
-        un.Body.ProspectorLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_PROSPECTORLEVEL ];
-        un.Control.BarricadeFighterLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_BARRICADE_FIGHTER_LEVEL ];
-        un.Control.EvasionLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_EVASIONLEVEL ];
-        un.Control.ScavengerLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_SCAVENGERLEVEL ];
-        un.Control.PerfectionistLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_PERFECTIONISTLEVEL ];
-        un.Body.AgilityLevel = VariableList[ ( int ) ETriggerVarID.UNIT_AGILITYLEVEL ];
-        un.Control.ArrowFighterLevel = VariableList[ ( int ) ETriggerVarID.UNIT_ARROWFIGHTERLEVEL ];
-        un.Control.ArrowInLevel = VariableList[ ( int ) ETriggerVarID.UNIT_ARROWINLEVEL ];
-        un.Control.ArrowOutLevel = VariableList[ ( int ) ETriggerVarID.UNIT_ARROWOUTLEVEL ];
-        un.Body.FreshAttackLevel = VariableList[ ( int ) ETriggerVarID.UNIT_FRESHATTACKLEVEL ];
-        un.Body.RiskyAttackLevel = VariableList[ ( int ) ETriggerVarID.UNIT_RISKYATTACKLEVEL ];
-        un.Body.MortalJumpLevel = VariableList[ ( int ) ETriggerVarID.UNIT_MORTALJUMPLEVEL ];
-        un.Body.OpenFieldAtttackLevel = VariableList[ ( int ) ETriggerVarID.UNIT_OPENFIELDATTACKLEVEL ];
-        un.Body.BaseThreatDuration = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_BASETHREATDURATION ];
-        un.Body.BaseFreeExitHPLimit = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_BASEFREEEXITHPLIMIT ];
-        un.Body.FirePowerLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_FIREPOWERLEVEL ];
-        un.Body.FireSpreadLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_FIRESPREADLEVEL ];
-        un.Body.FireWoodNeeded = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_FIREWOODNEEDED ];
-        un.Body.OutsideFireWoodAllowed = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_OUTSIDEFIREWOODALLOWED ];
-        un.Body.DestroyBarricadeLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_BARRICADEDESTROYLEVEL ];
-        un.Body.FreePlatformExit = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_FREEPLATFORMEXIT ];
-        un.Body.OutAreaBurningBarricadeDestroyBonus = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_OUTAREABURNINGBARRICADEDESTROYBONUS ];
-        un.Control.OverBarricadeScoutLevel = VariableList[ ( int ) ETriggerVarID.UNIT_OVERBARRICADESCOUT ];
-        un.Control.ShowResourceChance = VariableList[ ( int ) ETriggerVarID.UNIT_SHOWRESOURCECHANCE ];
-        un.Control.ShowResourceNeighborsChance = VariableList[ ( int ) ETriggerVarID.UNIT_SHOWRESOURCENEIGHBORSCHANCE ];
-        un.Body.BarricadeForRune = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_BARRICADEFORRUNE ];
-        un.Body.ScaryLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_SCARYLEVEL ];
-        un.Body.HeroNeighborTouchAdder = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_HERONEIGHBORTOUCHADDER ];
-        un.Body.FireStarBonus = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_FIRESTARBONNUS ];
-        un.Body.CollectorLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_COLLECTORLEVEL ];
-        un.Body.ResourcePersistance = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_RESOURCEPERSISTANCE ];
-
-        un.Body.RealtimeMeleeAttSpeed = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_RTMELEEATTACKSPEED ];
-        un.Body.RealtimeRangedAttSpeed = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_RTRANGEDATTACKSPEED ];
-        un.Control.MireLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_MIRELEVEL ];
-        un.Control.RestingLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_RESTDISTANCE ];
-
-        un.Control.SlayerLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_SLAYERLEVEL ];
-        un.Control.FlyingTargetting = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_DRAGONTARGETTING ];
-        un.Control.SlayerAngle = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_SLAYERANGLE ];
-        un.Control.SlayerMaxHP = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_SLAYERMAXHP ];
-        un.Control.DragonDisguiseLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_DRAGONDISGUISE ];
-        un.Control.DragonBonusDropLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_DRAGONBONUSDROP ];
-        un.Control.DragonBarricadeProtection = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_DRAGONBARRICADEPROTECTION ];
-        un.Body.MiningLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_MININGLEVEL ];
-
-        un.Body.FishingLevel = ( int ) VariableList[ ( int ) ETriggerVarID.UNIT_FISHING_LEVEL ];
     }
 }

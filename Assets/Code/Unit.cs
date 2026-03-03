@@ -1,9 +1,11 @@
 ﻿using DarkTonic.MasterAudio;
 using DigitalRuby.LightningBolt;
+using NUnit.Framework;
 using PathologicalGames;
 using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -621,7 +623,7 @@ public partial class Unit : MonoBehaviour
             }
 
             Control.PositionHistory.Clear();
-            Control.WaspOccupiedTiles = new List<Vector2>();
+            Control.WaspOccupiedTiles.Clear();
             Control.TickMoveList = new List<int>( un.Control.TickMoveList );
             Control.DynamicObjectMoveList = new List<EActionType>( un.Control.DynamicObjectMoveList );
             Control.DynamicObjectOrientationList = new List<EOrientation>( un.Control.DynamicObjectOrientationList );
@@ -1416,7 +1418,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         if( s == null || s.Type != Sector.ESectorType.NORMAL ) return false;
         List<Vector2> tgl = new List<Vector2>();
         List<Vector2> froml = new List<Vector2>();
-        Controller.IgnoreLevelPushList = new List<Unit>();
+        Controller.IgnoreLevelPushList.Clear();
         List<Unit> orbl = new List<Unit>();
         List<Unit> pmnl = new List<Unit>();
         List<int> mnlid = new List<int>();
@@ -2796,8 +2798,8 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 
         if( InfectionAttack ) InfectionAttack.UpdateIt( InfectionAttack.enabled );
 
-        Attack.AxeAttackList = new List<int>();
-        Attack.DuplicatorAttackList = new List<int>();
+        Attack.AxeAttackList.Clear();
+        Attack.DuplicatorAttackList.Clear();
 
         if( Attacks != null )                                                                     // Secondary Attacks
         for( int i = Attacks.Count - 1; i >= 0; i-- )
@@ -3577,208 +3579,318 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         if( Control )
             Control.RespawnTimeCount = 0;
     }
+    private StringBuilder sbItemText = new StringBuilder( 64 );
+    private StringBuilder sbMonitor = new StringBuilder( 64 );
+
+    // --- SOLUÇÃO PARA OS 146KB: Append de Int sem gerar NENHUMA string ---
+    public static void AppendInt( StringBuilder sb, int val )
+    {
+        if( val == 0 ) { sb.Append( '0' ); return; }
+        if( val < 0 ) { sb.Append( '-' ); val = -val; }
+
+        int i = 1000000000; // Máximo para um int 32
+        while( i > val ) i /= 10;
+        while( i > 0 )
+        {
+            sb.Append( (char) ( '0' + ( val / i ) ) );
+            val %= i;
+            i /= 10;
+        }
+    }
+
+    bool AreStringsDifferent( StringBuilder a, StringBuilder b )
+    {
+        if( a.Length != b.Length ) return true;
+        for( int i = 0; i < a.Length; i++ )
+        {
+            if( a[ i ] != b[ i ] ) return true;
+        }
+        return false;
+    }
+
     public void UpdateText()
     {
         if( LevelTxt == null ) return;
         if( TileID == ETileType.WASP ) return;
         if( TileID == ETileType.FISHING_POLE ) return;
 
+        var mapI = Map.I;                                                                        // Cache Map singleton
+        var hero = G.Hero;                                                                       // Cache Hero singleton
+        var body = Body;                                                                         // Cache Body component
+
         bool mouse = false;
-        if( Cursor.visible && Pos == new Vector2( Map.I.Mtx, Map.I.Mty ) ) mouse = true;
-        LevelTxt.color = Color.white;
-       
+        if( Cursor.visible && Pos == new Vector2( mapI.Mtx, mapI.Mty ) ) mouse = true;           // Mouse over check
+
+        Color targetColor = Color.white;                                                         // Cache target color
+        bool showLevelTxt = false;                                                               // Visibility flag
+
+        sbItemText.Length = 0;                                                                   // Clear buffer (Zero GC)
+
         if( TileID == ETileType.QUEROQUERO )
-            SetLevelText( "" + Control.RealtimeSpeed );
+        {
+            AppendInt( sbItemText, (int) Control.RealtimeSpeed );                                 // USANDO APPENDINT CUSTOM
+            showLevelTxt = true;
+        }
 
         if( TileID == ETileType.ITEM )
         {
             if( LevelTxt )
             {
-                if( Body.StackAmount != Body.AuxStackAmount )
-                if( Body.ResourceOperation == EResourceOperation.SET )
-                    LevelTxt.text = "=" + Body.StackAmount.ToString( "0.#" );
-                else
-                    LevelTxt.text = "x" + Body.StackAmount.ToString( "0.#" );
+                float stackAmount = body.StackAmount;                                            // Cache stack amount
+                int variationInt = Variation;                                                    // Cache variation ID
 
-                if( Dir != EDirection.NONE )                                                        // item shadow
+                int intStack = (int) stackAmount;                                                // Cache integer part
+                float fracStack = stackAmount - intStack;                                        // Cache fractional part
+
+                if( stackAmount != body.AuxStackAmount )
+                {
+                    if( body.ResourceOperation == EResourceOperation.SET )
+                    {
+                        sbItemText.Append( "=" );
+                        AppendInt( sbItemText, intStack );                                       // Zero GC format
+                    }
+                    else
+                    {
+                        sbItemText.Append( "x" );
+                        AppendInt( sbItemText, intStack );                                       // Zero GC format
+                    }
+
+                    if( fracStack > 0.05f )                                                      // Replicates "0.#" manual formatting
+                    {
+                        sbItemText.Append( "." );
+                        AppendInt( sbItemText, (int) ( fracStack * 10f ) );                       // Append int instead of float
+                    }
+                }
+
+                if( Dir != EDirection.NONE )                                                     // Item shadow check
                 {
                     if( Md.ResourceType == ItemType.NONE )
                     {
-                        LevelTxt.text = "";
-                        Variation = ( int ) Md.ResourceType;
+                        sbItemText.Length = 0;                                                   // Clear text for none type
+                        Variation = (int) Md.ResourceType;                                       // Update variation
+                        variationInt = Variation;                                                // Update cached variation
                     }
                 }
 
-                string add = "";
-                LevelTxt.gameObject.SetActive( true );
-                if( Body.StackAmount == 1 ) 
-                    LevelTxt.gameObject.SetActive( false );
-                Body.ItemMiniDome.gameObject.SetActive( false );
+                showLevelTxt = stackAmount != 1;                                                 // Base text visibility flag
+                bool showMiniDome = false;                                                       // Minidome visibility flag
 
-                float duration = Body.GetMiniDomeTotTime();
+                float duration = body.GetMiniDomeTotTime();
 
                 if( duration > 0 )
-                if( G.Hero.Pos != Pos )
-                {
-                    LevelTxt.gameObject.SetActive( true );                                                     // Item Mini Dome timer
-                    Body.ItemMiniDome.gameObject.SetActive( true );              
-                    
-                    if( mouse )
-                    if( Body.MiniDomeTimerCounter > 0 )
-                        add += "  (" + Util.ToSTime( Body.MiniDomeTimerCounter ) + ")";                        // Time text update      
-                    else
-                        add += "  (" + Util.ToSTime( Body.GetMiniDomeTotTime() ) + ")";
-
-                    float pers = Body.ResourcePersistTotalSteps - Body.ResourcePersistStepCount - 1;           // persistance indicator 
-                    if( mouse && pers >= 1 )
-                        add += "\nUses: +" + pers; 
-
-                    if( Body.MiniDomeTimerCounter == -1 ) 
+                    if( hero.Pos != Pos )
                     {
-                        Body.ItemMiniDome.color = new Color( 1, 1, 1, 1 );
-                    }
-                    else
-                    {
-                        if( Body.MiniDomeTimerCounter == -2 )                                                  // Time is up
+                        showLevelTxt = true;                                                     // Item Mini Dome timer
+                        showMiniDome = true;
+
+                        if( mouse )
                         {
-                            add = "";
-                            float a = Body.ItemMiniDome.color.a - ( Time.deltaTime * 3 );
-                            Body.ItemMiniDome.color = new Color( 1, 1, 1, a );
-                            if( Body.ItemMiniDome.color.a <= 0 )
-                                Body.ItemMiniDome.gameObject.SetActive( false );
-                            Body.ItemMiniDome.transform.eulerAngles = new Vector3( 0, 0, 0 );
+                            sbItemText.Append( "  (" );
+                            if( body.MiniDomeTimerCounter > 0 )
+                                AppendInt( sbItemText, (int) body.MiniDomeTimerCounter );          // MATANDO OS 146KB AQUI
+                            else
+                                AppendInt( sbItemText, (int) duration );
+
+                            sbItemText.Append( ")" );
+
+                            float pers = body.ResourcePersistTotalSteps - body.ResourcePersistStepCount - 1; // Persistance indicator 
+                            if( mouse && pers >= 1 )
+                            {
+                                sbItemText.Append( "\nUses: +" );
+                                AppendInt( sbItemText, (int) pers );                              // Zero GC int append
+                            }
+                        }
+
+                        if( body.MiniDomeTimerCounter == -1 )
+                        {
+                            if( body.ItemMiniDome.color.a != 1f )                                // Optimization check
+                                body.ItemMiniDome.color = Color.white;                           // Reset minidome color
                         }
                         else
                         {
-                            if( Map.I.IsPaused() == false )
+                            if( body.MiniDomeTimerCounter == -2 )                                // Time is up
                             {
-                                Body.MiniDomeTimerCounter -= Time.deltaTime;                                   // Time Decrement                            
-                                float startRotation = Body.ItemMiniDome.transform.eulerAngles.z;
-                                float endRotation = startRotation + 360.0f;
-                                float zRotation = Mathf.Lerp( startRotation,                                   // Mini Dome Rotation Animation
-                                endRotation, Time.deltaTime / duration ) % 360.0f;
-                                Body.ItemMiniDome.transform.eulerAngles = new Vector3( 0, 0, zRotation );
+                                float a = body.ItemMiniDome.color.a - ( Time.deltaTime * 3 );    // Fade out alpha
+                                body.ItemMiniDome.color = new Color( 1f, 1f, 1f, a );
+                                if( a <= 0 )
+                                {
+                                    showMiniDome = false;                                        // Hide minidome when faded
+                                    body.ItemMiniDome.transform.eulerAngles = Vector3.zero;      // Reset rotation
+                                }
                             }
-
-                            if( Body.MiniDomeTimerCounter <= 0 )                                               // Minidome times is up
+                            else
                             {
-                                Body.MiniDomeTimerCounter = -2;
-                                MasterAudio.PlaySound3DAtVector3( "Save Game", Pos, 1, .9f );
+                                if( mapI.IsPaused() == false )
+                                {
+                                    body.MiniDomeTimerCounter -= Time.deltaTime;                 // Time Decrement                                  
+                                    float startRotation = body.ItemMiniDome.transform.eulerAngles.z;
+                                    float endRotation = startRotation + 360.0f;
+                                    float zRotation = Mathf.Lerp( startRotation,                 // Mini Dome Rotation Animation
+                            endRotation, Time.deltaTime / duration ) % 360.0f;
+                                    body.ItemMiniDome.transform.eulerAngles = new Vector3( 0, 0, zRotation );
+                                }
+
+                                if( body.MiniDomeTimerCounter <= 0 )                             // Minidome time is up
+                                {
+                                    body.MiniDomeTimerCounter = -2;                              // Flag as expired
+                                    MasterAudio.PlaySound3DAtVector3( "Save Game", Pos, 1, .9f );// Play expiration sound
+                                }
                             }
                         }
                     }
-                }
 
-                Body.Sprite4.gameObject.SetActive( false );
-                if( Body.ResourceWasteTotalTime > 0 )
+                if( body.ItemMiniDome.gameObject.activeSelf != showMiniDome )                    // Apply MiniDome active state safely
+                    body.ItemMiniDome.gameObject.SetActive( showMiniDome );
+
+                bool showSprite4 = false;                                                        // Sprite4 visibility flag
+                if( body.ResourceWasteTotalTime > 0 )
                 {
-                    if( Body.ResourceWasteTimeCounter == -2 )
+                    if( body.ResourceWasteTimeCounter == -2 )
                     {
-                        Item it = G.GIT( Variation );
-                        it.TempCount -= Body.StackAmount;
-                        ResourceIndicator.UpdateGrid = true;
-                        if( it.TempCount < 0 ) it.TempCount = 0;
-                        Map.I.KillList.Add( this ); 
+                        Item it = G.GIT( variationInt );
+                        it.TempCount -= stackAmount;                                             // Decrease temporary count
+                        ResourceIndicator.UpdateGrid = true;                                     // Flag grid for update
+                        if( it.TempCount < 0 ) it.TempCount = 0;                                 // Clamp to zero
+                        mapI.KillList.Add( this );                                               // Add to kill list
                     }
 
-                    Body.Sprite4.gameObject.SetActive( true );
+                    showSprite4 = true;
                     if( mouse )
-                        add += "  (" + Util.ToSTime( Body.ResourceWasteTotalTime ) + ")";              // Time text update      
-
-                    if( Body.ResourceWasteTimeCounter > 0 )
                     {
-                        Body.ResourceWasteTimeCounter -= Time.deltaTime;                                   // Time Decrement                            
-                        float startRotation = Body.Sprite4.transform.eulerAngles.z;
+                        sbItemText.Append( "  (" );
+                        AppendInt( sbItemText, (int) body.ResourceWasteTotalTime );               // MATANDO OS 146KB AQUI
+                        sbItemText.Append( ")" );
+                    }
+
+                    if( body.ResourceWasteTimeCounter > 0 )
+                    {
+                        body.ResourceWasteTimeCounter -= Time.deltaTime;                         // Time Decrement                                  
+                        float startRotation = body.Sprite4.transform.eulerAngles.z;
                         float endRotation = startRotation + 360.0f;
-                        float zRotation = Mathf.Lerp( startRotation,                                       // Cage Rotation Animation
-                        endRotation, Time.deltaTime / Body.ResourceWasteTotalTime ) % 360.0f;
-                        Body.Sprite4.transform.eulerAngles = new Vector3( 0, 0, zRotation );  
+                        float zRotation = Mathf.Lerp( startRotation,                             // Cage Rotation Animation
+                    endRotation, Time.deltaTime / body.ResourceWasteTotalTime ) % 360.0f;
+                        body.Sprite4.transform.eulerAngles = new Vector3( 0, 0, zRotation );
                     }
 
-                    if( Body.ResourceWasteTimeCounter != -1 )
-                    if( Body.ResourceWasteTimeCounter <= 0 )                                               // Cage times is up
-                    {
-                        Body.ResourceWasteTimeCounter = -2;
-                        MasterAudio.PlaySound3DAtVector3( "Save Game", Pos, 1, .9f );
-                    }
-                }
-
-                if( add != "" ) LevelTxt.text += add;
-
-                if( Manager.I.GameType == EGameType.CUBES )
-                if( G.HS.BagExtraBonusItemID != -1 )
-                if( Variation == ( int ) G.HS.BagExtraBonusItemID )                                        // Extra bonus due to vault
-                {
-                    LevelTxt.text = Body.StackAmount.ToString( "+#;-#;0" );
-                    float bag = Item.GetNum( ItemType.Res_Mining_Bag );
-                    if( bag != 0 )
-                    {
-                        LevelTxt.text = Body.StackAmount.ToString( "0." );
-                        LevelTxt.text += "+" + ( bag * G.HS.BagExtraBonusAmount );
-                    }
-                    LevelTxt.color = Color.green;
-                    LevelTxt.gameObject.SetActive( true );
-                }
-
-                if( Variation == ( int ) ItemType.Res_Mask )                                           // Unlimited Mask
-                if( Body.StackAmount >= 100 )
-                    LevelTxt.text = "";
-                if( Variation == ( int ) ItemType.Res_Mushroom )                                       // Mushroom
-                    LevelTxt.text = "";
-                if( Item.IsPlagueMonster( Variation, false ) )                                         // Plague monster
-                    LevelTxt.text = "";
-                if( Manager.I.GameType == EGameType.CUBES ) 
-                if( Body.IsChest() )                                                                   // Chest
-                    LevelTxt.text = "";
-                if( Variation == ( int ) ItemType.Egg )                                                // Egg
-                if( Pos !=  G.Hero.GetFront() )
-                {
-                    LevelTxt.color = Color.red;
-                    LevelTxt.text += "\nRotting!";
-                }
-
-                float amt = Item.GetNum( ( ItemType ) Variation );
-                if( Map.I.GetUnit( ETileType.CLOSEDDOOR, Pos ) != null )
-                {
-                    LevelTxt.color = Color.green;
-                    if( amt < Body.StackAmount )
-                        LevelTxt.color = Color.red;
-                }
-                if( Manager.I.GameType != EGameType.FARM )
-                if( Dir == EDirection.NONE )
-                {
-                    //if( G.Hero.Control.TurnTime > 5f )
-                    //if( Item.IsPlagueMonster( Variation ) == false )
-                    //    LevelTxt.text += "\n(Stock: " + amt.ToString( "0.#" ) + ")";
-                    if( Body.IsChest() )                                                               // Chest Contents Text info
-                    {
-                        if( G.Hero.GetFront() == Pos )
+                    if( body.ResourceWasteTimeCounter != -1 )
+                        if( body.ResourceWasteTimeCounter <= 0 )                                 // Cage time is up
                         {
-                            string snd = ""; string txt = "Chest Contents:\n";
-                            Chests.GetChestText( this, ref txt, ref snd, this, false );
-                            UI.I.SetBigMessage( txt, Color.green, 2f, -1, -1, 500, .1f, 1 );
+                            body.ResourceWasteTimeCounter = -2;                                  // Flag as expired
+                            MasterAudio.PlaySound3DAtVector3( "Save Game", Pos, 1, .9f );        // Play expiration sound
                         }
-                        if( Body.ChestLevel == 2 )
-                            Spr.spriteId = 90;
-                        if( Body.ChestLevel >= 3 )
+                }
+
+                if( body.Sprite4.gameObject.activeSelf != showSprite4 )                          // Apply Sprite4 active state safely
+                    body.Sprite4.gameObject.SetActive( showSprite4 );
+
+                var manager = Manager.I;                                                         // Cache Manager singleton
+                if( manager.GameType == EGameType.CUBES )
+                    if( G.HS.BagExtraBonusItemID != -1 )
+                        if( variationInt == (int) G.HS.BagExtraBonusItemID )                     // Extra bonus due to vault
                         {
-                            Body.Sprite2.gameObject.SetActive( true );
-                            Spr.spriteId = 91;
-                            float rot = Body.Sprite2.transform.eulerAngles.z;
-                            rot += Time.deltaTime * 36;
-                            if( rot > 360 ) rot -= 360;
-                            Body.Sprite2.transform.eulerAngles = new Vector3( 0, 0, rot );
-                            if( Body.ChestLevel >= 4 )
+                            sbItemText.Length = 0;                                               // Clear buffer for new text
+
+                            if( intStack > 0 ) sbItemText.Append( "+" );                         // Replicates "+#;-#;0" manual formatting
+                            AppendInt( sbItemText, intStack );                                   // Zero GC append
+
+                            float bag = Item.GetNum( ItemType.Res_Mining_Bag );
+                            if( bag != 0 )
                             {
-                                Spr.scale = new Vector3( 1.7f, 1.7f, 1 );
-                                Body.Sprite2.scale = new Vector3( 5f, 5f, 1 );
+                                sbItemText.Length = 0;                                           // Clear buffer again
+                                AppendInt( sbItemText, intStack );                               // Replicates "0." manual formatting
+                                sbItemText.Append( "+" );
+                                AppendInt( sbItemText, (int) ( bag * G.HS.BagExtraBonusAmount ) );// Append bag bonus (Zero GC)
+                            }
+                            targetColor = Color.green;                                           // Set bonus color to green
+                            showLevelTxt = true;                                                 // Force text visibility
+                        }
+
+                if( variationInt == (int) ItemType.Res_Mask )                                    // Unlimited Mask
+                    if( stackAmount >= 100 )
+                        sbItemText.Length = 0;                                                   // Hide text
+
+                if( variationInt == (int) ItemType.Res_Mushroom )                                // Mushroom
+                    sbItemText.Length = 0;                                                       // Hide text
+
+                if( Item.IsPlagueMonster( variationInt, false ) )                                // Plague monster
+                    sbItemText.Length = 0;                                                       // Hide text
+
+                if( manager.GameType == EGameType.CUBES )
+                    if( body.IsChest() )                                                         // Chest
+                        sbItemText.Length = 0;                                                   // Hide text
+
+                if( variationInt == (int) ItemType.Egg )                                         // Egg
+                    if( Pos != hero.GetFront() )
+                    {
+                        targetColor = Color.red;                                                 // Set rotting color
+                        sbItemText.Append( "\nRotting!" );                                       // Append rotting warning
+                    }
+
+                float amt = Item.GetNum( ( ItemType ) variationInt );
+                if( mapI.GetUnit( ETileType.CLOSEDDOOR, Pos ) != null )
+                {
+                    targetColor = Color.green;                                                   // Set door requirement color
+                    if( amt < stackAmount )
+                        targetColor = Color.red;                                                 // Set red if missing amount
+                }
+
+                if( manager.GameType != EGameType.FARM )
+                    if( Dir == EDirection.NONE )
+                    {
+                        if( body.IsChest() )                                                     // Chest Contents Text info
+                        {
+                            if( hero.GetFront() == Pos )
+                            {
+                                string snd = ""; string txt = "Chest Contents:\n";
+                                Chests.GetChestText( this, ref txt, ref snd, this, false );
+                                UI.I.SetBigMessage( txt, Color.green, 2f, -1, -1, 500, .1f, 1 ); // Show chest contents UI
+                            }
+                            if( body.ChestLevel == 2 )
+                                Spr.spriteId = 90;                                               // Update chest sprite ID
+
+                            if( body.ChestLevel >= 3 )
+                            {
+                                if( !body.Sprite2.gameObject.activeSelf )
+                                    body.Sprite2.gameObject.SetActive( true );                   // Enable chest aura sprite
+
+                                Spr.spriteId = 91;                                               // Update high level chest sprite ID
+                                float rot = body.Sprite2.transform.eulerAngles.z;
+                                rot += Time.deltaTime * 36;
+                                if( rot > 360 ) rot -= 360;
+                                body.Sprite2.transform.eulerAngles = new Vector3( 0, 0, rot );   // Rotate chest aura
+
+                                if( body.ChestLevel >= 4 )
+                                {
+                                    if( Spr.scale.x != 1.7f )                                    // Optimization: Scale caching
+                                    {
+                                        Spr.scale = new Vector3( 1.7f, 1.7f, 1f );
+                                        body.Sprite2.scale = new Vector3( 5f, 5f, 1f );
+                                    }
+                                }
                             }
                         }
                     }
+
+                if( variationInt == (int) ItemType.Res_ForcedZoom )                              // Forced Zoom
+                {
+                    sbItemText.Length = 0;                                                       // Clear buffer
+                    sbItemText.Append( "Zoom Lock!" );                                           // Append zoom lock text
                 }
 
-                if( Variation == ( int ) ItemType.Res_ForcedZoom )                                     // Forced Zoom
-                    LevelTxt.text = "Zoom Lock!";
+                // --- ESTADOS DE ATIVAÇÃO ---
+                if( LevelTxt.gameObject.activeSelf != showLevelTxt )
+                    LevelTxt.gameObject.SetActive( showLevelTxt );
+
+                if( LevelTxt.color != targetColor )
+                    LevelTxt.color = targetColor;
+
+                // MONITOR FINAL: Trava os 404B e os 146KB de uma vez por todas
+                if( AreStringsDifferent( sbItemText, sbMonitor ) )
+                {
+                    LevelTxt.SetText( sbItemText );
+                    sbMonitor.Length = 0;
+                    sbMonitor.Append( sbItemText );
+                }
             }
             return;
         }

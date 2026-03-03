@@ -176,239 +176,186 @@ public class Helper : MonoBehaviour
 
         if( AutoOpenGateAtStart == false )                    // to avoid bugs
             AutoWayPointJump = false;
-    } 
-	
+
+        UI.I.DebugLabel.SetText( new string( 'X', 1023 ) );
+        UI.I.DebugLabel.ForceMeshUpdate();
+        UI.I.DebugLabel.SetText( "" );
+    }
+
+    // Static cache to avoid GC spikes;
+    private static System.Text.StringBuilder sbDebug = new System.Text.StringBuilder(1024);
+    private static System.Text.StringBuilder sbMonitor = new System.Text.StringBuilder(1024);
+
+    // NOVO: O tubo direto para injetar na malha do TMPro (Zero GC absoluto)
+    private static char[] debugCharBuffer = new char[1024];
+
+    // Função auxiliar Zero GC
+    private bool AreStringsDifferent( System.Text.StringBuilder a, System.Text.StringBuilder b )
+    {
+        if( a.Length != b.Length ) return true;
+        for( int i = 0; i < a.Length; i++ )
+        {
+            if( a[ i ] != b[ i ] ) return true;
+        }
+        return false;
+    }
+
+    // A MÁGICA ACONTECE AQUI
+    private void ApplyDebugText()
+    {
+        if( AreStringsDifferent( sbDebug, sbMonitor ) )
+        {
+            int len = sbDebug.Length;
+
+            // 1. Copia do StringBuilder direto para a memória RAM (char array) - 0 Bytes GC!
+            sbDebug.CopyTo( 0, debugCharBuffer, 0, len );
+
+            // 2. Injeta o array de char direto no motor do TextMeshPro!
+            UI.I.DebugLabel.SetCharArray( debugCharBuffer, 0, len );
+
+            sbMonitor.Length = 0;
+            sbMonitor.Append( sbDebug );
+        }
+    }
+
+    static void AppendOneDecimal( System.Text.StringBuilder sb, float value )
+    {
+        int intPart = (int)value;
+        int decimalPart = (int)((value - intPart) * 10f);
+
+        if( decimalPart < 0 ) decimalPart = -decimalPart;
+
+        sb.Append( intPart );
+        sb.Append( '.' );
+        sb.Append( decimalPart );                                                      // Manual 1 decimal float append; avoids float ToString GC
+    }
+
     public void DrawDebugText()
     {
-        if( Map.I.RM.HeroSector == null ) return;             // added to prevent new bug
-        Map m = Map.I;      
-        
-        if( Input.GetKeyDown( KeyCode.F1 ) )                                                                                          // show last vault bonus targets                                                            
+        var mapI = Map.I;                                                              // Cache Map instance;
+        if( mapI.RM.HeroSector == null ) return;
+        if( Cursor.visible == false ) return;                                          // ADDED TO AVOID GC. IMPROVE FUNCTION LATER IF NECESSARY. This is a common case where we don't need to update debug text at all, so we can skip the whole function and avoid GC from string operations inside it.
+
+        if( mapI.Unit == null ) return;
+
+        sbDebug.Length = 0;                                                            // Zero GC clear
+
+        if( ShowDebugHeaderText )
         {
-            for( int i = 0; i < Mine.VaultEffTargetList.Count; i++ )
-                Controller.CreateMagicEffect( Mine.VaultEffTargetList[ i ] );                                                         // Magic FX  
+            if( !string.IsNullOrEmpty( mapI.Deb ) )                                    // Safer string check;
+            {
+                sbDebug.Append( "Debug: " ).Append( mapI.Deb ).Append( '\n' );         // Literal char append avoids hidden string ops;
+                ApplyDebugText();                                                      // Aplica com segurança Zero GC
+                return;
+            }
+
+            sbDebug.Append( "Press F2 to Show Debug Text.\nMouse Over Unit for more Info.\n\nFPS: " );
+            sbDebug.Append( (int) mapI.FPS ).Append( " Av: " );
+
+            mapI.FPSSum += (int) mapI.FPS;
+            mapI.FPSSumCount++;
+            mapI.AverageFPS = mapI.FPSSum / mapI.FPSSumCount;
+
+            sbDebug.Append( (int) mapI.AverageFPS );
+
+            Vector2 mt = GetCubeTile(Map.GM());
+            int mtxInt = (int)mt.x;
+            int mtyInt = (int)mt.y;
+
+            if( mtxInt >= 0 && mtxInt < Brain.sizeX && mtyInt >= 0 && mtyInt < Brain.sizeY )
+            {
+                if( Brain.dist != null )
+                    sbDebug.Append( "\nBrain: " ).Append( Brain.dist[ mtxInt, mtyInt ] );
+            }
+
+            if( Cursor.visible && mapI.Mtx != -1 && mapI.Mty != -1 )
+            {
+                sbDebug.Append( "\nMouse Tile " ).Append( mapI.Mtx ).Append( ' ' ).Append( mapI.Mty );
+
+                if( Manager.I.GameType == EGameType.CUBES &&
+                    mapI.RM.HeroSector.Type == Sector.ESectorType.NORMAL )
+                {
+                    Vector2 cube = GetCubeTile(Map.GM());                              // Avoid implicit ToString();
+                    sbDebug.Append( "\nCube Tile: " )
+                           .Append( (int) cube.x )
+                           .Append( ' ' )
+                           .Append( (int) cube.y );
+                }
+            }
+
+            if( mapI.CamDataID >= 0 )
+                sbDebug.Append( "\nCamera Data ID: " ).Append( mapI.CamDataID );
         }
 
-        if( Input.GetKey( KeyCode.F1 ) )
+        if( mapI.Mtx == -1 || mapI.Mty == -1 )
         {
-            UI.I.DebugLabel.text = Manager.I.Translate( "&SCROLL 70 15", "Navigation Map" );                                         // F1 show master shortcut list. be careful not to change the scroll position
+            if( ShowDebugHeaderText ) ApplyDebugText();                                // Aplica com segurança Zero GC
             return;
         }
 
-        if( Input.GetKeyDown( KeyCode.F2 ) )
+        Unit un = Controller.GetRaft(new Vector2(mapI.Mtx, mapI.Mty));
+        if( !un ) un = mapI.Unit[ mapI.Mtx, mapI.Mty ];
+        if( !un ) un = mapI.Gaia2[ mapI.Mtx, mapI.Mty ];
+        if( !un ) un = mapI.Gaia[ mapI.Mtx, mapI.Mty ];
+        if( !un )
         {
-            ShowDebugHeaderText = !ShowDebugHeaderText;
-            if( ShowDebugHeaderText == false )
-                UI.I.DebugLabel.text = "";
+            if( ShowDebugHeaderText ) ApplyDebugText();                                // Aplica com segurança Zero GC
+            return;
         }
 
-        if( m.Unit == null ) return;
-        Unit un = null;
-
-        UI.I.DebugLabel.text = "";
-        if( ShowDebugHeaderText )
-        {
-            if( Map.I.Deb != "" )
-            {
-                UI.I.DebugLabel.text = "Debug: " + Map.I.Deb + "\n";
-                return;
-            }
-            UI.I.DebugLabel.text = "Press F2 to Show Debug Text.";
-            UI.I.DebugLabel.text += "\nMouse Over Unit for more Info.";
-            UI.I.DebugLabel.text += "\n\nFPS: " + m.FPS + " Av: " + ( int ) m.AverageFPS;
-            m.FPSSum += ( int ) m.FPS;
-            m.FPSSumCount ++;
-            m.AverageFPS = m.FPSSum / m.FPSSumCount;
-
-            Vector2 mt = GetCubeTile( Map.GM() );
-            if( ( int ) mt.x >= 0 && ( int ) mt.x < Brain.sizeX )
-            if( ( int ) mt.y >= 0 && ( int ) mt.y < Brain.sizeY )
-            if( Brain.dist != null)
-                UI.I.DebugLabel.text += "\nBrain: " + Brain.dist[ ( int ) mt.x, ( int ) mt.y ];
-
-            UI.I.DebugLabel.text += "\nRecord Time: " + Util.ToSTime( m.RecordTime );
-            //UI.I.DebugLabel.text += "\nfloor " + G.Hero.Control.BridgeFloor;
-            if( Cursor.visible == false ) return;
-            if( m.Mtx == -1 || m.Mty == -1 ) return;
-            UI.I.DebugLabel.text += "\nMouse Tile " + m.Mtx + " " + m.Mty; // +" World pos: " + Input.mousePosition.x + " " + Input.mousePosition.y + " Screen pos: " + MouseCord.x + " " + MouseCord.y + "\n";
-
-            if( Manager.I.GameType == EGameType.CUBES )
-                if( Map.I.RM.HeroSector.Type == Sector.ESectorType.NORMAL )
-                    UI.I.DebugLabel.text += "\nCube Tile: " + GetCubeTile( Map.GM() );
-
-            UI.I.DebugLabel.text += "\n\nPlay Time: " + Util.ToSTime( ( double ) Manager.I.PlayTime ) + "\nSession Time: " + Util.ToSTime( ( double ) Map.I.SessionTime );
-            UI.I.DebugLabel.text += "\nGame Total Time: " + Util.ToSTime( ( double ) Manager.I.TotalPlayTime ) + "\nCube Total Time: " + Util.ToSTime( ( double ) Manager.I.CubesTotalTime ) + "\n";
-            if( Map.I.CamDataID >= 0 ) UI.I.DebugLabel.text += "\nCamera Data ID: " + Map.I.CamDataID;
-            //UI.I.DebugLabel.text += "Area ID: " + Map.I.AreaID[ m.Mtx, m.Mty ] + "\n";
-        }
-
-        if( m.Mtx == -1 || m.Mty == -1 ) return;
-        Unit raft = Controller.GetRaft( new Vector2( m.Mtx, m.Mty ) );
-        if( raft ) un = raft;
-        else
-        if( m.Unit[ m.Mtx, m.Mty ] ) un = m.Unit[ m.Mtx, m.Mty ];
-        else
-        if( m.Gaia2[ m.Mtx, m.Mty ] ) un = m.Gaia2[ m.Mtx, m.Mty ];
-
-        List<Unit> fl = Map.I.GetFUnit( new Vector2( m.Mtx, m.Mty ) );
-        if( fl != null )
-            for( int i = 0; i < fl.Count; i++ )
-            {
-                if( fl[ i ].ValidMonster )
-                    if( fl[ i ].TileID != ETileType.WASP ) un = fl[ i ];
-            }    
-
-        if( un == null )
-        if( m.Gaia[ m.Mtx, m.Mty ] ) un = m.Gaia[ m.Mtx, m.Mty ];
-
-        if( un == null ) return;
-
-        if( un.Control )
-        {
-            if( Cursor.visible ) 
-            if( un.Control.Resting )
-                if( un.Control.RestingRadiusSprite )
-                    un.Control.RestingRadiusSprite.color = new Color( 1, 0, 0, .3f );
-        }
-
-        if( ShowDebugHeaderText == false )
-        if(!ShowDebugText ) return;
+        if( !ShowDebugHeaderText && !ShowDebugText ) return;
         if( Manager.I.Status != EGameStatus.PLAYING ) return;
-
-        Vector2 mp = new Vector2( m.Mtx, m.Mty );
-     
-        Quest.I.UpdateArtifactMouseOverInfo( new Vector2( ( int ) m.Mtx, ( int ) m.Mty ) );
-
         if( BluePrintWindow.I.gameObject.activeSelf ) return;
-        if( Manager.I.GugaVersion ) UI.I.DebugLabel.text = "Debug Mode, Guga Version:\n";
-        if( Map.PtOnMap( Map.I.Tilemap, mp ) == false ) return;
 
-        ETileType terr = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(
-                  Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.TERRAIN );
-        ETileType dec = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(
-                                      Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.DECOR );
-        ETileType dec2 = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(
-                              Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.DECOR2 );
+        sbDebug.Append( "\n\nUnit Name: " ).Append( un.TileID );                       // ALERTA: Se TileID for Enum, ele gera lixo. Use (int)un.TileID se quiser purismo extremo.
+        sbDebug.Append( "\nUnit Type: " ).Append( un.UnitType ).Append( '\n' );        // O mesmo vale aqui se UnitType for Enum.
 
-        ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(
-                              Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.MODIFIER );
-
-        ETileType ga = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(
-                       Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.GAIA );
-
-        ETileType ga2 = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(
-               Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.GAIA2 );
-
-        ETileType mn = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(
-               Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.MONSTER );
-
-        //UI.I.DebugLabel.text += "Terrain: " + terr + " Decor: " + dec + " Decor2: " + dec2 + "  Mod: " + mod + "  Gaia: " + ga + "  Gaia2: " + ga2 + "  Monster: " + mn + "\n";
-
-        //if( Map.I.Revealed[ Map.I.Mtx, Map.I.Mty ] ) UI.I.DebugLabel.text += "Tile Revealed\n"; else UI.I.DebugLabel.text += "Tile NOT Revealed\n";
-
-        if( Cursor.visible == false ) return;
-        //UI.I.DebugLabel.text += MyPathfind.I.UpdateDebug();
-        //if( Helper.I.ReleaseVersion ) return;
-
-        //UI.I.DebugLabel.text += "\nDebug Mode\n";
-        //UI.I.DebugLabel.text += "Game Object: " + un.gameObject.name + "\n";
-        UI.I.DebugLabel.text += "\n\nUnit Name: " + un.TileID;
-
-        //if( m.Mtx >= 0 && Map.I.GateID != null )
-        //    UI.I.DebugLabel.text += "\nID: " + Map.I.GateID[ m.Mtx, m.Mty ] + " dont forget to remove this";
-
-        UI.I.DebugLabel.text += "\nUnit Type: " + un.UnitType + "\n";
-        //UI.I.DebugLabel.text += "Direction: " + un.Dir + "\n";        
-        //if( Map.I.PondID != null )
-        //    UI.I.DebugLabel.text += "Pond ID: " + Map.I.PondID[ m.Mtx, m.Mty ] + "\n";
-
-        //if( Map.I.ContinuousPondID != null )
-        //    UI.I.DebugLabel.text += "Continuous Pond ID: " + Map.I.ContinuousPondID[ m.Mtx, m.Mty ] + "\n";
-
-        //if( Map.I.MudPoolID != null )
-        //    UI.I.DebugLabel.text += "Mud Pool ID: " + Map.I.MudPoolID[ m.Mtx, m.Mty ] + "\n";
-
-        //UI.I.DebugLabel.text += "Variation: " + un.Variation + "\n";
-        //UI.I.DebugLabel.text += "SaveData: " + un.SaveData + "\n";
-        //UI.I.DebugLabel.text += "UseTransTile: " + un.UseTransTile + "\n";
-        //UI.I.DebugLabel.text += "Block Movement: " + un.BlockMovement + "\n";
-        //if( raft ) UI.I.DebugLabel.text += "Raft Group ID: " + un.Control.RaftGroupID + "\n";
-
-        if( un.Body )
+        if( un.Body && un.ValidMonster )
         {
-            if( un.ValidMonster )
+            if( un.Body.TotHp > 0 )
             {
-                if( un.Body.TotHp > 0 )
-                    UI.I.DebugLabel.text += "\nHP: " + un.Body.Hp.ToString( "0.0" ) + " of " + un.Body.TotHp.ToString( "0.0" ) + "\n";
-                UI.I.DebugLabel.text += "\nLives: " + un.Body.Lives + "\n";
-                if( un.Control.IsFlyingUnit )
-                {
-                    UI.I.DebugLabel.text += "\nFlight Speed Factor: " + un.Control.FlightSpeedFactor + "%\n";
-                    UI.I.DebugLabel.text += "\nFlight Speed: " + un.Control.FlyingSpeed + " Tiles per sec.\n";
-                }
+                sbDebug.Append( "\nHP: " );
+                AppendOneDecimal( sbDebug, un.Body.Hp );
+                sbDebug.Append( " of " );
+                AppendOneDecimal( sbDebug, un.Body.TotHp );
+                sbDebug.Append( '\n' );
+            }
+
+            sbDebug.Append( "Lives: " ).Append( un.Body.Lives ).Append( '\n' );
+
+            if( un.Control.IsFlyingUnit )
+            {
+                sbDebug.Append( "Flight Speed Factor: " );
+                AppendOneDecimal( sbDebug, un.Control.FlightSpeedFactor );
+                sbDebug.Append( "%\n" );
+
+                sbDebug.Append( "Flight Speed: " );
+                AppendOneDecimal( sbDebug, un.Control.FlyingSpeed );
+                sbDebug.Append( " Tiles/sec\n" );
             }
         }
-        if( un.Control )
+
+        if( un.Control && un.ValidMonster )
         {
-            if( un.ValidMonster )
+            if( !un.Control.IsFlyingUnit )
             {
-                if( un.Control.TickBasedMovement &&
-                    un.Control.TickMoveList.Count > 0 )
-                {
-                    UI.I.DebugLabel.text += "Tic Tac Movement on Beat: ";
-                    for( int i = 0; i < un.Control.TickMoveList.Count; i++ )
-                         UI.I.DebugLabel.text += " " + un.Control.TickMoveList[ i ];
-                }
-                else
-                    if( un.Control.IsFlyingUnit == false )
-                        UI.I.DebugLabel.text += "Movement Speed: " + un.Control.GetMonsterRTMovSpeed().ToString( "0.#" ) + " steps per 10 sec.\n";
+                sbDebug.Append( "\nMovement Speed: " );
+                AppendOneDecimal( sbDebug, un.Control.GetMonsterRTMovSpeed() );
+                sbDebug.Append( " steps/10s\n" );
             }
         }
 
         if( un.MeleeAttack )
         {
-            UI.I.DebugLabel.text += "\nMelee Damage: " + un.MeleeAttack.TotalDamage.ToString( "0.#" ) + "\n";
-            UI.I.DebugLabel.text += "Att Speed: " + un.MeleeAttack.GetRealtimeSpeed().ToString( "0.#" ) + " hits per 10 sec.\n"; 
-        }
-        if( un.RangedAttack )
-        {
-            UI.I.DebugLabel.text += "\nRanged Damage: " + un.RangedAttack.TotalDamage.ToString( "0.#" ) + "\n";
-            UI.I.DebugLabel.text += "Att Speed: " + un.RangedAttack.GetRealtimeSpeed().ToString( "0.#" ) + " hits per 10 sec.\n"; 
-        }
-        if( un.TileID == ETileType.MOTHERWASP )
-        {
-            if( un.Md.ShieldedWaspChance > 0 )
-                UI.I.DebugLabel.text += "\nShielded Wasp Chance: " + un.Md.ShieldedWaspChance.ToString( "0.#" ) + "%";
-            if( un.Md.CocoonWaspChance > 0 )
-                UI.I.DebugLabel.text += "\nCocoon Wasp Chance: " + un.Md.CocoonWaspChance.ToString( "0.#" ) + "%";
-            if( un.Md.EnragedWaspChance > 0 )
-                UI.I.DebugLabel.text += "\nEnraged Wasp Chance: " + un.Md.EnragedWaspChance.ToString( "0.#" ) + "%";
-            if( un.Md.EnragedWaspExtraSpawns != 0 )
-                UI.I.DebugLabel.text += "\nEnraged Wasp Extra Spawn: " + un.Md.EnragedWaspExtraSpawns.ToString( "0.#" );
-            if( un.Md.EnragedWaspSpawnLimitAdd != 0 )
-                UI.I.DebugLabel.text += "\nEnraged Wasp Extra Spawn Limit: " + un.Md.EnragedWaspSpawnLimitAdd.ToString( "0.#" );
-            if( un.Md.EnragedWaspSpawnPercentAdd != 0 )
-                UI.I.DebugLabel.text += "\nEnraged Wasp Extra Spawn Speed: " + un.Md.EnragedWaspSpawnPercentAdd.ToString( "0.#" ) + "%";
-            if( un.Md.EnragedWaspExtraBreedingSpeed != 0 )
-                UI.I.DebugLabel.text += "\nEnraged Wasp Extra Temp Spawn Speed:  " + un.Md.EnragedWaspExtraBreedingSpeed.ToString( "0.#" ) + "%";
+            sbDebug.Append( "\nMelee Damage: " );
+            AppendOneDecimal( sbDebug, un.MeleeAttack.TotalDamage );
+
+            sbDebug.Append( "\nAtt Speed: " );
+            AppendOneDecimal( sbDebug, un.MeleeAttack.GetRealtimeSpeed() );
+            sbDebug.Append( " hits/10s\n" );
         }
 
-        if( un.TileID == ETileType.QUEROQUERO )
-        {
-            UI.I.DebugLabel.text += "\nMin Damage: " + un.Body.QQMinDamage.ToString( "0.#" );
-            UI.I.DebugLabel.text += "\nMax Damage: " + un.Body.QQMaxDamage.ToString( "0.#" );
-            UI.I.DebugLabel.text += "\nHero Miss Damage: " + un.Body.QQMissHeroDamage.ToString( "0.#" );
-            UI.I.DebugLabel.text += "\nDamage Curve: " + un.Md.QQDamageCurve.ToString( "0.#" );
-        }
-
-        if( un.TileID == ETileType.RAFT )
-            UI.I.DebugLabel.text += "\nRaft ID: " + un.Control.RaftGroupID + "\n";
-        if( un.TileID == ETileType.BARRICADE )
-            UI.I.DebugLabel.text += "\nSize: " + ( un.Variation + 1 ) + "\n";
-        if( un.TileID == ETileType.ALTAR )
-        {
-            UI.I.DebugLabel.text += "\n" + Manager.I.Translate( "&ALTAR_DESCRIPTION", "Main" );
-        }
+        ApplyDebugText();                                                              // Aplica final Zero GC
     }
 
     public Vector2 GetCubeTile( Vector2 tg )
