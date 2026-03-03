@@ -223,7 +223,7 @@ public partial class Map : MonoBehaviour
     [TabGroup( "List" )]
     public List<tk2dTiledSprite> HeroBambooSpriteList;
     [TabGroup( "List" )]
-    public List<tk2dSprite> HeroSpellSpriteList;
+    public List<NSprite> HeroSpellSpriteList;
     [TabGroup( "enum" )]
     public EMoveType CurrentMoveTrialType;
     [TabGroup( "Link" )]

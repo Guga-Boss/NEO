@@ -474,8 +474,7 @@ public class GS : MonoBehaviour
             MasterAudio.PlaySound3DAtVector3( "Click 2", G.Hero.Pos );          // Sound FX
             IsLoading = false;
 
-            Map.I.UpdateTilemap = true;
-            //Map.I.UpdateTransLayerTilemap( true );
+            Map.I.TM.FlushTiles();                                              // Flush tilemap changes
         }
     }
     public static void CheckGSState()
@@ -496,6 +495,11 @@ public class GS : MonoBehaviour
         Map.I.Gaia[ x, y ].Kill();
         Unit prefabUnit = Map.I.GetUnitPrefab( ( ETileType ) tile );           // Create Trap objects
         Map.I.CreateUnit( prefabUnit, new Vector2( x, y ), ELayerType.GAIA );
+
+        if( tile == (int) ETileType.TRAP ||
+            tile == (int) ETileType.FREETRAP ) 
+            Map.I.TM.SetTile( x, y, (int) ELayerType.GAIA, tile, true );       // Set free trap tile
+
         Map.I.AddTrans( new VI( x, y ) );                                      // add trans tile to be updated                                                              
         Map.I.ClearTransTile( x, y, 0 );                                       // clear back trans tiles
         Map.I.ClearTransTile( x, y, 1 );
@@ -511,6 +515,7 @@ public class GS : MonoBehaviour
     }
     private void InitLoading()
     {
+        Map.I.TM.InitBatch();                                                               // Init batch tilemap changes
         SpawnPool pool = PoolManager.Pools[ "Pool" ];                                       // Despawn effects from effect folder
         Transform folder = Map.I.EffectFolder.transform;
         for( int i = folder.childCount - 1; i >= 0; i-- )

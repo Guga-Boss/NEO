@@ -343,6 +343,7 @@ public partial class Controller : MonoBehaviour
             mine.Body.MineType == EMineType.HOOK ) return false;
         return true;
     }
+    private static List<int> all = new List<int>();
     public static bool CheckMineBlock( Vector2 from, Vector2 to, Unit un, bool move, ref bool up )
     {
         EDirection mov = Util.GetTargetUnitDir( from, to );                                            // get relative direction ladder from           
@@ -367,7 +368,7 @@ public partial class Controller : MonoBehaviour
             if( pass == 1 ) tg = to;
             Unit la = Map.GFU( ETileType.MINE, tg );
             int outl = -1, inl = -1;                                                                   // in and out levels for bridge or stair
-            List<int> all = new List<int>();
+            all.Clear();
             EDirection dir = EDirection.NONE;
 
             if( la )
