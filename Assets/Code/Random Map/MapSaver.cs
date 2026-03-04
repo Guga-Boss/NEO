@@ -259,16 +259,19 @@ public class MapSaver : MonoBehaviour
             }
         }
 
+        if( Application.isPlaying == false )
         if( MapTemplate >= EMapTemplate._FARM_ )
         {
+            Map.InitSingleton();
             MyTilemap.ClearTilemap( Map.I.TM );
-            string fl = Application.dataPath + "/Resources/Map Templates/Default Templates/" + MapTemplate + ".NEO"; // Caminho completo ;
+            string fl = GetCustomFilename( MapTemplate );                                                            // Caminho completo ;
             LoadMap( fl, null, Map.I.TM );                                                                           // Salva os dados lidos da Unity no arquivo .NEO ;
             Debug.Log( "Navigation Map Loaded: " + fl );                                                             // Log de confirmação ;
             return true;
         }
 
         string fn = FolderName;
+        if( Application.isPlaying == false )
         if( MapTemplate != EMapTemplate.__CHOOSE__ )                                                              // Template
         {
             sub = "";
@@ -283,7 +286,9 @@ public class MapSaver : MonoBehaviour
         }
         string file = Application.dataPath + "/Resources/Map Templates/" + sub + fn + "/" + nm + ".NEO";
         LastMapSavedFilename = file;
-        bool res = LoadMap( file, tm );
+
+        bool res = LoadMap( file, tm, null );
+
         if( !res )
         {
             if( MapTemplate != EMapTemplate.__CHOOSE__ ) return false;
@@ -305,11 +310,17 @@ public class MapSaver : MonoBehaviour
             SubFolder = rm.QuestHelper.SubFolder;
         }
 
-        MyTilemap.Load( tm, Map.I.TM );   //gggg
-
+        if( Application.isPlaying == false )
+            MyTilemap.Load( tm, Map.I.TM ); 
 
         return true;
     }
+
+    public static string GetCustomFilename( EMapTemplate tmp )
+    {
+        return Application.dataPath + "/Resources/Map Templates/Default Templates/" + tmp + ".NEO";
+    }
+
     public void Save()
     {
         GameObject ob = GameObject.Find( "Farm" );
@@ -323,9 +334,9 @@ public class MapSaver : MonoBehaviour
 
         if( MapTemplate >= EMapTemplate._FARM_ )
         {  
-            string fl = Application.dataPath + "/Resources/Map Templates/Default Templates/" + MapTemplate + ".NEO"; // Caminho completo ;
-            SaveMap( fl, null, Map.I.TM ); // Salva os dados lidos da Unity no arquivo .NEO ;
-            Debug.Log( MapTemplate + " Saved: " + fl ); // Log de confirmação ;
+            string fl = GetCustomFilename( MapTemplate );    // Caminho completo ;
+            SaveMap( fl, null, Map.I.TM );                    // Salva os dados lidos da Unity no arquivo .NEO ;
+            Debug.Log( MapTemplate + " Saved: " + fl );       // Log de confirmação ;
             return;
         }
 
@@ -415,13 +426,12 @@ public class MapSaver : MonoBehaviour
             File.WriteAllBytes( file, encrypted );                                                     // Save encrypted bytes
         }
     }
-    public bool LoadMap( string file, tk2dTileMap tm = null, MyTilemap mtm = null )
+    public bool LoadMap( string file, tk2dTileMap tm = null, MyTilemap mtm = null, params string[ ] flags )
     {
-        if( tm == null && mtm == null )                                                                 // Check if both are null
-        {
-            Debug.Log( "No tilemap provided (tm and mtm are null)" );
-            return false;
-        }
+        var options = new HashSet<string>(flags, StringComparer.OrdinalIgnoreCase);                     // Create a fast-lookup set for flags
+
+        bool loadCubeData = !options.Contains("nocubedata");                                            // Check if 'nocubedata' flag exists
+        bool farm         = options.Contains("farm");                                                   // Check if 'farm' flag exists 
 
         if( File.Exists( file ) == false ) return false;                                                // Check if file exists
 
@@ -437,7 +447,10 @@ public class MapSaver : MonoBehaviour
             Vector2 Size = GS.LVector2();                                                               // Load map size
 
             if( mtm )
+            {
                 mtm.GridSize = new Vector2Int( (int) Size.x, (int) Size.y );                            // set sizes
+                mtm.InitBatch();
+            }
             if( tm )
             { tm.width = (int) Size.x; tm.height = (int) Size.y; } 
 
@@ -457,18 +470,31 @@ public class MapSaver : MonoBehaviour
                     {
                         int tileID = tileBuffer[ index++ ];
 
-                        if( mtm != null ) mtm.SetTile( x, y, (int) layer, tileID );                   // Set new system tile
-                        if( tm != null ) tm.SetTile( x, y, (int) layer, tileID );                     // Set legacy system tile
+                        if( mtm != null )
+                        {
+                            bool set = true;
+                            if( farm )
+                            {
+                                if( layer != ELayerType.GAIA )                                        // farm optimization: only load terrain and gaia layer, ignore others                                 
+                                if( layer != ELayerType.TERRAIN ) set = false;
+                                if( G.Farm.CheckFarmLimit( new Vector2( x, y ), false ) == false ) 
+                                    set = false;
+                            }
+
+                            if( set )  mtm.SetTile( x, y, (int) layer, tileID, true );                 // Set new system tile
+                        }
+                        if( tm != null ) tm.SetTile( x, y, (int) layer, tileID );                      // Set legacy system tile
                     }
                 }
             }
 
-            //if( mtm != null ) mtm.Build();                                                              // Build new map
+            if( mtm != null ) mtm.FlushTiles();                                                         // Build new map
             if( tm != null ) tm.Build();                                                                // Build legacy map
 
             Message = reader.ReadString();                                                              // Load message
             Script = reader.ReadString();                                                               // Load script
-            CubeData.Load();                                                                            // Load cube data
+           if( loadCubeData ) 
+                CubeData.Load();                                                                        // Load cube data
 
             return true;
         }
@@ -527,7 +553,7 @@ public class MapSaver : MonoBehaviour
                 FolderName = rm.RMList[ rmid ].QuestHelper.SubFolder + "/" + rm.RMList[ rmid ].QuestHelper.Signature;
                 Debug.Log( "Converting Cube: " + list[ i ] + "    " + folder + "  " + rm.RMList[ rmid ].name );
                 string file = Application.dataPath + "/Resources/Map Templates/" + FolderName + "/" + MapName;
-                LoadMap( file, tm );
+                LoadMap( file, tm, null );
                 SaveMap( file, tm );
             }
         }

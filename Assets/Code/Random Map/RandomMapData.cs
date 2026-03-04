@@ -1,10 +1,12 @@
-using UnityEngine;
+using Sirenix.OdinInspector;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System;
-using Sirenix.OdinInspector;
 using System.Text.RegularExpressions;
+using tk2dEditor.Font;
+using UnityEditor;
+using UnityEngine;
 //using UnityEngine.Serialization;
 
 public enum EAdventureType
@@ -1014,26 +1016,43 @@ public class RandomMapData : MonoBehaviour
         else
             Debug.Log( "Command not Valid: " + str[ 0 ] );
     }
-
-   public List<int> GetTrophiesAvailable( int adv )
-   {
-       var tl = new List<int> { 0, 0, 0, 0, 0, 0 }; 
-       for( int i = 0; i < GoalList.Length; i++ )
-       {
-           RandomMapGoal go = Map.I.RM.RMList[ adv ].GoalList[ i ];
-           if( go.TrophyType == ETrophyType.BRONZE     ) tl[ 0 ]++;
-           if( go.TrophyType == ETrophyType.SILVER     ) tl[ 1 ]++;
-           if( go.TrophyType == ETrophyType.GOLD       ) tl[ 2 ]++;
-           if( go.TrophyType == ETrophyType.DIAMOND    ) tl[ 3 ]++;
-           if( go.TrophyType == ETrophyType.ADAMANTIUM ) tl[ 4 ]++;
-           if( go.TrophyType == ETrophyType.GENIUS     ) tl[ 5 ]++;
-       }
-       return tl;
-   }
-   public int GetRequiredItemAmount()
+    public List<int> GetTrophiesAvailable( int adv )
+    {
+        var tl = new List<int> { 0, 0, 0, 0, 0, 0 };
+        if( Map.I.RM.RMList[ adv ].Available == false ) return tl;
+        for( int i = 0; i < GoalList.Length; i++ )
+        {
+            RandomMapGoal go = Map.I.RM.RMList[ adv ].GoalList[ i ];
+            if( go.TrophyType == ETrophyType.BRONZE ) tl[ 0 ]++;
+            if( go.TrophyType == ETrophyType.SILVER ) tl[ 1 ]++;
+            if( go.TrophyType == ETrophyType.GOLD ) tl[ 2 ]++;
+            if( go.TrophyType == ETrophyType.DIAMOND ) tl[ 3 ]++;
+            if( go.TrophyType == ETrophyType.ADAMANTIUM ) tl[ 4 ]++;
+            if( go.TrophyType == ETrophyType.GENIUS ) tl[ 5 ]++;
+        }
+        return tl;
+    }
+    public int GetRequiredItemAmount()
    {
        int amountneeded = Map.I.RM.RMD.RequiredItemAmount - ( int )
        AdventureUpgradeInfo.GetStat( EAdventureUpgradeType.REDUCE_REQUIRED_ITEM_AMOUNT );
        return amountneeded;
    }
+
+    [Button( "Update Data", ButtonSizes.Large ), GUIColor( 0, 1f, 0 )]
+    public void UpdateData()
+    {
+        string fullPath = "Map Templates/" + QuestHelper.SubFolder + "/" + 
+        QuestHelper.Signature + "/DATA/";
+        GameObject go = Resources.Load<GameObject>(fullPath + "Goals");                           // Load prefab without .prefab extension
+        if( go != null )
+        {
+            this.GoalList = go.GetComponentsInChildren<RandomMapGoal>();                          // Get components from the loaded prefab
+        }  
+        go = Resources.Load<GameObject>(fullPath + "Adventure Upgrade Info List");                // Load prefab without .prefab extension
+        if( go != null )
+        {
+            this.AdventureUpgradeInfoList = go.GetComponentsInChildren<AdventureUpgradeInfo>();   // Get components from the loaded prefab
+        }  // make more        
+    }
 }

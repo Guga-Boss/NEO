@@ -216,10 +216,13 @@ public class RandomMap : MonoBehaviour
                             RMSector[ ( int ) LabCordOrigin.x, ( int ) LabCordOrigin.y ].Area.yMin -
                               Sector.TSY, ( Sector.TSX * 2 ) - 1, ( Sector.TSY * 2 ) - 1 );
 
-        Map.I.CopyTilemap( false, Quest.I.LabList[ Quest.CurrentDungeon ].Tilemap, ref Quest.I.Dungeon.Tilemap,               // Copy Lab Tiles
-                           LabArea.position, new Vector2( 0, 0 ),             
-                                  Quest.I.LabList[ Quest.CurrentDungeon ].Tilemap.width, 
-                                  Quest.I.LabList[ Quest.CurrentDungeon ].Tilemap.height, false, false );
+        string fl = MapSaver.GetCustomFilename( EMapTemplate._LAB_ );
+        MapSaver.I.LoadMap( fl, Map.I.Tilemap, null, "nocubedata" );
+
+        Map.I.CopyTilemap( false, Map.I.Tilemap, ref Quest.I.Dungeon.Tilemap,               // Copy Lab Tiles
+                           LabArea.position, new Vector2( 0, 0 ),
+                                  Map.I.Tilemap.width,
+                                  Map.I.Tilemap.height, false, false );
 
         //for( int y = ( int ) LabArea.yMin; y < LabArea.yMax; y++ )                                                            // Apply Lab modifications
         //for( int x = ( int ) LabArea.xMin; x < LabArea.xMax; x++ )

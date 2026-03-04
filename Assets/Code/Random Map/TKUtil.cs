@@ -167,40 +167,32 @@ public class TKUtil : MonoBehaviour
                 int x = G.Farm.Tl[ tid ].x;
                 int y = G.Farm.Tl[ tid ].y;
 
-                int tile = gaiaTileIds[ tid ];                                                // Load Gaia TileID from list
+                int tile = gaiaTileIds[ tid ];                                               // Load Gaia TileID from list
                 tm.SetTile( x, y, ( int ) ELayerType.GAIA, tile );
-
-                if( tile == ( int ) ETileType.FOREST )                                        // Add decoration to farm
-                {
-                    tm.SetTile( x, y, ( int ) ELayerType.DECOR2, 2569 );
-                }
-                else 
-                {
-                    if( tile != ( int ) ETileType.WATER )                                     // Farm size calculation
-                        G.Farm.FarmSize++;
-                    tm.SetTile( x, y, ( int ) ELayerType.DECOR2, -1 );                        // clear decor tile after chopped
-                }
-                tm.SetTile( x, y, ( int ) ELayerType.GAIA2, -1 );                             // Reset GAIA2
-                tm.SetTile( x, y, ( int ) ELayerType.MONSTER, -1 );                           // Reset MONSTER
+                  
+                if( tile != (int) ETileType.FOREST )
+                if( tile != ( int ) ETileType.WATER )                                        // Farm size calculation
+                    G.Farm.FarmSize++;
+              
+                tm.SetTile( x, y, ( int ) ELayerType.GAIA2, -1 );                            // Reset GAIA2
+                tm.SetTile( x, y, ( int ) ELayerType.MONSTER, -1 );                          // Reset MONSTER
             }
 
-            for( int i = 0; i < mntypel.Count; i++ )                                          // Load Monsters
+            for( int i = 0; i < mntypel.Count; i++ )                                         // Load Monsters
             {
                 Vector2 p = mnposl[ i ];
                 int type = mntypel[ i ];
                 int vari = mnvaril[ i ];
 
-                InitFarmMonsters( p, type, vari );                                            // Initializes Farm monsters
+                InitFarmMonsters( p, type, vari );                                           // Initializes Farm monsters
             }
 
-            for( int i = 0; i < ga2typel.Count; i++ )                                         // Load Gaia2
+            for( int i = 0; i < ga2typel.Count; i++ )                                        // Load Gaia2
             {
                 Vector2 p = ga2posl[ i ];
                 int type = ga2typel[ i ];
-                tm.SetTile( ( int ) p.x, ( int ) p.y, ( int ) ELayerType.GAIA2, type );       // Set Gaia2 tile
+                tm.SetTile( ( int ) p.x, ( int ) p.y, ( int ) ELayerType.GAIA2, type );      // Set Gaia2 tile
             }
-
-            tm.Build();                                                                       // Build tilemap
         }
         return true;                                                                          // using closes the stream automatically
     }

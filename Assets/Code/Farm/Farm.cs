@@ -169,7 +169,7 @@ public partial class Farm : MonoBehaviour
         UI.I.ResourcesGrid.Reposition();
         AddStoneResources();
         Manager.I.Inventory.gameObject.SetActive( true );
-        Map.I.Tilemap.Layers[ ( int ) ELayerType.GAIA ].gameObject.SetActive( false ); 
+        Map.I.TM.Tilemaps[ ( int ) ELayerType.GAIA ].gameObject.SetActive( false ); 
         IdleEngine.StartIt();
         Blueprint.GetNextBluePrint( true );
         Unit scr = Map.I.GetUnit( ETileType.SCROLL, ScrollPosition );                                        // Create Scroll over position (to avoid scroll destroyed bug)
@@ -203,7 +203,7 @@ public partial class Farm : MonoBehaviour
     public void UpdateIt()
     {
         if( Manager.I.GameType != EGameType.FARM ) return;
-               
+
         UpdateInput();
         UpdateItemPlacement();
         Blueprint.CheckPatterns();
@@ -215,6 +215,7 @@ public partial class Farm : MonoBehaviour
         G.Inventory.UpdateIt();
         UpdateFarmObjects();
         FPow.UpdateIt();
+        PlaceFarmDecor();
     }
 
     public void UpdateUI()
@@ -971,63 +972,64 @@ public partial class Farm : MonoBehaviour
         int[ , ] poscount = new int[ TechButton.SX, TechButton.SY ];
         Map.I.GlobalTechList = new List<AdventureUpgradeInfo>();
 
-        //List<RandomMapData> temp = new List<RandomMapData>();                             // Code to update master list with new maps from resources
 
-        //string rootFolder = "Assets/Resources/Map Templates";
+            //List<RandomMapData> temp = new List<RandomMapData>();                             // Code to update master list with new maps from resources
 
-        //foreach( string guid in AssetDatabase.FindAssets(
-        //"t:Prefab", new[ ] { rootFolder } ) )
-        //{
-        //    string path = AssetDatabase.GUIDToAssetPath( guid );                          // get prefab path
-        //    string parentFolder = System.IO.Path.GetDirectoryName( path );                // get parent folder
+            //string rootFolder = "Assets/Resources/Map Templates";
 
-        //    if( parentFolder == rootFolder )                                              // skip prefabs directly in root folder
-        //        continue;
+            //foreach( string guid in AssetDatabase.FindAssets(
+            //"t:Prefab", new[ ] { rootFolder } ) )
+            //{
+            //    string path = AssetDatabase.GUIDToAssetPath( guid );                          // get prefab path
+            //    string parentFolder = System.IO.Path.GetDirectoryName( path );                // get parent folder
 
-        //    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>( path );               // load prefab
-        //    var maps = prefab.GetComponentsInChildren<RandomMapData>( true );             // collect all RandomMapData
+            //    if( parentFolder == rootFolder )                                              // skip prefabs directly in root folder
+            //        continue;
 
-        //    foreach( var r in maps )
-        //    {
-        //        if( r.name == "Default Quest" )                                           // skip default quest templates
-        //            continue;
+            //    var prefab = AssetDatabase.LoadAssetAtPath<GameObject>( path );               // load prefab
+            //    var maps = prefab.GetComponentsInChildren<RandomMapData>( true );             // collect all RandomMapData
 
-        //        temp.Add( r );                                                            // add valid map
-        //        temp[ temp.Count - 1 ].name = r.QuestHelper.QuestName;                    // obj name from quest name
-        //    }
-        //}
+            //    foreach( var r in maps )
+            //    {
+            //        if( r.name == "Default Quest" )                                           // skip default quest templates
+            //            continue;
 
-        //int nextID = 0;                                                                   // next available QuestID
-        //foreach( var r in rm.RMList )
-        //{
-        //    if( r.QuestID >= nextID )
-        //        nextID = r.QuestID + 1;                                                   // compute next id based on master list
-        //}
+            //        temp.Add( r );                                                            // add valid map
+            //        temp[ temp.Count - 1 ].name = r.QuestHelper.QuestName;                    // obj name from quest name
+            //    }
+            //}
 
-        //foreach( var r in temp )
-        //{
-        //    bool exists = false;                                                          // assume new map
+            //int nextID = 0;                                                                   // next available QuestID
+            //foreach( var r in rm.RMList )
+            //{
+            //    if( r.QuestID >= nextID )
+            //        nextID = r.QuestID + 1;                                                   // compute next id based on master list
+            //}
 
-        //    r.name = r.QuestHelper.QuestName;                                             // obj name from quest name
-        //    foreach( var old in rm.RMList )
-        //    {
-        //        if( old.QuestID == r.QuestID )
-        //        {
-        //            exists = true;                                                        // map already exists in master list
-        //            break;
-        //        }
-        //    }
-        //    if( exists )
-        //        continue;                                                                 // skip existing maps
+            //foreach( var r in temp )
+            //{
+            //    bool exists = false;                                                          // assume new map
 
-        //    r.QuestID = nextID++;                                                         // assign new id at the end
-        //    rm.RMList.Add( r );                                                           // append to master list
+            //    r.name = r.QuestHelper.QuestName;                                             // obj name from quest name
+            //    foreach( var old in rm.RMList )
+            //    {
+            //        if( old.QuestID == r.QuestID )
+            //        {
+            //            exists = true;                                                        // map already exists in master list
+            //            break;
+            //        }
+            //    }
+            //    if( exists )
+            //        continue;                                                                 // skip existing maps
 
-        //    Debug.Log( "NEW MAP ADDED | ID: " + r.QuestID + " | Name: " +
-        //        r.name + " | Quest: " + r.QuestHelper.QuestName, r.gameObject );          // log new phase
-        //}
+            //    r.QuestID = nextID++;                                                         // assign new id at the end
+            //    rm.RMList.Add( r );                                                           // append to master list
 
-        rm.RMList.Clear();
+            //    Debug.Log( "NEW MAP ADDED | ID: " + r.QuestID + " | Name: " +
+            //        r.name + " | Quest: " + r.QuestHelper.QuestName, r.gameObject );          // log new phase
+            //}
+
+            rm.RMList.Clear();
 
         List<RandomMapData> temp = new List<RandomMapData>();
 
@@ -1623,5 +1625,22 @@ public partial class Farm : MonoBehaviour
                     it.Body.BonusItemList = null;
                 }
             }
+    }
+    private static void PlaceFarmDecor()
+    {
+        if( Map.I.TurnFrameCount != 2 ) return;
+        Map.I.TM.InitBatch();
+        for( int tid = 0; tid < G.Farm.Tl.Count; tid++ )                                 // Warning: loading only farm area
+        {
+            int x = G.Farm.Tl[ tid ].x;
+            int y = G.Farm.Tl[ tid ].y;
+            Unit un = Map.I.GetUnit(ETileType.FOREST,G.Farm.Tl[ tid ] );
+            if( un )
+                if( un.TileID == ETileType.FOREST )                                        // Add decoration to farm
+                    Map.I.TM.SetTile( x, y, (int) ELayerType.DECOR2, 2569, true );
+                else
+                    Map.I.TM.SetTile( x, y, (int) ELayerType.DECOR2, -1, true );            // clear decor tile after chopped
+        }                                                                                   // Build tilemap
+        Map.I.TM.FlushTiles();
     }
 }

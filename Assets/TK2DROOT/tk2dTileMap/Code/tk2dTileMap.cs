@@ -722,7 +722,14 @@ public class tk2dTileMap : MonoBehaviour, tk2dRuntime.ISpriteCollectionForceBuil
 	public void SetTile(int x, int y, int layer, int tile) {
 		if (layer < 0 || layer >= layers.Length)
 			return;
-		layers[layer].SetTile(x, y, tile);
+
+        if( x >= width ) return;
+        if( y >= height ) return;
+
+        //Debug.Log("SetTile: " + x + ", " + y + ", " + layer + ", " + tile);
+
+
+        layers[layer].SetTile(x, y, tile);
 	}
 
 	/// <summary>Sets the tile flags on a layer at x, y - a combination of tk2dTileFlags</summary> 

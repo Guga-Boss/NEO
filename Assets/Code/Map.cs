@@ -726,90 +726,98 @@ public partial class Map : MonoBehaviour
         SecondInitializationDone = true;
     }
 
-	public void InitMapVariablesDefaults()
+    public void InitMapVariablesDefaults()
     {
-    AreaCleared = false;
-	LevelTurnCount = 0;
-    AreaExitTurnCount = 0;
-    NumRealtimeMonsters = 0;
-    NumSteppingMonsters = 0;
-    NumScorpions = 0; NumBrains = 0;
-    NumWoundedMonsters = 0;
-    TicTacMonsterCount = 0;
-    HeroAttackSpeedBonus = 0;
-	FreeCamMode = false;
-    AdvanceTurn = HeroIsDead = false;
-	RecordedMovementAvailable = true;
-    NumWallsDestroyed = 0;
-    TimeKeyPressing               = TurnsKeyPressing = 0;
-    RedPPGateOpenerCount          = new int[ TotKeys ];
-    RedPPGateSwitcherCount        = new int[ TotKeys ];
-    RedPPGateCloserCount          = new int[ TotKeys ];
-    OldRedPPGateOpenerCount       = new int[ TotKeys ];
-    OldRedPPGateSwitcherCount     = new int[ TotKeys ];
-    OldRedPPGateCloserCount       = new int[ TotKeys ];
+        AreaCleared = false;
+        LevelTurnCount = 0;
+        AreaExitTurnCount = 0;
+        NumRealtimeMonsters = 0;
+        NumSteppingMonsters = 0;
+        NumScorpions = 0; NumBrains = 0;
+        NumWoundedMonsters = 0;
+        TicTacMonsterCount = 0;
+        HeroAttackSpeedBonus = 0;
+        FreeCamMode = false;
+        AdvanceTurn = HeroIsDead = false;
+        RecordedMovementAvailable = true;
+        NumWallsDestroyed = 0;
+        TimeKeyPressing = TurnsKeyPressing = 0;
+        RedPPGateOpenerCount = new int[ TotKeys ];
+        RedPPGateSwitcherCount = new int[ TotKeys ];
+        RedPPGateCloserCount = new int[ TotKeys ];
+        OldRedPPGateOpenerCount = new int[ TotKeys ];
+        OldRedPPGateSwitcherCount = new int[ TotKeys ];
+        OldRedPPGateCloserCount = new int[ TotKeys ];
 
-    GreenPPGateOpenerCount        = new int[ TotKeys ];
-    GreenPPGateSwitcherCount      = new int[ TotKeys ];
-    GreenPPGateCloserCount        = new int[ TotKeys ];
-    OldGreenPPGateOpenerCount     = new int[ TotKeys ];
-    OldGreenPPGateSwitcherCount   = new int[ TotKeys ];
-    OldGreenPPGateCloserCount     = new int[ TotKeys ];
-    GreenPPGateOpenerTotalCount   = new int[ TotKeys ];
-    GreenPPGateSwitcherTotalCount = new int[ TotKeys ];
-    GreenPPGateCloserTotalCount   = new int[ TotKeys ];
+        GreenPPGateOpenerCount = new int[ TotKeys ];
+        GreenPPGateSwitcherCount = new int[ TotKeys ];
+        GreenPPGateCloserCount = new int[ TotKeys ];
+        OldGreenPPGateOpenerCount = new int[ TotKeys ];
+        OldGreenPPGateSwitcherCount = new int[ TotKeys ];
+        OldGreenPPGateCloserCount = new int[ TotKeys ];
+        GreenPPGateOpenerTotalCount = new int[ TotKeys ];
+        GreenPPGateSwitcherTotalCount = new int[ TotKeys ];
+        GreenPPGateCloserTotalCount = new int[ TotKeys ];
 
-    for( int i = 0; i < TotKeys; i++ )
+        for( int i = 0; i < TotKeys; i++ )
         {
-        RedPPGateOpenerCount        [ i ] = RedPPGateSwitcherCount        [ i ] = RedPPGateCloserCount        [ i ] = 0;
-        OldRedPPGateOpenerCount     [ i ] = OldRedPPGateSwitcherCount     [ i ] = OldRedPPGateCloserCount     [ i ] = 0;
-        GreenPPGateOpenerCount      [ i ] = GreenPPGateSwitcherCount      [ i ] = GreenPPGateCloserCount      [ i ] = 0;
-        OldGreenPPGateOpenerCount   [ i ] = OldGreenPPGateSwitcherCount   [ i ] = OldGreenPPGateCloserCount   [ i ] = 0;
-        GreenPPGateOpenerTotalCount [ i ] = GreenPPGateSwitcherTotalCount [ i ] = GreenPPGateCloserTotalCount [ i ] = 0;
+            RedPPGateOpenerCount[ i ] = RedPPGateSwitcherCount[ i ] = RedPPGateCloserCount[ i ] = 0;
+            OldRedPPGateOpenerCount[ i ] = OldRedPPGateSwitcherCount[ i ] = OldRedPPGateCloserCount[ i ] = 0;
+            GreenPPGateOpenerCount[ i ] = GreenPPGateSwitcherCount[ i ] = GreenPPGateCloserCount[ i ] = 0;
+            OldGreenPPGateOpenerCount[ i ] = OldGreenPPGateSwitcherCount[ i ] = OldGreenPPGateCloserCount[ i ] = 0;
+            GreenPPGateOpenerTotalCount[ i ] = GreenPPGateSwitcherTotalCount[ i ] = GreenPPGateCloserTotalCount[ i ] = 0;
         }
     }
 
-	public void InitFolders()
-	{
-	if( MonsterUnitsFolder != null ) Destroy( MonsterUnitsFolder );
-	if( GaiaUnitsFolder != null )    Destroy( GaiaUnitsFolder );
-
-    if( AreasFolder != null ) Destroy( AreasFolder );
-    tk2dTileMap tm = null;
-
-    if( Manager.I.GameType == EGameType.NAVIGATION )                                      // Navigation Map
+    public void InitFolders()
     {
-        tm = Map.I.NavigationMap.Tilemap;
-        Map.I.NavigationMap.Tilemap.gameObject.SetActive( false );
+        if( MonsterUnitsFolder != null ) Destroy( MonsterUnitsFolder );
+        if( GaiaUnitsFolder != null ) Destroy( GaiaUnitsFolder );
+
+        if( AreasFolder != null ) Destroy( AreasFolder );
+        tk2dTileMap tm = null;
+
+        if( Manager.I.GameType == EGameType.NAVIGATION )                                      // Navigation Map
+        {
+            //tm = Map.I.NavigationMap.Tilemap;
+            //Map.I.NavigationMap.Tilemap.gameObject.SetActive( false );
+            string fl = MapSaver.GetCustomFilename( EMapTemplate._NAVIGATION_ );              // Load initial Navigation tilemap from resources
+            MapSaver.I.LoadMap( fl, null, TM, "nocubedata" );
+        }
+        else
+        if( Manager.I.GameType == EGameType.FARM )
+        {
+            string fl = MapSaver.GetCustomFilename( EMapTemplate._FARM_ );                    // Load initial Farm tilemap from resources
+            MapSaver.I.LoadMap( fl, null, TM, "farm", "nocubedata" );
+            }
+        else
+            {                                                                                 // cubes map
+                tm = Quest.I.CurLevel.Tilemap;
+                Quest.I.CurLevel.AreaFolder.gameObject.SetActive( true );
+                Quest.I.CurLevel.ArtifactFolder.gameObject.SetActive( true );
+                Tilemap.width = tm.width;
+                Tilemap.height = tm.height;
+                //if( Manager.I.GameType == EGameType.CUBES )
+                    CopyTilemap( false, tm, ref Tilemap, new Vector2( 0, 0 ),
+                    new Vector2( 0, 0 ), tm.width, tm.height, false, false );
+            }
+
+        //Tilemap.Build();  //new opt
+        Tilemap.gameObject.SetActive( false );
+        TM.gameObject.SetActive( true );
+
+        Tilemap.transform.position = new Vector3( 0, 0, 0 );
+        AreasFolder = new GameObject( "Areas" );
+        AreasFolder.transform.parent = transform;
+        MonsterUnitsFolder = new GameObject( "Monster Units" );
+        MonsterUnitsFolder.transform.parent = transform;
+        GaiaUnitsFolder = new GameObject( "Gaia Units" );
+        GaiaUnitsFolder.transform.parent = transform;
     }
-    else
-    {                                                                                     // cubes map
-        tm = Quest.I.CurLevel.Tilemap;
-        Quest.I.CurLevel.AreaFolder.gameObject.SetActive( true );
-        Quest.I.CurLevel.ArtifactFolder.gameObject.SetActive( true );
-    }
 
-    Tilemap.width = tm.width;
-    Tilemap.height = tm.height;
+    //______________________________________________________________________________________________________________________ Main game Update Function	
 
-    CopyTilemap( false, tm, ref Tilemap, new Vector2( 0, 0 ), new Vector2( 0, 0 ), tm.width, tm.height, false, false );
-
-    //Tilemap.Build();  //new opt
-    Tilemap.gameObject.SetActive( false );
-    TM.gameObject.SetActive( true );
-
-	Tilemap.transform.position = new Vector3( 0, 0, 0 );
-	AreasFolder = new GameObject("Areas");
-	AreasFolder.transform.parent = transform;	
-	MonsterUnitsFolder = new GameObject("Monster Units");
-	MonsterUnitsFolder.transform.parent = transform;
-    GaiaUnitsFolder = new GameObject("Gaia Units");
-	GaiaUnitsFolder.transform.parent = transform;
-	}
-
-	//______________________________________________________________________________________________________________________ Main game Update Function	
-
-	public void UpdateIt () 
+    public void UpdateIt () 
 	{
 		if( this == null    ) return;
 		if( Tilemap == null ) return;

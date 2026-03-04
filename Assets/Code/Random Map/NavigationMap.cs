@@ -84,8 +84,7 @@ public class NavigationMap : MonoBehaviour
         }
 
         Map.I.UpdateFogOfWar( true );
-        Map.I.Tilemap.Layers[ ( int ) ELayerType.GAIA ].gameObject.SetActive( false ); 
-
+        Map.I.TM.Tilemaps[ ( int ) ELayerType.GAIA ].gameObject.SetActive( false ); 
 
         //OpenTrophyGates();
 	}	

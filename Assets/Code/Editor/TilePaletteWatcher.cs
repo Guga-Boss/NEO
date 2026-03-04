@@ -81,7 +81,7 @@ public class TilePaletteWatcher: EditorWindow
                 if( !Map.I.TM.questDataCache.TryGetValue( coordKey, out RandomMapData data ) )
                     continue; // no quest assigned to this tile
 
-                if( !data.Available )
+                if( data == null || !data.Available )
                     continue; // only show button if quest is available
 
                 Vector3 worldPos = tilemap.GetCellCenterWorld(pos); // convert cell to world position
