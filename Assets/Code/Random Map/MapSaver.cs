@@ -481,7 +481,7 @@ public class MapSaver : MonoBehaviour
                                     set = false;
                             }
 
-                            if( set )  mtm.SetTile( x, y, (int) layer, tileID, true );                 // Set new system tile
+                            if( set ) mtm.SetTile( x, y, (int) layer, tileID, true );                  // Set new system tile
                         }
                         if( tm != null ) tm.SetTile( x, y, (int) layer, tileID );                      // Set legacy system tile
                     }
