@@ -456,7 +456,7 @@ public partial class Map : MonoBehaviour
         Revealed = new bool[ Tilemap.width, Tilemap.height ];
         RevealFactor = new float[ Tilemap.width, Tilemap.height ];
         TransInit = new bool[ Tilemap.width, Tilemap.height ];
-
+        TransT.gameObject.SetActive( true );
         TransT.transform.position = new Vector3( -0.5f, -0.5f, -0.001f );
         TransT.GridSize = new Vector2Int( TransTileMap.width, TransTileMap.height );
         TM.transform.position = new Vector3( -0.5f, -0.5f );

@@ -234,8 +234,6 @@ public class MapSaver : MonoBehaviour
         return null;
     }
 
-    [HideInInspector] // garbage
-    public tk2dTileMap farm, lab;
     public bool Load( bool showErrorMsg = true )
     {
         string nm = MapName;
@@ -269,23 +267,6 @@ public class MapSaver : MonoBehaviour
             Debug.Log( "Navigation Map Loaded: " + fl );                                                             // Log de confirmação ;
             return true;
         }
-
-        //if( MapTemplate == EMapTemplate._NAVIGATION_ )
-        //{
-        //    MyTilemap.Load( Map.I.NavigationMap.Tilemap, Map.I.TM );
-        //    return true; ;
-        //}
-
-        //if( MapTemplate == EMapTemplate._LAB_ )
-        //{
-        //    MyTilemap.Load( lab, Map.I.TM );
-        //    return true;
-        //}
-        //if( MapTemplate == EMapTemplate._FARM_ )
-        //{
-        //    MyTilemap.Load( farm, Map.I.TM );
-        //    return true;
-        //}
 
         string fn = FolderName;
         if( MapTemplate != EMapTemplate.__CHOOSE__ )                                                              // Template
