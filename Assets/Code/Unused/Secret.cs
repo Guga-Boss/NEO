@@ -236,7 +236,7 @@ public class Secret : MonoBehaviour
                 ms.FolderName = rm.RMList[ rmid ].QuestHelper.SubFolder + "/" + rm.RMList[ rmid ].QuestHelper.Signature;
                 string file = folder + "/" + nm + ".NEO";
 
-                ms.LoadMap( file, ref tm );
+                ms.LoadMap( file, tm );
                 tm.ForceBuild();
 
                 for( int y = 0; y < ( int ) tm.height; y++ )
@@ -254,7 +254,7 @@ public class Secret : MonoBehaviour
             }
         }
         ms.MapName = oldmn;
-        ms.LoadMap( fileold, ref tm );
+        ms.LoadMap( fileold, tm );
         Debug.Log( "Total Secrets: " + Map.I.TotalSecrets );
     }
 #endif

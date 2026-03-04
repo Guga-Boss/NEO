@@ -6,8 +6,8 @@ using UnityEditor;
 [ExecuteAlways]
 public class MyTilemapEditor: MonoBehaviour
 {
+    public MyTilemap Tilemap;
     [Header("Grid Settings")]
-    public Vector2Int gridSize = new Vector2Int(29, 29);
     public Color gridLineColor = Color.green;      // cor do grid interno
     [Range(1f, 10f)] public float gridLineWidth = 2f;
     public bool drawGrid = true;                   // toggle para desenhar o grid
@@ -37,18 +37,18 @@ public class MyTilemapEditor: MonoBehaviour
             Handles.color = gridLineColor;
 
             // Linhas horizontais
-            for( int y = 0; y <= gridSize.y; y++ )
+            for( int y = 0; y <= Tilemap.GridSize.y; y++ )
             {
                 Vector3 start = origin + new Vector3(0, y * cellSize.y, 0);
-                Vector3 end   = origin + new Vector3(gridSize.x * cellSize.x, y * cellSize.y, 0);
+                Vector3 end   = origin + new Vector3(Tilemap.GridSize.x * cellSize.x, y * cellSize.y, 0);
                 Handles.DrawAAPolyLine( gridLineWidth, start, end );
             }
 
             // Linhas verticais
-            for( int x = 0; x <= gridSize.x; x++ )
+            for( int x = 0; x <= Tilemap.GridSize.x; x++ )
             {
                 Vector3 start = origin + new Vector3(x * cellSize.x, 0, 0);
-                Vector3 end   = origin + new Vector3(x * cellSize.x, gridSize.y * cellSize.y, 0);
+                Vector3 end   = origin + new Vector3(x * cellSize.x, Tilemap.GridSize.y * cellSize.y, 0);
                 Handles.DrawAAPolyLine( gridLineWidth, start, end );
             }
         }
@@ -59,9 +59,9 @@ public class MyTilemapEditor: MonoBehaviour
             Handles.color = borderLineColor;
 
             Vector3 bottomLeft  = origin;
-            Vector3 bottomRight = origin + new Vector3(gridSize.x * cellSize.x, 0, 0);
-            Vector3 topLeft     = origin + new Vector3(0, gridSize.y * cellSize.y, 0);
-            Vector3 topRight    = origin + new Vector3(gridSize.x * cellSize.x, gridSize.y * cellSize.y, 0);
+            Vector3 bottomRight = origin + new Vector3(Tilemap.GridSize.x * cellSize.x, 0, 0);
+            Vector3 topLeft     = origin + new Vector3(0, Tilemap.GridSize.y * cellSize.y, 0);
+            Vector3 topRight    = origin + new Vector3(Tilemap.GridSize.x * cellSize.x, Tilemap.GridSize.y * cellSize.y, 0);
 
             // Linha inferior
             Handles.DrawAAPolyLine( borderLineWidth, bottomLeft, bottomRight );

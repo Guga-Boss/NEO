@@ -742,7 +742,7 @@ public class Helper : MonoBehaviour
 
             if( Input.GetMouseButton( 2 ) )
             {
-                MapSaver.I.SaveMap( MapSaver.I.LastLoadedFile, ref MapSaver.I.Tilemap );
+                MapSaver.I.SaveMap( MapSaver.I.LastLoadedFile, MapSaver.I.Tilemap );
                 Debug.Log( "Saved: " + MapSaver.I.LastLoadedFile );
             }
             return;

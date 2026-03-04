@@ -10,12 +10,14 @@ using System.Text.RegularExpressions;
 using System.Text;
 using System.IO;
 using System;
+using UnityEngine.UIElements;
+using UnityEngine.UI;
+using UnityEngine.Analytics;
 
 public enum EMapTemplate
 {
     __CHOOSE__ = -1, Empty, Temp, Template_1, Template_2, Template_3, Template_4, Template_5,
-    _FARM_, _NAVIGATION_, _LAB_
-     
+    _FARM_ = 100, _NAVIGATION_, _LAB_     
 }
 
 public enum EOri2Template
@@ -41,8 +43,8 @@ public class MapSaver : MonoBehaviour
     public CubeData CubeData;
     [HideInInspector]
     public string LastLoadedFile;
-    [HideInInspector]
-    public Vector2 Size = new Vector2( 20, 20 );
+    //[HideInInspector]
+    //public Vector2 Size = new Vector2( 20, 20 );
     [HideInInspector]
     public Vector2 Source;
     [HideInInspector]
@@ -232,6 +234,8 @@ public class MapSaver : MonoBehaviour
         return null;
     }
 
+    [HideInInspector] // garbage
+    public tk2dTileMap farm, lab;
     public bool Load( bool showErrorMsg = true )
     {
         string nm = MapName;
@@ -257,6 +261,32 @@ public class MapSaver : MonoBehaviour
             }
         }
 
+        if( MapTemplate >= EMapTemplate._FARM_ )
+        {
+            MyTilemap.ClearTilemap( Map.I.TM );
+            string fl = Application.dataPath + "/Resources/Map Templates/Default Templates/" + MapTemplate + ".NEO"; // Caminho completo ;
+            LoadMap( fl, null, Map.I.TM );                                                                           // Salva os dados lidos da Unity no arquivo .NEO ;
+            Debug.Log( "Navigation Map Loaded: " + fl );                                                             // Log de confirmação ;
+            return true;
+        }
+
+        //if( MapTemplate == EMapTemplate._NAVIGATION_ )
+        //{
+        //    MyTilemap.Load( Map.I.NavigationMap.Tilemap, Map.I.TM );
+        //    return true; ;
+        //}
+
+        //if( MapTemplate == EMapTemplate._LAB_ )
+        //{
+        //    MyTilemap.Load( lab, Map.I.TM );
+        //    return true;
+        //}
+        //if( MapTemplate == EMapTemplate._FARM_ )
+        //{
+        //    MyTilemap.Load( farm, Map.I.TM );
+        //    return true;
+        //}
+
         string fn = FolderName;
         if( MapTemplate != EMapTemplate.__CHOOSE__ )                                                              // Template
         {
@@ -272,7 +302,7 @@ public class MapSaver : MonoBehaviour
         }
         string file = Application.dataPath + "/Resources/Map Templates/" + sub + fn + "/" + nm + ".NEO";
         LastMapSavedFilename = file;
-        bool res = LoadMap( file, ref tm );
+        bool res = LoadMap( file, tm );
         if( !res )
         {
             if( MapTemplate != EMapTemplate.__CHOOSE__ ) return false;
@@ -310,6 +340,14 @@ public class MapSaver : MonoBehaviour
         string nm = MapName;
         string fn = FolderName;
 
+        if( MapTemplate >= EMapTemplate._FARM_ )
+        {  
+            string fl = Application.dataPath + "/Resources/Map Templates/Default Templates/" + MapTemplate + ".NEO"; // Caminho completo ;
+            SaveMap( fl, null, Map.I.TM ); // Salva os dados lidos da Unity no arquivo .NEO ;
+            Debug.Log( MapTemplate + " Saved: " + fl ); // Log de confirmação ;
+            return;
+        }
+
         if( MapTemplate != EMapTemplate.__CHOOSE__ )                                                              // Template
         {
             fn = "Default Templates";
@@ -319,7 +357,7 @@ public class MapSaver : MonoBehaviour
         string file = Application.dataPath + "/Resources/Map Templates/" + 
         fn + "/" + nm + ".NEO";
         LastMapSavedFilename = file;
-        SaveMap( file, ref tm );
+        SaveMap( file, tm );
         LastMapSavedFilename = file;
         Debug.Log("Map Saved! " + file );
 
@@ -352,7 +390,7 @@ public class MapSaver : MonoBehaviour
             ELayerType.DECOR2,
             ELayerType.RAFT
         };
-    public void SaveMap( string file, ref tk2dTileMap tm )
+    public void SaveMap( string file, tk2dTileMap tm = null, MyTilemap mtm = null )
     {
         Directory.CreateDirectory( Path.GetDirectoryName( file ) );                                     // Create folder if not exists
         using( var ms = new MemoryStream() )                                                            // Open MemoryStream
@@ -361,7 +399,12 @@ public class MapSaver : MonoBehaviour
             int SaveVersion = 1;
             writer.Write( SaveVersion );                                                               // Save Version
 
-            GS.W = writer;                                                                             // Set GS.W para usar SVector2
+            GS.W = writer;
+            Vector2 Size = Vector2.zero;
+            if( tm ) Size = new Vector2( tm.width, tm.height );
+            if( mtm ) Size = mtm.GridSize;
+
+            // Set GS.W para usar SVector2
             GS.SVector2( Size );                                                                       // Save Map size
             writer.Write( layers.Length );                                                             // Save layer count
 
@@ -372,7 +415,12 @@ public class MapSaver : MonoBehaviour
             for( int y = 0; y < ( int ) Size.y; y++ )
             for( int x = 0; x < ( int ) Size.x; x++ )
             foreach( var layer in layers )
-                 tileBuffer[ index++ ] = tm.GetTile( x, y, ( int ) layer );                            // Save Layers into buffer
+               {
+                   if( tm )
+                      tileBuffer[ index++ ] = tm.GetTile( x, y, (int) layer );                         // Save Layers into buffer
+                   if( mtm )
+                      tileBuffer[ index++ ] = mtm.GetTile( x, y, (int) layer );                        // Save Layers into buffer
+               }
 
             for( int i = 0; i < tileBuffer.Length; i++ )
                 GS.W.Write( tileBuffer[ i ] );                                                         // Write buffer to stream
@@ -386,55 +434,66 @@ public class MapSaver : MonoBehaviour
             File.WriteAllBytes( file, encrypted );                                                     // Save encrypted bytes
         }
     }
-
-    public bool LoadMap( string file, ref tk2dTileMap tm )
+    public bool LoadMap( string file, tk2dTileMap tm = null, MyTilemap mtm = null )
     {
-        if( tm == null )                                                                               // Checar se tm é null
+        if( tm == null && mtm == null )                                                                 // Check if both are null
         {
-            Debug.Log( "tm == null" );
+            Debug.Log( "No tilemap provided (tm and mtm are null)" );
             return false;
         }
 
-        if( File.Exists( file ) == false ) return false;                                               // Checar se arquivo existe
+        if( File.Exists( file ) == false ) return false;                                                // Check if file exists
 
-        // Ler bytes criptografados e descriptografar
-        byte[] encrypted = File.ReadAllBytes( file );                                                  // Ler bytes
-        byte[] decrypted = AESCrypto.Decrypt( encrypted );                                             // Descriptografar bytes
+        byte[] encrypted = File.ReadAllBytes( file );                                                   // Read bytes
+        byte[] decrypted = AESCrypto.Decrypt( encrypted );                                              // Decrypt bytes
 
-        using( var ms = new MemoryStream( decrypted ) )                                                // Abrir MemoryStream com dados descriptografados
-        using( var reader = new BinaryReader( ms ) )                                                   // Criar BinaryReader
+        using( var ms = new MemoryStream( decrypted ) )                                                 // Open stream
+        using( var reader = new BinaryReader( ms ) )                                                    // Create reader
         {
-            GS.R = reader;                                                                            // Set GS.R
+            GS.R = reader;                                                                              // Set GS.R
 
-            int SaveVersion = reader.ReadInt32();                                                     // Load Version
-            Size = GS.LVector2();                                                                     // Load Map size
+            int SaveVersion = reader.ReadInt32();                                                       // Load version
+            Vector2 Size = GS.LVector2();                                                               // Load map size
 
-            int layerCount = reader.ReadInt32();                                                      // Load Layer Count
+            if( mtm )
+                mtm.GridSize = new Vector2Int( (int) Size.x, (int) Size.y );                            // set sizes
+            if( tm )
+            { tm.width = (int) Size.x; tm.height = (int) Size.y; } 
 
+            int layerCount = reader.ReadInt32();                                                        // Load layer count
             int totalTiles = ( int ) Size.x * ( int ) Size.y * layers.Length;
-            int[] tileBuffer = new int[ totalTiles ];                                                 // Buffer único para leitura
+            int[] tileBuffer = new int[ totalTiles ];                                                   // Create buffer
 
             for( int i = 0; i < totalTiles; i++ )
-                tileBuffer[ i ] = reader.ReadInt32();                                                 // Read tiles into buffer
+                tileBuffer[ i ] = reader.ReadInt32();                                                   // Read tiles into buffer
 
             int index = 0;
-            for( int y = 0; y < ( int ) Size.y; y++ )
-            for( int x = 0; x < ( int ) Size.x; x++ )
-            foreach( var layer in layers )
-                 tm.SetTile( x, y, ( int ) layer, tileBuffer[ index++ ] );                           // Set tiles from buffer
+            for( int y = 0; y < (int) Size.y; y++ )
+            {
+                for( int x = 0; x < (int) Size.x; x++ )
+                {
+                    foreach( var layer in layers )
+                    {
+                        int tileID = tileBuffer[ index++ ];
 
-            tm.Build();                                                                              // Build map
+                        if( mtm != null ) mtm.SetTile( x, y, (int) layer, tileID );                   // Set new system tile
+                        if( tm != null ) tm.SetTile( x, y, (int) layer, tileID );                     // Set legacy system tile
+                    }
+                }
+            }
 
-            Message = reader.ReadString();                                                           // Load Message
-            Script = reader.ReadString();                                                            // Load Script
+            //if( mtm != null ) mtm.Build();                                                              // Build new map
+            if( tm != null ) tm.Build();                                                                // Build legacy map
 
-            CubeData.Load();                                                                         // Load Cube Data
+            Message = reader.ReadString();                                                              // Load message
+            Script = reader.ReadString();                                                               // Load script
+            CubeData.Load();                                                                            // Load cube data
 
             return true;
         }
-    }
+    }      
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     #region Convert // Use this function if you want to convert all cubes at once
     //int larguraAntiga = 16;
     //int larguraNova = 128;
@@ -487,8 +546,8 @@ public class MapSaver : MonoBehaviour
                 FolderName = rm.RMList[ rmid ].QuestHelper.SubFolder + "/" + rm.RMList[ rmid ].QuestHelper.Signature;
                 Debug.Log( "Converting Cube: " + list[ i ] + "    " + folder + "  " + rm.RMList[ rmid ].name );
                 string file = Application.dataPath + "/Resources/Map Templates/" + FolderName + "/" + MapName;
-                LoadMap( file, ref tm );
-                SaveMap( file, ref tm );
+                LoadMap( file, tm );
+                SaveMap( file, tm );
             }
         }
         MapName = oldm;
@@ -676,8 +735,8 @@ public class MapSaver : MonoBehaviour
     public void AddFogCallBack()
     {
         tk2dTileMap tm = GetRM().AreasTM;
-        for( int y = 0; y < ( int ) Size.y; y++ )
-        for( int x = 0; x < ( int ) Size.x; x++ )
+        for( int y = 0; y < ( int ) tm.height; y++ )
+        for( int x = 0; x < ( int ) tm.width; x++ )
             {
                 ETileType raft = ( ETileType ) tm.GetTile( x, y, ( int ) ELayerType.RAFT );
                 if( raft == ( ETileType.FOG ) )
@@ -686,8 +745,8 @@ public class MapSaver : MonoBehaviour
         tm.ForceBuild();
         if( RemoveFog ) return;
 
-        for( int y = 0; y < ( int ) Size.y; y++ )
-        for( int x = 0; x < ( int ) Size.x; x++ )
+        for( int y = 0; y < ( int ) tm.height; y++ )
+        for( int x = 0; x < ( int ) tm.width; x++ )
             {
                 ETileType mn = ( ETileType ) tm.GetTile( x, y, ( int ) ELayerType.MONSTER );
                 ETileType raft = ( ETileType ) tm.GetTile( x, y, ( int ) ELayerType.RAFT );

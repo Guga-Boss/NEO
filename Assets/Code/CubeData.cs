@@ -442,7 +442,7 @@ public class CubeData : MonoBehaviour
         if( Map.I && Map.I.RM.HeroSector.Type == Sector.ESectorType.NORMAL )
         if( MapSaver.I.LastLoadedFile != "" )
         {
-            MapSaver.I.SaveMap( MapSaver.I.LastLoadedFile, ref MapSaver.I.Tilemap );
+            MapSaver.I.SaveMap( MapSaver.I.LastLoadedFile, MapSaver.I.Tilemap );
             Debug.Log( "Saved: " + MapSaver.I.LastLoadedFile );
         }
     }

@@ -200,8 +200,6 @@ public class MyTilemap: SerializedMonoBehaviour
 
         MyTilemap myTilemap = Map.I.TM;
         if( myTilemap == null ) return;
-
-        myTilemap.TilemapEditor.gridSize = new Vector2Int( 128, 128 );
         myTilemap.GridSize = new Vector2Int( 128, 128 );
     }
 
@@ -342,7 +340,6 @@ public class MyTilemap: SerializedMonoBehaviour
         IgnoreUpdate = true;
         if( Application.isPlaying ) return;
 
-        myTilemap.TilemapEditor.gridSize = new Vector2Int( tm.width, tm.height );
         myTilemap.GridSize = new Vector2Int( tm.width, tm.height );
 
         ClearTilemap( myTilemap );
@@ -433,4 +430,13 @@ public class MyTilemap: SerializedMonoBehaviour
 
     [Button( "Update Tilemaps List" )]
     public void Upd() => Tilemaps = new List<Tilemap>( GetComponentsInChildren<Tilemap>( true ) );
+
+    internal int GetTile( int x, int y, int l )
+    {
+        if( l < 0 || l >= Tilemaps.Count ) return -1; // Valida camada 
+        // Pega o tile diretamente da Unity ;
+        TileBase tile = Tilemaps[ l ].GetTile( new Vector3Int( x, y, 0 ) ); 
+        // Usa o seu método TileToID que já faz a conversão de sprite para Global ID 
+        return TileToID( tile ); 
+    }
 }
