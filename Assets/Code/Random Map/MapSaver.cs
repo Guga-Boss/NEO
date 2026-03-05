@@ -394,7 +394,7 @@ public class MapSaver : MonoBehaviour
             GS.W = writer;
             Vector2 Size = Vector2.zero;
             if( tm ) Size = new Vector2( tm.width, tm.height );
-            if( mtm ) Size = mtm.GridSize;
+            if( mtm ) Size = mtm.GetSize();
 
             // Set GS.W para usar SVector2
             GS.SVector2( Size );                                                                       // Save Map size
@@ -448,11 +448,12 @@ public class MapSaver : MonoBehaviour
 
             if( mtm )
             {
-                mtm.GridSize = new Vector2Int( (int) Size.x, (int) Size.y );                            // set sizes
+                mtm.width = (int) Size.x;                                                               // set sizes
+                mtm.height = (int) Size.y;           
                 mtm.InitBatch();
             }
             if( tm )
-            { tm.width = (int) Size.x; tm.height = (int) Size.y; } 
+              { tm.width = (int) Size.x; tm.height = (int) Size.y; } 
 
             int layerCount = reader.ReadInt32();                                                        // Load layer count
             int totalTiles = ( int ) Size.x * ( int ) Size.y * layers.Length;

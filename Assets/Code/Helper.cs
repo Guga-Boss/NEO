@@ -731,7 +731,7 @@ public class Helper : MonoBehaviour
 
             if( Input.GetMouseButton( 0 ) ) 
             {
-                Quest.I.CurLevel.Tilemap.SetTile( Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.GAIA, ( int ) DrawTile );
+                Map.I.SRCTM.SetTile( Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.GAIA, ( int ) DrawTile );
                 Vector2 mc = GetCubeTile( tg );
                 MapSaver.I.Tilemap.SetTile( ( int ) mc.x, ( int ) mc.y, ( int ) ELayerType.GAIA, ( int ) DrawTile );
                 Map.I.SetTile( Map.I.Mtx, Map.I.Mty, ELayerType.GAIA, DrawTile, true );

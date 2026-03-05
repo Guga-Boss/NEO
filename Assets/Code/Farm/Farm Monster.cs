@@ -42,8 +42,8 @@ public partial class Farm : MonoBehaviour
     }
     public void KillAllMonsters( ItemType it )
     {
-        for( int y = 0; y < Map.I.Tilemap.height; y++ )                                          // Clears all the plague monsters
-        for( int x = 0; x < Map.I.Tilemap.width; x++ )
+        for( int y = 0; y < Map.I.TM.height; y++ )                                          // Clears all the plague monsters
+        for( int x = 0; x < Map.I.TM.width; x++ )
         {
             if( Map.I.Unit[ x, y ] )
             if( Map.I.Unit[ x, y ].TileID == ETileType.PLAGUE_MONSTER )
@@ -173,7 +173,7 @@ public partial class Farm : MonoBehaviour
     }
     public bool CanCreatePlagueMonster( Vector2 from, Vector2 to, bool heropos = true, bool init = false, bool overItem = true )
     {
-        if( Map.PtOnMap( Map.I.Tilemap, to ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, to ) == false ) return false;
         if( to == Map.I.LevelEntrancePosition ) return false;
         if( init )
         {
@@ -548,7 +548,7 @@ public partial class Farm : MonoBehaviour
         if( GetAnyNeighborCount() > 0 )
             neigh = true;
         int i = 1;
-        for( i = 1; i < Map.I.Tilemap.width; i++ )
+        for( i = 1; i < Map.I.TM.width; i++ )
         {
             tg2 = tg;
             tg = tgg;
@@ -915,7 +915,7 @@ public partial class Farm : MonoBehaviour
             for( int i = 0; i < dl.Count; i++ )
             {
                 Vector2 tg = un.Pos + dl[ i ];
-                if( Map.PtOnMap( Map.I.Tilemap, tg ) )
+                if( Map.PtOnMap( Map.I.TM, tg ) )
                 if( Map.I.IsTileOnlyGrass( tg, true ) || tg == un.Pos )                               // compare best distances
                 if( tg != G.Hero.Pos )
                 {

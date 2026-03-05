@@ -11,15 +11,15 @@ public class TKUtil : MonoBehaviour
 {
     public static void Settile( int x, int y, ETileType tile, bool warning = true )
     {
-        if( x < 0 || x > Quest.I.CurLevel.Tilemap.width - 1 ||
-            y < 0 || y > Quest.I.CurLevel.Tilemap.height - 1 )
+        if( x < 0 || x > Map.I.SRCTM.width - 1 ||
+            y < 0 || y > Map.I.SRCTM.height - 1 )
         {
             if( warning )
                 Debug.LogError( "Settile: out of bounds " + x + " " + y );
             else return;
         }
         int layer = ( int ) Map.GetTileLayer( tile );
-        Quest.I.CurLevel.Tilemap.SetTile( x, y, layer, ( int ) tile );
+        Map.I.SRCTM.SetTile( x, y, layer, ( int ) tile );
     }
 
     public static void CreateBlankMap( ref tk2dTileMap tm )
@@ -47,7 +47,7 @@ public class TKUtil : MonoBehaviour
             }
     }
 
-    public static void Save( string file, ref tk2dTileMap tm )
+    public static void Save( string file, ref MyTilemap tm )
     {
         file = Manager.I.GetProfileFolder() + file;
 
@@ -121,7 +121,7 @@ public class TKUtil : MonoBehaviour
         }                                                                                   // using closes the stream automatically
     }
     
-    public static bool Load( string file, ref tk2dTileMap tm )
+    public static bool Load( string file, ref MyTilemap tm )
     {
         file = Manager.I.GetProfileFolder() + file;
         if( File.Exists( file ) == false ) return false;
@@ -234,7 +234,7 @@ public class TKUtil : MonoBehaviour
             Map.I.Farm.HoneyCombList.Add( tg );
         }
     }
-    public static bool LoadFogOfWar( string file, ref tk2dTileMap tm )
+    public static bool LoadFogOfWar( string file, ref MyTilemap tm )
     {
         return false; // Farm Fog of war removed 
         //file = Manager.I.GetProfileFolder() + file + ".NEO";
@@ -275,7 +275,7 @@ public class TKUtil : MonoBehaviour
     public static void SetTile( Vector2 tg, ETileType tile )
     {
         ELayerType layer = Map.GetTileLayer( tile );
-        Quest.I.CurLevel.Tilemap.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) layer, ( int ) tile );
+        Map.I.SRCTM.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) layer, ( int ) tile );
         Map.I.SetTile( ( int ) tg.x, ( int ) tg.y, layer, tile, true );
 
         for( int y = ( int ) tg.y - 1; y <= tg.y + 1; y++ )
@@ -289,12 +289,12 @@ public class TKUtil : MonoBehaviour
         Map.I.ClearTransTilemap( tg );
 
         Map.I.SetTile( ( int ) tg.x, ( int ) tg.y, layer, ETileType.NONE, true, true );
-        Map.I.Tilemap.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) layer, -1 );
+        Map.I.TM.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) layer, -1 );
 
         int rad = 1; 
         for( int y = ( int ) ( tg.y - rad ); y <= tg.y + rad; y++ )
         for( int x = ( int ) ( tg.x - rad ); x <= tg.x + rad; x++ )
-        if( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+        if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
         {
             if( Map.I.TransTilemapUpdateList.Contains( new VI( x, y ) ) == false )
                 Map.I.TransTilemapUpdateList.Add( new VI( x, y ) );
@@ -309,8 +309,8 @@ public class TKUtil : MonoBehaviour
     public static int CountTiles( ELayerType layer, ETileType tile )
     {
         int count = 0;
-        for( int y = 0; y < Map.I.Tilemap.height; y++ )
-        for( int x = 0; x < Map.I.Tilemap.width; x++ )
+        for( int y = 0; y < Map.I.TM.height; y++ )
+        for( int x = 0; x < Map.I.TM.width; x++ )
             {
                 if( layer == ELayerType.GAIA  && Map.I.Gaia [ x, y ] == null && tile == ETileType.NONE ) count++;
                 if( layer == ELayerType.GAIA2 && Map.I.Gaia2[ x, y ] == null && tile == ETileType.NONE ) count++;
@@ -373,7 +373,7 @@ public class TKUtil : MonoBehaviour
     public static Unit CreateObj( Vector2 pos, ELayerType layer, ETileType tile, bool settile )
     {
         if( settile )
-            Quest.I.CurLevel.Tilemap.SetTile( ( int ) pos.x, ( int ) pos.y, ( int ) layer, ( int ) tile );
+            Map.I.SRCTM.SetTile( ( int ) pos.x, ( int ) pos.y, ( int ) layer, ( int ) tile );
 
         Map.I.UpdateTileGameObjectCreation( ( int ) pos.x, ( int ) pos.y, layer, tile );
       

@@ -33,7 +33,7 @@ public partial class Map : MonoBehaviour
 
         for( int y = ( int ) _p1.y; y <= _p2.y; y++ )
         for( int x = ( int ) _p1.x; x <= _p2.x; x++ )   
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
             {
                 if ( FUnit[ x, y ] != null )                                          // Flying units smooth animation update
                 if ( FUnit[ x, y ].Count > 0 )
@@ -87,7 +87,7 @@ public partial class Map : MonoBehaviour
                                     if( Gaia2[ x, y ].Body.WoodAdded[ dr ] )
                                     {
                                         Vector2 tg = new Vector2( x, y ) + Manager.I.U.DirCord[ dr ];
-                                        if( PtOnMap( Tilemap, tg ) )
+                                        if( PtOnMap( Map.I.TM, tg ) )
                                         {
                                             if( GetPosArea( tg ) == -1 ) cont++;
                                         }
@@ -128,7 +128,7 @@ public partial class Map : MonoBehaviour
 
     public bool SetRoomDoorId( Vector2 pos, int id )
     {
-        if( PtOnMap( Tilemap, pos ) == false ) return false;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return false;
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ] == null ) return false;
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ].TileID != ETileType.ROOMDOOR ) return false;
         if( GateID[ ( int ) pos.x, ( int ) pos.y ] > 0 ) return false;
@@ -144,7 +144,7 @@ public partial class Map : MonoBehaviour
 
     public bool SetDoorId( Vector2 pos, int id )
     {
-        if( PtOnMap( Tilemap, pos ) == false ) return false;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return false;
 
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ] == null ) return false;
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ].TileID != ETileType.CLOSEDDOOR )
@@ -166,7 +166,7 @@ public partial class Map : MonoBehaviour
 
     public bool SetWhiteDoorId( Vector2 pos, int id )
     {
-        if( PtOnMap( Tilemap, pos ) == false ) return false;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return false;
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ] == null ) return false;
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ].TileID != ETileType.ROOMDOOR )
                 return false;
@@ -184,7 +184,7 @@ public partial class Map : MonoBehaviour
 
     public bool SetRaftId( Vector2 pos, int id, ref Sector s )
     {
-        if( !PtOnMap( Tilemap, pos ) ) return false;
+        if( !PtOnMap( Map.I.TM, pos ) ) return false;
         Unit raft = Controller.GetRaft( pos );
         if( raft == null ) return false;
         if( raft.Control.RaftGroupID > 0 ) return false;
@@ -204,7 +204,7 @@ public partial class Map : MonoBehaviour
     }
     public bool SetFogId( Vector2 pos, int id )
     {
-        if( PtOnMap( Tilemap, pos ) == false ) return false;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return false;
         if( Controller.GetFog( pos ) == false ) return false;
         Unit fog = Controller.GetFog( pos );
         if( fog == null ) return false;
@@ -225,7 +225,7 @@ public partial class Map : MonoBehaviour
 
     public bool SetTrapId( Vector2 pos, int id )
     {
-        if( PtOnMap( Tilemap, pos ) == false ) return false;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return false;
 
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ] == null ) return false;
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ].TileID != ETileType.TRAP )
@@ -265,7 +265,7 @@ public partial class Map : MonoBehaviour
         int id = 0;
         int trapid = 0;
         Vector2 _p1 = new Vector2( 0, 0 );                                                           // Restrain to whole map Area
-        Vector2 _p2 = new Vector2( Tilemap.width, Tilemap.height );
+        Vector2 _p2 = new Vector2( TM.width, TM.height );
 
         if( s )
         {
@@ -275,7 +275,7 @@ public partial class Map : MonoBehaviour
 
         for( int y = ( int ) _p1.y; y <= _p2.y; y++ )
         for( int x = ( int ) _p1.x; x <= _p2.x; x++ )    
-        if ( Map.PtOnMap( Tilemap, new Vector2( x, y ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
             {
                 if( Gaia[ x, y ] != null )
                 {
@@ -347,17 +347,18 @@ public partial class Map : MonoBehaviour
     public void UpdateRevealedPercent()
     {
         int revcount = 0;
-        for( int y = 0; y < Tilemap.height; y++ )
-            for( int x = 0; x < Tilemap.width; x++ )
+        for( int y = 0; y < TM.height; y++ )
+            for( int x = 0; x < TM.width; x++ )
             {
                 if( Revealed[ x, y ] ) revcount++;
             }
         if( revcount == 0 ) revcount = 1;
-        RevealedPercent = revcount * 100 / ( Tilemap.height * Tilemap.width );
+        RevealedPercent = revcount * 100 / ( TM.height * TM.width );
     }
 
     public void UpdateGrid( bool force = false )
     {
+        return;
         if( Manager.I.GameType == EGameType.NAVIGATION ) return;
 
         if( Manager.I.GameType == EGameType.FARM )
@@ -415,7 +416,7 @@ public partial class Map : MonoBehaviour
                     TM.SetTile( x, y, ( int ) ELayerType.GRID, tile, true );
                     if( Helper.I.ShowGaiaGrid == false )
                     {
-                        ETileType tl = ( ETileType ) Quest.I.CurLevel.Tilemap.GetTile( x, y, ( int ) ELayerType.GAIA ); // old test it
+                        ETileType tl = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.GAIA ); // old test it
                         if( tl == ETileType.FOREST ||
                             tl == ETileType.CLOSEDDOOR ||
                             tl == ETileType.ROOMDOOR ||
@@ -442,8 +443,7 @@ public partial class Map : MonoBehaviour
 
     public GameObject UpdateTileGameObjectCreation( int x, int y, ELayerType layer, ETileType forceTile = ETileType.NONE, bool forceKill = false )
     {
-        tk2dTileMap tm = Quest.I.CurLevel.Tilemap;
-        ETileType tile = ( ETileType ) tm.GetTile( x, y, ( int ) layer );
+        ETileType tile = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) layer );
 
         if( tile == ETileType.NONE ) return null;          // new: to optimize
         if( Manager.I.GameType == EGameType.FARM )                                                  // Building in the farm are only created after loading
@@ -471,7 +471,6 @@ public partial class Map : MonoBehaviour
 
     public Unit SpawnFlyingUnit( Vector2 tg, ELayerType layer, ETileType tile, Unit mother, bool init = false )
     {
-        tk2dTileMap tm = Quest.I.CurLevel.Tilemap;
         Unit prefab = GetUnitPrefab( tile );
         if( prefab != null )
         {
@@ -480,7 +479,7 @@ public partial class Map : MonoBehaviour
             un.Copy( prefab, true, true, true );
 
             int posx = 0, posy = 0;
-            Map.I.Tilemap.GetTileAtPosition( un.transform.position, out posx, out posy );
+            Map.I.TM.GetTileAtPosition( un.transform.position, out posx, out posy );
             un.Pos = tg;
             un.Control.OldPos = tg;
             un.IniPos = tg;
@@ -552,27 +551,27 @@ public partial class Map : MonoBehaviour
             for( int i = 0; i < RM.Fl.Count; i++ )
             if( RM.LabArea.Contains( RM.Fl[ i ] ) == false )
             {
-                Quest.I.Dungeon.Tilemap.SetTile( RM.Fl[ i ].x,
+                Map.I.SRCTM.SetTile( RM.Fl[ i ].x,
                 RM.Fl[ i ].y, ( int ) ELayerType.GAIA, ( int ) ETileType.FOREST );
                 Map.I.UpdateTileGameObjectCreation( RM.Fl[ i ].x, RM.Fl[ i ].y, ELayerType.GAIA );                          // Creates Forest Objects from Gate Sector
-                Map.I.Tilemap.SetTile( RM.Fl[ i ].x, RM.Fl[ i ].y, ( int ) ELayerType.GAIA, -1 ); 
+                Map.I.TM.SetTile( RM.Fl[ i ].x, RM.Fl[ i ].y, ( int ) ELayerType.GAIA, -1 ); 
             }
             for( int i = 0; i < RM.Dl.Count; i++ )
             if( RM.LabArea.Contains( RM.Dl[ i ] ) == false )
             {
-                Quest.I.Dungeon.Tilemap.SetTile( ( int ) RM.Dl[ i ].x, ( int ) 
+                Map.I.SRCTM.SetTile( ( int ) RM.Dl[ i ].x, ( int ) 
                 RM.Dl[ i ].y, ( int ) ELayerType.GAIA, ( int ) ETileType.CLOSEDDOOR );
                 Map.I.UpdateTileGameObjectCreation( RM.Dl[ i ].x, RM.Dl[ i ].y, ELayerType.GAIA );                          // Creates Door Objects from Gate Sector
-                Map.I.Tilemap.SetTile( RM.Dl[ i ].x, RM.Dl[ i ].y, ( int ) ELayerType.GAIA, -1 );
+                Map.I.TM.SetTile( RM.Dl[ i ].x, RM.Dl[ i ].y, ( int ) ELayerType.GAIA, -1 );
             }
             
             for( int y = ( int ) RM.LabArea.yMin; y < RM.LabArea.yMax; y++ )                                                // creates inside lab objects
             for( int x = ( int ) RM.LabArea.xMin; x < RM.LabArea.xMax; x++ )
-            if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+            if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
             if( Sector.GetPosSectorType( new VI( x, y ) ) != Sector.ESectorType.GATES )
             {
                 Map.I.UpdateTileGameObjectCreation( x, y, ELayerType.GAIA );
-                Map.I.Tilemap.SetTile( x, y, ( int ) ELayerType.GAIA, -1 );
+                Map.I.TM.SetTile( x, y, ( int ) ELayerType.GAIA, -1 );
             }                    
             return;
         }
@@ -591,13 +590,12 @@ public partial class Map : MonoBehaviour
         }
         if( Manager.I.GameType != EGameType.NAVIGATION ) return;                                                        // Navigation objects
 
-        Tilemap.Layers[ ( int ) ELayerType.MONSTER ].gameObject.SetActive( true );
+        //Tilemap_old.Layers[ ( int ) ELayerType.MONSTER ].gameObject.SetActive( true );
         if( CurrentArea != -1 ) MonsterUnitsFolder.gameObject.SetActive( false );
         if( CurrentArea != -1 ) GaiaUnitsFolder.gameObject.SetActive( false );
-        tk2dTileMap tm = Quest.I.CurLevel.Tilemap;
 
-        for( int y = 0; y < Tilemap.height; y++ )
-        for( int x = 0; x < Tilemap.width; x++ )
+        for( int y = 0; y < TM.height; y++ )
+        for( int x = 0; x < TM.width; x++ )
             {
                 GameObject g = UpdateTileGameObjectCreation( x, y, ELayerType.GAIA );
                 if( g == null )
@@ -606,7 +604,7 @@ public partial class Map : MonoBehaviour
                     UpdateTileGameObjectCreation( x, y, ELayerType.MONSTER );
                 }
 
-                ETileType tile = ( ETileType ) tm.GetTile( x, y, ( int ) ELayerType.RAFT );
+                ETileType tile = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.RAFT );
                 if( tile == ETileType.RAFT )
                     UpdateTileGameObjectCreation( x, y, ELayerType.RAFT );                                               // optimized
             }
@@ -945,7 +943,7 @@ public partial class Map : MonoBehaviour
             UpdateMouseTile();
             Vector2 mp = new Vector2( Mtx, Mty );
             for( int touch = 0; touch < 2; touch++ )
-                if( PtOnMap( Tilemap, mp ) )
+                if( PtOnMap( Map.I.TM, mp ) )
                 {
                     if( Input.GetMouseButtonDown( touch ) )
                     {

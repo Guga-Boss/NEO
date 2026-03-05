@@ -7,7 +7,6 @@ public class Level : MonoBehaviour {
 	public GameObject ArtifactFolder, AreaFolder;
 	public List<Artifact> ArtifactList;
     public List<Area>AreaList;
-	public tk2dTileMap Tilemap;
 	// Use this for initialization
 	public void Reset () 
     {

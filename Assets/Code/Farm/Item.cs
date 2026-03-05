@@ -650,7 +650,7 @@ public class Item : MonoBehaviour
         List<Unit> itl = new List<Unit>();
         for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )                                       // Check For Items based gate openning
         for( int x = ( int ) s.Area.xMin; x < s.Area.xMax; x++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
         {
             Unit it = Map.I.GetUnit( ETileType.ITEM, new Vector2( x, y ) );
             if( it && it.Body.ResourceWasteTotalTime > 0 )

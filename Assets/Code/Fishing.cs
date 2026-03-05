@@ -621,7 +621,7 @@ public partial class Map : MonoBehaviour
             Vector3 tgg = hk.transform.position;
             tgg += addnotnormalized * Time.deltaTime;
 
-            Tilemap.GetTileAtPosition( tgg, out x, out y );
+            TM.GetTileAtPosition( tgg, out x, out y );
 
             bool tileChanged = false;
             if( hk.TilePos != new Vector2( x, y ) )
@@ -756,7 +756,7 @@ public partial class Map : MonoBehaviour
 
             if( msg != "" )
                 Message.CreateMessage( ETileType.NONE, msg, hk.TilePos, Color.green );
-            Tilemap.GetTileAtPosition( hk.transform.position, out x, out y );
+            TM.GetTileAtPosition( hk.transform.position, out x, out y );
             hk.TilePos = new Vector2( x, y );
             hk.Text.color = Color.white;
             hk.Text.gameObject.SetActive( false );                                                     
@@ -1025,7 +1025,7 @@ public partial class Map : MonoBehaviour
         int xx, yy;
         Vector3 old = hk.transform.position;
         Vector3 dest = hk.transform.position + ivec;
-        Tilemap.GetTileAtPosition( dest, out xx, out yy );
+        TM.GetTileAtPosition( dest, out xx, out yy );
         bool block = false;
         DoesTileDestroyBuoy( hk.TilePos, xx, yy, EDirection.NONE, ref block, true, hk );
         if( hk.TilePos != new Vector2( xx, yy ) )                                                    // To avoid the int tile jumping bug
@@ -1099,7 +1099,7 @@ public partial class Map : MonoBehaviour
     public bool IsPosFree( Vector3 from, Vector3 to )
     {
         int x, y;
-        Tilemap.GetTileAtPosition( to, out x, out y );
+        TM.GetTileAtPosition( to, out x, out y );
         bool block = false;
         bool tc = false;
         if( from != new Vector3( x, y, 0 ) ) tc = true;
@@ -1461,11 +1461,11 @@ public partial class Map : MonoBehaviour
         int id = 1;
         int cid = 1;
         Sector s = RM.HeroSector;
-        PondID = new int[ Tilemap.width, Tilemap.height ];
-        ContinuousPondID = new int[ Tilemap.width, Tilemap.height ];
+        PondID = new int[ TM.width, TM.height ];
+        ContinuousPondID = new int[ TM.width, TM.height ];
         for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )
         for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         {
             if( Gaia[ xx, yy ] != null )            
             if( Gaia[ xx, yy ].TileID == ETileType.WATER )
@@ -1538,7 +1538,7 @@ public partial class Map : MonoBehaviour
 
     public bool SetPondId( Vector2 from, Vector2 pos, int id )
     {
-        if( PtOnMap( Tilemap, pos ) == false ) return false;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return false;
 
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ] == null ) return false;
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ].TileID != ETileType.WATER )
@@ -1562,7 +1562,7 @@ public partial class Map : MonoBehaviour
 
     public bool SetContinuousPondId( Vector2 from, Vector2 pos, int id )
     {
-        if( PtOnMap( Tilemap, pos ) == false ) return false;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return false;
 
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ] == null ) return false;
         if( Gaia[ ( int ) pos.x, ( int ) pos.y ].TileID != ETileType.WATER )
@@ -1643,7 +1643,7 @@ public partial class Map : MonoBehaviour
         {
             if( d > Map.I.RM.RMD.MaxPoleDistanceForFishing ) return;
             pos = tg + Manager.I.U.DirCord[ ( int ) dr ] * d;
-            if( Map.PtOnMap( Map.I.Tilemap, pos ) == false ) return;
+            if( Map.PtOnMap( Map.I.TM, pos ) == false ) return;
             bool block = false;
             DoesTileDestroyBuoy( new Vector2( -1, -1 ), ( int ) pos.x, 
             ( int ) pos.y, dr, ref block, true, null );
@@ -1719,7 +1719,7 @@ public partial class Map : MonoBehaviour
         Sector s = RM.HeroSector;
         for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )
         for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         {
             if( Gaia[ xx, yy ] != null )
             if( Gaia[ xx, yy ].TileID == ETileType.WATER )

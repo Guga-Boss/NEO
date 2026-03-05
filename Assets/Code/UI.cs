@@ -235,12 +235,12 @@ public class UI : MonoBehaviour
         Map.I.GetUnit( ETileType.DOME, Map.I.Hero.GetFront() );
         if( arti != null ) mp = Map.I.Hero.GetFront();
 
-        if( Map.PtOnMap( Map.I.Tilemap, mp ) )
+        if( Map.PtOnMap( Map.I.TM, mp ) )
         {
             ETileType tile = ETileType.NONE;
             if( Map.I.RM.DungeonDialog.gameObject.activeSelf == false )
                 if( Manager.I.GameType == EGameType.CUBES )
-                    tile = ( ETileType ) Quest.I.CurLevel.Tilemap.GetTile( ( int ) mp.x,
+                    tile = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) mp.x,
                                                ( int ) mp.y, ( int ) ELayerType.GAIA2 );
 
             if( tile == ETileType.ARTIFACT )
@@ -414,7 +414,7 @@ public class UI : MonoBehaviour
 		if( SelUnit == false ) return;
 
         if( Map.I.Mtx != -1 )
-            if( Map.PtOnMap( Map.I.Tilemap, new Vector2( Map.I.Mtx, Map.I.Mty ) ) )
+            if( Map.PtOnMap( Map.I.TM, new Vector2( Map.I.Mtx, Map.I.Mty ) ) )
 				if( Map.I.Unit[ Map.I.Mtx, Map.I.Mty ] )
 				{
                     if( Map.I.FreeCamMode && Input.GetMouseButtonDown( 0 ) )

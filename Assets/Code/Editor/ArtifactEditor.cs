@@ -171,11 +171,11 @@ public class ArtifactEditor : EditorWindow
         if( oldLevel != SelLevel )
             if( SelLevel != -1 )
             {
-                Selection.activeGameObject = Quest.I.LevelList[ SelLevel ].Tilemap.gameObject;
-                Quest.I.LevelList[ SelLevel ].gameObject.SetActive( true );
-                Quest.CurrentLevel = SelLevel;
-                Manager.I.StartingLevel = SelLevel;
-                GameObject.Find( "Game Manager" ).GetComponent<Manager>().StartingLevel = SelLevel;
+                //Selection.activeGameObject = Quest.I.LevelList[ SelLevel ].Tilemap.gameObject;
+                //Quest.I.LevelList[ SelLevel ].gameObject.SetActive( true );
+                //Quest.CurrentLevel = SelLevel;
+                //Manager.I.StartingLevel = SelLevel;
+                //GameObject.Find( "Game Manager" ).GetComponent<Manager>().StartingLevel = SelLevel;
             }
         
 
@@ -188,13 +188,10 @@ public class ArtifactEditor : EditorWindow
         if( oldDungeon != SelDungeon )
             if( SelDungeon != -1 )
             {
-                Selection.activeGameObject = Quest.I.LabList[ SelDungeon ].Tilemap.gameObject;
-                Quest.I.LabList[ SelDungeon ].gameObject.SetActive( true );
-                Quest.CurrentDungeon = SelDungeon;
+                //Selection.activeGameObject = Quest.I.LabList[ SelDungeon ].Tilemap.gameObject;
+                //Quest.I.LabList[ SelDungeon ].gameObject.SetActive( true );
+                //Quest.CurrentDungeon = SelDungeon;
             }
-
-
-
 
         EditorGUILayout.EndVertical();
     }

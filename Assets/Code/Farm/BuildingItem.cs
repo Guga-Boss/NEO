@@ -152,9 +152,7 @@ public class BuildingItem : MonoBehaviour
                     int x = ( int ) bl.Unit.Pos.x;
                     int y = ( int ) bl.Unit.Pos.y;
                     TKUtil.ClearForest( bl.Unit.Pos );
-                    Map.I.Tilemap.SetTile( x, y, ( int ) ELayerType.DECOR, -1 );
-                    Map.I.Tilemap.SetTile( x, y, ( int ) ELayerType.DECOR2, -1 );
-                    Map.I.Tilemap.ForceBuild();
+                    Map.I.TM.SetTile( x, y, ( int ) ELayerType.DECOR, -1 );
                 }
                  
                 if( bl.ToolType == ItemType.Hoe )                                                  // dig soil

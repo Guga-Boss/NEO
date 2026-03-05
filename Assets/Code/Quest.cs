@@ -18,26 +18,26 @@ public class Quest : MonoBehaviour
 		I = this;
 	}
 
-    public void CreateArtifacts( tk2dTileMap from, Level to, int lNum, int cube, GameObject folder, Vector2 origin, Rect area, Sector s, bool areastm = false )
+    public void CreateArtifacts( MyTilemap from, Level to, int lNum, int cube, GameObject folder, Vector2 origin, Rect area, Sector s, bool areastm = false )
     {
-        tk2dTileMap tm = from;
-        for( int i = 0; i < tm.GetTilePrefabsListCount(); i++ )                                                 // Find all artifacts prefabs and clone them
-        {
-            int x, y;
-            int tempLayer = 0;
-            GameObject prefabObject;
-            tm.GetTilePrefabsListItem( i, out x, out y, out tempLayer, out prefabObject );
+        //ggggMyTilemap tm = from;
+        //for( int i = 0; i < tm.GetTilePrefabsListCount(); i++ )                                                 // Find all artifacts prefabs and clone them
+        //{
+        //    int x, y;
+        //    int tempLayer = 0;
+        //    GameObject prefabObject;
+        //    tm.GetTilePrefabsListItem( i, out x, out y, out tempLayer, out prefabObject );
                  
-            x+= ( int ) origin.x;
-            y +=( int ) origin.y;
+        //    x+= ( int ) origin.x;
+        //    y +=( int ) origin.y;
             
-            if( prefabObject != null )
-                if( prefabObject.tag == "Artifact" )
-                    if( area.Contains( new Vector2( x, y ) ) )
-                    {
-                        CreateArtifact( prefabObject, to, new Vector2(x,y), s, lNum, cube, folder, areastm );
-                    }
-        }        
+        //    if( prefabObject != null )
+        //        if( prefabObject.tag == "Artifact" )
+        //            if( area.Contains( new Vector2( x, y ) ) )
+        //            {
+        //                CreateArtifact( prefabObject, to, new Vector2(x,y), s, lNum, cube, folder, areastm );
+        //            }
+        //}        
     }
 
     public Artifact CreateArtifact( GameObject prefab, Level to, Vector2 pos, Sector s, int lNum, int cube, GameObject folder, bool areastm )
@@ -92,8 +92,8 @@ public class Quest : MonoBehaviour
 
             GameObject levelfolder = LevelList[ l ].gameObject;
             levelfolder.transform.parent = gameObject.transform;
-            Rect r = new Rect( 0, 0, Map.I.Tilemap.width, Map.I.Tilemap.height );
-            CreateArtifacts( LevelList[ l ].Tilemap, LevelList[ l ], l, -1, LevelList[ l ].ArtifactFolder, new Vector2( 0, 0 ), r, null );
+            Rect r = new Rect( 0, 0, Map.I.TM.width, Map.I.TM.height );
+            //CreateArtifacts( LevelList[ l ].Tilemap, LevelList[ l ], l, -1, LevelList[ l ].ArtifactFolder, new Vector2( 0, 0 ), r, null );
         }
     }
 
@@ -141,8 +141,8 @@ public class Quest : MonoBehaviour
     public bool UpdateArtifactStepping( Vector2 pos )
     {
         if( Map.I.RM.GameOver ) return false;
-        if( Map.PtOnMap( Map.I.Tilemap, pos ) == false ) return false;
-        ETileType tile = ( ETileType ) CurLevel.Tilemap.GetTile( ( int ) pos.x,
+        if( Map.PtOnMap( Map.I.TM, pos ) == false ) return false;
+        ETileType tile = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) pos.x,
                                                         ( int ) pos.y, ( int ) ELayerType.GAIA2 );
 
         if( tile != ETileType.ARTIFACT ) return false;
@@ -251,7 +251,7 @@ public class Quest : MonoBehaviour
         for( int d = 0; d < 8; d++ )
         {
             Vector2 tg = G.Hero.Pos + Manager.I.U.DirCord[ ( int ) d ];
-            if( Map.PtOnMap( Map.I.Tilemap, tg ) )
+            if( Map.PtOnMap( Map.I.TM, tg ) )
             {
                 Artifact ar = GetArtifactInPos( tg, true );
                 if( ar )
@@ -268,7 +268,7 @@ public class Quest : MonoBehaviour
 
     public void UpdateArtifactPrice( Artifact ar )
     {
-        ETileType tile = ( ETileType ) CurLevel.Tilemap.GetTile( ( int ) ar.Pos.x,
+        ETileType tile = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) ar.Pos.x,
                                    ( int ) ar.Pos.y, ( int ) ELayerType.MONSTER );
 
         if( tile == ETileType.DOME )
@@ -298,9 +298,9 @@ public class Quest : MonoBehaviour
             return false;
         }
 
-        if( Map.PtOnMap( Map.I.Tilemap, pos ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, pos ) == false ) return false;
 
-        ETileType tile = ( ETileType ) CurLevel.Tilemap.GetTile( ( int ) pos.x,
+        ETileType tile = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) pos.x,
 														( int ) pos.y, ( int ) ELayerType.GAIA2 );
 
 		if( !Map.I.Gaia2[ ( int ) Map.I.Hero.Pos.x, ( int ) Map.I.Hero.Pos.y ] ||

@@ -590,7 +590,7 @@ public class Sector : MonoBehaviour
         AwakenNormalMonsters = 0;
         for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )
         for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
             {
                 if( Map.I.Gaia2[ xx, yy ] )                                                                     // Counts tic tac monster number
                 {

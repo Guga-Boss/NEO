@@ -31,7 +31,7 @@ public class MyPathfind : MonoBehaviour
     {
         for( int y =  ( int ) area.P2.y-1; y <= area.P1.y+1; y++ )
         for( int x =  ( int ) area.P1.x-1; x <= area.P2.x+1; x++ )
-        if ( Map.PtOnMap( Quest.I.CurLevel.Tilemap, new Vector2( x, y ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
             {             
                 bool ok = false;
                 Vector2 pos = new Vector2( x, y );
@@ -54,10 +54,10 @@ public class MyPathfind : MonoBehaviour
     {
         for( int y =  ( int ) area.P2.y-1; y <= area.P1.y+1; y++ )
         for( int x =  ( int ) area.P1.x-1; x <= area.P2.x+1; x++ )
-        if ( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
             {
                 Grid[ x, y ] = MyPathfind.BLOCKED_TILE;
-                ETileType gaia = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.GAIA );
+                ETileType gaia = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.GAIA );
                 if( gaia != ETileType.FOREST ) Grid[ x, y ] = MyPathfind.PASSABLE_TILE;
 
                 if( x == ( int ) area.P1.x - 1 || x == area.P2.x + 1 ||                                        // 1 unti border to block passage out of area
@@ -77,16 +77,16 @@ public class MyPathfind : MonoBehaviour
     {
         for( int y =  ( int ) area.P2.y - 1; y <= area.P1.y + 1; y++ )
             for( int x =  ( int ) area.P1.x - 1; x <= area.P2.x + 1; x++ )
-                if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+                if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                 {
                     Grid[ x, y ] = MyPathfind.PASSABLE_TILE;
-                    //ETileType gaia = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.GAIA );
+                    //ETileType gaia = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.GAIA );
                     //if( gaia != ETileType.FOREST ) Grid[ x, y ] = MyPathfind.PASSABLE_TILE;
 
             //        if( x == ( int ) area.P1.x - 1 || x == area.P2.x + 1 ||                                        // 1 unti border to block passage out of area
             //            y == ( int ) area.P2.y - 1 || y == area.P1.y + 1 ) Grid[ x, y ] = MyPathfind.BLOCKED_TILE;
 
-                   // ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.MODIFIER );
+                   // ETileType mod = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.MODIFIER );
 
                     if( Map.I.AreaID[ x, y ] == 0 ) Grid[ x, y ] = MyPathfind.BLOCKED_TILE;
 
@@ -100,8 +100,8 @@ public class MyPathfind : MonoBehaviour
 
     public void SeedJumpMap()
     {
-        for( int y = 0; y < Map.I.Tilemap.height; y++ )
-        for( int x = 0; x < Map.I.Tilemap.width; x++ )
+        for( int y = 0; y < Map.I.TM.height; y++ )
+        for( int x = 0; x < Map.I.TM.width; x++ )
             {
                 bool ok = false;
                 Vector2 pos = new Vector2( x, y );
@@ -126,7 +126,7 @@ public class MyPathfind : MonoBehaviour
     {
         string st = "";
        // return st;
-        //if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( Map.I.Mtx, Map.I.Mty ) ) ) return st;
+        //if( Map.PtOnMap( Map.I.SRCTM, new Vector2( Map.I.Mtx, Map.I.Mty ) ) ) return st;
         if( Grid == null ) return "";
         if( Grid[ Map.I.Mtx, Map.I.Mty ] == MyPathfind.PASSABLE_TILE )
             st = "\nMypathFind Debug: Passable Tile\n";

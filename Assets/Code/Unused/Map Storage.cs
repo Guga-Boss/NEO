@@ -497,7 +497,7 @@ public partial class Map : MonoBehaviour
     }    
     public static bool IsWall( Vector2 tg, bool orb = true, bool mine = true )
     {
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return false;
         if( Map.I.Unit[ ( int ) tg.x, ( int ) tg.y ] )
         {
             if( Map.I.Unit[ ( int ) tg.x, ( int ) tg.y ].TileID == ETileType.BOULDER ) return true;
@@ -525,38 +525,6 @@ public partial class Map : MonoBehaviour
         {
             WakeUpAllMonsters();
         }
-    }
-   
-    public void CopyCubeTilemap()
-    {
-        if( Quest.CurrentLevel != -1 ) return;
-        if( CurArea.AreaTurnCount < 1 ) return;
-
-        for( int y = ( int ) P2.y; y <= P1.y; y++ )
-        for( int x = ( int ) P1.x; x <= P2.x; x++ )
-            {
-                ETileType g2 = ( ETileType ) Quest.I.CurLevel.Tilemap.GetTile( x, y, ( int ) ELayerType.GAIA2 );
-
-                if( Gaia[ x, y ] )
-                    Quest.I.CurLevel.Tilemap.SetTile( x, y, ( int ) ELayerType.GAIA, ( int ) Gaia[ x, y ].TileID );
-                else
-                    Quest.I.CurLevel.Tilemap.SetTile( x, y, ( int ) ELayerType.GAIA, ( int ) ETileType.NONE );
-
-                if( Gaia2[ x, y ] )
-                    Quest.I.CurLevel.Tilemap.SetTile( x, y, ( int ) ELayerType.GAIA2, ( int ) Gaia2[ x, y ].TileID );
-                else
-                    if( g2 != ETileType.ARTIFACT )
-                    Quest.I.CurLevel.Tilemap.SetTile( x, y, ( int ) ELayerType.GAIA2, ( int ) ETileType.NONE );
-            
-                if( Unit[ x, y ] )
-                {
-                    Quest.I.CurLevel.Tilemap.SetTile( x, y, ( int ) ELayerType.MONSTER, ( int ) Unit[ x, y ].TileID );
-                    if( Unit[ x, y ].TileID == ETileType.BARRICADE )
-                        Quest.I.CurLevel.Tilemap.SetTile( x, y, ( int ) ELayerType.MONSTER, ( int ) Unit[ x, y ].TileID + Unit[ x, y ].Variation );
-                }
-                else
-                    Quest.I.CurLevel.Tilemap.SetTile( x, y, ( int ) ELayerType.MONSTER, ( int ) ETileType.NONE );
-            }  
     }
 
     public void WakeUpAllMonsters()
@@ -651,7 +619,7 @@ public partial class Map : MonoBehaviour
     }
     public Unit GetMud( Vector2 tg )
     {
-        if( PtOnMap( Tilemap, tg ) == false ) return null;
+        if( PtOnMap( Map.I.TM, tg ) == false ) return null;
         Unit mud = Gaia[ ( int ) tg.x, ( int ) tg.y ];
         if( mud && mud.TileID == ETileType.MUD )
             return Gaia[ ( int ) tg.x, ( int ) tg.y ];
@@ -661,7 +629,7 @@ public partial class Map : MonoBehaviour
     }
     public Unit GetUnit( ETileType tile, Vector2 tg, bool checkworking = true )
     {
-        if( PtOnMap( Tilemap, tg ) == false ) return null;
+        if( PtOnMap( Map.I.TM, tg ) == false ) return null;
         if( Unit == null ) return null;
         if( Gaia == null ) return null;
         if( Gaia2 == null ) return null;
@@ -684,7 +652,7 @@ public partial class Map : MonoBehaviour
     }
     public Unit GetFire( Vector2 tg, bool checklit = true )
     {
-        if( PtOnMap( Tilemap, tg ) == false ) return null;
+        if( PtOnMap( Map.I.TM, tg ) == false ) return null;
         Unit fire = GetUnit( ETileType.FIRE, tg );
         if( fire && fire.Body.FireIsOn || checklit ) return fire;
         fire = GetUnit( ETileType.BARRICADE, tg );
@@ -728,7 +696,81 @@ public partial class Map : MonoBehaviour
                     }
             }
     }
-    
+
+   public void CopyTilemap( bool justadd, MyTilemap from, ref tk2dTileMap to, Vector2 toOrigin, Vector2 fromOrigin, int sx, int sy,
+   bool flipx, bool flipy, bool tile = true, bool gaia = true, bool gaia2 = true, bool monster = true, bool mod = true, bool dec = true, bool areas = true, bool dec2 = true, bool raft = true )
+    {
+        for( int y = 0; y < sx; y++ )
+            for( int x = 0; x < sy; x++ )
+            {
+                Vector2 tg = toOrigin + new Vector2( x, y );
+
+                if( flipx ) tg.x = ( toOrigin.x + sx - 1 ) - x;
+                if( flipy ) tg.y = ( toOrigin.y + sy - 1 ) - y;
+
+                for( int l = 0; l < 10; l++ )
+                    if( tile && l == 0 || gaia && l == 1 || gaia2 && l == 2 || monster && l == 3 ||
+                         mod && l == 4 || dec && l == 6 || areas && l == 7 || dec2 && l == 8 || raft && l == 9 )
+                    {
+                        if( justadd == false )
+                        {
+                            to.SetTile( (int) tg.x, (int) tg.y, l, (int) ETileType.NONE );
+                            Map.I.TM.SetTile( x, y, l, (int) ETileType.NONE, true );
+                        }
+                        int tl = from.GetTile( ( int ) fromOrigin.x + x, ( int ) fromOrigin.y + y, l );
+
+                        //if( tl != ( int ) ETileType.ARTIFACT )
+                        {
+                            if( justadd == false || tl != -1 )
+                            {
+                                to.SetTile( (int) tg.x, (int) tg.y, l, tl );
+
+                                if( l == (int) ELayerType.GAIA == false || Map.I.RM.InvisibleGaia( (ETileType) tl ) == false )
+                                    Map.I.TM.SetTile( (int) tg.x, (int) tg.y, l, tl, true );
+                            }
+                        }
+                        //FlipTile( to, ( ETileType ) tl, tg, l, flipx, flipy );
+                    }
+            }
+    }
+
+  public void CopyTilemap( bool justadd, MyTilemap from, ref MyTilemap to, Vector2 toOrigin, Vector2 fromOrigin, int sx, int sy,
+  bool flipx, bool flipy, bool tile = true, bool gaia = true, bool gaia2 = true, bool monster = true, bool mod = true, bool dec = true, bool areas = true, bool dec2 = true, bool raft = true )
+    {
+        for( int y = 0; y < sx; y++ )
+            for( int x = 0; x < sy; x++ )
+            {
+                Vector2 tg = toOrigin + new Vector2( x, y );
+
+                if( flipx ) tg.x = ( toOrigin.x + sx - 1 ) - x;
+                if( flipy ) tg.y = ( toOrigin.y + sy - 1 ) - y;
+
+                for( int l = 0; l < 10; l++ )
+                    if( tile && l == 0 || gaia && l == 1 || gaia2 && l == 2 || monster && l == 3 ||
+                         mod && l == 4 || dec && l == 6 || areas && l == 7 || dec2 && l == 8 || raft && l == 9 )
+                    {
+                        if( justadd == false )
+                        {
+                            to.SetTile( (int) tg.x, (int) tg.y, l, (int) ETileType.NONE );
+                            Map.I.TM.SetTile( x, y, l, (int) ETileType.NONE, true );
+                        }
+                        int tl = from.GetTile( ( int ) fromOrigin.x + x, ( int ) fromOrigin.y + y, l );
+
+                        //if( tl != ( int ) ETileType.ARTIFACT )
+                        {
+                            if( justadd == false || tl != -1 )
+                            {
+                                to.SetTile( (int) tg.x, (int) tg.y, l, tl );
+
+                                if( l == (int) ELayerType.GAIA == false || Map.I.RM.InvisibleGaia( (ETileType) tl ) == false )
+                                    Map.I.TM.SetTile( (int) tg.x, (int) tg.y, l, tl, true );
+                            }
+                        }
+                        //FlipTile( to, ( ETileType ) tl, tg, l, flipx, flipy );
+                    }
+            }
+    }
+
     public void FlipTile( tk2dTileMap tm, ETileType tl, Vector2 tg, int l, bool flipx, bool flipy )
     {
         return;
@@ -781,7 +823,7 @@ public partial class Map : MonoBehaviour
     public int GetPosArea( Vector2 pos )
     {
         if( AreaID == null ) return -1;
-        if( PtOnMap( Tilemap, pos ) == false ) return -1;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return -1;
         if( Manager.I.GameType == EGameType.NAVIGATION ) return -1;
         if( Manager.I.GameType == EGameType.FARM ) return -1;
         return AreaID[ ( int ) pos.x, ( int ) pos.y ];
@@ -795,7 +837,7 @@ public partial class Map : MonoBehaviour
     public Area GetArea( Vector2 pos )
     {
         if( AreaID == null ) return null;
-        if( PtOnMap( Tilemap, pos ) == false ) return null;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return null;
         int area = AreaID[ ( int ) pos.x, ( int ) pos.y ];
         if( area == -1 ) return null;
         return Quest.I.CurLevel.AreaList[ area ];
@@ -1044,7 +1086,7 @@ public partial class Map : MonoBehaviour
     
    public bool IsBarricade( Vector2 tg )
    {
-       if( !PtOnMap( Tilemap, tg ) ) return false;
+       if( !PtOnMap( Map.I.TM, tg ) ) return false;
        if( Unit[ ( int ) tg.x, ( int ) tg.y ] )
        if( Unit[ ( int ) tg.x, ( int ) tg.y ].TileID == ETileType.BARRICADE ) return true;
        return false;

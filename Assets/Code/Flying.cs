@@ -981,7 +981,7 @@ public partial class Controller : MonoBehaviour
         for( int dr = 0; dr < 8; dr++ )                                                               // test all 8 directions
         {
             Vector2 neigh = Unit.Pos + Manager.I.U.DirCord[ dr ];
-            if( !Map.PtOnMap( Map.I.Tilemap, neigh ) ) continue;                                      // skip if outside map
+            if( !Map.PtOnMap( Map.I.TM, neigh ) ) continue;                                      // skip if outside map
             if( Map.IsWall( neigh ) ) continue;                                                       // skip if blocked by wall
 
             Unit overarrow = Map.I.GetUnit( ETileType.ARROW, Unit.Pos );
@@ -995,7 +995,7 @@ public partial class Controller : MonoBehaviour
             {
                 Vector2 tg = Unit.Pos + Manager.I.U.DirCord[ dr ] * r;
                 Vector2 old = Unit.Pos + Manager.I.U.DirCord[ dr ] * ( r - 1 );
-                if( !Map.PtOnMap( Map.I.Tilemap, tg ) ) break;                                        // stop at edge
+                if( !Map.PtOnMap( Map.I.TM, tg ) ) break;                                        // stop at edge
 
                 if( Map.I.CheckArrowBlockFromTo( old, tg, Unit ) ) break;                             // blocked by arrow
                 if( Map.I.GetPosArea( old ) != Map.I.GetPosArea( tg ) ) break;                        // area change not allowed
@@ -1062,7 +1062,7 @@ public partial class Controller : MonoBehaviour
        for( int x = ( int ) Unit.Pos.x - range; x <= Unit.Pos.x + range; x++ )
            {
                Vector2 tg = new Vector2( x, y );
-               if( Map.PtOnMap( Map.I.Tilemap, tg ) )
+               if( Map.PtOnMap( Map.I.TM, tg ) )
                    if( Sector.IsPtInCube( tg ) )
                    {
                        Unit ga = Map.I.GetUnit( ETileType.WATER, tg );
@@ -1538,7 +1538,7 @@ public partial class Controller : MonoBehaviour
 
     public void CalculateWaspDistance()
     {
-        Map.I.WaspDist = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+        Map.I.WaspDist = new int[ Map.I.TM.width, Map.I.TM.height ];
         int id = 0;
         Map.I.ValidWaspTargetList = new List<Vector2>();
         SetWaspDistance( Unit.Pos, Unit.Control.JumpTarget, ++id );
@@ -1547,7 +1547,7 @@ public partial class Controller : MonoBehaviour
     public bool SetWaspDistance( Vector2 from, Vector2 to, int id )
     {
         if( id > MotherWaspRadius + 5 ) return false;  
-        if( Map.PtOnMap( Map.I.Tilemap, to ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, to ) == false ) return false;
         Unit ga = Map.I.GetUnit( to, ELayerType.GAIA );
         if( Map.IsWall( to ) ) return false;
         if( from != to )
@@ -1823,7 +1823,7 @@ public partial class Controller : MonoBehaviour
         Vector3 currentPos = unitTrans.position;                         // Cache position (avoids double C++ interop call);
 
         int posx = 0, posy = 0;
-        mapI.Tilemap.GetTileAtPosition( currentPos, out posx, out posy );
+        mapI.TM.GetTileAtPosition( currentPos, out posx, out posy );
 
         Vector2 newPos = new Vector2( posx, posy );                      // Stack allocation (Zero GC);
         TileChanged = false;
@@ -1845,7 +1845,7 @@ public partial class Controller : MonoBehaviour
 
         if( TileChanged )                                                                    // Check TileChanged before PtOnMap to save CPU;
         {
-            if( Map.PtOnMap( mapI.Tilemap, newPos ) )                                        // Use the cached Vector2 newPos
+            if( Map.PtOnMap( mapI.TM, newPos ) )                                        // Use the cached Vector2 newPos
             {
                 var targetCell = mapI.FUnit[ posx, posy ];                                   // Cache 2D array access
 
@@ -2170,7 +2170,7 @@ public partial class Controller : MonoBehaviour
                     ga2.Kill();
 
                 int posx = 0, posy = 0;                                                                            // Tile Calculation
-                Map.I.Tilemap.GetTileAtPosition( tg, out posx, out posy );
+                Map.I.TM.GetTileAtPosition( tg, out posx, out posy );
                 r.Control.TileChanged = false;
                 if( r.Pos != new Vector2( posx, posy ) )
                 {
@@ -2728,7 +2728,7 @@ public partial class Controller : MonoBehaviour
     }
     public static Unit GetRaft( Vector2 tg )                                                                 // Returns raft in position
     {
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return null;
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return null;
         if( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ] != null )
         for( int i = 0; i < Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ].Count; i++ )
             {
@@ -2744,7 +2744,7 @@ public partial class Controller : MonoBehaviour
         List<Unit> rl = new List<Unit>();
         for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )
         for( int x = ( int ) s.Area.xMin; x < s.Area.xMax; x++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
         {
             Unit tgRaft = GetRaft( new Vector2( x, y ) );
             if( tgRaft )
@@ -2822,7 +2822,7 @@ public partial class Controller : MonoBehaviour
             List<Unit> fl = new List<Unit>();
             for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )
             for( int x = ( int ) s.Area.xMin; x < s.Area.xMax; x++ )
-            if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+            if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                     {
                         Unit tgFog = GetFog( new Vector2( x, y ) );
                         if( tgFog )
@@ -2944,7 +2944,7 @@ public partial class Controller : MonoBehaviour
                     }
 
                 int posx = 0, posy = 0;                                                                            // Tile Calculation
-                Map.I.Tilemap.GetTileAtPosition( tg, out posx, out posy );
+                Map.I.TM.GetTileAtPosition( tg, out posx, out posy );
                 r.Control.TileChanged = false;
                 if( r.Pos != new Vector2( posx, posy ) )
                 {
@@ -2985,7 +2985,7 @@ public partial class Controller : MonoBehaviour
     
     public static Unit GetFog( Vector2 tg )                                                                 // Returns fog in position
     {
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return null;
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return null;
         if( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ] != null )
             for( int i = 0; i < Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ].Count; i++ )
             {
@@ -3001,7 +3001,7 @@ public partial class Controller : MonoBehaviour
         List<Unit> rl = new List<Unit>();
         for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )
             for( int x = ( int ) s.Area.xMin; x < s.Area.xMax; x++ )
-                if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+                if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                 {
                     Unit tgFog = GetFog( new Vector2( x, y ) );
                     if( tgFog )
@@ -3274,8 +3274,8 @@ public partial class Controller : MonoBehaviour
         if( water == null )
         {
             var dirCords = Manager.I.U.DirCord;                          // Cache direction array;
-            uint h = ( uint ) mapI.Tilemap.height;                       // Cache map height;
-            uint w = ( uint ) mapI.Tilemap.width;                        // Cache map width;
+            uint h = ( uint ) mapI.TM.height;                       // Cache map height;
+            uint w = ( uint ) mapI.TM.width;                        // Cache map width;
 
             for( int dr = 0; dr < 8; dr++ )
             {
@@ -3392,7 +3392,7 @@ public partial class Controller : MonoBehaviour
 
     public static Unit GetBlocker( Vector2 tg )                                                                 
     {
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return null;
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return null;
         if( Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ] != null )
         for( int i = 0; i < Map.I.FUnit[ ( int ) tg.x, ( int ) tg.y ].Count; i++ )
             {

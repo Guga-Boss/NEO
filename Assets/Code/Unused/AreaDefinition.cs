@@ -97,12 +97,12 @@ public class AreaDefinition : MonoBehaviour
     
     public static void Populate( Area area, AreaDefinition pad, bool deleteOld )
     {
-        tk2dTileMap tm = Quest.I.Dungeon.Tilemap;
+        MyTilemap tm = Map.I.SRCTM;
         if( deleteOld )
         {
             for( int i = 0; i < RM.CreatedTilesPos.Count; i++ )
-                Quest.I.Dungeon.Tilemap.SetTile( ( int ) RM.CreatedTilesPos[ i ].x,
-                                                 ( int ) RM.CreatedTilesPos[ i ].y, ( int ) RM.CreatedTilesLayer[ i ], -1 );
+                Map.I.SRCTM.SetTile( ( int ) RM.CreatedTilesPos[ i ].x,
+                                     ( int ) RM.CreatedTilesPos[ i ].y, ( int ) RM.CreatedTilesLayer[ i ], -1 );
         }
 
         AreaDefinition.Current = pad;
@@ -192,13 +192,13 @@ public class AreaDefinition : MonoBehaviour
             if( ok )
             {
                 Vector2 pos = pl[ id ];
-                Quest.I.Dungeon.Tilemap.SetTile( ( int ) pl[ id ].x, ( int )            // Sets the tile on tilemap
+                Map.I.SRCTM.SetTile( ( int ) pl[ id ].x, ( int )            // Sets the tile on tilemap
                 pl[ id ].y, ( int ) layer, ( int ) ttype );
 
                 if( td.Mod != EModType.NONE )
                 {
                     ETileType md = Mod.GetTileIDforMod( td.Mod );  
-                    Quest.I.Dungeon.Tilemap.SetTile( ( int ) pl[ id ].x, ( int )        // Sets the mod number
+                    Map.I.SRCTM.SetTile( ( int ) pl[ id ].x, ( int )        // Sets the mod number
                     pl[ id ].y, ( int ) ELayerType.MODIFIER, ( int ) md );
                 }
 

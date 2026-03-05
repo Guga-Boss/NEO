@@ -16,6 +16,7 @@ public class RandomMap : MonoBehaviour
     public Vector2 LabCordOrigin, AreasTMOrigin;
     public Rect LabArea;
     public tk2dTileMap AreasTM;
+    public MyTilemap TempTM;
     public Sector[,] RMSector;
     public List<RandomMapData> RMList;
     public Sector.ESectorType HeroSectorType;
@@ -113,7 +114,7 @@ public class RandomMap : MonoBehaviour
         Manager.I.GameType = EGameType.CUBES;
         AreaDefinition.RM = this;
         Quest.CurrentLevel = -1;        
-        Map.I.AreaID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+        Map.I.AreaID = new int[ Map.I.TM.width, Map.I.TM.height ];
 
         LockSectorJump = false;
         LockWayPointJump = false;
@@ -139,12 +140,15 @@ public class RandomMap : MonoBehaviour
         for( int i = 0; i < RMD.SDList.Length; i++ )
             RMD.SDList[ i ].Reset();
 
-        if( AreasTM )  AreasTM.gameObject.SetActive( false ); //gggg
         UI.I.FarmUI.gameObject.SetActive( false );
         BluePrintWindow.I.gameObject.SetActive( false );
-        
-        tk2dTileMap tm = Quest.I.Dungeon.Tilemap;
-        TKUtil.CreateBlankMap( ref tm );        
+
+        Map.I.TM.width = 256;                                                             // Initializes tilemaps
+        Map.I.TM.height = 256;
+        TempTM.InitData( 59, 59 );
+        Map.I.SRCTM.InitData( Map.I.TM.width, Map.I.TM.height );
+        Map.I.TM.InitData( Map.I.TM.width, Map.I.TM.height );
+        MyTilemap tm = Map.I.SRCTM;
         Map.I.TransTilemapUpdateList = new List<VI>();
         
         MapCenter = new Vector2( ( int ) tm.width / 2, ( int ) tm.height / 2 );        
@@ -158,7 +162,7 @@ public class RandomMap : MonoBehaviour
             {
                 if( Util.IsMultiple( x, Sector.TSX ) || Util.IsMultiple( y, Sector.TSY ) )
                 {
-                    Quest.I.CurLevel.Tilemap.SetTile( x, y, (int) ELayerType.GAIA, (int) ETileType.FOREST );
+                    Map.I.SRCTM.SetTile( x, y, (int) ELayerType.GAIA, (int) ETileType.FOREST );
                     Fl.Add( new VI( x, y ) );
                 }
             }
@@ -214,23 +218,25 @@ public class RandomMap : MonoBehaviour
 
         LabArea = new Rect( RMSector[ ( int ) LabCordOrigin.x, ( int ) LabCordOrigin.y ].Area.x,
                             RMSector[ ( int ) LabCordOrigin.x, ( int ) LabCordOrigin.y ].Area.yMin -
-                              Sector.TSY, ( Sector.TSX * 2 ) - 1, ( Sector.TSY * 2 ) - 1 );
+                            Sector.TSY, ( Sector.TSX * 2 ) - 1, ( Sector.TSY * 2 ) - 1 );
 
         string fl = MapSaver.GetCustomFilename( EMapTemplate._LAB_ );
-        MapSaver.I.LoadMap( fl, Map.I.Tilemap, null, "nocubedata" );
 
-        Map.I.CopyTilemap( false, Map.I.Tilemap, ref Quest.I.Dungeon.Tilemap,               // Copy Lab Tiles
-                           LabArea.position, new Vector2( 0, 0 ),
-                                  Map.I.Tilemap.width,
-                                  Map.I.Tilemap.height, false, false );
+        MapSaver.I.LoadMap( fl, null, TempTM, "nocubedata" );
+
+        Map.I.CopyTilemap( false, TempTM, ref Map.I.SRCTM,                                                   // Copy Lab Tiles
+        LabArea.position, new Vector2( 0, 0 ), TempTM.width, TempTM.height, false, false );
+
+        //Map.I.Tilemap_old.height = Map.I.TM.height;
+        //Map.I.Tilemap_old.width = Map.I.TM.width;
 
         //for( int y = ( int ) LabArea.yMin; y < LabArea.yMax; y++ )                                                            // Apply Lab modifications
         //for( int x = ( int ) LabArea.xMin; x < LabArea.xMax; x++ )
-        //if ( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+        //if ( Map.PtOnMap( Map.I.SRCTM new Vector2( x, y ) ) )
         //{
         //    ApplyMod( x, y, RMD.LabModAction, RMD.LabModValue );
         //}  
-    }    
+    }
 
     public void CreateGate( bool horiz, Vector2 pos, int size )
     {
@@ -243,7 +249,7 @@ public class RandomMap : MonoBehaviour
             {
                 int x = ( int ) pos.x - ( size / 2 ) + i;
                 int y = ( int ) pos.y;
-                Quest.I.Dungeon.Tilemap.SetTile( x, y, layer, tile );
+                Map.I.SRCTM.SetTile( x, y, layer, tile );
                 Dl.Add( new VI( x, y ) );
                 Fl.Remove( new VI( x, y ) );
             }
@@ -251,7 +257,7 @@ public class RandomMap : MonoBehaviour
             {
                 int x = ( int ) pos.x;
                 int y = ( int ) pos.y - ( size / 2 ) + i;
-                Quest.I.Dungeon.Tilemap.SetTile( x, y, layer, tile );
+                Map.I.SRCTM.SetTile( x, y, layer, tile );
                 Dl.Add( new VI( x, y ) );
                 Fl.Remove( new VI( x, y ) );
             }
@@ -372,8 +378,7 @@ public class RandomMap : MonoBehaviour
     
     public bool CheckMap( Area area )
     {
-        tk2dTileMap tm = Quest.I.Dungeon.Tilemap;
-        MyPathfind.I.CreateMap( Map.I.Tilemap.width, Map.I.Tilemap.height );
+        MyPathfind.I.CreateMap( Map.I.TM.width, Map.I.TM.height );
         MyPathfind.I.SeedForestMap( area );
 
         for( int y =  ( int ) area.P2.y; y <= area.P1.y; y++ )
@@ -382,8 +387,8 @@ public class RandomMap : MonoBehaviour
         for( int xx = ( int ) area.P1.x; xx <= area.P2.x; xx++ )
         if( x != xx && y != yy )
         {
-            ETileType mn1 = ( ETileType ) tm.GetTile( x, y, ( int ) ELayerType.MONSTER );
-            ETileType mn2 = ( ETileType ) tm.GetTile( xx, yy, ( int ) ELayerType.MONSTER );
+            ETileType mn1 = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.MONSTER );
+            ETileType mn2 = ( ETileType ) Map.I.SRCTM.GetTile( xx, yy, ( int ) ELayerType.MONSTER );
 
             if( mn1 == ETileType.ROACH || mn1 == ETileType.SCARAB )
                 if( mn2 == ETileType.ROACH || mn2 == ETileType.SCARAB )
@@ -406,9 +411,9 @@ public class RandomMap : MonoBehaviour
 
         for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )
         for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         {
-            ETileType ga2 = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( xx, yy, ( int ) ELayerType.GAIA2 );
+            ETileType ga2 = ( ETileType ) Map.I.SRCTM.GetTile( xx, yy, ( int ) ELayerType.GAIA2 );
 
             if( ga2 == ETileType.ARTIFACT )
             {
@@ -517,7 +522,7 @@ public class RandomMap : MonoBehaviour
         if( !lab ) area = s.Area;
 
         if( lab )
-            Quest.I.CreateArtifacts( Quest.I.LabList[ Quest.CurrentDungeon ].Tilemap, Quest.I.Dungeon,                                        // Create Artifacts
+            Quest.I.CreateArtifacts( Map.I.SRCTM, Quest.I.Dungeon,                                        // Create Artifacts
                                    -1, -2, Quest.I.Dungeon.ArtifactFolder, LabArea.position, area, null );
 
         //else
@@ -542,7 +547,7 @@ public class RandomMap : MonoBehaviour
                 Artifact ar = Quest.I.Dungeon.ArtifactList[ a ];
                 Vector2 pt = ar.Pos;
 
-                ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) ar.Pos.x,
+                ETileType mod = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) ar.Pos.x,
                                                  ( int ) ar.Pos.y, ( int ) ELayerType.MODIFIER );
 
                 //if( RMD.LabModAction != null )
@@ -552,7 +557,7 @@ public class RandomMap : MonoBehaviour
                 //    RMD.LabModAction.Length > 3 && RMD.LabModAction[ 3 ] == EModAction.SwapArtifacts && m == 3 && mod == ETileType.MOD4 )
                 //{
                 //    al.Add( ar );
-                //    //Quest.I.Dungeon.Tilemap.SetTile( ( int ) ar.Pos.x,
+                //    //Map.I.SRCTM.SetTile( ( int ) ar.Pos.x,
                 //    //                                 ( int ) ar.Pos.y, ( int ) ELayerType.MODIFIER, -1 );   // Foi removido, verificar se nao deu bug
                 //}
             }
@@ -636,35 +641,25 @@ public class RandomMap : MonoBehaviour
         Vector2 cord = new Vector2( 0, 0 );      
 
         MapSaver.I.CurrentSector = s;
-        MapSaver.I.Load();
+        //MapSaver.I.Load();
 
-        s.FlipX = false;                                                                     // Flip sector Stuff
-        if( SD.FlipX == EFlipSector.RAND )
-        if( Util.Chance( 50 ) ) s.FlipX = true;
-        if( SD.FlipX == EFlipSector.FORCE_YES )
-            s.FlipX = true;
+        string nm = ORMD.QuestHelper.SubFolder + "/" + ORMD.QuestHelper.Signature + "/Cube " + s.Number; 
+        string file = Application.dataPath + "/Resources/Map Templates/" + nm + ".NEO";
 
-        Util.ToBool( Helper.I.ForceFlipX, ref  s.FlipX );
+        bool res = MapSaver.I.LoadMap( file, null, TempTM );
 
-        s.FlipY = false;
-        if( SD.FlipY == EFlipSector.RAND )
-        if( Util.Chance( 50 ) ) s.FlipY = true;
-        if( SD.FlipY == EFlipSector.FORCE_YES )
-            s.FlipY = true;
-        Util.ToBool( Helper.I.ForceFlipY, ref  s.FlipY );
+
+
 
         Vector2 toorigin = s.Area.position;
         if( s.Type == Sector.ESectorType.NORMAL )
         {                                                                                                                             // Copy tilemap
-            Map.I.CopyTilemap( true, AreasTM, ref Quest.I.Dungeon.Tilemap, toorigin, cord, ts, ts, s.FlipX, s.FlipY );
-
-            Map.I.CopyTilemap( true, AreasTM, ref Map.I.Tilemap, toorigin, cord, ts, ts, s.FlipX, s.FlipY, true,                      // Copy only Terrain tilemap
-            false, false, false, false, false, false, false, false );
+            Map.I.CopyTilemap( true, TempTM, ref Map.I.SRCTM, toorigin, cord, ts, ts, s.FlipX, s.FlipY );
             AreasTMOrigin = cord;
         }
 
         //UpdatePuzzleCopy( s );
-        Map.I.CreateAreas( Quest.I.Dungeon.Tilemap, Quest.CurrentDungeon, Quest.I.Dungeon, s.Area, ref s.AreaList, s, SD );          // Create Areas
+        Map.I.CreateAreas( Map.I.SRCTM, Quest.CurrentDungeon, Quest.I.Dungeon, s.Area, ref s.AreaList, s, SD );          // Create Areas
         s.AreasCreated = true;
 
         if( Map.I.LevelStats.NormalSectorsDiscovered >= RMD.MinimumMarkedAreaSector )                                                // Marked areaSort
@@ -676,14 +671,14 @@ public class RandomMap : MonoBehaviour
 
         for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )
         for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-        if( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+        if( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
             {
-                ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( xx, yy, ( int ) ELayerType.MODIFIER );
+                ETileType mod = ( ETileType ) Map.I.SRCTM.GetTile( xx, yy, ( int ) ELayerType.MODIFIER );
 
                 if( mod == ETileType.LEVEL_ENTRANCE )                                                                      // Set sector enter pos for each sector for jump
                 {
                     s.RescuePos = new Vector2( xx, yy );
-                    //Quest.I.Dungeon.Tilemap.SetTile( xx, yy, ( int ) ELayerType.MODIFIER, -1 );
+                    //Map.I.SRCTM.SetTile( xx, yy, ( int ) ELayerType.MODIFIER, -1 );
                 }
 
                 ApplyMod( xx, yy, SD.ModAction, SD.ModValue );                                                             // Apply Lab mod
@@ -700,7 +695,7 @@ public class RandomMap : MonoBehaviour
         //if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
         //if ( PuzzleArea[ xx, yy ] == 0 )
         //    {
-        //        ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( xx, yy, ( int ) ELayerType.MODIFIER );
+        //        ETileType mod = ( ETileType ) Map.I.SRCTM.GetTile( xx, yy, ( int ) ELayerType.MODIFIER );
 
         //        if( mod == ETileType.PUZZLE )
         //        {
@@ -710,10 +705,10 @@ public class RandomMap : MonoBehaviour
         //            Vector2 nw = new Vector2( -1, -1 );
         //            Vector2 sw2 = new Vector2( -1, -1 );
 
-        //            int right  = Map.GetTileLineSize( Quest.I.Dungeon.Tilemap, new Vector2( xx, yy ), new Vector2( 1, 0 ), ETileType.PUZZLE, ref se );
-        //            int top    = Map.GetTileLineSize( Quest.I.Dungeon.Tilemap, se, new Vector2( 0, 1 ), ETileType.PUZZLE, ref ne );
-        //            int left   = Map.GetTileLineSize( Quest.I.Dungeon.Tilemap, ne, new Vector2( -1, 0 ), ETileType.PUZZLE, ref nw );
-        //            int bottom = Map.GetTileLineSize( Quest.I.Dungeon.Tilemap, nw, new Vector2( 0, -1 ), ETileType.PUZZLE, ref sw2 );
+        //            int right  = Map.GetTileLineSize( Map.I.SRCTM, new Vector2( xx, yy ), new Vector2( 1, 0 ), ETileType.PUZZLE, ref se );
+        //            int top    = Map.GetTileLineSize( Map.I.SRCTM, se, new Vector2( 0, 1 ), ETileType.PUZZLE, ref ne );
+        //            int left   = Map.GetTileLineSize( Map.I.SRCTM, ne, new Vector2( -1, 0 ), ETileType.PUZZLE, ref nw );
+        //            int bottom = Map.GetTileLineSize( Map.I.SRCTM, nw, new Vector2( 0, -1 ), ETileType.PUZZLE, ref sw2 );
 
         //            Debug.Log( right + " " + top + " " + left + "  " + bottom + "  " + sw + " " + se + "  " + ne + "  " + nw + "  " + sw2 );
 
@@ -731,7 +726,7 @@ public class RandomMap : MonoBehaviour
         //                    bool flipy = false;
         //                    if( Util.Chance( 50 ) ) flipy = true;
 
-        //                    Map.I.CopyTilemap( true, AreasTM, ref Quest.I.Dungeon.Tilemap, sw, new Vector2( 0, 0 ), right, top, flipx, flipy );
+        //                    Map.I.CopyTilemap( true, AreasTM, ref Map.I.SRCTM, sw, new Vector2( 0, 0 ), right, top, flipx, flipy );
         //                    PuzzleCount++;
         //                }                    
         //        }
@@ -742,7 +737,7 @@ public class RandomMap : MonoBehaviour
     {
         for( int i = 0; i < ma.Length; i++ )
         {
-            ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( xx, yy, ( int ) ELayerType.MODIFIER );
+            ETileType mod = ( ETileType ) Map.I.SRCTM.GetTile( xx, yy, ( int ) ELayerType.MODIFIER );
             bool del = false;
             ETileType modnum = ETileType.MOD1 + i;        // atencao pois mudou o sistema depois de mudar para 128 x128, use EModType mod = GetModInTile( pt );
             if( mod == modnum )
@@ -757,11 +752,11 @@ public class RandomMap : MonoBehaviour
                 if( chance != -1 )
                     if( Util.Chance( chance ) )
                     {
-                        Quest.I.Dungeon.Tilemap.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1 );
-                        Quest.I.Dungeon.Tilemap.SetTile( xx, yy, ( int ) ELayerType.GAIA2, -1 );
+                        Map.I.SRCTM.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1 );
+                        Map.I.SRCTM.SetTile( xx, yy, ( int ) ELayerType.GAIA2, -1 );
                     }
 
-                ETileType g2 = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( xx, yy, ( int ) ELayerType.GAIA2 );           // Rotation
+                ETileType g2 = ( ETileType ) Map.I.SRCTM.GetTile( xx, yy, ( int ) ELayerType.GAIA2 );           // Rotation
 
                 int num = ( int ) mv[ i ];
                 if( num > 4 ) num = 4;
@@ -780,7 +775,7 @@ public class RandomMap : MonoBehaviour
                     TKUtil.Settile( xx, yy, Map.I.RotateTile( ( int ) g2, fact ) );
                     del = true;
                 }
-                //if( del ) Quest.I.Dungeon.Tilemap.SetTile( xx, yy, ( int ) ELayerType.MODIFIER, -1 ); // Removido, ver se nao deu bug
+                //if( del ) Map.I.SRCTM.SetTile( xx, yy, ( int ) ELayerType.MODIFIER, -1 ); // Removido, ver se nao deu bug
             }
         }
     }
@@ -882,7 +877,7 @@ public class RandomMap : MonoBehaviour
 
         for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )                                                    // Create sector objects 
         for( int x = ( int ) s.Area.xMin; x < s.Area.xMax; x++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
             {
                 Map.I.UpdateTileGameObjectCreation( x, y, ELayerType.RAFT );
                 if( Map.I.Unit[ x, y ] != null )
@@ -953,10 +948,10 @@ public class RandomMap : MonoBehaviour
         List<Vector2> mList = new List<Vector2>(); 
         for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )                                                    // Create sector objects 
         for( int x = ( int ) s.Area.xMin; x < s.Area.xMax; x++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
             {
                 ETileType mod = ( ETileType )
-                Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.MODIFIER );
+                Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.MODIFIER );
                 //Map.I.TransTilemapUpdateList.Add( new Vector2( x, y ) ); neo opt
 
                 if( Map.I.Unit[ x, y ] != null )
@@ -1026,7 +1021,7 @@ public class RandomMap : MonoBehaviour
                 {
                     if( Map.I.Gaia2[ x, y ].TileID == ETileType.CAMERA )
                     {
-                        int ori = ( int ) Quest.I.Dungeon.Tilemap.GetTile(                                          // camera obj hidden
+                        int ori = ( int ) Map.I.SRCTM.GetTile(                                          // camera obj hidden
                          x, y, ( int ) ELayerType.AREAS );
                         if( ( int ) mod == -1 && ori == -1 )
                             Map.I.Gaia2[ x, y ].gameObject.SetActive( true );
@@ -1067,11 +1062,11 @@ public class RandomMap : MonoBehaviour
         s.CheckpointList = new List<Vector2>();
         for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )
         for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         {
             UpdateColliderCreation( new Vector2( xx, yy ) );                                                                 // Create colliders
 
-            ETileType tile = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(                                                  // Pre defined burning objects
+            ETileType tile = ( ETileType ) Map.I.SRCTM.GetTile(                                                  // Pre defined burning objects
                                       xx, yy, ( int ) ELayerType.MODIFIER );
 
             if( Map.I.Gaia2[ xx, yy ] )                                                                                      // Savegame List for jumping
@@ -1133,7 +1128,7 @@ public class RandomMap : MonoBehaviour
             Map.I.ClearTransTile( xx, yy, 1 );                                                                           // optimize apenas gaia tiles (nao sei se da, optimize no GS.LOad tambem)
             Map.I.ClearTransTile( xx, yy, 2 );
             
-            ETileType ga = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( xx, yy, 1 );                                   // clears gaia Back tiles so only traps will be shown
+            ETileType ga = ( ETileType ) Map.I.SRCTM.GetTile( xx, yy, 1 );                                   // clears gaia Back tiles so only traps will be shown
             if( InvisibleGaia( ga ) )
                {
                  //Map.I.Tilemap.SetTile( xx, yy, ( int ) ELayerType.GAIA, -1 );
@@ -1164,8 +1159,8 @@ public class RandomMap : MonoBehaviour
 
         for(int i = 0; i < ToggleList.Count; i++)
         {
-            Map.I.Tilemap.SetTile( ( int ) ToggleList[ i ].x, ( int ) ToggleList[ i ].y, ( int ) ELayerType.DECOR, -1 );                    // del bool togle tile decor 1  
-            Map.I.Tilemap.SetTile( ( int ) ToggleList[ i ].x, ( int ) ToggleList[ i ].y, ( int ) ELayerType.DECOR2, -1 );                   // del bool togle tile decor 2  
+            Map.I.TM.SetTile( ( int ) ToggleList[ i ].x, ( int ) ToggleList[ i ].y, ( int ) ELayerType.DECOR, -1 );                    // del bool togle tile decor 1  
+            Map.I.TM.SetTile( ( int ) ToggleList[ i ].x, ( int ) ToggleList[ i ].y, ( int ) ELayerType.DECOR2, -1 );                   // del bool togle tile decor 2  
         }
 
         s.SteppingMode = RMD.SteppingMode;                                         // Stepping mode as Default?
@@ -1175,7 +1170,7 @@ public class RandomMap : MonoBehaviour
         Map.I.SetMovementMode( s.SteppingMode );
 
         ModedUnitlList = new List<Unit>();
-        Quest.I.Dungeon.Tilemap.gameObject.SetActive( false );
+        Map.I.SRCTM.gameObject.SetActive( false );
 
         Mod.PostModInitialization( s );                       
 
@@ -1276,18 +1271,18 @@ public class RandomMap : MonoBehaviour
     
     public void CopyDecorTiles( int x, int y )
     {
-        ETileType tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.DECOR );                  // copies decor tiles 
-        Map.I.Tilemap.SetTile( x, y, (int) (int) ELayerType.DECOR, (int) tl );
+        ETileType tl = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.DECOR );                  // copies decor tiles 
+        Map.I.TM.SetTile( x, y, (int) (int) ELayerType.DECOR, (int) tl );
         Map.I.TM.SetTile( x, y, ( int ) ELayerType.DECOR, ( int ) tl, true );
 
-        tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.DECOR2 );
-        Map.I.Tilemap.SetTile( x, y, ( int ) ( int ) ELayerType.DECOR2, ( int ) tl );
+        tl = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.DECOR2 );
+        Map.I.TM.SetTile( x, y, ( int ) ( int ) ELayerType.DECOR2, ( int ) tl );
         Map.I.TM.SetTile( x, y, ( int ) ELayerType.DECOR2, ( int ) tl, true );
 
-        tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( x, y, ( int ) ELayerType.GAIA );                             // copy decor gaia
-        if( tl >= 0 && ( int ) tl < Map.I.Tilemap.data.tileInfo.Length )
+        //tl = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.GAIA );                             // copy decor gaia
+        //if( tl >= 0 && ( int ) tl < Map.I.Tilemap_trash.data.tileInfo.Length )
         {
-            var tileInfo = Map.I.Tilemap.data.tileInfo[ ( int ) tl ];
+            //var tileInfo = Map.I.Tilemap_trash.data.tileInfo[ ( int ) tl ];
             //if( tileInfo.Layer == ELayerType.GAIA )
             //{
             //    Map.I.Tilemap.SetTile( x, y, ( int ) ( int ) ELayerType.GAIA, ( int ) tl );
@@ -1301,10 +1296,10 @@ public class RandomMap : MonoBehaviour
         if( Map.I.AreaID[ ( int ) tg.x, ( int ) tg.y ] <= 0 ) return false;
         if( Map.I.RM.PuzzleArea[ ( int ) tg.x, ( int ) tg.y ] > 0 ) return false;
 
-        ETileType gaia = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.GAIA );
-        ETileType gaia2 = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.GAIA2 );
-        ETileType monster = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.MONSTER );
-        ETileType mod = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.MODIFIER );
+        ETileType gaia = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.GAIA );
+        ETileType gaia2 = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.GAIA2 );
+        ETileType monster = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.MONSTER );
+        ETileType mod = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.MODIFIER );
 
         if( mod == ETileType.LEVEL_ENTRANCE ) return false;
         monster = Map.GetTileID( monster );
@@ -1351,10 +1346,10 @@ public class RandomMap : MonoBehaviour
                 int tl = tile;
                 tl += xx;
                 tl += ( ( yy ) * 128 );
-                if( Map.PtOnMap( Map.I.Tilemap, tg ) )
+                if( Map.PtOnMap( Map.I.TM, tg ) )
                 {
-                    Map.I.Tilemap.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR, ( int ) tl );
-                    Quest.I.Dungeon.Tilemap.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR, ( int ) tl );
+                    Map.I.TM.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR, ( int ) tl );
+                    Map.I.SRCTM.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR, ( int ) tl );
                     Map.I.TM.SetTile( ( int ) tg.x, ( int ) tg.y, (int) ELayerType.DECOR, ( int ) tl, true );
                 }
             }
@@ -1656,7 +1651,7 @@ public class RandomMap : MonoBehaviour
             return;
         }
 
-        MyPathfind.I.CreateMap( Map.I.Tilemap.width, Map.I.Tilemap.height );                                         // Check Path
+        MyPathfind.I.CreateMap( Map.I.TM.width, Map.I.TM.height );                                         // Check Path
         MyPathfind.I.SeedJumpMap();
         MyPathfind.I.GetPath( Map.I.Hero.Pos, poslist[ HeroSector.LastAreaJumpID ] );
         if( MyPathfind.I.Path != null && MyPathfind.I.Path.Length > 1 )                                              // Fill move array
@@ -1819,7 +1814,7 @@ public class RandomMap : MonoBehaviour
             }
             else
             {
-                MyPathfind.I.CreateMap( Map.I.Tilemap.width, Map.I.Tilemap.height );
+                MyPathfind.I.CreateMap( Map.I.TM.width, Map.I.TM.height );
                 MyPathfind.I.SeedJumpMap();
                 MyPathfind.I.GetPath( Map.I.Hero.Pos, to );
                 G.Hero.Control.PathFinding.Path.Clear();
@@ -1994,7 +1989,7 @@ public class RandomMap : MonoBehaviour
         //                                {
         //                                    TKUtil.SetTile( new Vector2( MyPathfind.I.Path[ p ].x,
         //                                    MyPathfind.I.Path[ p ].y ), ETileType.OPENBLACKGATE );
-        //                                    Quest.I.Dungeon.Tilemap.SetTile( ( int ) MyPathfind.I.Path[ p ].x,
+        //                                    Map.I.SRCTM.SetTile( ( int ) MyPathfind.I.Path[ p ].x,
         //                                    ( int ) MyPathfind.I.Path[ p ].y, ( int ) ELayerType.GAIA, -1 );
         //                                 }
         //                            }
@@ -2235,7 +2230,7 @@ public class RandomMap : MonoBehaviour
             {
                 for( int y = ( int ) LabArea.yMin; y < LabArea.yMax; y++ )
                 for( int x = ( int ) LabArea.xMin; x < LabArea.xMax; x++ )
-                if ( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )  // Watch for bugs ***
+                if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )  // Watch for bugs ***
                 {
                     Quest.I.UpdateArtifactStepping( new Vector2( x, y ) );
                 }
@@ -2261,7 +2256,7 @@ public class RandomMap : MonoBehaviour
         for( int i = 0; i < 8; i++ )                                                                                           // Check for Free Gate
         {
             Vector2 aux = tg + Manager.I.U.DirCord[ i ];
-            if( Map.PtOnMap( Map.I.Tilemap, aux ) )
+            if( Map.PtOnMap( Map.I.TM, aux ) )
             {
                 Sector s = Sector.GetPosSector( aux );
 
@@ -2380,7 +2375,7 @@ public class RandomMap : MonoBehaviour
 
         for( int y = ( int ) LabArea.yMin; y < LabArea.yMax; y++ )
             for( int x = ( int ) LabArea.xMin; x < LabArea.xMax; x++ )
-                if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+                if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                     if( Quest.I.GetArtifactInPos( new Vector2( x, y ) ) )
                 {
                     tgl.Add( new Vector2( x, y ) );

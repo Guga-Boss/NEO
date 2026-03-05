@@ -17,8 +17,8 @@ public class ShakePlatformAnimation : MonoBehaviour
         an.Sprite.gameObject.transform.localPosition = Vector3.zero;
         float amt = .05f;
         iTween.ShakePosition( an.Sprite.gameObject, new Vector3( amt, amt, 0 ), 2f );
-        Color col = Quest.I.CurLevel.Tilemap.ColorChannel.GetColor( ( int ) position.x, ( int ) position.y );
-        an.Sprite.color = col;
+        //Color col = Quest.I.CurLevel.Tilemap.ColorChannel.GetColor( ( int ) position.x, ( int ) position.y );
+        //an.Sprite.color = col;
 
     }
 

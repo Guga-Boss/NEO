@@ -112,7 +112,7 @@ public class Chests : MonoBehaviour
         int amt = 0;
         for( int yy = ( int )  G.HS.Area.yMin - 1; yy < G.HS.Area.yMax + 1; yy++ )             // loop
         for( int xx = ( int ) G.HS.Area.xMin - 1;  xx < G.HS.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         {
             Unit it = Map.I.Gaia2[ xx, yy ];
             if( it && Map.I.Gaia2[ xx, yy ].TileID == ETileType.ITEM )                         // chest found

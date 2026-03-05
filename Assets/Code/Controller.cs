@@ -1479,7 +1479,7 @@ public partial class Controller : MonoBehaviour
     public void UpdateResourceCollecting( Vector2 tg, bool onlyMonster )
     {
         if( Quest.CurrentLevel != -1 ) return;
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return;
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return;
         if( Unit.TileID == ETileType.BOULDER ) return;                                                               // Boulder do not destroy resource
         if( Unit.TileID == ETileType.RAFT ) return;
 
@@ -2664,7 +2664,7 @@ public partial class Controller : MonoBehaviour
         {
             if( Manager.I.GameType == EGameType.CUBES )
             if( Map.I.RM.RMD.ClassicBarricadeDestruction )
-            if( Map.PtOnMap( Map.I.Tilemap, bestbarricade ) )
+            if( Map.PtOnMap( Map.I.TM, bestbarricade ) )
                 Unit.CheckBarricadeBlock( true, pos, bestbarricade );
             return;
         }
@@ -3143,7 +3143,7 @@ public partial class Controller : MonoBehaviour
     {
         if( Unit == null ) return Vector3.zero;
         if( Unit.Pos.x == -1 ) return Vector3.zero;
-        if( Map.PtOnMap( Map.I.Tilemap, Unit.Pos ) == false )
+        if( Map.PtOnMap( Map.I.TM, Unit.Pos ) == false )
             return Vector3.zero;
         Vector3 pos = new Vector3( 0, 0, 0 );
         IsSuspended = false;
@@ -3468,7 +3468,7 @@ public partial class Controller : MonoBehaviour
         if( WakeUpGroup >= 0 )
             for( int y = ( int ) Map.I.RM.HeroSector.Area.yMin; y < Map.I.RM.HeroSector.Area.yMax; y++ )   // Wakes up all monsters in the wake up group                                                  // Create sector objects 
                 for( int x = ( int ) Map.I.RM.HeroSector.Area.xMin; x < Map.I.RM.HeroSector.Area.xMax; x++ )
-                    if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+                    if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                     {
                         Unit un = Map.I.GetUnit( new Vector2( x, y ), ELayerType.MONSTER );
                         if( un && un.Control.WakeUpGroup == WakeUpGroup )
@@ -3548,7 +3548,7 @@ public partial class Controller : MonoBehaviour
             for( int x = ( int ) Unit.Pos.x - range; x <= Unit.Pos.x + range; x++ )
             {
                 Vector2 target = new Vector2( x, y );
-                if( Map.PtOnMap( Map.I.Tilemap, target ) )
+                if( Map.PtOnMap( Map.I.TM, target ) )
                     if( Sector.IsPtInCube( target ) )
                     {
                         float score = Util.Manhattan( tg, target );
@@ -4226,7 +4226,7 @@ public partial class Controller : MonoBehaviour
 
         KillProj = false;
         int posx = 0, posy = 0;
-        Map.I.Tilemap.GetTileAtPosition( Unit.transform.position, out posx, out posy );
+        Map.I.TM.GetTileAtPosition( Unit.transform.position, out posx, out posy );
 
         Unit ga = Map.I.GetUnit( new Vector2( posx, posy ), ELayerType.GAIA );                                               // Gaia block
         if( ga && ga.BlockMissile && Mother.Pos != Unit.Pos )
@@ -4489,7 +4489,7 @@ public partial class Controller : MonoBehaviour
         if( TileChanged )
         {
             int posx = 0, posy = 0;
-            Map.I.Tilemap.GetTileAtPosition( Unit.transform.position, out posx, out posy );
+            Map.I.TM.GetTileAtPosition( Unit.transform.position, out posx, out posy );
             Unit ga = Map.I.GetUnit( new Vector2( posx, posy ), ELayerType.GAIA );                                          // Gaia block
             if( ga && ga.BlockMissile )
                 bounce = true;

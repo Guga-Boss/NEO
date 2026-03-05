@@ -114,8 +114,8 @@ public class Tutorial : MonoBehaviour
             if( Helper.I.FastFarm )
                 ObjectiveCompleted = true;
              
-            for( int y = 0; y < Map.I.Tilemap.height; y++ )
-            for( int x = 0; x < Map.I.Tilemap.width; x++ )
+            for( int y = 0; y < Map.I.TM.height; y++ )
+            for( int x = 0; x < Map.I.TM.width; x++ )
             {
                 if( Map.I.Gaia2[ x, y ] )
                 if( Map.I.Gaia2[ x, y ].TileID == ETileType.ITEM )
@@ -141,8 +141,8 @@ public class Tutorial : MonoBehaviour
             if( Helper.I.FastFarm )
                 ObjectiveCompleted = true;
             int count = 0;
-            for( int y = 0; y < Map.I.Tilemap.height; y++ )
-            for( int x = 0; x < Map.I.Tilemap.width; x++ )
+            for( int y = 0; y < Map.I.TM.height; y++ )
+            for( int x = 0; x < Map.I.TM.width; x++ )
             {
                 if( Map.I.Gaia2[ x, y ] )
                 if( Map.I.Gaia2[ x, y ].TileID == ETileType.ITEM )
@@ -205,8 +205,8 @@ public class Tutorial : MonoBehaviour
             if( Helper.I.FastFarm ) 
                 ObjectiveCompleted = true;
             int count = 0;
-            for( int y = 0; y < Map.I.Tilemap.height; y++ )
-            for( int x = 0; x < Map.I.Tilemap.width; x++ )
+            for( int y = 0; y < Map.I.TM.height; y++ )
+            for( int x = 0; x < Map.I.TM.width; x++ )
                 {
                     if( Map.I.Gaia2[ x, y ] )
                     if( Map.I.Gaia2[ x, y ].TileID == ETileType.ITEM )
@@ -284,8 +284,8 @@ public class Tutorial : MonoBehaviour
         else
         if( Phase == 19 )  // Upgrade Rock Storage
             {
-                for( int y = 0; y < Map.I.Tilemap.height; y++ )
-                for( int x = 0; x < Map.I.Tilemap.width; x++ )
+                for( int y = 0; y < Map.I.TM.height; y++ )
+                for( int x = 0; x < Map.I.TM.width; x++ )
                 if ( Map.I.Gaia2[ x, y ] )
                 if ( Map.I.Gaia2[ x, y ].TileID == ETileType.BUILDING )
                 if ( Map.I.Gaia2[ x, y ].Building.Type == BuildingType.Stone_Storage )
@@ -403,8 +403,8 @@ public class Tutorial : MonoBehaviour
         else
         if( Phase == 35 )  // congrats
         {
-            for( int y = 0; y < Map.I.Tilemap.height; y++ )
-            for( int x = 0; x < Map.I.Tilemap.width; x++ )
+            for( int y = 0; y < Map.I.TM.height; y++ )
+            for( int x = 0; x < Map.I.TM.width; x++ )
             if ( Map.I.Gaia2[ x, y ] )
             if ( Map.I.Gaia2[ x, y ].TileID == ETileType.BUILDING )
             if ( Map.I.Gaia2[ x, y ].Building.Type == BuildingType.Forge )

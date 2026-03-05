@@ -294,7 +294,7 @@ public class BabyData : MonoBehaviour
                 if( land )
                 {
                     int posx = 0, posy = 0;
-                    Map.I.Tilemap.GetTileAtPosition( dt.transform.position, out posx, out posy );
+                    Map.I.TM.GetTileAtPosition( dt.transform.position, out posx, out posy );
                     Unit snow = Map.I.GetUnit( ETileType.SNOW, new Vector2( posx, posy ) );
                     if( snow ) 
                         dt.RigidBody.mass = 5;
@@ -348,7 +348,7 @@ public class BabyData : MonoBehaviour
             dt.Sprite.scale = new Vector3( sprscale, sprscale );                                 // changes only sprite scale
 
             int x, y;
-            Map.I.Tilemap.GetTileAtPosition( dt.transform.position, out x, out y );              // Algae out of water is disabled
+            Map.I.TM.GetTileAtPosition( dt.transform.position, out x, out y );              // Algae out of water is disabled
             Unit water = Map.I.GetUnit( ETileType.WATER, new Vector2( x, y ) );
             if( water == null && Map.IsWall( new Vector2( x, y ) ) == false )
             if( dt.DeathCountDownTime <= 0 && dt.gameObject.activeSelf )
@@ -384,7 +384,7 @@ public class BabyData : MonoBehaviour
      public void OnCollisionEnter2D( Collision2D col )
     {
         int posx = 0, posy = 0;
-        Map.I.Tilemap.GetTileAtPosition( col.transform.position, out posx, out posy );
+        Map.I.TM.GetTileAtPosition( col.transform.position, out posx, out posy );
         BabyData bd = gameObject.GetComponent<BabyData>();
         if( bd )
         {
@@ -410,7 +410,7 @@ public class BabyData : MonoBehaviour
      public void OnTriggerEnter2D( Collider2D col )
      {
          int posx = 0, posy = 0;
-         Map.I.Tilemap.GetTileAtPosition( col.transform.position, out posx, out posy );
+         Map.I.TM.GetTileAtPosition( col.transform.position, out posx, out posy );
          BabyData data = gameObject.GetComponent<BabyData>();
          if( data == null ) return;
          if( BabyType == EAlgaeBabyType.EXPLODING )
@@ -482,7 +482,7 @@ public class BabyData : MonoBehaviour
     public static bool UpdateWaterArrowBlock( Vector3 pos, ref bool block, EDirection movedir, int x, int y )
     {
         int posx = 0; int posy = 0;
-        Map.I.Tilemap.GetTileAtPosition( pos, out posx, out posy );
+        Map.I.TM.GetTileAtPosition( pos, out posx, out posy );
         List<Unit> un = Map.I.GF( new Vector2( posx, posy ), ETileType.ALGAE );
         if( un == null || un.Count < 1 ) return false;
         //Debug.Log( un[ 0 ] + "  " + un[ 0 ].Body.BabyDataList + "  " + un[ 0 ].Body.BabyDataList.Count );

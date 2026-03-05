@@ -576,7 +576,7 @@ public class Util
         for( int d = 0; d < 8; d++ )
         {
             Vector2 aux = tg + Manager.I.U.DirCord[ d ];
-            if( Map.PtOnMap( Map.I.Tilemap, aux ) )
+            if( Map.PtOnMap( Map.I.TM, aux ) )
             {
                 Unit un = Map.I.GetUnit( tile, aux );
                 if( un != null ) nl.Add( un );
@@ -610,8 +610,8 @@ public class Util
         nlNeighbors.Clear();                                              // Reset cache without deallocating;
         var mapI = Map.I;                                                 // Cache Map instance locally;
         var dirCords = Manager.I.U.DirCord;                               // Cache directions array;
-        uint w = ( uint ) mapI.Tilemap.width;                             // Cache width;
-        uint h = ( uint ) mapI.Tilemap.height;                            // Cache height;
+        uint w = ( uint ) mapI.TM.width;                             // Cache width;
+        uint h = ( uint ) mapI.TM.height;                            // Cache height;
 
         for( int d = 0; d < 8; d++ )
         {
@@ -644,8 +644,8 @@ public class Util
         nlTileLine.Clear();                                               // Reset tile line cache;
         var mapI = Map.I;                                                 // Local Map reference;
         Vector2 dirVec = Manager.I.U.DirCord[ ( int ) dir ];              // Cache direction vector;
-        uint w = ( uint ) mapI.Tilemap.width;                             // Map width;
-        uint h = ( uint ) mapI.Tilemap.height;                            // Map height;
+        uint w = ( uint ) mapI.TM.width;                             // Map width;
+        uint h = ( uint ) mapI.TM.height;                            // Map height;
 
         for( int d = 0; d < max; d++ )
         {
@@ -1174,25 +1174,25 @@ public class Util
         if( dir == EDirection.S || dir == EDirection.SW || dir == EDirection.W )
             for( int y = (int) s.Area.yMin; y < s.Area.yMax; y++ )
                 for( int x = (int) s.Area.xMin; x < s.Area.xMax; x++ )
-                    if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+                    if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                         tgl.Add( new Vector2( x, y ) );
 
         if( dir == EDirection.N || dir == EDirection.NW )
             for( int y = (int) s.Area.yMax - 1; y >= (int) s.Area.yMin; y-- )
                 for( int x = (int) s.Area.xMin; x < s.Area.xMax; x++ )
-                    if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+                    if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                         tgl.Add( new Vector2( x, y ) );
 
         if( dir == EDirection.E || dir == EDirection.SE )
             for( int y = (int) s.Area.yMin; y < s.Area.yMax; y++ )
                 for( int x = (int) s.Area.xMax - 1; x >= (int) s.Area.xMin; x-- )
-                    if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+                    if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                         tgl.Add( new Vector2( x, y ) );
 
         if( dir == EDirection.NE )
             for( int y = (int) s.Area.yMax - 1; y >= (int) s.Area.yMin; y-- )
                 for( int x = (int) s.Area.xMax - 1; x >= (int) s.Area.xMin; x-- )
-                    if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+                    if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                         tgl.Add( new Vector2( x, y ) );
 
         return tgl;
@@ -1219,7 +1219,7 @@ public class Util
         Sector hs = Map.I.RM.HeroSector;
         for( int y = (int) hs.Area.yMin - 1; y < hs.Area.yMax + 1; y++ )
             for( int x = (int) hs.Area.xMin - 1; x < hs.Area.xMax + 1; x++ )
-                if( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+                if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                     if( Map.I.FUnit[ x, y ] != null )
                     {
                         for( int i = 0; i < Map.I.FUnit[ x, y ].Count; i++ )

@@ -115,7 +115,7 @@ public class FishingObject : MonoBehaviour
         List<Vector2> pl = new List<Vector2>();
         for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )
         for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         if ( Map.I.PondID[ xx, yy ] == pond )
         if ( Map.I.GetUnit( ETileType.WATER, new Vector2( xx, yy ) ) )
             {
@@ -299,7 +299,7 @@ public class FishingObject : MonoBehaviour
     void OnCollisionEnter2D( Collision2D col )
     {
         int posx = 0, posy = 0;
-        Map.I.Tilemap.GetTileAtPosition( col.collider.transform.position, out posx, out posy );
+        Map.I.TM.GetTileAtPosition( col.collider.transform.position, out posx, out posy );
 
         Unit ga = Map.I.GetUnit( new Vector2( posx, posy ), ELayerType.GAIA );
         if( ga && Map.IsWall( new Vector2( posx, posy ), true ) ) 

@@ -147,7 +147,7 @@ public partial class Farm : MonoBehaviour
         Building.Bl = null;
         Quest.I.CurLevel = Quest.I.Farm;
         Quest.CurrentLevel = -1;
-        Map.I.AreaID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+        Map.I.AreaID = new int[ Map.I.TM.width, Map.I.TM.height ];
         Map.I.BumpTarget = new Vector2( -1, -1 );
         Manager.I.ExitLevel();
         UI.I.SetBigMessage( "", Color.white );
@@ -389,8 +389,8 @@ public partial class Farm : MonoBehaviour
         if( Manager.I.SaveOnEndGame == false ) return;
         if( G.Tutorial.CheckPhase( 14 ) == false ) return;                          // No saving if has not yet reached phase 14 of tutorial
 
-        TKUtil.Save( "Farm.NEO", ref Quest.I.CurLevel.Tilemap );                    // Save Farm tilemap
-        Building.SaveBuildings( ref Quest.I.CurLevel.Tilemap );                     // Save Buildings
+        TKUtil.Save( "Farm.NEO", ref Map.I.SRCTM );                    // Save Farm tilemap
+        Building.SaveBuildings( ref Map.I.SRCTM );                     // Save Buildings
         Blueprint.SaveAll();                                                        // Save Blueprint   
         G.Tutorial.Save();                                                          // Save tutorial
         IdleEngine.Save();                                                          // Save Idle Engine
@@ -407,23 +407,23 @@ public partial class Farm : MonoBehaviour
 
     public bool Load()
     {
-        bool res = TKUtil.Load( "Farm.NEO", ref Quest.I.CurLevel.Tilemap );         // Load Farm Tilemap
+        bool res = TKUtil.Load( "Farm.NEO", ref Map.I.SRCTM );         // Load Farm Tilemap
         if( res == false ) return false;
         Map.I.Finalize();                                                           // Finalize map
         Map.I.StartGame();                                                          // Init game
-        Building.LoadBuildings( ref Quest.I.CurLevel.Tilemap );                     // Load Buildings
+        Building.LoadBuildings( ref Map.I.SRCTM );                     // Load Buildings
         Blueprint.LoadAll();                                                        // Load Blueprints
         Building.SendItemsToWarehouses();                                           // Send items to warehouses
         InitMonstersAfterLoading();                                                 // Init monsters
         G.Tutorial.Load();                                                          // Load Tutorial
-        TKUtil.LoadFogOfWar( "Farm.NEO", ref Quest.I.CurLevel.Tilemap );            // Load Fog of War
+        TKUtil.LoadFogOfWar( "Farm.NEO", ref Map.I.SRCTM );            // Load Fog of War
         return true;
     }
 
     public bool UpdateItemPlacement()
     {
         Vector2 tg = Map.I.Hero.GetFront();
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return false;
 
         if( G.Tutorial.CheckPhase( 2 ) == false ) return false;                                                        // Tutorial restriction
 
@@ -805,7 +805,7 @@ public partial class Farm : MonoBehaviour
         for( int x = ( int ) tg.x - rad; x <= tg.x + rad; x++ )
         {
             Vector2 p = new Vector2( x, y );                                         // scan position
-            if( !Map.PtOnMap( Map.I.Tilemap, p ) ) continue;                         // outside map
+            if( !Map.PtOnMap( Map.I.TM, p ) ) continue;                         // outside map
             if( G.Hero.GetFront() == p ) continue;                                   // ignore target
 
             Unit un = Map.I.GetUnit( ETileType.BUILDING, p );                        // get unit
@@ -942,9 +942,9 @@ public partial class Farm : MonoBehaviour
     {
         Tl = new List<VI>();
         int x0 = Mathf.Max( Mathf.FloorToInt( MiddleTile.x - FarmLimit.x ), 0 );
-        int x1 = Mathf.Min( Mathf.CeilToInt( MiddleTile.x + FarmLimit.x ), Map.I.Tilemap.width - 1 );
+        int x1 = Mathf.Min( Mathf.CeilToInt( MiddleTile.x + FarmLimit.x ), Map.I.TM.width - 1 );
         int y0 = Mathf.Max( Mathf.FloorToInt( MiddleTile.y - FarmLimit.y ), 0 );
-        int y1 = Mathf.Min( Mathf.CeilToInt( MiddleTile.y + FarmLimit.y ), Map.I.Tilemap.height - 1 );
+        int y1 = Mathf.Min( Mathf.CeilToInt( MiddleTile.y + FarmLimit.y ), Map.I.TM.height - 1 );
         for( int y = y0; y <= y1; y++ )
         for( int x = x0; x <= x1; x++ )
              Tl.Add( new VI( x, y ) );                                                                   // Init tile list optimized to work only inside farm area
@@ -1614,8 +1614,8 @@ public partial class Farm : MonoBehaviour
     public void AddStoneResources()                                                             // This method fixe the chest instead of stone placed on ground on farm init
     {
         if( G.Tutorial.CanSave() == true ) return;
-        for( int y = 0; y < Map.I.Tilemap.height; y++ )
-        for( int x = 0; x < Map.I.Tilemap.width; x++ )
+        for( int y = 0; y < Map.I.TM.height; y++ )
+        for( int x = 0; x < Map.I.TM.width; x++ )
             {
                 Unit it = Map.I.GetUnit( ETileType.ITEM, new Vector2( x, y ) );
                 if( it )

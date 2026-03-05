@@ -283,7 +283,7 @@ public class Building : MonoBehaviour
         for( int d = 0; d < 8; d++ )
         {
             Vector2 pos = tg + Manager.I.U.DirCord[ ( int ) d ];
-            if( Map.PtOnMap( Map.I.Tilemap, pos ) )
+            if( Map.PtOnMap( Map.I.TM, pos ) )
             {
                 Unit un = Map.I.GetUnit( ETileType.FOREST, pos );
                 if( un == null ) count++;
@@ -402,7 +402,7 @@ public class Building : MonoBehaviour
         }
         return true;
     }
-    public static void LoadBuildings( ref tk2dTileMap tm )
+    public static void LoadBuildings( ref MyTilemap tm )
     {
         string file = Manager.I.GetProfileFolder() + "Building.NEO";                                      // Provides File name
         Farm.CreatingBuildings = true;
@@ -488,7 +488,7 @@ public class Building : MonoBehaviour
         Farm.CreatingBuildings = false;
     }
 
-    public static void SaveBuildings( ref tk2dTileMap tm )
+    public static void SaveBuildings( ref MyTilemap tm )
     {
         if( Manager.I.SaveOnEndGame == false ) return;
         string file = Manager.I.GetProfileFolder() + "Building.NEO";                        // Provides File name
@@ -1023,7 +1023,7 @@ public class Building : MonoBehaviour
     public static bool ApplyUpgrade( Vector2 tg, Blueprint bp )
     {
         if( bp.AffectedVariable == EVarType.NONE ) return false;
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return false;
 
         Unit bl = Map.I.Gaia2[ ( int ) tg.x, ( int ) tg.y ];
 

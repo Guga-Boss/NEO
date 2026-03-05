@@ -1440,7 +1440,7 @@ public class Body : MonoBehaviour
         for( int d = 0; d < 8; d++ )
         {
             Vector2 aux = Unit.Pos + ( Manager.I.U.DirCord[ ( int ) d ] * 1 );
-            if( Map.PtOnMap( Map.I.Tilemap, aux ) )
+            if( Map.PtOnMap( Map.I.TM, aux ) )
             {
                 if( Map.I.Gaia[ ( int ) aux.x, ( int ) aux.y ] &&
                     Map.I.Gaia[ ( int ) aux.x, ( int ) aux.y ].TileID == ETileType.FOREST ) num++;
@@ -1451,7 +1451,7 @@ public class Body : MonoBehaviour
             }
 
             aux = Map.I.Hero.Pos + ( Manager.I.U.DirCord[ ( int ) d ] * 1 );
-            if( Map.PtOnMap( Map.I.Tilemap, aux ) )
+            if( Map.PtOnMap( Map.I.TM, aux ) )
             {
                 if( Map.I.Hero.Body.AmbusherLevel >= 5 )
                 if( Map.I.Gaia[ ( int ) aux.x, ( int ) aux.y ] )
@@ -1886,7 +1886,7 @@ public class Body : MonoBehaviour
             {
                 EDirection dr = Unit.GetRelativeDirection( d );
                 aux = Unit.Pos + ( Manager.I.U.DirCord[ ( int ) dr ] * i );
-                if( Map.PtOnMap( Map.I.Tilemap, aux ) == false ) break;
+                if( Map.PtOnMap( Map.I.TM, aux ) == false ) break;
                 if( tg == aux ) return ( EDirection ) d;
             }
         return EDirection.NONE;

@@ -20,6 +20,8 @@ public partial class Map : MonoBehaviour
     public MyTilemap TransT;
     [TabGroup( "Main" )]
     public MyTilemap TM;
+    [TabGroup( "Main" )]
+    public MyTilemap SRCTM;
     [ TabGroup( "Main" )]
     [ListDrawerSettings( ShowIndexLabels = true )]
     public Unit[] SharedObjectsList;
@@ -33,7 +35,7 @@ public partial class Map : MonoBehaviour
     [TabGroup( "Main" )]
     public int TotalSecrets;
     [TabGroup( "Link" )]
-    public tk2dTileMap Tilemap, TransTileMap;
+    public tk2dTileMap Tilemap_old, TransTileMap;
     [TabGroup( "Link" )]
     public RandomMap RM;
     [TabGroup( "Link" )]
@@ -445,22 +447,22 @@ public partial class Map : MonoBehaviour
         SessionFrameCount = 0;
         HeroIsDead = false;
         Finalizing = false;
-        Unit = new Unit[ Tilemap.width, Tilemap.height ];
-        FUnit = new List<Unit>[ Tilemap.width, Tilemap.height ];
-        Gaia = new Unit[ Tilemap.width, Tilemap.height ];
-        Gaia2 = new Unit[ Tilemap.width, Tilemap.height ];
-        TileText = new tk2dTextMesh[ Tilemap.width, Tilemap.height ];
-        DistFromTarget = new float[ Tilemap.width, Tilemap.height ];
-        ObjectID = new int[ Tilemap.width, Tilemap.height ];
-        GateID = new int[ Tilemap.width, Tilemap.height ];
-        Revealed = new bool[ Tilemap.width, Tilemap.height ];
-        RevealFactor = new float[ Tilemap.width, Tilemap.height ];
-        TransInit = new bool[ Tilemap.width, Tilemap.height ];
+        Unit = new Unit[ TM.width, TM.height ];
+        FUnit = new List<Unit>[ TM.width, TM.height ];
+        Gaia = new Unit[ TM.width, TM.height ];
+        Gaia2 = new Unit[ TM.width, TM.height ];
+        TileText = new tk2dTextMesh[ TM.width, TM.height ];
+        DistFromTarget = new float[ TM.width, TM.height ];
+        ObjectID = new int[ TM.width, TM.height ];
+        GateID = new int[ TM.width, TM.height ];
+        Revealed = new bool[ TM.width, TM.height ];
+        RevealFactor = new float[ TM.width, TM.height ];
+        TransInit = new bool[ TM.width, TM.height ];
         TransT.gameObject.SetActive( true );
         TransT.transform.position = new Vector3( -0.5f, -0.5f, -0.001f );
-        TransT.GridSize = new Vector2Int( TransTileMap.width, TransTileMap.height );
         TM.transform.position = new Vector3( -0.5f, -0.5f );
-        TM.GridSize = new Vector2Int( Tilemap.width, Tilemap.height );
+        TransTileMap.height = TransT.height;
+        TransTileMap.width = TransT.width;
 
         LOSFireList = new List<Unit>();
         BoomerangList = new List<Unit>();
@@ -584,16 +586,11 @@ public partial class Map : MonoBehaviour
         if( Quest.I.LabList[ l ] )
         {
             Quest.I.LabList[ l ].gameObject.SetActive( false );
-            Quest.I.LabList[ l ].Tilemap.gameObject.SetActive( false );
+            //Quest.I.LabList[ l ].Tilemap.gameObject.SetActive( false );
         }
 
         Quest.I.Dungeon.gameObject.SetActive( false );
         G.Hero.Graphic.gameObject.SetActive( true );
-
-        Tilemap.Layers[ ( int ) ELayerType.GAIA ].gameObject.SetActive( true ); 
-        Tilemap.Layers[ ( int ) ELayerType.GAIA2 ].gameObject.SetActive( false );
-        Tilemap.Layers[ ( int ) ELayerType.RAFT ].gameObject.SetActive( false );
-        Tilemap.Layers[ ( int ) ELayerType.MONSTER ].gameObject.SetActive( false );
 
         TM.Tilemaps[ (int) ELayerType.GAIA ].gameObject.SetActive( true );    //gg
         TM.Tilemaps[ (int) ELayerType.GAIA2 ].gameObject.SetActive( false );
@@ -676,8 +673,6 @@ public partial class Map : MonoBehaviour
         if( Manager.I.GameType == EGameType.CUBES )
             Pathfinder2D.Instance.Create2DMap( true, this, false );
         Hero.LevelTxt.gameObject.SetActive( false );
-        Tilemap.Layers[ ( int ) ELayerType.GRID ].gameObject.SetActive( false );
-        Tilemap.Layers[ ( int ) ELayerType.AREAS ].gameObject.SetActive( false );
 
         TM.Tilemaps[ (int) ELayerType.GRID ].gameObject.SetActive( false );
         TM.Tilemaps[ (int) ELayerType.AREAS ].gameObject.SetActive( false );
@@ -775,7 +770,6 @@ public partial class Map : MonoBehaviour
         if( GaiaUnitsFolder != null ) Destroy( GaiaUnitsFolder );
 
         if( AreasFolder != null ) Destroy( AreasFolder );
-        tk2dTileMap tm = null;
 
         if( Manager.I.GameType == EGameType.NAVIGATION )                                      // Navigation Map
         {
@@ -792,21 +786,12 @@ public partial class Map : MonoBehaviour
             }
         else
             {                                                                                 // cubes map
-                tm = Quest.I.CurLevel.Tilemap;
                 Quest.I.CurLevel.AreaFolder.gameObject.SetActive( true );
                 Quest.I.CurLevel.ArtifactFolder.gameObject.SetActive( true );
-                Tilemap.width = tm.width;
-                Tilemap.height = tm.height;
-                //if( Manager.I.GameType == EGameType.CUBES )
-                    CopyTilemap( false, tm, ref Tilemap, new Vector2( 0, 0 ),
-                    new Vector2( 0, 0 ), tm.width, tm.height, false, false );
+                CopyTilemap( false, SRCTM, ref TM, new Vector2( 0, 0 ),
+                new Vector2( 0, 0 ), SRCTM.width, SRCTM.height, false, false );
             }
-
-        //Tilemap.Build();  //new opt
-        Tilemap.gameObject.SetActive( false );
         TM.gameObject.SetActive( true );
-
-        Tilemap.transform.position = new Vector3( 0, 0, 0 );
         AreasFolder = new GameObject( "Areas" );
         AreasFolder.transform.parent = transform;
         MonsterUnitsFolder = new GameObject( "Monster Units" );
@@ -820,7 +805,7 @@ public partial class Map : MonoBehaviour
     public void UpdateIt () 
 	{
 		if( this == null    ) return;
-		if( Tilemap == null ) return;
+		//if( Tilemap_old == null ) return;
         PlatformUpdated = false;
         TechButton.UpdateTimedTech();
         if( UpdateOverlayAnimation() ) return;
@@ -916,7 +901,7 @@ public partial class Map : MonoBehaviour
 
         if( layer == ELayerType.NONE ) layer = GetTileLayer( un.TileID );
 
-		if( PtOnMap( Tilemap, tg ) )
+		if( PtOnMap( Map.I.TM, tg ) )
         {
             if( un && un.Control )
             if( un.Control.IsFlyingUnit )
@@ -1316,7 +1301,7 @@ public partial class Map : MonoBehaviour
 
 		if( !un.UseTransTile )
 		{
-			Tilemap.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) layer, ( int ) un.TileID + un.Variation ); // optimize only if necessary
+			TM.SetTile( ( int ) tg.x, ( int ) tg.y, ( int ) layer, ( int ) un.TileID + un.Variation ); // optimize only if necessary
 		}
 		else
 		{
@@ -1633,7 +1618,7 @@ public partial class Map : MonoBehaviour
             int frange = 1;
             for( int y = ( int ) Hero.Pos.y - frange; y <= Hero.Pos.y + frange; y++ )                          // Neighbor wasp bonus att speed calculation
             for( int x = ( int ) Hero.Pos.x - frange; x <= Hero.Pos.x + frange; x++ )
-            if ( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+            if ( PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                 {
                     if ( GetFUnit( x, y ) > 0 )
                     for( int i = 0; i < FUnit[ x, y ].Count; i++ )
@@ -1875,7 +1860,7 @@ public partial class Map : MonoBehaviour
             EDirection dir = mdir;
             Vector2 to = un.Pos;
             Vector2 from = un.Pos;
-            for( int r = 1; r < Map.I.Tilemap.width; r++ )                                       // loops targets
+            for( int r = 1; r < Map.I.TM.width; r++ )                                       // loops targets
             {
                 to = un.Pos + ( Manager.I.U.DirCord[ ( int ) dir ] * r );
                 from = un.Pos + ( Manager.I.U.DirCord[ ( int ) dir ] * ( r - 1 ) );
@@ -2630,7 +2615,7 @@ public partial class Map : MonoBehaviour
 
         if( Quest.I.UpdateArtifactMouseOverInfo( new Vector2( ( int ) Mtx, ( int ) Mty ) ) ) return;
 
-        if( PtOnMap( Tilemap, Hero.Pos ) )
+        if( PtOnMap( Map.I.TM, Hero.Pos ) )
 		if( Gaia2[ ( int ) Hero.Pos.x, ( int ) Hero.Pos.y ] && 
 		    Gaia2[ ( int ) Hero.Pos.x, ( int ) Hero.Pos.y ].TileID == ETileType.SCROLL )
         {
@@ -3252,7 +3237,7 @@ public partial class Map : MonoBehaviour
                                    Map.I.RM.HeroSector.Area.yMin + cubecord.y );
         if( allcube == false )
         {
-            if( PtOnMap( Tilemap, pos ) == false ) return;
+            if( PtOnMap( Map.I.TM, pos ) == false ) return;
             if( Gaia[ ( int ) pos.x, ( int ) pos.y ] == null ) return;
             if( Gaia[ ( int ) pos.x, ( int ) pos.y ].TileID != ETileType.ROOMDOOR ) return;
         }
@@ -3309,13 +3294,13 @@ public partial class Map : MonoBehaviour
         if( layer == ELayerType.GAIA )
         {
             if( Gaia[ x, y ] ) Gaia[ x, y ].Kill();
-            if( updateTilemap ) Tilemap.SetTile( x, y, ( int ) layer, ( int ) tile );
+            if( updateTilemap ) TM.SetTile( x, y, ( int ) layer, ( int ) tile );
         }
         else
             if( layer == ELayerType.GAIA2 )
             {
                 if( Gaia2[ x, y ] ) Gaia2[ x, y ].Kill();
-                if( updateTilemap ) Tilemap.SetTile( x, y, ( int ) layer, ( int ) tile );
+                if( updateTilemap ) TM.SetTile( x, y, ( int ) layer, ( int ) tile );
 
             }
             else return;
@@ -3388,7 +3373,7 @@ public partial class Map : MonoBehaviour
 		if( Input.GetKey( KeyCode.LeftControl ) )
 		if( Input.GetMouseButton( 1 ) )                                                                                            // Collect mouse over artifact
 		{
-			if( Mtx != -1 && PtOnMap( Tilemap, new Vector2( Mtx, Mty ) ) )
+			if( Mtx != -1 && PtOnMap( Map.I.TM, new Vector2( Mtx, Mty ) ) )
 			{
 				if( Quest.I.UpdateArtifactStepping( new Vector2( Mtx, Mty ) ) ) return;
 			}
@@ -3492,7 +3477,7 @@ public partial class Map : MonoBehaviour
 
     public int GetVariation( Vector2 tg, ELayerType layer )
     {
-        int tile = Quest.I.CurLevel.Tilemap.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) layer ); 
+        int tile = SRCTM.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) layer ); 
 
         if( tile >= ( int ) ETileType.SPLITTER &&  tile < ( int ) ETileType.SPLITTER + Map.TotSplitters )
         {
@@ -3580,7 +3565,7 @@ public partial class Map : MonoBehaviour
             return ETileType.SPLITTER;
         }
 
-        if( tile >= 0 && ( int ) tile < Map.I.Tilemap.data.tileInfo.Length )
+        //if( tile >= 0 && ( int ) tile < Map.I.Tilemap_trash.data.tileInfo.Length )
         {
             //var tileInfo = Map.I.Tilemap.data.tileInfo[ ( int ) tile ];
             //if( tileInfo.Layer == ELayerType.GAIA )
@@ -3774,8 +3759,8 @@ public partial class Map : MonoBehaviour
 		//Tilemap.Build(); // new opt
         return;
         //if( Manager.I.GameType == EGameType.FARM ) return;
-		for( int y = 0; y < Tilemap.height; y++ )
-		for( int x = 0; x < Tilemap.width; x++ )
+		for( int y = 0; y < TM.height; y++ )
+		for( int x = 0; x < TM.width; x++ )
 			{
                 if( init ) Revealed[ x, y ] = false;
 				if( Revealed[ x, y ] )
@@ -3787,90 +3772,7 @@ public partial class Map : MonoBehaviour
     
 	public void RevealTile( bool reveal, Vector2 pos )
 	{
-        return;
-        if( Manager.I.GameType != EGameType.FARM )
-        if( Manager.I.GameType != EGameType.NAVIGATION )
-        if( Revealed[ ( int ) pos.x, ( int ) pos.y ] == reveal ) return;
-        Color col = Quest.I.CurLevel.Tilemap.ColorChannel.GetColor( ( int ) pos.x, ( int ) pos.y );
-		if( reveal == false ) col = Color.black;
-
-		Revealed[ ( int ) pos.x, ( int ) pos.y ] = reveal;
-
-		if( PtOnMap( Tilemap, new Vector2( ( int ) pos.x,     ( int ) pos.y     ) ) ) Tilemap.ColorChannel.SetColor( ( int ) pos.x,     ( int ) pos.y,     col );
-		if( PtOnMap( Tilemap, new Vector2( ( int ) pos.x + 1, ( int ) pos.y     ) ) ) Tilemap.ColorChannel.SetColor( ( int ) pos.x + 1, ( int ) pos.y,     col );
-		if( PtOnMap( Tilemap, new Vector2( ( int ) pos.x,     ( int ) pos.y + 1 ) ) ) Tilemap.ColorChannel.SetColor( ( int ) pos.x,     ( int ) pos.y + 1, col );
-		if( PtOnMap( Tilemap, new Vector2( ( int ) pos.x + 1, ( int ) pos.y + 1 ) ) ) Tilemap.ColorChannel.SetColor( ( int ) pos.x + 1, ( int ) pos.y + 1, col );
-
-		UpdateTilemap = true;
-		//TransTilemapUpdateList.Add( pos );
-		if( Gaia [ ( int ) pos.x, ( int ) pos.y ] && Gaia [ ( int ) pos.x, ( int ) pos.y ].Spr ) Gaia [ ( int ) pos.x, ( int ) pos.y ].Spr.color = col;
-		if( Gaia2[ ( int ) pos.x, ( int ) pos.y ] && Gaia2[ ( int ) pos.x, ( int ) pos.y ].Spr ) Gaia2[ ( int ) pos.x, ( int ) pos.y ].Spr.color = col;
-		if( Unit [ ( int ) pos.x, ( int ) pos.y ] && Unit [ ( int ) pos.x, ( int ) pos.y ].Spr )
-		{
-            Unit[ ( int ) pos.x, ( int ) pos.y ].Spr.color = col;
-
-            //if( Unit[ ( int ) pos.x, ( int ) pos.y ].TileID == ETileType.DOME )
-            //{
-            //    if( Manager.I.GameType == EGameType.CUBES )
-            //        Unit[ ( int ) pos.x, ( int ) pos.y ].Spr.gameObject.GetComponent<tk2dAnimationAdapter>().color = new Color( col.r , col.g, col.b, .5f );
-            //    else
-            //        Unit[ ( int ) pos.x, ( int ) pos.y ].Spr.gameObject.GetComponent<tk2dAnimationAdapter>().color = col;
-            //}
-        }
-
-		if( Gaia [ ( int ) pos.x, ( int ) pos.y ] && Gaia [ ( int ) pos.x, ( int ) pos.y ].LevelTxt ) Gaia [ ( int ) pos.x, ( int ) pos.y ].LevelTxt.color = col;
-		if( Gaia2[ ( int ) pos.x, ( int ) pos.y ] && Gaia2[ ( int ) pos.x, ( int ) pos.y ].LevelTxt ) Gaia2[ ( int ) pos.x, ( int ) pos.y ].LevelTxt.color = col;
-		if( Unit [ ( int ) pos.x, ( int ) pos.y ] && Unit [ ( int ) pos.x, ( int ) pos.y ].LevelTxt ) Unit [ ( int ) pos.x, ( int ) pos.y ].LevelTxt.color = col;
-
-        if( Gaia[ ( int ) pos.x, ( int ) pos.y ] && Gaia[ ( int ) pos.x, ( int ) pos.y ].PriceTag )
-        {
-            Gaia[ ( int ) pos.x, ( int ) pos.y ].PriceTag.Price_1Resource.gameObject.GetComponent<tk2dAnimationAdapter>().color = new Color( 1, 1, 1, .8f );
-            Gaia[ ( int ) pos.x, ( int ) pos.y ].PriceTag.Price_1Text.color = new Color( 1, 1, 1, .8f );
-        }
-
-        if( Gaia2[ ( int ) pos.x, ( int ) pos.y ] && Gaia2[ ( int ) pos.x, ( int ) pos.y ].PriceTag )
-        {
-            Gaia2[ ( int ) pos.x, ( int ) pos.y ].PriceTag.Price_1Resource.color = new Color( 1, 1, 1, .8f );
-            Gaia2[ ( int ) pos.x, ( int ) pos.y ].PriceTag.Price_1Text.color = new Color( 1, 1, 1, .8f );
-        }
-        
-        ETileType tile = ( ETileType ) Quest.I.CurLevel.Tilemap.GetTile( ( int ) pos.x,
-                                                        ( int ) pos.y, ( int ) ELayerType.GAIA2 );
-
-        if( tile == ETileType.CHECKPOINT ) UI.I.UpdateSaveGameIconState( ( int ) pos.x, ( int ) pos.y );
-
-        if( Gaia2[ ( int ) pos.x, ( int ) pos.y ] )
-        if( Gaia2[ ( int ) pos.x, ( int ) pos.y ].TileID == ETileType.ARROW )
-            Gaia2[ ( int ) pos.x, ( int ) pos.y ].Body.SetWorking( Gaia2[ ( int ) pos.x, ( int ) pos.y ].Body.isWorking );
-
-		if( tile == ETileType.ARTIFACT )
-		{
-			for( int a = 0; a < Quest.I.CurLevel.ArtifactList.Count; a++ )
-			{
-				if( Quest.I.CurLevel.ArtifactList[ a ].Pos == pos )
-				{
-					if( Quest.I.CurLevel.ArtifactList[ a ].Collected == Artifact.EStatus.NOT_COLLECTED && reveal == true )
-						Quest.I.CurLevel.ArtifactList[ a ].gameObject.SetActive( true );
-					else
-						Quest.I.CurLevel.ArtifactList[ a ].gameObject.SetActive( false );
-				}
-			}
-        }
-
-        if( Map.I.FUnit[ ( int ) pos.x, ( int ) pos.y ] != null )                                            // Raft
-            for( int i = 0; i < Map.I.FUnit[ ( int ) pos.x, ( int ) pos.y ].Count; i++ )
-            {
-                if( Map.I.FUnit[ ( int ) pos.x, ( int ) pos.y ][ i ].TileID == ETileType.RAFT )
-                {
-                    Map.I.FUnit[ ( int ) pos.x, ( int ) pos.y ][ i ].Spr.color = col;
-                    break;
-                }
-                if( Map.I.FUnit[ ( int ) pos.x, ( int ) pos.y ][ i ].TileID == ETileType.BLOCKER )
-                {
-                    Map.I.FUnit[ ( int ) pos.x, ( int ) pos.y ][ i ].Spr.color = col;
-                    break;
-                }
-            }
+        return; // deleted. restore from backup if needed     
 	}
     
 	public void UpdateFogOfWar( bool force = false )
@@ -3888,7 +3790,7 @@ public partial class Map : MonoBehaviour
             {
                 for( int y = ( int ) RM.LabArea.y - 1; y < RM.LabArea.yMax; y++ )
                 for( int x = ( int ) RM.LabArea.x - 1; x < RM.LabArea.xMax; x++ )
-                if ( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+                if ( PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                 if ( Revealed[ x, y ] == false )
                 {
                         RevealTile( true, new Vector2( x, y ) );
@@ -3902,7 +3804,7 @@ public partial class Map : MonoBehaviour
             {
                 for( int y = ( int ) RM.HeroSector.Area.y - 1; y < RM.HeroSector.Area.yMax + 1; y++ )
                 for( int x = ( int ) RM.HeroSector.Area.x - 1; x < RM.HeroSector.Area.xMax + 1; x++ )
-                if ( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+                if ( PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                 if ( Revealed[ x, y ] == false )
                 if ( Sector.GetPosSectorType( new Vector2( x, y ) ) == Sector.ESectorType.GATES ||
                      Sector.GetPosSectorType( new Vector2( x, y ) ) == Sector.ESectorType.NORMAL )
@@ -3924,7 +3826,7 @@ public partial class Map : MonoBehaviour
         for( int d = 0; d < 8; d++ )
         {
             Vector2 tg = Hero.Pos + Manager.I.U.DirCord[ ( int ) d ];
-            if( PtOnMap( Tilemap, tg ) )
+            if( PtOnMap( Map.I.TM, tg ) )
             {
                 int area = GetPosArea( tg );
                 if( area != -1 && Quest.I.CurLevel.AreaList[ area ].Revealed == false )
@@ -3941,7 +3843,7 @@ public partial class Map : MonoBehaviour
         int cont = 0;
         for( int y = ( int ) Hero.Pos.y - range; y <= Hero.Pos.y + range; y++ )                          // Check LOS Tiles
         for( int x = ( int ) Hero.Pos.x - range; x <= Hero.Pos.x + range; x++ )
-        if ( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+        if ( PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
         if ( Revealed[ x, y ] == false )
         {
             if( Manager.I.GameType == EGameType.FARM || 
@@ -3953,7 +3855,7 @@ public partial class Map : MonoBehaviour
         int frange = 1;
         for( int y = ( int ) Hero.Pos.y - frange; y <= Hero.Pos.y + frange; y++ )                       // Forced Reveal around hero
         for( int x = ( int ) Hero.Pos.x - frange; x <= Hero.Pos.x + frange; x++ )
-        if ( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+        if ( PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
         if ( Revealed[ x, y ] == false )
         {
             cont++;  
@@ -3965,7 +3867,7 @@ public partial class Map : MonoBehaviour
             bool okper = false;
             for( int y = ( int ) Hero.Pos.y - range; y <= Hero.Pos.y + range; y++ )
             for( int x = ( int ) Hero.Pos.x - range; x <= Hero.Pos.x + range; x++ )
-            if ( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+            if ( PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
             if ( Revealed[ x, y ] == false )
             if ( RevealFactor[ x, y ] == 1 )
                 {
@@ -4136,7 +4038,7 @@ public partial class Map : MonoBehaviour
         if( UpdateTilemap )                                                                                          // updates tilemap if requested
             UpdateTileMap();
 
-        int tot = Tilemap.width * Tilemap.height;    
+        int tot = TM.width * TM.height;    
         if( Manager.I.GameType == EGameType.FARM )                                                                  // farm only checks farm area
             tot = Farm.Tl.Count;
 
@@ -4152,7 +4054,7 @@ public partial class Map : MonoBehaviour
         if( TransLayerInitialized == false )  // new
         for( int y = ( int ) Hero.Pos.y + frange; y >= ( int ) Hero.Pos.y - frange; y-- )
         for( int x = ( int ) Hero.Pos.x + frange; x >= ( int ) Hero.Pos.x - frange; x-- )                           // loop around hero in an increasing radius to update trans tiles
-        if ( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+        if ( PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
         {
             if( TransInit[ x, y ] == false )
             {
@@ -4180,7 +4082,7 @@ public partial class Map : MonoBehaviour
     {
         //if( TransLayerInitialized == false ) return;
         if( UpdateTilemap == false ) return;
-        Tilemap.Build();
+        //Tilemap_old.Build();
         UpdateTilemap = false;
     }
     public static Vector2 GM()
@@ -4496,7 +4398,7 @@ public partial class Map : MonoBehaviour
         List<Vector2> frtgl = new List<Vector2>();
         for( int yy = ( int ) G.HS.Area.yMin - 1; yy < G.HS.Area.yMax + 1; yy++ )                                         // fill list of targets
         for( int xx = ( int ) G.HS.Area.xMin - 1; xx < G.HS.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         {
             Unit un = Map.I.GetUnit( new Vector2( xx, yy ), ELayerType.MONSTER );
             if( un && un.ValidMonster && un.Control.Resting == false )

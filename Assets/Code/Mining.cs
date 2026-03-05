@@ -1191,9 +1191,9 @@ public partial class Controller : MonoBehaviour
         {
             List<Unit> Bombl = new List<Unit>();
             List<Vector2> sidel = new List<Vector2>();
-            Map.I.ObjectID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+            Map.I.ObjectID = new int[ Map.I.TM.width, Map.I.TM.height ];
             CalculateDynamiteExplosion( from, tg, ref Bombl, ref sidel );                                        // Recursive calculation of Dynamite explosion
-            Map.I.ObjectID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+            Map.I.ObjectID = new int[ Map.I.TM.width, Map.I.TM.height ];
             for( int i = Bombl.Count - 1; i >= 0; i-- )
             {
                 if( Bombl[ i ] .Mine.DynamiteMine == false )                                                    // decrement vault power
@@ -1217,7 +1217,7 @@ public partial class Controller : MonoBehaviour
     }
     public static bool CalculateDynamiteExplosion( Vector2 from, Vector2 to, ref List<Unit> Bombl, ref List<Vector2> sidel )
     {
-        if( Map.PtOnMap( Map.I.Tilemap, to ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, to ) == false ) return false;
         if( Map.I.ObjectID[ ( int ) to.x, ( int ) to.y ] > 0 )
             return false;
         Unit bomb = Map.GFU( ETileType.MINE, to );
@@ -1569,7 +1569,7 @@ public partial class Controller : MonoBehaviour
         AuxBridgePos = to;
         AuxBridgeDir = Util.GetInvDir( mov );
         List<int> pointsID = new List<int>();
-        Map.I.ObjectID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+        Map.I.ObjectID = new int[ Map.I.TM.width, Map.I.TM.height ];
         int search = 1;
         BridgeSupportPoints = new List<Vector2>();
         Vector2 closest = new Vector2( -1, -1 );
@@ -1622,11 +1622,11 @@ public partial class Controller : MonoBehaviour
     }
     public int GetBestBridgeRoute( Unit mine, ref Vector2 closest )                                   // este method usa o mesmo algoritmo do WQ para encontrar a melhor rota da ponte ate o suporte mais proximo. lembre-se do bolo que cresce 1 tile de cada vez
     {
-        Map.I.ObjectID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+        Map.I.ObjectID = new int[ Map.I.TM.width, Map.I.TM.height ];
         List<Unit> ml = new List<Unit>();
         for( int yy = ( int ) G.HS.Area.yMin - 1; yy < G.HS.Area.yMax + 1; yy++ )
         for( int xx = ( int ) G.HS.Area.xMin - 1; xx < G.HS.Area.xMax + 1; xx++ )
-        if( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+        if( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         {
             Unit auxm = Map.GFU( ETileType.MINE, new Vector2( xx, yy ) );
             if( auxm && GetBridgeDir( auxm.Pos ) != -1 ) { ml.Add( auxm ); }                           // make a list of all mines for efficiency
@@ -1668,7 +1668,7 @@ public partial class Controller : MonoBehaviour
                     }
                 }
             }
-        Map.I.ObjectID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+        Map.I.ObjectID = new int[ Map.I.TM.width, Map.I.TM.height ];
         return best;
     }
     public int GetBridgeDir( Vector2 tg )
@@ -1737,7 +1737,7 @@ public partial class Controller : MonoBehaviour
     }
     public bool CalculateBridgeSupportPoints( Vector2 from, Vector2 to, ref List<Vector2> suplist, ref int search, ref List<int> pointsid, int dist, bool up )
     {
-        if( Map.PtOnMap( Map.I.Tilemap, to ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, to ) == false ) return false;
         Unit frm = Map.GFU( ETileType.MINE, from );
         Unit tom = Map.GFU( ETileType.MINE, to );
         Unit frb = Map.GMine( EMineType.BRIDGE, from );
@@ -1839,7 +1839,7 @@ public partial class Controller : MonoBehaviour
         Unit mudto = Map.I.GetMud( to );
         if( mudto != null ) return false;
 
-        for( int i = 1; i < Map.I.Tilemap.width; i++ )
+        for( int i = 1; i < Map.I.TM.width; i++ )
         {
             Vector2 tg = to + ( Manager.I.U.DirCord[ ( int ) G.Hero.Dir ] * i );
             Vector2 lpos = to + ( Manager.I.U.DirCord[ ( int ) G.Hero.Dir ] * ( i - 1 ) );

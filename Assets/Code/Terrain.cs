@@ -458,7 +458,7 @@ public partial class Controller : MonoBehaviour
             int top = -1;
             for( int yy = ( int ) G.HS.Area.yMin - 1; yy < G.HS.Area.yMax + 1; yy++ )                    // find highest id
             for( int xx = ( int ) G.HS.Area.xMin - 1; xx < G.HS.Area.xMax + 1; xx++ )
-            if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+            if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
             {
                 Unit raft = Controller.GetRaft( new Vector2( xx, yy ) );
                 if( raft )
@@ -586,9 +586,8 @@ public partial class Controller : MonoBehaviour
         {
             FallingDeath( ETileType.TRAP );
             Map.I.PlatformDeath = true;
-            Map.I.Tilemap.SetTile( ( int ) Unit.Pos.x, ( int ) Unit.Pos.y,
+            Map.I.TM.SetTile( ( int ) Unit.Pos.x, ( int ) Unit.Pos.y,
             ( int ) ELayerType.GAIA, ( int ) ETileType.PIT );
-            Map.I.Tilemap.Build();
         }
 
         //if( monst == false )
@@ -790,7 +789,7 @@ public partial class Controller : MonoBehaviour
         if( vn == null || vn.Activated == false ) return;
         Unit vntg = Map.GFU( ETileType.VINES, G.Hero.Pos );
 
-        Map.I.VineID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];              // Reset data
+        Map.I.VineID = new int[ Map.I.TM.width, Map.I.TM.height ];              // Reset data
         List<Unit> vine = new List<Unit>();
         TrapDropList = new List<int>();
 
@@ -846,7 +845,7 @@ public partial class Controller : MonoBehaviour
     }
     public bool SetVineId( Vector2 from, Vector2 pos, int id, ref List<Unit> vine, Unit or )
     {
-        if( Map.PtOnMap( Map.I.Tilemap, pos ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, pos ) == false ) return false;
         Unit vn = Map.GFU( ETileType.VINES, pos );
         if( vn == null ) return false;
         if( vn.Activated == false ) return false;
@@ -1201,7 +1200,7 @@ public partial class Controller : MonoBehaviour
         Map.I.ConsecutivePlatformSteps = 0;
         Map.I.PlatformExitIndicator.gameObject.SetActive( false );
         int posx = 0, posy = 0;
-        Map.I.Tilemap.GetTileAtPosition( Unit.transform.position, out posx, out posy );
+        Map.I.TM.GetTileAtPosition( Unit.transform.position, out posx, out posy );
 
         TileChanged = false;
 
@@ -1343,7 +1342,7 @@ public partial class Controller : MonoBehaviour
     {
         if( SnowSliding == false && SandSliding == false ) return;
         int posx = 0, posy = 0;
-        Map.I.Tilemap.GetTileAtPosition( col.transform.position, out posx, out posy );
+        Map.I.TM.GetTileAtPosition( col.transform.position, out posx, out posy );
         List<Unit> unl = Map.I.GF( new Vector2( posx, posy ), ETileType.ALGAE );
 
         if( unl != null )
@@ -1650,7 +1649,7 @@ public partial class Controller : MonoBehaviour
         Map.I.ConsecutivePlatformSteps = 0;
         Map.I.PlatformExitIndicator.gameObject.SetActive( false );
         int posx = 0, posy = 0;
-        Map.I.Tilemap.GetTileAtPosition( Unit.transform.position, out posx, out posy );
+        Map.I.TM.GetTileAtPosition( Unit.transform.position, out posx, out posy );
         TileChanged = false;
 
         EDirection punchdir = EDirection.NONE;
@@ -1771,7 +1770,7 @@ public partial class Controller : MonoBehaviour
         else
             Unit.transform.position = OldSandSlidingPosition;
         int tgx = 0; int tgy = 0;
-        Map.I.Tilemap.GetTileAtPosition( Unit.transform.position, out tgx, out tgy );
+        Map.I.TM.GetTileAtPosition( Unit.transform.position, out tgx, out tgy );
         Unit.Pos = new Vector2( tgx, tgy );
         OldPos = Unit.Pos;
         LastPos = Unit.Pos;

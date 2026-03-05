@@ -875,7 +875,7 @@ public partial class Unit : MonoBehaviour
 
             if( val <= 0 ) val = 10;
         
-            ETileType raft = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(                                 
+            ETileType raft = ( ETileType ) Map.I.SRCTM.GetTile(                                 
             ( int ) IniPos.x, ( int ) IniPos.y, ( int ) ELayerType.RAFT );
 
             if( raft == ETileType.RAFT )
@@ -1611,9 +1611,9 @@ public partial class Unit : MonoBehaviour
     private void ToggleBool( ref bool val, string varname, Vector2 tg = default ( Vector2 ) )
     {
         if( tg == Vector2.zero ) tg = IniPos;
-        ETileType d1 = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int )                                             // Gets decor tile
+        ETileType d1 = ( ETileType ) Map.I.SRCTM.GetTile( ( int )                                             // Gets decor tile
         tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR );
-        ETileType d2 = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) 
+        ETileType d2 = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) 
         tg.x, ( int ) tg.y, ( int ) ELayerType.DECOR2 );
 
         for( int id = 1; id <= 2; id++ )

@@ -646,7 +646,7 @@ public class Altar : MonoBehaviour
                 UpdateAltarAttack( al, spr, G.Hero, i );                                               // Hero spike damage
 
                 int posx = 0, posy = 0;
-                Map.I.Tilemap.GetTileAtPosition( spr.transform.position, out posx, out posy );        // Monsters Axe damage
+                Map.I.TM.GetTileAtPosition( spr.transform.position, out posx, out posy );        // Monsters Axe damage
                 Unit un = Map.I.GetUnit( new Vector2( posx, posy ), ELayerType.MONSTER );
                 if( un && un.ValidMonster ) UpdateAltarAttack( al, spr, un, i );
                 List<Unit> fl = Map.I.GetFUnit( new Vector2( posx, posy ) );                          // Flying Axe damage

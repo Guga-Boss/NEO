@@ -68,7 +68,7 @@ public partial class Map: MonoBehaviour
         int gx = tg.x;
         int gy = tg.y;
 
-        if( !PtOnMap( Tilemap, tg ) ) return;
+        if( !PtOnMap( Map.I.TM, tg ) ) return;
 
         // --- CORREÇÃO: Pega o ID correto independente de estar no Play ou Editor ---
         ETileType ga = GetTileIDAt(gx, gy);
@@ -94,7 +94,7 @@ public partial class Map: MonoBehaviour
         for( int d = 0; d < 8; d++ )
         {
             VI t = tg + Manager.I.U.DirCordI[d];
-            if( PtOnMap( Tilemap, t ) )
+            if( PtOnMap( Map.I.TM, t ) )
             {
                 ETileType neighbor = GetTileIDAt(t.x, t.y);
 
@@ -147,7 +147,7 @@ public partial class Map: MonoBehaviour
     // Helper essencial para o debug e vizinhança funcionarem
     public ETileType GetTileIDAt( int x, int y )
     {
-        if( !PtOnMap( Tilemap, new Vector2( x, y ) ) ) return ETileType.NONE;
+        if( !PtOnMap( Map.I.TM, new Vector2( x, y ) ) ) return ETileType.NONE;
         if( Application.isPlaying )
         {
             if( Gaia == null ) return ETileType.NONE;
@@ -175,13 +175,13 @@ public partial class Map: MonoBehaviour
     {
         int gx = pos.x;
         int gy = pos.y;
-        if( !PtOnMap( Tilemap, pos ) ) return;
+        if( !PtOnMap( Map.I.TM, pos ) ) return;
 
         tk2dTileMap tm = TransTileMap;
         int tgX = gx + 1;
         int tgY = gy - 1;
 
-        if( !PtOnMap( Tilemap, new VI( tgX, tgY ) ) ) return;
+        if( !PtOnMap( Map.I.TM, new VI( tgX, tgY ) ) ) return;
 
         int baseX = tgX * 2;
         int baseY = tgY * 2;
@@ -276,7 +276,7 @@ public partial class Map: MonoBehaviour
 
     public bool CastShadow( Vector2 tg )
     {
-        if( !PtOnMap( Tilemap, tg ) ) return false; // out of map;
+        if( !PtOnMap( Map.I.TM, tg ) ) return false; // out of map;
         ETileType ga = GetTileIDAt( ( int ) tg.x, ( int ) tg.y );
 
         switch( ga )
@@ -361,7 +361,7 @@ public partial class Map: MonoBehaviour
         for( int d = 0; d < 8; d++ )
         {
             t = tg + Manager.I.U.DirCord[ d ];
-            if( PtOnMap( Map.I.Tilemap, t ) )
+            if( PtOnMap( Map.I.TM, t ) )
             {
                 if( AreaID[ ( int ) t.x, ( int ) t.y ] != 0 )
                     if( AreaID[ ( int ) t.x, ( int ) t.y ] == area ) np[ d ] = true;
@@ -451,7 +451,7 @@ public partial class Map: MonoBehaviour
 
     public EDirection GetArrowDir( Vector2 pos )
     {
-        if( Map.PtOnMap( Tilemap, pos ) == false ) return EDirection.NONE;
+        if( Map.PtOnMap( Map.I.TM, pos ) == false ) return EDirection.NONE;
         EDirection dr = EDirection.NONE;
         Unit arrow = GetUnit( ETileType.ARROW, pos );
 
@@ -468,7 +468,7 @@ public partial class Map: MonoBehaviour
 
     public bool CheckArrowBlockFromTo( Vector2 from, Vector2 to, Unit _unit, bool ignoreMessage = false, int inlev = -1, int outlev= -1 )
     {
-        if( !PtOnMap( Tilemap, from ) ) return false;
+        if( !PtOnMap( Map.I.TM, from ) ) return false;
         if( _unit != null && _unit.Control.BlockedByArrow == false ) return false;
         if( inlev == -1 && outlev == -1 )
         if( from == to ) return false;
@@ -630,7 +630,7 @@ public partial class Map: MonoBehaviour
         }
 
         if( inlev != -2 )
-        if( !PtOnMap( Tilemap, to ) ) return false;
+        if( !PtOnMap( Map.I.TM, to ) ) return false;
         if( ( int ) dest >= ( int ) EDirection.N && ( int ) dest <= ( int ) EDirection.NW && In < 3 )         // Entering arrow
         {
             if( dif.x == 0 && dif.y == -1 )
@@ -703,7 +703,7 @@ public partial class Map: MonoBehaviour
         }
 
         if( inlev != -2 )
-        if( !PtOnMap( Tilemap, to ) ) return false;
+        if( !PtOnMap( Map.I.TM, to ) ) return false;
         if( ( int ) dest >= ( int ) EDirection.N && ( int ) dest <= ( int ) EDirection.NW && In < 4 )         // Entering arrow
         {
             if( dif.x == 0 && dif.y == -1 )
@@ -769,7 +769,7 @@ public partial class Map: MonoBehaviour
         }
 
         if( inlev != -2 )
-        if( !PtOnMap( Tilemap, to ) ) return false;
+        if( !PtOnMap( Map.I.TM, to ) ) return false;
         if( ( int ) dest >= ( int ) EDirection.N && ( int ) dest <= ( int ) EDirection.NW && In < 5 )         // Entering arrow
         {
             if( dif.x == 0 && dif.y == -1 )
@@ -821,7 +821,7 @@ public partial class Map: MonoBehaviour
     }
 
 
-    public bool SetAreaID( ref tk2dTileMap tm, ref List<Vector2> tlist, Vector2 pos, ref int id, ETileType tgtile )
+    public bool SetAreaID( ref MyTilemap tm, ref List<Vector2> tlist, Vector2 pos, ref int id, ETileType tgtile )
     {
         if( Map.PtOnMap( tm, pos ) == false ) return false;
 
@@ -887,7 +887,7 @@ public partial class Map: MonoBehaviour
 
     //_____________________________________________________________________________________________________________________ Creates Areas on map
 
-    public void CreateAreas( tk2dTileMap tm, int lv, Level level, Rect area, ref List<Area> areaList, Sector s, SectorDefinition SD )
+    public void CreateAreas( MyTilemap tm, int lv, Level level, Rect area, ref List<Area> areaList, Sector s, SectorDefinition SD )
     {
         if( tm == null ) return;
         if( level == null ) return;
@@ -923,7 +923,7 @@ public partial class Map: MonoBehaviour
             {
                 for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )                          // This creates a CONTIGUOUS area list that needs to be connected
                 for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-                if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+                if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
                  {
                      ETileType tile = ( ETileType ) tm.GetTile( xx, yy, ( int ) ELayerType.AREAS );
                      if( tile == tl )
@@ -939,7 +939,7 @@ public partial class Map: MonoBehaviour
             {
                 for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )                              // This creates a NON CONTIGUOUS area list
                 for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-                 if( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+                 if( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
                  {
                      ETileType tile = ( ETileType ) tm.GetTile( xx, yy, ( int ) ELayerType.AREAS );
                      if( tile == ( ETileType ) tl )
@@ -976,7 +976,7 @@ public partial class Map: MonoBehaviour
         return new Vector2( -1, -1 );
     }
 
-    public static int GetTileLineSize( tk2dTileMap tm, Vector2 orig, Vector2 dir, ETileType tgtile, ref Vector2 last, ELayerType layer = ELayerType.MODIFIER )
+    public static int GetTileLineSize( MyTilemap tm, Vector2 orig, Vector2 dir, ETileType tgtile, ref Vector2 last, ELayerType layer = ELayerType.MODIFIER )
     {
         last = orig;
         for( int size = 1; size < Sector.TSX; size++ )
@@ -992,7 +992,14 @@ public partial class Map: MonoBehaviour
     public static bool PtOnMap( tk2dTileMap tm, Vector2 pt )
     {
         if( pt.x < 0 || pt.x >= tm.width ||
-             pt.y < 0 || pt.y >= tm.height ) return false;
+            pt.y < 0 || pt.y >= tm.height ) return false;
+        return true;
+    }
+
+    public static bool PtOnMap( MyTilemap tm, Vector2 pt )
+    {
+        if( pt.x < 0 || pt.x >= tm.width ||
+            pt.y < 0 || pt.y >= tm.height ) return false;
         return true;
     }
 
@@ -1024,12 +1031,12 @@ public partial class Map: MonoBehaviour
         }
 
         Mtx = Mty = -1;
-        Tilemap.GetTileAtPosition( Manager.I.Camera.ScreenToWorldPoint( mp ), out Mtx, out Mty );
+        TM.GetTileAtPosition( Manager.I.Camera.ScreenToWorldPoint( mp ), out Mtx, out Mty );
         G.MP = new Vector2( Mtx, Mty );
 
-        if( Mtx >= Tilemap.width ) { Mtx = Mty = -1; }
+        if( Mtx >= TM.width ) { Mtx = Mty = -1; }
         if( Mtx < 0 ) { Mtx = Mty = -1; }
-        if( Mty >= Tilemap.height ) { Mtx = Mty = -1; }
+        if( Mty >= TM.height ) { Mtx = Mty = -1; }
         if( Mty < 0 ) { Mtx = Mty = -1; }
 
         return true;
@@ -1207,7 +1214,7 @@ public partial class Map: MonoBehaviour
 
     public Unit GetUnit( Vector2 pos, ELayerType layer, bool onlyinside = false )
     {
-        if( PtOnMap( Tilemap, pos ) )
+        if( PtOnMap( Map.I.TM, pos ) )
             if( onlyinside == false || PtOnAreaMap( pos ) )
             {
                 if( layer == ELayerType.MONSTER )
@@ -1348,7 +1355,7 @@ public partial class Map: MonoBehaviour
     public void UpdateCamera()
     {
         if( Hero == null ) return;
-        if( Tilemap == null ) return;
+        //if( Tilemap_old == null ) return;
 
         Vector3 target = new Vector3( Hero.transform.position.x, 
                                       Hero.transform.position.y - 0.75f, -10 );
@@ -1385,7 +1392,7 @@ public partial class Map: MonoBehaviour
         if( cm )
         {
             md = ( int ) Mod.GetModInTile( G.Hero.Pos );
-            ori = ( int ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) 
+            ori = ( int ) Map.I.SRCTM.GetTile( ( int ) 
             G.Hero.Pos.x, ( int ) G.Hero.Pos.y, ( int ) ELayerType.AREAS );
         }
 
@@ -1750,20 +1757,20 @@ public partial class Map: MonoBehaviour
 
     public void UpdateCameraAreaStepping( Vector2 to )
     {
-        ETileType tl = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile( ( int ) to.x, ( int ) to.y, ( int ) ELayerType.AREAS );
+        ETileType tl = ( ETileType ) Map.I.SRCTM.GetTile( ( int ) to.x, ( int ) to.y, ( int ) ELayerType.AREAS );
         if( tl == ETileType.CAM_AREA )
         {
             CamAreaStepped = true;
             if( CamArea.x == 0 )
             {
                 Vector2 n = new Vector2( 0, 0 );
-                int ns = GetTileLineSize( Quest.I.Dungeon.Tilemap, G.Hero.Pos, new Vector2( 0, 1 ), ETileType.CAM_AREA, ref n, ELayerType.AREAS );
+                int ns = GetTileLineSize( Map.I.TM, G.Hero.Pos, new Vector2( 0, 1 ), ETileType.CAM_AREA, ref n, ELayerType.AREAS );
                 Vector2 s = new Vector2( 0, 0 );
-                int ss = GetTileLineSize( Quest.I.Dungeon.Tilemap, G.Hero.Pos, new Vector2( 0, -1 ), ETileType.CAM_AREA, ref s, ELayerType.AREAS );
+                int ss = GetTileLineSize( Map.I.TM, G.Hero.Pos, new Vector2( 0, -1 ), ETileType.CAM_AREA, ref s, ELayerType.AREAS );
                 Vector2 e = new Vector2( 0, 0 );
-                int es = GetTileLineSize( Quest.I.Dungeon.Tilemap, G.Hero.Pos, new Vector2( 1, 0 ), ETileType.CAM_AREA, ref e, ELayerType.AREAS );
+                int es = GetTileLineSize( Map.I.TM, G.Hero.Pos, new Vector2( 1, 0 ), ETileType.CAM_AREA, ref e, ELayerType.AREAS );
                 Vector2 w = new Vector2( 0, 0 );
-                int ws = GetTileLineSize( Quest.I.Dungeon.Tilemap, G.Hero.Pos, new Vector2( -1, 0 ), ETileType.CAM_AREA, ref w, ELayerType.AREAS );
+                int ws = GetTileLineSize( Map.I.TM, G.Hero.Pos, new Vector2( -1, 0 ), ETileType.CAM_AREA, ref w, ELayerType.AREAS );
 
                 Vector2 p1 = new Vector2( w.x, n.y );
                 Vector2 p2 = new Vector2( e.x, s.y );
@@ -1794,25 +1801,25 @@ public partial class Map: MonoBehaviour
         if( zm == 0 )
         {
             tg.x = ( float ) Mathf.Clamp( tg.x, CData.LowerLeftCamLimit.x - 0.5f + Manager.I.Cam.ScreenExtents.width / 2,
-                                                CData.UpperRightCamLimit.x + Tilemap.width - 0.5f - Manager.I.Cam.ScreenExtents.width / 2 );
+                                                CData.UpperRightCamLimit.x + TM.width - 0.5f - Manager.I.Cam.ScreenExtents.width / 2 );
             tg.y = ( float ) Mathf.Clamp( tg.y, CData.LowerLeftCamLimit.y - 0.5f + Manager.I.Cam.ScreenExtents.height / 2,
-                                                CData.UpperRightCamLimit.y + Tilemap.height - 0.5f - Manager.I.Cam.ScreenExtents.height / 2 );
+                                                CData.UpperRightCamLimit.y + TM.height - 0.5f - Manager.I.Cam.ScreenExtents.height / 2 );
         }
         else
         if( zm == 1 )
         {
             tg.x = ( float ) Mathf.Clamp( tg.x, CData.LowerLeftCamLimit2.x - 0.5f + Manager.I.Cam.ScreenExtents.width / 2,
-                                                CData.UpperRightCamLimit2.x + Tilemap.width - 0.5f - Manager.I.Cam.ScreenExtents.width / 2 );
+                                                CData.UpperRightCamLimit2.x + TM.width - 0.5f - Manager.I.Cam.ScreenExtents.width / 2 );
             tg.y = ( float ) Mathf.Clamp( tg.y, CData.LowerLeftCamLimit2.y - 0.5f + Manager.I.Cam.ScreenExtents.height / 2,
-                                                CData.UpperRightCamLimit2.y + Tilemap.height - 0.5f - Manager.I.Cam.ScreenExtents.height / 2 );
+                                                CData.UpperRightCamLimit2.y + TM.height - 0.5f - Manager.I.Cam.ScreenExtents.height / 2 );
         }
         else
         if( zm == 2 )
         {
             tg.x = ( float ) Mathf.Clamp( tg.x, CData.LowerLeftCamLimit3.x - 0.5f + Manager.I.Cam.ScreenExtents.width / 2,
-                                                CData.UpperRightCamLimit3.x + Tilemap.width - 0.5f - Manager.I.Cam.ScreenExtents.width / 2 );
+                                                CData.UpperRightCamLimit3.x + TM.width - 0.5f - Manager.I.Cam.ScreenExtents.width / 2 );
             tg.y = ( float ) Mathf.Clamp( tg.y, CData.LowerLeftCamLimit3.y - 0.5f + Manager.I.Cam.ScreenExtents.height / 2,
-                                                CData.UpperRightCamLimit3.y + Tilemap.height - 0.5f - Manager.I.Cam.ScreenExtents.height / 2 );
+                                                CData.UpperRightCamLimit3.y + TM.height - 0.5f - Manager.I.Cam.ScreenExtents.height / 2 );
         }
     }
 
@@ -1928,10 +1935,10 @@ public partial class Map: MonoBehaviour
     public void ClearTilemap()
     {
         for( int l = 0; l < 5; l++ )
-            for( int y = 0; y < Tilemap.height; y++ )
-                for( int x = 0; x < Tilemap.width; x++ )
+            for( int y = 0; y < TM.height; y++ )
+                for( int x = 0; x < TM.width; x++ )
                 {
-                    Tilemap.SetTile( x, y, l, ( int ) ETileType.NONE );
+                    TM.SetTile( x, y, l, ( int ) ETileType.NONE );
                 }
     }
 
@@ -2001,7 +2008,7 @@ public partial class Map: MonoBehaviour
 
     public bool IsTileOnlyGrass( Vector2 tg, bool mud = false )
     {
-        if( PtOnMap( Tilemap, tg ) == false ) return false;
+        if( PtOnMap( Map.I.TM, tg ) == false ) return false;
         Unit ga = Gaia[ ( int ) tg.x, ( int ) tg.y ];
         if( ga ) 
         {
@@ -2015,7 +2022,7 @@ public partial class Map: MonoBehaviour
 
     public bool IsTileFree( Vector2 from, Vector2 tg )
     {
-        if( PtOnMap( Tilemap, tg ) == false ) return false;
+        if( PtOnMap( Map.I.TM, tg ) == false ) return false;
         if( Revealed[ ( int ) tg.x, ( int ) tg.y ] == false ) return false;
         if( G.Hero.CanMoveFromTo( false, from, tg, G.Hero ) == false ) return false;
         //if( Gaia[ ( int ) tg.x, ( int ) tg.y ] != null ) return false;
@@ -2041,7 +2048,7 @@ public partial class Map: MonoBehaviour
         for( int i = 0; i < 8; i++ )
         {
             Vector2 aux = tg + Manager.I.U.DirCord[ i ];
-            if( PtOnMap( Tilemap, aux ) )
+            if( PtOnMap( Map.I.TM, aux ) )
                 if( Revealed[ ( int ) aux.x, ( int ) aux.y ] == true )
                 {
                     if( Map.I.IsTileFree( tg, aux ) ) free++;
@@ -2128,7 +2135,7 @@ public partial class Map: MonoBehaviour
 
     public int GetNeighborBarricadesTouchedCount( Vector2 barpos )
     {
-        if( PtOnMap( Tilemap, barpos ) == false ) return 0;
+        if( PtOnMap( Map.I.TM, barpos ) == false ) return 0;
         if( RM.DungeonDialog.gameObject.activeSelf ) return 0;
         if( Manager.I.GameType == EGameType.FARM ) return 0;
 
@@ -2208,7 +2215,7 @@ public partial class Map: MonoBehaviour
         for( int i = 0; i < 8; i++ )
         {
             Vector2 aux = tg + Manager.I.U.DirCord[ i ];
-            if( PtOnMap( Tilemap, aux ) )
+            if( PtOnMap( Map.I.TM, aux ) )
             {
                 if( Unit[ ( int ) aux.x, ( int ) aux.y ] )
                     if( Unit[ ( int ) aux.x, ( int ) aux.y ].TileID == ETileType.BARRICADE )
@@ -2234,7 +2241,7 @@ public partial class Map: MonoBehaviour
         for( int i = 0; i < 8; i++ )
         {
             Vector2 aux = tg + Manager.I.U.DirCord[ i ];
-            if( PtOnMap( Tilemap, aux ) )
+            if( PtOnMap( Map.I.TM, aux ) )
             {
                 int area = GetPosArea( aux );
                 if( area != -1 && arlist.Contains( area ) == false )
@@ -2271,7 +2278,7 @@ public partial class Map: MonoBehaviour
         for( int h = 0; h < 8; h++ )
         {
             Vector2 heron = G.Hero.Pos + Manager.I.U.DirCord[ h ];
-            if( PtOnMap( Tilemap, heron ) )
+            if( PtOnMap( Map.I.TM, heron ) )
             {
                 if( Unit[ ( int ) heron.x, ( int ) heron.y ] )
                 if( Unit[ ( int ) heron.x, ( int ) heron.y ].TileID == ETileType.BARRICADE )
@@ -2286,8 +2293,8 @@ public partial class Map: MonoBehaviour
 
     public void RestoreOriginalOutAreaBarricades( bool exit )
     {
-        for( int y = 0; y < Map.I.Tilemap.height; y++ )
-            for( int x = 0; x < Map.I.Tilemap.width; x++ )
+        for( int y = 0; y < Map.I.TM.height; y++ )
+            for( int x = 0; x < Map.I.TM.width; x++ )
                 if( AreaID[ x, y ] == 0 )
                     if( Unit[ x, y ] )
                         if( Unit[ x, y ].TileID == ETileType.BARRICADE )
@@ -2346,8 +2353,8 @@ public partial class Map: MonoBehaviour
         int yMax = ( int ) ( pt.y + rad.y );
 
         var grid = FUnit;                                                // Cache array reference;
-        uint h = ( uint ) Map.I.Tilemap.height;                          // Use Tilemap height;
-        uint w = ( uint ) Map.I.Tilemap.width;                           // Use Tilemap width;
+        uint h = ( uint ) Map.I.TM.height;                          // Use Tilemap height;
+        uint w = ( uint ) Map.I.TM.width;                           // Use Tilemap width;
 
         for( int y = yMin; y < yMax; y++ )
         {
@@ -2404,8 +2411,8 @@ public partial class Map: MonoBehaviour
         int x = ( int ) tg.x;                                            // Cast X;
         int y = ( int ) tg.y;                                            // Cast Y;
 
-        if( (uint) x >= (uint) Map.I.Tilemap.width   ||
-             (uint) y >= (uint) Map.I.Tilemap.height ) return null;      // Quick bounds exit;
+        if( (uint) x >= (uint) Map.I.TM.width   ||
+             (uint) y >= (uint) Map.I.TM.height ) return null;      // Quick bounds exit;
 
         var cell = Map.I.FUnit[ x, y ];                                  // Access map cell;
         if( cell == null ) return null;                                  // Exit if null;
@@ -2436,8 +2443,8 @@ public partial class Map: MonoBehaviour
         int x = ( int ) tg.x;                                            // Cast X;
         int y = ( int ) tg.y;                                            // Cast Y;
 
-        if( (uint) x >= (uint) Map.I.Tilemap.width   ||
-             (uint) y >= (uint) Map.I.Tilemap.height ) return null;      // Boundary check;
+        if( (uint) x >= (uint) Map.I.TM.width   ||
+             (uint) y >= (uint) Map.I.TM.height ) return null;      // Boundary check;
 
         var cell = Map.I.FUnit[ x, y ];                                  // Cell reference;
         if( cell == null ) return null;                                  // Safety exit;

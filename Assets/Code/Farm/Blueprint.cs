@@ -781,7 +781,7 @@ public class Blueprint : MonoBehaviour
 
                Vector2 pos = tg + new Vector2( x, y );                                                                         // Sweeps the tilemap and fills up item matrix
 
-               if( Map.PtOnMap( Map.I.Tilemap, pos ) )
+               if( Map.PtOnMap( Map.I.TM, pos ) )
                {
                    Unit ga2 = Map.I.Gaia2[ ( int ) pos.x, ( int ) pos.y ];
 
@@ -1210,8 +1210,8 @@ public class Blueprint : MonoBehaviour
 
         float bestdist = 100000;
         if( AutoApplyBuilding == null )
-        for( int y = 0; y < Map.I.Tilemap.height; y++ )                                                     // Chooses the closest to hero building for auto upgrade
-        for( int x = 0; x < Map.I.Tilemap.width; x++ )
+        for( int y = 0; y < Map.I.TM.height; y++ )                                                     // Chooses the closest to hero building for auto upgrade
+        for( int x = 0; x < Map.I.TM.width; x++ )
         if ( Map.I.Gaia2[ x, y ] )
             {
                 Unit bl = Map.I.Gaia2[ x, y ];

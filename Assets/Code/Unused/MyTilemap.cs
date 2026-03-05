@@ -20,8 +20,8 @@ public class MyTilemap: SerializedMonoBehaviour
 
     [Title("Configurações de Grid")]
     public bool RestrainDrawing = true;
-    public Vector2Int GridSize = new Vector2Int(29, 29);
-
+    public int width;
+    public int height;
     [Title("Referências")]
     public List<Tilemap> Tilemaps;
     public MyTilemapEditor TilemapEditor;
@@ -119,7 +119,7 @@ public class MyTilemap: SerializedMonoBehaviour
         if( sourceMap == null ) return;
 
         // Regra de Borda
-        if( pos.x < 0 || pos.x >= GridSize.x || pos.y < 0 || pos.y >= GridSize.y )
+        if( pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height )
         {
             sourceMap.SetTile( pos, null );
             return;
@@ -200,7 +200,8 @@ public class MyTilemap: SerializedMonoBehaviour
 
         MyTilemap myTilemap = Map.I.TM;
         if( myTilemap == null ) return;
-        myTilemap.GridSize = new Vector2Int( 128, 128 );
+        myTilemap.width = 128;
+        myTilemap.height = 128;
     }
 
     [Button( "Update Tilemaps List" ), GUIColor( 0, 1f, 0 )]
@@ -318,11 +319,41 @@ public class MyTilemap: SerializedMonoBehaviour
         }
     }
 
+
+    public int[,,] tileIdData;                                             // Logical storage for all IDs [layer, x, y]
+    public bool[,,] visibleData;                                           // Visibility flag for each tile
+    internal int GetTile( int x, int y, int l )
+    {
+        if( l < 0 || l >= Tilemaps.Count ) return -1;                                      // Valida camada 
+
+        if( Application.isPlaying )
+            return tileIdData[ l, x, y ];                                                  // Retorna o ID lógico da camada (pode ser -1 se vazio)
+                                                    
+        TileBase tile = Tilemaps[ l ].GetTile( new Vector3Int( x, y, 0 ) );                // Pega o tile diretamente da Unity ; 
+       
+        return TileToID( tile );                                                           // Usa o seu método TileToID que já faz a conversão de sprite para Global ID 
+    }
     internal void SetTile( int x, int y, int layer, int id, bool useBatch = false )
     {
+        if( Application.isPlaying )
+        {
+            // 1. Save to Memory
+            tileIdData[ layer, x, y ] = id;                                                   // Always store the ID in logic array
+
+            // 2. Determine Visibility 
+            bool isVisible = (id != -1);                                                       // False if empty
+            if( layer == (int) ELayerType.GAIA && Map.I.RM.InvisibleGaia( (ETileType) id ) )
+                isVisible = false;                                                             // Force invisible for logic tiles
+
+            visibleData[ layer, x, y ] = isVisible;                                            // Store visibility state
+
+            if( id != -1 )
+            if( isVisible == false ) return;                                                   // if invisible, skip rendering (but still save logic state)
+        }
+
         if( layer < 0 || layer >= Tilemaps.Count ) return;
         if( useBatch )
-        {           
+        {
             BatchPositions[ layer ].Add( new Vector3Int( x, y, 0 ) );                    // Guarda a posição           
             BatchTiles[ layer ].Add( id == -1 ? null : EnumToTile( id ) );               // Guarda o Tile (se for -1, salva null para apagar o tile na Unity)
         }
@@ -334,13 +365,20 @@ public class MyTilemap: SerializedMonoBehaviour
             tilemap.SetTile( new Vector3Int( x, y, 0 ), tile );
         }
     }
+    public static void ClearTilemap( MyTilemap mt )
+    {
+        if( mt.Tilemaps != null )
+            foreach( var t in mt.Tilemaps )                                              // Loops through all tilemaps and clears them in Unity (visual)
+                if( t ) t.ClearAllTiles();
+        mt.InitData( mt.width, mt.height );                                              // Clears logical data and resets dimensions
+    }
 
     public static void Load( tk2dTileMap tm, MyTilemap myTilemap )
     {
         IgnoreUpdate = true;
         if( Application.isPlaying ) return;
-
-        myTilemap.GridSize = new Vector2Int( tm.width, tm.height );
+        myTilemap.width = tm.width;
+        myTilemap.height = tm.height;
 
         ClearTilemap( myTilemap );
 
@@ -408,10 +446,24 @@ public class MyTilemap: SerializedMonoBehaviour
         Debug.Log( $"<color=cyan>[QuestCache]</color> Rebuild completo: {questDataCache.Count} entradas." );
     }
 
-    public static void ClearTilemap( MyTilemap mt )
+
+    public void InitData( int w, int h )
     {
-        if( mt.Tilemaps != null )
-            foreach( var t in mt.Tilemaps ) if( t ) t.ClearAllTiles();
+        int layers = Tilemaps.Count; ;                                     // Gets number of layers from the list
+        width = w;                                                         // Updates internal width reference
+        height = h;                                                        // Updates internal height reference
+
+        tileIdData = new int[ layers, w, h ];                              // Allocates memory for tile IDs
+        visibleData = new bool[ layers, w, h ];                            // Allocates memory for visibility flags
+
+       
+        for( int l = 0; l < layers; l++ )                                  // Manual loop is more reliable for 3D arrays [,,]
+        for( int x = 0; x < w; x++ )
+        for( int y = 0; y < h; y++ )
+            {
+             tileIdData[ l, x, y ] = -1;                                   // Sets default state to empty
+             visibleData[ l, x, y ] = false;                               // Sets default visibility to hidden
+            }
     }
 
     public TileBase EnumToTile( int type )
@@ -430,13 +482,15 @@ public class MyTilemap: SerializedMonoBehaviour
 
     [Button( "Update Tilemaps List" )]
     public void Upd() => Tilemaps = new List<Tilemap>( GetComponentsInChildren<Tilemap>( true ) );
-
-    internal int GetTile( int x, int y, int l )
+    internal Vector2 GetSize()
     {
-        if( l < 0 || l >= Tilemaps.Count ) return -1; // Valida camada 
-        // Pega o tile diretamente da Unity ;
-        TileBase tile = Tilemaps[ l ].GetTile( new Vector3Int( x, y, 0 ) ); 
-        // Usa o seu método TileToID que já faz a conversão de sprite para Global ID 
-        return TileToID( tile ); 
+        return new Vector2( width, height );
+    }
+    public bool GetTileAtPosition( Vector3 position, out int x, out int y )
+    {
+        Vector3Int cellPosition = Tilemaps[0].WorldToCell(position);
+        x = cellPosition.x;
+        y = cellPosition.y;
+        return x >= 0 && x < width && y >= 0 && y < height;
     }
 }

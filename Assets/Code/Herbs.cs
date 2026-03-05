@@ -148,7 +148,7 @@ public partial class Map : MonoBehaviour
         {
             Vector2 aux = to + ( Manager.I.U.DirCord[ ( int ) dr ] * d );
             Vector2 fr  = to + ( Manager.I.U.DirCord[ ( int ) dr ] * ( d - 1 ) );
-            if( Map.PtOnMap( Map.I.Tilemap, aux ) )
+            if( Map.PtOnMap( Map.I.TM, aux ) )
             {
                 if( CanHerbMoveTo( fr, aux, d ) == false ) break;
                 tg = aux;
@@ -275,7 +275,7 @@ public partial class Map : MonoBehaviour
         Sector s = RM.HeroSector;
         for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )                                // Set all cube herbs as not checked
         for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         {
             Unit hr = GetHerb( new Vector2( xx, yy ) );
             if( hr != null ) hr.Body.HerbMatchChecked = 0;            
@@ -308,7 +308,7 @@ public partial class Map : MonoBehaviour
 
     public bool CheckHerbMatch( Vector2 pos, int id, ref List<Unit> hl )
     {
-        if( PtOnMap( Tilemap, pos ) == false ) return false;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return false;
         Unit herb = GetHerb( pos );
         if( herb == null ) return false;
         if( herb.Body.HerbMatchChecked > 0 ) return false;
@@ -329,7 +329,7 @@ public partial class Map : MonoBehaviour
 
     public bool CheckMudPool( Vector2 pos, int id, ref List<Vector2> hl )
     {
-        if( PtOnMap( Tilemap, pos ) == false ) return false;
+        if( PtOnMap( Map.I.TM, pos ) == false ) return false;
         Unit mud = GetMud( pos );
         if( mud == null ) return false;
         if( MudPoolID[ ( int ) pos.x, ( int ) pos.y ] > 0 ) return false;                                  // Checks mud pool
@@ -346,7 +346,7 @@ public partial class Map : MonoBehaviour
     {
         Unit mud = GetMud( tg );
         if( mud == null ) return false;
-        MudPoolID = new int[ Map.I.Tilemap.width, Map.I.Tilemap.height ];
+        MudPoolID = new int[ Map.I.TM.width, Map.I.TM.height ];
         List<Vector2> mpl = new List<Vector2>();
         List<Unit> hbl = new List<Unit>();
 
@@ -409,7 +409,7 @@ public partial class Map : MonoBehaviour
         shuffleList = new List<Unit>();
         for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )                               // loops through all herbs to shuffle their pos
         for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-        if ( Map.PtOnMap( Map.I.Tilemap, new Vector2( xx, yy ) ) )
+        if ( Map.PtOnMap( Map.I.TM, new Vector2( xx, yy ) ) )
         {
             Unit herb = GetHerb( new Vector2( xx, yy ) );
             if( herb != null )
@@ -422,7 +422,7 @@ public partial class Map : MonoBehaviour
     }
     public Unit GetHerb( Vector2 tg, bool checkActivated = true )
     {
-        if( PtOnMap( Tilemap, tg ) == false ) return null;
+        if( PtOnMap( Map.I.TM, tg ) == false ) return null;
         if ( FUnit[ ( int ) tg.x, ( int ) tg.y ] != null )
         for( int u = 0; u < FUnit[ ( int ) tg.x, ( int ) tg.y ].Count; u++ )            
         if ( FUnit[ ( int ) tg.x, ( int ) tg.y ][ u ].TileID == ETileType.HERB )

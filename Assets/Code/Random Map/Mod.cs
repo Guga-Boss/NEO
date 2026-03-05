@@ -794,7 +794,7 @@ public class Mod : SerializedMonoBehaviour
     public void ApplyMod( int xx, int yy, int id, Unit forcedUnit = null )
     {
         ETileType keym = ( ETileType )
-        Quest.I.Dungeon.Tilemap.GetTile( xx, yy, ( int ) ELayerType.GAIA2  );
+        Map.I.SRCTM.GetTile( xx, yy, ( int ) ELayerType.GAIA2  );
         if( Map.GetTileID( ( ETileType ) keym ) != ETileType.DOOR_OPENER   )            // key type mod opener
         if( Map.GetTileID( ( ETileType ) keym ) != ETileType.DOOR_SWITCHER )            // key type mod switcher
         if( Map.GetTileID( ( ETileType ) keym ) != ETileType.DOOR_CLOSER   )            // key type mod closer
@@ -802,7 +802,7 @@ public class Mod : SerializedMonoBehaviour
             keym = ETileType.NONE;
 
         ETileType modtile = ( ETileType )
-        Quest.I.Dungeon.Tilemap.GetTile( xx, yy, ( int ) ELayerType.MODIFIER );                                 // gets mod tile id
+        Map.I.SRCTM.GetTile( xx, yy, ( int ) ELayerType.MODIFIER );                                 // gets mod tile id
 
         EModType mod = GetMod( modtile ); 
         if( forcedUnit == null )
@@ -1057,9 +1057,9 @@ public class Mod : SerializedMonoBehaviour
             return ( EModType ) ( modtile - ETileType.MOD17 + 16 );
         return EModType.NONE;
     }
-    public static EModType GetModInTile( Vector2 tg, tk2dTileMap tm = null )
+    public static EModType GetModInTile( Vector2 tg, MyTilemap tm = null )
     {
-        if( tm == null ) tm = Quest.I.Dungeon.Tilemap;
+        if( tm == null ) tm = Map.I.SRCTM;
         ETileType modtile = ( ETileType ) tm.GetTile( ( int ) tg.x, ( int ) tg.y, ( int ) ELayerType.MODIFIER );
         return GetMod( modtile );
     }
@@ -1146,7 +1146,7 @@ public class Mod : SerializedMonoBehaviour
                 for( int y = ( int ) ( Pos.y - rad ); y <= Pos.y + rad; y++ )
                 for( int x = ( int ) ( Pos.x - rad ); x <= Pos.x + rad; x++ )
                 if ( Pos != new Vector2( x, y ) )
-                if ( Map.PtOnMap( Quest.I.Dungeon.Tilemap, new Vector2( x, y ) ) )
+                if ( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                 {
                     dr = GetOrientatorDir( new Vector2( x, y ), idd );                                         // looks for a surrounding object
                     if( dr != EDirection.NONE )
@@ -1190,7 +1190,7 @@ public class Mod : SerializedMonoBehaviour
 
             id = -1;                                                                               // in this case count is provided for a unique ori position search
             Vector2 tg = Pos + Manager.I.U.DirCord[ cont ];                                        // Dir cord based ori search
-            if( Map.PtOnMap( Quest.I.Dungeon.Tilemap, tg ) )
+            if( Map.PtOnMap( Map.I.TM, tg ) )
             {
                 dr = GetOrientatorDir( tg, idd );
                 if( Util.ValidDir( dr ) )
@@ -1236,7 +1236,7 @@ public class Mod : SerializedMonoBehaviour
         if( type == 2 )                                                                                                                                    // key type mod
         {
             ETileType keym = ( ETileType )
-            Quest.I.Dungeon.Tilemap.GetTile( ( int ) pos.x, ( int ) pos.y, ( int ) ELayerType.GAIA2 );
+            Map.I.SRCTM.GetTile( ( int ) pos.x, ( int ) pos.y, ( int ) ELayerType.GAIA2 );
             int key = GetKeyNum( keym );
             if( key != -1 ) return key;
             return -1; // new
@@ -1245,7 +1245,7 @@ public class Mod : SerializedMonoBehaviour
         if( type == 3 )                                                                                                                                    // Ori 3 type mod
         {
             ETileType keym = ( ETileType )
-            Quest.I.Dungeon.Tilemap.GetTile( ( int ) pos.x, ( int ) pos.y, ( int ) ELayerType.RAFT );
+            Map.I.SRCTM.GetTile( ( int ) pos.x, ( int ) pos.y, ( int ) ELayerType.RAFT );
             int key = GetOri3Num( keym );
             if( key != -1 ) return key;
             return -1; // new
@@ -1310,7 +1310,7 @@ public class Mod : SerializedMonoBehaviour
 
     public static EDirection GetOrientatorDir( Vector2 Pos, int idd = -1 )
     {
-            ETileType or = ( ETileType ) Quest.I.Dungeon.Tilemap.GetTile(
+            ETileType or = ( ETileType ) Map.I.SRCTM.GetTile(
             ( int ) Pos.x, ( int ) Pos.y, ( int ) Map.GetTileLayer( ETileType.ORIENTATION ) );              // Orientator based direction
             if( idd != 1 && idd != 0 ) or = ETileType.NONE;
 
@@ -1320,11 +1320,11 @@ public class Mod : SerializedMonoBehaviour
 
             if( idd == 1 || idd == 4 || idd == 5 )
             {
-                if( Quest.I.Dungeon.Tilemap.GetTile( ( int ) Pos.x, ( int ) 
+                if( Map.I.SRCTM.GetTile( ( int ) Pos.x, ( int ) 
                     Pos.y, ( int ) ELayerType.MONSTER ) != -1 ) return EDirection.NONE;                     // Surrounding ori only over empty tile                
                 if( idd != 4 )
                 {
-                    int ga2 = Quest.I.Dungeon.Tilemap.GetTile( ( int ) Pos.x, ( int )
+                    int ga2 = Map.I.SRCTM.GetTile( ( int ) Pos.x, ( int )
                     Pos.y, ( int ) ELayerType.GAIA2 );
                     int key = GetKeyNum( ( ETileType ) ga2 );                                               // key is an exception for gaia2
                     if( ga2 != -1 && key == -1 )                        
@@ -1344,7 +1344,7 @@ public class Mod : SerializedMonoBehaviour
             if( dr == EDirection.NONE )                                                                    // Ori 4 type mod
             {
                 ETileType keym = ( ETileType )
-                Quest.I.Dungeon.Tilemap.GetTile( ( int ) Pos.x, ( int ) Pos.y, ( int ) ELayerType.GAIA2 );
+                Map.I.SRCTM.GetTile( ( int ) Pos.x, ( int ) Pos.y, ( int ) ELayerType.GAIA2 );
                 dr = ( EDirection ) GetKeyNum( keym );
                 if( dr >= 0 )
                 if( Map.I.RM.KeyListToDelete.Contains( Pos ) == false )
@@ -1355,7 +1355,7 @@ public class Mod : SerializedMonoBehaviour
             if( dr == EDirection.NONE )                                                                    // Ori 5 type mod
             {
                 ETileType keym = ( ETileType )
-                Quest.I.Dungeon.Tilemap.GetTile( ( int ) Pos.x, ( int ) Pos.y, ( int ) ELayerType.RAFT );
+                Map.I.SRCTM.GetTile( ( int ) Pos.x, ( int ) Pos.y, ( int ) ELayerType.RAFT );
                 dr = ( EDirection ) GetOri3Num( keym );
                 if( dr >= 0 )
                 if( Map.I.RM.KeyListToDelete.Contains( Pos ) == false )
@@ -1389,9 +1389,9 @@ public class Mod : SerializedMonoBehaviour
     {
         EModType mod = GetModInTile( pt );
         if( mod < EModType.MOD_1 || mod > EModType.MOD_32 ) return -1;
-        if( Quest.I.Dungeon.Tilemap.GetTile( ( int ) pt.x, ( int )
+        if( Map.I.SRCTM.GetTile( ( int ) pt.x, ( int )
         pt.y, ( int ) ELayerType.MONSTER ) != -1 ) return -1;
-        if( Quest.I.Dungeon.Tilemap.GetTile( ( int ) pt.x, ( int )
+        if( Map.I.SRCTM.GetTile( ( int ) pt.x, ( int )
         pt.y, ( int ) ELayerType.GAIA2 ) != -1 ) return -1;
         return ( int ) mod;
     }
@@ -1399,12 +1399,12 @@ public class Mod : SerializedMonoBehaviour
     public static int GetLoneOri3( Vector2 pt )    // only returns valid if theres a ori3 in the pos and no other object
     {
         ETileType modtile = ( ETileType )
-        Quest.I.Dungeon.Tilemap.GetTile( ( int ) pt.x, ( int ) pt.y, ( int ) ELayerType.RAFT );
+        Map.I.SRCTM.GetTile( ( int ) pt.x, ( int ) pt.y, ( int ) ELayerType.RAFT );
         int mod = GetOri3Num( modtile );
         if( mod < 0 || mod > 10 ) return -1;
-        if( Quest.I.Dungeon.Tilemap.GetTile( ( int ) pt.x, ( int )
+        if( Map.I.SRCTM.GetTile( ( int ) pt.x, ( int )
         pt.y, ( int ) ELayerType.MONSTER ) != -1 ) return -1;
-        if( Quest.I.Dungeon.Tilemap.GetTile( ( int ) pt.x, ( int )
+        if( Map.I.SRCTM.GetTile( ( int ) pt.x, ( int )
         pt.y, ( int ) ELayerType.GAIA2 ) != -1 ) return -1;
         return ( int ) mod;
     }

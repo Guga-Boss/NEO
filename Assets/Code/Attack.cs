@@ -376,7 +376,7 @@ public class Attack : MonoBehaviour
 	public float AttackUnit ( bool apply, Vector2 from, Vector2 tg, int attId )
 	{
 		if ( tg.x  == -1 || tg.y == -1 ) return 0;	                                          // Target out of Map
-		if ( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return 0;
+		if ( Map.PtOnMap( Map.I.TM, tg ) == false ) return 0;
 		//if ( Map.I.PtOnAreaMap( tg ) == false ) return 0;
 
 		Unit Enemy = Map.I.Unit[ ( int ) tg.x, ( int ) tg.y ];
@@ -685,7 +685,7 @@ public class Attack : MonoBehaviour
             bool ok = false;
             for( int i = 1; i < at.Count; i++ )
             {
-                if(!Map.PtOnMap( Map.I.Tilemap, at[ i ] ) ) break;
+                if(!Map.PtOnMap( Map.I.TM, at[ i ] ) ) break;
                 if( Unit.UnitType == EUnitType.HERO || Unit.TileID == ETileType.MOSQUITO )
                 if( Map.I.Unit[ ( int ) at[ i ].x, ( int ) at[ i ].y ] )
                 if( Map.I.Unit[ ( int ) at[ i ].x, ( int ) at[ i ].y ].ValidMonster )
@@ -1125,7 +1125,7 @@ public class Attack : MonoBehaviour
                             int rad = 1;
                             for( int y = (int) rel.y - rad; y <= rel.y + rad; y++ )
                                 for( int x = (int) rel.x - rad; x <= rel.x + rad; x++ )
-                                    if( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+                                    if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                                     {
                                         var cellList = Map.I.FUnit[ x, y ];                    // Cached grid access
                                         if( cellList != null )
@@ -1641,7 +1641,7 @@ public class Attack : MonoBehaviour
 
     public bool CanShoot( ref List<Vector2> tg, int i, ref int hitmonsterdist, bool penetrateMonsters )
     {
-        if( Map.PtOnMap( Map.I.Tilemap, tg[ i ] ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, tg[ i ] ) == false ) return false;
         Unit un = Map.I.Unit[ ( int ) tg[ i ].x, ( int ) tg[ i ].y ];
         Unit ga = Map.I.Gaia[ ( int ) tg[ i ].x, ( int ) tg[ i ].y ];
         Unit ga2 = Map.I.Gaia2[ ( int ) tg[ i ].x, ( int ) tg[ i ].y ];
@@ -1749,7 +1749,7 @@ public class Attack : MonoBehaviour
 
     public bool CheckBarricadeBlockForRangedAttack( Vector2 tg )
     {
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return true;
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return true;
         Unit br = Map.I.GetUnit( ETileType.BARRICADE, tg );
         if( br == null ) return false;
 

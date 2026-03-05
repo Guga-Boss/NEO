@@ -54,8 +54,7 @@ public class NavigationMap : MonoBehaviour
         Map.I.RM.DungeonDialog.gameObject.SetActive( false );
         Map.I.RM.DungeonDialog.NavigationMapButtonClick = false;
         Map.I.RM.DungeonDialog.GotoNavigationMap = false;
-        tk2dTileMap tm = Quest.I.Dungeon.Tilemap;
-        TKUtil.CreateBlankMap( ref tm );
+        MyTilemap.ClearTilemap( Map.I.SRCTM );
         Map.I.RM.RMD.Copy( MapData );
         Map.I.RM.RMD.Init();
         ResourceIndicator.DisableAll();  

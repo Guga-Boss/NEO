@@ -45,8 +45,8 @@ public class TouchCameraControl : MonoBehaviour
         if( Map.I == null ) return;
         if( Map.I.FreeCamMode == false ) return;
 
-        mapWidth = Map.I.Tilemap.width;
-        mapHeight = Map.I.Tilemap.height;
+        mapWidth = Map.I.TM.width;
+        mapHeight = Map.I.TM.height;
 
         Vector3 oldCameraPos = _camera.transform.position;
 
@@ -143,8 +143,8 @@ public class TouchCameraControl : MonoBehaviour
 
     public void CalculateLevelBounds()
     {
-        mapWidth = Map.I.Tilemap.width;
-        mapHeight = Map.I.Tilemap.height;
+        mapWidth = Map.I.TM.width;
+        mapHeight = Map.I.TM.height;
         verticalExtent = _camera.orthographicSize;
         horizontalExtent = _camera.orthographicSize * Screen.width / Screen.height;
         minX = horizontalExtent - mapWidth / 2.0f;

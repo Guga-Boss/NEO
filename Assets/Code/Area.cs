@@ -377,7 +377,7 @@ public class Area : MonoBehaviour
     }
     public static Area Get( Vector2 tg )
     {
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) == false ) return null;
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return null;
         if( Manager.I.GameType == EGameType.FARM ) return null;
         int area = Map.I.GetPosArea( tg );
         if( area >= 0 && area < Quest.I.CurLevel.AreaList.Count )

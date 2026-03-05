@@ -67,7 +67,7 @@ public partial class Map : MonoBehaviour
             for( int i = 0; i < pires.Count; i++ )                                                                    // Fire spreads
             for( int y = ( int ) pires[ i ].y - range; y <= pires[ i ].y + range; y++ )
             for( int x = ( int ) pires[ i ].x - range; x <= pires[ i ].x + range; x++ )
-            if ( PtOnMap( Tilemap, new Vector2( x, y ) ) )
+            if ( PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                 {
                     if( CurrentArea != -1 && GetPosArea( new Vector2( x, y ) ) == -1 ) {} else
                     if( Unit[ x, y ] && Unit[ x, y ].TileID == ETileType.BARRICADE &&                                 // Firespread check for Barricade Burning
@@ -180,7 +180,7 @@ public partial class Map : MonoBehaviour
 
      public bool LightFire( int x, int y, bool fireOn, bool barricade, bool addPoints = false )
     {
-        if( PtOnMap( Tilemap, new Vector2( x, y ) ) == false ) return false;
+        if( PtOnMap( Map.I.TM, new Vector2( x, y ) ) == false ) return false;
 
         Unit un = null;
         if( Gaia2[ x, y ] )

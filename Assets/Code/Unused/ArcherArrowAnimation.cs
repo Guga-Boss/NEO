@@ -221,7 +221,7 @@ public class ArcherArrowAnimation : MonoBehaviour {
             transform.position = Vector3.MoveTowards( transform.position, tgt, step );
             int x = -1;
             int y = -1;
-            Map.I.Tilemap.GetTileAtPosition( transform.position, out x, out y );
+            Map.I.TM.GetTileAtPosition( transform.position, out x, out y );
             AnimationTime += Time.deltaTime;
 
             if( TargetObject != null )

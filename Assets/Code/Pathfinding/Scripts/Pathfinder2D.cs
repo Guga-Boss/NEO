@@ -100,8 +100,8 @@ public class Pathfinder2D : MonoBehaviour
     public void Create2DMap( bool firsttime, Map m, bool canEnterArea )
     {
 		MyMap = m;
-		MapEndPosition.x = m.Tilemap.width  - 0.5f;
-		MapEndPosition.y = m.Tilemap.height - 0.5f;
+		MapEndPosition.x = m.TM.width  - 0.5f;
+		MapEndPosition.y = m.TM.height - 0.5f;
 
 		MapStartPosition.x = -0.5f;
 		MapStartPosition.y = -0.5f;
@@ -113,8 +113,8 @@ public class Pathfinder2D : MonoBehaviour
         int endY = (int)MapEndPosition.y;
 
         //Find tile width and height
-        int width =  m.Tilemap.width;
-        int height = m.Tilemap.height;
+        int width =  m.TM.width;
+        int height = m.TM.height;
 
         //Set map up
         if( firsttime )

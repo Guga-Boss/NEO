@@ -898,7 +898,7 @@ public partial class Unit : MonoBehaviour
     public static bool ApplyMove;
     public bool CheckTerrainMove( Vector2 from, Vector2 to, bool gaia, bool gaia2, bool monster, bool arrow, bool hero )
     {
-        if( Map.PtOnMap( Map.I.Tilemap, to ) == false ) return false;
+        if( Map.PtOnMap( Map.I.TM, to ) == false ) return false;
         Unit ga = Map.I.GetUnit( to, ELayerType.GAIA );
         Unit mn = Map.I.GetUnit( to, ELayerType.MONSTER );
         Unit ga2 = Map.I.GetUnit( to, ELayerType.GAIA2 );
@@ -1005,8 +1005,8 @@ public partial class Unit : MonoBehaviour
                     }
                 }
 
-            int tile = Map.I.Tilemap.GetTile( ( int ) to.x, ( int ) to.y, ( int ) ELayerType.GAIA );
-            if( tile >= 0 && ( int ) tile < Map.I.Tilemap.data.tileInfo.Length )                                     // Decor Gaia Block 
+            //int tile = Map.I.Tilemap_trash.GetTile( ( int ) to.x, ( int ) to.y, ( int ) ELayerType.GAIA );
+            //if( tile >= 0 && ( int ) tile < Map.I.Tilemap_old.data.tileInfo.Length )                                     // Decor Gaia Block 
             {
                 //var tileInfo = Map.I.Tilemap.data.tileInfo[ tile ];
                 //if( tileInfo.Layer == ELayerType.GAIA )
@@ -1216,7 +1216,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 {
     Map m = Map.I;
     if( Sector.GetPosSectorType( to ) == Sector.ESectorType.GATES ) return false;
-    if( Map.PtOnMap( m.Tilemap, to ) == false ) return false;                                                   // Out of map dest
+    if( Map.PtOnMap( m.TM, to ) == false ) return false;                                                   // Out of map dest
     
     bool cmine = true;    
     Unit mine = Map.GFU( ETileType.MINE, to );
@@ -1275,7 +1275,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
     {
         ApplyMove = bApply;
         Map m = Map.I;
-        if( Map.PtOnMap( m.Tilemap, to ) == false ) return false;                                                   // Out of map dest
+        if( Map.PtOnMap( m.TM, to ) == false ) return false;                                                        // Out of map dest
 
         if( Control.IsFlyingUnit )
             return CanFlyFromTo( bApply, from, to );
@@ -1748,7 +1748,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
                         List<float> itamt = new List<float>();
                         for( int y = ( int ) s.Area.yMin; y < s.Area.yMax; y++ )                                         // Check For Items based gate openning
                             for( int x = ( int ) s.Area.xMin; x < s.Area.xMax; x++ )
-                                if( Map.PtOnMap( Map.I.Tilemap, new Vector2( x, y ) ) )
+                                if( Map.PtOnMap( Map.I.TM, new Vector2( x, y ) ) )
                                     if( Map.I.GateID[ ( int ) un.Pos.x, ( int ) un.Pos.y ] == Map.I.GateID[ x, y ] )
                                     {
                                         Unit it = Map.I.GetUnit( ETileType.ITEM, new Vector2( x, y ) );
@@ -2069,7 +2069,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         }
 
         if( area == -1 )                                                                                    // Updates tilemap too if from out area
-            Quest.I.Dungeon.Tilemap.SetTile( ( int ) Pos.x, ( int ) Pos.y,
+            Map.I.SRCTM.SetTile( ( int ) Pos.x, ( int ) Pos.y,
             ( int ) ELayerType.MONSTER, ( int ) ETileType.BARRICADE + size );
 
         int barArea = Map.I.GetPosArea( Pos );
@@ -2266,7 +2266,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             for( int d = 0; d < 8; d++ )
             {
                 Vector2 tg = to + Manager.I.U.DirCord[ ( int ) d ];
-                if( Map.PtOnMap( Map.I.Tilemap, tg ) )
+                if( Map.PtOnMap( Map.I.TM, tg ) )
                     if( Map.IsWall( tg ) == true ) cont++;
             }
 
@@ -2297,7 +2297,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
             for( int d = 0; d < 8; d++ )
             {
                 Vector2 tg = to + Manager.I.U.DirCord[ ( int ) d ];
-                if( Map.PtOnMap( Map.I.Tilemap, tg ) )                 
+                if( Map.PtOnMap( Map.I.TM, tg ) )                 
                     if( Map.IsWall( tg ) == true ) cont++;                 
             }
 
@@ -2461,7 +2461,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 		// Check if target is being pushed against an obstacle
 		Vector2 dif = to - from;
 		Vector2 obs   = to + dif;
-		if( Map.PtOnMap( Map.I.Tilemap, to ) == false ) return;
+		if( Map.PtOnMap( Map.I.TM, to ) == false ) return;
 
 		Unit un = Map.I.Unit[ ( int ) to.x, ( int ) to.y ];
 		if( un == null ) return;
@@ -2551,7 +2551,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         {
             Vector2 pt = to - ( dif * i );
 
-            if( Map.PtOnMap( Map.I.Tilemap, pt ) )
+            if( Map.PtOnMap( Map.I.TM, pt ) )
             {
                 Unit fire = Map.I.GetUnit( ETileType.FIRE, pt );
                 if( fire == null )
@@ -2857,7 +2857,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 			}
 			else
 			{
-				Map.I.Tilemap.SetTile( ( int ) Pos.x, ( int ) Pos.y, ( int ) Map.GetTileLayer( TileID ), ( int ) ETileType.NONE );
+				Map.I.TM.SetTile( ( int ) Pos.x, ( int ) Pos.y, ( int ) Map.GetTileLayer( TileID ), ( int ) ETileType.NONE );
 				Map.I.UpdateTilemap = true;
             }
 
@@ -2958,7 +2958,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 	public void UpdateOrbHit()
 	{
         Vector2 tg = Pos + Manager.I.U.DirCord[ ( int ) Dir ];
-        if( Map.PtOnMap( Map.I.Tilemap, tg ) )
+        if( Map.PtOnMap( Map.I.TM, tg ) )
 		if(  Map.I.CurrentArea == -1 || Map.I.PtOnAreaMap( tg ) )
 		{
             Unit orb = Map.I.GetUnit( ETileType.ORB, tg );
@@ -2997,7 +2997,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
 		for( int i = 0; i < tgl.Length; i++ )
 		{
 			Vector2 tg = Pos + tgl[ i ];
-            if( Map.PtOnMap( Map.I.Tilemap, tg ) )
+            if( Map.PtOnMap( Map.I.TM, tg ) )
 			{
                 Unit ga = Map.I.Gaia[ ( int ) tg.x, ( int ) tg.y ];
                 Unit ga2 = Map.I.Gaia2[ ( int ) tg.x, ( int ) tg.y ];
@@ -3136,7 +3136,7 @@ public bool CanFlyFromTo( bool bApply, Vector2 from, Vector2 to )
         if( wholemap )                                                                                                 // Check in the whole map (Gate Cube)
         {
             _p1 = new Vector2( 0, 0 );
-            _p2 = new Vector2( Map.I.Tilemap.width, Map.I.Tilemap.height );
+            _p2 = new Vector2( Map.I.TM.width, Map.I.TM.height );
         }
         bool sound = false;
         for( int y = ( int ) _p1.y; y < _p2.y; y++ )
