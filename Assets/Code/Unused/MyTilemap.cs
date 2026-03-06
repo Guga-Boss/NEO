@@ -443,6 +443,8 @@ public class MyTilemap: SerializedMonoBehaviour
     public void Upd() => Tilemaps = new List<Tilemap>( GetComponentsInChildren<Tilemap>( true ) );
     internal Vector2 GetSize()
     {
+        if( width == 30 )
+        if( height == 30 ) { width = 29; height = 29; }    // temp fix for migration size bug
         return new Vector2( width, height );
     }
     public bool GetTileAtPosition( Vector3 position, out int x, out int y )
