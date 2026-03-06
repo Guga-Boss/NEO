@@ -961,7 +961,7 @@ public partial class Map: MonoBehaviour
         level.gameObject.SetActive( oldstate );
     }
 
-    public static Vector2 GetNextTileInLine( tk2dTileMap tm, Vector2 orig, Vector2 dir, ETileType tgtile, int range, ELayerType layer )
+    public static Vector2 GetNextTileInLine( MyTilemap tm, Vector2 orig, Vector2 dir, ETileType tgtile, int range, ELayerType layer )
     {
         for( int i = 0; i < range; i++ )
         {
@@ -1065,7 +1065,7 @@ public partial class Map: MonoBehaviour
         TransTileMap.SetTile( ( x * 2 ) + 1, ( y * 2 ) + 0, layer, -1 );
     }
 
-    public static bool FinalizeMap( tk2dTileMap tm )
+    public static bool FinalizeMap( MyTilemap tm )
     {
         return true; //gg
         bool res = Map.CheckForErrors( tm );
@@ -1081,11 +1081,10 @@ public partial class Map: MonoBehaviour
         return true;
     }
 
-    public static bool CheckForErrors( tk2dTileMap tm )
+    public static bool CheckForErrors( MyTilemap tm )
     {
-        return true; /////////////
         Vector2 pt = new Vector2();
-        if( tm.name == "Areas Template Tilemap" )
+        //if( tm.name == "Areas Template Tilemap" )
             for( pt.y = 0; pt.y < tm.height; pt.y++ )
                 for( pt.x = 0; pt.x < tm.width; pt.x++ )
                 {
@@ -1121,11 +1120,10 @@ public partial class Map: MonoBehaviour
                             err += "Tilemap Error: " + tile + " on layer " + l + " at: " + pt.x + " " + pt.y;
                             tm.SetTile( ( int ) pt.x, ( int ) pt.y, ( int ) right, ( int ) tile );
                             tm.SetTile( ( int ) pt.x, ( int ) pt.y, l, -1 );
-                            tm.ForceBuild();
                         }
                 }
 
-        if( err != "" ) { Debug.Log( "Tilemap Error" + err ); return false; }
+        if( err != "" ) { Debug.LogError( "Tilemap Error" + err ); return false; }
         return true;
     }
 

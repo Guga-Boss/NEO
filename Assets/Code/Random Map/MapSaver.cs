@@ -309,6 +309,9 @@ public class MapSaver : MonoBehaviour
 
     public void Save()
     {
+        bool res = Map.CheckForErrors( Map.I.TM );
+        if( !res ) return;
+
         GameObject ob = GameObject.Find( "Farm" );
         Farm f = ob.GetComponent<Farm>();
         //f.UpdateListsCallBack();
@@ -377,9 +380,8 @@ public class MapSaver : MonoBehaviour
 
             GS.W = writer;
             Vector2 Size = Vector2.zero;
-            if( mtm ) Size = mtm.GetSize();
+            Size = mtm.GetSize();
 
-            // Set GS.W para usar SVector2
             GS.SVector2( Size );                                                                       // Save Map size
             writer.Write( layers.Length );                                                             // Save layer count
 
@@ -391,8 +393,7 @@ public class MapSaver : MonoBehaviour
             for( int x = 0; x < ( int ) Size.x; x++ )
             foreach( var layer in layers )
                {
-                   if( mtm )
-                      tileBuffer[ index++ ] = mtm.GetTile( x, y, (int) layer );                        // Save Layers into buffer
+                  tileBuffer[ index++ ] = mtm.GetTile( x, y, (int) layer );                            // Save Layers into buffer
                }
 
             for( int i = 0; i < tileBuffer.Length; i++ )
@@ -427,12 +428,13 @@ public class MapSaver : MonoBehaviour
             int SaveVersion = reader.ReadInt32();                                                       // Load version
             Vector2 Size = GS.LVector2();                                                               // Load map size
 
-            if( mtm )
-            {
-                mtm.width = (int) Size.x;                                                               // set sizes
-                mtm.height = (int) Size.y;           
-                mtm.InitBatch();
-            }
+            mtm.width = (int) Size.x;                                                                   // set sizes
+            mtm.height = (int) Size.y;
+
+            if( mtm.width == 30 )
+            if( mtm.height == 30 ) { mtm.width = 29; mtm.height = 29; }                                 // temp fix for migration size bug - convert all cubes and eliminate this and other fix in mytilemap GetSize() function
+
+            mtm.InitBatch();
 
             int layerCount = reader.ReadInt32();                                                        // Load layer count
             int totalTiles = ( int ) Size.x * ( int ) Size.y * layers.Length;
@@ -448,27 +450,22 @@ public class MapSaver : MonoBehaviour
                     foreach( var layer in layers )
                     {
                         int tileID = tileBuffer[ index++ ];
-
-                        if( mtm != null )
+                        bool set = true;
+                        if( farm )
                         {
-                            bool set = true;
-                            if( farm )
-                            {
-                                if( layer != ELayerType.GAIA )                                           // farm optimization: only load terrain and gaia layer, ignore others                                 
-                                    if( layer != ELayerType.TERRAIN ) set = false;
-                                if( G.Farm.CheckFarmLimit( new Vector2( x, y ), false ) == false )
-                                    set = false;
-                            }
-
-                            if( set )
-                            {
-                                mtm.SetTile( x, y, (int) layer, tileID, true );                         // Set new system tile
-                            }
+                            if( layer != ELayerType.GAIA )                                               // farm optimization: only load terrain and gaia layer, ignore others                                 
+                            if( layer != ELayerType.TERRAIN ) set = false;
+                            if( G.Farm.CheckFarmLimit( new Vector2( x, y ), false ) == false )
+                                set = false;
+                        }
+                        if( set )
+                        {
+                            mtm.SetTile( x, y, (int) layer, tileID, true );                             // Set new system tile
                         }
                     }
                 }
 
-            if( mtm != null ) mtm.FlushTiles();                                                         // Build new map
+            mtm.FlushTiles();                                                                           // Build new map
 
             Message = reader.ReadString();                                                              // Load message
             Script = reader.ReadString();                                                               // Load script
@@ -696,7 +693,8 @@ public class MapSaver : MonoBehaviour
             MapSaver.I.SetStartingCube();
             sceneView.pivot = new Vector3( 15f, 14f, 0.08f );
             sceneView.size = 17f;
-            //Selection.activeGameObject = MapSaver.I.gameObject;
+            if( MapSaver.I )
+                Selection.activeGameObject = MapSaver.I.gameObject;
         }
         else
         if( sceneView != null )

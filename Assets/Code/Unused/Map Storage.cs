@@ -659,83 +659,9 @@ public partial class Map : MonoBehaviour
         if( fire && fire.Body.FireIsOn || checklit ) return fire;
         return null;
     }
-
-    public void CopyTilemap( bool justadd, tk2dTileMap from, ref tk2dTileMap to, Vector2 toOrigin, Vector2 fromOrigin, int sx, int sy,
-    bool flipx, bool flipy, bool tile = true, bool gaia = true, bool gaia2 = true, bool monster = true, bool mod = true, bool dec = true, bool areas = true, bool dec2 = true, bool raft = true )
-    {
-        for( int y = 0; y < sx; y++ )
-        for( int x = 0; x < sy; x++ )
-            {
-                Vector2 tg = toOrigin + new Vector2( x, y );
-
-                if( flipx ) tg.x = ( toOrigin.x + sx - 1 ) - x;
-                if( flipy ) tg.y = ( toOrigin.y + sy - 1 ) - y;
-
-                for( int l = 0; l < 10; l++ )
-                if( tile && l == 0 || gaia && l == 1 || gaia2 && l == 2 || monster && l == 3 || 
-                     mod && l == 4 || dec && l == 6  || areas && l == 7 || dec2 && l == 8    || raft && l == 9 )
-                    {
-                        if( justadd == false )
-                        {
-                            to.SetTile( (int) tg.x, (int) tg.y, l, (int) ETileType.NONE );
-                            Map.I.TM.SetTile( x, y, l, (int) ETileType.NONE, true );
-                        }
-                        int tl = from.GetTile( ( int ) fromOrigin.x + x, ( int ) fromOrigin.y + y, l );
-
-                        //if( tl != ( int ) ETileType.ARTIFACT )
-                        {
-                            if( justadd == false || tl != -1 )                           
-                            {
-                                to.SetTile( (int) tg.x, (int) tg.y, l, tl );
-
-                                if( l == (int) ELayerType.GAIA == false || Map.I.RM.InvisibleGaia( (ETileType) tl ) == false )
-                                    Map.I.TM.SetTile( (int) tg.x, (int) tg.y, l, tl, true );
-                            }
-                        }
-                        //FlipTile( to, ( ETileType ) tl, tg, l, flipx, flipy );
-                    }
-            }
-    }
-
-   public void CopyTilemap( bool justadd, MyTilemap from, ref tk2dTileMap to, Vector2 toOrigin, Vector2 fromOrigin, int sx, int sy,
-   bool flipx, bool flipy, bool tile = true, bool gaia = true, bool gaia2 = true, bool monster = true, bool mod = true, bool dec = true, bool areas = true, bool dec2 = true, bool raft = true )
-    {
-        for( int y = 0; y < sx; y++ )
-            for( int x = 0; x < sy; x++ )
-            {
-                Vector2 tg = toOrigin + new Vector2( x, y );
-
-                if( flipx ) tg.x = ( toOrigin.x + sx - 1 ) - x;
-                if( flipy ) tg.y = ( toOrigin.y + sy - 1 ) - y;
-
-                for( int l = 0; l < 10; l++ )
-                    if( tile && l == 0 || gaia && l == 1 || gaia2 && l == 2 || monster && l == 3 ||
-                         mod && l == 4 || dec && l == 6 || areas && l == 7 || dec2 && l == 8 || raft && l == 9 )
-                    {
-                        if( justadd == false )
-                        {
-                            to.SetTile( (int) tg.x, (int) tg.y, l, (int) ETileType.NONE );
-                            Map.I.TM.SetTile( x, y, l, (int) ETileType.NONE, true );
-                        }
-                        int tl = from.GetTile( ( int ) fromOrigin.x + x, ( int ) fromOrigin.y + y, l );
-
-                        //if( tl != ( int ) ETileType.ARTIFACT )
-                        {
-                            if( justadd == false || tl != -1 )
-                            {
-                                to.SetTile( (int) tg.x, (int) tg.y, l, tl );
-
-                                if( l == (int) ELayerType.GAIA == false || Map.I.RM.InvisibleGaia( (ETileType) tl ) == false )
-                                    Map.I.TM.SetTile( (int) tg.x, (int) tg.y, l, tl, true );
-                            }
-                        }
-                        //FlipTile( to, ( ETileType ) tl, tg, l, flipx, flipy );
-                    }
-            }
-    }
-
   public void CopyTilemap( bool justadd, MyTilemap from, ref MyTilemap to, Vector2 toOrigin, Vector2 fromOrigin, int sx, int sy,
-  bool flipx, bool flipy, bool tile = true, bool gaia = true, bool gaia2 = true, bool monster = true, bool mod = true, bool dec = true, bool areas = true, bool dec2 = true, bool raft = true )
+  bool flipx, bool flipy, bool tile = true, bool gaia = true, bool gaia2 = true, bool monster = true, bool mod = true, 
+  bool dec = true, bool areas = true, bool dec2 = true, bool raft = true )
     {
         for( int y = 0; y < sx; y++ )
             for( int x = 0; x < sy; x++ )

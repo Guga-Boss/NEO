@@ -637,31 +637,26 @@ public class RandomMap : MonoBehaviour
 
         int ts = ( Sector.TSX - 1 );
         //Vector2 cord = SD.SourcePos[ id ] * ts;   
-        Vector2 cord = new Vector2( 0, 0 );      
-
+        Vector2 cord = new Vector2( 0, 0 ); 
         MapSaver.I.CurrentSector = s;
-        //MapSaver.I.Load();
 
-        string nm = ORMD.QuestHelper.SubFolder + "/" + ORMD.QuestHelper.Signature + "/Cube " + s.Number; 
+        string nm = ORMD.QuestHelper.SubFolder + "/" + ORMD.QuestHelper.Signature + "/Cube " + s.Number;                              // define Resource file name
         string file = Application.dataPath + "/Resources/Map Templates/" + nm + ".NEO";
 
-        bool res = MapSaver.I.LoadMap( file, TempTM );
-
-
-
+        bool res = MapSaver.I.LoadMap( file, TempTM );                                                                                // Load tilemap from resources over Temp Tilemap
 
         Vector2 toorigin = s.Area.position;
         if( s.Type == Sector.ESectorType.NORMAL )
-        {                                                                                                                             // Copy tilemap
+        {                                                                                                                             // Copy temp tilemap to the Source Tilemap desired rect
             Map.I.CopyTilemap( true, TempTM, ref Map.I.SRCTM, toorigin, cord, ts, ts, s.FlipX, s.FlipY );
             AreasTMOrigin = cord;
         }
 
         //UpdatePuzzleCopy( s );
-        Map.I.CreateAreas( Map.I.SRCTM, Quest.CurrentDungeon, Quest.I.Dungeon, s.Area, ref s.AreaList, s, SD );          // Create Areas
+        Map.I.CreateAreas( Map.I.SRCTM, Quest.CurrentDungeon, Quest.I.Dungeon, s.Area, ref s.AreaList, s, SD );                       // Create Areas
         s.AreasCreated = true;
 
-        if( Map.I.LevelStats.NormalSectorsDiscovered >= RMD.MinimumMarkedAreaSector )                                                // Marked areaSort
+        if( Map.I.LevelStats.NormalSectorsDiscovered >= RMD.MinimumMarkedAreaSector )                                                 // Marked areaSort
         for( int a = 0; a < s.AreaList.Count; a++ )
         {
             s.AreaList[ a ].RandomMapSector = new Vector2( s.X, s.Y );
