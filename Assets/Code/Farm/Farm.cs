@@ -428,8 +428,9 @@ public partial class Farm : MonoBehaviour
         if( G.Tutorial.CheckPhase( 2 ) == false ) return false;                                                        // Tutorial restriction
 
         int amt = 0;                                                                                                   // Key check
-        //if( cInput.GetKeyDown( "Wait"    ) ) amt = +1;
-        //if( cInput.GetKeyDown( "Special" ) ) amt = -1;
+
+        if( Map.Check( INP.I.WaitKey ) ) amt = +1;                                                                     // pick item
+        if( Map.Check( INP.I.SpecialKey ) ) amt = -1;                                                                  // drop item
 
         if( UpdateToolUsage( tg ) ) return false;                                                                      // Tool Usage
         if( amt == 0 ) return false;

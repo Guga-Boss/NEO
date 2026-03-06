@@ -813,32 +813,30 @@ public partial class Map : MonoBehaviour
         UpdateMarkedFish();
         Water.CheckCn( EPoleBonusCnType.SIMULTANEOUS_FISH_ATTACKED, null );                                   // Simultaneous attacked fish condition
     }
+   public static bool Check( InputActionProperty action, bool down = true )
+    {
+        if( action == null || action.action == null ) return false;
+        return down ? action.action.WasPressedThisFrame() : action.action.IsPressed();
+    }
 
     public Vector3 GetInputVector( bool down )
     {
         float fact = 1f;
         Vector3 vec = Vector3.zero;
 
-        // Helper inline para checar tecla de acordo com down
-        bool Check( InputActionProperty action )
-        {
-            if( action == null || action.action == null ) return false;
-            return down ? action.action.WasPressedThisFrame() : action.action.IsPressed();
-        }
-
         // 1️⃣ Diagonais (prioridade máxima)
-        if( Check( INP.I.MoveNE ) ) vec += new Vector3( +fact, +fact, 0 );
-        else if( Check( INP.I.MoveSE ) ) vec += new Vector3( +fact, -fact, 0 );
-        else if( Check( INP.I.MoveSW ) ) vec += new Vector3( -fact, -fact, 0 );
-        else if( Check( INP.I.MoveNW ) ) vec += new Vector3( -fact, +fact, 0 );
+        if( Check( INP.I.MoveNE, down ) ) vec += new Vector3( +fact, +fact, 0 );
+        else if( Check( INP.I.MoveSE, down ) ) vec += new Vector3( +fact, -fact, 0 );
+        else if( Check( INP.I.MoveSW, down ) ) vec += new Vector3( -fact, -fact, 0 );
+        else if( Check( INP.I.MoveNW, down ) ) vec += new Vector3( -fact, +fact, 0 );
 
         // 2️⃣ Cardinais (só se nenhuma diagonal)
         if( vec == Vector3.zero )
         {
-            if( Check( INP.I.MoveN ) ) vec += new Vector3( 0, +fact, 0 );
-            if( Check( INP.I.MoveS ) ) vec += new Vector3( 0, -fact, 0 );
-            if( Check( INP.I.MoveE ) ) vec += new Vector3( +fact, 0, 0 );
-            if( Check( INP.I.MoveW ) ) vec += new Vector3( -fact, 0, 0 );
+            if( Check( INP.I.MoveN, down ) ) vec += new Vector3( 0, +fact, 0 );
+            if( Check( INP.I.MoveS, down ) ) vec += new Vector3( 0, -fact, 0 );
+            if( Check( INP.I.MoveE, down ) ) vec += new Vector3( +fact, 0, 0 );
+            if( Check( INP.I.MoveW, down ) ) vec += new Vector3( -fact, 0, 0 );
         }
 
         // 3️⃣ Armazena no InputVectorList apenas se down == true
