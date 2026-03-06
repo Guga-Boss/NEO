@@ -560,12 +560,10 @@ public class Helper : MonoBehaviour
     {
         RandomMap rm = GameObject.Find( "----------------Random Map----------------" ).
         GetComponent<RandomMap>();
-        MapSaver ms = GameObject.Find( "Areas Template Tilemap" ).
-        GetComponent<MapSaver>();
-        if( ms.CurrentAdventure < 0 || ms.CurrentAdventure >= rm.RMList.Count ) 
+        if( MapSaver.I.CurrentAdventure < 0 || MapSaver.I.CurrentAdventure >= rm.RMList.Count ) 
             return "Quest Unavailable";
         string ls = "";
-        RandomMapData rmd = rm.RMList[ ms.CurrentAdventure ];
+        RandomMapData rmd = rm.RMList[ MapSaver.I.CurrentAdventure ];
         SectorDefinition[ ] sd = rmd.gameObject.GetComponentsInChildren<SectorDefinition>();
         for( int s = 0; s < sd.Length; s++ )
         {
@@ -583,7 +581,7 @@ public class Helper : MonoBehaviour
         
         return "";// gg
         string str = "";
-        MapSaver ms = MapSaver.Get();
+        MapSaver ms = MapSaver.I;
         RandomMap rm = GameObject.Find( "----------------Random Map----------------" ).GetComponent<RandomMap>();
         RandomMapData rmd = rm.RMList[ ms.CurrentAdventure ];
         SectorDefinition[] sd = rmd.gameObject.GetComponentsInChildren<SectorDefinition>();
@@ -742,7 +740,7 @@ public class Helper : MonoBehaviour
 
             if( Input.GetMouseButton( 2 ) )
             {
-                MapSaver.I.SaveMap( MapSaver.I.LastLoadedFile, MapSaver.I.Tilemap );
+                //MapSaver.I.SaveMap( MapSaver.I.LastLoadedFile, MapSaver.I.Tilemap ); warning: this can cause a bug after migration. Saving using Map.I.TM will save the whole map. use temp tm 
                 Debug.Log( "Saved: " + MapSaver.I.LastLoadedFile );
             }
             return;

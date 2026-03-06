@@ -15,8 +15,8 @@ public partial class Map: MonoBehaviour
         if( Application.isPlaying == false )
         {
             TransTilemapUpdateList = new List<VI>();
-            for( int yy = 0; yy < RM.AreasTM.height; yy++ )
-            for( int xx = 0; xx < RM.AreasTM.width; xx++ )                
+            for( int yy = 0; yy < TM.height; yy++ )
+            for( int xx = 0; xx < TM.width; xx++ )                
                  TransTilemapUpdateList.Add( new VI( xx, yy ) );                
         }
         else
@@ -154,7 +154,7 @@ public partial class Map: MonoBehaviour
             if( Gaia[ x, y ] ) return Gaia[ x, y ].TileID;
             return ETileType.NONE;
         }
-        return (ETileType) RM.AreasTM.GetTile( x, y, (int) ELayerType.GAIA );
+        return (ETileType) TM.GetTile( x, y, (int) ELayerType.GAIA );
     }
 
     public void SetTTile( int x, int y, int l, int t )

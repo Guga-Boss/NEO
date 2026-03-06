@@ -773,16 +773,14 @@ public partial class Map : MonoBehaviour
 
         if( Manager.I.GameType == EGameType.NAVIGATION )                                      // Navigation Map
         {
-            //tm = Map.I.NavigationMap.Tilemap;
-            //Map.I.NavigationMap.Tilemap.gameObject.SetActive( false );
             string fl = MapSaver.GetCustomFilename( EMapTemplate._NAVIGATION_ );              // Load initial Navigation tilemap from resources
-            MapSaver.I.LoadMap( fl, null, TM, "nocubedata" );
+            MapSaver.I.LoadMap( fl, TM, "nocubedata" );
         }
         else
         if( Manager.I.GameType == EGameType.FARM )
         {
             string fl = MapSaver.GetCustomFilename( EMapTemplate._FARM_ );                    // Load initial Farm tilemap from resources
-            MapSaver.I.LoadMap( fl, null, TM, "farm", "nocubedata" );
+            MapSaver.I.LoadMap( fl, TM, "farm", "nocubedata" );
             }
         else
             {                                                                                 // cubes map

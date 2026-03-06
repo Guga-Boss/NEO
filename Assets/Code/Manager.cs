@@ -681,9 +681,9 @@ private static void LoadProfile()
             { nm = Map.I.RM.RMList[ i ].name; id = i; break; }
         }
         if( id == -1 ) return -1;
-        MapSaver ms = MapSaver.Get();
-        ms.CurrentAdventure = id;
-        ms.CurrentAdventureName = nm;
+
+        MapSaver.I.CurrentAdventure = id;
+        MapSaver.I.CurrentAdventureName = nm;
         Helper.I.StartingAdventure = id;
         #endif
         return id;

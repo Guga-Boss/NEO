@@ -59,8 +59,8 @@ public class MapSaver : MonoBehaviour
         {
             if( !Application.isPlaying )
             {
-                GameObject ms = GameObject.Find( "Areas Template Tilemap" );
-               if( ms ) I = ms.GetComponent<MapSaver>(); ;
+                GameObject ms = GameObject.Find( "Map Saver" );
+               if( ms ) I = ms.GetComponent<MapSaver>(); 
             }
         };
     }
@@ -227,17 +227,12 @@ public class MapSaver : MonoBehaviour
         Source = new Vector2();
 	}
 	
-    public static MapSaver Get()
-    {
-        GameObject ms = GameObject.Find( "Areas Template Tilemap" );
-        if( ms ) return ms.GetComponent<MapSaver>(); ;
-        return null;
-    }
-
     public bool Load( bool showErrorMsg = true )
     {
         string nm = MapName;
-        tk2dTileMap tm = null;
+        MyTilemap tm = Map.I.TM;
+        MyTilemap.ClearTilemap( tm );
+
         string sub = "";
         if( Application.isPlaying )
         {
@@ -248,14 +243,14 @@ public class MapSaver : MonoBehaviour
                 nm = rm.QuestHelper.SubFolder + "/" + rm.QuestHelper.Signature + "/" + 
                      Map.I.RM.SD.MapTemplates[ id ].name;
                 FolderName = "";
-                tm = Map.I.RM.AreasTM;
+                tm = Map.I.TM;
             }
             else
             {
                 string folder = rm.QuestHelper.SubFolder + "/" + rm.QuestHelper.Signature;
                 nm = folder + "/Cube " + CurrentSector.Number;
                 FolderName = "";
-                tm = Map.I.RM.AreasTM;
+                tm = Map.I.TM;
             }
         }
 
@@ -265,7 +260,7 @@ public class MapSaver : MonoBehaviour
             Map.InitSingleton();
             MyTilemap.ClearTilemap( Map.I.TM );
             string fl = GetCustomFilename( MapTemplate );                                                            // Caminho completo ;
-            LoadMap( fl, null, Map.I.TM );                                                                           // Salva os dados lidos da Unity no arquivo .NEO ;
+            LoadMap( fl, Map.I.TM );                                                                                 // Salva os dados lidos da Unity no arquivo .NEO ;
             Debug.Log( "Navigation Map Loaded: " + fl );                                                             // Log de confirmação ;
             return true;
         }
@@ -279,15 +274,10 @@ public class MapSaver : MonoBehaviour
             nm = "" + MapTemplate;
         }
 
-        if( tm == null )
-        {
-            GameObject go = GameObject.Find( "Areas Template Tilemap" );
-            tm = go.GetComponent<tk2dTileMap>();
-        }
         string file = Application.dataPath + "/Resources/Map Templates/" + sub + fn + "/" + nm + ".NEO";
         LastMapSavedFilename = file;
 
-        bool res = LoadMap( file, tm, null );
+        bool res = LoadMap( file, tm );
 
         if( !res )
         {
@@ -309,10 +299,6 @@ public class MapSaver : MonoBehaviour
             RandomMapData rm = GetRM().RMList[ CurrentAdventure ];
             SubFolder = rm.QuestHelper.SubFolder;
         }
-
-        if( Application.isPlaying == false )
-            MyTilemap.Load( tm, Map.I.TM ); 
-
         return true;
     }
 
@@ -326,16 +312,14 @@ public class MapSaver : MonoBehaviour
         GameObject ob = GameObject.Find( "Farm" );
         Farm f = ob.GetComponent<Farm>();
         //f.UpdateListsCallBack();
-        GameObject go = GameObject.Find("Areas Template Tilemap");
-        tk2dTileMap tm = go.GetComponent<tk2dTileMap>();
         RandomMapData rm = GetRM().RMList[ CurrentAdventure ];
         string nm = MapName;
         string fn = FolderName;
 
         if( MapTemplate >= EMapTemplate._FARM_ )
         {  
-            string fl = GetCustomFilename( MapTemplate );    // Caminho completo ;
-            SaveMap( fl, null, Map.I.TM );                    // Salva os dados lidos da Unity no arquivo .NEO ;
+            string fl = GetCustomFilename( MapTemplate );     // Caminho completo ;
+            SaveMap( fl, Map.I.TM );                          // Salva os dados lidos da Unity no arquivo .NEO ;
             Debug.Log( MapTemplate + " Saved: " + fl );       // Log de confirmação ;
             return;
         }
@@ -349,7 +333,7 @@ public class MapSaver : MonoBehaviour
         string file = Application.dataPath + "/Resources/Map Templates/" + 
         fn + "/" + nm + ".NEO";
         LastMapSavedFilename = file;
-        SaveMap( file, tm );
+        SaveMap( file, Map.I.TM );
         LastMapSavedFilename = file;
         Debug.Log("Map Saved! " + file );
 
@@ -382,7 +366,7 @@ public class MapSaver : MonoBehaviour
             ELayerType.DECOR2,
             ELayerType.RAFT
         };
-    public void SaveMap( string file, tk2dTileMap tm = null, MyTilemap mtm = null )
+    public void SaveMap( string file, MyTilemap mtm = null )
     {
         Directory.CreateDirectory( Path.GetDirectoryName( file ) );                                     // Create folder if not exists
         using( var ms = new MemoryStream() )                                                            // Open MemoryStream
@@ -393,7 +377,6 @@ public class MapSaver : MonoBehaviour
 
             GS.W = writer;
             Vector2 Size = Vector2.zero;
-            if( tm ) Size = new Vector2( tm.width, tm.height );
             if( mtm ) Size = mtm.GetSize();
 
             // Set GS.W para usar SVector2
@@ -408,8 +391,6 @@ public class MapSaver : MonoBehaviour
             for( int x = 0; x < ( int ) Size.x; x++ )
             foreach( var layer in layers )
                {
-                   if( tm )
-                      tileBuffer[ index++ ] = tm.GetTile( x, y, (int) layer );                         // Save Layers into buffer
                    if( mtm )
                       tileBuffer[ index++ ] = mtm.GetTile( x, y, (int) layer );                        // Save Layers into buffer
                }
@@ -426,7 +407,7 @@ public class MapSaver : MonoBehaviour
             File.WriteAllBytes( file, encrypted );                                                     // Save encrypted bytes
         }
     }
-    public bool LoadMap( string file, tk2dTileMap tm = null, MyTilemap mtm = null, params string[ ] flags )
+    public bool LoadMap( string file, MyTilemap mtm, params string[ ] flags )
     {
         var options = new HashSet<string>(flags, StringComparer.OrdinalIgnoreCase);                     // Create a fast-lookup set for flags
 
@@ -452,8 +433,6 @@ public class MapSaver : MonoBehaviour
                 mtm.height = (int) Size.y;           
                 mtm.InitBatch();
             }
-            if( tm )
-              { tm.width = (int) Size.x; tm.height = (int) Size.y; } 
 
             int layerCount = reader.ReadInt32();                                                        // Load layer count
             int totalTiles = ( int ) Size.x * ( int ) Size.y * layers.Length;
@@ -462,14 +441,9 @@ public class MapSaver : MonoBehaviour
             for( int i = 0; i < totalTiles; i++ )
                 tileBuffer[ i ] = reader.ReadInt32();                                                   // Read tiles into buffer
 
-
-
-            int water = 0;
-
             int index = 0;
             for( int y = 0; y < (int) Size.y; y++ )
-            {
-                for( int x = 0; x < (int) Size.x; x++ )
+            for( int x = 0; x < (int) Size.x; x++ )
                 {
                     foreach( var layer in layers )
                     {
@@ -480,33 +454,21 @@ public class MapSaver : MonoBehaviour
                             bool set = true;
                             if( farm )
                             {
-                                if( layer != ELayerType.GAIA )                                        // farm optimization: only load terrain and gaia layer, ignore others                                 
-                                if( layer != ELayerType.TERRAIN ) set = false;
-                                if( G.Farm.CheckFarmLimit( new Vector2( x, y ), false ) == false ) 
+                                if( layer != ELayerType.GAIA )                                           // farm optimization: only load terrain and gaia layer, ignore others                                 
+                                    if( layer != ELayerType.TERRAIN ) set = false;
+                                if( G.Farm.CheckFarmLimit( new Vector2( x, y ), false ) == false )
                                     set = false;
                             }
 
                             if( set )
                             {
-
-                                if( tileID == (int) ETileType.WATER ) 
-                                    water++;
-
-
-                                mtm.SetTile( x, y, (int) layer, tileID, true );                  // Set new system tile
+                                mtm.SetTile( x, y, (int) layer, tileID, true );                         // Set new system tile
                             }
                         }
-                        if( tm != null ) tm.SetTile( x, y, (int) layer, tileID );                      // Set legacy system tile
                     }
                 }
-            }
 
             if( mtm != null ) mtm.FlushTiles();                                                         // Build new map
-            if( tm != null ) tm.Build();                                                                // Build legacy map
-
-
-            Debug.Log(" water "+ water);
-
 
             Message = reader.ReadString();                                                              // Load message
             Script = reader.ReadString();                                                               // Load script
@@ -548,7 +510,7 @@ public class MapSaver : MonoBehaviour
         RandomMap rm = GameObject.Find( "----------------Random Map----------------" ).
         GetComponent<RandomMap>();
         GameObject go = GameObject.Find( "Areas Template Tilemap" );
-        tk2dTileMap tm = go.GetComponent<tk2dTileMap>();
+        MyTilemap tm = Map.I.TM;
         string oldm = MapName;
         string oldfolder = FolderName;
         for( int rmid = 0; rmid < rm.RMList.Count; rmid++ )                                                                                       // Check for Duplicated Goal ID
@@ -570,7 +532,7 @@ public class MapSaver : MonoBehaviour
                 FolderName = rm.RMList[ rmid ].QuestHelper.SubFolder + "/" + rm.RMList[ rmid ].QuestHelper.Signature;
                 Debug.Log( "Converting Cube: " + list[ i ] + "    " + folder + "  " + rm.RMList[ rmid ].name );
                 string file = Application.dataPath + "/Resources/Map Templates/" + FolderName + "/" + MapName;
-                LoadMap( file, tm, null );
+                LoadMap( file, tm );
                 SaveMap( file, tm );
             }
         }
@@ -729,12 +691,12 @@ public class MapSaver : MonoBehaviour
 
         if( sceneView.pivot.x == 73 )
         {
+            MapSaver.I.MapTemplate = EMapTemplate.__CHOOSE__;
             MapSaver.I.Load();
             MapSaver.I.SetStartingCube();
             sceneView.pivot = new Vector3( 15f, 14f, 0.08f );
             sceneView.size = 17f;
-            if( Map.I.RM.AreasTM )
-                Selection.activeGameObject = Map.I.RM.AreasTM.gameObject;
+            //Selection.activeGameObject = MapSaver.I.gameObject;
         }
         else
         if( sceneView != null )
@@ -742,7 +704,8 @@ public class MapSaver : MonoBehaviour
             sceneView.pivot = new Vector3( 73f, 14.70f, 0.08f );
             sceneView.size = 14.74234f;
             sceneView.Repaint();
-            Map.I.TM.LoadNavigatioMap();
+            MapSaver.I.MapTemplate = EMapTemplate._NAVIGATION_;
+            MapSaver.I.Load();
         }
 #endif
     }
@@ -758,7 +721,7 @@ public class MapSaver : MonoBehaviour
 
     public void AddFogCallBack()
     {
-        tk2dTileMap tm = GetRM().AreasTM;
+        MyTilemap tm = Map.I.TM;
         for( int y = 0; y < ( int ) tm.height; y++ )
         for( int x = 0; x < ( int ) tm.width; x++ )
             {
@@ -766,7 +729,6 @@ public class MapSaver : MonoBehaviour
                 if( raft == ( ETileType.FOG ) )
                     tm.SetTile( x, y, ( int ) ELayerType.RAFT, ( int ) ETileType.NONE );
             }
-        tm.ForceBuild();
         if( RemoveFog ) return;
 
         for( int y = 0; y < ( int ) tm.height; y++ )
@@ -783,7 +745,6 @@ public class MapSaver : MonoBehaviour
                         tm.SetTile( x, y, ( int ) ELayerType.RAFT, ( int ) ETileType.FOG );
                 }
             }
-        tm.ForceBuild();
         Debug.Log( "Fog Added! " );
     }
 

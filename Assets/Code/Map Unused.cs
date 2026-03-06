@@ -358,7 +358,6 @@ public partial class Map : MonoBehaviour
 
     public void UpdateGrid( bool force = false )
     {
-        return;
         if( Manager.I.GameType == EGameType.NAVIGATION ) return;
 
         if( Manager.I.GameType == EGameType.FARM )

@@ -102,7 +102,7 @@ public class TilePaletteWatcher: EditorWindow
                 if( GUI.Button( rect, label, style ) )
                 { 
                     EditorGUIUtility.PingObject( targetToSelect ); // highlight in hierarchy/project 
-                    MapSaver ms = MapSaver.Get( );
+                    MapSaver ms = MapSaver.I;
                     ms.FolderName = data.QuestHelper.SubFolder + "/" + data.QuestHelper.Signature;
                     ms.CurrentAdventure = data.QuestID;
                     ms.CurrentAdventureName = data.QuestHelper.QuestName;

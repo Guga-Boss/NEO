@@ -15,7 +15,6 @@ public class RandomMap : MonoBehaviour
     public RandomMapData RMD, ORMD;
     public Vector2 LabCordOrigin, AreasTMOrigin;
     public Rect LabArea;
-    public tk2dTileMap AreasTM;
     public MyTilemap TempTM;
     public Sector[,] RMSector;
     public List<RandomMapData> RMList;
@@ -222,7 +221,7 @@ public class RandomMap : MonoBehaviour
 
         string fl = MapSaver.GetCustomFilename( EMapTemplate._LAB_ );
 
-        MapSaver.I.LoadMap( fl, null, TempTM, "nocubedata" );
+        MapSaver.I.LoadMap( fl, TempTM, "nocubedata" );
 
         Map.I.CopyTilemap( false, TempTM, ref Map.I.SRCTM,                                                   // Copy Lab Tiles
         LabArea.position, new Vector2( 0, 0 ), TempTM.width, TempTM.height, false, false );
@@ -646,7 +645,7 @@ public class RandomMap : MonoBehaviour
         string nm = ORMD.QuestHelper.SubFolder + "/" + ORMD.QuestHelper.Signature + "/Cube " + s.Number; 
         string file = Application.dataPath + "/Resources/Map Templates/" + nm + ".NEO";
 
-        bool res = MapSaver.I.LoadMap( file, null, TempTM );
+        bool res = MapSaver.I.LoadMap( file, TempTM );
 
 
 
@@ -818,7 +817,7 @@ public class RandomMap : MonoBehaviour
                 if( s.Number == 1)
                 Message.CreateMessage( ETileType.NONE, "Alternate starting cube enabled in this quest!\n" +
                 "Choose the desired Starting Cube in the dialog´s page.", 
-                G.Hero.Pos, Color.green, true, true, 15, 0, -1 );
+                G.Hero.Pos, Color.green, true, true, 15, 0, -1, 50 );                                                 // Show message
             }
 
             if( ForcedStartingCube )

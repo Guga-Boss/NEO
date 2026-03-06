@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 402308}
-  - component: {fileID: 11431850}
   - component: {fileID: 776866814294957541}
   - component: {fileID: 6539468865063025598}
   m_Layer: 0
@@ -34,36 +33,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11431850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 102308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0692136290709f4abc0379cc7c6fb8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OrigPos: {x: 0, y: 0}
-  TileTarget: {x: 0, y: 0}
-  RandomFactor: {x: 0, y: 0, z: 0}
-  TargetObject: {fileID: 0}
-  MyName: 
-  Sprite: {fileID: 6539468865063025598}
-  Type: 0
-  LastDistance: 0
-  AnimationTime: 0
-  StartDelay: 0
-  AfterReachTime: 0
-  FadeAnimationTime: -1
-  TargetUnit: {fileID: 0}
-  AuxUnit: {fileID: 0}
-  ArrowSpeed: 16
-  TargetReached: 0
-  FadeAnimation: 1
-  SprCol: {r: 0, g: 0, b: 0, a: 0}
 --- !u!212 &776866814294957541
 SpriteRenderer:
   serializedVersion: 2

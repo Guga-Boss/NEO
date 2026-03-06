@@ -216,7 +216,7 @@ public class Secret : MonoBehaviour
         RandomMap rm = GameObject.Find( "----------------Random Map----------------" ).
         GetComponent<RandomMap>();
         MapSaver ms = GameObject.Find( "Areas Template Tilemap" ).GetComponent<MapSaver>();
-        tk2dTileMap tm = ms.GetRM().AreasTM;
+        MyTilemap tm = Map.I.TM;
         string fileold = Application.dataPath + "/Resources/Map Templates/" +
         ms.FolderName + "/" + ms.MapName + ".NEO";
         string oldmn = ms.MapName;
@@ -237,7 +237,6 @@ public class Secret : MonoBehaviour
                 string file = folder + "/" + nm + ".NEO";
 
                 ms.LoadMap( file, tm );
-                tm.ForceBuild();
 
                 for( int y = 0; y < ( int ) tm.height; y++ )
                 for( int x = 0; x < ( int ) tm.width; x++ )

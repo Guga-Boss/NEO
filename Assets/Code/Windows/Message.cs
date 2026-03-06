@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using PathologicalGames;
+using TMPro;
 
 public class Message : MonoBehaviour
 {
     public bool MoveRight, MoveUp, ShowIcon;
     public float DurationTime, Delay;
-    public tk2dTextMesh MessageTxt;
+    public TextMeshPro MessageTxt;
     public NSprite Icon;
     public float SpeedFactor, Size;
     // Use this for initialization

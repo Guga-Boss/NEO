@@ -309,10 +309,9 @@ public class MapQuestHelper: MonoBehaviour
         NavigationMap nm = go.GetComponent<NavigationMap>( );
         RandomMapData rm = GetComponent<RandomMapData>( );
 
-        MapSaver ms = MapSaver.Get( );
-        ms.FolderName = rm.QuestHelper.SubFolder + "/" + Signature;
-        ms.CurrentAdventure = rm.QuestID;
-        ms.CurrentAdventureName = rm.QuestHelper.QuestName;
+        MapSaver.I.FolderName = rm.QuestHelper.SubFolder + "/" + Signature;
+        MapSaver.I.CurrentAdventure = rm.QuestID;
+        MapSaver.I.CurrentAdventureName = rm.QuestHelper.QuestName;
 #if UNITY_EDITOR
         Selection.activeGameObject = nm.AreasTilemap;
         var scene_view = UnityEditor.SceneView.lastActiveSceneView;
@@ -320,13 +319,13 @@ public class MapQuestHelper: MonoBehaviour
         nm.AreasTilemap.transform.parent = rm.gameObject.transform;
 #endif
 
-        bool res = MapSaver.Get( ).Load( false );
+        bool res = MapSaver.I.Load( false );
 
         if( res == false )
         {
-            ms.MapName = "Cube 1";
-            ms.CurrentCube = "Cube 1";
-            MapSaver.Get( ).Load( );
+            MapSaver.I.MapName = "Cube 1";
+            MapSaver.I.CurrentCube = "Cube 1";
+            MapSaver.I.Load( );
         }
         UpdateExternaEditorInfo( );
     }
@@ -339,12 +338,11 @@ public class MapQuestHelper: MonoBehaviour
 
 
         Helper.I.ModDescriptionList += Helper.I.GetOriListText();
-        MapSaver ms = MapSaver.Get( );
-        string str = "" + ms.LastMapSavedFilename + "\n" +
+        string str = "" + MapSaver.I.LastMapSavedFilename + "\n" +
         rm.QuestID + "\n" +                                                  // Saves information for the external editor
-        ms.FolderName + "\n" +
-        ms.MapName + "\n" +
-        ms.CurrentAdventureName + "\n\n" + Helper.I.ModDescriptionList;
+        MapSaver.I.FolderName + "\n" +
+        MapSaver.I.MapName + "\n" +
+        MapSaver.I.CurrentAdventureName + "\n\n" + Helper.I.ModDescriptionList;
 
         Util.WriteToDesktop( str, "Last Edited Cube.txt" );
     }
@@ -371,9 +369,8 @@ public class MapQuestHelper: MonoBehaviour
             if( Map.I.RM.RMList[ i ].name == Selection.activeGameObject.name )
             { nm = Map.I.RM.RMList[ i ].name; id = i; }
         }
-        MapSaver ms = MapSaver.Get( );
-        ms.CurrentAdventure = id;
-        ms.CurrentAdventureName = nm;
+        MapSaver.I.CurrentAdventure = id;
+        MapSaver.I.CurrentAdventureName = nm;
 #endif
         return id;
     }
