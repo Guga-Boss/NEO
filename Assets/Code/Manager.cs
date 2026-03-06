@@ -79,7 +79,7 @@ public class Manager : MonoBehaviour
             Manager.I.Reward.now = System.DateTime.Now;
 
         //gg Map.I.NavigationMap.AreasTilemap.transform.parent = Map.I.AreasTilemapFolder.transform;
-        Map.I.NavigationMap.Tilemap.gameObject.SetActive( false );
+        //Map.I.NavigationMap.Tilemap.gameObject.SetActive( false );
 		MapInitialized = false;
         ForceRestart = false;
         ForceRestartFromBeginning = false;

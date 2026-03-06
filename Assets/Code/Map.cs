@@ -477,7 +477,7 @@ public partial class Map : MonoBehaviour
 
         TransUpdateStatRadiusCount = TransUpdateStatRadius;
         LevelStats.Reset();
-        CreateMapGameObjects();
+        CreateMapGameObjects();                                                               // Important fuction that creates game Objecsts
         InitHero( EHeroID.KADE, true, true, true, EDirection.N );
         BumpTarget = LockAiTarget = new Vector2( -1, -1 );
         TDCol = new TurnDataCollection();
@@ -3426,6 +3426,7 @@ public partial class Map : MonoBehaviour
         UI.I.GoalIcons.gameObject.SetActive( false );
         UI.I.ArtifactsText.text = "";
         UI.I.AreasText.text = "";
+        Map.I.TM.gameObject.SetActive( false );
     }
 			
 	//_____________________________________________________________________________________________________________________ Inits the Hero data

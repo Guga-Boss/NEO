@@ -443,30 +443,39 @@ public partial class Map : MonoBehaviour
 
     public GameObject UpdateTileGameObjectCreation( int x, int y, ELayerType layer, ETileType forceTile = ETileType.NONE, bool forceKill = false )
     {
-        ETileType tile = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) layer );
+        ETileType tile = forceTile;                                                                               // Starts with forceTile to potentially skip memory read      
+        if( tile == ETileType.NONE )                                                                              // 1. Direct Memory Access (Only if we don't have a forced tile)
+        {           
+            MyTilemap tm = (Manager.I.GameType == EGameType.NAVIGATION) ? Map.I.TM : Map.I.SRCTM;                 // Fast ternary operator instead of IF blocks
 
-        if( tile == ETileType.NONE ) return null;          // new: to optimize
-        if( Manager.I.GameType == EGameType.FARM )                                                  // Building in the farm are only created after loading
-        if( tile == ETileType.BUILDING )
-        if( Farm.CreatingBuildings == false ) return null;
+            int l = ( int ) layer;                                                                                // Casts enum to int once
+            int rawId = tm.tileIdData[l, x, y];                                                                   // Direct 3D array lookup - ULTRA FAST
 
-        if( forceTile != ETileType.NONE ) tile = forceTile;
+            if( rawId == -1 ) return null;                                                                        // Exits instantly if logic tile is empty (-1)
 
-        if( forceKill )
-        {
-            if( Gaia[ x, y ] && layer == ELayerType.GAIA ) Gaia[ x, y ].Kill();
-            if( Gaia2[ x, y ] && layer == ELayerType.GAIA2 ) Gaia2[ x, y ].Kill();
-            if( Unit[ x, y ] && layer == ELayerType.MONSTER ) Unit[ x, y ].Kill();
+            tile = (ETileType) rawId;                                                                             // Casts raw integer back to your enum
         }
-
-        Unit prefabUnit = GetUnitPrefab( tile, layer );
+      
+        if( Manager.I.GameType == EGameType.FARM && tile == ETileType.BUILDING && !Farm.CreatingBuildings )       // 2. Game Rules Early Exit
+        {
+            return null;                                                                                          // Skips farm building creation safely
+        }
+       
+        if( forceKill )                                                                                           // 3. Force Kill Logic (Optimized with else-if to save CPU cycles)
+        {
+            if( layer == ELayerType.GAIA && Gaia[ x, y ] ) Gaia[ x, y ].Kill();                                   // Clears Gaia layer
+        else if( layer == ELayerType.GAIA2 && Gaia2[ x, y ] ) Gaia2[ x, y ].Kill();                               // Clears Gaia2 layer
+        else if( layer == ELayerType.MONSTER && Unit[ x, y ] ) Unit[ x, y ].Kill();                               // Clears Monster layer
+        }
+        
+        Unit prefabUnit = GetUnitPrefab(tile, layer);                                                             // 4. Prefab Instantiation
 
         if( prefabUnit != null )
         {
-            GameObject obj = CreateUnit( prefabUnit, new Vector2( x, y ), layer );
-            return obj;
+            return CreateUnit( prefabUnit, new Vector2( x, y ), layer );                                          // Instantiates and returns the physical object
         }
-        return null;
+
+        return null;                                                                                              // Returns null if no prefab exists
     }
 
     public Unit SpawnFlyingUnit( Vector2 tg, ELayerType layer, ETileType tile, Unit mother, bool init = false )
@@ -590,12 +599,11 @@ public partial class Map : MonoBehaviour
         }
         if( Manager.I.GameType != EGameType.NAVIGATION ) return;                                                        // Navigation objects
 
-        //Tilemap_old.Layers[ ( int ) ELayerType.MONSTER ].gameObject.SetActive( true );
         if( CurrentArea != -1 ) MonsterUnitsFolder.gameObject.SetActive( false );
         if( CurrentArea != -1 ) GaiaUnitsFolder.gameObject.SetActive( false );
 
-        for( int y = 0; y < TM.height; y++ )
-        for( int x = 0; x < TM.width; x++ )
+        for( int y = 0; y < 37; y++  )                                                                                  // WARNING> using these clamped numbers to OPTIMIZE instead of TM.height and TM.weight
+        for( int x = 0; x < 106; x++ )   
             {
                 GameObject g = UpdateTileGameObjectCreation( x, y, ELayerType.GAIA );
                 if( g == null )
@@ -604,7 +612,7 @@ public partial class Map : MonoBehaviour
                     UpdateTileGameObjectCreation( x, y, ELayerType.MONSTER );
                 }
 
-                ETileType tile = ( ETileType ) Map.I.SRCTM.GetTile( x, y, ( int ) ELayerType.RAFT );
+                ETileType tile = ( ETileType ) Map.I.TM.GetTile( x, y, ( int ) ELayerType.RAFT );
                 if( tile == ETileType.RAFT )
                     UpdateTileGameObjectCreation( x, y, ELayerType.RAFT );                                               // optimized
             }

@@ -1075,57 +1075,57 @@ public partial class Farm : MonoBehaviour
         G.Init();
         Map.I.TotalCubeCount = 0;
 
-        for( int i = 0; i < nm.Tilemap.GetTilePrefabsListCount(); i++ )
-        {
-            int tempLayer = 0;
-            GameObject prefabObject;
-            int x, y;
-            nm.Tilemap.GetTilePrefabsListItem( i, out x, out y, out tempLayer, out prefabObject );
-            Vector2 pos = new Vector2( x, y );
+//        for( int i = 0; i < nm.Tilemap.GetTilePrefabsListCount(); i++ )
+//        {
+//            int tempLayer = 0;
+//            GameObject prefabObject;
+//            int x, y;
+//            nm.Tilemap.GetTilePrefabsListItem( i, out x, out y, out tempLayer, out prefabObject );
+//            Vector2 pos = new Vector2( x, y );
 
-            if( prefabObject != null )
-                if( prefabObject.tag == "Map Quest" )                                                           // Map quest
-                {
-                    RandomMapData rd = prefabObject.GetComponent<RandomMapData>();
+//            if( prefabObject != null )
+//                if( prefabObject.tag == "Map Quest" )                                                           // Map quest
+//                {
+//                    RandomMapData rd = prefabObject.GetComponent<RandomMapData>();
 
-                    if( rm.RMList.Contains( rd ) == false )
-                    {
-                        rd.QuestHelper = prefabObject.GetComponent<MapQuestHelper>();
-                        rd.MapCord = new Vector2( pos.x, pos.y );
-                        if( rd.QuestHelper.QuestName == "" )
-                            rd.QuestHelper.QuestName = Area.GetRandomAreaName( rm.AreaNamesTextFile );
+//                    if( rm.RMList.Contains( rd ) == false )
+//                    {
+//                        rd.QuestHelper = prefabObject.GetComponent<MapQuestHelper>();
+//                        rd.MapCord = new Vector2( pos.x, pos.y );
+//                        if( rd.QuestHelper.QuestName == "" )
+//                            rd.QuestHelper.QuestName = Area.GetRandomAreaName( rm.AreaNamesTextFile );
 
-                        prefabObject.name = rd.QuestHelper.QuestName;
-                        //prefabObject.name = "Quest Prefab " + rd.QuestID + ": " + rd.QuestName;                   // Enable this to rename prefabs
-                        MapQuestHelper he = rd.QuestHelper;
+//                        prefabObject.name = rd.QuestHelper.QuestName;
+//                        //prefabObject.name = "Quest Prefab " + rd.QuestID + ": " + rd.QuestName;                   // Enable this to rename prefabs
+//                        MapQuestHelper he = rd.QuestHelper;
 
-                        if( he.Signature == "" )
-                        {
-                            Debug.LogError( "Invalid Signature: " + prefabObject );
-                            return;
-                        }
-                        else siglist.Add( he.Signature );
-#if UNITY_EDITOR
-                        PrefabUtility.DisconnectPrefabInstance( prefabObject );
-#endif
-                        rmaps.Add( rd );
-                    }
-                }
+//                        if( he.Signature == "" )
+//                        {
+//                            Debug.LogError( "Invalid Signature: " + prefabObject );
+//                            return;
+//                        }
+//                        else siglist.Add( he.Signature );
+//#if UNITY_EDITOR
+//                        PrefabUtility.DisconnectPrefabInstance( prefabObject );
+//#endif
+//                        rmaps.Add( rd );
+//                    }
+//                }
 
-            if( prefabObject != null )
-                if( prefabObject.tag == "Map Bonus" )
-                {
-                    NavigationMapBonus rd = prefabObject.GetComponent<NavigationMapBonus>();
-                    rd.TextMesh.text = "x" + rd.BonusAmount;
-                    rd.BonusIcon.spriteId = G.GIT( rd.BonusItem ).NSprite.spriteId;
-                    nm.MapBonusList.Add( rd );
-                    rd.MapCord = new Vector2( pos.x, pos.y );
+//            if( prefabObject != null )
+//                if( prefabObject.tag == "Map Bonus" )
+//                {
+//                    NavigationMapBonus rd = prefabObject.GetComponent<NavigationMapBonus>();
+//                    rd.TextMesh.text = "x" + rd.BonusAmount;
+//                    rd.BonusIcon.spriteId = G.GIT( rd.BonusItem ).NSprite.spriteId;
+//                    nm.MapBonusList.Add( rd );
+//                    rd.MapCord = new Vector2( pos.x, pos.y );
 
-#if UNITY_EDITOR
-                    PrefabUtility.DisconnectPrefabInstance( prefabObject );
-#endif                    
-                }
-        }
+//#if UNITY_EDITOR
+//                    PrefabUtility.DisconnectPrefabInstance( prefabObject );
+//#endif                    
+//                }
+//        }
 
         //for( int m = 0; m < rmaps.Count; m++ )                                                                   // WARNING Quests cant be deleted or quest id will be changed
         //{

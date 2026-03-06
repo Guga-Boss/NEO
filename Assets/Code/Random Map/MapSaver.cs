@@ -462,6 +462,10 @@ public class MapSaver : MonoBehaviour
             for( int i = 0; i < totalTiles; i++ )
                 tileBuffer[ i ] = reader.ReadInt32();                                                   // Read tiles into buffer
 
+
+
+            int water = 0;
+
             int index = 0;
             for( int y = 0; y < (int) Size.y; y++ )
             {
@@ -482,7 +486,15 @@ public class MapSaver : MonoBehaviour
                                     set = false;
                             }
 
-                            if( set ) mtm.SetTile( x, y, (int) layer, tileID, true );                  // Set new system tile
+                            if( set )
+                            {
+
+                                if( tileID == (int) ETileType.WATER ) 
+                                    water++;
+
+
+                                mtm.SetTile( x, y, (int) layer, tileID, true );                  // Set new system tile
+                            }
                         }
                         if( tm != null ) tm.SetTile( x, y, (int) layer, tileID );                      // Set legacy system tile
                     }
@@ -491,6 +503,10 @@ public class MapSaver : MonoBehaviour
 
             if( mtm != null ) mtm.FlushTiles();                                                         // Build new map
             if( tm != null ) tm.Build();                                                                // Build legacy map
+
+
+            Debug.Log(" water "+ water);
+
 
             Message = reader.ReadString();                                                              // Load message
             Script = reader.ReadString();                                                               // Load script

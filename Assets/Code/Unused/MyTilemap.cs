@@ -11,7 +11,6 @@ using UnityEngine.SocialPlatforms;
 using UnityEditor;
 #endif
 
-[ExecuteAlways]
 public class MyTilemap: SerializedMonoBehaviour
 {
     [Title("Configurações de Identificação")]
@@ -38,114 +37,74 @@ public class MyTilemap: SerializedMonoBehaviour
     // SISTEMA DE PROCESSAMENTO SEGURO (EDITOR)
     // ===================================================================================
 #if UNITY_EDITOR
-    private List<Tilemap> dirtyMaps = new List<Tilemap>();
-    private List<Vector3Int> dirtyPositions = new List<Vector3Int>();
-    private bool isProcessing = false;
-
-    private void OnEnable()
+    [InitializeOnLoad]                                              // Ensures this class starts automatically in the Editor
+    public static class MyTilemapEditorWatcher
     {
-        // Garante que não haja duplicatas na inscrição
-        Tilemap.tilemapTileChanged -= OnTilemapChanged;
-        Tilemap.tilemapTileChanged += OnTilemapChanged;
-
-        EditorApplication.update -= OnEditorUpdate;
-        EditorApplication.update += OnEditorUpdate;
-    }
-
-    private void OnDisable()
-    {
-        Tilemap.tilemapTileChanged -= OnTilemapChanged;
-        EditorApplication.update -= OnEditorUpdate;
-    }
-
-    // 1. O evento apenas captura a intenção (Rápido e leve)
-    private void OnTilemapChanged( Tilemap tilemap, Tilemap.SyncTile[ ] changes )
-    {
-        if( isProcessing || !RestrainDrawing || Tilemaps == null || IgnoreUpdate ) return;
-
-        foreach( var change in changes )
+        static MyTilemapEditorWatcher()
         {
-            if( change.tile != null )
+            Tilemap.tilemapTileChanged -= OnTileChanged; ;                                    // Safety clear to avoid duplicate events
+            Tilemap.tilemapTileChanged += OnTileChanged; ;                                         // Hooks to the global tilemap painting event
+        }
+
+        private static void OnTileChanged( Tilemap tilemap, Tilemap.SyncTile[ ] changes )
+        {
+            if( Application.isPlaying || MyTilemap.IgnoreUpdate ) return;  // Skips if game is running or updates are paused
+
+            MyTilemap parentMap = tilemap.GetComponentInParent<MyTilemap>();  // Finds the MyTilemap logic script
+            if( parentMap == null || !parentMap.RestrainDrawing ) return;  // Skips if this is not our custom map
+
+            if( parentMap.gameObject.name.Contains( "Trans" ) ) return;  // Skips transition maps
+
+            // delayCall replaces the heavy Update loop. It runs exactly ONCE right after you finish a brush stroke.
+            EditorApplication.delayCall += () =>
             {
-                dirtyMaps.Add( tilemap );
-                dirtyPositions.Add( change.position );
-            }
+                if( parentMap == null || tilemap == null ) return;  // Safety check if object was destroyed
+
+                Tilemap.tilemapTileChanged -= OnTileChanged;  // Mutes the event to prevent infinite loops
+
+                try
+                {
+                    foreach( var change in changes )
+                    {
+                        if( change.tile != null )
+                            parentMap.ProcessPosition( tilemap, change.position );  // Processes only the painted tiles
+                    }
+                }
+                finally
+                {
+                    Tilemap.tilemapTileChanged += OnTileChanged;  // Restores the event listening
+                }
+            };
         }
     }
 
-    // 2. O Update processa as mudanças fora do ciclo de pintura do Unity
-    private void OnEditorUpdate()
+    public void ProcessPosition( Tilemap sourceMap, Vector3Int pos )
     {
-        if( IgnoreUpdate ) return;
-
-        if( gameObject.name.Contains( "Trans" ) )
-        {
-            dirtyMaps.Clear();
-            dirtyPositions.Clear();
-            return;
-        }
-
-        if( isProcessing || dirtyPositions.Count == 0 ) return;
-
-        isProcessing = true;
-
-        // SILENCIADOR: Desconectamos o evento para que o SetTile do script não gere recursão
-        Tilemap.tilemapTileChanged -= OnTilemapChanged;
-
-        try
-        {
-            for( int i = 0; i < dirtyPositions.Count; i++ )
-            {
-                ProcessPosition( dirtyMaps[ i ], dirtyPositions[ i ] );
-            }
-        }
-        catch( Exception e )
-        {
-            Debug.LogError( $"[MyTilemap] Erro ao processar: {e.Message}" );
-        }
-        finally
-        {
-            dirtyMaps.Clear();
-            dirtyPositions.Clear();
-            isProcessing = false;
-
-            // RELIGAR: Voltamos a ouvir as mudanças do usuário   
-            Tilemap.tilemapTileChanged += OnTilemapChanged;
-        }
-    }
-
-    private void ProcessPosition( Tilemap sourceMap, Vector3Int pos )
-    {
-        if( sourceMap == null ) return;
+        if( sourceMap == null ) return;  // Safety check
 
         // Regra de Borda
         if( pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height )
         {
-            sourceMap.SetTile( pos, null );
-            return;
+            sourceMap.SetTile( pos, null );  // Clears the tile if painted out of bounds
+            return;  // Exits
         }
 
-        // Obtemos o tile diretamente do mapa que foi alterado
-        TileBase tile = sourceMap.GetTile(pos);
-        if( tile == null ) return;
+        TileBase tile = sourceMap.GetTile(pos);  // Reads the painted tile from Unity
+        if( tile == null ) return;  // Exits if it was an erase action
 
-        // Calculamos o ID Global (Ex: Forest = 2, Last Tile = 8127)
-        int tileID = GetGlobalIDFromSprite((tile as Tile)?.sprite);
+        int tileID = GetGlobalIDFromSprite((tile as Tile)?.sprite);  // Calculates global ID from sprite name
 
         if( tileID != -1 && Map.I != null )
         {
-            ELayerType correctLayer = Map.GetTileLayer((ETileType)tileID);
-            int layerIndex = (int)correctLayer;
+            ELayerType correctLayer = Map.GetTileLayer((ETileType)tileID); ; // Finds the target layer logic
+            int layerIndex = (int)correctLayer; ; // Converts enum to array index
 
-            // Validação de Layer e troca automática  
-            if( correctLayer != ELayerType.DECOR )
-            if( correctLayer != ELayerType.DECOR2 )
-            if( correctLayer != ELayerType.NONE && layerIndex < Tilemaps.Count )
+            if( correctLayer != ELayerType.DECOR && correctLayer != ELayerType.DECOR2 && correctLayer != ELayerType.NONE && layerIndex < Tilemaps.Count )
             {
                 if( Tilemaps[ layerIndex ] != sourceMap )
                 {
-                    sourceMap.SetTile( pos, null );
-                    Tilemaps[ layerIndex ].SetTile( pos, tile );
+                    sourceMap.SetTile( pos, null );  // Removes tile from the wrong layer
+                    Tilemaps[ layerIndex ].SetTile( pos, tile ); ; // Places tile in the correct layer automatically
                 }
             }
         }
@@ -196,7 +155,7 @@ public class MyTilemap: SerializedMonoBehaviour
     [Button( "Navigation Map", ButtonSizes.Gigantic ), GUIColor( 0, 1f, 0 )]
     public void LoadNavigatioMap()
     {
-        Load( Map.I.NavigationMap.Tilemap, Map.I.TM );
+        //Load( Map.I.NavigationMap.Tilemap, Map.I.TM );
 
         MyTilemap myTilemap = Map.I.TM;
         if( myTilemap == null ) return;
@@ -328,7 +287,7 @@ public class MyTilemap: SerializedMonoBehaviour
 
         if( Application.isPlaying )
             return tileIdData[ l, x, y ];                                                  // Retorna o ID lógico da camada (pode ser -1 se vazio)
-                                                    
+
         TileBase tile = Tilemaps[ l ].GetTile( new Vector3Int( x, y, 0 ) );                // Pega o tile diretamente da Unity ; 
        
         return TileToID( tile );                                                           // Usa o seu método TileToID que já faz a conversão de sprite para Global ID 

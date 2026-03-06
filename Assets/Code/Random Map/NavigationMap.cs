@@ -9,7 +9,6 @@ using TMPro;
 public class NavigationMap : MonoBehaviour
 {
     #region Variables
-    public tk2dTileMap Tilemap;
     public Level Level;
     public RandomMapData MapData;
     public GameObject MapQuestPrefab, MapBonusPrefab, QuestPanelPrefab, FirePrefab;
@@ -42,6 +41,7 @@ public class NavigationMap : MonoBehaviour
             }        
         Manager.I.GameType = EGameType.NAVIGATION;
         Manager.I.Status = EGameStatus.PLAYING;
+
         Quest.I.CurLevel = Level;        
         UI.I.DebugLabel.text = "";
         UI.I.MidPanelSprite.spriteName = "Wind Rose";
@@ -54,11 +54,10 @@ public class NavigationMap : MonoBehaviour
         Map.I.RM.DungeonDialog.gameObject.SetActive( false );
         Map.I.RM.DungeonDialog.NavigationMapButtonClick = false;
         Map.I.RM.DungeonDialog.GotoNavigationMap = false;
-        MyTilemap.ClearTilemap( Map.I.SRCTM );
         Map.I.RM.RMD.Copy( MapData );
         Map.I.RM.RMD.Init();
         ResourceIndicator.DisableAll();  
-        Map.I.StartGame();
+        Map.I.StartGame();                                                                                      // Map Start Game Function
         //UI.I.GameLevelText.text = "Navigation Map";
         UI.I.GoalPanel.gameObject.SetActive( false );
         CreateMapQuests();
@@ -83,8 +82,7 @@ public class NavigationMap : MonoBehaviour
         }
 
         Map.I.UpdateFogOfWar( true );
-        Map.I.TM.Tilemaps[ ( int ) ELayerType.GAIA ].gameObject.SetActive( false ); 
-
+        Map.I.TM.Tilemaps[ ( int ) ELayerType.GAIA ].gameObject.SetActive( false );
         //OpenTrophyGates();
 	}	
 	public void UpdateIt () 
@@ -303,7 +301,7 @@ public class NavigationMap : MonoBehaviour
     public void CreateMapBonuses()
     {
         if( MapQuestObjectsCreated ) return;
-        BonusList = new NavigationMapBonus[ Tilemap.width, Tilemap.height ];
+        BonusList = new NavigationMapBonus[ Map.I.TM.width, Map.I.TM.height ];
         for( int i = 0; i < MapBonusList.Count; i++ )
         {
             CreateMapBonus( MapBonusList[ i ] );
@@ -405,6 +403,7 @@ public class NavigationMap : MonoBehaviour
         UI.I.PerksListFolder.SetActive( true );
         UI.I.GameLevelText.text = "";
         UI.I.ForceUpdateUI = true;
+        Map.I.TM.gameObject.SetActive( false );
         Save(); 
         UpdateUI();
     }
@@ -486,8 +485,8 @@ public class NavigationMap : MonoBehaviour
     public void OpenTrophyGates()
     {
         List<int> gateid = new List<int>();
-        for( int y = 0; y < Tilemap.height; y++ )
-        for( int x = 0; x < Tilemap.width; x++ )
+        for( int y = 0; y < Map.I.TM.height; y++ )
+        for( int x = 0; x < Map.I.TM.width; x++ )
         if ( BonusList[ x, y ] != null )
         {
             for( int i = 0; i < Map.I.RM.RMList.Count; i++ )                                                    // optimize
@@ -523,8 +522,8 @@ public class NavigationMap : MonoBehaviour
             }          
         }
 
-        for( int y = 0; y < Tilemap.height; y++ )
-        for( int x = 0; x < Tilemap.width; x++ )
+        for( int y = 0; y < Map.I.TM.height; y++ )
+        for( int x = 0; x < Map.I.TM.width; x++ )
         {
             if( Map.I.Gaia[ x, y ] )
             if( Map.I.Gaia[ x, y ].TileID == ETileType.ROOMDOOR )

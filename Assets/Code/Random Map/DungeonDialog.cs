@@ -173,8 +173,8 @@ public class DungeonDialog : MonoBehaviour
 
         if( NewIncursion ) 
             StartQuest();
-        if( GotoNavigationMap ) 
-        { 
+        if( GotoNavigationMap )
+        {
             Map.I.NavigationMap.StartIt(); 
             return; 
         }
@@ -1405,7 +1405,8 @@ public class DungeonDialog : MonoBehaviour
         if( TechButton.TechEditorActive ) return;
         if( Manager.I.GugaVersion )
         {
-            FinalizeQuest();
+            if( Map.I.RM.GameOver == false )
+                FinalizeQuest();
         }
         else
         if( Map.I.RM.GameOver == false )
@@ -1415,6 +1416,7 @@ public class DungeonDialog : MonoBehaviour
         }
 
         NavigationMapButtonClick = true;
+        Map.I.TM.gameObject.SetActive( false );
         SetMsg( "Starting Navigation Map...", Color.green, 5, 43 );
     }
     
