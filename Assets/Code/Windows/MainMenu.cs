@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -10,9 +12,9 @@ public class MainMenu : MonoBehaviour
 {
 	public static MainMenu I;
     public GameObject UIFolder;
-	public tk2dTextMesh PlayButton, ProfileButton, QuestButton, SettingsButton, ExitButton, VersionText;
-	public ProfileWindow ProfileWindow;
-    public QuestWindow QuestWindow;
+	public TextMeshPro PlayButton, ProfileButton, QuestButton, SettingsButton, ExitButton;
+    public TextMeshPro VersionText;
+    public ProfileWindow ProfileWindow;
     public SettingsWindow SettingsWindow;
     public tk2dSprite LogoImage;
     public SpriteRenderer MainBack1;
@@ -30,14 +32,11 @@ public class MainMenu : MonoBehaviour
         I = this;
 
         ProfileWindow.Start();                // to avoid object order init bug
-        QuestWindow.Start();
         SettingsWindow.Start();
         UIFolder.gameObject.SetActive( true );
         ProfileWindow.I.LoadProfileWindowData();
-        QuestWindow.I.LoadQuestWindowData( Manager.I.ProfileNumber );
         SettingsWindow.I.LoadSettingsWindowData( Manager.I.ProfileNumber );
         ProfileWindow.I.gameObject.SetActive( false );
-        QuestWindow.I.gameObject.SetActive( false );
         SettingsWindow.I.gameObject.SetActive( false );
         UI.I.BackgroundUI.gameObject.SetActive( false );
         for( int i = 0; i < 99999; i++ )                     // Sort back ground images
@@ -58,15 +57,14 @@ public class MainMenu : MonoBehaviour
     public void Update()
     {
         if( Manager.I.Status != EGameStatus.MAINMENU ) return;
-        MainMenu.I.QuestButton.text = Language.Get( "QUEST_BUTTON" ) + ":\n" + Manager.I.QuestName;
         if( Input.GetKeyDown( KeyCode.Return ) ) PlayGame();
         if( Helper.I.AutoClickPlayButton ) PlayGame();
         if( Input.GetKeyDown( KeyCode.Escape ) ) 
             Exit();
-        PlayButton.text = Language.Get( "PLAY_BUTTON" );
-        SettingsButton.text = Language.Get( "SETTINGS_BUTTON" );
-        ExitButton.text = Language.Get( "EXIT_BUTTON" );
-        ExitButton.text = ExitButton.text.Replace( "\\n", "\n" );
+        //PlayButton.text = Language.Get( "PLAY_BUTTON" );
+        //SettingsButton.text = Language.Get( "SETTINGS_BUTTON" );
+        //ExitButton.text = Language.Get( "EXIT_BUTTON" );
+        //ExitButton.text = ExitButton.text.Replace( "\\n", "\n" );
         Cursor.visible = true;
                 
         VersionText.text = "NEO Engine - Chapter I - Version: 1.0";
@@ -91,8 +89,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-		if( QuestWindow.I.gameObject.activeSelf    ||  // Dont start game if no profile is chosen
-		    ProfileWindow.I.gameObject.activeSelf  ||
+        if( ProfileWindow.I.gameObject.activeSelf  ||                   // Dont start game if no profile is chosen
 		    SettingsWindow.I.gameObject.activeSelf ||
             Credits.I.gameObject.activeSelf        ||
 		    Manager.I.ProfileNumber == -1          )
@@ -126,15 +123,6 @@ public class MainMenu : MonoBehaviour
         Application.OpenURL( "https://www.indiegogo.com/projects/wonderquest-survival-rpg/x/10420820#/" );
     }
 
-	//_____________________________________________________________________________________________________________________ Open Quest Window
-
-
-	public void OpenQuestWindow()
-	{
-        return;
-        QuestWindow.I.InitQuestScreen();
-	}
-    
     //_____________________________________________________________________________________________________________________ Open Quest Window
     
     public void OpenCreditsWindow()

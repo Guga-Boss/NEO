@@ -2,12 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using DarkTonic.MasterAudio;
+using TMPro;
 
 public class FishingObject : MonoBehaviour
 {
     #region Variables
     public NSprite Sprite, Sprite2;
-    public tk2dTextMesh Text;
+    public TextMeshPro Text;
     public Vector2 TilePos = new Vector2( -1, -1 );
     public Vector2 OldTilePos = new Vector2( -1, -1 );
     public Vector3 OldPosition = new Vector3( -1, -1, 0 );

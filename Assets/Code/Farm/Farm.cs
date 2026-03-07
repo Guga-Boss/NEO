@@ -84,6 +84,8 @@ public partial class Farm : MonoBehaviour
     [TabGroup( "Main" )]
     public readonly Vector2 FarmEntrance = new Vector2( 128, 128 );
     [TabGroup( "Main" )]
+    public readonly VI FS = new VI( 256, 256 );                       // total farm stilemap size
+    [TabGroup( "Main" )]
     public int MudTiles = 0;
     [TabGroup( "Main" )]
     public int WaterTiles = 0;
@@ -892,8 +894,8 @@ public partial class Farm : MonoBehaviour
     {
         int sx = ( int ) FarmLimit.x / 2;
         int sy = ( int ) FarmLimit.y / 2;
-        Rect r = new Rect( Map.I.LevelEntrancePosition.x - sx,
-        Map.I.LevelEntrancePosition.y - sy, FarmLimit.x, FarmLimit.y );
+        Rect r = new Rect(  FarmEntrance.x - sx,
+        FarmEntrance.y - sy, FarmLimit.x, FarmLimit.y );
 
         if( r.Contains( tg ) ) return true;
         if( showmsg )
@@ -943,14 +945,13 @@ public partial class Farm : MonoBehaviour
     {
         Tl = new List<VI>();
         int x0 = Mathf.Max( Mathf.FloorToInt( MiddleTile.x - FarmLimit.x ), 0 );
-        int x1 = Mathf.Min( Mathf.CeilToInt( MiddleTile.x + FarmLimit.x ), Map.I.TM.width - 1 );
+        int x1 = Mathf.Min( Mathf.CeilToInt( MiddleTile.x + FarmLimit.x ), FS.x - 1 );
         int y0 = Mathf.Max( Mathf.FloorToInt( MiddleTile.y - FarmLimit.y ), 0 );
-        int y1 = Mathf.Min( Mathf.CeilToInt( MiddleTile.y + FarmLimit.y ), Map.I.TM.height - 1 );
+        int y1 = Mathf.Min( Mathf.CeilToInt( MiddleTile.y + FarmLimit.y ), FS.y - 1 );
         for( int y = y0; y <= y1; y++ )
         for( int x = x0; x <= x1; x++ )
              Tl.Add( new VI( x, y ) );                                                                   // Init tile list optimized to work only inside farm area
     }
-
 
     public void UpdateListsCallBack()
     {

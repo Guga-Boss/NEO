@@ -397,15 +397,15 @@ public partial class Controller : MonoBehaviour
                     {
                         all.Add( 0 );
                         if( up == false ||
-                          ( tomine != null && ( tomine.Body.UPMineType == EMineType.NONE ||                       // only leave upstair to the 2nd floor without upmine 
-                                                tomine.Body.UPMineType == EMineType.BRIDGE ) ) )                  // exception: descend to under bridge               
+                          ( tomine != null && ( tomine.Body.UPMineType == EMineType.NONE ||                       // only leave upstair to the 2nd floor without upmine
+                                                tomine.Body.UPMineType == EMineType.BRIDGE ) ) )                  // exception: descend to under bridge
                         {
                             all.Add( 3 ); all.Add( 4 );
                         }
                     }
                     if( pass == 1 )
                     {
-                        if( la.Body.MineType == EMineType.LADDER && un.Control.Floor == 0 ||                    // stair entering
+                        if( la.Body.MineType == EMineType.LADDER && un.Control.Floor == 0 ||                      // stair entering
                             la.Body.UPMineType == EMineType.LADDER && un.Control.Floor == 1 ||
                             la.Body.UPMineType == EMineType.LADDER && un.Control.Floor == 2 )
                         {
@@ -413,7 +413,7 @@ public partial class Controller : MonoBehaviour
                         }
                         if( ( un.Control.Floor == 2 && up == false ) ||
                             ( un.Control.Floor == 4 || un.Control.Floor == 3 ) )
-                            all.Add( 4 );                                                                        // no inverse stair climb from ground
+                            all.Add( 4 );                                                                         // no inverse stair climb from ground
                     }
                     outl = 0; inl = 1;
                 }

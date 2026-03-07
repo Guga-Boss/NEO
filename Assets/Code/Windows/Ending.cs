@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class Ending : MonoBehaviour
 {
 	public static Ending I;
-	public tk2dTextMesh MainText, TitleText;
+	public TextMeshPro MainText, TitleText;
 
 	// Use this for initialization
 	void Start()

@@ -443,6 +443,9 @@ public class MapSaver : MonoBehaviour
             for( int i = 0; i < totalTiles; i++ )
                 tileBuffer[ i ] = reader.ReadInt32();                                                   // Read tiles into buffer
 
+
+            int water = 0;
+
             int index = 0;
             for( int y = 0; y < (int) Size.y; y++ )
             for( int x = 0; x < (int) Size.x; x++ )
@@ -455,15 +458,23 @@ public class MapSaver : MonoBehaviour
                         {
                             if( layer != ELayerType.GAIA )                                               // farm optimization: only load terrain and gaia layer, ignore others                                 
                             if( layer != ELayerType.TERRAIN ) set = false;
-                            if( G.Farm.CheckFarmLimit( new Vector2( x, y ), false ) == false )
-                                set = false;
+                         //   if( G.Farm.CheckFarmLimit( new Vector2( x, y ), false ) == false )
+                         //       set = false;
                         }
+
+
+                        
+                        if( tileID == (int)ETileType.WATER ) water++;
+
                         if( set )
                         {
                             mtm.SetTile( x, y, (int) layer, tileID, true );                             // Set new system tile
                         }
                     }
                 }
+
+
+            Debug.Log("water " +water);
 
             mtm.FlushTiles();                                                                           // Build new map
 

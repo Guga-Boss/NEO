@@ -440,6 +440,12 @@ public partial class Map : MonoBehaviour
 
     public void StartGame()
     {
+
+
+        if( Manager.I.GameType == EGameType.FARM ) TM.width = TM.height = 256;
+        if( Manager.I.GameType == EGameType.NAVIGATION ) TM.width = TM.height = 256;
+
+
         MyTilemap.ClearTilemap( TM );
         MyTilemap.ClearTilemap( TransT );
         InitFolders();

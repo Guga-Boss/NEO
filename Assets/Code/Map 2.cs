@@ -2320,6 +2320,7 @@ public partial class Map: MonoBehaviour
 
     public List<Unit> GetFUnit( Vector2 tg, ETileType tl = ETileType.NONE )
     {
+        if( Map.PtOnMap( Map.I.TM, tg ) == false ) return null;          // Bounds check;
         int x = ( int ) tg.x;                                            // Single cast for X;
         int y = ( int ) tg.y;                                            // Single cast for Y;
 

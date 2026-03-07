@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TMPro;
 
 public class Credits : MonoBehaviour
 {
     public static Credits I;
-    public tk2dTextMesh MainText, TitleText;
-    public tk2dUIItem[] PageButton;
-    public tk2dTextMesh [] PageButtonText;
+    public TextMeshPro MainText, TitleText;
     public int CurrentPage = 1;
 
     // Use this for initialization
@@ -23,12 +22,12 @@ public class Credits : MonoBehaviour
             Input.GetKeyDown( KeyCode.Return ) ) ExitCredits();
         MainText.text = Language.Get( "CREDITS_TEXT_PAGE_" + CurrentPage );
         MainText.text = MainText.text.Replace( "\\n", "\n" );
-        for( int i = 0; i < PageButton.Length; i++ )
-        {
-            PageButtonText[ i ].color = Color.white;
-            if( i == CurrentPage - 1 )
-                PageButtonText[ i ].color = Color.green;
-        }
+        //for( int i = 0; i < PageButton.Length; i++ )
+        //{
+        //    PageButtonText[ i ].color = Color.white;
+        //    if( i == CurrentPage - 1 )
+        //        PageButtonText[ i ].color = Color.green;
+        //}
     }
 
     public void ShowCredits()

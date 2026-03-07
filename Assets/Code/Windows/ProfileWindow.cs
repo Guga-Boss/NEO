@@ -42,7 +42,6 @@ public class ProfileWindow : MonoBehaviour
 	{
 		if( SettingsWindow.I.gameObject.activeSelf ) SettingsWindow.I.FinalizeSettingsScreen();
         if( Credits.I.gameObject.activeSelf ) return;
-		if( QuestWindow.I.gameObject.activeSelf    ) QuestWindow.I.FinalizeQuestScreen();
 		ProfileWindow.I.gameObject.SetActive( true );
         MainMenu.I.LogoImage.gameObject.SetActive( false );
 	}
@@ -116,8 +115,6 @@ public class ProfileWindow : MonoBehaviour
 	public void InitNewProfile()
     {
         Manager.I.QuestName = "Main Quest";
-		QuestWindow.I.QuestMenu.Index = 0;
-        QuestWindow.I.SaveQuestWindowData();
 		ProfileName.text = ""; 
 		TextInput.SetFocus( true );
         TextInput.Text = "";
@@ -138,7 +135,6 @@ public class ProfileWindow : MonoBehaviour
         else                                                                                                 // Existing profile click
           {
 		    ProfileName.text = ProfileNames[ ProfileNum ];
-    		QuestWindow.I.LoadQuestWindowData( ProfileNum );
 			MainMenu.I.ProfileButton.text = Language.Get("PROFILE_BUTTON")
                         + ":\n" + ProfileNames[ (int) ProfileNum ];
 			SettingsWindow.I.LoadSettingsWindowData( ProfileNum );

@@ -37,42 +37,42 @@ public class MyTilemap: SerializedMonoBehaviour
     // SISTEMA DE PROCESSAMENTO SEGURO (EDITOR)
     // ===================================================================================
 #if UNITY_EDITOR
-    [InitializeOnLoad]                                              // Ensures this class starts automatically in the Editor
+    [InitializeOnLoad]                                                                         // Ensures this class starts automatically in the Editor
     public static class MyTilemapEditorWatcher
     {
         static MyTilemapEditorWatcher()
         {
-            Tilemap.tilemapTileChanged -= OnTileChanged; ;                                    // Safety clear to avoid duplicate events
-            Tilemap.tilemapTileChanged += OnTileChanged; ;                                         // Hooks to the global tilemap painting event
+            Tilemap.tilemapTileChanged -= OnTileChanged;                                       // Safety clear to avoid duplicate events
+            Tilemap.tilemapTileChanged += OnTileChanged;                                       // Hooks to the global tilemap painting event
         }
 
         private static void OnTileChanged( Tilemap tilemap, Tilemap.SyncTile[ ] changes )
         {
-            if( Application.isPlaying || MyTilemap.IgnoreUpdate ) return;  // Skips if game is running or updates are paused
+            if( Application.isPlaying || MyTilemap.IgnoreUpdate ) return;                      // Skips if game is running or updates are paused
 
-            MyTilemap parentMap = tilemap.GetComponentInParent<MyTilemap>();  // Finds the MyTilemap logic script
-            if( parentMap == null || !parentMap.RestrainDrawing ) return;  // Skips if this is not our custom map
+            MyTilemap parentMap = tilemap.GetComponentInParent<MyTilemap>();                   // Finds the MyTilemap logic script
+            if( parentMap == null || !parentMap.RestrainDrawing ) return;                      // Skips if this is not our custom map
 
-            if( parentMap.gameObject.name.Contains( "Trans" ) ) return;  // Skips transition maps
+            if( parentMap.gameObject.name.Contains( "Trans" ) ) return;                        // Skips transition maps
 
-            // delayCall replaces the heavy Update loop. It runs exactly ONCE right after you finish a brush stroke.
+                                                                                               // delayCall replaces the heavy Update loop. It runs exactly ONCE right after you finish a brush stroke.
             EditorApplication.delayCall += () =>
             {
-                if( parentMap == null || tilemap == null ) return;  // Safety check if object was destroyed
+                if( parentMap == null || tilemap == null ) return;                             // Safety check if object was destroyed
 
-                Tilemap.tilemapTileChanged -= OnTileChanged;  // Mutes the event to prevent infinite loops
+                Tilemap.tilemapTileChanged -= OnTileChanged;                                   // Mutes the event to prevent infinite loops
 
                 try
                 {
                     foreach( var change in changes )
                     {
                         if( change.tile != null )
-                            parentMap.ProcessPosition( tilemap, change.position );  // Processes only the painted tiles
+                            parentMap.ProcessPosition( tilemap, change.position );             // Processes only the painted tiles
                     }
                 }
                 finally
                 {
-                    Tilemap.tilemapTileChanged += OnTileChanged;  // Restores the event listening
+                    Tilemap.tilemapTileChanged += OnTileChanged;                               // Restores the event listening
                 }
             };
         }
@@ -80,31 +80,32 @@ public class MyTilemap: SerializedMonoBehaviour
 
     public void ProcessPosition( Tilemap sourceMap, Vector3Int pos )
     {
-        if( sourceMap == null ) return;  // Safety check
+        if( sourceMap == null ) return;                                                         // Safety check
 
-        // Regra de Borda
+                                                                                                // Regra de Borda
         if( pos.x < 0 || pos.x >= width || pos.y < 0 || pos.y >= height )
         {
-            sourceMap.SetTile( pos, null );  // Clears the tile if painted out of bounds
-            return;  // Exits
+            sourceMap.SetTile( pos, null );                                                     // Clears the tile if painted out of bounds
+            return;                                                                             // Exits
         }
 
-        TileBase tile = sourceMap.GetTile(pos);  // Reads the painted tile from Unity
-        if( tile == null ) return;  // Exits if it was an erase action
+        TileBase tile = sourceMap.GetTile(pos);                                                 // Reads the painted tile from Unity
+        if( tile == null ) return;                                                              // Exits if it was an erase action
 
-        int tileID = GetGlobalIDFromSprite((tile as Tile)?.sprite);  // Calculates global ID from sprite name
+        int tileID = GetGlobalIDFromSprite((tile as Tile)?.sprite);                             // Calculates global ID from sprite name
 
         if( tileID != -1 && Map.I != null )
         {
-            ELayerType correctLayer = Map.GetTileLayer((ETileType)tileID); ; // Finds the target layer logic
-            int layerIndex = (int)correctLayer; ; // Converts enum to array index
+            ELayerType correctLayer = Map.GetTileLayer((ETileType)tileID);                      // Finds the target layer logic
+            int layerIndex = (int)correctLayer;                                                 // Converts enum to array index
 
-            if( correctLayer != ELayerType.DECOR && correctLayer != ELayerType.DECOR2 && correctLayer != ELayerType.NONE && layerIndex < Tilemaps.Count )
+            if( correctLayer != ELayerType.DECOR && correctLayer != ELayerType.DECOR2 && 
+                correctLayer != ELayerType.NONE && layerIndex < Tilemaps.Count )
             {
                 if( Tilemaps[ layerIndex ] != sourceMap )
                 {
-                    sourceMap.SetTile( pos, null );  // Removes tile from the wrong layer
-                    Tilemaps[ layerIndex ].SetTile( pos, tile ); ; // Places tile in the correct layer automatically
+                    sourceMap.SetTile( pos, null );                                             // Removes tile from the wrong layer
+                    Tilemaps[ layerIndex ].SetTile( pos, tile );                                // Places tile in the correct layer automatically
                 }
             }
         }
@@ -262,59 +263,62 @@ public class MyTilemap: SerializedMonoBehaviour
     }
     public void FlushTiles()
     {
-        if( BatchPositions == null ) return;                                // Early exit if buffers are null ;
+        if( BatchPositions == null ) return;                                                 // Early exit if buffers are null ;
 
         for( int i = 0; i < Tilemaps.Count; i++ )
         {
             if( Tilemaps[ i ] != null && BatchPositions[ i ].Count > 0 )
             {
-                // Core Optimization: Rebuilds mesh once per layer ;
+                                                                                             // Core Optimization: Rebuilds mesh once per layer ;
                 Tilemaps[ i ].SetTiles( BatchPositions[ i ].ToArray(), 
                 BatchTiles[ i ].ToArray() );
 
-                BatchPositions[ i ].Clear();                                // Reset buffers after execution ;
-                BatchTiles[ i ].Clear();                                    // Reset buffers after execution ;
+                BatchPositions[ i ].Clear();                                                 // Reset buffers after execution ;
+                BatchTiles[ i ].Clear();                                                     // Reset buffers after execution ;
             }
         }
     }
 
-
-    public int[,,] tileIdData;                                             // Logical storage for all IDs [layer, x, y]
-    public bool[,,] visibleData;                                           // Visibility flag for each tile
+    [HideInInspector] 
+    public bool UseArrayData = true;
+    [HideInInspector]
+    public int[,,] tileIdData;
+    [HideInInspector]                                                                        // Logical storage for all IDs [layer, x, y]
+    public bool[,,] visibleData;                                                             // Visibility flag for each tile
     internal int GetTile( int x, int y, int l )
     {
-        if( l < 0 || l >= Tilemaps.Count ) return -1;                                      // Valida camada 
+        if( l < 0 || l >= Tilemaps.Count ) return -1;                                        // Valida camada
 
+        if( UseArrayData )
         if( Application.isPlaying )
-            return tileIdData[ l, x, y ];                                                  // Retorna o ID lógico da camada (pode ser -1 se vazio)
+            return tileIdData[ l, x, y ];                                                    // Retorna o ID lógico da camada (pode ser -1 se vazio)
 
-        TileBase tile = Tilemaps[ l ].GetTile( new Vector3Int( x, y, 0 ) );                // Pega o tile diretamente da Unity ; 
+        TileBase tile = Tilemaps[ l ].GetTile( new Vector3Int( x, y, 0 ) );                  // Pega o tile diretamente da Unity ;
        
-        return TileToID( tile );                                                           // Usa o seu método TileToID que já faz a conversão de sprite para Global ID 
+        return TileToID( tile );                                                             // Usa o seu método TileToID que já faz a conversão de sprite para Global ID
     }
     internal void SetTile( int x, int y, int layer, int id, bool useBatch = false )
-    {
+    { 
+        if( UseArrayData )
         if( Application.isPlaying )
         {
-            // 1. Save to Memory
-            tileIdData[ layer, x, y ] = id;                                                   // Always store the ID in logic array
+            tileIdData[ layer, x, y ] = id;                                                   // Always store the ID in logic array                                                                                            
+            bool isVisible = (id != -1);                                                      // False if empty
+            if( layer == ( int ) ELayerType.GAIA && 
+                Map.I.RM.InvisibleGaia( ( ETileType ) id ) )
+                isVisible = false;                                                            // Force invisible for logic tiles
 
-            // 2. Determine Visibility 
-            bool isVisible = (id != -1);                                                       // False if empty
-            if( layer == (int) ELayerType.GAIA && Map.I.RM.InvisibleGaia( (ETileType) id ) )
-                isVisible = false;                                                             // Force invisible for logic tiles
-
-            visibleData[ layer, x, y ] = isVisible;                                            // Store visibility state
+            visibleData[ layer, x, y ] = isVisible;                                           // Store visibility state
 
             if( id != -1 )
-            if( isVisible == false ) return;                                                   // if invisible, skip rendering (but still save logic state)
+            if( isVisible == false ) return;                                                  // if invisible, skip rendering (but still save logic state)
         }
 
         if( layer < 0 || layer >= Tilemaps.Count ) return;
         if( useBatch )
         {
-            BatchPositions[ layer ].Add( new Vector3Int( x, y, 0 ) );                    // Guarda a posição           
-            BatchTiles[ layer ].Add( id == -1 ? null : EnumToTile( id ) );               // Guarda o Tile (se for -1, salva null para apagar o tile na Unity)
+            BatchPositions[ layer ].Add( new Vector3Int( x, y, 0 ) );                         // Guarda a posição
+            BatchTiles[ layer ].Add( id == -1 ? null : EnumToTile( id ) );                    // Guarda o Tile (se for -1, salva null para apagar o tile na Unity)
         }
         else
         {
@@ -327,9 +331,9 @@ public class MyTilemap: SerializedMonoBehaviour
     public static void ClearTilemap( MyTilemap mt )
     {
         if( mt.Tilemaps != null )
-            foreach( var t in mt.Tilemaps )                                              // Loops through all tilemaps and clears them in Unity (visual)
+            foreach( var t in mt.Tilemaps )                                                   // Loops through all tilemaps and clears them in Unity (visual)
                 if( t ) t.ClearAllTiles();
-        mt.InitData( mt.width, mt.height );                                              // Clears logical data and resets dimensions
+        mt.InitData( mt.width, mt.height );                                                   // Clears logical data and resets dimensions
     }
 
     public static void Load( tk2dTileMap tm, MyTilemap myTilemap )
@@ -408,13 +412,13 @@ public class MyTilemap: SerializedMonoBehaviour
 
     public void InitData( int w, int h )
     {
-        int layers = Tilemaps.Count; ;                                     // Gets number of layers from the list
+        int layers = Tilemaps.Count;                                       // Gets number of layers from the list
         width = w;                                                         // Updates internal width reference
         height = h;                                                        // Updates internal height reference
 
+        if( UseArrayData == false ) return;
         tileIdData = new int[ layers, w, h ];                              // Allocates memory for tile IDs
         visibleData = new bool[ layers, w, h ];                            // Allocates memory for visibility flags
-
        
         for( int l = 0; l < layers; l++ )                                  // Manual loop is more reliable for 3D arrays [,,]
         for( int x = 0; x < w; x++ )

@@ -116,8 +116,9 @@ public class SettingsWindow: MonoBehaviour
             MusicVolume = TF.LoadT<float>( "MusicVolume" );                                                // load music volume
             SoundFxVolume = TF.LoadT<float>( "SoundFxVolume" );                                            // load FX volume
 
-            LanguageMenu.Index = TF.LoadT<int>( "LanguageIndex" );                                         // load language
-            Language.SwitchLanguage( LanguageMenu.selectedTextMesh.text );                                 // apply language
+            int trash = TF.LoadT<int>( "LanguageIndex" );                                                  // load language
+            //LanguageMenu.Index = TF.LoadT<int>( "LanguageIndex" );                                         // load language
+            //Language.SwitchLanguage( LanguageMenu.selectedTextMesh.text );                                 // apply language
 
             for( int i = 0; i < Manager.I.InputNames.Length; i++ )
             {
@@ -126,7 +127,7 @@ public class SettingsWindow: MonoBehaviour
                 //cInput.ChangeKey( Manager.I.InputNames[ i ], prim, sec );                                  // apply key
             }
 
-            UpdateControls();                                                                              // refresh UI
+            //UpdateControls();                                                                              // refresh UI
         }
     }
 
@@ -134,13 +135,13 @@ public class SettingsWindow: MonoBehaviour
     //_____________________________________________________________________________________________________________________ Update Controls
     public void UpdateControls()
     {
-        CameraDampTextInput.Text = "" + DampTime;                                                     // update damp input
-        KeyHoldScrollbar.Value = KeyHoldDelay / 0.5f;                                                 // update key hold scrollbar
-        KeyHoldTextInput.Text = "" + KeyHoldDelay.ToString( "0.00" );                                 // update key hold input
-        MaxHeroSpeedScrollbar.Value = MaxHeroSpeed / 0.16f;                                           // update hero speed scrollbar
-        MaxHeroSpeedTextInput.Text = "" + MaxHeroSpeed.ToString( "0.00" );                            // update hero speed input
-        MusicVolumeScrollBar.Value = MusicVolume;                                                     // update music scrollbar
-        SoundFxScrollBar.Value = SoundFxVolume;                                                       // update FX scrollbar
+        //CameraDampTextInput.Text = "" + DampTime;                                                     // update damp input
+        //KeyHoldScrollbar.Value = KeyHoldDelay / 0.5f;                                                 // update key hold scrollbar
+        //KeyHoldTextInput.Text = "" + KeyHoldDelay.ToString( "0.00" );                                 // update key hold input
+        //MaxHeroSpeedScrollbar.Value = MaxHeroSpeed / 0.16f;                                           // update hero speed scrollbar
+        //MaxHeroSpeedTextInput.Text = "" + MaxHeroSpeed.ToString( "0.00" );                            // update hero speed input
+        //MusicVolumeScrollBar.Value = MusicVolume;                                                     // update music scrollbar
+        //SoundFxScrollBar.Value = SoundFxVolume;                                                       // update FX scrollbar
     }
 
     //_____________________________________________________________________________________________________________________ Restore Default Settings
@@ -169,7 +170,7 @@ public class SettingsWindow: MonoBehaviour
 
         UpdateControls();                                                                            // refresh UI
         Language.SwitchLanguage( "EN" );                                                             // reset language
-        LanguageMenu.Index = 0;                                                                      // reset language menu
+        //LanguageMenu.Index = 0;                                                                      // reset language menu
         Debug.Log( "Settings Reset." );
     }
 
@@ -181,7 +182,7 @@ public class SettingsWindow: MonoBehaviour
         if( Credits.I.gameObject.activeSelf ) return;                                                // credits open
         if( SettingsWindow.I.gameObject.activeSelf ) return;                                         // settings open
 
-        if( QuestWindow.I.gameObject.activeSelf || Manager.I.ProfileNumber == -1 )                   // require profile
+        if( Manager.I.ProfileNumber == -1 )                                                          // require profile
         {
             MainMenu.I.OpenProfileWindow();                                                          // open profile window
             return;

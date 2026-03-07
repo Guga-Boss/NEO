@@ -599,7 +599,7 @@ public class RandomMap : MonoBehaviour
         Map.I.InvalidateInputTimer = .5f;
         Map.I.Hero.Control.ForceMove = EActionType.WAIT;
 
-        if( Helper.I.ReleaseVersion == false )       // Updates items max stack not to clamp them and waste them all
+        if( Helper.I.ReleaseVersion == false )       // Updates items max stack not to clamp them and waste them alls 
             G.Inventory.UpdateIt();
 
         //if( RMD.RevealLabFog ) // hidden tiles has been removed
