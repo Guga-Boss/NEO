@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections; 
 using System.Collections.Generic;
 
-[ExecuteInEditMode]				
+//[ExecuteInEditMode]				
 public class ES2Init : MonoBehaviour
 {
 	public void Awake()

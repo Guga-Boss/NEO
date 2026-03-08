@@ -15,7 +15,7 @@ public class LevelIntro : MonoBehaviour
     //public List<tk2dSprite> ButtonSpriteList;
     //public List<tk2dSprite> RewardIcon;
     //public List<tk2dSlicedSprite> RewardBack;
-    //public List<tk2dTextMesh> RewardText;
+    //public List<tk2dTextMesh> RewardText;        
     public bool MapLoaded;
     public float ExitLevelTimer;
     public SpriteRenderer Back;
@@ -32,7 +32,7 @@ public class LevelIntro : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton
+    [InitializeOnLoadMethod]                                                                   // Editor only initialization for Singleton 
     static void InitSingleton()
     {
         EditorApplication.delayCall += () =>

@@ -3353,7 +3353,7 @@ public partial class Map : MonoBehaviour
         FireFliesParticle,
         WindParticle,
         SnowParticle };
-        foreach( var ps in systems )
+        foreach( var ps in systems )    
         {
             var em = ps.emission;
             em.rateOverTime = 0;                                                                     // para emissão

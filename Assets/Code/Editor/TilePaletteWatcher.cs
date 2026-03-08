@@ -132,7 +132,7 @@ public class TilePaletteWatcher: EditorWindow
         {
             // Reutiliza sua lógica de ID Global
             int globalID = GetGlobalID(tileData.sprite);
-            ETileType tileType = (ETileType)globalID;
+            ETileType tileType = (ETileType)globalID; 
 
             // Busca a Layer correta no seu Map.cs
             ELayerType layer = Map.GetTileLayer(tileType);
