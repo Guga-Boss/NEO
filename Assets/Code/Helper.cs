@@ -712,7 +712,7 @@ public class Helper : MonoBehaviour
             {
                 TKUtil.ClearLayer( tg, ELayerType.GAIA );
                 Vector2 mc = GetCubeTile( tg );
-                MapSaver.I.Tilemap.SetTile( ( int ) mc.x, ( int ) mc.y, ( int ) ELayerType.GAIA, ( int ) -1 );
+                //MapSaver.I.Tilemap.SetTile( ( int ) mc.x, ( int ) mc.y, ( int ) ELayerType.GAIA, ( int ) -1 );
                 return;
             }
 
@@ -731,7 +731,7 @@ public class Helper : MonoBehaviour
             {
                 Map.I.SRCTM.SetTile( Map.I.Mtx, Map.I.Mty, ( int ) ELayerType.GAIA, ( int ) DrawTile );
                 Vector2 mc = GetCubeTile( tg );
-                MapSaver.I.Tilemap.SetTile( ( int ) mc.x, ( int ) mc.y, ( int ) ELayerType.GAIA, ( int ) DrawTile );
+                //MapSaver.I.Tilemap.SetTile( ( int ) mc.x, ( int ) mc.y, ( int ) ELayerType.GAIA, ( int ) DrawTile );
                 Map.I.SetTile( Map.I.Mtx, Map.I.Mty, ELayerType.GAIA, DrawTile, true );
                 for( int y = ( int ) tg.y - 1; y <= tg.y + 1; y++ )
                 for( int x = ( int ) tg.x - 1; x <= tg.x + 1; x++ )

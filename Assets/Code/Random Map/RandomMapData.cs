@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
-using tk2dEditor.Font;
 using UnityEditor;
 using UnityEngine;
 //using UnityEngine.Serialization;

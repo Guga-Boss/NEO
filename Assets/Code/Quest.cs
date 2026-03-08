@@ -497,31 +497,31 @@ public class Quest : MonoBehaviour
                     bool ok = false;
 
 
-                    for( int i = 0; i < tm.GetTilePrefabsListCount(); i++ )                                                 // Find all artifacts prefabs and clone them
-                    {
-                        int tempLayer = 0;
-                        GameObject prefabObject;
-                        int x, y;
-                        tm.GetTilePrefabsListItem( i, out x, out y, out tempLayer, out prefabObject );
-                        Vector2 pos = new Vector2( x, y );
-                        if( prefabObject != null )
-                            if( prefabObject.tag == "Artifact" )
-                            {
-                                Vector2 posi = ES2.Load<Vector2>( fname + "?tag=Pos " + l + "  " + a );
+                    //ggggfor( int i = 0; i < tm.GetTilePrefabsListCount(); i++ )                                                 // Find all artifacts prefabs and clone them
+                    //{
+                    //    int tempLayer = 0;
+                    //    GameObject prefabObject;
+                    //    int x, y;
+                    //    tm.GetTilePrefabsListItem( i, out x, out y, out tempLayer, out prefabObject );
+                    //    Vector2 pos = new Vector2( x, y );
+                    //    if( prefabObject != null )
+                    //        if( prefabObject.tag == "Artifact" )
+                    //        {
+                    //            Vector2 posi = ES2.Load<Vector2>( fname + "?tag=Pos " + l + "  " + a );
 
-                                if( posi.x == pos.x )
-                                if( posi.y == pos.y )
-                                {
-                                    Artifact ar2 = res.GetComponent<Artifact>();
-                                    ar2.Copy( from );
+                    //            if( posi.x == pos.x )
+                    //            if( posi.y == pos.y )
+                    //            {
+                    //                Artifact ar2 = res.GetComponent<Artifact>();
+                    //                ar2.Copy( from );
 
-                                    ar2.TargetHero = ES2.Load<EHeroID>( fname + "?tag=TargetHero " + l + "  " + a );
-                                    ar2.LifeTime = ES2.Load<Artifact.EArtifactLifeTime>( fname + "?tag=LifeTime " + l + "  " + a );
-                                    //LevelList[ l ].ArtifactList[ a ].TargetUnitName = LevelList[ l ].ArtifactList[ a ].transform.GetComponentInChildren<tk2dTextMesh>();
-                                    ok = true;
-                                }
-                            }
-                    }
+                    //                ar2.TargetHero = ES2.Load<EHeroID>( fname + "?tag=TargetHero " + l + "  " + a );
+                    //                ar2.LifeTime = ES2.Load<Artifact.EArtifactLifeTime>( fname + "?tag=LifeTime " + l + "  " + a );
+                    //                //LevelList[ l ].ArtifactList[ a ].TargetUnitName = LevelList[ l ].ArtifactList[ a ].transform.GetComponentInChildren<tk2dTextMesh>();
+                    //                ok = true;
+                    //            }
+                    //        }
+                    //}
 
                     if( !ok ) Debug.Log("Artifact not found L" + l  );
 

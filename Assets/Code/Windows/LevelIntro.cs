@@ -12,10 +12,10 @@ public class LevelIntro : MonoBehaviour
     public GameObject UIFolder;
     public int SelectedLevel;
     public List<GameObject> ButtonObjList;
-    public List<tk2dSprite> ButtonSpriteList;
-    public List<tk2dSprite> RewardIcon;
-    public List<tk2dSlicedSprite> RewardBack;
-    public List<tk2dTextMesh> RewardText;
+    //public List<tk2dSprite> ButtonSpriteList;
+    //public List<tk2dSprite> RewardIcon;
+    //public List<tk2dSlicedSprite> RewardBack;
+    //public List<tk2dTextMesh> RewardText;
     public bool MapLoaded;
     public float ExitLevelTimer;
     public SpriteRenderer Back;

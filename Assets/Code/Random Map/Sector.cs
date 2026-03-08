@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using DarkTonic.MasterAudio;
+using PathologicalGames;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
-using DarkTonic.MasterAudio;
-using Sirenix.OdinInspector;
 using System.IO;
-using PathologicalGames;
+using UnityEngine;
+using UnityEngine.WSA;
 public class Sector : MonoBehaviour
 {
     public enum ESectorType
@@ -422,6 +423,7 @@ public class Sector : MonoBehaviour
     }
     public static ESectorType GetPosSectorType( Vector2 pos )
     {
+        if( Map.I.RM.RMSector == null ) return ESectorType.NONE;
         if( Manager.I.GameType == EGameType.FARM ) return ESectorType.FARM;
         if( Manager.I.GameType == EGameType.NAVIGATION ) return ESectorType.NAVIGATION;
         Rect lab = new Rect( Map.I.RM.LabArea.position, new Vector2( 31, 31 ) );
@@ -965,7 +967,7 @@ public class Sector : MonoBehaviour
                         if( Map.I.AreaID[ x, y ] == ar.GlobalID )
                         {
                             Map.I.AreaID[ x, y ] = 0;
-                            Map.I.ClearAreaTile( Map.I.TransTileMap, new Vector2( x, y ) );
+                            Map.I.ClearAreaTile( Map.I.TransT, new Vector2( x, y ) );
                         }
                     }
                 ar.InfoText.gameObject.SetActive( false );

@@ -1118,9 +1118,9 @@ public class RandomMap : MonoBehaviour
             }
 
             Map.I.AddTrans( new VI( xx, yy ) );                                                                          // add trans tile to be updated                                                              
-            Map.I.ClearTransTile( xx, yy, 0 );                                                                           // clear back trans tiles
-            Map.I.ClearTransTile( xx, yy, 1 );                                                                           // optimize apenas gaia tiles (nao sei se da, optimize no GS.LOad tambem)
-            Map.I.ClearTransTile( xx, yy, 2 );
+            //ggggMap.I.ClearTransTile( xx, yy, 0 );                                                                           // clear back trans tiles
+            //Map.I.ClearTransTile( xx, yy, 1 );                                                                           // optimize apenas gaia tiles (nao sei se da, optimize no GS.LOad tambem)
+            //Map.I.ClearTransTile( xx, yy, 2 );
             
             ETileType ga = ( ETileType ) Map.I.SRCTM.GetTile( xx, yy, 1 );                                   // clears gaia Back tiles so only traps will be shown
             if( InvisibleGaia( ga ) )

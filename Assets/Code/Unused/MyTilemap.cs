@@ -336,62 +336,62 @@ public class MyTilemap: SerializedMonoBehaviour
         mt.InitData( mt.width, mt.height );                                                   // Clears logical data and resets dimensions
     }
 
-    public static void Load( tk2dTileMap tm, MyTilemap myTilemap )
-    {
-        IgnoreUpdate = true;
-        if( Application.isPlaying ) return;
-        myTilemap.width = tm.width;
-        myTilemap.height = tm.height;
+    //public static void Load( tk2dTileMap tm, MyTilemap myTilemap )
+    //{
+    //    IgnoreUpdate = true;
+    //    if( Application.isPlaying ) return;
+    //    myTilemap.width = tm.width;
+    //    myTilemap.height = tm.height;
 
-        ClearTilemap( myTilemap );
+    //    ClearTilemap( myTilemap );
 
-        const int totalMapWidth = 128;
+    //    const int totalMapWidth = 128;
 
-        for( int l = 0; l < tm.data.NumLayers; l++ )
-        {
-            if( l >= myTilemap.Tilemaps.Count ) break;
-            Tilemap targetTilemap = myTilemap.Tilemaps[l];
-            if( targetTilemap == null ) continue;
+    //    for( int l = 0; l < tm.data.NumLayers; l++ )
+    //    {
+    //        if( l >= myTilemap.Tilemaps.Count ) break;
+    //        Tilemap targetTilemap = myTilemap.Tilemaps[l];
+    //        if( targetTilemap == null ) continue;
 
-            for( int y = 0; y < tm.height; y++ )
-            {
-                for( int x = 0; x < tm.width; x++ )
-                {
-                    int tk2dRawID = tm.GetTile(x, y, l);
+    //        for( int y = 0; y < tm.height; y++ )
+    //        {
+    //            for( int x = 0; x < tm.width; x++ )
+    //            {
+    //                int tk2dRawID = tm.GetTile(x, y, l);
 
-                    if( tk2dRawID < 0 ) continue;
+    //                if( tk2dRawID < 0 ) continue;
 
-                    int col = tk2dRawID % 128;
-                    int row = tk2dRawID / 128;
+    //                int col = tk2dRawID % 128;
+    //                int row = tk2dRawID / 128;
 
-                    int qX = col / 64;
-                    int qY = row / 64;
-                    int pngIndex = qX + (qY * 2);
+    //                int qX = col / 64;
+    //                int qY = row / 64;
+    //                int pngIndex = qX + (qY * 2);
 
-                    int localCol = col % 64;
-                    int localRow = row % 64;
+    //                int localCol = col % 64;
+    //                int localRow = row % 64;
 
-                    int offsetX = (pngIndex % 2) * 64;
-                    int offsetY = (pngIndex / 2) * 64;
+    //                int offsetX = (pngIndex % 2) * 64;
+    //                int offsetY = (pngIndex / 2) * 64;
 
-                    int finalX = localCol + offsetX;
-                    int finalY = localRow + offsetY;
+    //                int finalX = localCol + offsetX;
+    //                int finalY = localRow + offsetY;
 
-                    int globalID = (finalY * totalMapWidth) + finalX;
+    //                int globalID = (finalY * totalMapWidth) + finalX;
 
-                    TileBase tile = myTilemap.EnumToTile(globalID);
+    //                TileBase tile = myTilemap.EnumToTile(globalID);
 
-                    if( tile != null )
-                    {
-                        targetTilemap.SetTile( new Vector3Int( x, y, 0 ), tile );
-                    }
-                }
-            }
-        }
-        Debug.Log( "<color=green>Load Concluído com Sincronia de Quadrantes!</color>" );
-        //Map.I.TransT.UpdateTrans();
-        IgnoreUpdate = false;
-    }
+    //                if( tile != null )
+    //                {
+    //                    targetTilemap.SetTile( new Vector3Int( x, y, 0 ), tile );
+    //                }
+    //            }
+    //        }
+    //    }
+    //    Debug.Log( "<color=green>Load Concluído com Sincronia de Quadrantes!</color>" );
+    //    //Map.I.TransT.UpdateTrans();
+    //    IgnoreUpdate = false;
+    //}
 
     [Button( "Rebuild Quest Cache" ), GUIColor( 0, 0.8f, 1 )]
     public void RebuildQuestCache()

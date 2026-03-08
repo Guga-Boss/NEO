@@ -6,8 +6,6 @@ public partial class Map: MonoBehaviour
 {
     public void UpdateTransLayerTilemap()
     {
-        tk2dTileMap tm = TransTileMap;
-
         TM.gameObject.SetActive(false);
 
         TransT.InitBatch();                                                                    // Initializes Batch 
@@ -19,11 +17,6 @@ public partial class Map: MonoBehaviour
             for( int xx = 0; xx < TM.width; xx++ )                
                  TransTilemapUpdateList.Add( new VI( xx, yy ) );                
         }
-        else
-        {
-            if( TransTilemapUpdateList.Count <= 0 || tm == null ) return;
-            tm.transform.position = new Vector2( -0.25f, -0.25f );
-        }
 
         for( int i = 0; i < TransTilemapUpdateList.Count; i++ )
         {
@@ -33,20 +26,20 @@ public partial class Map: MonoBehaviour
             switch( id )
             {
             case ETileType.OPENROOMDOOR:
-            case ETileType.NONE: UpdateTransTile( tm, pos, id, -1, 2 ); break;
-            case ETileType.FOREST: UpdateTransTile( tm, pos, id, 0, 2 ); break;
-            case ETileType.WATER: UpdateTransTile( tm, pos, id, 120, 0 ); break;
-            case ETileType.MUD: UpdateTransTile( tm, pos, id, 240, 0 ); break;
-            case ETileType.CLOSEDDOOR: UpdateTransTile( tm, pos, id, 360, 2 ); break;
-            case ETileType.OPENDOOR: UpdateTransTile( tm, pos, id, 480, 0 ); break;
-            case ETileType.ROOMDOOR: UpdateTransTile( tm, pos, id, 600, 2 ); break;
-            case ETileType.PIT: UpdateTransTile( tm, pos, id, 720, 0 ); break;
-            case ETileType.BLACKGATE: UpdateTransTile( tm, pos, id, 840, 2 ); break;
-            case ETileType.SNOW: UpdateTransTile( tm, pos, id, 960, 0 ); break;
-            case ETileType.ROAD: UpdateTransTile( tm, pos, id, 1080, 0 ); break;
-            case ETileType.SAND: UpdateTransTile( tm, pos, id, 1200, 0 ); break;
-            case ETileType.STONEPATH: UpdateTransTile( tm, pos, id, 1320, 0 ); break;
-            case ETileType.LAVA: UpdateTransTile( tm, pos, id, 1440, 0 ); break;
+            case ETileType.NONE: UpdateTransTile( pos, id, -1, 2 ); break;
+            case ETileType.FOREST: UpdateTransTile( pos, id, 0, 2 ); break;
+            case ETileType.WATER: UpdateTransTile( pos, id, 120, 0 ); break;
+            case ETileType.MUD: UpdateTransTile( pos, id, 240, 0 ); break;
+            case ETileType.CLOSEDDOOR: UpdateTransTile( pos, id, 360, 2 ); break;
+            case ETileType.OPENDOOR: UpdateTransTile( pos, id, 480, 0 ); break;
+            case ETileType.ROOMDOOR: UpdateTransTile( pos, id, 600, 2 ); break;
+            case ETileType.PIT: UpdateTransTile( pos, id, 720, 0 ); break;
+            case ETileType.BLACKGATE: UpdateTransTile( pos, id, 840, 2 ); break;
+            case ETileType.SNOW: UpdateTransTile( pos, id, 960, 0 ); break;
+            case ETileType.ROAD: UpdateTransTile( pos, id, 1080, 0 ); break;
+            case ETileType.SAND: UpdateTransTile( pos, id, 1200, 0 ); break;
+            case ETileType.STONEPATH: UpdateTransTile( pos, id, 1320, 0 ); break;
+            case ETileType.LAVA: UpdateTransTile( pos, id, 1440, 0 ); break;
             }
         }
 
@@ -63,7 +56,7 @@ public partial class Map: MonoBehaviour
         TM.gameObject.SetActive( true );
     }
 
-    public void UpdateTransTile( tk2dTileMap tm, VI tg, ETileType tile, int first, int tlayer )
+    public void UpdateTransTile( VI tg, ETileType tile, int first, int tlayer )
     {
         int gx = tg.x;
         int gy = tg.y;
@@ -138,10 +131,10 @@ public partial class Map: MonoBehaviour
         //Debug.Log( logMsg );
 
         // --- APLICAÇÃO ---
-        SetTTile( subPos[ 0 ].x, subPos[ 0 ].y, tlayer, first + o0 );
-        SetTTile( subPos[ 1 ].x, subPos[ 1 ].y, tlayer, first + o1 );
-        SetTTile( subPos[ 2 ].x, subPos[ 2 ].y, tlayer, first + o2 );
-        SetTTile( subPos[ 3 ].x, subPos[ 3 ].y, tlayer, first + o3 );
+        TransT.SetTile( subPos[ 0 ].x, subPos[ 0 ].y, tlayer, first + o0 );
+        TransT.SetTile( subPos[ 1 ].x, subPos[ 1 ].y, tlayer, first + o1 );
+        TransT.SetTile( subPos[ 2 ].x, subPos[ 2 ].y, tlayer, first + o2 );
+        TransT.SetTile( subPos[ 3 ].x, subPos[ 3 ].y, tlayer, first + o3 );
     }
 
     // Helper essencial para o debug e vizinhança funcionarem
@@ -155,12 +148,6 @@ public partial class Map: MonoBehaviour
             return ETileType.NONE;
         }
         return (ETileType) TM.GetTile( x, y, (int) ELayerType.GAIA );
-    }
-
-    public void SetTTile( int x, int y, int l, int t )
-    {
-        if( TransTileMap != null ) TransTileMap.SetTile( x, y, l, t );
-        if( TransT != null ) TransT.SetTile( x, y, l, t, true );
     }
 
     private int GetOffset( bool[ ] np, EDirection d1, EDirection d2, EDirection diag, int cExt, int full, int cInt, int bH, int bV )
@@ -177,7 +164,6 @@ public partial class Map: MonoBehaviour
         int gy = pos.y;
         if( !PtOnMap( Map.I.TM, pos ) ) return;
 
-        tk2dTileMap tm = TransTileMap;
         int tgX = gx + 1;
         int tgY = gy - 1;
 
@@ -252,7 +238,7 @@ public partial class Map: MonoBehaviour
     // Função auxiliar para pintar nos dois Mapas (TransTileMap e TransT)
     private void SetTileShadowPair( int x, int y, int id )
     {
-        TransTileMap.SetTile( x, y, 1, id );
+        TransT.SetTile( x, y, 1, id );
         TransT.SetTile( x, y, 1, id, true );
     }
 
@@ -260,10 +246,10 @@ public partial class Map: MonoBehaviour
     private void ApplyShadow( int bx, int by, int tl, int tr, int bl, int br )
     {
         // Remova os IFs. Deixe o -1 passar para o SetTile limpar o layer.
-        TransTileMap.SetTile( bx + 0, by + 1, 1, tl );
-        TransTileMap.SetTile( bx + 1, by + 1, 1, tr );
-        TransTileMap.SetTile( bx + 0, by + 0, 1, bl );
-        TransTileMap.SetTile( bx + 1, by + 0, 1, br );
+        TransT.SetTile( bx + 0, by + 1, 1, tl );
+        TransT.SetTile( bx + 1, by + 1, 1, tr );
+        TransT.SetTile( bx + 0, by + 0, 1, bl );
+        TransT.SetTile( bx + 1, by + 0, 1, br );
 
         if( TransT != null )
         {
@@ -288,29 +274,6 @@ public partial class Map: MonoBehaviour
             default: return false;
         }
     }
-
-    public void SetTileColor( tk2dTileMap tm, Vector2 pos, Color col )
-    {
-        for( int x = 0; x <= 1; x++ )
-            for( int y = 0; y <= 1; y++ )
-            {
-                Vector2 pt = new Vector2( pos.x + x, pos.y + y );
-                {
-                    tm.ColorChannel.SetColor( ( int ) ( ( pt.x * 2 ) + 0 ),
-                                              ( int ) ( ( pt.y * 2 ) + 0 ), col );
-
-                    tm.ColorChannel.SetColor( ( int ) ( ( pt.x * 2 ) + 1 ),
-                                              ( int ) ( ( pt.y * 2 ) + 0 ), col );
-
-                    tm.ColorChannel.SetColor( ( int ) ( ( pt.x * 2 ) + 0 ),
-                                              ( int ) ( ( pt.y * 2 ) + 1 ), col );
-
-                    tm.ColorChannel.SetColor( ( int ) ( ( pt.x * 2 ) + 1 ),
-                                              ( int ) ( ( pt.y * 2 ) + 1 ), col );
-                }
-            }
-    }
-
     public static int GetTransLayer( ETileType tile )
     {
         switch( tile )
@@ -330,10 +293,10 @@ public partial class Map: MonoBehaviour
 
     public void SetTransTile( int x, int y, int layer, int tile )
     {
-        TransTileMap.SetTile( ( int ) ( x * 2 ) + 0, ( int ) ( y * 2 ) + 1, layer, tile );
-        TransTileMap.SetTile( ( int ) ( x * 2 ) + 1, ( int ) ( y * 2 ) + 1, layer, tile );
-        TransTileMap.SetTile( ( int ) ( x * 2 ) + 0, ( int ) ( y * 2 ) + 0, layer, tile );
-        TransTileMap.SetTile( ( int ) ( x * 2 ) + 1, ( int ) ( y * 2 ) + 0, layer, tile );
+        TransT.SetTile( ( int ) ( x * 2 ) + 0, ( int ) ( y * 2 ) + 1, layer, tile );
+        TransT.SetTile( ( int ) ( x * 2 ) + 1, ( int ) ( y * 2 ) + 1, layer, tile );
+        TransT.SetTile( ( int ) ( x * 2 ) + 0, ( int ) ( y * 2 ) + 0, layer, tile );
+        TransT.SetTile( ( int ) ( x * 2 ) + 1, ( int ) ( y * 2 ) + 0, layer, tile );
 
         TransT.SetTile( (int) ( x * 2 ) + 0, (int) ( y * 2 ) + 1, layer, tile, true );
         TransT.SetTile( (int) ( x * 2 ) + 1, (int) ( y * 2 ) + 1, layer, tile, true );
@@ -351,7 +314,7 @@ public partial class Map: MonoBehaviour
         }
     }
     
-    public void UpdateAreaMarkTile( tk2dTileMap tm, Vector2 tg, int area, bool cleared )
+    public void UpdateAreaMarkTile( MyTilemap tm, Vector2 tg, int area, bool cleared )
     {
         bool[ ] np = { false, false, false, false, false, false, false, false }; // Neighbor present?        
 
@@ -420,7 +383,7 @@ public partial class Map: MonoBehaviour
         tm.SetTile( ( int ) ( tg.x * 2 ) + 1, ( int ) ( tg.y * 2 ) + 0, 3, first + offset[ 3 ] );
     }
 
-    public void ClearAreaTile( tk2dTileMap tm, Vector2 tg )
+    public void ClearAreaTile( MyTilemap tm, Vector2 tg )
     {
         tm.SetTile( ( int ) ( tg.x * 2 ) + 0, ( int ) ( tg.y * 2 ) + 1, 3, -1 );
         tm.SetTile( ( int ) ( tg.x * 2 ) + 1, ( int ) ( tg.y * 2 ) + 1, 3, -1 );
@@ -437,18 +400,6 @@ public partial class Map: MonoBehaviour
         if( dir != EDirection.NONE ) instance.transform.Rotate( 0, 0, -( 45.0f * ( float ) ( int ) dir ) );
         return instance;
     }
-
-    public void ClearTilemap( tk2dTileMap tm )
-    {
-        for( int y = 0; y < tm.height; y++ )
-            for( int x = 0; x < tm.width; x++ )
-                for( int l = 0; l < tm.Layers.Length; l++ )
-                {
-                    tm.ClearTile( x, y, l );
-                }
-        tm.ForceBuild();
-    }
-
     public EDirection GetArrowDir( Vector2 pos )
     {
         if( Map.PtOnMap( Map.I.TM, pos ) == false ) return EDirection.NONE;
@@ -989,13 +940,6 @@ public partial class Map: MonoBehaviour
         return -1;
     }
 
-    public static bool PtOnMap( tk2dTileMap tm, Vector2 pt )
-    {
-        if( pt.x < 0 || pt.x >= tm.width ||
-            pt.y < 0 || pt.y >= tm.height ) return false;
-        return true;
-    }
-
     public static bool PtOnMap( MyTilemap tm, Vector2 pt )
     {
         if( pt.x < 0 || pt.x >= tm.width ||
@@ -1059,10 +1003,10 @@ public partial class Map: MonoBehaviour
     }
     public void ClearTransTile( int x, int y, int layer )
     {
-        TransTileMap.SetTile( ( x * 2 ) + 0, ( y * 2 ) + 1, layer, -1 );
-        TransTileMap.SetTile( ( x * 2 ) + 1, ( y * 2 ) + 1, layer, -1 );
-        TransTileMap.SetTile( ( x * 2 ) + 0, ( y * 2 ) + 0, layer, -1 );
-        TransTileMap.SetTile( ( x * 2 ) + 1, ( y * 2 ) + 0, layer, -1 );
+        TransT.SetTile( ( x * 2 ) + 0, ( y * 2 ) + 1, layer, -1 );
+        TransT.SetTile( ( x * 2 ) + 1, ( y * 2 ) + 1, layer, -1 );
+        TransT.SetTile( ( x * 2 ) + 0, ( y * 2 ) + 0, layer, -1 );
+        TransT.SetTile( ( x * 2 ) + 1, ( y * 2 ) + 0, layer, -1 );
     }
 
     public static bool FinalizeMap( MyTilemap tm )
@@ -1347,7 +1291,13 @@ public partial class Map: MonoBehaviour
         }
         return cont;
     }
-   
+
+    public float BaseOrthoSize = 10f; // Native ortho size calculated from 1080p.
+    public float zoomc( float zoomMultiplier )
+    {
+        if( zoomMultiplier <= 0 ) zoomMultiplier = 1f; // Prevent division by zero.
+        return BaseOrthoSize / zoomMultiplier; // Return the converted orthographic size.
+    }
     //______________________________________________________________________________________________________________________ Update Camera
 
     public void UpdateCamera()
@@ -1358,6 +1308,7 @@ public partial class Map: MonoBehaviour
         Vector3 target = new Vector3( Hero.transform.position.x, 
                                       Hero.transform.position.y - 0.75f, -10 );
         int zm = ZoomMode;
+        BaseOrthoSize = 10;                                                               // shows ~20 tiles vertically at 1080p
 
         int DaytimeLimit = 60;
         if( Map.I.Lights.DayLight < DaytimeLimit ) 
@@ -1394,17 +1345,17 @@ public partial class Map: MonoBehaviour
             G.Hero.Pos.x, ( int ) G.Hero.Pos.y, ( int ) ELayerType.AREAS );
         }
 
-        if( oldcm && cm == null )                                                 // step out of camera object
+        if( oldcm && cm == null )                                                         // step out of camera object
             HideVegetation = false;
 
-        if( cm )                                                                  // camera obj zoom by ori
+        if( cm )                                                                          // camera obj zoom by ori
         {
             if( ori == 22 ) { Map.I.ZoomMode = 0; zm = 0; }
             if( ori == 23 ) { Map.I.ZoomMode = 1; zm = 1; }
             if( ori == 24 ) { Map.I.ZoomMode = 2; zm = 2; }
             if( ori == 38 ) { Map.I.ZoomMode = 3; zm = 3; }
 
-            if( ori != -1 )                                                       // disables custom camera
+            if( ori != -1 )                                                               // disables custom camera
             {
                 CamDataID = -1;
                 CamAreaStepped = false;
@@ -1413,7 +1364,7 @@ public partial class Map: MonoBehaviour
             }
         }
 
-        if( md >= 0 && md <= 27 || ObjectCameraMod != -1 )                        // custom camera by mod# based on CamDataID
+        if( md >= 0 && md <= 27 || ObjectCameraMod != -1 )                                // custom camera by mod# based on CamDataID
         {
             if( md != -1 )
                 ObjectCameraMod = md + 2;
@@ -1423,7 +1374,7 @@ public partial class Map: MonoBehaviour
             focusHero = true;
             zm = 0;
             frontDist = 0;
-            if( CamDataID == 2 ) frontDist -= 1;                                  // Decrease target frontal distance if zoom is too close
+            if( CamDataID == 2 ) frontDist -= 1;                                          // Decrease target frontal distance if zoom is too close
             if( CamDataID == 3 ) frontDist -= 1;
             if( CamDataID == 4 ) frontDist -= 1;
             if( CamDataID == 5 ) frontDist -= 1;
@@ -1616,14 +1567,14 @@ public partial class Map: MonoBehaviour
         if( focusHero )
         {
             float front = Map.I.RM.RMD.CameraFrontFacingDist + frontDist;
-            if( freeCamAreaZoom )                                                    // Every 1 unit bigger than 10 increases frontal distance for hero
-            {                                                                        //  10: center on hero,   11: focus frontal tile, etc
-                front = fz - 10;                                                     // Edit ItemType.Res_ForcedZoom to alter zoom mode
+            if( freeCamAreaZoom )                                                                                       // Every 1 unit bigger than 10 increases frontal distance for hero
+            {                                                                                                           //  10: center on hero,   11: focus frontal tile, etc
+                front = fz - 10;                                                                                        // Edit ItemType.Res_ForcedZoom to alter zoom mode
             }
             Vector3 tgg = G.Hero.GetRelativePosition( EDirection.N, 1 );
             tgg.Normalize();
 
-            if( zm == 0 ) tgg.y += -0.4f;                              // added to position hero in the center of screen
+            if( zm == 0 ) tgg.y += -0.4f;                                                                               // added to position hero in the center of screen
             if( zm == 1 ) tgg.y += -0.64f;
             if( zm == 2 ) tgg.y += -0.9f;
 
@@ -1635,7 +1586,7 @@ public partial class Map: MonoBehaviour
         Vector3 delta = target -  Manager.I.Camera.ViewportToWorldPoint( new Vector3( 0.5f, 0.5f, -10 ) );
         Vector3 destination = Manager.I.Camera.transform.position + delta;
 
-        if( Input.GetKeyDown( KeyCode.LeftShift ) )                                              // toggle free cam mode
+        if( Input.GetKeyDown( KeyCode.LeftShift ) )                                                                     // toggle free cam mode
         {
             UI.I.SetFreeCamera( !FreeCamMode );
         }
@@ -1644,33 +1595,34 @@ public partial class Map: MonoBehaviour
         UI.I.FreeCamModeLabel.gameObject.SetActive( FreeCamMode );
         if( fz != -1 ) FreeCamMode = false;
 
-        if( Manager.I.GameType == EGameType.NAVIGATION )                                          // navigation map zoom levels
+        if( Manager.I.GameType == EGameType.NAVIGATION )                                                             // navigation map zoom levels
         {
             if( Map.I.ZoomMode == 0 ) zoom = 1.6f;
             if( Map.I.ZoomMode == 1 ) zoom = 1.0f;
             if( Map.I.ZoomMode == 2 ) zoom = .7f;
         }
-
         if( FreeCamMode )
         {
-            float vel = 20.3f;
-            Vector3 tg = Manager.I.Camera.transform.position;
-            //zoom = Manager.I.Cam.ZoomFactor;
-            //if( cInput.GetKey( "Move N" ) ) tg.y += vel * Time.deltaTime;                      // move free camera
-            //if( cInput.GetKey( "Move S" ) ) tg.y -= vel * Time.deltaTime;
-            //if( cInput.GetKey( "Move E" ) ) tg.x += vel * Time.deltaTime;
-            //if( cInput.GetKey( "Move W" ) ) tg.x -= vel * Time.deltaTime;
+            float vel = 20.3f;                                                                                       // Set free cam velocity.
+            Vector3 tg = Manager.I.Camera.transform.position;                                                        // Get current camera position.
 
-            //if( cInput.GetKey( "Move NE" ) ) zoom += 2.0f * Time.deltaTime;
-            //if( cInput.GetKey( "Move NW" ) ) zoom -= 2.0f * Time.deltaTime;
-            //if( cInput.GetKey( "Move SW" ) ) zoom = 5f;
-            //if( cInput.GetKey( "Move SE" ) ) zoom = 0.45f;
+            zoom = BaseOrthoSize / Manager.I.Cam.orthographicSize;                                                   // Retrieve current zoom multiplier from native size.
 
-            zoom = Mathf.Clamp( zoom, .6f, 5f );
+            if( Check( INP.I.MoveN, false ) ) tg.y += vel * Time.deltaTime;                                          // move free camera N
+            if( Check( INP.I.MoveS, false ) ) tg.y -= vel * Time.deltaTime;                                          // move free camera S
+            if( Check( INP.I.MoveE, false ) ) tg.x += vel * Time.deltaTime;                                          // move free camera E
+            if( Check( INP.I.MoveW, false ) ) tg.x -= vel * Time.deltaTime;                                          // move free camera W
 
-            Manager.I.Cam.ZoomFactor = zoom;
-            UpdateBounds( ref tg );
-            Manager.I.Cam.transform.position = tg;
+             if( Check( INP.I.MoveNE, false ) ) zoom += 2.0f * Time.deltaTime;                                       // zoom in free camera
+             if( Check( INP.I.MoveNW, false ) ) zoom -= 2.0f * Time.deltaTime;                                       // zoom out free camera
+             if( Check( INP.I.MoveSW, false ) ) zoom = 5f;                                                           // max zoom free camera
+             if( Check( INP.I.MoveSE, false ) ) zoom = 0.45f;                                                        // min zoom free camera
+
+            zoom = Mathf.Clamp( zoom, .6f, 5f );                                                                     // Clamp free cam zoom limits.
+
+            Manager.I.Cam.orthographicSize = zoomc( zoom );                                                          // Apply converted zoom to native camera.
+            UpdateBounds( ref tg );                                                                                  // Clamp position to map boundaries.
+            Manager.I.Cam.transform.position = tg;                                                                   // Apply clamped position.
         }
         else
         {
@@ -1695,7 +1647,7 @@ public partial class Map: MonoBehaviour
             if( CamAreaStepped && fz < 10 )
             if( CamDataID >= 0 && CamDataID <= CData.OptimalZoomSpeed.Length - 1 )
             {
-                smooth = CData.OptimalZoomSpeed[ CamDataID ];                                           // optimal in area cam zoom speed
+                smooth = CData.OptimalZoomSpeed[ CamDataID ];                                                                       // optimal in area cam zoom speed
             }
 
             if( CamArea.x != 0 ) smooth *= 3.8f;
@@ -1708,15 +1660,15 @@ public partial class Map: MonoBehaviour
                 zoom = 0.65f;
             }
 
-            Vector3 tg = Vector3.SmoothDamp( Manager.I.Camera.transform.position,
-                         destination, ref velocity, damp );
+            Vector3 tg = Vector3.SmoothDamp( Manager.I.Camera.transform.position, destination, ref velocity, damp );               // Smoothly damp camera position.
 
-            UpdateBounds( ref tg );
+            UpdateBounds( ref tg );                                                                                                // Clamp camera position to map bounds.
 
-            Unit sand = GetUnit( ETileType.SAND, G.Hero.Pos );
-            Unit snow = GetUnit( ETileType.SNOW, G.Hero.Pos );
+            Unit sand = GetUnit( ETileType.SAND, G.Hero.Pos );                                                                     // Check for sand tile under hero.
+            Unit snow = GetUnit( ETileType.SNOW, G.Hero.Pos );                                                                     // Check for snow tile under hero.
 
-            float zmm = zoom;            
+            float zmm = zoom;                                                                                                      // Initialize target zoom multiplier.
+
             if( SessionTime >= ZoomFXTime )
             if( FishingMode == EFishingPhase.NO_FISHING )
             if( sand == null && snow == null )
@@ -1725,23 +1677,18 @@ public partial class Map: MonoBehaviour
             if( ZoomMode < 3 )
             if( fz < 0 )
             {
-                //if( Input.GetKeyDown( KeyCode.T ) ) 
-                //    ZoomPercent = Random.Range( 80, 120 );
-                //zmm = Util.Percent( ZoomPercent, zoom );
-                //if( G.Hero.Control.TurnTime > 2 )
-                //    ZoomPercent -= Time.deltaTime * 4;
-                //else
-                //    ZoomPercent = 100;
-                //ZoomPercent = Mathf.Clamp( ZoomPercent, 70, 180 );
+                zmm = zoom;                                                                                                        // Placeholder for future zoom percentage logic.
             }
 
-            Manager.I.Cam.ZoomFactor = Mathf.SmoothDamp( Manager.I.Cam.ZoomFactor, zmm, ref vel, smooth );
-            if( SessionTime < 0.5f ) Manager.I.Cam.ZoomFactor = 0.6f;
+            float targetSize = zoomc( zmm );                                                                                       // Convert zoom multiplier to native orthographic size.
+            Manager.I.Cam.orthographicSize = Mathf.SmoothDamp( Manager.I.Cam.orthographicSize, targetSize, ref vel, smooth );      // Smoothly damp towards the native size.
 
-            Manager.I.Camera.transform.position = new Vector3( tg.x, tg.y, -10 );
+            if( SessionTime < 0.5f ) Manager.I.Cam.orthographicSize = zoomc( 0.6f );                                               // Force startup zoom level instantly.
+
+            Manager.I.Camera.transform.position = new Vector3( tg.x, tg.y, -10 );                                                  // Apply final camera position.
         }
 
-        if( Helper.I.ShowCameraDebugText )                                                        // Debug
+        if( Helper.I.ShowCameraDebugText )                                                                                         // Debug
         {
             Debug.Log( "CamDataID: " +  CamDataID );
         }
@@ -1749,7 +1696,7 @@ public partial class Map: MonoBehaviour
         if( CamAreaStepped == false )
             CamDataID = -1;
 
-        Manager.I.AfterCamera.ZoomFactor = Manager.I.Cam.ZoomFactor;
+        Manager.I.AfterCamera.orthographicSize = Manager.I.Cam.orthographicSize;                                                    // Copy ortho size to after camera for effects that rely on it.
     }
 
 
@@ -1781,135 +1728,44 @@ public partial class Map: MonoBehaviour
         }
         else
         {
-            CamArea = new Rect( 0, 0, 0, 0 );                                                    // no camera area detected
+            CamArea = new Rect( 0, 0, 0, 0 );                                                                          // no camera area detected
             CamAreaStepped = false;
         }
     }
 
-    public void UpdateBounds( ref  Vector3 tg )
+    public void UpdateBounds( ref Vector3 tg )
     {
-        if( HideVegetation ) return;
-        int zm = ZoomMode;
-        int fz = ( int ) Item.GetNum( ItemType.Res_ForcedZoom );
+        if( HideVegetation ) return;                                                                                   // Exit method if vegetation is hidden.
+        int zm = ZoomMode;                                                                                             // Store current zoom mode.
+        int fz = ( int ) Item.GetNum( ItemType.Res_ForcedZoom );                                                       // Get forced zoom from item data.
 
-        if( CubeData.I.FixedZoomMode != -1 )                                              // Cubedata Forced zoom
-            fz = CubeData.I.FixedZoomMode;
+        if( CubeData.I.FixedZoomMode != -1 ) fz = CubeData.I.FixedZoomMode;                                            // Cubedata Forced zoom override.
 
-        if( fz >= 0 ) zm = fz;
+        if( fz >= 0 ) zm = fz;                                                                                         // Apply forced zoom if valid.
+
+        float camHeight = Manager.I.Cam.orthographicSize * 2f;                                                         // Calculate native camera height in world units.
+        float camWidth = camHeight * Manager.I.Cam.aspect;                                                             // Calculate native camera width based on aspect ratio.
+
         if( zm == 0 )
         {
-            tg.x = ( float ) Mathf.Clamp( tg.x, CData.LowerLeftCamLimit.x - 0.5f + Manager.I.Cam.ScreenExtents.width / 2,
-                                                CData.UpperRightCamLimit.x + TM.width - 0.5f - Manager.I.Cam.ScreenExtents.width / 2 );
-            tg.y = ( float ) Mathf.Clamp( tg.y, CData.LowerLeftCamLimit.y - 0.5f + Manager.I.Cam.ScreenExtents.height / 2,
-                                                CData.UpperRightCamLimit.y + TM.height - 0.5f - Manager.I.Cam.ScreenExtents.height / 2 );
+            tg.x = (float) Mathf.Clamp( tg.x, CData.LowerLeftCamLimit.x - 0.5f + camWidth /
+                2f, CData.UpperRightCamLimit.x + TM.width - 0.5f - camWidth / 2f );                                    // Clamp X position for zoom mode 0.
+            tg.y = (float) Mathf.Clamp( tg.y, CData.LowerLeftCamLimit.y - 0.5f + camHeight /
+                2f, CData.UpperRightCamLimit.y + TM.height - 0.5f - camHeight / 2f );                                  // Clamp Y position for zoom mode 0.
         }
-        else
-        if( zm == 1 )
+        else if( zm == 1 )
         {
-            tg.x = ( float ) Mathf.Clamp( tg.x, CData.LowerLeftCamLimit2.x - 0.5f + Manager.I.Cam.ScreenExtents.width / 2,
-                                                CData.UpperRightCamLimit2.x + TM.width - 0.5f - Manager.I.Cam.ScreenExtents.width / 2 );
-            tg.y = ( float ) Mathf.Clamp( tg.y, CData.LowerLeftCamLimit2.y - 0.5f + Manager.I.Cam.ScreenExtents.height / 2,
-                                                CData.UpperRightCamLimit2.y + TM.height - 0.5f - Manager.I.Cam.ScreenExtents.height / 2 );
+            tg.x = (float) Mathf.Clamp( tg.x, CData.LowerLeftCamLimit2.x - 0.5f + camWidth / 2f,
+                CData.UpperRightCamLimit2.x + TM.width - 0.5f - camWidth / 2f );                                       // Clamp X position for zoom mode 1.
+            tg.y = (float) Mathf.Clamp( tg.y, CData.LowerLeftCamLimit2.y - 0.5f + camHeight / 2f,
+                CData.UpperRightCamLimit2.y + TM.height - 0.5f - camHeight / 2f );                                     // Clamp Y position for zoom mode 1.
         }
-        else
-        if( zm == 2 )
+        else if( zm == 2 )
         {
-            tg.x = ( float ) Mathf.Clamp( tg.x, CData.LowerLeftCamLimit3.x - 0.5f + Manager.I.Cam.ScreenExtents.width / 2,
-                                                CData.UpperRightCamLimit3.x + TM.width - 0.5f - Manager.I.Cam.ScreenExtents.width / 2 );
-            tg.y = ( float ) Mathf.Clamp( tg.y, CData.LowerLeftCamLimit3.y - 0.5f + Manager.I.Cam.ScreenExtents.height / 2,
-                                                CData.UpperRightCamLimit3.y + TM.height - 0.5f - Manager.I.Cam.ScreenExtents.height / 2 );
-        }
-    }
-
-    public void AreaSeek()
-    {
-        if( Map.I.RM.DungeonDialog.gameObject.activeSelf )
-            if( Map.I.RM.GameOver ) return;
-        if( Map.I.Hero.Body.ToolBoxLevel < 4 )
-        {
-            Map.I.ShowMessage( Language.Get( "ERROR_TOOLBOX4B" ) );
-            return;
-        }
-
-        if( LevelStats.NormalSectorsDiscovered <= 0 ) return;
-
-        FreeCamMode = true;
-        int count = 0;
-        for( int i = CurrentAreaSeekID + 1; i < 999; i++ )
-        {
-            if( i >= Quest.I.CurLevel.AreaList.Count ) i = 0;
-            Area ar = Quest.I.CurLevel.AreaList[ i ];
-
-            if( ar.Discovered )
-                if( ar.Cleared == false )
-                {
-                    CurrentAreaSeekID = i;
-                    Vector3 tar = new Vector3( ar.AreaRect.center.x, ar.P2.y - 0.5f + ( ( ar.P1.y - ar.P2.y ) / 2 ), -10 );
-                    Manager.I.Camera.transform.position = tar;
-                    break;
-                }
-            if( ++count == 999 ) break;
-        }
-    }
-
-    public void ArtifactSeek()
-    {
-        if( Map.I.RM.DungeonDialog.gameObject.activeSelf )
-            if( Map.I.RM.GameOver ) return;
-        if( Map.I.Hero.Body.ToolBoxLevel < 4 )
-        {
-            Map.I.ShowMessage( Language.Get( "ERROR_TOOLBOX4A" ) );
-            return;
-        }
-
-        FreeCamMode = true;
-        int count = 0;
-        for( int i = CurrentArtifactSeekID + 1; i < 999; i++ )
-        {
-            if( i >= Quest.I.CurLevel.ArtifactList.Count ) i = 0;
-
-            Artifact ar = Quest.I.CurLevel.ArtifactList[ i ];
-            if( ar.Collected == Artifact.EStatus.NOT_COLLECTED )
-                if( Revealed[ ( int ) ar.Pos.x, ( int ) ar.Pos.y ] )
-                {
-                    bool ok = true;
-                    if( Manager.I.GameType == EGameType.CUBES )
-                    {
-                        //if( !HeroData.I.AddResource( false, ar.CostResource_1, -ar.CostValue_1 ) ||
-                        //    !HeroData.I.AddResource( false, ar.CostResource_2, -ar.CostValue_2 ) ) ok = false;
-                    }
-
-                    if( ok )
-                    {
-                        CurrentArtifactSeekID = i;
-                        Vector3 tar = new Vector3( ar.Pos.x, ar.Pos.y, -10 );
-                        Manager.I.Camera.transform.position = tar;
-                        SeekArtifact = ar;
-                        Quest.I.UpdateArtifactMouseOverInfo( ar.Pos );
-                        break;
-                    }
-                }
-            if( ++count == 999 ) break;
-        }
-    }
-
-
-    public void UpdateSeekFunctions()
-    {
-        return;
-        if( Input.GetKeyDown( KeyCode.F11 ) )                                                        // Artifact seek function F11
-        {
-            ArtifactSeek();
-        }
-
-        if( Input.GetKeyDown( KeyCode.Insert ) )                                                     // Artifact buy insert key
-        {
-            Artifact.QuickBuy();
-        }
-
-        if( Input.GetKeyDown( KeyCode.F12 ) )                                                        // Area seek function F12
-        {
-            AreaSeek();
+            tg.x = (float) Mathf.Clamp( tg.x, CData.LowerLeftCamLimit3.x - 0.5f + camWidth / 2f,
+                CData.UpperRightCamLimit3.x + TM.width - 0.5f - camWidth / 2f );                                       // Clamp X position for zoom mode 2.
+            tg.y = (float) Mathf.Clamp( tg.y, CData.LowerLeftCamLimit3.y - 0.5f + camHeight / 2f,
+                CData.UpperRightCamLimit3.y + TM.height - 0.5f - camHeight / 2f );                                     // Clamp Y position for zoom mode 2.
         }
     }
 
@@ -1917,17 +1773,16 @@ public partial class Map: MonoBehaviour
     {
         if( pt.x == -1 )
         for( int l = 0; l < 4; l++ )
-        for( int y = 0; y < TransTileMap.height; y++ )
-        for( int x = 0; x < TransTileMap.width; x++ )
+        for( int y = 0; y < TransT.height; y++ )
+        for( int x = 0; x < TransT.width; x++ )
         {
-            TransTileMap.SetTile( x, y, l, ( int ) ETileType.NONE );
+             TransT.SetTile( x, y, l, ( int ) ETileType.NONE );
         }
         if( pt.x != -1 )
         for( int l = 0; l < 4; l++ )
         {
-            TransTileMap.SetTile( ( int ) pt.x, ( int ) pt.y, l, ( int ) ETileType.NONE );
+             TransT.SetTile( ( int ) pt.x, ( int ) pt.y, l, ( int ) ETileType.NONE );
         }
-        TransTileMap.Build();
     }
 
     public void ClearTilemap()

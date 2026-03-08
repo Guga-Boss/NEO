@@ -35,8 +35,6 @@ public partial class Map : MonoBehaviour
     [TabGroup( "Main" )]
     public int TotalSecrets;
     [TabGroup( "Link" )]
-    public tk2dTileMap Tilemap_old, TransTileMap;
-    [TabGroup( "Link" )]
     public RandomMap RM;
     [TabGroup( "Link" )]
     public NavigationMap NavigationMap;
@@ -223,7 +221,7 @@ public partial class Map : MonoBehaviour
     [TabGroup( "List" )]
     public List<NSprite> HeroShieldSpriteList;
     [TabGroup( "List" )]
-    public List<tk2dTiledSprite> HeroBambooSpriteList;
+    public List<NSprite> HeroBambooSpriteList;
     [TabGroup( "List" )]
     public List<NSprite> HeroSpellSpriteList;
     [TabGroup( "enum" )]
@@ -467,9 +465,6 @@ public partial class Map : MonoBehaviour
         TransT.gameObject.SetActive( true );
         TransT.transform.position = new Vector3( -0.5f, -0.5f, -0.001f );
         TM.transform.position = new Vector3( -0.5f, -0.5f );
-        TransTileMap.height = TransT.height;
-        TransTileMap.width = TransT.width;
-
         LOSFireList = new List<Unit>();
         BoomerangList = new List<Unit>();
         KillList = new List<Unit>();
@@ -3330,23 +3325,11 @@ public partial class Map : MonoBehaviour
 		UpdateMouseTile ();
         Helper.I.UpdateDebug();
         return;
-        TransTileMap.Layers[ 3 ].gameObject.transform.localPosition = new Vector3( 0, 0, 0.9f );
 
         if( UI.I.LoadingLevelText.gameObject.activeSelf ) UI.I.LoadingLevelText.gameObject.SetActive( false );
 
         if( DebugPage > 0 )
         {
-            Sector s = RM.HeroSector;
-            if( s && s.Type == Sector.ESectorType.NORMAL )
-                for( int yy = ( int ) s.Area.yMin - 1; yy < s.Area.yMax + 1; yy++ )
-                    for( int xx = ( int ) s.Area.xMin - 1; xx < s.Area.xMax + 1; xx++ )
-                    {
-                        if( TileText[ xx, yy ] == null )
-                        {
-                            GameObject go = Manager.I.CreateObjInstance( "Tile Text", "Tile Text " + xx + " " + yy, EDirection.NONE, new Vector3( xx, yy, 0 ) );
-                            TileText[ xx, yy ] = go.GetComponent<tk2dTextMesh>();
-                        }
-                    }
         }
         else return;
 

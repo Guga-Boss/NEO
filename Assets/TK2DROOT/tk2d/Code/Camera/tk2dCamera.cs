@@ -1,6 +1,8 @@
-using UnityEngine;
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 [AddComponentMenu("2D Toolkit/Camera/tk2dCamera")]
 [ExecuteInEditMode]
@@ -753,4 +755,75 @@ public class tk2dCamera : MonoBehaviour
 			}
 		}
 	}
+
+
+
+
+#if UNITY_EDITOR
+    [Title( "tk2d to Unity Camera Migrator" )]
+    [InfoBox( "Este botão irá ler os dados do tk2dCamera, aplicar na Camera nativa e remover os componentes antigos." )]
+
+    [Button( ButtonSizes.Large, Name = "CONVERTER PARA CAMERA NATIVA" )]
+    public void Convert()
+    {
+        tk2dCamera tk = GetComponent<tk2dCamera>(); // Get the old component.
+        Camera cam = GetComponent<Camera>(); // Get the native Unity camera.
+
+        if( tk == null || cam == null )
+        {
+            Debug.LogError( "Certifique-se que o objeto tem o tk2dCamera e a Camera nativa!" ); // Validation check.
+            return;
+        }
+
+        Undo.RecordObject( cam, "Convert tk2d Camera" ); // Allow undo for the camera changes.
+        Undo.RecordObject( gameObject, "Convert tk2d Camera" ); // Allow undo for component removal.
+
+        // 1. Extração de Dados do tk2d
+        var settings = tk.SettingsRoot.CameraSettings; // Access the settings file you sent.
+        float zoom = tk.ZoomFactor; // Get the current zoom value.
+        float nativeHeight = tk.nativeResolutionHeight; // Get the base height (ex: 1080).
+
+        // 2. Cálculo do Orthographic Size
+        cam.orthographic = true; // Ensure it is orthographic.
+        float calculatedSize = 5f; // Default fallback.
+
+        if( settings.orthographicType == tk2dCameraSettings.OrthographicType.PixelsPerMeter )
+        {
+            // Formula: (Height / 2) / (PPM * Zoom)
+            calculatedSize = ( nativeHeight / 2f ) / ( settings.orthographicPixelsPerMeter * zoom ); // Calculate based on pixels.
+        }
+        else
+        {
+            // Formula: NativeSize / Zoom
+            calculatedSize = settings.orthographicSize / zoom; // Calculate based on orthographic size.
+        }
+
+        cam.orthographicSize = calculatedSize; // Apply the precise size.
+
+        // 3. Preservação de Layers e Clipping
+        // O tk2d usa a Unity Camera internamente, então Mask e Depth geralmente já estão certos.
+        // Mas vamos garantir que o Near/Far sejam consistentes.
+        cam.nearClipPlane = cam.nearClipPlane; // Keeping existing values.
+        cam.farClipPlane = cam.farClipPlane; // Keeping existing values.
+
+        // 4. Limpeza de Componentes
+        // Removemos o tk2d e o Flare Layer (legado).
+        DestroyImmediate( tk ); // Delete tk2dCamera script.
+
+        FlareLayer flare = GetComponent<FlareLayer>(); // Search for flare layer.
+        if( flare != null ) DestroyImmediate( flare ); // Delete if found.
+
+        // 5. Ajuste de Layer (Conforme sua regra de projeto)
+        // Se houver SpriteRenderers no mesmo objeto (raro em câmeras, mas por segurança):
+        SpriteRenderer sr = GetComponent<SpriteRenderer>(); // Check for sprite.
+        if( sr != null ) sr.sortingLayerName = "Default"; // Always use Default for sortingLayer.
+
+        Debug.Log( $"[Migrador] {gameObject.name} convertido! Size: {calculatedSize} (Zoom era {zoom})" ); // Success log.
+    }
+#endif
+
+
+
+
+
 }

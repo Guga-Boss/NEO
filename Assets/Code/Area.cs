@@ -323,14 +323,14 @@ public class Area : MonoBehaviour
         {
             if( Cleared || _cleared )
             {
-                Map.I.UpdateAreaMarkTile( Map.I.TransTileMap, TL[ i ], GlobalID, true );
+                //Map.I.UpdateAreaMarkTile( Map.I.TransTileMap, TL[ i ], GlobalID, true );
             }
             else
             {
-                Map.I.UpdateAreaMarkTile( Map.I.TransTileMap, TL[ i ], GlobalID, false );
+                //Map.I.UpdateAreaMarkTile( Map.I.TransTileMap, TL[ i ], GlobalID, false );
             }
         }
-        Map.I.TransTileMap.Build();  
+        //Map.I.TransTileMap.Build();  
     }
 
 

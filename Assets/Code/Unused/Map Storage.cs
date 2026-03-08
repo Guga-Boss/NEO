@@ -695,56 +695,7 @@ public partial class Map : MonoBehaviour
                         //FlipTile( to, ( ETileType ) tl, tg, l, flipx, flipy );
                     }
             }
-    }
-
-    public void FlipTile( tk2dTileMap tm, ETileType tl, Vector2 tg, int l, bool flipx, bool flipy )
-    {
-        return;
-        if( flipx == false )
-        if( flipy == false ) return;
-
-        if( tl <= 0 ) return;
-        int originaltype = ( int ) Map.GetTileID( ( ETileType ) tl );
-        if( originaltype != ( int ) ETileType.ARROW )
-        if( originaltype != ( int ) ETileType.BOULDER )
-        if( originaltype != ( int ) ETileType.ORIENTATION ) return;
-        int vari = ( int ) tl - originaltype;
-
-        if( flipx && !flipy )
-        {
-            if( vari == -1 ) vari =  1; else
-            if( vari == 1  ) vari = -1; else
-            if( vari == 15 ) vari = 17; else
-            if( vari == 17 ) vari = 15; else
-            if( vari == 31 ) vari = 33; else
-            if( vari == 33 ) vari = 31; 
-        }
-        else
-        if(!flipx &&  flipy )
-        {
-            if( vari == -1 ) vari =  31; else
-            if( vari == 31 ) vari = -1;  else
-            if( vari == 0  ) vari =  32; else
-            if( vari == 32 ) vari =  0;  else
-            if( vari == 1  ) vari =  33; else
-            if( vari == 33 ) vari =  1; 
-        }
-        else
-        if( flipx && flipy )
-        {
-            if( vari == -1 ) vari =  33; else
-            if( vari == 33 ) vari = -1;  else
-            if( vari == 1  ) vari =  31; else
-            if( vari == 31 ) vari =  1;  else
-            if( vari == 0  ) vari =  32; else
-            if( vari == 32 ) vari =  0;  else
-            if( vari == 15 ) vari =  17; else
-            if( vari == 17 ) vari =  15; 
-        }
-
-        int tile = originaltype + vari;
-        tm.SetTile( ( int ) tg.x, ( int ) tg.y, l, ( int ) tile );
-    }
+    }    
 
     public int GetPosArea( Vector2 pos )
     {

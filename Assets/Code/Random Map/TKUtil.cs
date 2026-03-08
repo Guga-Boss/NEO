@@ -22,31 +22,6 @@ public class TKUtil : MonoBehaviour
         Map.I.SRCTM.SetTile( x, y, layer, ( int ) tile );
     }
 
-    public static void CreateBlankMap( ref tk2dTileMap tm )
-    {
-        for( int i = 0; i < Quest.I.Dungeon.AreaList.Count; i++ )
-            Destroy( Quest.I.Dungeon.AreaList[ i ].gameObject );
-        Quest.I.Dungeon.AreaList.Clear();
-
-        for( int i = 0; i < Quest.I.Dungeon.ArtifactList.Count; i++ )
-            Destroy( Quest.I.Dungeon.ArtifactList[ i ].gameObject );
-        Quest.I.Dungeon.ArtifactList.Clear();
-
-        for( int y = 0; y < tm.height; y++ )
-            for( int x = 0; x < tm.width; x++ )
-            {
-                tm.SetTile( x, y, ( int ) ELayerType.TERRAIN, ( int ) ETileType.NONE );
-                tm.SetTile( x, y, ( int ) ELayerType.GAIA, ( int ) ETileType.NONE );
-                tm.SetTile( x, y, ( int ) ELayerType.GAIA2, ( int ) ETileType.NONE );
-                tm.SetTile( x, y, ( int ) ELayerType.MONSTER, ( int ) ETileType.NONE );
-                tm.SetTile( x, y, ( int ) ELayerType.MODIFIER, ( int ) ETileType.NONE );
-                tm.SetTile( x, y, ( int ) ELayerType.DECOR, ( int ) ETileType.NONE );
-                tm.SetTile( x, y, ( int ) ELayerType.AREAS, ( int ) ETileType.NONE );
-                tm.SetTile( x, y, ( int ) ELayerType.DECOR2, ( int ) ETileType.NONE );
-                tm.SetTile( x, y, ( int ) ELayerType.RAFT, ( int ) ETileType.NONE );
-            }
-    }
-
     public static void Save( string file, ref MyTilemap tm )
     {
         file = Manager.I.GetProfileFolder() + file;

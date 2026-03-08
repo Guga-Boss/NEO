@@ -570,7 +570,7 @@ public class Spell : MonoBehaviour
                     mult = 90;
                 }
                 if( i < 8 )
-                    Map.I.HeroBambooSpriteList[ i ].dimensions = new Vector2( 50, basesz + ( s.BambooSize - 1 ) * mult );
+                    Map.I.HeroBambooSpriteList[ i ].scale = new Vector2( 50, basesz + ( s.BambooSize - 1 ) * mult );
 
                 if( scale > 0 )
                     s.SpellSprite.scale = new Vector3( scale, scale, 1f );

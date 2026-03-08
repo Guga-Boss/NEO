@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using TMPro;
 
 public class ProfileWindow : MonoBehaviour 
 {
@@ -9,8 +10,8 @@ public class ProfileWindow : MonoBehaviour
 	public List<string> ProfileNames;
 	public GameObject NameInputPanel;
 	public int ProfileNum;
-	public tk2dTextMesh ProfileName;
-    public tk2dUITextInput TextInput;
+	public TextMeshPro ProfileName;
+    //public tk2dUITextInput TextInput;
 
 	//_____________________________________________________________________________________________________________________ Start
 
@@ -116,8 +117,8 @@ public class ProfileWindow : MonoBehaviour
     {
         Manager.I.QuestName = "Main Quest";
 		ProfileName.text = ""; 
-		TextInput.SetFocus( true );
-        TextInput.Text = "";
+		//TextInput.SetFocus( true );
+  //      TextInput.Text = "";
         SettingsWindow.I.RestoreDefaultSettings();
 		SettingsWindow.I.SaveSettingsWindowData( ProfileNum );
     }

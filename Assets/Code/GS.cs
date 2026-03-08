@@ -501,9 +501,9 @@ public class GS : MonoBehaviour
             Map.I.TM.SetTile( x, y, (int) ELayerType.GAIA, tile, true );       // Set free trap tile
 
         Map.I.AddTrans( new VI( x, y ) );                                      // add trans tile to be updated                                                              
-        Map.I.ClearTransTile( x, y, 0 );                                       // clear back trans tiles
-        Map.I.ClearTransTile( x, y, 1 );
-        Map.I.ClearTransTile( x, y, 2 );
+        //ggggMap.I.ClearTransTile( x, y, 0 );                                       // clear back trans tiles
+        //Map.I.ClearTransTile( x, y, 1 );
+        //Map.I.ClearTransTile( x, y, 2 );
 
         if( Map.I.Gaia[ x, y ].TileID == ETileType.ROOMDOOR ||                 // enables colliders
             Map.I.Gaia[ x, y ].TileID == ETileType.CLOSEDDOOR )
