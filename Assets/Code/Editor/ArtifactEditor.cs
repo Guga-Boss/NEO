@@ -397,12 +397,12 @@ public class ArtifactEditor : EditorWindow
         }
 
         GUILayout.Space( 40 );
-        tk2dSprite targetComp = ar.Sprite;
-        if( targetComp != null )
-        {
-            var editor = Editor.CreateEditor( targetComp );
-            editor.OnInspectorGUI();
-        }
+        //tk2dSprite targetComp = ar.Sprite;
+        //if( targetComp != null )
+        //{
+        //    var editor = Editor.CreateEditor( targetComp );
+        //    editor.OnInspectorGUI();
+        //}
     }
 }
 

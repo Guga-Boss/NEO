@@ -302,7 +302,6 @@ public partial class Unit : MonoBehaviour
             Body.UPMineType                = un.Body.UPMineType;
             Body.DeathCountFactor          = un.Body.DeathCountFactor;
             Body.FishType                  = un.Body.FishType;
-            Body.Animator                  = un.Body.Animator;
             Body.IsFish                    = un.Body.IsFish;
             Body.FishingLevel              = un.Body.FishingLevel;
             Body.Fishing_1                 = un.Body.Fishing_1;

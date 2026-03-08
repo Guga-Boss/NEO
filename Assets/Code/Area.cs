@@ -7,8 +7,8 @@ using DarkTonic.MasterAudio;
 public class Area : MonoBehaviour
 {
     #region Variables
-    public tk2dTextMesh InfoText;
-	public tk2dSlicedSprite Spr;
+ //   public tk2dTextMesh InfoText;
+	//public tk2dSlicedSprite Spr;
     public EAreaColor TileColor = EAreaColor.NONE;
     public int SectorID = -1;
     public int GlobalID = 0;
@@ -175,21 +175,21 @@ public class Area : MonoBehaviour
           if( Cleared == false )
           a = 0f;
 
-      if( Perfect && Cleared )
-          InfoText.color = new Color( 0, 1, 0, a );
-      else
-          InfoText.color = new Color( 1, 1, 1, a );
-      InfoText.text = "" + score.ToString( "0." );
+      //if( Perfect && Cleared )
+      //    InfoText.color = new Color( 0, 1, 0, a );
+      //else
+      //    InfoText.color = new Color( 1, 1, 1, a );
+      //InfoText.text = "" + score.ToString( "0." );
 
-      if( Map.I.RM.RMD.PointsPerTile == 0 )
-      {
-          InfoText.gameObject.SetActive( false );
-      }
-      else
-      {
-          if( InfoText.gameObject.activeSelf == false )
-              InfoText.gameObject.SetActive( true );
-      }
+      //if( Map.I.RM.RMD.PointsPerTile == 0 )
+      //{
+      //    InfoText.gameObject.SetActive( false );
+      //}
+      //else
+      //{
+      //    if( InfoText.gameObject.activeSelf == false )
+      //        InfoText.gameObject.SetActive( true );
+      //}
      // InfoText.transform.position = new Vector3( AreaRect.center.x, (P2.y -P1.y)/2, 0 );
   }
 

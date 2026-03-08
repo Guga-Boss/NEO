@@ -78,7 +78,7 @@ public class NavigationMap : MonoBehaviour
         for( int i = 0; i < SpawnedMapBonusList.Count; i++ )
         {
             SpawnedMapBonusList[ i ].BonusIcon.color = new Color( 0, 0, 0, 0 );    // Init Bonus Icon color to transparent
-            SpawnedMapBonusList[ i ].TextMesh.color = new Color( 0, 0, 0, 0 );     // Init bonus TextMesh color to transparent
+            //SpawnedMapBonusList[ i ].TextMesh.color = new Color( 0, 0, 0, 0 );     // Init bonus TextMesh color to transparent
         }
 
         Map.I.UpdateFogOfWar( true );
@@ -271,7 +271,7 @@ public class NavigationMap : MonoBehaviour
                 float alpha = SpawnedMapBonusList[ i ].BonusIcon.color.a + ( Time.deltaTime * .4f );
                 if( alpha > 1 ) alpha = 1;
                 SpawnedMapBonusList[ i ].BonusIcon.color = new Color( 1, 1, 1, alpha );
-                SpawnedMapBonusList[ i ].TextMesh.color = new Color( 1, 1, 1, alpha );
+                //SpawnedMapBonusList[ i ].TextMesh.color = new Color( 1, 1, 1, alpha );
             }
         }
 

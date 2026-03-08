@@ -2,11 +2,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using System;
-using System.Linq;
-using static tk2dTileMapData;
 using UnityEditor.Tilemaps;
-using UnityEngine.SocialPlatforms;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

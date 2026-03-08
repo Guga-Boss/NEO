@@ -661,7 +661,7 @@ public class Altar : MonoBehaviour
 
         float h = 64 * 3;
         if( sz > 2 ) h = ( 64 * sz );
-        Body.PoleSprite.dimensions = new Vector2( 64, h );                                             // Pole sprite size
+        Body.PoleSprite.scale = new Vector2( 64, h );                                             // Pole sprite size
     }
     private void UpdateAltarAttack( AltarBonusStruct al, NSprite spr, Unit un, int id )
     {
@@ -975,7 +975,7 @@ public class Altar : MonoBehaviour
         if( axe > 0 )
         {
             HangItem( Bnl[ 0 ], 1 );
-            au.Body.PoleSprite.Build();
+            //au.Body.PoleSprite.Build();
         }
 
         all = GetBabySlotList( EAltarBonusType.Prize );                                                               // Gives Successful prizes - Green
@@ -1146,7 +1146,7 @@ public class Altar : MonoBehaviour
         if( blade > 0 )
         {
             HangItem( Bnl[ 0 ], blade );
-            au.Body.PoleSprite.Build(); 
+            //au.Body.PoleSprite.Build(); 
         }
         GlobalAltar.I.UpdateBumpFailed( au, bn, ID );                                                                   // Updates Random altar bump failed
     }
@@ -1355,8 +1355,8 @@ public class Altar : MonoBehaviour
         }
 
         List<Unit> al = GetAltars();
-        for( int i = 0; i < al.Count; i++ )
-            al[ i ].Body.PoleSprite.Build();                                                                            // update build pole sprite, can be optimized 
+        //for( int i = 0; i < al.Count; i++ )
+        //    al[ i ].Body.PoleSprite.Build();                                                                            // update build pole sprite, can be optimized 
               
             return true;
     } 

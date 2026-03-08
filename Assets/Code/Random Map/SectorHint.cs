@@ -136,27 +136,27 @@ public class SectorHint : MonoBehaviour {
     }
     public static void UpdateSectorHintColor( Sector s )
     {
-        if( s != null && s.Type == Sector.ESectorType.NORMAL )                                                             // Choose Sector hint color quality
-        if( s.HintText.gameObject.activeSelf )
-        {
-            if( s.SectorHintQuality == 1 )
-            {
-                s.SectorHintQuality = 2;
-                s.HintText.color = Color.red;
-            }
-            else
-                if( s.SectorHintQuality == 2 )
-                {
-                    s.SectorHintQuality = 0;
-                    s.HintText.color = Color.green;
-                }
-                else
-                    if( s.SectorHintQuality == 0 )
-                    {
-                        s.SectorHintQuality = 1;
-                        s.HintText.color = Color.white;
-                    }
-        }
+        //if( s != null && s.Type == Sector.ESectorType.NORMAL )                                                             // Choose Sector hint color quality
+        //if( s.HintText.gameObject.activeSelf )
+        //{
+        //    if( s.SectorHintQuality == 1 )
+        //    {
+        //        s.SectorHintQuality = 2;
+        //        s.HintText.color = Color.red;
+        //    }
+        //    else
+        //        if( s.SectorHintQuality == 2 )
+        //        {
+        //            s.SectorHintQuality = 0;
+        //            s.HintText.color = Color.green;
+        //        }
+        //        else
+        //            if( s.SectorHintQuality == 0 )
+        //            {
+        //                s.SectorHintQuality = 1;
+        //                s.HintText.color = Color.white;
+        //            }
+        //}
     }
     
     public static string GetHintInfo( Sector hs, bool showhead = true )

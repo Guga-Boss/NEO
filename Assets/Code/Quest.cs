@@ -217,7 +217,6 @@ public class Quest : MonoBehaviour
 
             MasterAudio.PlaySound3DAtVector3( "Artifact collected", transform.position );
             //UI.I.TurnInfoLabel.text = "Artifact Found: " + ar.ArtifactName + " " + UI.I.MessageBoxLevelLabel.text + "\nBonus Granted: " + UI.I.MessageBoxTextLabel2.text;
-            Map.I.RM.UpdateSectorHint();
             Controller.CreateMagicEffect( pos );
             Map.I.InvalidateInputTimer = .18f;  // To avoid double step bug
         }
@@ -481,8 +480,6 @@ public class Quest : MonoBehaviour
                     Debug.Log( " Tilemap not found: " + l );
                     return;
                 }
-
-                tk2dTileMap tm = tmo.GetComponent<tk2dTileMap>();
 
                 LevelList[ l ].ArtifactList[ a ].PrefabName = ES2.Load<string>( fname + "?tag=PrefabName " + l + "  " + a );
 

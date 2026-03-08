@@ -29,8 +29,6 @@ public class Sector : MonoBehaviour
     public List<float> PrizeResAmt = new List<float>();
     [TabGroup( "Link" )]
     public List<Vector2> PrizeStepList = new List<Vector2>();
-    [TabGroup( "Link" )]
-    public tk2dTextMesh HintText;
     public ESectorType Type;
     public static Sector LastNormalSector;
     public Rect Area;
@@ -206,7 +204,6 @@ public class Sector : MonoBehaviour
         X = Y = -1;
         MaxRaftID = -1;
         LastHeroPos = new Vector2( -1, -1 );
-        HintText.text = "";
         HintTypeText = HintDescription = "";
         AllHintText = "";
         HintStrenght = SectorHint.ESectorHintStrenght.NONE;
@@ -252,7 +249,6 @@ public class Sector : MonoBehaviour
     {
         Discovered = Cleared = AreasCreated = Perfect = HintSortSuccess = GotoPuzzleUnlocked = false;       
         LastHeroPos = new Vector2( -1, -1 );
-        HintText.text = "";
         MaxRaftID = -1;
         HintTypeText = HintDescription = "";
         AllHintText = "";
@@ -461,7 +457,6 @@ public class Sector : MonoBehaviour
                 Map.I.RM.RMSector[ x, y ].X = x;
                 Map.I.RM.RMSector[ x, y ].Y = y;
                 Map.I.RM.RMSector[ x, y ].Type = Sector.ESectorType.NORMAL;
-                Map.I.RM.RMSector[ x, y ].HintText.transform.position = new Vector3( Map.I.RM.RMSector[ x, y ].Area.center.x, Map.I.RM.RMSector[ x, y ].Area.center.y, -3 );
             }
         ObjectsCreated = true;
     }
@@ -970,7 +965,6 @@ public class Sector : MonoBehaviour
                             Map.I.ClearAreaTile( Map.I.TransT, new Vector2( x, y ) );
                         }
                     }
-                ar.InfoText.gameObject.SetActive( false );
                 ar.IsFake = true;
                 //Quest.I.Dungeon.AreaList.Remove( ar );
                 //s.AreaList.RemoveAt( i );

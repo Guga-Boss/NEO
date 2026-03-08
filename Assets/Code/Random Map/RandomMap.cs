@@ -192,7 +192,6 @@ public class RandomMap : MonoBehaviour
         for( int y = 0; y < Sector.NY; y++ )
         for( int x = 0; x < Sector.NX; x++ )
             {
-                SortSectorHint( x, y );
                 CreateSectorGates( x, y );
                 RMSector[ x, y ].AreaList = new List<Area>();                
             }
@@ -483,7 +482,7 @@ public class RandomMap : MonoBehaviour
                         ar.LifeTime = md.ArtifactLifetime;
                         ar.TargetHero = md.TargetHero;
                         ar.Multiplier = md.ArtifactMultiplier;
-                        ar.TargetUnitName = GetComponent<tk2dTextMesh>();
+                        //ar.TargetUnitName = GetComponent<tk2dTextMesh>();
                         Unit un = Map.I.GetUnit( ETileType.DOME, ar.Pos );
                         if( un == null )
                         {
@@ -589,12 +588,12 @@ public class RandomMap : MonoBehaviour
 
     public void RandomMapPostInitialization()
     {
-        for( int i = 0; i < Quest.I.Dungeon.AreaList.Count; i++ )
-        {
-            Area ar = Quest.I.Dungeon.AreaList[ i ];
-            ar.Spr.color = new Color( 0, 0, 0, 1 );
-            ar.InfoText.color = new Color( 0, 0, 0, 1 );
-        }
+        //for( int i = 0; i < Quest.I.Dungeon.AreaList.Count; i++ )
+        //{
+        //    Area ar = Quest.I.Dungeon.AreaList[ i ];
+        //    ar.Spr.color = new Color( 0, 0, 0, 1 );
+        //    ar.InfoText.color = new Color( 0, 0, 0, 1 );
+        //}
 
         Map.I.InvalidateInputTimer = .5f;
         Map.I.Hero.Control.ForceMove = EActionType.WAIT;
@@ -1049,8 +1048,6 @@ public class RandomMap : MonoBehaviour
             }
         }
 
-        UpdateSectorHint();
-
         Quest.I.UpdateArtifactData( ref Map.I.Hero );
 
         s.CheckpointList = new List<Vector2>();
@@ -1448,130 +1445,6 @@ public class RandomMap : MonoBehaviour
         AreaGateCost = RMD.InitialAreaGateCost + ( NumAreaGatesOpened * RMD.ExtraAreaGate );
         if( AreaGateCost > RMD.MaxAreaGateCost ) AreaGateCost = RMD.MaxAreaGateCost;
         LabGateCost = RMD.InitialLabGateCost;
-    }
-
-    public void SortSectorHint( int x, int y )
-    {
-        return;  // Added to avoid bugs. remove it if you want to use it.
-        RMD.SectorHintFolder = RMList[ ( int ) CurrentAdventure ].SectorHintFolder;
-        SHList = RMD.SectorHintFolder.gameObject.GetComponentsInChildren<SectorHint>();
-        if( SHList.Length <= 0 ) return;
-
-        List<float> hlist = new List<float>();
-        for( int i = 0; i < SHList.Length; i++ )                                                                       // Sort Sector Hint Data
-        {
-            float height = SHList[ i ].Height;
-
-            if( Map.I.LevelStats.NormalSectorsDiscovered < SHList[ i ].MinSectorNumber ||
-                Map.I.LevelStats.NormalSectorsDiscovered > SHList[ i ].MaxSectorNumber )
-                height = 0;
-            hlist.Add( height );
-        }
-        
-        int sort = Util.Sort( hlist );
-
-        RMSector[ x, y ].HintTypeText = SHList[ sort ].name;
-
-        SHList[ sort ].UseCount++;
-        int strenght = Random.Range( 0, SHList[ sort ].StrenghtList.Length );
-        RMSector[ x, y ].HintStrenght = SHList[ sort ].StrenghtList[ strenght ];
-
-        RMSector[ x, y ].SectorHint = SHList[ sort ];
-
-        int oper = Random.Range( 0, SHList[ sort ].OperationList.Length );
-        RMSector[ x, y ].HintOperation = SHList[ sort ].OperationList[ oper ];
-
-        StringBuilder builder = new StringBuilder( RMSector[ x, y ].HintText.text );
-        for( int i = 0; i < builder.Length; i++ )         
-            if( Random.Range( 0, 2 ) == 0 )
-                if( builder[ i ] != ' ' )
-                builder[ i ] = '-';
-
-        RMSector[ x, y ].ShowHintFactor = Random.Range( 0, 100 );
-         
-        RMSector[ x, y ].HintText.text = builder.ToString();
-        RMSector[ x, y ].HintDescription = SHList[ sort ].HintDescription;
-
-        RMSector[ x, y ].AllHintText = RMSector[ x, y ].HintOperation + " " + 
-        RMSector[ x, y ].HintStrenght.ToString() + " " + RMSector[ x, y ].HintTypeText;
-
-        string str = RMSector[ x, y ].HintOperation.ToString();
-        RMSector[ x, y ].HintOperatorFactor = new float[ str.Length ];                                                // Hint HintOperatorFactor: each letter has a range from 0 to 100
-        for( int i = 0; i < str.Length; i++ )
-            RMSector[ x, y ].HintOperatorFactor[ i ] = Random.Range( 0, 100 );
-
-        RMSector[ x, y ].HintFactor = new float[ RMSector[ x, y ].HintTypeText.Length ];                              // Hint factor: Each letter has a range from 0 to 100
-        for( int i = 0; i < RMSector[ x, y ].HintTypeText.Length; i++ )
-            RMSector[ x, y ].HintFactor[ i ] = Random.Range( 0, 100 );
-
-        str = RMSector[ x, y ].HintStrenght.ToString();
-        RMSector[ x, y ].HintStrenghtFactor = new float[ str.Length ];                                                // Hint HintStrenghtFactor: each letter has a range from 0 to 100
-        for( int i = 0; i < str.Length; i++ )
-            RMSector[ x, y ].HintStrenghtFactor[ i ] = Random.Range( 0, 100 );
-    }
-
-    public void UpdateSectorHint()
-    {
-        return;
-        if( Quest.CurrentLevel != -1 ) return;
-        if( SHList.Length <= 0 ) return;
-        int lev = ( int ) Map.I.Hero.Body.PsychicLevel;
-
-        float showf = HeroData.I.PsychicShowHintFactor[ lev ];
-        float lfactor = HeroData.I.PsychicShowLetterFactor[ lev ]; 
-
-        bool[,] show = new bool[ Sector.NX, Sector.NY ];
-
-        for( int y = 0; y < Sector.NY; y++ )
-        for( int x = 0; x < Sector.NX; x++ )
-            {
-                string oper = RMSector[ x, y ].HintOperation.ToString();                                                                 // sort operator letters
-                StringBuilder obuilder = new StringBuilder( oper );
-                for( int i = 0; i < obuilder.Length; i++ )
-                    if( RMSector[ x, y ].HintOperatorFactor[ i ] > lfactor ) obuilder[ i ] = '-';
-
-                string hint = RMSector[ x, y ].HintTypeText;                                                                              // sort hint letters
-                StringBuilder hbuilder = new StringBuilder( hint );
-                for( int i = 0; i < hbuilder.Length; i++ )
-                if ( RMSector[ x, y ].HintFactor[ i ] > lfactor ) hbuilder[ i ] = '-';
-
-                string strenght = RMSector[ x, y ].HintStrenght.ToString();                                                               // sort strenght letters
-                StringBuilder sbuilder = new StringBuilder( strenght );
-                for( int i = 0; i < sbuilder.Length; i++ )
-                if ( RMSector[ x, y ].HintStrenghtFactor[ i ] > lfactor ) sbuilder[ i ] = '-';
-
-                RMSector[ x, y ].HintText.text = obuilder.ToString() +"\n" + sbuilder.ToString() + "\n" + hbuilder.ToString();
-
-                RMSector[ x, y ].HintText.gameObject.SetActive( false );
-
-                if( RMSector[ x, y ].ShowHintFactor < showf ) show[ x, y ] = true;
-                if( RMSector[ x, y ].Type != Sector.ESectorType.NORMAL ) show[ x, y ] = false;
-            }
-
-        for( int y = 0; y < Sector.NY; y++ )
-        for( int x = 0; x < Sector.NX; x++ )
-            {
-                int cont = 0;
-                for( int d = 0; d < 8; d += 2 )
-                {
-                    Vector2 aux = new Vector2( x, y ) + Manager.I.U.DirCord[ ( int ) d ];
-                    if( aux.x >= 0 && aux.x < 8 )
-                    if( aux.y >= 0 && aux.y < 8 )
-                        {
-                            if( RMSector[ ( int ) aux.x, ( int ) aux.y ].Discovered ) cont++;
-                        }
-                }
-                if( cont == 0 ) show[ x, y ] = false;
-            }
-
-        for( int y = 0; y < Sector.NY; y++ )
-        for( int x = 0; x < Sector.NX; x++ )
-            {
-                if( show[ x, y ] )
-                    RMSector[ x, y ].HintText.gameObject.SetActive( true );
-                else
-                    RMSector[ x, y ].HintText.gameObject.SetActive( false );
-            }
     }
 
     public void UpdateAreasJump()

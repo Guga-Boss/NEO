@@ -75,8 +75,6 @@ public class Building : MonoBehaviour
     public float MovingWheelBarrowCost = 10;
     public static bool BuildingHover = false;
     [TabGroup( "Link" )]
-    public List<tk2dSprite> SpriteList;
-    [TabGroup( "Link" )]
     public List<NSprite> AcessoryList;
     [TabGroup( "Link" )]
     public NSprite SelItemSprite;

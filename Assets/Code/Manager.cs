@@ -29,7 +29,6 @@ public class Manager : MonoBehaviour
     public EGameType GameType;
 	public bool GugaVersion;
     public int StartingLevel;
-    public tk2dCamera UICam;
     public Camera Cam, AfterCamera;
     public Camera Camera;
     public GameObject MainMenu, InitialObject;

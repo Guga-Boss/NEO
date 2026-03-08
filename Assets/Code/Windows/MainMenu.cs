@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
     public TextMeshPro VersionText;
     public ProfileWindow ProfileWindow;
     public SettingsWindow SettingsWindow;
-    public tk2dSprite LogoImage;
+    public NSprite LogoImage;
     public SpriteRenderer MainBack1;
     public Sprite[] BackgroundSpriteList;
     public int ActiveBackgroundObject;

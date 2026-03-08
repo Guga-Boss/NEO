@@ -8,7 +8,7 @@ public class SelfDestroy : MonoBehaviour
 	public float TargetTime, TimeCount, FadeFactor;
 	public bool OnlyDisable;
     public bool DestroyComponent = true;
-	public tk2dSprite Spr;
+	public NSprite Spr;
     public LightningBoltScript Line;
 
 	// Use this for initialization

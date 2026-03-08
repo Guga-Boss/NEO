@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 
 public enum EArtifactDataBase
 {
@@ -36,8 +37,8 @@ public class Artifact : MonoBehaviour {
 
     public MyTrigger Trigger;
     public Perk Perk;
-    public tk2dSprite Sprite;
-	public tk2dTextMesh TargetUnitName;
+    public NSprite Sprite;
+	public TextMeshPro TargetUnitName;
     public EMultiplier Multiplier;
     public EHeroID TargetHero = EHeroID.ALL_HEROES;
     public EArtifactLifeTime LifeTime;

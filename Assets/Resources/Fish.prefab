@@ -190,7 +190,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 449494}
-  - component: {fileID: 114000013493603740}
   - component: {fileID: 2496894886796591641}
   - component: {fileID: 5706421357871846991}
   m_Layer: 0
@@ -215,21 +214,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 485738}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114000013493603740
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 130442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e54113e5604435b8ae87c7754f2725, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  library: {fileID: 114000012429980416, guid: 0e444cbf9166d944bba2c892e7c99051, type: 3}
-  defaultClipId: 0
-  playAutomatically: 0
 --- !u!212 &2496894886796591641
 SpriteRenderer:
   serializedVersion: 2
@@ -708,7 +692,6 @@ MonoBehaviour:
   InfectedSprite: {fileID: 0}
   ItemMiniDome: {fileID: 0}
   PoleSprite: {fileID: 0}
-  Animator: {fileID: 0}
   NAnimator: {fileID: 1790739726210620102}
   AuxText: {fileID: 0}
   Particle: {fileID: 0}
@@ -6273,7 +6256,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 50b0bc25c5231284c92c6e6efe67e623, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

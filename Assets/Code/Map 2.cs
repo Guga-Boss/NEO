@@ -759,19 +759,6 @@ public partial class Map: MonoBehaviour
         return false;
     }
 
-    public static void DeleteInvalidAreas( tk2dTileMap tm )
-    {
-        //Area[] arl = Quest.I.CurLevel.AreaFolder.transform.GetComponentsInChildren<Area>();
-
-        //for( int a = 0; a < arl.Length; a++ )
-        //{
-        //    ETileType tile = ( ETileType ) tm.GetTile( ( int ) arl[ a ].P1.x, ( int ) arl[ a ].P1.y, ( int ) ELayerType.MODIFIER );
-        //    if( tile != ETileType.BOTTOMLEFT_AREALIMITER )
-        //        DestroyImmediate( arl[ a ].gameObject );
-        // }
-    }
-
-
     public bool SetAreaID( ref MyTilemap tm, ref List<Vector2> tlist, Vector2 pos, ref int id, ETileType tgtile )
     {
         if( Map.PtOnMap( tm, pos ) == false ) return false;
@@ -820,9 +807,9 @@ public partial class Map: MonoBehaviour
         ar.P2 = p2;
         ar.gameObject.transform.parent = level.AreaFolder.transform;
         ar.transform.position = new Vector3( r.center.x - 0.5f, r.yMin - ( ( p1.y - p2.y ) / 2 ), -0.25f );
-        ar.Spr.scale = new Vector3( 1, 1, 1 );
-        ar.Spr.dimensions = new Vector3( 20 * r.width, 20 * r.height, 0 );
-        ar.Spr.gameObject.SetActive( false );
+        //ar.Spr.scale = new Vector3( 1, 1, 1 );
+        //ar.Spr.dimensions = new Vector3( 20 * r.width, 20 * r.height, 0 );
+        //ar.Spr.gameObject.SetActive( false );
         ar.AreaName = Area.GetRandomAreaName();
         areaList.Add( ar );
         ar.SectorID = areaList.Count - 1;

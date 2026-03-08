@@ -41,8 +41,6 @@ public partial class Map : MonoBehaviour
     [TabGroup( "Link" )]
     public Farm Farm;
     [TabGroup( "Link" )]
-    public tk2dSpriteCollectionData[] SpriteCollectionList;
-    [TabGroup( "Link" )]
     public NSprite TileSelection, WindRose;
     [TabGroup( "Link" )]
     public Sprite FireIcon;
@@ -52,8 +50,6 @@ public partial class Map : MonoBehaviour
     public Droplets Droplets;
     [TabGroup( "Link" )]
     public TechButton[ ] TB;
-    [TabGroup( "Link" )]
-    public tk2dTextMesh[,] TileText;
     [TabGroup( "Link" )]
     public List<ItemType> TechEditorItemList;
     [TabGroup( "Link" )]
@@ -455,7 +451,6 @@ public partial class Map : MonoBehaviour
         FUnit = new List<Unit>[ TM.width, TM.height ];
         Gaia = new Unit[ TM.width, TM.height ];
         Gaia2 = new Unit[ TM.width, TM.height ];
-        TileText = new tk2dTextMesh[ TM.width, TM.height ];
         DistFromTarget = new float[ TM.width, TM.height ];
         ObjectID = new int[ TM.width, TM.height ];
         GateID = new int[ TM.width, TM.height ];
@@ -3324,47 +3319,6 @@ public partial class Map : MonoBehaviour
         if( RM.DungeonDialog.gameObject.activeSelf ) return;
 		UpdateMouseTile ();
         Helper.I.UpdateDebug();
-        return;
-
-        if( UI.I.LoadingLevelText.gameObject.activeSelf ) UI.I.LoadingLevelText.gameObject.SetActive( false );
-
-        if( DebugPage > 0 )
-        {
-        }
-        else return;
-
-        Sector sc = RM.HeroSector;
-        if ( sc.Type == Sector.ESectorType.NORMAL )
-        for( int yy = ( int ) sc.Area.yMin - 1; yy < sc.Area.yMax + 1; yy++ )
-        for( int xx = ( int ) sc.Area.xMin - 1; xx < sc.Area.xMax + 1; xx++ )
-		switch ( DebugPage )
-		{
-		case 1: 
-		{
-            TileText[ xx, yy ].text = "D = " + DistFromTarget[ xx, yy ].ToString( "0.00000" );              
-		}
-		break;
-        case 2:
-        {
-            TileText[ xx, yy ].text = " " + ObjectID[ xx, yy ];                
-        }
-        break;
-        case 3:
-        {
-            if( WaspDist != null )
-                TileText[ xx, yy ].text = " " + WaspDist[ xx, yy ];
-        }
-        break;
-        }
-
-		if( Input.GetKey( KeyCode.LeftControl ) )
-		if( Input.GetMouseButton( 1 ) )                                                                                            // Collect mouse over artifact
-		{
-			if( Mtx != -1 && PtOnMap( Map.I.TM, new Vector2( Mtx, Mty ) ) )
-			{
-				if( Quest.I.UpdateArtifactStepping( new Vector2( Mtx, Mty ) ) ) return;
-			}
-		}
 	}
 
 	//_________________________________________________________________________________________________ Finalize Map and destroy all objects
@@ -3373,21 +3327,20 @@ public partial class Map : MonoBehaviour
     {
         Finalizing = true;
         if( G.HS )
-            G.HS.GiveCummulativeGlobalPrizes();                                      // Adds cummulative prizes like clover to inventory     
+            G.HS.GiveCummulativeGlobalPrizes();                                                      // Adds cummulative prizes like clover to inventory     
         PoolManager.Pools[ "Pool" ].DespawnAll();
         Map.I.StopAllLoopedSounds();
         Finalizing = false;
         Gaia = null;
         Gaia2 = null;
         Unit = null;
-        TileText = null;
-        if( over )
-            for( int i = 0; i < Manager.I.Inventory.ItemList.Count; i++ )  // Warning: Dont use G.GIT here: the access is directly to the itemlist via loop and id    
-                if( Manager.I.Inventory.ItemList[ i ] )
-                {
-                    Manager.I.Inventory.ItemList[ i ].StartingBonus = 0;
-                    Manager.I.Inventory.ItemList[ i ].IsGlobalGameplayResource = false;
-                }
+        if ( over )
+        for( int i = 0; i < Manager.I.Inventory.ItemList.Count; i++ )                                 // Warning: Dont use G.GIT here: the access is directly to the itemlist via loop and id    
+        if ( Manager.I.Inventory.ItemList[ i ] )
+            {
+              Manager.I.Inventory.ItemList[ i ].StartingBonus = 0;
+              Manager.I.Inventory.ItemList[ i ].IsGlobalGameplayResource = false;
+            }
         UI.I.GoalPanel.gameObject.SetActive( false );
         for( int i = 0; i < Map.I.HeroShieldSpriteList.Count; i++ )
             Map.I.HeroShieldSpriteList[ i ].gameObject.SetActive( false );
@@ -3403,12 +3356,12 @@ public partial class Map : MonoBehaviour
         foreach( var ps in systems )
         {
             var em = ps.emission;
-            em.rateOverTime = 0; // para emissão
-            ps.Clear();          // limpa partículas vivas
+            em.rateOverTime = 0;                                                                     // para emissão
+            ps.Clear();                                                                              // limpa partículas vivas
         }
 
         if( Lights.lights.Count > 1 )
-            Lights.lights.RemoveRange( 1, Map.I.Lights.lights.Count - 1 );           // Remove Lights   
+            Lights.lights.RemoveRange( 1, Map.I.Lights.lights.Count - 1 );                           // Remove Lights
         GS.RemoveFixedSpells();
         UI.I.GoalIcons.gameObject.SetActive( false );
         UI.I.ArtifactsText.text = "";

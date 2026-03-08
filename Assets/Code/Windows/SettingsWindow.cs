@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using DarkTonic.MasterAudio;
+using TMPro;
 
 public class SettingsWindow: MonoBehaviour
 {
     public static SettingsWindow I;
-    public tk2dTextMesh[] PrimaryActionButtonText;
-    public tk2dTextMesh[] SecondaryActionButtonText;
+    public TextMeshPro[] PrimaryActionButtonText;
+    public TextMeshPro[] SecondaryActionButtonText;
     public float MaxHeroSpeed, KeyHoldDelay, DampTime, MusicVolume, SoundFxVolume;
-    public tk2dUITextInput KeyHoldTextInput, MaxHeroSpeedTextInput, CameraDampTextInput;
-    public tk2dUIScrollbar KeyHoldScrollbar, MaxHeroSpeedScrollbar, MusicVolumeScrollBar, SoundFxScrollBar;
-    public tk2dUIDropDownMenu LanguageMenu;
+    //public tk2dUITextInput KeyHoldTextInput, MaxHeroSpeedTextInput, CameraDampTextInput;
+    //public tk2dUIScrollbar KeyHoldScrollbar, MaxHeroSpeedScrollbar, MusicVolumeScrollBar, SoundFxScrollBar;
+    //public tk2dUIDropDownMenu LanguageMenu;
     public int OldLanguageIndex;
 
     //_____________________________________________________________________________________________________________________ Start
@@ -33,27 +34,27 @@ public class SettingsWindow: MonoBehaviour
                 SecondaryActionButtonText[ i ].text = cInput.GetText( i, 2 );                        // update secondary button text
         }
 
-        KeyHoldDelay = KeyHoldScrollbar.Value * 0.5f;                                                // scale key hold delay
-        KeyHoldTextInput.Text = "" + KeyHoldDelay.ToString( "0.00" );                                // update input field
+        //KeyHoldDelay = KeyHoldScrollbar.Value * 0.5f;                                                // scale key hold delay
+        //KeyHoldTextInput.Text = "" + KeyHoldDelay.ToString( "0.00" );                                // update input field
 
-        if( CameraDampTextInput.Text != "" )
-            DampTime = System.Convert.ToSingle( CameraDampTextInput.Text );                          // parse camera damp
+        //if( CameraDampTextInput.Text != "" )
+        //    DampTime = System.Convert.ToSingle( CameraDampTextInput.Text );                          // parse camera damp
 
-        DampTime = Mathf.Clamp( DampTime, 400, 1200 );                                               // clamp damp time
+        //DampTime = Mathf.Clamp( DampTime, 400, 1200 );                                               // clamp damp time
 
-        MaxHeroSpeed = MaxHeroSpeedScrollbar.Value * 0.16f;                                          // scale hero speed
-        MaxHeroSpeedTextInput.Text = "" + MaxHeroSpeed.ToString( "0.00" );                           // update input field
+        //MaxHeroSpeed = MaxHeroSpeedScrollbar.Value * 0.16f;                                          // scale hero speed
+        //MaxHeroSpeedTextInput.Text = "" + MaxHeroSpeed.ToString( "0.00" );                           // update input field
 
-        if( LanguageMenu.Index != OldLanguageIndex )
-        {
-            Language.SwitchLanguage( LanguageMenu.selectedTextMesh.text );                           // change language
-            OldLanguageIndex = LanguageMenu.Index;                                                   // update old index
-        }
+        //if( LanguageMenu.Index != OldLanguageIndex )
+        //{
+        //    Language.SwitchLanguage( LanguageMenu.selectedTextMesh.text );                           // change language
+        //    OldLanguageIndex = LanguageMenu.Index;                                                   // update old index
+        //}
 
-        SoundFxVolume = SoundFxScrollBar.Value;                                                      // read FX volume
-        MasterAudio.SetBusVolumeByName( "Sound FX", SoundFxVolume );                                 // apply FX volume
-        MusicVolume = MusicVolumeScrollBar.Value;                                                    // read music volume
-        MasterAudio.PlaylistMasterVolume = MusicVolume;                                              // apply music volume
+        //SoundFxVolume = SoundFxScrollBar.Value;                                                      // read FX volume
+        //MasterAudio.SetBusVolumeByName( "Sound FX", SoundFxVolume );                                 // apply FX volume
+        //MusicVolume = MusicVolumeScrollBar.Value;                                                    // read music volume
+        //MasterAudio.PlaylistMasterVolume = MusicVolume;                                              // apply music volume
     }
 
     //_____________________________________________________________________________________________________________________ Finalize Settings Screen
@@ -83,7 +84,8 @@ public class SettingsWindow: MonoBehaviour
             TF.SaveT( "DampTime", DampTime );                                                             // save camera damp
             TF.SaveT( "MusicVolume", MusicVolume );                                                       // save music volume
             TF.SaveT( "SoundFxVolume", SoundFxVolume );                                                   // save FX volume
-            TF.SaveT( "LanguageIndex", LanguageMenu.Index );                                              // save language
+            //TF.SaveT( "LanguageIndex", LanguageMenu.Index );                                              // save language
+            TF.SaveT( "LanguageIndex", 0 );                                              // save language
 
             for( int i = 0; i < Manager.I.InputNames.Length; i++ )
             {

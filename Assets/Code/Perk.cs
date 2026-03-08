@@ -24,9 +24,9 @@ public class Perk : MonoBehaviour
     public NSprite UIIconSprite, UIIconBackSprite;
     public string TitleText, MainText;
     public int UiPanelPerkID;
-    public tk2dUIItem UIButton;
+    //public tk2dUIItem UIButton;
     public Artifact Artifact;
-	public tk2dTextMesh AmountText;
+	public TextMeshPro AmountText;
 	public TextMeshPro Label;
 	public NSprite[] Sprite;
     public bool ActivateIcon = true;

@@ -761,8 +761,7 @@ MonoBehaviour:
   Sprite8: {fileID: 1028443171431889873}
   InfectedSprite: {fileID: 0}
   ItemMiniDome: {fileID: 0}
-  PoleSprite: {fileID: 114581619906481022}
-  Animator: {fileID: 0}
+  PoleSprite: {fileID: 0}
   NAnimator: {fileID: 0}
   AuxText: {fileID: 0}
   Particle: {fileID: 0}
@@ -3631,9 +3630,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4000013540319732}
-  - component: {fileID: 33040115994978170}
-  - component: {fileID: 23927806352014810}
-  - component: {fileID: 114581619906481022}
   m_Layer: 0
   m_Name: Pole
   m_TagString: Untagged
@@ -3656,91 +3652,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4000013990595260}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &33040115994978170
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012453913726}
-  m_Mesh: {fileID: 0}
---- !u!23 &23927806352014810
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012453913726}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: fb35d940d10ac6e4687b0747721045c6, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &114581619906481022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012453913726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ef0a107dd4346469517736d543be61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  collection: {fileID: 114000011438575964, guid: 39771258af581544f95cfa4feb0141fc,
-    type: 3}
-  _color: {r: 1, g: 1, b: 1, a: 1}
-  _scale: {x: 1, y: 1, z: 1}
-  _spriteId: 78
-  boxCollider2D: {fileID: 0}
-  polygonCollider2D: []
-  edgeCollider2D: []
-  boxCollider: {fileID: 0}
-  meshCollider: {fileID: 0}
-  meshColliderPositions: []
-  meshColliderMesh: {fileID: 0}
-  renderLayer: 0
-  _dimensions: {x: 64, y: 155.6}
-  _anchor: 1
-  _createBoxCollider: 0
 --- !u!1 &1000012472044166
 GameObject:
   m_ObjectHideFlags: 0

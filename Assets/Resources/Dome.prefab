@@ -112,7 +112,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_text: x3
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 0}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -622,7 +622,6 @@ MonoBehaviour:
   InfectedSprite: {fileID: 0}
   ItemMiniDome: {fileID: 0}
   PoleSprite: {fileID: 0}
-  Animator: {fileID: 0}
   NAnimator: {fileID: 0}
   AuxText: {fileID: 0}
   Particle: {fileID: 0}
@@ -893,7 +892,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 417454}
-  - component: {fileID: 11417664}
   - component: {fileID: 11157144}
   - component: {fileID: 2721433071751385226}
   - component: {fileID: 2864951859705947107}
@@ -919,20 +917,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 419624}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &11417664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 184588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 001cb8a0dfe99804db5d345d44da6d9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  color: {r: 1, g: 1, b: 1, a: 1}
-  scale: {x: 1, y: 1, z: 1}
 --- !u!111 &11157144
 Animation:
   m_ObjectHideFlags: 0

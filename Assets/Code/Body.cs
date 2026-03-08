@@ -27,13 +27,11 @@ public class Body : MonoBehaviour
     [TabGroup( "Link" )]
     public NSprite Shadow;
     [TabGroup( "Link" )]
-    public tk2dSprite   ImmunityDome;
+    public NSprite ImmunityDome;
     [TabGroup( "Link" )]
     public NSprite Sprite2, Sprite3, Sprite4, Sprite5, Sprite6, Sprite7, Sprite8, InfectedSprite, ItemMiniDome;
     [TabGroup( "Link" )]
-    public tk2dTiledSprite PoleSprite;
-    [TabGroup( "Link" )]
-    public tk2dSpriteAnimator Animator;
+    public NSprite PoleSprite;
     [TabGroup( "Link" )]
     public Animator NAnimator;
     [TabGroup( "Link" )]
